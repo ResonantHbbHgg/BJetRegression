@@ -14,7 +14,8 @@ using namespace std;
 int main()
 {
 // /store/group/phys_higgs/Resonant_HH/trees/radion_tree_v04/Graviton_Radion-nm.root
-	TFile *infile = TFile::Open("root://eoscms//eos/cms/store/group/phys_higgs/Resonant_HH/trees/radion_tree_v04/Graviton_Radion-nm.root");
+//	TFile *infile = TFile::Open("root://eoscms//eos/cms/store/group/phys_higgs/Resonant_HH/trees/radion_tree_v04/Graviton_Radion-nm.root");
+	TFile *infile = TFile::Open("histograms_CMS-HGG_1.root");
 	TFile *outfile = new TFile("test.root", "RECREATE");
 	TTree *intree = (TTree*)infile->Get("Radion_m300_8TeV_nm");
 	TTree *outtree = new TTree("jets", "jets");
