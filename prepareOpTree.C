@@ -1,3 +1,6 @@
+// BJet regression: tree preparation for training from h2gglobe opTrees
+// Original code by K. Kousouris
+// O. Bondu (May 2013)
 // C++ headers
 #include <iostream>
 // ROOT headers
@@ -230,7 +233,7 @@ int main()
 	{
 		intree->GetEntry(ievt);
 //		cout << "Matching: " << j1_radionMatched << "\t" << j2_radionMatched << "\t" << j3_radionMatched << "\t" << j4_radionMatched << endl;
-		cout << gr_b1_p4_pt << "\t" << gr_b2_p4_pt << "\t" << gr_j1_p4_pt << "\t" << gr_j2_p4_pt << endl;
+//		cout << gr_b1_p4_pt << "\t" << gr_b2_p4_pt << "\t" << gr_j1_p4_pt << "\t" << gr_j2_p4_pt << endl;
 	
 		// take only the subset of events where two genjets are matched to the signal
 		TLorentzVector gen_b1, gen_b2, gen_j1, gen_j2;
@@ -244,14 +247,14 @@ int main()
 		np[3]++;
 
 		npass++;
-/*
-		cout << "gen_b1(pt, eta, phi, mass)= " << "(\t" << gr_b1_p4_pt << ",\t" << gr_b1_p4_eta << ",\t" << gr_b1_p4_phi << ",\t" << gr_b1_p4_mass << "\t)" << endl;;
+
+//		cout << "gen_b1(pt, eta, phi, mass)= " << "(\t" << gr_b1_p4_pt << ",\t" << gr_b1_p4_eta << ",\t" << gr_b1_p4_phi << ",\t" << gr_b1_p4_mass << "\t)" << endl;;
 		gen_b1.SetPtEtaPhiM(gr_b1_p4_pt, gr_b1_p4_eta, gr_b1_p4_phi, gr_b1_p4_mass);
-		cout << "gen_b2" << endl;
+//		cout << "gen_b2" << endl;
 		gen_b2.SetPtEtaPhiM(gr_b2_p4_pt, gr_b2_p4_eta, gr_b2_p4_phi, gr_b2_p4_mass);
-		cout << "gen_j1" << endl;
+//		cout << "gen_j1" << endl;
 		gen_j1.SetPtEtaPhiM(gr_j1_p4_pt, gr_j1_p4_eta, gr_j1_p4_phi, gr_j1_p4_mass);
-		cout << "gen_j2" << endl;
+//		cout << "gen_j2" << endl;
 		gen_j2.SetPtEtaPhiM(gr_j2_p4_pt, gr_j2_p4_eta, gr_j2_p4_phi, gr_j2_p4_mass);
 
 
@@ -270,60 +273,53 @@ int main()
 				jet.SetPtEtaPhiE(j3_pt, j3_eta, j3_phi, j3_e);
 			if(ijet == 3 && j4_e > 0.)
 				jet.SetPtEtaPhiE(j4_pt, j4_eta, j4_phi, j4_e);
-			if(jet.Pt() < 1.0) continue;
+			if(jet.Pt() < 0.01) continue;
 			DR_jet_b1.push_back(jet.DeltaR(gen_b1));
 			DR_jet_b2.push_back(jet.DeltaR(gen_b2));
 			DR_jet_j1.push_back(jet.DeltaR(gen_j1));
 			DR_jet_j2.push_back(jet.DeltaR(gen_j2));
 		}
-*/
-		jet_e = j1_e;
-		outtree->Fill();
+		np[4]++;
+
+		if(DR_jet_j1.size() < 1)
+			continue;
+		np[5]++;
 
 
-/*
+
+
+//		jet_e = j1_e;
+//		outtree->Fill();
+
+
+		// Matching to the gen jet
+//		vector<float> tmp_DR_jet_j1 = DR_jet_j1;
+//		vector<float> tmp_DR_jet_j2 = DR_jet_j2;
 		// at least one match
-		if( !(j1_radionMatched || j2_radionMatched || j3_radionMatched || j4_radionMatched)) continue;
+//		sort(tmp_DR_jet_j1.begin(), tmp_DR_jet_j1.end());
+//		sort(tmp_DR_jet_j2.begin(), tmp_DR_jet_j2.end());
+/*		for(unsigned int ij = 0 ; ij < tmp_DR_jet_j1.size() ; ij++)
+			cout << "\ttmp_DR_jet_j1[" << ij << "]= " << tmp_DR_jet_j1[ij] << endl; 
+		for(unsigned int ij = 0 ; ij < DR_jet_j1.size() ; ij++)
+			cout << "\tDR_jet_j1[" << ij << "]= " << DR_jet_j1[ij] << endl; 
+		for(unsigned int ij = 0 ; ij < tmp_DR_jet_j2.size() ; ij++)
+			cout << "\ttmp_DR_jet_j2[" << ij << "]= " << tmp_DR_jet_j1[ij] << endl; 
+		for(unsigned int ij = 0 ; ij < DR_jet_j2.size() ; ij++)
+			cout << "\tDR_jet_j2[" << ij << "]= " << DR_jet_j1[ij] << endl; 
+
+		if( (tmp_DR_jet_j1[0] < .4) || (tmp_DR_jet_j2[0] < .4) )
+			continue;
+
 		// at least a pair of matched
-		if( !(
-				(j1_radionMatched && j2_radionMatched)
-				|| (j1_radionMatched && j3_radionMatched)
-				|| (j1_radionMatched && j4_radionMatched)
-				|| (j2_radionMatched && j3_radionMatched)
-				|| (j2_radionMatched && j4_radionMatched)
-				|| (j3_radionMatched && j4_radionMatched)
-			) ) continue;
-
-		int i1, i2;
-		i1 = i2 = 0;
-		if( j1_radionMatched )
-			i1 = 1;
-		if( j2_radionMatched )
-		{
-			if( i1 == 0 )
-				i1 = 2;
-			else
-				i2 = 2;
-		}
-		if( j3_radionMatched && ((i1==0) || (i2==0)))
-		{
-			if( i1 == 0 )
-				i1 = 3;
-			else
-				i2 = 3;
-		}
-		if( j4_radionMatched && ((i1==0) || (i2==0)))
-		{
-			if( i1 == 0 )
-				i1 = 4;
-			else
-				i2 = 4;
-		}
-
-		jet_index1 = i1;
-		jet_index1 = i2;
-		outtree->Fill();
+		if( (tmp_DR_jet_j1[0] < .4) && (tmp_DR_jet_j2[0] < .4) )
+			continue;
 */
+
+
+		jet_index1 = 0;
+		jet_index1 = 1;
+		outtree->Fill();
+
 	// treat only two jets per event: here is where the choice of the jets is made
 // 
 
@@ -454,7 +450,7 @@ int main()
 		outtree->Fill();
 */
 	}
-	for(int i=0 ; i < 4 ; i++)
+	for(int i=0 ; i < 8 ; i++)
 		cout << "#np[" << i << "]= " << np[i] << endl;
 	cout << "#npass= " << npass << endl;
 
