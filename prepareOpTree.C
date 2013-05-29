@@ -17,21 +17,25 @@ using namespace std;
 int main()
 {
 // /store/group/phys_higgs/Resonant_HH/trees/radion_tree_v04/Graviton_Radion-nm.root
-//	TFile *infile = TFile::Open("root://eoscms//eos/cms/store/group/phys_higgs/Resonant_HH/trees/radion_tree_v04/Graviton_Radion-nm.root");
-	TFile *infile = TFile::Open("histograms_CMS-HGG_1.root");
+	TFile *infile = TFile::Open("root://eoscms//eos/cms/store/group/phys_higgs/Resonant_HH/trees/radion_tree_v04/Graviton_Radion-nm.root");
+//	TFile *infile = TFile::Open("histograms_CMS-HGG_1.root");
 	TFile *outfile = new TFile("test.root", "RECREATE");
 	TTree *intree = (TTree*)infile->Get("Radion_m300_8TeV_nm");
 	TTree *outtree = new TTree("jets", "jets");
 
 	cout << "#entries= " << intree->GetEntries() << endl;
 	float gr_radion_p4_pt, gr_radion_p4_eta, gr_radion_p4_phi, gr_radion_p4_mass, gr_hgg_p4_pt, gr_hgg_p4_eta, gr_hgg_p4_phi, gr_hgg_p4_mass, gr_hbb_p4_pt, gr_hbb_p4_eta, gr_hbb_p4_phi, gr_hbb_p4_mass, gr_g1_p4_pt, gr_g1_p4_eta, gr_g1_p4_phi, gr_g1_p4_mass, gr_g2_p4_pt, gr_g2_p4_eta, gr_g2_p4_phi, gr_g2_p4_mass, gr_b1_p4_pt, gr_b1_p4_eta, gr_b1_p4_phi, gr_b1_p4_mass, gr_b2_p4_pt, gr_b2_p4_eta, gr_b2_p4_phi, gr_b2_p4_mass, gr_j1_p4_pt, gr_j1_p4_eta, gr_j1_p4_phi, gr_j1_p4_mass, gr_j2_p4_pt, gr_j2_p4_eta, gr_j2_p4_phi, gr_j2_p4_mass;
-	float jet_DR_b1, jet_DR_b2, jet_DR_j1, jet_DR_j2;
 	float j1_e, j1_pt, j1_phi, j1_eta, j1_beta, j1_betaStar, j1_betaStarClassic, j1_dR2Mean, j1_csvBtag, j1_csvMvaBtag, j1_jetProbBtag, j1_tcheBtag, j1_radionMatched, j1_ptD, j1_nSecondaryVertices, j1_secVtxPt, j1_secVtx3dL, j1_secVtx3deL, j1_emfrac, j1_hadfrac, j1_ntk, j1_nNeutrals, j1_nCharged, j1_axis1, j1_axis2, j1_pull, j1_Rchg, j1_Rneutral, j1_R;
 	float j2_e, j2_pt, j2_phi, j2_eta, j2_beta, j2_betaStar, j2_betaStarClassic, j2_dR2Mean, j2_csvBtag, j2_csvMvaBtag, j2_jetProbBtag, j2_tcheBtag, j2_radionMatched, j2_ptD, j2_nSecondaryVertices, j2_secVtxPt, j2_secVtx3dL, j2_secVtx3deL, j2_emfrac, j2_hadfrac, j2_ntk, j2_nNeutrals, j2_nCharged, j2_axis1, j2_axis2, j2_pull, j2_Rchg, j2_Rneutral, j2_R;
 	float j3_e, j3_pt, j3_phi, j3_eta, j3_beta, j3_betaStar, j3_betaStarClassic, j3_dR2Mean, j3_csvBtag, j3_csvMvaBtag, j3_jetProbBtag, j3_tcheBtag, j3_radionMatched, j3_ptD, j3_nSecondaryVertices, j3_secVtxPt, j3_secVtx3dL, j3_secVtx3deL, j3_emfrac, j3_hadfrac, j3_ntk, j3_nNeutrals, j3_nCharged, j3_axis1, j3_axis2, j3_pull, j3_Rchg, j3_Rneutral, j3_R;
 	float j4_e, j4_pt, j4_phi, j4_eta, j4_beta, j4_betaStar, j4_betaStarClassic, j4_dR2Mean, j4_csvBtag, j4_csvMvaBtag, j4_jetProbBtag, j4_tcheBtag, j4_radionMatched, j4_ptD, j4_nSecondaryVertices, j4_secVtxPt, j4_secVtx3dL, j4_secVtx3deL, j4_emfrac, j4_hadfrac, j4_ntk, j4_nNeutrals, j4_nCharged, j4_axis1, j4_axis2, j4_pull, j4_Rchg, j4_Rneutral, j4_R;
 	float jet_e, jet_pt, jet_phi, jet_eta, jet_beta, jet_betaStar, jet_betaStarClassic, jet_dR2Mean, jet_csvBtag, jet_csvMvaBtag, jet_jetProbBtag, jet_tcheBtag, jet_radionMatched, jet_ptD, jet_nSecondaryVertices, jet_secVtxPt, jet_secVtx3dL, jet_secVtx3deL, jet_emfrac, jet_hadfrac, jet_ntk, jet_nNeutrals, jet_nCharged, jet_axis1, jet_axis2, jet_pull, jet_Rchg, jet_Rneutral, jet_R;
-	int jet_index1, jet_index2;
+	float jet_genDR, jet_genPt, jet_genE, jet_genR, jet_prtDR, jet_prtPt, jet_prtE, jet_prtR;
+
+	int njets_passing_kLooseID;
+	intree->SetBranchAddress("njets_passing_kLooseID", &njets_passing_kLooseID);
+	int njets_passing_kLooseID_and_CSVM;
+	intree->SetBranchAddress("njets_passing_kLooseID_and_CSVM", &njets_passing_kLooseID_and_CSVM);
 
 	intree->SetBranchAddress("gr_radion_p4_pt", &gr_radion_p4_pt);
 	intree->SetBranchAddress("gr_radion_p4_eta", &gr_radion_p4_eta);
@@ -190,8 +194,6 @@ int main()
 	intree->SetBranchAddress("j4_Rneutral", &j4_Rneutral);
 	intree->SetBranchAddress("j4_R", &j4_R);
 
-	outtree->Branch("jet_index1", &jet_index1, "jet_index1/i");
-	outtree->Branch("jet_index2", &jet_index2, "jet_index2/i");
 	outtree->Branch("jet_e", &jet_e, "jet_e/F");
 	outtree->Branch("jet_pt", &jet_pt, "jet_pt/F");
 	outtree->Branch("jet_phi", &jet_phi, "jet_phi/F");
@@ -221,10 +223,14 @@ int main()
 	outtree->Branch("jet_Rchg", &jet_Rchg, "jet_Rchg/F");
 	outtree->Branch("jet_Rneutral", &jet_Rneutral, "jet_Rneutral/F");
 	outtree->Branch("jet_R", &jet_R, "jet_R/F");
-	outtree->Branch("jet_DR_b1", &jet_DR_b1, "jet_DR_b1/F");
-	outtree->Branch("jet_DR_b2", &jet_DR_b2, "jet_DR_b2/F");
-	outtree->Branch("jet_DR_j1", &jet_DR_j1, "jet_DR_j1/F");
-	outtree->Branch("jet_DR_j2", &jet_DR_j2, "jet_DR_j2/F");
+	outtree->Branch("jet_genDR", &jet_genDR, "jet_genDR/F");
+	outtree->Branch("jet_genPt", &jet_genPt, "jet_genPt/F");
+	outtree->Branch("jet_genE", &jet_genE, "jet_genE/F");
+	outtree->Branch("jet_genR", &jet_genR, "jet_genR/F");
+	outtree->Branch("jet_prtDR", &jet_prtDR, "jet_prtDR/F");
+	outtree->Branch("jet_prtPt", &jet_prtPt, "jet_prtPt/F");
+	outtree->Branch("jet_prtE", &jet_prtE, "jet_prtE/F");
+	outtree->Branch("jet_prtR", &jet_prtR, "jet_prtR/F");
 
 	int npass = 0;
 	int np[20] = {0};
@@ -232,224 +238,201 @@ int main()
 //	for(int ievt=0 ; ievt < 50 ; ievt++)
 	{
 		intree->GetEntry(ievt);
-//		cout << "Matching: " << j1_radionMatched << "\t" << j2_radionMatched << "\t" << j3_radionMatched << "\t" << j4_radionMatched << endl;
-//		cout << gr_b1_p4_pt << "\t" << gr_b2_p4_pt << "\t" << gr_j1_p4_pt << "\t" << gr_j2_p4_pt << endl;
 	
-		// take only the subset of events where two genjets are matched to the signal
-		TLorentzVector gen_b1, gen_b2, gen_j1, gen_j2;
-		if( gr_b1_p4_pt < 1. ) continue;
+		// take only the subset of events where at least one jet remains
+		if( njets_passing_kLooseID < 1 )
+			continue;
 		np[0]++;
-		if( gr_b2_p4_pt < 1. ) continue;
+
+		// gen-level 4-momenta must be non-zero
+		TLorentzVector gen_b1, gen_b2, gen_j1, gen_j2;
+		if( gr_b1_p4_pt < .1 ) continue;
+		if( gr_b2_p4_pt < .1 ) continue;
+		if( gr_j1_p4_pt < .1 ) continue;
+		if( gr_j2_p4_pt < .1 ) continue;
 		np[1]++;
-		if( gr_j1_p4_pt < 1. ) continue;
-		np[2]++;
-		if( gr_j2_p4_pt < 1. ) continue;
-		np[3]++;
 
-		npass++;
-
-//		cout << "gen_b1(pt, eta, phi, mass)= " << "(\t" << gr_b1_p4_pt << ",\t" << gr_b1_p4_eta << ",\t" << gr_b1_p4_phi << ",\t" << gr_b1_p4_mass << "\t)" << endl;;
 		gen_b1.SetPtEtaPhiM(gr_b1_p4_pt, gr_b1_p4_eta, gr_b1_p4_phi, gr_b1_p4_mass);
-//		cout << "gen_b2" << endl;
 		gen_b2.SetPtEtaPhiM(gr_b2_p4_pt, gr_b2_p4_eta, gr_b2_p4_phi, gr_b2_p4_mass);
-//		cout << "gen_j1" << endl;
 		gen_j1.SetPtEtaPhiM(gr_j1_p4_pt, gr_j1_p4_eta, gr_j1_p4_phi, gr_j1_p4_mass);
-//		cout << "gen_j2" << endl;
 		gen_j2.SetPtEtaPhiM(gr_j2_p4_pt, gr_j2_p4_eta, gr_j2_p4_phi, gr_j2_p4_mass);
+		float DR_jet_b1, DR_jet_b2;
+		float DR_jet_j1, DR_jet_j2;
+		TLorentzVector jet;
 
-
-		vector<float> DR_jet_b1;
-		vector<float> DR_jet_b2;
-		vector<float> DR_jet_j1;
-		vector<float> DR_jet_j2;
-		for(int ijet = 0 ; ijet < 4 ; ijet++ )
+		for( int ijet = 0 ; ijet < min(njets_passing_kLooseID, 4); ijet ++ )
 		{
-			TLorentzVector jet;
-			if(ijet == 0 && j1_e > 0.)
+			if( ijet == 0 )
+			{
+				jet_e = j1_e;
+				jet_pt = j1_pt;
+				jet_phi = j1_phi;
+				jet_eta = j1_eta;
+				jet_beta = j1_beta;
+				jet_betaStar = j1_betaStar;
+				jet_betaStarClassic = j1_betaStarClassic;
+				jet_dR2Mean = j1_dR2Mean;
+				jet_csvBtag = j1_csvBtag;
+				jet_csvMvaBtag = j1_csvMvaBtag;
+				jet_jetProbBtag = j1_jetProbBtag;
+				jet_tcheBtag = j1_tcheBtag;
+				jet_radionMatched = j1_radionMatched;
+				jet_ptD = j1_ptD;
+				jet_nSecondaryVertices = j1_nSecondaryVertices;
+				jet_secVtxPt = j1_secVtxPt;
+				jet_secVtx3dL = j1_secVtx3dL;
+				jet_secVtx3deL = j1_secVtx3deL;
+				jet_emfrac = j1_emfrac;
+				jet_hadfrac = j1_hadfrac;
+				jet_ntk = j1_ntk;
+				jet_nNeutrals = j1_nNeutrals;
+				jet_nCharged = j1_nCharged;
+				jet_axis1 = j1_axis1;
+				jet_axis2 = j1_axis2;
+				jet_pull = j1_pull;
+				jet_Rchg = j1_Rchg;
+				jet_Rneutral = j1_Rneutral;
+				jet_R = j1_R;
 				jet.SetPtEtaPhiE(j1_pt, j1_eta, j1_phi, j1_e);
-			if(ijet == 1 && j2_e > 0.)
+			} // end if jet == 0
+
+			if( ijet == 1 )
+			{
+				jet_e = j2_e;
+				jet_pt = j2_pt;
+				jet_phi = j2_phi;
+				jet_eta = j2_eta;
+				jet_beta = j2_beta;
+				jet_betaStar = j2_betaStar;
+				jet_betaStarClassic = j2_betaStarClassic;
+				jet_dR2Mean = j2_dR2Mean;
+				jet_csvBtag = j2_csvBtag;
+				jet_csvMvaBtag = j2_csvMvaBtag;
+				jet_jetProbBtag = j2_jetProbBtag;
+				jet_tcheBtag = j2_tcheBtag;
+				jet_radionMatched = j2_radionMatched;
+				jet_ptD = j2_ptD;
+				jet_nSecondaryVertices = j2_nSecondaryVertices;
+				jet_secVtxPt = j2_secVtxPt;
+				jet_secVtx3dL = j2_secVtx3dL;
+				jet_secVtx3deL = j2_secVtx3deL;
+				jet_emfrac = j2_emfrac;
+				jet_hadfrac = j2_hadfrac;
+				jet_ntk = j2_ntk;
+				jet_nNeutrals = j2_nNeutrals;
+				jet_nCharged = j2_nCharged;
+				jet_axis1 = j2_axis1;
+				jet_axis2 = j2_axis2;
+				jet_pull = j2_pull;
+				jet_Rchg = j2_Rchg;
+				jet_Rneutral = j2_Rneutral;
+				jet_R = j2_R;
 				jet.SetPtEtaPhiE(j2_pt, j2_eta, j2_phi, j2_e);
-			if(ijet == 2 && j3_e > 0.)
+			} // end if jet == 1
+
+			if( ijet == 2 )
+			{
+				jet_e = j3_e;
+				jet_pt = j3_pt;
+				jet_phi = j3_phi;
+				jet_eta = j3_eta;
+				jet_beta = j3_beta;
+				jet_betaStar = j3_betaStar;
+				jet_betaStarClassic = j3_betaStarClassic;
+				jet_dR2Mean = j3_dR2Mean;
+				jet_csvBtag = j3_csvBtag;
+				jet_csvMvaBtag = j3_csvMvaBtag;
+				jet_jetProbBtag = j3_jetProbBtag;
+				jet_tcheBtag = j3_tcheBtag;
+				jet_radionMatched = j3_radionMatched;
+				jet_ptD = j3_ptD;
+				jet_nSecondaryVertices = j3_nSecondaryVertices;
+				jet_secVtxPt = j3_secVtxPt;
+				jet_secVtx3dL = j3_secVtx3dL;
+				jet_secVtx3deL = j3_secVtx3deL;
+				jet_emfrac = j3_emfrac;
+				jet_hadfrac = j3_hadfrac;
+				jet_ntk = j3_ntk;
+				jet_nNeutrals = j3_nNeutrals;
+				jet_nCharged = j3_nCharged;
+				jet_axis1 = j3_axis1;
+				jet_axis2 = j3_axis2;
+				jet_pull = j3_pull;
+				jet_Rchg = j3_Rchg;
+				jet_Rneutral = j3_Rneutral;
+				jet_R = j3_R;
 				jet.SetPtEtaPhiE(j3_pt, j3_eta, j3_phi, j3_e);
-			if(ijet == 3 && j4_e > 0.)
+			} // end if jet == 2
+
+			if( ijet == 3 )
+			{
+				jet_e = j4_e;
+				jet_pt = j4_pt;
+				jet_phi = j4_phi;
+				jet_eta = j4_eta;
+				jet_beta = j4_beta;
+				jet_betaStar = j4_betaStar;
+				jet_betaStarClassic = j4_betaStarClassic;
+				jet_dR2Mean = j4_dR2Mean;
+				jet_csvBtag = j4_csvBtag;
+				jet_csvMvaBtag = j4_csvMvaBtag;
+				jet_jetProbBtag = j4_jetProbBtag;
+				jet_tcheBtag = j4_tcheBtag;
+				jet_radionMatched = j4_radionMatched;
+				jet_ptD = j4_ptD;
+				jet_nSecondaryVertices = j4_nSecondaryVertices;
+				jet_secVtxPt = j4_secVtxPt;
+				jet_secVtx3dL = j4_secVtx3dL;
+				jet_secVtx3deL = j4_secVtx3deL;
+				jet_emfrac = j4_emfrac;
+				jet_hadfrac = j4_hadfrac;
+				jet_ntk = j4_ntk;
+				jet_nNeutrals = j4_nNeutrals;
+				jet_nCharged = j4_nCharged;
+				jet_axis1 = j4_axis1;
+				jet_axis2 = j4_axis2;
+				jet_pull = j4_pull;
+				jet_Rchg = j4_Rchg;
+				jet_Rneutral = j4_Rneutral;
+				jet_R = j4_R;
 				jet.SetPtEtaPhiE(j4_pt, j4_eta, j4_phi, j4_e);
-			if(jet.Pt() < 0.01) continue;
-			DR_jet_b1.push_back(jet.DeltaR(gen_b1));
-			DR_jet_b2.push_back(jet.DeltaR(gen_b2));
-			DR_jet_j1.push_back(jet.DeltaR(gen_j1));
-			DR_jet_j2.push_back(jet.DeltaR(gen_j2));
-		}
-		np[4]++;
-
-		if(DR_jet_j1.size() < 1)
-			continue;
-		np[5]++;
+			} // end if jet == 3
 
 
+			// generator level info
+			DR_jet_b1 = jet.DeltaR(gen_b1);
+			DR_jet_b2 = jet.DeltaR(gen_b2);
+			DR_jet_j1 = jet.DeltaR(gen_j1);
+			DR_jet_j2 = jet.DeltaR(gen_j2);
+			jet_genDR = DR_jet_j1;
+			jet_genPt = gen_j1.Pt();
+			jet_genE = gen_j1.Energy();
+			jet_genR = (float)gen_j1.Pt() / (float)jet_pt;
+			if(DR_jet_j2 < DR_jet_j1)
+			{
+				jet_genDR = DR_jet_j2;
+				jet_genPt = gen_j2.Pt();
+				jet_genE = gen_j2.Energy();
+				jet_genR = (float)gen_j2.Pt() / (float)jet_pt;
+			}
+			jet_prtDR = DR_jet_b1;
+			jet_prtPt = gen_b1.Pt();
+			jet_prtE = gen_b1.Energy();
+			jet_prtR = (float)gen_b1.Pt() / (float)jet_pt;
+			if(DR_jet_b2 < DR_jet_b1)
+			{
+				jet_prtDR = DR_jet_b2;
+				jet_prtPt = gen_b2.Pt();
+				jet_prtE = gen_b2.Energy();
+				jet_prtR = (float)gen_b2.Pt() / (float)jet_pt;
+			}
+		} // end of loop over jets
 
-
-//		jet_e = j1_e;
-//		outtree->Fill();
-
-
-		// Matching to the gen jet
-//		vector<float> tmp_DR_jet_j1 = DR_jet_j1;
-//		vector<float> tmp_DR_jet_j2 = DR_jet_j2;
-		// at least one match
-//		sort(tmp_DR_jet_j1.begin(), tmp_DR_jet_j1.end());
-//		sort(tmp_DR_jet_j2.begin(), tmp_DR_jet_j2.end());
-/*		for(unsigned int ij = 0 ; ij < tmp_DR_jet_j1.size() ; ij++)
-			cout << "\ttmp_DR_jet_j1[" << ij << "]= " << tmp_DR_jet_j1[ij] << endl; 
-		for(unsigned int ij = 0 ; ij < DR_jet_j1.size() ; ij++)
-			cout << "\tDR_jet_j1[" << ij << "]= " << DR_jet_j1[ij] << endl; 
-		for(unsigned int ij = 0 ; ij < tmp_DR_jet_j2.size() ; ij++)
-			cout << "\ttmp_DR_jet_j2[" << ij << "]= " << tmp_DR_jet_j1[ij] << endl; 
-		for(unsigned int ij = 0 ; ij < DR_jet_j2.size() ; ij++)
-			cout << "\tDR_jet_j2[" << ij << "]= " << DR_jet_j1[ij] << endl; 
-
-		if( (tmp_DR_jet_j1[0] < .4) || (tmp_DR_jet_j2[0] < .4) )
-			continue;
-
-		// at least a pair of matched
-		if( (tmp_DR_jet_j1[0] < .4) && (tmp_DR_jet_j2[0] < .4) )
-			continue;
-*/
-
-
-		jet_index1 = 0;
-		jet_index1 = 1;
 		outtree->Fill();
 
-	// treat only two jets per event: here is where the choice of the jets is made
-// 
+	} // end of loop over events
 
-/*
-		jet_index = 1;
-		jet_e = j1_e;
-		jet_pt = j1_pt;
-		jet_phi = j1_phi;
-		jet_eta = j1_eta;
-		jet_beta = j1_beta;
-		jet_betaStar = j1_betaStar;
-		jet_betaStarClassic = j1_betaStarClassic;
-		jet_dR2Mean = j1_dR2Mean;
-		jet_csvBtag = j1_csvBtag;
-		jet_csvMvaBtag = j1_csvMvaBtag;
-		jet_jetProbBtag = j1_jetProbBtag;
-		jet_tcheBtag = j1_tcheBtag;
-		jet_radionMatched = j1_radionMatched;
-		jet_ptD = j1_ptD;
-		jet_nSecondaryVertices = j1_nSecondaryVertices;
-		jet_secVtxPt = j1_secVtxPt;
-		jet_secVtx3dL = j1_secVtx3dL;
-		jet_secVtx3deL = j1_secVtx3deL;
-		jet_emfrac = j1_emfrac;
-		jet_hadfrac = j1_hadfrac;
-		jet_ntk = j1_ntk;
-		jet_nNeutrals = j1_nNeutrals;
-		jet_nCharged = j1_nCharged;
-		jet_axis1 = j1_axis1;
-		jet_axis2 = j1_axis2;
-		jet_pull = j1_pull;
-		jet_Rchg = j1_Rchg;
-		jet_Rneutral = j1_Rneutral;
-		jet_R = j1_R;
-		outtree->Fill();
-		jet_index = 2;
-		jet_e = j2_e;
-		jet_pt = j2_pt;
-		jet_phi = j2_phi;
-		jet_eta = j2_eta;
-		jet_beta = j2_beta;
-		jet_betaStar = j2_betaStar;
-		jet_betaStarClassic = j2_betaStarClassic;
-		jet_dR2Mean = j2_dR2Mean;
-		jet_csvBtag = j2_csvBtag;
-		jet_csvMvaBtag = j2_csvMvaBtag;
-		jet_jetProbBtag = j2_jetProbBtag;
-		jet_tcheBtag = j2_tcheBtag;
-		jet_radionMatched = j2_radionMatched;
-		jet_ptD = j2_ptD;
-		jet_nSecondaryVertices = j2_nSecondaryVertices;
-		jet_secVtxPt = j2_secVtxPt;
-		jet_secVtx3dL = j2_secVtx3dL;
-		jet_secVtx3deL = j2_secVtx3deL;
-		jet_emfrac = j2_emfrac;
-		jet_hadfrac = j2_hadfrac;
-		jet_ntk = j2_ntk;
-		jet_nNeutrals = j2_nNeutrals;
-		jet_nCharged = j2_nCharged;
-		jet_axis1 = j2_axis1;
-		jet_axis2 = j2_axis2;
-		jet_pull = j2_pull;
-		jet_Rchg = j2_Rchg;
-		jet_Rneutral = j2_Rneutral;
-		jet_R = j2_R;
-		outtree->Fill();
-		jet_index = 3;
-		jet_e = j3_e;
-		jet_pt = j3_pt;
-		jet_phi = j3_phi;
-		jet_eta = j3_eta;
-		jet_beta = j3_beta;
-		jet_betaStar = j3_betaStar;
-		jet_betaStarClassic = j3_betaStarClassic;
-		jet_dR2Mean = j3_dR2Mean;
-		jet_csvBtag = j3_csvBtag;
-		jet_csvMvaBtag = j3_csvMvaBtag;
-		jet_jetProbBtag = j3_jetProbBtag;
-		jet_tcheBtag = j3_tcheBtag;
-		jet_radionMatched = j3_radionMatched;
-		jet_ptD = j3_ptD;
-		jet_nSecondaryVertices = j3_nSecondaryVertices;
-		jet_secVtxPt = j3_secVtxPt;
-		jet_secVtx3dL = j3_secVtx3dL;
-		jet_secVtx3deL = j3_secVtx3deL;
-		jet_emfrac = j3_emfrac;
-		jet_hadfrac = j3_hadfrac;
-		jet_ntk = j3_ntk;
-		jet_nNeutrals = j3_nNeutrals;
-		jet_nCharged = j3_nCharged;
-		jet_axis1 = j3_axis1;
-		jet_axis2 = j3_axis2;
-		jet_pull = j3_pull;
-		jet_Rchg = j3_Rchg;
-		jet_Rneutral = j3_Rneutral;
-		jet_R = j3_R;
-		outtree->Fill();
-		jet_index = 4;
-		jet_e = j4_e;
-		jet_pt = j4_pt;
-		jet_phi = j4_phi;
-		jet_eta = j4_eta;
-		jet_beta = j4_beta;
-		jet_betaStar = j4_betaStar;
-		jet_betaStarClassic = j4_betaStarClassic;
-		jet_dR2Mean = j4_dR2Mean;
-		jet_csvBtag = j4_csvBtag;
-		jet_csvMvaBtag = j4_csvMvaBtag;
-		jet_jetProbBtag = j4_jetProbBtag;
-		jet_tcheBtag = j4_tcheBtag;
-		jet_radionMatched = j4_radionMatched;
-		jet_ptD = j4_ptD;
-		jet_nSecondaryVertices = j4_nSecondaryVertices;
-		jet_secVtxPt = j4_secVtxPt;
-		jet_secVtx3dL = j4_secVtx3dL;
-		jet_secVtx3deL = j4_secVtx3deL;
-		jet_emfrac = j4_emfrac;
-		jet_hadfrac = j4_hadfrac;
-		jet_ntk = j4_ntk;
-		jet_nNeutrals = j4_nNeutrals;
-		jet_nCharged = j4_nCharged;
-		jet_axis1 = j4_axis1;
-		jet_axis2 = j4_axis2;
-		jet_pull = j4_pull;
-		jet_Rchg = j4_Rchg;
-		jet_Rneutral = j4_Rneutral;
-		jet_R = j4_R;
-		outtree->Fill();
-*/
-	}
+
 	for(int i=0 ; i < 8 ; i++)
 		cout << "#np[" << i << "]= " << np[i] << endl;
 	cout << "#npass= " << npass << endl;
