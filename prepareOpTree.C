@@ -31,6 +31,7 @@ int main()
 	float j4_e, j4_pt, j4_phi, j4_eta, j4_beta, j4_betaStar, j4_betaStarClassic, j4_dR2Mean, j4_csvBtag, j4_csvMvaBtag, j4_jetProbBtag, j4_tcheBtag, j4_radionMatched, j4_ptD, j4_nSecondaryVertices, j4_secVtxPt, j4_secVtx3dL, j4_secVtx3deL, j4_emfrac, j4_hadfrac, j4_ntk, j4_nNeutrals, j4_nCharged, j4_axis1, j4_axis2, j4_pull, j4_Rchg, j4_Rneutral, j4_R;
 	float jet_e, jet_pt, jet_phi, jet_eta, jet_beta, jet_betaStar, jet_betaStarClassic, jet_dR2Mean, jet_csvBtag, jet_csvMvaBtag, jet_jetProbBtag, jet_tcheBtag, jet_radionMatched, jet_ptD, jet_nSecondaryVertices, jet_secVtxPt, jet_secVtx3dL, jet_secVtx3deL, jet_emfrac, jet_hadfrac, jet_ntk, jet_nNeutrals, jet_nCharged, jet_axis1, jet_axis2, jet_pull, jet_Rchg, jet_Rneutral, jet_R;
 	float jet_genDR, jet_genPt, jet_genE, jet_genR, jet_prtDR, jet_prtPt, jet_prtE, jet_prtR;
+	int jet_index;
 
 	int njets_passing_kLooseID;
 	intree->SetBranchAddress("njets_passing_kLooseID", &njets_passing_kLooseID);
@@ -231,6 +232,7 @@ int main()
 	outtree->Branch("jet_prtPt", &jet_prtPt, "jet_prtPt/F");
 	outtree->Branch("jet_prtE", &jet_prtE, "jet_prtE/F");
 	outtree->Branch("jet_prtR", &jet_prtR, "jet_prtR/F");
+	outtree->Branch("jet_index", &jet_index, "jet_index/I");
 
 	int npass = 0;
 	int np[20] = {0};
@@ -293,6 +295,7 @@ int main()
 				jet_Rchg = j1_Rchg;
 				jet_Rneutral = j1_Rneutral;
 				jet_R = j1_R;
+				jet_index = 1;
 				jet.SetPtEtaPhiE(j1_pt, j1_eta, j1_phi, j1_e);
 			} // end if jet == 0
 
@@ -327,6 +330,7 @@ int main()
 				jet_Rchg = j2_Rchg;
 				jet_Rneutral = j2_Rneutral;
 				jet_R = j2_R;
+				jet_index = 2;
 				jet.SetPtEtaPhiE(j2_pt, j2_eta, j2_phi, j2_e);
 			} // end if jet == 1
 
@@ -361,6 +365,7 @@ int main()
 				jet_Rchg = j3_Rchg;
 				jet_Rneutral = j3_Rneutral;
 				jet_R = j3_R;
+				jet_index = 3;
 				jet.SetPtEtaPhiE(j3_pt, j3_eta, j3_phi, j3_e);
 			} // end if jet == 2
 
@@ -395,6 +400,7 @@ int main()
 				jet_Rchg = j4_Rchg;
 				jet_Rneutral = j4_Rneutral;
 				jet_R = j4_R;
+				jet_index = 4;
 				jet.SetPtEtaPhiE(j4_pt, j4_eta, j4_phi, j4_e);
 			} // end if jet == 3
 
