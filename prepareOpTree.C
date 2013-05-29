@@ -16,14 +16,12 @@ using namespace std;
 
 int main()
 {
-// /store/group/phys_higgs/Resonant_HH/trees/radion_tree_v04/Graviton_Radion-nm.root
-	TFile *infile = TFile::Open("root://eoscms//eos/cms/store/group/phys_higgs/Resonant_HH/trees/radion_tree_v04/Graviton_Radion-nm.root");
-//	TFile *infile = TFile::Open("histograms_CMS-HGG_1.root");
+//	TFile *infile = TFile::Open("root://eoscms//eos/cms/store/group/phys_higgs/Resonant_HH/trees/radion_tree_v04/Graviton_Radion-nm.root");
+	TFile *infile = TFile::Open("root://eoscms//eos/cms/store/group/phys_higgs/Resonant_HH/trees/radion_tree_v04/Radion_300-nm.root");
 	TFile *outfile = new TFile("test.root", "RECREATE");
 	TTree *intree = (TTree*)infile->Get("Radion_m300_8TeV_nm");
 	TTree *outtree = new TTree("jets", "jets");
 
-	cout << "#entries= " << intree->GetEntries() << endl;
 	float gr_radion_p4_pt, gr_radion_p4_eta, gr_radion_p4_phi, gr_radion_p4_mass, gr_hgg_p4_pt, gr_hgg_p4_eta, gr_hgg_p4_phi, gr_hgg_p4_mass, gr_hbb_p4_pt, gr_hbb_p4_eta, gr_hbb_p4_phi, gr_hbb_p4_mass, gr_g1_p4_pt, gr_g1_p4_eta, gr_g1_p4_phi, gr_g1_p4_mass, gr_g2_p4_pt, gr_g2_p4_eta, gr_g2_p4_phi, gr_g2_p4_mass, gr_b1_p4_pt, gr_b1_p4_eta, gr_b1_p4_phi, gr_b1_p4_mass, gr_b2_p4_pt, gr_b2_p4_eta, gr_b2_p4_phi, gr_b2_p4_mass, gr_j1_p4_pt, gr_j1_p4_eta, gr_j1_p4_phi, gr_j1_p4_mass, gr_j2_p4_pt, gr_j2_p4_eta, gr_j2_p4_phi, gr_j2_p4_mass;
 	float j1_e, j1_pt, j1_phi, j1_eta, j1_beta, j1_betaStar, j1_betaStarClassic, j1_dR2Mean, j1_csvBtag, j1_csvMvaBtag, j1_jetProbBtag, j1_tcheBtag, j1_radionMatched, j1_ptD, j1_nSecondaryVertices, j1_secVtxPt, j1_secVtx3dL, j1_secVtx3deL, j1_emfrac, j1_hadfrac, j1_ntk, j1_nNeutrals, j1_nCharged, j1_axis1, j1_axis2, j1_pull, j1_Rchg, j1_Rneutral, j1_R;
 	float j2_e, j2_pt, j2_phi, j2_eta, j2_beta, j2_betaStar, j2_betaStarClassic, j2_dR2Mean, j2_csvBtag, j2_csvMvaBtag, j2_jetProbBtag, j2_tcheBtag, j2_radionMatched, j2_ptD, j2_nSecondaryVertices, j2_secVtxPt, j2_secVtx3dL, j2_secVtx3deL, j2_emfrac, j2_hadfrac, j2_ntk, j2_nNeutrals, j2_nCharged, j2_axis1, j2_axis2, j2_pull, j2_Rchg, j2_Rneutral, j2_R;
@@ -234,11 +232,18 @@ int main()
 	outtree->Branch("jet_prtR", &jet_prtR, "jet_prtR/F");
 	outtree->Branch("jet_index", &jet_index, "jet_index/I");
 
-	int npass = 0;
 	int np[20] = {0};
-	for(int ievt=0 ; ievt < intree->GetEntries() ; ievt++)
-//	for(int ievt=0 ; ievt < 50 ; ievt++)
+	int decade = 0;
+	int totevents = intree->GetEntries();
+	cout << "#entries= " << totevents << endl;
+	// loop over events
+	for(int ievt=0 ; ievt < totevents ; ievt++)
 	{
+		double progress = 10.0*ievt/(1.0*totevents);
+		int k = TMath::FloorNint(progress);
+		if (k > decade) cout<<10*k<<" %"<<endl;
+		decade = k;
+
 		intree->GetEntry(ievt);
 	
 		// take only the subset of events where at least one jet remains
@@ -262,6 +267,7 @@ int main()
 		float DR_jet_j1, DR_jet_j2;
 		TLorentzVector jet;
 
+		// loop over jets, store jet info + info on closest genjet / parton (no selection applied)
 		for( int ijet = 0 ; ijet < min(njets_passing_kLooseID, 4); ijet ++ )
 		{
 			if( ijet == 0 )
@@ -432,17 +438,14 @@ int main()
 				jet_prtE = gen_b2.Energy();
 				jet_prtR = (float)gen_b2.Pt() / (float)jet_pt;
 			}
+			outtree->Fill();
 		} // end of loop over jets
-
-		outtree->Fill();
 
 	} // end of loop over events
 
 
-	for(int i=0 ; i < 8 ; i++)
+	for(int i=0 ; i < 2 ; i++)
 		cout << "#np[" << i << "]= " << np[i] << endl;
-	cout << "#npass= " << npass << endl;
-
 
 	outfile->cd();
 	outtree->Write();
