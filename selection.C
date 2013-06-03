@@ -29,6 +29,8 @@ int main()
 	int ph1_ciclevel, ph2_ciclevel;
 //	float gr_radion_p4_pt, gr_radion_p4_eta, gr_radion_p4_phi, gr_radion_p4_mass, gr_hgg_p4_pt, gr_hgg_p4_eta, gr_hgg_p4_phi, gr_hgg_p4_mass, gr_hbb_p4_pt, gr_hbb_p4_eta, gr_hbb_p4_phi, gr_hbb_p4_mass, gr_g1_p4_pt, gr_g1_p4_eta, gr_g1_p4_phi, gr_g1_p4_mass, gr_g2_p4_pt, gr_g2_p4_eta, gr_g2_p4_phi, gr_g2_p4_mass, gr_b1_p4_pt, gr_b1_p4_eta, gr_b1_p4_phi, gr_b1_p4_mass, gr_b2_p4_pt, gr_b2_p4_eta, gr_b2_p4_phi, gr_b2_p4_mass, gr_j1_p4_pt, gr_j1_p4_eta, gr_j1_p4_phi, gr_j1_p4_mass, gr_j2_p4_pt, gr_j2_p4_eta, gr_j2_p4_phi, gr_j2_p4_mass;
 	float met_corrMet, met_corrMetPhi, pu_n, nvtx, rho;
+	float weight, evweight, pu_weight;
+	float ev_weight, ev_evweight, ev_pu_weight;
 	float j1_e, j1_pt, j1_phi, j1_eta, j1_beta, j1_betaStar, j1_betaStarClassic, j1_dR2Mean, j1_csvBtag, j1_csvMvaBtag, j1_jetProbBtag, j1_tcheBtag, j1_ptD, j1_nSecondaryVertices, j1_secVtxPt, j1_secVtx3dL, j1_secVtx3deL, j1_emfrac, j1_hadfrac, j1_ntk, j1_nNeutrals, j1_nCharged, j1_axis1, j1_axis2, j1_pull, j1_Rchg, j1_Rneutral, j1_R, j1_chargedMultiplicity, j1_neutralMultiplicity, j1_Chadfrac, j1_Nhadfrac, j1_Phofrac, j1_Mufrac, j1_Elefrac, j1_dPhiMet, j1_radionMatched;
 	int j1_pfloose;
 	float j2_e, j2_pt, j2_phi, j2_eta, j2_beta, j2_betaStar, j2_betaStarClassic, j2_dR2Mean, j2_csvBtag, j2_csvMvaBtag, j2_jetProbBtag, j2_tcheBtag, j2_ptD, j2_nSecondaryVertices, j2_secVtxPt, j2_secVtx3dL, j2_secVtx3deL, j2_emfrac, j2_hadfrac, j2_ntk, j2_nNeutrals, j2_nCharged, j2_axis1, j2_axis2, j2_pull, j2_Rchg, j2_Rneutral, j2_R, j2_chargedMultiplicity, j2_neutralMultiplicity, j2_Chadfrac, j2_Nhadfrac, j2_Phofrac, j2_Mufrac, j2_Elefrac, j2_dPhiMet, j2_radionMatched;
@@ -76,6 +78,9 @@ int main()
 	intree->SetBranchAddress("pu_n", &pu_n);
 	intree->SetBranchAddress("nvtx", &nvtx);
 	intree->SetBranchAddress("rho", &rho);
+	intree->SetBranchAddress("weight", &ev_weight);
+	intree->SetBranchAddress("evweight", &ev_evweight);
+	intree->SetBranchAddress("pu_weight", &ev_pu_weight);
 /*
 	intree->SetBranchAddress("gr_radion_p4_pt", &gr_radion_p4_pt);
 	intree->SetBranchAddress("gr_radion_p4_eta", &gr_radion_p4_eta);
@@ -328,6 +333,9 @@ int main()
 	outtree->Branch("ev_nvtx", &ev_nvtx, "ev_nvtx/F");
 	outtree->Branch("ev_rho", &ev_rho, "ev_rho/F");
 */
+	outtree->Branch("weight", &weight, "weight/F");
+	outtree->Branch("evweight", &evweight, "evweight/F");
+	outtree->Branch("pu_weight", &pu_weight, "pu_weight/F");
 	outtree->Branch("pho1_pt", &pho1_pt, "pho1_pt/F");
 	outtree->Branch("pho1_e", &pho1_e, "pho1_e/F");
 	outtree->Branch("pho1_phi", &pho1_phi, "pho1_phi/F");
@@ -404,7 +412,8 @@ int main()
 			BDTreader->AddVariable("jet_secVtx3deL", &jet_secVtx3deL);
 			BDTreader->AddVariable("ev_met_corrMet", &met_corrMet);
 			BDTreader->AddVariable("ev_rho", &rho);
-			BDTreader->BookMVA("BDT", "weights/factoryJetRegParton2_BDT.weights.xml");
+//			BDTreader->BookMVA("BDT", "weights/factoryJetRegParton2_BDT.weights.xml");
+			BDTreader->BookMVA("BDT", "weights/factoryJetRegGen2_BDT.weights.xml");
 			TMVA::Reader* MLPreader = new TMVA::Reader( "!Color:!Silent" );
 			MLPreader->AddVariable("jet_csvBtag",&jet_csvBtag);
 			MLPreader->AddVariable("jet_pt",&jet_pt);
@@ -421,7 +430,8 @@ int main()
 			MLPreader->AddVariable("jet_secVtx3deL", &jet_secVtx3deL);
 			MLPreader->AddVariable("ev_met_corrMet", &met_corrMet);
 			MLPreader->AddVariable("ev_rho", &rho);
-			MLPreader->BookMVA("MLP", "weights/factoryJetRegParton2_MLP.weights.xml");
+//			MLPreader->BookMVA("MLP", "weights/factoryJetRegParton2_MLP.weights.xml");
+			MLPreader->BookMVA("MLP", "weights/factoryJetRegGen2_MLP.weights.xml");
 
 
 
@@ -797,7 +807,9 @@ int main()
 		TLorentzVector ggjj = jj + gg;
 		TLorentzVector regggjj = regjj + gg;
 
-
+		weight = ev_weight;
+		evweight = ev_evweight;
+		pu_weight = ev_pu_weight;
 		pho1_pt = pho1.Pt();
 		pho1_e = pho1.E();
 		pho1_phi = pho1.Phi();

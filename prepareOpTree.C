@@ -25,6 +25,7 @@ int main()
 
 	float gr_radion_p4_pt, gr_radion_p4_eta, gr_radion_p4_phi, gr_radion_p4_mass, gr_hgg_p4_pt, gr_hgg_p4_eta, gr_hgg_p4_phi, gr_hgg_p4_mass, gr_hbb_p4_pt, gr_hbb_p4_eta, gr_hbb_p4_phi, gr_hbb_p4_mass, gr_g1_p4_pt, gr_g1_p4_eta, gr_g1_p4_phi, gr_g1_p4_mass, gr_g2_p4_pt, gr_g2_p4_eta, gr_g2_p4_phi, gr_g2_p4_mass, gr_b1_p4_pt, gr_b1_p4_eta, gr_b1_p4_phi, gr_b1_p4_mass, gr_b2_p4_pt, gr_b2_p4_eta, gr_b2_p4_phi, gr_b2_p4_mass, gr_j1_p4_pt, gr_j1_p4_eta, gr_j1_p4_phi, gr_j1_p4_mass, gr_j2_p4_pt, gr_j2_p4_eta, gr_j2_p4_phi, gr_j2_p4_mass;
 	float met_pfmet, met_phi_pfmet, met_sumet_pfmet, met_mEtSig_pfmet, met_significance_pfmet, met_corrMet, met_corrMetPhi, pu_n, nvtx, rho;
+	float weight, evweight, pu_weight;
 	float j1_e, j1_pt, j1_phi, j1_eta, j1_beta, j1_betaStar, j1_betaStarClassic, j1_dR2Mean, j1_csvBtag, j1_csvMvaBtag, j1_jetProbBtag, j1_tcheBtag, j1_ptD, j1_nSecondaryVertices, j1_secVtxPt, j1_secVtx3dL, j1_secVtx3deL, j1_emfrac, j1_hadfrac, j1_ntk, j1_nNeutrals, j1_nCharged, j1_axis1, j1_axis2, j1_pull, j1_Rchg, j1_Rneutral, j1_R, j1_chargedMultiplicity, j1_neutralMultiplicity, j1_Chadfrac, j1_Nhadfrac, j1_Phofrac, j1_Mufrac, j1_Elefrac, j1_dPhiMet, j1_radionMatched;
 	int j1_pfloose;
 	float j2_e, j2_pt, j2_phi, j2_eta, j2_beta, j2_betaStar, j2_betaStarClassic, j2_dR2Mean, j2_csvBtag, j2_csvMvaBtag, j2_jetProbBtag, j2_tcheBtag, j2_ptD, j2_nSecondaryVertices, j2_secVtxPt, j2_secVtx3dL, j2_secVtx3deL, j2_emfrac, j2_hadfrac, j2_ntk, j2_nNeutrals, j2_nCharged, j2_axis1, j2_axis2, j2_pull, j2_Rchg, j2_Rneutral, j2_R, j2_chargedMultiplicity, j2_neutralMultiplicity, j2_Chadfrac, j2_Nhadfrac, j2_Phofrac, j2_Mufrac, j2_Elefrac, j2_dPhiMet, j2_radionMatched;
@@ -38,6 +39,7 @@ int main()
 	float jet_genDR, jet_genPt, jet_genE, jet_genR, jet_prtDR, jet_prtPt, jet_prtE, jet_prtR;
 	int jet_index;
 	float ev_met_pfmet, ev_met_phi_pfmet, ev_met_sumet_pfmet, ev_met_mEtSig_pfmet, ev_met_significance_pfmet, ev_met_corrMet, ev_met_corrMetPhi, ev_pu_n, ev_nvtx, ev_rho;
+	float ev_weight, ev_evweight, ev_pu_weight;
 
 	int njets_passing_kLooseID;
 	intree->SetBranchAddress("njets_passing_kLooseID", &njets_passing_kLooseID);
@@ -54,6 +56,9 @@ int main()
 	intree->SetBranchAddress("pu_n", &pu_n);
 	intree->SetBranchAddress("nvtx", &nvtx);
 	intree->SetBranchAddress("rho", &rho);
+	intree->SetBranchAddress("weight", &weight);
+	intree->SetBranchAddress("evweight", &evweight);
+	intree->SetBranchAddress("pu_weight", &pu_weight);
 	intree->SetBranchAddress("gr_radion_p4_pt", &gr_radion_p4_pt);
 	intree->SetBranchAddress("gr_radion_p4_eta", &gr_radion_p4_eta);
 	intree->SetBranchAddress("gr_radion_p4_phi", &gr_radion_p4_phi);
@@ -304,6 +309,9 @@ int main()
 	outtree->Branch("ev_pu_n", &ev_pu_n, "ev_pu_n/F");
 	outtree->Branch("ev_nvtx", &ev_nvtx, "ev_nvtx/F");
 	outtree->Branch("ev_rho", &ev_rho, "ev_rho/F");
+	outtree->Branch("ev_weight", &ev_weight, "ev_weight/F");
+	outtree->Branch("ev_evweight", &ev_evweight, "ev_evweight/F");
+	outtree->Branch("ev_pu_weight", &ev_pu_weight, "ev_pu_weight/F");
 
 	int np[20] = {0};
 	int decade = 0;
@@ -557,6 +565,9 @@ int main()
 			ev_pu_n = pu_n;
 			ev_nvtx = nvtx;
 			ev_rho = rho;
+			ev_weight = weight;
+			ev_evweight = evweight;
+			ev_pu_weight = pu_weight;
 			np[2]++;
 			outtree->Fill();
 		} // end of loop over jets
