@@ -39,7 +39,7 @@ int main()
   factory->AddTarget("jet_genPt");
     
 //  TCut preselectionCut("jet_prtDR<0.25");
-  TCut preselectionCut("jet_genDR<0.25");
+  TCut preselectionCut("jet_genDR<0.4 && jet_csvBtag > 0.");
 
   factory->PrepareTrainingAndTestTree(preselectionCut,"nTrain_Regression=14000:nTest_Regression=14000");
   factory->BookMethod(TMVA::Types::kMLP,"MLP","NCycles=700:HiddenLayers=N,N-1:TestRate=5:TrainingMethod=BFGS:VarTRansform=Norm");

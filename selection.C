@@ -39,16 +39,22 @@ int main()
 	int j3_pfloose;
 	float j4_e, j4_pt, j4_phi, j4_eta, j4_beta, j4_betaStar, j4_betaStarClassic, j4_dR2Mean, j4_csvBtag, j4_csvMvaBtag, j4_jetProbBtag, j4_tcheBtag, j4_ptD, j4_nSecondaryVertices, j4_secVtxPt, j4_secVtx3dL, j4_secVtx3deL, j4_emfrac, j4_hadfrac, j4_ntk, j4_nNeutrals, j4_nCharged, j4_axis1, j4_axis2, j4_pull, j4_Rchg, j4_Rneutral, j4_R, j4_chargedMultiplicity, j4_neutralMultiplicity, j4_Chadfrac, j4_Nhadfrac, j4_Phofrac, j4_Mufrac, j4_Elefrac, j4_dPhiMet, j4_radionMatched;
 	int j4_pfloose;
-	float jet_e, jet_pt, jet_phi, jet_eta, jet_beta, jet_betaStar, jet_betaStarClassic, jet_dR2Mean, jet_csvBtag, jet_csvMvaBtag, jet_jetProbBtag, jet_tcheBtag, jet_ptD, jet_nSecondaryVertices, jet_secVtxPt, jet_secVtx3dL, jet_secVtx3deL, jet_emfrac, jet_hadfrac, jet_ntk, jet_nNeutrals, jet_nCharged, jet_axis1, jet_axis2, jet_pull, jet_Rchg, jet_Rneutral, jet_R, jet_chargedMultiplicity, jet_neutralMultiplicity, jet_Chadfrac, jet_Nhadfrac, jet_Phofrac, jet_Mufrac, jet_Elefrac, jet_dPhiMet, jet_radionMatched, jet_regPt, jet_MLPweight;
+	float jet_e, jet_pt, jet_phi, jet_eta;
+//jet_beta, jet_betaStar, 
+	float jet_betaStarClassic, jet_dR2Mean, jet_csvBtag;
+//, jet_csvMvaBtag, jet_jetProbBtag, jet_tcheBtag, 
+	float jet_ptD, jet_nSecondaryVertices, jet_secVtxPt, jet_secVtx3dL, jet_secVtx3deL;
+//, jet_emfrac, jet_hadfrac, jet_ntk, jet_nNeutrals, jet_nCharged, jet_axis1, jet_axis2, jet_pull, jet_Rchg, jet_Rneutral, jet_R, jet_chargedMultiplicity, jet_neutralMultiplicity, 
+	float jet_Chadfrac, jet_Nhadfrac, jet_Phofrac, jet_Mufrac, jet_Elefrac, jet_dPhiMet, jet_radionMatched, jet_regPt, jet_MLPweight;
 	int jet_index, jet_pfloose;
 //	float ev_met_corrMet, ev_met_corrMetPhi, ev_pu_n, ev_nvtx, ev_rho;
 
 	float pho1_pt, pho1_e, pho1_phi, pho1_eta, pho1_mass;
 	float pho2_pt, pho2_e, pho2_phi, pho2_eta, pho2_mass;
-	float jet1_pt, jet1_e, jet1_phi, jet1_eta, jet1_mass;
-	float jet2_pt, jet2_e, jet2_phi, jet2_eta, jet2_mass;
-	float regjet1_pt, regjet1_e, regjet1_phi, regjet1_eta, regjet1_mass;
-	float regjet2_pt, regjet2_e, regjet2_phi, regjet2_eta, regjet2_mass;
+	float jet1_pt, jet1_e, jet1_phi, jet1_eta, jet1_mass, jet1_csvBtag;
+	float jet2_pt, jet2_e, jet2_phi, jet2_eta, jet2_mass, jet2_csvBtag;
+	float regjet1_pt, regjet1_e, regjet1_phi, regjet1_eta, regjet1_mass, regjet1_csvBtag;
+	float regjet2_pt, regjet2_e, regjet2_phi, regjet2_eta, regjet2_mass, regjet2_csvBtag;
 	float jj_pt, jj_e, jj_phi, jj_eta, jj_mass;
 	float regjj_pt, regjj_e, regjj_phi, regjj_eta, regjj_mass;
 	float gg_pt, gg_e, gg_phi, gg_eta, gg_mass;
@@ -351,21 +357,25 @@ int main()
 	outtree->Branch("jet1_phi", &jet1_phi, "jet1_phi/F");
 	outtree->Branch("jet1_eta", &jet1_eta, "jet1_eta/F");
 	outtree->Branch("jet1_mass", &jet1_mass, "jet1_mass/F");
+	outtree->Branch("jet1_csvBtag", &jet1_csvBtag, "jet1_csvBtag/F");
 	outtree->Branch("jet2_pt", &jet2_pt, "jet2_pt/F");
 	outtree->Branch("jet2_e", &jet2_e, "jet2_e/F");
 	outtree->Branch("jet2_phi", &jet2_phi, "jet2_phi/F");
 	outtree->Branch("jet2_eta", &jet2_eta, "jet2_eta/F");
 	outtree->Branch("jet2_mass", &jet2_mass, "jet2_mass/F");
+	outtree->Branch("jet2_csvBtag", &jet2_csvBtag, "jet2_csvBtag/F");
 	outtree->Branch("regjet1_pt", &regjet1_pt, "regjet1_pt/F");
 	outtree->Branch("regjet1_e", &regjet1_e, "regjet1_e/F");
 	outtree->Branch("regjet1_phi", &regjet1_phi, "regjet1_phi/F");
 	outtree->Branch("regjet1_eta", &regjet1_eta, "regjet1_eta/F");
 	outtree->Branch("regjet1_mass", &regjet1_mass, "regjet1_mass/F");
+	outtree->Branch("regjet1_csvBtag", &regjet1_csvBtag, "regjet1_csvBtag/F");
 	outtree->Branch("regjet2_pt", &regjet2_pt, "regjet2_pt/F");
 	outtree->Branch("regjet2_e", &regjet2_e, "regjet2_e/F");
 	outtree->Branch("regjet2_phi", &regjet2_phi, "regjet2_phi/F");
 	outtree->Branch("regjet2_eta", &regjet2_eta, "regjet2_eta/F");
 	outtree->Branch("regjet2_mass", &regjet2_mass, "regjet2_mass/F");
+	outtree->Branch("regjet2_csvBtag", &regjet2_csvBtag, "regjet2_csvBtag/F");
 	outtree->Branch("jj_pt", &jj_pt, "jj_pt/F");
 	outtree->Branch("jj_e", &jj_e, "jj_e/F");
 	outtree->Branch("jj_phi", &jj_phi, "jj_phi/F");
@@ -499,21 +509,21 @@ int main()
 				jet_pt = j1_pt;
 				jet_phi = j1_phi;
 				jet_eta = j1_eta;
-				jet_beta = j1_beta;
+/*				jet_beta = j1_beta;
 				jet_betaStar = j1_betaStar;
-				jet_betaStarClassic = j1_betaStarClassic;
+*/				jet_betaStarClassic = j1_betaStarClassic;
 				jet_dR2Mean = j1_dR2Mean;
 				jet_csvBtag = j1_csvBtag;
-				jet_csvMvaBtag = j1_csvMvaBtag;
+/*				jet_csvMvaBtag = j1_csvMvaBtag;
 				jet_jetProbBtag = j1_jetProbBtag;
 				jet_tcheBtag = j1_tcheBtag;
-				jet_radionMatched = j1_radionMatched;
+*/				jet_radionMatched = j1_radionMatched;
 				jet_ptD = j1_ptD;
 				jet_nSecondaryVertices = j1_nSecondaryVertices;
 				jet_secVtxPt = j1_secVtxPt;
 				jet_secVtx3dL = j1_secVtx3dL;
 				jet_secVtx3deL = j1_secVtx3deL;
-				jet_emfrac = j1_emfrac;
+/*				jet_emfrac = j1_emfrac;
 				jet_hadfrac = j1_hadfrac;
 				jet_ntk = j1_ntk;
 				jet_nNeutrals = j1_nNeutrals;
@@ -526,7 +536,7 @@ int main()
 				jet_R = j1_R;
 				jet_chargedMultiplicity = j1_chargedMultiplicity;
 				jet_neutralMultiplicity = j1_neutralMultiplicity;
-				jet_Chadfrac = j1_Chadfrac;
+*/				jet_Chadfrac = j1_Chadfrac;
 				jet_Nhadfrac = j1_Nhadfrac;
 				jet_Phofrac = j1_Phofrac;
 				jet_Mufrac = j1_Mufrac;
@@ -543,21 +553,21 @@ int main()
 				jet_pt = j2_pt;
 				jet_phi = j2_phi;
 				jet_eta = j2_eta;
-				jet_beta = j2_beta;
+/*				jet_beta = j2_beta;
 				jet_betaStar = j2_betaStar;
-				jet_betaStarClassic = j2_betaStarClassic;
+*/				jet_betaStarClassic = j2_betaStarClassic;
 				jet_dR2Mean = j2_dR2Mean;
 				jet_csvBtag = j2_csvBtag;
-				jet_csvMvaBtag = j2_csvMvaBtag;
+/*				jet_csvMvaBtag = j2_csvMvaBtag;
 				jet_jetProbBtag = j2_jetProbBtag;
 				jet_tcheBtag = j2_tcheBtag;
-				jet_radionMatched = j2_radionMatched;
+*/				jet_radionMatched = j2_radionMatched;
 				jet_ptD = j2_ptD;
 				jet_nSecondaryVertices = j2_nSecondaryVertices;
 				jet_secVtxPt = j2_secVtxPt;
 				jet_secVtx3dL = j2_secVtx3dL;
 				jet_secVtx3deL = j2_secVtx3deL;
-				jet_emfrac = j2_emfrac;
+/*				jet_emfrac = j2_emfrac;
 				jet_hadfrac = j2_hadfrac;
 				jet_ntk = j2_ntk;
 				jet_nNeutrals = j2_nNeutrals;
@@ -570,7 +580,7 @@ int main()
 				jet_R = j2_R;
 				jet_chargedMultiplicity = j2_chargedMultiplicity;
 				jet_neutralMultiplicity = j2_neutralMultiplicity;
-				jet_Chadfrac = j2_Chadfrac;
+*/				jet_Chadfrac = j2_Chadfrac;
 				jet_Nhadfrac = j2_Nhadfrac;
 				jet_Phofrac = j2_Phofrac;
 				jet_Mufrac = j2_Mufrac;
@@ -587,21 +597,21 @@ int main()
 				jet_pt = j3_pt;
 				jet_phi = j3_phi;
 				jet_eta = j3_eta;
-				jet_beta = j3_beta;
+/*				jet_beta = j3_beta;
 				jet_betaStar = j3_betaStar;
-				jet_betaStarClassic = j3_betaStarClassic;
+*/				jet_betaStarClassic = j3_betaStarClassic;
 				jet_dR2Mean = j3_dR2Mean;
 				jet_csvBtag = j3_csvBtag;
-				jet_csvMvaBtag = j3_csvMvaBtag;
+/*				jet_csvMvaBtag = j3_csvMvaBtag;
 				jet_jetProbBtag = j3_jetProbBtag;
 				jet_tcheBtag = j3_tcheBtag;
-				jet_radionMatched = j3_radionMatched;
+*/				jet_radionMatched = j3_radionMatched;
 				jet_ptD = j3_ptD;
 				jet_nSecondaryVertices = j3_nSecondaryVertices;
 				jet_secVtxPt = j3_secVtxPt;
 				jet_secVtx3dL = j3_secVtx3dL;
 				jet_secVtx3deL = j3_secVtx3deL;
-				jet_emfrac = j3_emfrac;
+/*				jet_emfrac = j3_emfrac;
 				jet_hadfrac = j3_hadfrac;
 				jet_ntk = j3_ntk;
 				jet_nNeutrals = j3_nNeutrals;
@@ -614,7 +624,7 @@ int main()
 				jet_R = j3_R;
 				jet_chargedMultiplicity = j3_chargedMultiplicity;
 				jet_neutralMultiplicity = j3_neutralMultiplicity;
-				jet_Chadfrac = j3_Chadfrac;
+*/				jet_Chadfrac = j3_Chadfrac;
 				jet_Nhadfrac = j3_Nhadfrac;
 				jet_Phofrac = j3_Phofrac;
 				jet_Mufrac = j3_Mufrac;
@@ -631,21 +641,21 @@ int main()
 				jet_pt = j4_pt;
 				jet_phi = j4_phi;
 				jet_eta = j4_eta;
-				jet_beta = j4_beta;
+/*				jet_beta = j4_beta;
 				jet_betaStar = j4_betaStar;
-				jet_betaStarClassic = j4_betaStarClassic;
+*/				jet_betaStarClassic = j4_betaStarClassic;
 				jet_dR2Mean = j4_dR2Mean;
 				jet_csvBtag = j4_csvBtag;
-				jet_csvMvaBtag = j4_csvMvaBtag;
+/*				jet_csvMvaBtag = j4_csvMvaBtag;
 				jet_jetProbBtag = j4_jetProbBtag;
 				jet_tcheBtag = j4_tcheBtag;
-				jet_radionMatched = j4_radionMatched;
+*/				jet_radionMatched = j4_radionMatched;
 				jet_ptD = j4_ptD;
 				jet_nSecondaryVertices = j4_nSecondaryVertices;
 				jet_secVtxPt = j4_secVtxPt;
 				jet_secVtx3dL = j4_secVtx3dL;
 				jet_secVtx3deL = j4_secVtx3deL;
-				jet_emfrac = j4_emfrac;
+/*				jet_emfrac = j4_emfrac;
 				jet_hadfrac = j4_hadfrac;
 				jet_ntk = j4_ntk;
 				jet_nNeutrals = j4_nNeutrals;
@@ -658,7 +668,7 @@ int main()
 				jet_R = j4_R;
 				jet_chargedMultiplicity = j4_chargedMultiplicity;
 				jet_neutralMultiplicity = j4_neutralMultiplicity;
-				jet_Chadfrac = j4_Chadfrac;
+*/				jet_Chadfrac = j4_Chadfrac;
 				jet_Nhadfrac = j4_Nhadfrac;
 				jet_Phofrac = j4_Phofrac;
 				jet_Mufrac = j4_Mufrac;
@@ -679,6 +689,8 @@ int main()
 			njets[3]++;
 			if( jet_dR2Mean > 0.06 ) continue;
 			njets[4]++;
+			if( jet_csvBtag < 0. ) continue;
+			njets[5]++;
 			// ** call regression to correct the pt **
 			jet_MLPweight = (float)(MLPreader->EvaluateMVA("MLP"));
 			jet_regPt = (float)(BDTreader->EvaluateMVA("BDT"));
@@ -717,7 +729,8 @@ int main()
 			unsigned int ij = btaggedJet[0];
 			TLorentzVector j, jreg;
 			j.SetPtEtaPhiE(jetPt[ij], jetEta[ij], jetPhi[ij], jetE[ij]);
-			jreg.SetPtEtaPhiE(jetRegPt[ij], jetEta[ij], jetPhi[ij], jetRegE[ij]);
+//			jreg.SetPtEtaPhiE(jetRegPt[ij], jetEta[ij], jetPhi[ij], jetRegE[ij]);
+			jreg = ((float)jetRegPt[ij]/(float)jetPt[ij]) * j;
 			int imaxptjj;
 			int imaxptjjReg;
 			float maxptjj = -99.;
@@ -728,7 +741,8 @@ int main()
 				TLorentzVector tmp_j;
 				TLorentzVector tmp_jReg;
 				tmp_j.SetPtEtaPhiE(jetPt[ijet], jetEta[ijet], jetPhi[ijet], jetE[ijet]);
-				tmp_jReg.SetPtEtaPhiE(jetRegPt[ijet], jetEta[ijet], jetPhi[ijet], jetRegE[ijet]);
+//				tmp_jReg.SetPtEtaPhiE(jetRegPt[ijet], jetEta[ijet], jetPhi[ijet], jetRegE[ijet]);
+				tmp_jReg = ((float)jetRegPt[ijet]/(float)jetPt[ijet]) * tmp_j;
 				TLorentzVector jj = j + tmp_j;
 				TLorentzVector jjReg = jreg + tmp_jReg;
 				if( jj.Pt() > maxptjj )
@@ -760,14 +774,16 @@ int main()
 				ij = btaggedJet[i];
 				TLorentzVector j, jreg;
 				j.SetPtEtaPhiE(jetPt[ij], jetEta[ij], jetPhi[ij], jetE[ij]);
-				jreg.SetPtEtaPhiE(jetRegPt[ij], jetEta[ij], jetPhi[ij], jetRegE[ij]);
+//				jreg.SetPtEtaPhiE(jetRegPt[ij], jetEta[ij], jetPhi[ij], jetRegE[ij]);
+				jreg = ((float)jetRegPt[ij]/(float)jetPt[ij]) * j;
 				for(unsigned int k = i+1 ; k < btaggedJet.size() ; k++)
 				{
 					int ijet = btaggedJet[k];
 					TLorentzVector tmp_j;
 					TLorentzVector tmp_jReg;
 					tmp_j.SetPtEtaPhiE(jetPt[ijet], jetEta[ijet], jetPhi[ijet], jetE[ijet]);
-					tmp_jReg.SetPtEtaPhiE(jetRegPt[ijet], jetEta[ijet], jetPhi[ijet], jetRegE[ijet]);
+//					tmp_jReg.SetPtEtaPhiE(jetRegPt[ijet], jetEta[ijet], jetPhi[ijet], jetRegE[ijet]);
+					tmp_jReg = ((float)jetRegPt[ijet]/(float)jetPt[ijet]) * tmp_j;
 					TLorentzVector jj = j + tmp_j;
 					TLorentzVector jjReg = jreg + tmp_jReg;
 					if( jj.Pt() > maxptjj )
@@ -798,8 +814,10 @@ int main()
 		pho2.SetPtEtaPhiE(ph2_pt, ph2_eta, ph2_phi, ph2_e);
 		jet1.SetPtEtaPhiE(jetPt[ij1], jetEta[ij1], jetPhi[ij1], jetE[ij1]);
 		jet2.SetPtEtaPhiE(jetPt[ij2], jetEta[ij2], jetPhi[ij2], jetE[ij2]);
-		regjet1.SetPtEtaPhiE(jetRegPt[ij1Reg], jetEta[ij1Reg], jetPhi[ij1Reg], jetRegE[ij1Reg]);
-		regjet2.SetPtEtaPhiE(jetRegPt[ij2Reg], jetEta[ij2Reg], jetPhi[ij2Reg], jetRegE[ij2Reg]);
+		regjet1.SetPtEtaPhiE(jetPt[ij1Reg], jetEta[ij1Reg], jetPhi[ij1Reg], jetE[ij1Reg]);
+		regjet2.SetPtEtaPhiE(jetPt[ij2Reg], jetEta[ij2Reg], jetPhi[ij2Reg], jetE[ij2Reg]);
+		regjet1 = ((float)jetRegPt[ij1Reg]/(float)jetPt[ij1Reg]) * regjet1;
+		regjet2 = ((float)jetRegPt[ij2Reg]/(float)jetPt[ij2Reg]) * regjet2;
 
 		TLorentzVector jj = jet1 + jet2;
 		TLorentzVector regjj = regjet1 + regjet2;
@@ -825,21 +843,25 @@ int main()
 		jet1_phi = jet1.Phi();
 		jet1_eta = jet1.Eta();
 		jet1_mass = jet1.M();
+		jet1_csvBtag = jetCSV[ij1];
 		jet2_pt = jet2.Pt();
 		jet2_e = jet2.E();
 		jet2_phi = jet2.Phi();
 		jet2_eta = jet2.Eta();
 		jet2_mass = jet2.M();
+		jet2_csvBtag = jetCSV[ij2];
 		regjet1_pt = regjet1.Pt();
 		regjet1_e = regjet1.E();
 		regjet1_phi = regjet1.Phi();
 		regjet1_eta = regjet1.Eta();
 		regjet1_mass = regjet1.M();
+		regjet1_csvBtag = jetCSV[ij1Reg];
 		regjet2_pt = regjet2.Pt();
 		regjet2_e = regjet2.E();
 		regjet2_phi = regjet2.Phi();
 		regjet2_eta = regjet2.Eta();
 		regjet2_mass = regjet2.M();
+		regjet2_csvBtag = jetCSV[ij2Reg];
 		jj_pt = jj.Pt();
 		jj_e = jj.E();
 		jj_phi = jj.Phi();
@@ -876,7 +898,7 @@ int main()
 	for(int i=0 ; i < 13 ; i++)
     cout << "#nevents[" << i << "]= " << nevents[i] << endl;
 	cout << endl;
-	for(int i=0 ; i < 5 ; i++)
+	for(int i=0 ; i < 6 ; i++)
     cout << "#njets[" << i << "]= " << njets[i] << endl;
 
   outfile->cd();

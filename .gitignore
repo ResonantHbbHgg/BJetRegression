@@ -5,3 +5,6 @@
 *.swp
 CreateRegressionTMVATree.C
 regressionTMVA.C
+*.pdf
+fitMgg.C
+quickPlot.C
