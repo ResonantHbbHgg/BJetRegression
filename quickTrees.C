@@ -13,8 +13,8 @@ using namespace std;
 
 int main ()
 {
-	TFile *infile = TFile::Open("Radion_m300_8TeV_nm.root");
-	TFile *outfile = new TFile("simple.root", "RECREATE");
+	TFile *infile = TFile::Open("Radion_m300_8TeV_nm_parton.root");
+	TFile *outfile = new TFile("simple_parton.root", "RECREATE");
 	TTree *intree = (TTree*)infile->Get("Radion_m300_8TeV_nm");
 	TTree *outtree = new TTree("Radion_m300_8TeV_nm", "Radion_m300_8TeV_nm noreg");
 
@@ -36,7 +36,7 @@ int main ()
   outtree->Write();
   outfile->Close();
 
-	TFile *outfilereg = new TFile("simple_reg.root", "RECREATE");
+	TFile *outfilereg = new TFile("simple_reg_parton.root", "RECREATE");
 	TTree *outtreereg = new TTree("Radion_m300_8TeV_nm", "Radion_m300_8TeV_nm reg");
 	outtreereg->Branch("jj_mass", &regjj_mass, "jj_mass/F");
 	outtreereg->Branch("ggjj_mass", &regggjj_mass, "ggjj_mass/F");

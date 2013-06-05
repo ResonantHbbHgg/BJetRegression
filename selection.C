@@ -20,7 +20,8 @@ using namespace std;
 int main()
 {
 	TFile *infile = TFile::Open("root://eoscms//eos/cms/store/group/phys_higgs/Resonant_HH/trees/radion_tree_v04_dev/Radion_300-nm.root");
-	TFile *outfile = new TFile("Radion_m300_8TeV_nm.root", "RECREATE");
+//	TFile *outfile = new TFile("Radion_m300_8TeV_nm.root", "RECREATE");
+	TFile *outfile = new TFile("Radion_m300_8TeV_nm_parton.root", "RECREATE");
 	TTree *intree = (TTree*)infile->Get("Radion_m300_8TeV_nm");
 	TTree *outtree = new TTree("Radion_m300_8TeV_nm", "Radion_m300_8TeV_nm reduced");
 
@@ -422,8 +423,8 @@ int main()
 			BDTreader->AddVariable("jet_secVtx3deL", &jet_secVtx3deL);
 			BDTreader->AddVariable("ev_met_corrMet", &met_corrMet);
 			BDTreader->AddVariable("ev_rho", &rho);
-//			BDTreader->BookMVA("BDT", "weights/factoryJetRegParton2_BDT.weights.xml");
-			BDTreader->BookMVA("BDT", "weights/factoryJetRegGen2_BDT.weights.xml");
+			BDTreader->BookMVA("BDT", "weights/factoryJetRegParton2_BDT.weights.xml");
+//			BDTreader->BookMVA("BDT", "weights/factoryJetRegGen2_BDT.weights.xml");
 			TMVA::Reader* MLPreader = new TMVA::Reader( "!Color:!Silent" );
 			MLPreader->AddVariable("jet_csvBtag",&jet_csvBtag);
 			MLPreader->AddVariable("jet_pt",&jet_pt);
@@ -440,8 +441,8 @@ int main()
 			MLPreader->AddVariable("jet_secVtx3deL", &jet_secVtx3deL);
 			MLPreader->AddVariable("ev_met_corrMet", &met_corrMet);
 			MLPreader->AddVariable("ev_rho", &rho);
-//			MLPreader->BookMVA("MLP", "weights/factoryJetRegParton2_MLP.weights.xml");
-			MLPreader->BookMVA("MLP", "weights/factoryJetRegGen2_MLP.weights.xml");
+			MLPreader->BookMVA("MLP", "weights/factoryJetRegParton2_MLP.weights.xml");
+//			MLPreader->BookMVA("MLP", "weights/factoryJetRegGen2_MLP.weights.xml");
 
 
 

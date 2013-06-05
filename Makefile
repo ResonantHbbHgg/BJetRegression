@@ -7,10 +7,10 @@ ROOFITLIBS = -lRooFit -lRooFitCore -lMinuit -lFoam
 ROOSTATSLIBS = -lRooStats
 TMVA = -L${ROOTSYS}lib -lTMVA
 
-all: prepareOpTree.exe trainRegression.exe selection.exe fitMass.exe
+all: prepareOpTreeInJetTree_forTraining.exe trainRegression.exe selection.exe fitMass.exe
 
-prepareOpTree.exe: prepareOpTree.C
-	$(CC) $(CCFLAGS) $(ROOTFLAGS) $(ROOTLIBS) prepareOpTree.C -o prepareOpTree.exe
+prepareOpTreeInJetTree_forTraining.exe: prepareOpTreeInJetTree_forTraining.C
+	$(CC) $(CCFLAGS) $(ROOTFLAGS) $(ROOTLIBS) prepareOpTreeInJetTree_forTraining.C -o prepareOpTreeInJetTree_forTraining.exe
 
 trainRegression.exe: trainRegression.C
 	$(CC) $(TMVA) $(CCFLAGS) $(ROOTFLAGS) $(ROOTLIBS) trainRegression.C -o trainRegression.exe

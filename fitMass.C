@@ -38,9 +38,11 @@ int main ()
 	gStyle->SetOptTitle(0);
 	gStyle->SetOptStat(0);
 
-	TFile *infile = TFile::Open("simple.root");
+//	TFile *infile = TFile::Open("simple.root");
+	TFile *infile = TFile::Open("simple_parton.root");
 	TTree *intree = (TTree*)infile->Get("Radion_m300_8TeV_nm");
-	TFile *infilereg = TFile::Open("simple_reg.root");
+//	TFile *infilereg = TFile::Open("simple_reg.root");
+	TFile *infilereg = TFile::Open("simple_reg_parton.root");
 	TTree *intreereg = (TTree*)infilereg->Get("Radion_m300_8TeV_nm");
 	
 	// Observables
@@ -64,7 +66,9 @@ int main ()
 	double rms_regggjj = datasetreg.rmsVar(ggjj_mass)->getVal();
 
 	bool GAUSS = true;
-	bool VOIGT = true;
+	bool VOIGT = false;
+	bool SIMVOIGT = false;
+	bool CRYSTALBALL = false;
 
 	// fit parameters
 if(GAUSS)
@@ -88,6 +92,7 @@ if(GAUSS)
 	RooPlot * jj_frame = jj_mass.frame();
 	dataset.plotOn(jj_frame, LineColor(kGreen+3));
 	datasetreg.plotOn(jj_frame, LineColor(kRed+2));
+//	RooFitResult *f = gauss.fitTo(dataset, Save(), Range(mean_jj-0.9*rms_jj, mean_jj+1.5*rms_jj));
 	RooFitResult *f = gauss.fitTo(dataset, Save(), Range(mean_jj-1.5*rms_jj, mean_jj+1.5*rms_jj));
 	gauss.plotOn(jj_frame, LineColor(kGreen+3), LineWidth(2));
 	RooFitResult * freg = gaussreg.fitTo(datasetreg, Save(), Range(mean_regjj-1.5*rms_regjj, mean_regjj+1.5*rms_regjj));
@@ -99,7 +104,9 @@ if(GAUSS)
 	double resreg = sigma_gaussreg.getVal() / mu_gaussreg.getVal() * 100.;
 	plotParameters( &p, c1, 0, jj_frame, true, 1, "Gaussian", 98, 99, 2);
 	plotParameters( &preg, c1, 0, jj_frame, true, 3, "test", res, resreg, 2);
-	c1->Print("mjj_gauss.pdf");
+	c1->Print("pdf/mjj_gauss.pdf");
+	c1->Print("root/mjj_gauss.root");
+	c1->Print("gif/mjj_gauss.gif");
 	c1->Clear();
 
 	RooPlot * ggjj_frame = ggjj_mass.frame();
@@ -116,13 +123,17 @@ if(GAUSS)
 	double resreg_ = sigma_gauss_reg.getVal() / mu_gauss_reg.getVal() * 100.;
 	plotParameters( &p_, c1, 0, ggjj_frame, true, 1, "Gaussian", 98, 99, 2);
 	plotParameters( &preg_, c1, 0, ggjj_frame, true, 3, "test", res_, resreg_, 2);
-	c1->Print("mggjj_gauss.pdf");
+	c1->Print("pdf/mggjj_gauss.pdf");
+	c1->Print("root/mggjj_gauss.root");
+	c1->Print("gif/mggjj_gauss.gif");
 	c1->Clear();
 
 	cout << "res= " << res << "\tresreg= " << resreg << "\timprov= " << fabs(res-resreg)/res*100. << endl;
 	cout << "res_= " << res_ << "\tresreg_= " << resreg_ << "\timprov= " << fabs(res_-resreg_)/res_*100. << endl;
 }
-/*
+if( CRYSTALBALL )
+{
+
 	RooRealVar mu_CrystalBall("mu_CrystalBall", "mean", mean_jj, mean_jj-rms_jj, mean_jj+rms_jj, "GeV");
 	RooRealVar sigma_CrystalBall("sigma_CrystalBall", "sigma", rms_jj, .0, 5*rms_jj, "GeV");
 	RooRealVar alpha_CrystalBall("alpha_CrystalBall", "alpha", 1., 0., 20., "GeV");
@@ -150,10 +161,12 @@ if(GAUSS)
 	jj_frame->Draw();
 	plotParameters( &p, c1, 0, jj_frame, true, 1, "CrystalBall", 98, 99, 2);
 //	plotParameters( &preg, c1, 0, jj_frame, true, 5, "test", 98, 99, 2);
-	c1->Print("mjj_CrystalBall.pdf");
+	c1->Print("pdf/mjj_CrystalBall.pdf");
+	c1->Print("root/mjj_CrystalBall.root");
+	c1->Print("gif/mjj_CrystalBall.gif");
 	c1->Clear();
-*/
 
+}
 if(VOIGT)
 {
 	RooRealVar mu_voigt("mu_voigt", "mean", mean_jj, mean_jj-rms_jj, mean_jj+rms_jj, "GeV");
@@ -213,7 +226,9 @@ if(VOIGT)
   double resreg=  fvreg / mu_voigtreg.getVal() * 100. / (2. * sqrt(2. * log(2.)));
 	plotParameters( &p, c1, 0, jj_frame, true, 1, "Voigtian", 98, 99, 2);
 	plotParameters( &preg, c1, 0, jj_frame, true, 4, "test", res, resreg, 2);
-	c1->Print("mjj_voigt.pdf");
+	c1->Print("pdf/mjj_voigt.pdf");
+	c1->Print("root/mjj_voigt.root");
+	c1->Print("gif/mjj_voigt.gif");
 	c1->Clear();
 
 	RooRealVar mu_voigt_("mu_voigt_", "mean", 300., 200., 400., "GeV");
@@ -246,7 +261,9 @@ if(VOIGT)
 	double resreg_=  fvreg_ / mu_voigt_reg.getVal() * 100. / (2. * sqrt(2. * log(2.)));
 	plotParameters( &p_, c1, 0, ggjj_frame, true, 1, "Voigtian", 98, 99, 2);
 	plotParameters( &preg_, c1, 0, ggjj_frame, true, 4, "test", res_, resreg_, 2);
-	c1->Print("mggjj_voigt.pdf");
+	c1->Print("pdf/mggjj_voigt.pdf");
+	c1->Print("root/mggjj_voigt.root");
+	c1->Print("gif/mggjj_voigt.gif");
 	c1->Clear();
 
   cout << "fg= " << fg << "\tfl= " << fl << "\tfv= " << fv << endl;
