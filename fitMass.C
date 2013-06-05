@@ -28,7 +28,7 @@
 using namespace std;
 using namespace RooFit;
 
-void plotParameters(RooArgList *r2_cat0_param, TCanvas *c, int canvasDivision, RooPlot* frame0, bool isSignal, int iclass, string datasetName, double mvaInf, double mvaSup, int precision);
+void plotParameters(RooArgList *r2_cat0_param, TCanvas *c, int canvasDivision, RooPlot* frame0, bool isThereSeveralFits, int iclass, string datasetName, double mvaInf, double mvaSup, int precision);
 
 int main ()
 {
@@ -38,11 +38,11 @@ int main ()
 	gStyle->SetOptTitle(0);
 	gStyle->SetOptStat(0);
 
-//	TFile *infile = TFile::Open("simple.root");
-	TFile *infile = TFile::Open("simple_parton.root");
+	TFile *infile = TFile::Open("simple.root");
+//	TFile *infile = TFile::Open("simple_parton.root");
 	TTree *intree = (TTree*)infile->Get("Radion_m300_8TeV_nm");
-//	TFile *infilereg = TFile::Open("simple_reg.root");
-	TFile *infilereg = TFile::Open("simple_reg_parton.root");
+	TFile *infilereg = TFile::Open("simple_reg.root");
+//	TFile *infilereg = TFile::Open("simple_reg_parton.root");
 	TTree *intreereg = (TTree*)infilereg->Get("Radion_m300_8TeV_nm");
 	
 	// Observables
@@ -66,7 +66,7 @@ int main ()
 	double rms_regggjj = datasetreg.rmsVar(ggjj_mass)->getVal();
 
 	bool GAUSS = true;
-	bool VOIGT = false;
+	bool VOIGT = true;
 	bool SIMVOIGT = false;
 	bool CRYSTALBALL = false;
 
@@ -179,32 +179,6 @@ if(VOIGT)
 	RooRealVar sigma_voigtreg("sigma_voigtreg", "sigma (reg)", 5., 0.0001, 20., "GeV");
 	RooVoigtian voigtreg("voigtreg", "voigtreg", jj_mass, mu_voigtreg, width_voigtreg, sigma_voigtreg);
 	RooVoigtian voigtreg2("voigtreg2", "voigtreg2", jj_mass, mu_voigtreg, width_voigtreg, sigma_voigt);
-/*
-	RooCategory sample("sample", "sample");
-	sample.defineType("vanilla");
-	sample.defineType("regression");
-
-	RooDataSet combData("combdata", "combdata", RooArgList(jj_mass, ggjj_mass), Index(sample), Import("vanilla", dataset), Import("regression", datasetreg));
-	RooSimultaneous sim("sim", "sim", sample);
-	sim.addPdf(voigt, "vanilla");
-	sim.addPdf(voigtreg2, "regression");
-
-	RooPlot * jj_frame = jj_mass.frame();
-	dataset.plotOn(jj_frame, LineColor(kGreen+3));
-	datasetreg.plotOn(jj_frame, LineColor(kRed+2));
-	RooFitResult *f = sim.fitTo(combData, Save());
-	voigt.plotOn(jj_frame, LineColor(kGreen+3), LineWidth(2));
-//	RooFitResult * freg = voigtreg.fitTo(datasetreg, Save());
-	voigtreg2.plotOn(jj_frame, LineColor(kRed+2), LineWidth(2));
-	RooArgList p = f->floatParsFinal();
-//	RooArgList preg = freg->floatParsFinal();	
-	jj_frame->Draw();
-	plotParameters( &p, c1, 0, jj_frame, true, 1, "test", 98, 99, 2);
-//	plotParameters( &preg, c1, 0, jj_frame, true, 4, "test", 98, 99, 4);
-	c1->Print("mjj_simvoigt.pdf");
-	c1->Clear();
-*/
-
 
 	RooPlot * jj_frame = jj_mass.frame();
 	dataset.plotOn(jj_frame, LineColor(kGreen+3));
@@ -269,22 +243,90 @@ if(VOIGT)
   cout << "fg= " << fg << "\tfl= " << fl << "\tfv= " << fv << endl;
   cout << "fgreg= " << fgreg << "\tflreg= " << flreg << "\tfvreg= " << fvreg << endl;
   cout << "res= " << res << "\tresreg= " << resreg << "\timprov= " << fabs(res - resreg)/res * 100.<< endl;
-/*
-  cout << "mean_jj= " << mean_jj << "\trms_jj= " << rms_jj << endl;  cout << "mean_regjj= " << mean_regjj << "\trms_regjj= " << rms_regjj << endl;
-	cout << "mean_regjj= " << mean_regjj << "\trms_regjj= " << rms_regjj << endl;
-  cout << "## res= " << rms_jj / mean_jj << "\tresreg= " << rms_regjj / mean_regjj << "\timp= " << fabs(rms_jj / mean_jj - rms_regjj / mean_regjj)/(rms_jj / mean_jj)*100. << endl;
-*/
 	cout << "fg_= " << fg_ << "\tfl_= " << fl_ << "\tfv_= " << fv_ << endl;
 	cout << "fgreg_= " << fgreg_ << "\tflreg_= " << flreg_ << "\tfvreg_= " << fvreg_ << endl;
 	cout << "res_= " << res_ << "\tresreg_= " << resreg_ << "\timprov_= " << fabs(res_ - resreg_)/res_ * 100.<< endl;
-/*
-	cout << "mean_ggjj= " << mean_ggjj << "\trms_ggjj= " << rms_ggjj << endl;
-	cout << "mean_regggjj= " << mean_regggjj << "\trms_regggjj= " << rms_regggjj << endl;
-	cout << "## res= " << rms_ggjj / mean_ggjj << "\tresreg= " << rms_regggjj / mean_regggjj << "\timp= " << fabs(rms_ggjj / mean_ggjj - rms_regggjj / mean_regggjj)/(rms_ggjj / mean_ggjj)*100. << endl;
-*/
 }
-/*
-*/
+
+if(SIMVOIGT)
+{
+	RooRealVar mu_voigt("mu_voigt", "mean", mean_jj, mean_jj-rms_jj, mean_jj+rms_jj, "GeV");
+	RooRealVar width_voigt("width_voigt", "width", rms_jj, 0.1*rms_jj, 5.*rms_jj, "GeV");
+	RooRealVar sigma_voigt("sigma_voigt", "sigma", 5., 0.0001, 20., "GeV");
+	RooVoigtian voigt("voigt", "voigt", jj_mass, mu_voigt, width_voigt, sigma_voigt);
+
+	RooRealVar mu_voigtreg("mu_voigtreg", "mean (reg)", mean_regjj, mean_jj-rms_jj, mean_jj+rms_jj, "GeV");
+	RooRealVar width_voigtreg("width_voigtreg", "width (reg)", rms_jj, 0.1*rms_jj, 5.*rms_jj, "GeV");
+	RooRealVar sigma_voigtreg("sigma_voigtreg", "sigma (reg)", 5., 0.0001, 20., "GeV");
+	RooVoigtian voigtreg2("voigtreg2", "voigtreg2", jj_mass, mu_voigtreg, width_voigtreg, sigma_voigt);
+
+	RooCategory sample("sample", "sample");
+	sample.defineType("vanilla");
+	sample.defineType("regression");
+
+	RooDataSet combData("combdata", "combdata", RooArgList(jj_mass, ggjj_mass), Index(sample), Import("vanilla", dataset), Import("regression", datasetreg));
+	RooSimultaneous sim("sim", "sim", sample);
+	sim.addPdf(voigt, "vanilla");
+	sim.addPdf(voigtreg2, "regression");
+
+	RooPlot * jj_frame = jj_mass.frame();
+	dataset.plotOn(jj_frame, LineColor(kGreen+3));
+	datasetreg.plotOn(jj_frame, LineColor(kRed+2));
+	RooFitResult *f = sim.fitTo(combData, Save());
+	voigt.plotOn(jj_frame, LineColor(kGreen+3), LineWidth(2));
+	voigtreg2.plotOn(jj_frame, LineColor(kRed+2), LineWidth(2));
+	RooArgList p = f->floatParsFinal();
+	jj_frame->Draw();
+  double fg = 2. * sigma_voigt.getVal() * sqrt(2. * log(2));
+  double fl = 2. * width_voigt.getVal();
+  double fv = 0.5346 * fl + sqrt(0.2166 * pow(fl, 2.) + pow(fg, 2.));
+  double fgreg = 2. * sigma_voigt.getVal() * sqrt(2. * log(2));
+  double flreg = 2. * width_voigtreg.getVal();
+  double fvreg = 0.5346 * flreg + sqrt(0.2166 * pow(flreg, 2.) + pow(fgreg, 2.));
+  double res=  fv / mu_voigt.getVal() * 100. / (2. * sqrt(2. * log(2.)));
+  double resreg=  fvreg / mu_voigtreg.getVal() * 100. / (2. * sqrt(2. * log(2.)));
+	plotParameters( &p, c1, 0, jj_frame, false, 1, "Simultaneous Voigtian fit", res, resreg, 2);
+	c1->Print("pdf/mjj_simvoigt.pdf");
+	c1->Print("root/mjj_simvoigt.root");
+	c1->Print("gif/mjj_simvoigt.gif");
+	c1->Clear();
+
+	RooRealVar mu_voigt_("mu_voigt_", "mean", 300., 200., 400., "GeV");
+	RooRealVar width_voigt_("width_voigt_", "width", 35., 5., 50., "GeV");
+	RooRealVar sigma_voigt_("sigma_voigt_", "sigma", 5., .0, 20., "GeV");
+	RooVoigtian voigt_("voigt_", "voigt_", ggjj_mass, mu_voigt_, width_voigt_, sigma_voigt_);
+
+	RooRealVar mu_voigt_reg("mu_voigt_reg", "mean (reg)", 300., 200., 400., "GeV");
+	RooRealVar width_voigt_reg("width_voigt_reg", "width (reg)", 35., 5., 50., "GeV");
+	RooRealVar sigma_voigt_reg("sigma_voigt_reg", "sigma (reg)", 5., 0.0001, 20., "GeV");
+	RooVoigtian voigt_reg2("voigt_reg2", "voigt_reg2", ggjj_mass, mu_voigt_reg, width_voigt_reg, sigma_voigt_);
+
+	RooSimultaneous sim_("sim_", "sim_", sample);
+	sim_.addPdf(voigt_, "vanilla");
+	sim_.addPdf(voigt_reg2, "regression");
+
+	RooPlot * ggjj_frame = ggjj_mass.frame();
+	dataset.plotOn(ggjj_frame, LineColor(kGreen+3));
+	datasetreg.plotOn(ggjj_frame, LineColor(kRed+2));
+	RooFitResult *f_ = sim_.fitTo(combData, Save());
+	voigt_.plotOn(ggjj_frame, LineColor(kGreen+3), LineWidth(2));
+	voigt_reg2.plotOn(ggjj_frame, LineColor(kRed+2), LineWidth(2));
+	RooArgList p_ = f_->floatParsFinal();
+	ggjj_frame->Draw();
+  double fg_ = 2. * sigma_voigt_.getVal() * sqrt(2. * log(2));
+  double fl_ = 2. * width_voigt_.getVal();
+  double fv_ = 0.5346 * fl_ + sqrt(0.2166 * pow(fl_, 2.) + pow(fg_, 2.));
+  double fg_reg = 2. * sigma_voigt_.getVal() * sqrt(2. * log(2));
+  double fl_reg = 2. * width_voigt_reg.getVal();
+  double fv_reg = 0.5346 * fl_reg + sqrt(0.2166 * pow(fl_reg, 2.) + pow(fg_reg, 2.));
+  double res_=  fv_ / mu_voigt_.getVal() * 100. / (2. * sqrt(2. * log(2.)));
+  double resreg_=  fv_reg / mu_voigt_reg.getVal() * 100. / (2. * sqrt(2. * log(2.)));
+	plotParameters( &p_, c1, 0, ggjj_frame, false, 1, "Simultaneous Voigtian fit", res_, resreg_, 2);
+	c1->Print("pdf/mggjj_simvoigt.pdf");
+	c1->Print("root/mggjj_simvoigt.root");
+	c1->Print("gif/mggjj_simvoigt.gif");
+	c1->Clear();
+}
 
 
 	delete c1;
@@ -295,7 +337,7 @@ if(VOIGT)
 	return 0;
 }
 
-void plotParameters(RooArgList *r2_cat0_param, TCanvas *c, int canvasDivision, RooPlot* frame0, bool isSignal, int iclass, string fitfunctionName, double mvaInf, double mvaSup, int precision )
+void plotParameters(RooArgList *r2_cat0_param, TCanvas *c, int canvasDivision, RooPlot* frame0, bool isThereSeveralFits, int iclass, string fitfunctionName, double mvaInf, double mvaSup, int precision )
 {
 //	cout << "entering plotParameters" << endl;
 	// Written by H. Brun (November 2011)
@@ -306,10 +348,10 @@ void plotParameters(RooArgList *r2_cat0_param, TCanvas *c, int canvasDivision, R
 	std::ostringstream mvaStream;
 	mvaStream << setprecision (3) << fixed << mvaInf << " #leq mva < " << mvaSup;
 	string mvaString = mvaStream.str();
-//  latexLabel.DrawLatex(0.18, 0.96, Form("CMS Private 2011, #sqrt{s} = 7 TeV, Simulation: %s, %s", isSignal ? "signal":"background", mvaString.c_str()));
+//  latexLabel.DrawLatex(0.18, 0.96, Form("CMS Private 2011, #sqrt{s} = 7 TeV, Simulation: %s, %s", isThereSeveralFits ? "signal":"background", mvaString.c_str()));
   latexLabel.DrawLatex(0.18, 0.96, "CMS Private 2013, #sqrt{s} = 8 TeV");
 //  latexLabel.DrawLatex(0.45, 0.91, "#sqrt{s} = 7 TeV");
-//  latexLabel.DrawLatex(0.67, 0.91, isSignal ? "Simulation: signal" : "Simulation: background");
+//  latexLabel.DrawLatex(0.67, 0.91, isThereSeveralFits ? "Simulation: signal" : "Simulation: background");
   latexLabel.SetTextSize(0.03);
   RooRealVar* obj = new RooRealVar();
   double position = 0.92;
@@ -336,7 +378,7 @@ void plotParameters(RooArgList *r2_cat0_param, TCanvas *c, int canvasDivision, R
   	cout << "obj->GetName()= " << obj->GetName() << "\tobj->getVal()= " << ((RooRealVar*)obj)->getVal() << endl;
 		obj = (RooRealVar*)it->Next();
   }
-if(iclass != 1)
+if( (iclass != 1) || (!isThereSeveralFits) )
 {
 	position -= 0.04;
   std::ostringstream valueStream;
@@ -355,12 +397,5 @@ if(iclass != 1)
 	latexLabel.DrawLatex(0.60, position, Form("improvement= %s %%", valueString.c_str()));
 }
 
-/*
-  position -= 0.04;
-  std::ostringstream valueStream;
-  valueStream << setprecision (3) << fixed << (double)(frame0->chiSquare(Form("model_%s_class_%i", isSignal?"signal":"background", iclass), fitfunctionName.c_str(), isSignal ? 7 : 5));
-  string valueString = valueStream.str();
-  latexLabel.DrawLatex(0.60, position, Form("#chi^{2} / ndf = %s", valueString.c_str()));
-*/
 	return;
 }
