@@ -19,10 +19,29 @@ using namespace std;
 
 int main()
 {
+//	TFile *infile = TFile::Open("/afs/cern.ch/work/o/obondu/Higgs/CMSSW_5_3_9_patch1_radion/src/h2gglobe_tree_v04_dev_02013-05-29/AnalysisScripts/tree_SMHiggs/tmp_SMHiggs.root");
+/*	TTree *intree = (TTree*)infile->Get("ggh_m125_8TeV");
+	TFile *outfile = new TFile("ggh_m125_8TeV_genjet.root", "RECREATE");
+	TTree *outtree = new TTree("ggh_m125_8TeV", "ggh_m125_8TeV reduced");
+*/
+/*	TTree *intree = (TTree*)infile->Get("vbf_m125_8TeV");
+	TFile *outfile = new TFile("vbf_m125_8TeV_genjet.root", "RECREATE");
+	TTree *outtree = new TTree("vbf_m125_8TeV", "vbf_m125_8TeV reduced");
+*/
+/*	TTree *intree = (TTree*)infile->Get("wzh_m125_8TeV");
+	TFile *outfile = new TFile("wzh_m125_8TeV_genjet.root", "RECREATE");
+	TTree *outtree = new TTree("wzh_m125_8TeV", "wzh_m125_8TeV reduced");
+*/
+/*
+	TFile *infile = TFile::Open("root://eoscms//eos/cms/store/group/phys_higgs/Resonant_HH/trees/radion_tree_v04_dev/Radion_500-nm.root");
+	TTree *intree = (TTree*)infile->Get("Radion_m500_8TeV_nm");
+	TFile *outfile = new TFile("Radion_m500_8TeV_nm_genjet.root", "RECREATE");
+	TTree *outtree = new TTree("Radion_m500_8TeV_nm", "Radion_m500_8TeV_nm reduced");
+*/
 	TFile *infile = TFile::Open("root://eoscms//eos/cms/store/group/phys_higgs/Resonant_HH/trees/radion_tree_v04_dev/Radion_300-nm.root");
-//	TFile *outfile = new TFile("Radion_m300_8TeV_nm.root", "RECREATE");
-	TFile *outfile = new TFile("Radion_m300_8TeV_nm_parton.root", "RECREATE");
 	TTree *intree = (TTree*)infile->Get("Radion_m300_8TeV_nm");
+	TFile *outfile = new TFile("Radion_m300_8TeV_nm_genjet.root", "RECREATE");
+//	TFile *outfile = new TFile("Radion_m300_8TeV_nm_parton.root", "RECREATE");
 	TTree *outtree = new TTree("Radion_m300_8TeV_nm", "Radion_m300_8TeV_nm reduced");
 
 	// setup tree inputs
@@ -56,10 +75,10 @@ int main()
 	float jet2_pt, jet2_e, jet2_phi, jet2_eta, jet2_mass, jet2_csvBtag;
 	float regjet1_pt, regjet1_e, regjet1_phi, regjet1_eta, regjet1_mass, regjet1_csvBtag;
 	float regjet2_pt, regjet2_e, regjet2_phi, regjet2_eta, regjet2_mass, regjet2_csvBtag;
-	float jj_pt, jj_e, jj_phi, jj_eta, jj_mass;
+	float jj_pt, jj_e, jj_phi, jj_eta, jj_mass, jj_DR;
 	float regjj_pt, regjj_e, regjj_phi, regjj_eta, regjj_mass;
 	float gg_pt, gg_e, gg_phi, gg_eta, gg_mass;
-	float ggjj_pt, ggjj_e, ggjj_phi, ggjj_eta, ggjj_mass;
+	float ggjj_pt, ggjj_e, ggjj_phi, ggjj_eta, ggjj_mass, regjj_DR;
 	float regggjj_pt, regggjj_e, regggjj_phi, regggjj_eta, regggjj_mass;
 	float jet1_MLPweight, jet2_MLPweight;
 
@@ -68,6 +87,8 @@ int main()
 	intree->SetBranchAddress("njets_passing_kLooseID", &njets_passing_kLooseID);
 	int njets_passing_kLooseID_and_CSVM;
 	intree->SetBranchAddress("njets_passing_kLooseID_and_CSVM", &njets_passing_kLooseID_and_CSVM);
+	int njets_kLooseID, njets_kRadionID;
+	int njets_kLooseID_and_CSVM, njets_kRadionID_and_CSVM;
 
 	intree->SetBranchAddress("ph1_eta", &ph1_eta);
 	intree->SetBranchAddress("ph2_eta", &ph2_eta);
@@ -382,11 +403,13 @@ int main()
 	outtree->Branch("jj_phi", &jj_phi, "jj_phi/F");
 	outtree->Branch("jj_eta", &jj_eta, "jj_eta/F");
 	outtree->Branch("jj_mass", &jj_mass, "jj_mass/F");
+	outtree->Branch("jj_DR", &jj_DR, "jj_DR/F");
 	outtree->Branch("regjj_pt", &regjj_pt, "regjj_pt/F");
 	outtree->Branch("regjj_e", &regjj_e, "regjj_e/F");
 	outtree->Branch("regjj_phi", &regjj_phi, "regjj_phi/F");
 	outtree->Branch("regjj_eta", &regjj_eta, "regjj_eta/F");
 	outtree->Branch("regjj_mass", &regjj_mass, "regjj_mass/F");
+	outtree->Branch("regjj_DR", &regjj_DR, "regjj_DR/F");
 	outtree->Branch("gg_pt", &gg_pt, "gg_pt/F");
 	outtree->Branch("gg_e", &gg_e, "gg_e/F");
 	outtree->Branch("gg_phi", &gg_phi, "gg_phi/F");
@@ -404,6 +427,10 @@ int main()
 	outtree->Branch("regggjj_mass", &regggjj_mass, "regggjj_mass/F");
 	outtree->Branch("jet1_MLPweight", &jet1_MLPweight, "jet1_MLPweight/F");
 	outtree->Branch("jet2_MLPweight", &jet2_MLPweight, "jet2_MLPweight/F");
+	outtree->Branch("njets_kLooseID", &njets_kLooseID, "njets_kLooseID/I");
+	outtree->Branch("njets_kLooseID_and_CSVM", &njets_kLooseID_and_CSVM, "njets_kLooseID_and_CSVM/I");
+	outtree->Branch("njets_kRadionID", &njets_kRadionID, "njets_kRadionID/I");
+	outtree->Branch("njets_kRadionID_and_CSVM", &njets_kRadionID_and_CSVM, "njets_kRadionID_and_CSVM/I");
 
 
 // prepare for regression
@@ -423,8 +450,8 @@ int main()
 			BDTreader->AddVariable("jet_secVtx3deL", &jet_secVtx3deL);
 			BDTreader->AddVariable("ev_met_corrMet", &met_corrMet);
 			BDTreader->AddVariable("ev_rho", &rho);
-			BDTreader->BookMVA("BDT", "weights/factoryJetRegParton2_BDT.weights.xml");
-//			BDTreader->BookMVA("BDT", "weights/factoryJetRegGen2_BDT.weights.xml");
+//			BDTreader->BookMVA("BDT", "weights/factoryJetRegParton2_BDT.weights.xml");
+			BDTreader->BookMVA("BDT", "weights/factoryJetRegGen2_BDT.weights.xml");
 			TMVA::Reader* MLPreader = new TMVA::Reader( "!Color:!Silent" );
 			MLPreader->AddVariable("jet_csvBtag",&jet_csvBtag);
 			MLPreader->AddVariable("jet_pt",&jet_pt);
@@ -441,8 +468,8 @@ int main()
 			MLPreader->AddVariable("jet_secVtx3deL", &jet_secVtx3deL);
 			MLPreader->AddVariable("ev_met_corrMet", &met_corrMet);
 			MLPreader->AddVariable("ev_rho", &rho);
-			MLPreader->BookMVA("MLP", "weights/factoryJetRegParton2_MLP.weights.xml");
-//			MLPreader->BookMVA("MLP", "weights/factoryJetRegGen2_MLP.weights.xml");
+//			MLPreader->BookMVA("MLP", "weights/factoryJetRegParton2_MLP.weights.xml");
+			MLPreader->BookMVA("MLP", "weights/factoryJetRegGen2_MLP.weights.xml");
 
 
 
@@ -461,6 +488,8 @@ int main()
     if (k > decade) cout<<10*k<<" %"<<endl;
     decade = k;
 
+		int njets_kRadionID_ = 0;
+		int njets_kRadionID_and_CSVM_ = 0;
     intree->GetEntry(ievt);
 	
 		// Apply photon ID cuts
@@ -705,6 +734,8 @@ int main()
 			jetRegE.push_back( sqrt( pow(jet_e,2) - pow(jet_pt,2) + pow(jet_regPt,2) ) );
 			jetMLP.push_back(jet_MLPweight);
 
+			njets_kRadionID_++;
+			if(jet_csvBtag > .679) njets_kRadionID_and_CSVM_++;
 		} // end of loop over jets
 		
 		// jet combinatorics
@@ -868,11 +899,13 @@ int main()
 		jj_phi = jj.Phi();
 		jj_eta = jj.Eta();
 		jj_mass = jj.M();
+		jj_DR = jet1.DeltaR(jet2);
 		regjj_pt = regjj.Pt();
 		regjj_e = regjj.E();
 		regjj_phi = regjj.Phi();
 		regjj_eta = regjj.Eta();
 		regjj_mass = regjj.M();
+		regjj_DR = regjet1.DeltaR(regjet2);
 		gg_pt = gg.Pt();
 		gg_e = gg.E();
 		gg_phi = gg.Phi();
@@ -890,6 +923,10 @@ int main()
 		regggjj_mass = regggjj.M();
 		jet1_MLPweight = jetMLP[ij1];
 		jet2_MLPweight = jetMLP[ij2];
+		njets_kLooseID = njets_passing_kLooseID;
+		njets_kLooseID_and_CSVM = njets_passing_kLooseID_and_CSVM;
+		njets_kRadionID = njets_kRadionID_;
+		njets_kRadionID_and_CSVM = njets_kRadionID_and_CSVM_;
 
 		outtree->Fill();
 
