@@ -138,21 +138,27 @@ if(GAUSS)
 }
 if( CRYSTALBALL )
 {
+	// Fit is in three steps:
+	// - gauss fit of the peak
+	// - gauss + pol3 fit of the full range
+	// - CB + pol3 fit of the full range
+	
+	// Define pol3
 	RooRealVar a0_jj("a0_jj", "a0_jj", 0.5001, 0., 1.);
 	RooRealVar a1_jj("a1_jj", "a1_jj", 0.5001, 0., 1.);
 	RooRealVar a2_jj("a2_jj", "a2_jj", 0.5001, 0., 1.);
 	RooRealVar a3_jj("a3_jj", "a3_jj", 0.5001, 0., 1.);
 	RooBernstein pol3_jj("pol3_jj", "pol3_jj", jj_mass, RooArgList(a0_jj, a1_jj, a2_jj, a3_jj));
-//	RooBernstein pol3_jj("pol3_jj", "pol3_jj", jj_mass, RooArgList(a0_jj, a1_jj, a2_jj));
-//	RooBernstein pol3_jj("pol3_jj", "pol3_jj", jj_mass, RooArgList(a0_jj, a1_jj));
-	RooRealVar mu_gauss_jj("mu_gauss_jj", "mean", mean_jj, mean_jj-3*rms_jj, mean_jj+3*rms_jj, "GeV");
-	RooRealVar sigma_gauss_jj("sigma_gauss_jj", "sigma", rms_jj, .1*rms_jj, 10*rms_jj, "GeV");
-	RooGaussian gauss2_jj("gauss2_jj", "gauss2_jj", jj_mass, mu_gauss_jj, sigma_gauss_jj);
-	RooRealVar a_jj("a_jj", "a_jj", -0.5, -10., 0.);
-	RooExponential exp_jj("exp_jj", "exp_jj", jj_mass, a_jj);
 	RooRealVar f0_jj("f0_jj", "f0_jj", 0.2, 0.001, .5);
 
+	RooRealVar a0_regjj("a0_regjj", "a0_regjj", 0.5001, 0., 1.);
+	RooRealVar a1_regjj("a1_regjj", "a1_regjj", 0.5001, 0., 1.);
+	RooRealVar a2_regjj("a2_regjj", "a2_regjj", 0.5001, 0., 1.);
+	RooRealVar a3_regjj("a3_regjj", "a3_regjj", 0.5001, 0., 1.);
+	RooBernstein pol3_regjj("pol3_regjj", "pol3_regjj", jj_mass, RooArgList(a0_regjj, a1_regjj, a2_regjj, a3_regjj));
+	RooRealVar f0_regjj("f0_regjj", "f0_regjj", 0.2, 0.001, .5);
 
+	// Define gauss and CB (common parameters)
 	RooRealVar mu_CrystalBall_jj("mu_CrystalBall_jj", "mean", mean_jj, mean_jj-rms_jj, mean_jj+rms_jj, "GeV");
 	RooRealVar sigma_CrystalBall_jj("sigma_CrystalBall_jj", "sigma", rms_jj, .01*rms_jj, 5*rms_jj, "GeV");
 	RooRealVar alpha_CrystalBall_jj("alpha_CrystalBall_jj", "alpha", 1., 0., 30., "GeV");
@@ -160,28 +166,47 @@ if( CRYSTALBALL )
 	RooCBShape CrystalBall_jj("CrystalBall_jj", "CrystalBall_jj", jj_mass, mu_CrystalBall_jj, sigma_CrystalBall_jj, alpha_CrystalBall_jj, n_CrystalBall_jj);
 	RooGaussian gauss_jj("gauss_jj", "gauss_jj", jj_mass, mu_CrystalBall_jj, sigma_CrystalBall_jj);
 
+	RooRealVar mu_CrystalBall_regjj("mu_CrystalBall_regjj", "mean (reg)", mean_regjj, mean_regjj-rms_regjj, mean_regjj+rms_regjj, "GeV");
+	RooRealVar sigma_CrystalBall_regjj("sigma_CrystalBall_regjj", "sigma (reg)", rms_regjj, .01*rms_regjj, 5*rms_regjj, "GeV");
+	RooRealVar alpha_CrystalBall_regjj("alpha_CrystalBall_regjj", "alpha (reg)", 1., 0., 30., "GeV");
+	RooRealVar n_CrystalBall_regjj("n_CrystalBall_regjj", "n (reg)", 20., 0., 30., "GeV");
+	RooCBShape CrystalBall_regjj("CrystalBall_regjj", "CrystalBall_regjj", jj_mass, mu_CrystalBall_regjj, sigma_CrystalBall_regjj, alpha_CrystalBall_regjj, n_CrystalBall_regjj);
+	RooGaussian gauss_regjj("gauss_regjj", "gauss_regjj", jj_mass, mu_CrystalBall_regjj, sigma_CrystalBall_regjj);
+
+	// Models definitions
 	RooAddPdf first_jj("first_jj", "first_jj", pol3_jj, gauss_jj, f0_jj);
 	RooAddPdf model_jj("model_jj", "model_jj", pol3_jj, CrystalBall_jj, f0_jj);
-	RooAddPdf model2_jj("model2_jj", "model2_jj", gauss2_jj, CrystalBall_jj, f0_jj);
-	RooAddPdf model3_jj("model3_jj", "model3_jj", exp_jj, CrystalBall_jj, f0_jj);
 
+	RooAddPdf first_regjj("first_regjj", "first_regjj", pol3_regjj, gauss_regjj, f0_regjj);
+	RooAddPdf model_regjj("model_regjj", "model_regjj", pol3_regjj, CrystalBall_regjj, f0_regjj);
+
+/*
 	RooRealVar mu_CrystalBallreg("mu_CrystalBallreg", "mean (reg)", mean_regjj, 50., 200., "GeV");
 	RooRealVar sigma_CrystalBallreg("sigma_CrystalBallreg", "sigma (reg)", 5., 0.0001, 50., "GeV");
 	RooRealVar alpha_CrystalBallreg("alpha_CrystalBallreg", "alpha (reg)", 35., 5., 50., "GeV");
 	RooRealVar n_CrystalBallreg("n_CrystalBallreg", "n (reg)", 20., 5., 90., "GeV");
 	RooCBShape CrystalBallreg("CrystalBallreg", "CrystalBallreg", jj_mass, mu_CrystalBallreg, sigma_CrystalBallreg, alpha_CrystalBallreg, n_CrystalBallreg);
+*/
 
 	RooPlot * jj_frame = jj_mass.frame();
+	// plot data
 	dataset.plotOn(jj_frame, LineColor(kGreen+3));
-//	datasetreg.plotOn(jj_frame, LineColor(kRed+2));
+	datasetreg.plotOn(jj_frame, LineColor(kRed+2));
+	// first: gaussian fit
 	gauss_jj.fitTo(dataset, Save(), Range(mean_jj-1.5*rms_jj, mean_jj+1.5*rms_jj));
+	gauss_regjj.fitTo(dataset, Save(), Range(mean_regjj-1.5*rms_regjj, mean_regjj+1.5*rms_regjj));
 //	gauss_jj.plotOn(jj_frame, LineColor(kBlue), LineWidth(2));
 //	jj_mass.setRange("low", 50, 70);
 //	jj_mass.setRange("high", 170, 300);
+	// then, pol3 fit
+	pol3_jj.fitTo(dataset, Save());
+	pol3_regjj.fitTo(dataset, Save());
 //	pol3_jj.fitTo(dataset, Range("low,high"), Save());
 //	pol3_jj.plotOn(jj_frame, LineColor(kBlue), LineWidth(2));
 	first_jj.fitTo(dataset, Save());
-	first_jj.plotOn(jj_frame, LineColor(kGreen+3), LineWidth(2));
+	first_jj.plotOn(jj_frame, LineColor(kBlue), LineWidth(2));
+	first_regjj.fitTo(datasetreg, Save());
+	first_regjj.plotOn(jj_frame, LineColor(kBlue), LineWidth(2));
 //	first_jj.plotOn(jj_frame, Components("gauss_jj"), LineColor(kRed), LineWidth(2), LineStyle(kDashed));
 //	first_jj.plotOn(jj_frame, Components("pol3_jj"), LineColor(kRed), LineWidth(2), LineStyle(kDashed));
 //	exp_jj.fitTo(dataset, Range("low,high"), Save());
@@ -191,13 +216,15 @@ if( CRYSTALBALL )
 */
 //	CrystalBall_jj.fitTo(dataset, Save());
 //	RooFitResult *f = CrystalBall_jj.fitTo(dataset, Save());
-/*
+
 	RooFitResult *f = model_jj.fitTo(dataset, Save());
+	RooFitResult *freg = model_regjj.fitTo(datasetreg, Save());
 //	CrystalBall_jj.plotOn(jj_frame, LineColor(kGreen+3), LineWidth(2));
-	model_jj.plotOn(jj_frame, Components("CrystalBall_jj"), LineColor(kGreen+3), LineWidth(2), LineStyle(kDashed));
-	model_jj.plotOn(jj_frame, Components("pol3_jj"), LineColor(kGreen+3), LineWidth(2), LineStyle(kDashed));
+//	model_jj.plotOn(jj_frame, Components("CrystalBall_jj"), LineColor(kGreen+3), LineWidth(2), LineStyle(kDashed));
+//	model_jj.plotOn(jj_frame, Components("pol3_jj"), LineColor(kGreen+3), LineWidth(2), LineStyle(kDashed));
 	model_jj.plotOn(jj_frame, LineColor(kGreen+3), LineWidth(2));
-*/
+	model_regjj.plotOn(jj_frame, LineColor(kRed+2), LineWidth(2));
+
 /*
 	RooFitResult *f = model2_jj.fitTo(dataset, Save());
 //	model2_jj.plotOn(jj_frame, Components("CrystalBall_jj"), LineColor(kGreen+3), LineWidth(2), LineStyle(kDashed));
@@ -212,11 +239,11 @@ if( CRYSTALBALL )
 */
 //	RooFitResult * freg = CrystalBallreg.fitTo(datasetreg, Save());
 //	CrystalBallreg.plotOn(jj_frame, LineColor(kRed+2), LineWidth(2));
-//	RooArgList p = f->floatParsFinal();
-//	RooArgList preg = freg->floatParsFinal();	
+	RooArgList p = f->floatParsFinal();
+	RooArgList preg = freg->floatParsFinal();	
 	jj_frame->Draw();
-//	plotParameters( &p, c1, 0, jj_frame, true, 1, "CrystalBall_jj", 98, 99, 2);
-//	plotParameters( &preg, c1, 0, jj_frame, true, 5, "test", 98, 99, 2);
+	plotParameters( &p, c1, 0, jj_frame, true, 1, "CrystalBall", 98, 99, 2);
+	plotParameters( &preg, c1, 0, jj_frame, true, 5, "test", sigma_CrystalBall_jj.getVal(), sigma_CrystalBall_regjj.getVal(), 2);
 	c1->Print("pdf/mjj_CrystalBall.pdf");
 	c1->Print("root/mjj_CrystalBall.root");
 	c1->Print("gif/mjj_CrystalBall.gif");
@@ -419,7 +446,16 @@ void plotParameters(RooArgList *r2_cat0_param, TCanvas *c, int canvasDivision, R
 	while( obj != 0 )
   {
 //		cout << "obj->GetName()= " << obj->GetName() << "\tobj->getVal()= " << obj->getVal() << "\tobj->getError()= " << obj->getError() << endl;
-//   if( ! strcmp(((char*)obj->GetName()), "mu_voigt") ) continue;
+   if( ! strcmp(((char*)obj->GetName()), "f0_jj") ) {obj = (RooRealVar*)it->Next(); continue;}
+   if( ! strcmp(((char*)obj->GetName()), "a0_jj") ) {obj = (RooRealVar*)it->Next(); continue;}
+   if( ! strcmp(((char*)obj->GetName()), "a1_jj") ) {obj = (RooRealVar*)it->Next(); continue;}
+   if( ! strcmp(((char*)obj->GetName()), "a2_jj") ) {obj = (RooRealVar*)it->Next(); continue;}
+   if( ! strcmp(((char*)obj->GetName()), "a3_jj") ) {obj = (RooRealVar*)it->Next(); continue;}
+   if( ! strcmp(((char*)obj->GetName()), "f0_regjj") ) {obj = (RooRealVar*)it->Next(); continue;}
+   if( ! strcmp(((char*)obj->GetName()), "a0_regjj") ) {obj = (RooRealVar*)it->Next(); continue;}
+   if( ! strcmp(((char*)obj->GetName()), "a1_regjj") ) {obj = (RooRealVar*)it->Next(); continue;}
+   if( ! strcmp(((char*)obj->GetName()), "a2_regjj") ) {obj = (RooRealVar*)it->Next(); continue;}
+   if( ! strcmp(((char*)obj->GetName()), "a3_regjj") ) {obj = (RooRealVar*)it->Next(); continue;}
     position -= 0.04;
     std::ostringstream valueStream;
     if( (double)obj->getError() != 0.0 )
