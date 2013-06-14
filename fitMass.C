@@ -20,6 +20,9 @@
 #include "RooFitResult.h"
 #include "RooCategory.h"
 #include "RooSimultaneous.h"
+#include "RooBernstein.h"
+#include "RooAddPdf.h"
+#include "RooExponential.h"
 // local files
 #include "CMSStyle.C"
 // Verbosity
@@ -46,7 +49,7 @@ int main ()
 	TTree *intreereg = (TTree*)infilereg->Get("Radion_m300_8TeV_nm");
 	
 	// Observables
-	RooRealVar jj_mass("jj_mass", "m_{jj}", 50., 200., "GeV");
+	RooRealVar jj_mass("jj_mass", "m_{jj}", 10., 300., "GeV");
 //	RooRealVar jj_mass("jj_mass", "m_{jj}", 80., 200., "GeV");
 	jj_mass.setBins(50);
 	RooRealVar ggjj_mass("ggjj_mass", "m_{jj#gamma#gamma}", 200., 400., "GeV");
@@ -65,10 +68,10 @@ int main ()
 	double rms_ggjj = dataset.rmsVar(ggjj_mass)->getVal();
 	double rms_regggjj = datasetreg.rmsVar(ggjj_mass)->getVal();
 
-	bool GAUSS = true;
-	bool VOIGT = true;
+	bool GAUSS = false;
+	bool VOIGT = false;
 	bool SIMVOIGT = false;
-	bool CRYSTALBALL = false;
+	bool CRYSTALBALL = true;
 
 	// fit parameters
 if(GAUSS)
@@ -133,13 +136,32 @@ if(GAUSS)
 }
 if( CRYSTALBALL )
 {
+	RooRealVar a0("a0", "a0", 0.5001, 0., 1.);
+	RooRealVar a1("a1", "a1", 0.5001, 0., 1.);
+	RooRealVar a2("a2", "a2", 0.5001, 0., 1.);
+	RooRealVar a3("a3", "a3", 0.5001, 0., 1.);
+	RooBernstein pol3("pol3", "pol3", jj_mass, RooArgList(a0, a1, a2, a3));
+//	RooBernstein pol3("pol3", "pol3", jj_mass, RooArgList(a0, a1, a2));
+//	RooBernstein pol3("pol3", "pol3", jj_mass, RooArgList(a0, a1));
+	RooRealVar mu_gauss("mu_gauss", "mean", mean_jj, mean_jj-3*rms_jj, mean_jj+3*rms_jj, "GeV");
+	RooRealVar sigma_gauss("sigma_gauss", "sigma", rms_jj, .1*rms_jj, 10*rms_jj, "GeV");
+	RooGaussian gauss2("gauss2", "gauss2", jj_mass, mu_gauss, sigma_gauss);
+	RooRealVar a("a", "a", -0.5, -10., 0.);
+	RooExponential exp("exp", "exp", jj_mass, a);
+	RooRealVar f0("f0", "f0", 0.2, 0.001, .5);
+
 
 	RooRealVar mu_CrystalBall("mu_CrystalBall", "mean", mean_jj, mean_jj-rms_jj, mean_jj+rms_jj, "GeV");
-	RooRealVar sigma_CrystalBall("sigma_CrystalBall", "sigma", rms_jj, .0, 5*rms_jj, "GeV");
-	RooRealVar alpha_CrystalBall("alpha_CrystalBall", "alpha", 1., 0., 20., "GeV");
+	RooRealVar sigma_CrystalBall("sigma_CrystalBall", "sigma", rms_jj, .01*rms_jj, 5*rms_jj, "GeV");
+	RooRealVar alpha_CrystalBall("alpha_CrystalBall", "alpha", 1., 0., 30., "GeV");
 	RooRealVar n_CrystalBall("n_CrystalBall", "n", 20., 0., 30., "GeV");
 	RooCBShape CrystalBall("CrystalBall", "CrystalBall", jj_mass, mu_CrystalBall, sigma_CrystalBall, alpha_CrystalBall, n_CrystalBall);
 	RooGaussian gauss("gauss", "gauss", jj_mass, mu_CrystalBall, sigma_CrystalBall);
+
+	RooAddPdf first("first", "first", pol3, gauss, f0);
+	RooAddPdf model("model", "model", pol3, CrystalBall, f0);
+	RooAddPdf model2("model2", "model2", gauss2, CrystalBall, f0);
+	RooAddPdf model3("model3", "model3", exp, CrystalBall, f0);
 
 	RooRealVar mu_CrystalBallreg("mu_CrystalBallreg", "mean (reg)", mean_regjj, 50., 200., "GeV");
 	RooRealVar sigma_CrystalBallreg("sigma_CrystalBallreg", "sigma (reg)", 5., 0.0001, 50., "GeV");
@@ -149,17 +171,49 @@ if( CRYSTALBALL )
 
 	RooPlot * jj_frame = jj_mass.frame();
 	dataset.plotOn(jj_frame, LineColor(kGreen+3));
-	datasetreg.plotOn(jj_frame, LineColor(kRed+2));
+//	datasetreg.plotOn(jj_frame, LineColor(kRed+2));
 	gauss.fitTo(dataset, Save(), Range(mean_jj-1.5*rms_jj, mean_jj+1.5*rms_jj));
-	gauss.plotOn(jj_frame, LineColor(kGreen+3), LineWidth(2));
-	RooFitResult *f = CrystalBall.fitTo(dataset, Save());
-	CrystalBall.plotOn(jj_frame, LineColor(kGreen+3), LineWidth(2));
+	gauss.plotOn(jj_frame, LineColor(kBlue), LineWidth(2));
+	jj_mass.setRange("low", 50, 70);
+	jj_mass.setRange("high", 170, 250);
+	pol3.fitTo(dataset, Range("low,high"), Save());
+	pol3.plotOn(jj_frame, LineColor(kBlue), LineWidth(2));
+	first.fitTo(dataset, Save());
+	first.plotOn(jj_frame, LineColor(kRed), LineWidth(2));
+	first.plotOn(jj_frame, Components("gauss"), LineColor(kRed), LineWidth(2), LineStyle(kDashed));
+	first.plotOn(jj_frame, Components("pol3"), LineColor(kRed), LineWidth(2), LineStyle(kDashed));
+//	exp.fitTo(dataset, Range("low,high"), Save());
+//	exp.plotOn(jj_frame, LineColor(kBlue), LineWidth(2));
+/*
+	pol3.fitTo(dataset, Save());
+*/
+//	CrystalBall.fitTo(dataset, Save());
+//	RooFitResult *f = CrystalBall.fitTo(dataset, Save());
+/*
+	RooFitResult *f = model.fitTo(dataset, Save());
+//	CrystalBall.plotOn(jj_frame, LineColor(kGreen+3), LineWidth(2));
+	model.plotOn(jj_frame, Components("CrystalBall"), LineColor(kGreen+3), LineWidth(2), LineStyle(kDashed));
+	model.plotOn(jj_frame, Components("pol3"), LineColor(kGreen+3), LineWidth(2), LineStyle(kDashed));
+	model.plotOn(jj_frame, LineColor(kGreen+3), LineWidth(2));
+*/
+/*
+	RooFitResult *f = model2.fitTo(dataset, Save());
+//	model2.plotOn(jj_frame, Components("CrystalBall"), LineColor(kGreen+3), LineWidth(2), LineStyle(kDashed));
+//	model2.plotOn(jj_frame, Components("gauss2"), LineColor(kRed), LineWidth(2), LineStyle(kDashed));
+	model2.plotOn(jj_frame, LineColor(kBlue), LineWidth(2));
+*/
+/*
+	RooFitResult *f = model3.fitTo(dataset, Save());
+//	model3.plotOn(jj_frame, Components("CrystalBall"), LineColor(kGreen+3), LineWidth(2), LineStyle(kDashed));
+//	model3.plotOn(jj_frame, Components("exp"), LineColor(kRed), LineWidth(2), LineStyle(kDashed));
+	model3.plotOn(jj_frame, LineColor(kGreen+2), LineWidth(2));
+*/
 //	RooFitResult * freg = CrystalBallreg.fitTo(datasetreg, Save());
 //	CrystalBallreg.plotOn(jj_frame, LineColor(kRed+2), LineWidth(2));
-	RooArgList p = f->floatParsFinal();
+//	RooArgList p = f->floatParsFinal();
 //	RooArgList preg = freg->floatParsFinal();	
 	jj_frame->Draw();
-	plotParameters( &p, c1, 0, jj_frame, true, 1, "CrystalBall", 98, 99, 2);
+//	plotParameters( &p, c1, 0, jj_frame, true, 1, "CrystalBall", 98, 99, 2);
 //	plotParameters( &preg, c1, 0, jj_frame, true, 5, "test", 98, 99, 2);
 	c1->Print("pdf/mjj_CrystalBall.pdf");
 	c1->Print("root/mjj_CrystalBall.root");
@@ -182,11 +236,11 @@ if(VOIGT)
 
 	RooPlot * jj_frame = jj_mass.frame();
 	dataset.plotOn(jj_frame, LineColor(kGreen+3));
-	datasetreg.plotOn(jj_frame, LineColor(kRed+2));
+//	datasetreg.plotOn(jj_frame, LineColor(kRed+2));
 	RooFitResult *f = voigt.fitTo(dataset, Save());
 	voigt.plotOn(jj_frame, LineColor(kGreen+3), LineWidth(2));
 	RooFitResult * freg = voigtreg.fitTo(datasetreg, Save());
-	voigtreg.plotOn(jj_frame, LineColor(kRed+2), LineWidth(2));
+//	voigtreg.plotOn(jj_frame, LineColor(kRed+2), LineWidth(2));
 	RooArgList p = f->floatParsFinal();
 	RooArgList preg = freg->floatParsFinal();	
 	jj_frame->Draw();
