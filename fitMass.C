@@ -43,405 +43,428 @@ int main ()
 	gStyle->SetOptTitle(0);
 	gStyle->SetOptStat(0);
 
-	TFile *infile = TFile::Open("simple.root");
+	TFile *infile = TFile::Open("simple_genjet.root");
 //	TFile *infile = TFile::Open("simple_parton.root");
 	TTree *intree = (TTree*)infile->Get("Radion_m300_8TeV_nm");
-	TFile *infilereg = TFile::Open("simple_reg.root");
+	TFile *infilereg = TFile::Open("simple_reg_genjet.root");
 //	TFile *infilereg = TFile::Open("simple_reg_parton.root");
 	TTree *intreereg = (TTree*)infilereg->Get("Radion_m300_8TeV_nm");
 	
 	// Observables
 	RooRealVar jj_mass("jj_mass", "m_{jj}", 70., 250., "GeV");
-//	RooRealVar jj_mass("jj_mass", "m_{jj}", 80., 200., "GeV");
-	jj_mass.setBins(50);
+	jj_mass.setBins(45);
 	RooRealVar ggjj_mass("ggjj_mass", "m_{jj#gamma#gamma}", 200., 400., "GeV");
 	ggjj_mass.setBins(50);
+	RooRealVar njets_kRadionID_and_CSVM("njets_kRadionID_and_CSVM", "njets_kRadionID_and_CSVM", 0, 10);
 	TCanvas *c1 = new TCanvas("c1", "c1", 600, 600);
-	RooDataSet dataset("radion", "radion", intree, RooArgList(jj_mass, ggjj_mass));
-	RooDataSet datasetreg("radion", "radion", intreereg, RooArgList(jj_mass, ggjj_mass));
-
-	double mean_jj = dataset.mean(jj_mass);
-	double mean_regjj = datasetreg.mean(jj_mass);
-	double rms_jj = dataset.rmsVar(jj_mass)->getVal();
-	double rms_regjj = datasetreg.rmsVar(jj_mass)->getVal();
-
-	double mean_ggjj = dataset.mean(ggjj_mass);
-	double mean_regggjj = datasetreg.mean(ggjj_mass);
-	double rms_ggjj = dataset.rmsVar(ggjj_mass)->getVal();
-	double rms_regggjj = datasetreg.rmsVar(ggjj_mass)->getVal();
 
 	bool GAUSS = false;
 	bool VOIGT = false;
 	bool SIMVOIGT = false;
 	bool CRYSTALBALL = true;
 
-	// fit parameters
-if(GAUSS)
-{
-	RooRealVar mu_gauss("mu_gauss", "mean", mean_jj, mean_jj-rms_jj, mean_jj+rms_jj, "GeV");
-	RooRealVar sigma_gauss("sigma_gauss", "sigma", rms_jj, .01*rms_jj, 5.*rms_jj, "GeV");
-	RooGaussian gauss("gauss", "gauss", jj_mass, mu_gauss, sigma_gauss);
+	vector<string> categoryCut;
+	categoryCut.clear();
+	vector<string> categoryName;
+	categoryName.clear();
 
-	RooRealVar mu_gaussreg("mu_gaussreg", "mean (reg)", mean_regjj, mean_regjj-rms_regjj, mean_regjj+rms_regjj, "GeV");
-	RooRealVar sigma_gaussreg("sigma_gaussreg", "sigma (reg)", rms_regjj, .01*rms_regjj, 5.*rms_regjj, "GeV");
-	RooGaussian gaussreg("gaussreg", "gaussreg", jj_mass, mu_gaussreg, sigma_gaussreg);
-
-	RooRealVar mu_gauss_("mu_gauss_", "mean", mean_ggjj, mean_ggjj-rms_ggjj, mean_ggjj+rms_ggjj, "GeV");
-	RooRealVar sigma_gauss_("sigma_gauss_", "sigma", rms_ggjj, .01*rms_ggjj, 5.*rms_ggjj, "GeV");
-	RooGaussian gauss_("gauss_", "gauss_", ggjj_mass, mu_gauss_, sigma_gauss_);
-
-	RooRealVar mu_gauss_reg("mu_gauss_reg", "mean (reg)", mean_regggjj, mean_regggjj-rms_regggjj, mean_regggjj+rms_regggjj, "GeV");
-	RooRealVar sigma_gauss_reg("sigma_gauss_reg", "sigma (reg)", rms_regggjj, .01*rms_regggjj, 5.*rms_regggjj, "GeV");
-	RooGaussian gauss_reg("gauss_reg", "gauss_reg", ggjj_mass, mu_gauss_reg, sigma_gauss_reg);
-
-	RooPlot * jj_frame = jj_mass.frame();
-	dataset.plotOn(jj_frame, LineColor(kGreen+3));
-	datasetreg.plotOn(jj_frame, LineColor(kRed+2));
-//	RooFitResult *f = gauss.fitTo(dataset, Save(), Range(mean_jj-0.9*rms_jj, mean_jj+1.5*rms_jj));
-	RooFitResult *f = gauss.fitTo(dataset, Save(), Range(mean_jj-1.5*rms_jj, mean_jj+1.5*rms_jj));
-	gauss.plotOn(jj_frame, LineColor(kGreen+3), LineWidth(2));
-	RooFitResult * freg = gaussreg.fitTo(datasetreg, Save(), Range(mean_regjj-1.5*rms_regjj, mean_regjj+1.5*rms_regjj));
-	gaussreg.plotOn(jj_frame, LineColor(kRed+2), LineWidth(2));
-	RooArgList p = f->floatParsFinal();
-	RooArgList preg = freg->floatParsFinal();	
-	jj_frame->Draw();
-	double res = sigma_gauss.getVal() / mu_gauss.getVal() * 100.;
-	double resreg = sigma_gaussreg.getVal() / mu_gaussreg.getVal() * 100.;
-	plotParameters( &p, c1, 0, jj_frame, true, 1, "Gaussian", 98, 99, 2);
-	plotParameters( &preg, c1, 0, jj_frame, true, 3, "test", res, resreg, 2);
-	c1->Print("pdf/mjj_gauss.pdf");
-	c1->Print("root/mjj_gauss.root");
-	c1->Print("gif/mjj_gauss.gif");
-	c1->Clear();
-
-	RooPlot * ggjj_frame = ggjj_mass.frame();
-	dataset.plotOn(ggjj_frame, LineColor(kGreen+3));
-	datasetreg.plotOn(ggjj_frame, LineColor(kRed+2));
-	RooFitResult *f_ = gauss_.fitTo(dataset, Save(), Range(mean_ggjj-1.5*rms_ggjj, mean_ggjj+1.5*rms_ggjj));
-	gauss_.plotOn(ggjj_frame, LineColor(kGreen+3), LineWidth(2));
-	RooFitResult * freg_ = gauss_reg.fitTo(datasetreg, Save(), Range(mean_regggjj-1.5*rms_regggjj, mean_regggjj+1.5*rms_regggjj));
-	gauss_reg.plotOn(ggjj_frame, LineColor(kRed+2), LineWidth(2));
-	RooArgList p_ = f_->floatParsFinal();
-	RooArgList preg_ = freg_->floatParsFinal();	
-	ggjj_frame->Draw();
-	double res_ = sigma_gauss_.getVal() / mu_gauss_.getVal() * 100.;
-	double resreg_ = sigma_gauss_reg.getVal() / mu_gauss_reg.getVal() * 100.;
-	plotParameters( &p_, c1, 0, ggjj_frame, true, 1, "Gaussian", 98, 99, 2);
-	plotParameters( &preg_, c1, 0, ggjj_frame, true, 3, "test", res_, resreg_, 2);
-	c1->Print("pdf/mggjj_gauss.pdf");
-	c1->Print("root/mggjj_gauss.root");
-	c1->Print("gif/mggjj_gauss.gif");
-	c1->Clear();
-
-	cout << "res= " << res << "\tresreg= " << resreg << "\timprov= " << fabs(res-resreg)/res*100. << endl;
-	cout << "res_= " << res_ << "\tresreg_= " << resreg_ << "\timprov= " << fabs(res_-resreg_)/res_*100. << endl;
-}
-if( CRYSTALBALL )
-{
-	// Fit is in three steps:
-	// - gauss fit of the peak
-	// - gauss + pol3 fit of the full range
-	// - CB + pol3 fit of the full range
+	categoryCut.push_back("1");
+	categoryName.push_back("allcat");
+	categoryCut.push_back("njets_kRadionID_and_CSVM < 1.5");
+	categoryName.push_back("1btag");
+	categoryCut.push_back("njets_kRadionID_and_CSVM > 1.5");
+	categoryName.push_back("2btag");
 	
-	// Define pol3
-	RooRealVar a0_jj("a0_jj", "a0_jj", 0.5001, 0., 1.);
-	RooRealVar a1_jj("a1_jj", "a1_jj", 0.5001, 0., 1.);
-	RooRealVar a2_jj("a2_jj", "a2_jj", 0.5001, 0., 1.);
-	RooRealVar a3_jj("a3_jj", "a3_jj", 0.5001, 0., 1.);
-	RooBernstein pol3_jj("pol3_jj", "pol3_jj", jj_mass, RooArgList(a0_jj, a1_jj, a2_jj, a3_jj));
-	RooRealVar f0_jj("f0_jj", "f0_jj", 0.2, 0.001, .5);
 
-	RooRealVar a0_regjj("a0_regjj", "a0_regjj", 0.5001, 0., 1.);
-	RooRealVar a1_regjj("a1_regjj", "a1_regjj", 0.5001, 0., 1.);
-	RooRealVar a2_regjj("a2_regjj", "a2_regjj", 0.5001, 0., 1.);
-	RooRealVar a3_regjj("a3_regjj", "a3_regjj", 0.5001, 0., 1.);
-	RooBernstein pol3_regjj("pol3_regjj", "pol3_regjj", jj_mass, RooArgList(a0_regjj, a1_regjj, a2_regjj, a3_regjj));
-	RooRealVar f0_regjj("f0_regjj", "f0_regjj", 0.2, 0.001, .5);
+	for(int icat = 0 ; icat < (int)categoryCut.size() ; icat++)
+	{
+		// datatset definition depend on category
+		RooDataSet full_dataset("radion", "radion", intree, RooArgList(jj_mass, ggjj_mass, njets_kRadionID_and_CSVM));
+		RooDataSet full_datasetreg("radion", "radion", intreereg, RooArgList(jj_mass, ggjj_mass, njets_kRadionID_and_CSVM));
+		RooDataSet dataset = *((RooDataSet*)full_dataset.reduce(categoryCut[icat].c_str()));	
+		RooDataSet datasetreg = *((RooDataSet*)full_datasetreg.reduce(categoryCut[icat].c_str()));	
 
-	// Define gauss and CB (common parameters)
-	RooRealVar mu_CrystalBall_jj("mu_CrystalBall_jj", "#mu", mean_jj, mean_jj-rms_jj, mean_jj+rms_jj, "GeV");
-	RooRealVar sigma_CrystalBall_jj("sigma_CrystalBall_jj", "#sigma", rms_jj, .01*rms_jj, 5*rms_jj, "GeV");
-	RooRealVar alpha_CrystalBall_jj("alpha_CrystalBall_jj", "#alpha", 1., 0., 30., "GeV");
-	RooRealVar n_CrystalBall_jj("n_CrystalBall_jj", "n", 10., 0., 30., "GeV");
-	RooCBShape CrystalBall_jj("CrystalBall_jj", "CrystalBall_jj", jj_mass, mu_CrystalBall_jj, sigma_CrystalBall_jj, alpha_CrystalBall_jj, n_CrystalBall_jj);
-	RooGaussian gauss_jj("gauss_jj", "gauss_jj", jj_mass, mu_CrystalBall_jj, sigma_CrystalBall_jj);
+		double mean_jj = dataset.mean(jj_mass);
+		double mean_regjj = datasetreg.mean(jj_mass);
+		double rms_jj = dataset.rmsVar(jj_mass)->getVal();
+		double rms_regjj = datasetreg.rmsVar(jj_mass)->getVal();
+	
+		double mean_ggjj = dataset.mean(ggjj_mass);
+		double mean_regggjj = datasetreg.mean(ggjj_mass);
+		double rms_ggjj = dataset.rmsVar(ggjj_mass)->getVal();
+		double rms_regggjj = datasetreg.rmsVar(ggjj_mass)->getVal();
 
-	RooRealVar mu_CrystalBall_regjj("mu_CrystalBall_regjj", "#mu (reg)", mean_regjj, mean_regjj-rms_regjj, mean_regjj+rms_regjj, "GeV");
-	RooRealVar sigma_CrystalBall_regjj("sigma_CrystalBall_regjj", "#sigma (reg)", rms_regjj, .01*rms_regjj, 5*rms_regjj, "GeV");
-	RooRealVar alpha_CrystalBall_regjj("alpha_CrystalBall_regjj", "#alpha (reg)", 1., 0., 30., "GeV");
-	RooRealVar n_CrystalBall_regjj("n_CrystalBall_regjj", "n (reg)", 10., 0., 30., "GeV");
-	RooCBShape CrystalBall_regjj("CrystalBall_regjj", "CrystalBall_regjj", jj_mass, mu_CrystalBall_regjj, sigma_CrystalBall_regjj, alpha_CrystalBall_regjj, n_CrystalBall_regjj);
-	RooGaussian gauss_regjj("gauss_regjj", "gauss_regjj", jj_mass, mu_CrystalBall_regjj, sigma_CrystalBall_regjj);
+		
+			// fit parameters
+		if(GAUSS)
+		{
+			RooRealVar mu_gauss("mu_gauss", "mean", mean_jj, mean_jj-rms_jj, mean_jj+rms_jj, "GeV");
+			RooRealVar sigma_gauss("sigma_gauss", "sigma", rms_jj, .01*rms_jj, 5.*rms_jj, "GeV");
+			RooGaussian gauss("gauss", "gauss", jj_mass, mu_gauss, sigma_gauss);
+		
+			RooRealVar mu_gaussreg("mu_gaussreg", "mean (reg)", mean_regjj, mean_regjj-rms_regjj, mean_regjj+rms_regjj, "GeV");
+			RooRealVar sigma_gaussreg("sigma_gaussreg", "sigma (reg)", rms_regjj, .01*rms_regjj, 5.*rms_regjj, "GeV");
+			RooGaussian gaussreg("gaussreg", "gaussreg", jj_mass, mu_gaussreg, sigma_gaussreg);
+		
+			RooRealVar mu_gauss_("mu_gauss_", "mean", mean_ggjj, mean_ggjj-rms_ggjj, mean_ggjj+rms_ggjj, "GeV");
+			RooRealVar sigma_gauss_("sigma_gauss_", "sigma", rms_ggjj, .01*rms_ggjj, 5.*rms_ggjj, "GeV");
+			RooGaussian gauss_("gauss_", "gauss_", ggjj_mass, mu_gauss_, sigma_gauss_);
+		
+			RooRealVar mu_gauss_reg("mu_gauss_reg", "mean (reg)", mean_regggjj, mean_regggjj-rms_regggjj, mean_regggjj+rms_regggjj, "GeV");
+			RooRealVar sigma_gauss_reg("sigma_gauss_reg", "sigma (reg)", rms_regggjj, .01*rms_regggjj, 5.*rms_regggjj, "GeV");
+			RooGaussian gauss_reg("gauss_reg", "gauss_reg", ggjj_mass, mu_gauss_reg, sigma_gauss_reg);
+		
+			RooPlot * jj_frame = jj_mass.frame();
+			dataset.plotOn(jj_frame, LineColor(kGreen+3));
+			datasetreg.plotOn(jj_frame, LineColor(kRed+2));
+		//	RooFitResult *f = gauss.fitTo(dataset, Save(), Range(mean_jj-0.9*rms_jj, mean_jj+1.5*rms_jj));
+			RooFitResult *f = gauss.fitTo(dataset, Save(), Range(mean_jj-1.5*rms_jj, mean_jj+1.5*rms_jj));
+			gauss.plotOn(jj_frame, LineColor(kGreen+3), LineWidth(2));
+			RooFitResult * freg = gaussreg.fitTo(datasetreg, Save(), Range(mean_regjj-1.5*rms_regjj, mean_regjj+1.5*rms_regjj));
+			gaussreg.plotOn(jj_frame, LineColor(kRed+2), LineWidth(2));
+			RooArgList p = f->floatParsFinal();
+			RooArgList preg = freg->floatParsFinal();	
+			jj_frame->Draw();
+			double res = sigma_gauss.getVal() / mu_gauss.getVal() * 100.;
+			double resreg = sigma_gaussreg.getVal() / mu_gaussreg.getVal() * 100.;
+			plotParameters( &p, c1, 0, jj_frame, true, 1, "Gaussian", 98, 99, 2);
+			plotParameters( &preg, c1, 0, jj_frame, true, 3, "test", res, resreg, 2);
+			c1->Print(Form("pdf/mjj_gauss_%s.pdf", categoryName[icat].c_str()));
+			c1->Print(Form("root/mjj_gauss_%s.root", categoryName[icat].c_str()));
+			c1->Print(Form("gif/mjj_gauss_%s.gif", categoryName[icat].c_str()));
+			c1->Clear();
+		
+			RooPlot * ggjj_frame = ggjj_mass.frame();
+			dataset.plotOn(ggjj_frame, LineColor(kGreen+3));
+			datasetreg.plotOn(ggjj_frame, LineColor(kRed+2));
+			RooFitResult *f_ = gauss_.fitTo(dataset, Save(), Range(mean_ggjj-1.5*rms_ggjj, mean_ggjj+1.5*rms_ggjj));
+			gauss_.plotOn(ggjj_frame, LineColor(kGreen+3), LineWidth(2));
+			RooFitResult * freg_ = gauss_reg.fitTo(datasetreg, Save(), Range(mean_regggjj-1.5*rms_regggjj, mean_regggjj+1.5*rms_regggjj));
+			gauss_reg.plotOn(ggjj_frame, LineColor(kRed+2), LineWidth(2));
+			RooArgList p_ = f_->floatParsFinal();
+			RooArgList preg_ = freg_->floatParsFinal();	
+			ggjj_frame->Draw();
+			double res_ = sigma_gauss_.getVal() / mu_gauss_.getVal() * 100.;
+			double resreg_ = sigma_gauss_reg.getVal() / mu_gauss_reg.getVal() * 100.;
+			plotParameters( &p_, c1, 0, ggjj_frame, true, 1, "Gaussian", 98, 99, 2);
+			plotParameters( &preg_, c1, 0, ggjj_frame, true, 3, "test", res_, resreg_, 2);
+			c1->Print(Form("pdf/mggjj_gauss_%s.pdf", categoryName[icat].c_str()));
+			c1->Print(Form("root/mggjj_gauss_%s.root", categoryName[icat].c_str()));
+			c1->Print(Form("gif/mggjj_gauss_%s.gif", categoryName[icat].c_str()));
+			c1->Clear();
+		
+			cout << "res= " << res << "\tresreg= " << resreg << "\timprov= " << fabs(res-resreg)/res*100. << endl;
+			cout << "res_= " << res_ << "\tresreg_= " << resreg_ << "\timprov= " << fabs(res_-resreg_)/res_*100. << endl;
+		} // end of if GAUSS
 
-	// Models definitions
-	RooAddPdf first_jj("first_jj", "first_jj", pol3_jj, gauss_jj, f0_jj);
-	RooAddPdf model_jj("model_jj", "model_jj", pol3_jj, CrystalBall_jj, f0_jj);
+		if( CRYSTALBALL )
+		{
+			// Fit is in three steps:
+			// - gauss fit of the peak
+			// - gauss + pol3 fit of the full range
+			// - CB + pol3 fit of the full range
+			
+			// Define pol3
+			RooRealVar a0_jj("a0_jj", "a0_jj", 0.5001, 0., 1.);
+			RooRealVar a1_jj("a1_jj", "a1_jj", 0.5001, 0., 1.);
+			RooRealVar a2_jj("a2_jj", "a2_jj", 0.5001, 0., 1.);
+			RooRealVar a3_jj("a3_jj", "a3_jj", 0.5001, 0., 1.);
+			RooBernstein pol3_jj("pol3_jj", "pol3_jj", jj_mass, RooArgList(a0_jj, a1_jj, a2_jj, a3_jj));
+			RooRealVar f0_jj("f0_jj", "f0_jj", 0.2, 0.001, .5);
+		
+			RooRealVar a0_regjj("a0_regjj", "a0_regjj", 0.5001, 0., 1.);
+			RooRealVar a1_regjj("a1_regjj", "a1_regjj", 0.5001, 0., 1.);
+			RooRealVar a2_regjj("a2_regjj", "a2_regjj", 0.5001, 0., 1.);
+			RooRealVar a3_regjj("a3_regjj", "a3_regjj", 0.5001, 0., 1.);
+			RooBernstein pol3_regjj("pol3_regjj", "pol3_regjj", jj_mass, RooArgList(a0_regjj, a1_regjj, a2_regjj, a3_regjj));
+			RooRealVar f0_regjj("f0_regjj", "f0_regjj", 0.2, 0.001, .5);
+		
+			// Define gauss and CB (common parameters)
+			RooRealVar mu_CrystalBall_jj("mu_CrystalBall_jj", "#mu", mean_jj, mean_jj-rms_jj, mean_jj+rms_jj, "GeV");
+			RooRealVar sigma_CrystalBall_jj("sigma_CrystalBall_jj", "#sigma", rms_jj, .01*rms_jj, 5*rms_jj, "GeV");
+			RooRealVar alpha_CrystalBall_jj("alpha_CrystalBall_jj", "#alpha", 1., 0., 30., "GeV");
+			RooRealVar n_CrystalBall_jj("n_CrystalBall_jj", "n", 10., 0., 30., "GeV");
+			RooCBShape CrystalBall_jj("CrystalBall_jj", "CrystalBall_jj", jj_mass, mu_CrystalBall_jj, sigma_CrystalBall_jj, alpha_CrystalBall_jj, n_CrystalBall_jj);
+			RooGaussian gauss_jj("gauss_jj", "gauss_jj", jj_mass, mu_CrystalBall_jj, sigma_CrystalBall_jj);
+		
+			RooRealVar mu_CrystalBall_regjj("mu_CrystalBall_regjj", "#mu (reg)", mean_regjj, mean_regjj-rms_regjj, mean_regjj+rms_regjj, "GeV");
+			RooRealVar sigma_CrystalBall_regjj("sigma_CrystalBall_regjj", "#sigma (reg)", rms_regjj, .01*rms_regjj, 5*rms_regjj, "GeV");
+			RooRealVar alpha_CrystalBall_regjj("alpha_CrystalBall_regjj", "#alpha (reg)", 1., 0., 30., "GeV");
+			RooRealVar n_CrystalBall_regjj("n_CrystalBall_regjj", "n (reg)", 10., 0., 30., "GeV");
+			RooCBShape CrystalBall_regjj("CrystalBall_regjj", "CrystalBall_regjj", jj_mass, mu_CrystalBall_regjj, sigma_CrystalBall_regjj, alpha_CrystalBall_regjj, n_CrystalBall_regjj);
+			RooGaussian gauss_regjj("gauss_regjj", "gauss_regjj", jj_mass, mu_CrystalBall_regjj, sigma_CrystalBall_regjj);
+		
+			// Models definitions
+			RooAddPdf first_jj("first_jj", "first_jj", pol3_jj, gauss_jj, f0_jj);
+			RooAddPdf model_jj("model_jj", "model_jj", pol3_jj, CrystalBall_jj, f0_jj);
+		
+			RooAddPdf first_regjj("first_regjj", "first_regjj", pol3_regjj, gauss_regjj, f0_regjj);
+			RooAddPdf model_regjj("model_regjj", "model_regjj", pol3_regjj, CrystalBall_regjj, f0_regjj);
+		
+			RooPlot * jj_frame = jj_mass.frame();
+			// plot data
+			dataset.plotOn(jj_frame, LineColor(kGreen+3), MarkerColor(kGreen+3), XErrorSize(0));
+			datasetreg.plotOn(jj_frame, LineColor(kRed+2), MarkerColor(kRed+2), MarkerStyle(23), XErrorSize(0));
+			// first: gaussian fit
+			gauss_jj.fitTo(dataset, Save(), Range(mean_jj-1.5*rms_jj, mean_jj+1.5*rms_jj));
+			gauss_regjj.fitTo(dataset, Save(), Range(mean_regjj-1.5*rms_regjj, mean_regjj+1.5*rms_regjj));
+			// then, pol3 fit
+			pol3_jj.fitTo(dataset, Save());
+			pol3_regjj.fitTo(dataset, Save());
+			// then pol + gauss fit
+			first_jj.fitTo(dataset, Save());
+		//	first_jj.plotOn(jj_frame, LineColor(kBlue), LineWidth(2));
+			first_regjj.fitTo(datasetreg, Save());
+		//	first_regjj.plotOn(jj_frame, LineColor(kBlue), LineWidth(2));
+			// finally, CB + pol fit
+			RooFitResult *f = model_jj.fitTo(dataset, Save());
+			RooFitResult *freg = model_regjj.fitTo(datasetreg, Save());
+			model_jj.plotOn(jj_frame, LineColor(kGreen+3), LineWidth(2));
+			model_regjj.plotOn(jj_frame, LineColor(kRed+2), LineWidth(2));
+			RooArgList p = f->floatParsFinal();
+			RooArgList preg = freg->floatParsFinal();	
+			jj_frame->Draw();
+			// printing out plot parameters + creating plots
+			plotParameters( &p, c1, 0, jj_frame, true, 1, "CrystalBall+Pol3", 98, 99, 2);
+			plotParameters( &preg, c1, 0, jj_frame, true, 3, "test", sigma_CrystalBall_jj.getVal()/mu_CrystalBall_jj.getVal()*100., sigma_CrystalBall_regjj.getVal()/mu_CrystalBall_regjj.getVal()*100., 2);
+			c1->Print(Form("pdf/mjj_CrystalBall_%s.pdf", categoryName[icat].c_str()));
+			c1->Print(Form("root/mjj_CrystalBall_%s.root", categoryName[icat].c_str()));
+			c1->Print(Form("gif/mjj_CrystalBall_%s.gif", categoryName[icat].c_str()));
+			c1->Clear();
+		
+		// M_jjgg
+			// Define pol3
+			RooRealVar a0_ggjj("a0_ggjj", "a0_ggjj", 0.5001, 0., 1.);
+			RooRealVar a1_ggjj("a1_ggjj", "a1_ggjj", 0.5001, 0., 1.);
+			RooRealVar a2_ggjj("a2_ggjj", "a2_ggjj", 0.5001, 0., 1.);
+			RooRealVar a3_ggjj("a3_ggjj", "a3_ggjj", 0.5001, 0., 1.);
+			RooBernstein pol3_ggjj("pol3_ggjj", "pol3_ggjj", ggjj_mass, RooArgList(a0_ggjj, a1_ggjj, a2_ggjj, a3_ggjj));
+			RooRealVar f0_ggjj("f0_ggjj", "f0_ggjj", 0.2, 0.001, .5);
+		
+			RooRealVar a0_regggjj("a0_regggjj", "a0_regggjj", 0.5001, 0., 1.);
+			RooRealVar a1_regggjj("a1_regggjj", "a1_regggjj", 0.5001, 0., 1.);
+			RooRealVar a2_regggjj("a2_regggjj", "a2_regggjj", 0.5001, 0., 1.);
+			RooRealVar a3_regggjj("a3_regggjj", "a3_regggjj", 0.5001, 0., 1.);
+			RooBernstein pol3_regggjj("pol3_regggjj", "pol3_regggjj", ggjj_mass, RooArgList(a0_regggjj, a1_regggjj, a2_regggjj, a3_regggjj));
+			RooRealVar f0_regggjj("f0_regggjj", "f0_regggjj", 0.2, 0.001, .5);
+		
+			// Define gauss and CB (common parameters)
+			RooRealVar mu_CrystalBall_ggjj("mu_CrystalBall_ggjj", "#mu", mean_ggjj, mean_ggjj-rms_ggjj, mean_ggjj+rms_ggjj, "GeV");
+			RooRealVar sigma_CrystalBall_ggjj("sigma_CrystalBall_ggjj", "#sigma", rms_ggjj, .01*rms_ggjj, 5*rms_ggjj, "GeV");
+			RooRealVar alpha_CrystalBall_ggjj("alpha_CrystalBall_ggjj", "#alpha", 1., 0., 30., "GeV");
+			RooRealVar n_CrystalBall_ggjj("n_CrystalBall_ggjj", "n", 20., 0., 30., "GeV");
+			RooCBShape CrystalBall_ggjj("CrystalBall_ggjj", "CrystalBall_ggjj", ggjj_mass, mu_CrystalBall_ggjj, sigma_CrystalBall_ggjj, alpha_CrystalBall_ggjj, n_CrystalBall_ggjj);
+			RooGaussian gauss_ggjj("gauss_ggjj", "gauss_ggjj", ggjj_mass, mu_CrystalBall_ggjj, sigma_CrystalBall_ggjj);
+		
+			RooRealVar mu_CrystalBall_regggjj("mu_CrystalBall_regggjj", "#mu (reg)", mean_regggjj, mean_regggjj-rms_regggjj, mean_regggjj+rms_regggjj, "GeV");
+			RooRealVar sigma_CrystalBall_regggjj("sigma_CrystalBall_regggjj", "#sigma (reg)", rms_regggjj, .01*rms_regggjj, 5*rms_regggjj, "GeV");
+			RooRealVar alpha_CrystalBall_regggjj("alpha_CrystalBall_regggjj", "#alpha (reg)", 1., 0., 30., "GeV");
+			RooRealVar n_CrystalBall_regggjj("n_CrystalBall_regggjj", "n (reg)", 20., 0., 30., "GeV");
+			RooCBShape CrystalBall_regggjj("CrystalBall_regggjj", "CrystalBall_regggjj", ggjj_mass, mu_CrystalBall_regggjj, sigma_CrystalBall_regggjj, alpha_CrystalBall_regggjj, n_CrystalBall_regggjj);
+			RooGaussian gauss_regggjj("gauss_regggjj", "gauss_regggjj", ggjj_mass, mu_CrystalBall_regggjj, sigma_CrystalBall_regggjj);
+		
+			// Models definitions
+			RooAddPdf first_ggjj("first_ggjj", "first_ggjj", pol3_ggjj, gauss_ggjj, f0_ggjj);
+			RooAddPdf model_ggjj("model_ggjj", "model_ggjj", pol3_ggjj, CrystalBall_ggjj, f0_ggjj);
+		
+			RooAddPdf first_regggjj("first_regggjj", "first_regggjj", pol3_regggjj, gauss_regggjj, f0_regggjj);
+			RooAddPdf model_regggjj("model_regggjj", "model_regggjj", pol3_regggjj, CrystalBall_regggjj, f0_regggjj);
+		
+			RooPlot * ggjj_frame = ggjj_mass.frame();
+			// plot data
+			dataset.plotOn(ggjj_frame, LineColor(kGreen+3), MarkerColor(kGreen+3), XErrorSize(0));
+			datasetreg.plotOn(ggjj_frame, LineColor(kRed+2), MarkerColor(kRed+2), MarkerStyle(23), XErrorSize(0));
+			// first: gaussian fit
+			gauss_ggjj.fitTo(dataset, Save(), Range(mean_ggjj-1.5*rms_ggjj, mean_ggjj+1.5*rms_ggjj));
+			gauss_regggjj.fitTo(dataset, Save(), Range(mean_regggjj-1.5*rms_regggjj, mean_regggjj+1.5*rms_regggjj));
+			// then, pol3 fit
+			pol3_ggjj.fitTo(dataset, Save());
+			pol3_regggjj.fitTo(dataset, Save());
+			// then pol + gauss fit
+			first_ggjj.fitTo(dataset, Save());
+		//	first_ggjj.plotOn(ggjj_frame, LineColor(kBlue), LineWidth(2));
+			first_regggjj.fitTo(datasetreg, Save());
+		//	first_regggjj.plotOn(ggjj_frame, LineColor(kBlue), LineWidth(2));
+			// finally, CB + pol fit
+			RooFitResult *fggjj = model_ggjj.fitTo(dataset, Save());
+			RooFitResult *fregggjj = model_regggjj.fitTo(datasetreg, Save());
+			model_ggjj.plotOn(ggjj_frame, LineColor(kGreen+3), LineWidth(2));
+			model_regggjj.plotOn(ggjj_frame, LineColor(kRed+2), LineWidth(2));
+			RooArgList pggjj = fggjj->floatParsFinal();
+			RooArgList pregggjj = fregggjj->floatParsFinal();	
+			ggjj_frame->Draw();
+			// printing out plot parameters + creating plots
+			plotParameters( &pggjj, c1, 0, ggjj_frame, true, 1, "CrystalBall+Pol3", 98, 99, 2);
+			plotParameters( &pregggjj, c1, 0, ggjj_frame, true, 3, "test", sigma_CrystalBall_ggjj.getVal()/mu_CrystalBall_ggjj.getVal()*100., sigma_CrystalBall_regggjj.getVal()/mu_CrystalBall_regggjj.getVal()*100., 2);
+			c1->Print(Form("pdf/mggjj_CrystalBall_%s.pdf", categoryName[icat].c_str()));
+			c1->Print(Form("root/mggjj_CrystalBall_%s.root", categoryName[icat].c_str()));
+			c1->Print(Form("gif/mggjj_CrystalBall_%s.gif", categoryName[icat].c_str()));
+			c1->Clear();
+		
+		} // end of if CRYSTALBALL
 
-	RooAddPdf first_regjj("first_regjj", "first_regjj", pol3_regjj, gauss_regjj, f0_regjj);
-	RooAddPdf model_regjj("model_regjj", "model_regjj", pol3_regjj, CrystalBall_regjj, f0_regjj);
-
-	RooPlot * jj_frame = jj_mass.frame();
-	// plot data
-	dataset.plotOn(jj_frame, LineColor(kGreen+3), MarkerColor(kGreen+3), XErrorSize(0));
-	datasetreg.plotOn(jj_frame, LineColor(kRed+2), MarkerColor(kRed+2), MarkerStyle(23), XErrorSize(0));
-	// first: gaussian fit
-	gauss_jj.fitTo(dataset, Save(), Range(mean_jj-1.5*rms_jj, mean_jj+1.5*rms_jj));
-	gauss_regjj.fitTo(dataset, Save(), Range(mean_regjj-1.5*rms_regjj, mean_regjj+1.5*rms_regjj));
-	// then, pol3 fit
-	pol3_jj.fitTo(dataset, Save());
-	pol3_regjj.fitTo(dataset, Save());
-	// then pol + gauss fit
-	first_jj.fitTo(dataset, Save());
-//	first_jj.plotOn(jj_frame, LineColor(kBlue), LineWidth(2));
-	first_regjj.fitTo(datasetreg, Save());
-//	first_regjj.plotOn(jj_frame, LineColor(kBlue), LineWidth(2));
-	// finally, CB + pol fit
-	RooFitResult *f = model_jj.fitTo(dataset, Save());
-	RooFitResult *freg = model_regjj.fitTo(datasetreg, Save());
-	model_jj.plotOn(jj_frame, LineColor(kGreen+3), LineWidth(2));
-	model_regjj.plotOn(jj_frame, LineColor(kRed+2), LineWidth(2));
-	RooArgList p = f->floatParsFinal();
-	RooArgList preg = freg->floatParsFinal();	
-	jj_frame->Draw();
-	// printing out plot parameters + creating plots
-	plotParameters( &p, c1, 0, jj_frame, true, 1, "CrystalBall+Pol3", 98, 99, 2);
-	plotParameters( &preg, c1, 0, jj_frame, true, 3, "test", sigma_CrystalBall_jj.getVal()/mu_CrystalBall_jj.getVal()*100., sigma_CrystalBall_regjj.getVal()/mu_CrystalBall_regjj.getVal()*100., 2);
-	c1->Print("pdf/mjj_CrystalBall.pdf");
-	c1->Print("root/mjj_CrystalBall.root");
-	c1->Print("gif/mjj_CrystalBall.gif");
-	c1->Clear();
-
-// M_jjgg
-	// Define pol3
-	RooRealVar a0_ggjj("a0_ggjj", "a0_ggjj", 0.5001, 0., 1.);
-	RooRealVar a1_ggjj("a1_ggjj", "a1_ggjj", 0.5001, 0., 1.);
-	RooRealVar a2_ggjj("a2_ggjj", "a2_ggjj", 0.5001, 0., 1.);
-	RooRealVar a3_ggjj("a3_ggjj", "a3_ggjj", 0.5001, 0., 1.);
-	RooBernstein pol3_ggjj("pol3_ggjj", "pol3_ggjj", ggjj_mass, RooArgList(a0_ggjj, a1_ggjj, a2_ggjj, a3_ggjj));
-	RooRealVar f0_ggjj("f0_ggjj", "f0_ggjj", 0.2, 0.001, .5);
-
-	RooRealVar a0_regggjj("a0_regggjj", "a0_regggjj", 0.5001, 0., 1.);
-	RooRealVar a1_regggjj("a1_regggjj", "a1_regggjj", 0.5001, 0., 1.);
-	RooRealVar a2_regggjj("a2_regggjj", "a2_regggjj", 0.5001, 0., 1.);
-	RooRealVar a3_regggjj("a3_regggjj", "a3_regggjj", 0.5001, 0., 1.);
-	RooBernstein pol3_regggjj("pol3_regggjj", "pol3_regggjj", ggjj_mass, RooArgList(a0_regggjj, a1_regggjj, a2_regggjj, a3_regggjj));
-	RooRealVar f0_regggjj("f0_regggjj", "f0_regggjj", 0.2, 0.001, .5);
-
-	// Define gauss and CB (common parameters)
-	RooRealVar mu_CrystalBall_ggjj("mu_CrystalBall_ggjj", "#mu", mean_ggjj, mean_ggjj-rms_ggjj, mean_ggjj+rms_ggjj, "GeV");
-	RooRealVar sigma_CrystalBall_ggjj("sigma_CrystalBall_ggjj", "#sigma", rms_ggjj, .01*rms_ggjj, 5*rms_ggjj, "GeV");
-	RooRealVar alpha_CrystalBall_ggjj("alpha_CrystalBall_ggjj", "#alpha", 1., 0., 30., "GeV");
-	RooRealVar n_CrystalBall_ggjj("n_CrystalBall_ggjj", "n", 20., 0., 30., "GeV");
-	RooCBShape CrystalBall_ggjj("CrystalBall_ggjj", "CrystalBall_ggjj", ggjj_mass, mu_CrystalBall_ggjj, sigma_CrystalBall_ggjj, alpha_CrystalBall_ggjj, n_CrystalBall_ggjj);
-	RooGaussian gauss_ggjj("gauss_ggjj", "gauss_ggjj", ggjj_mass, mu_CrystalBall_ggjj, sigma_CrystalBall_ggjj);
-
-	RooRealVar mu_CrystalBall_regggjj("mu_CrystalBall_regggjj", "#mu (reg)", mean_regggjj, mean_regggjj-rms_regggjj, mean_regggjj+rms_regggjj, "GeV");
-	RooRealVar sigma_CrystalBall_regggjj("sigma_CrystalBall_regggjj", "#sigma (reg)", rms_regggjj, .01*rms_regggjj, 5*rms_regggjj, "GeV");
-	RooRealVar alpha_CrystalBall_regggjj("alpha_CrystalBall_regggjj", "#alpha (reg)", 1., 0., 30., "GeV");
-	RooRealVar n_CrystalBall_regggjj("n_CrystalBall_regggjj", "n (reg)", 20., 0., 30., "GeV");
-	RooCBShape CrystalBall_regggjj("CrystalBall_regggjj", "CrystalBall_regggjj", ggjj_mass, mu_CrystalBall_regggjj, sigma_CrystalBall_regggjj, alpha_CrystalBall_regggjj, n_CrystalBall_regggjj);
-	RooGaussian gauss_regggjj("gauss_regggjj", "gauss_regggjj", ggjj_mass, mu_CrystalBall_regggjj, sigma_CrystalBall_regggjj);
-
-	// Models definitions
-	RooAddPdf first_ggjj("first_ggjj", "first_ggjj", pol3_ggjj, gauss_ggjj, f0_ggjj);
-	RooAddPdf model_ggjj("model_ggjj", "model_ggjj", pol3_ggjj, CrystalBall_ggjj, f0_ggjj);
-
-	RooAddPdf first_regggjj("first_regggjj", "first_regggjj", pol3_regggjj, gauss_regggjj, f0_regggjj);
-	RooAddPdf model_regggjj("model_regggjj", "model_regggjj", pol3_regggjj, CrystalBall_regggjj, f0_regggjj);
-
-	RooPlot * ggjj_frame = ggjj_mass.frame();
-	// plot data
-	dataset.plotOn(ggjj_frame, LineColor(kGreen+3), MarkerColor(kGreen+3), XErrorSize(0));
-	datasetreg.plotOn(ggjj_frame, LineColor(kRed+2), MarkerColor(kRed+2), MarkerStyle(23), XErrorSize(0));
-	// first: gaussian fit
-	gauss_ggjj.fitTo(dataset, Save(), Range(mean_ggjj-1.5*rms_ggjj, mean_ggjj+1.5*rms_ggjj));
-	gauss_regggjj.fitTo(dataset, Save(), Range(mean_regggjj-1.5*rms_regggjj, mean_regggjj+1.5*rms_regggjj));
-	// then, pol3 fit
-	pol3_ggjj.fitTo(dataset, Save());
-	pol3_regggjj.fitTo(dataset, Save());
-	// then pol + gauss fit
-	first_ggjj.fitTo(dataset, Save());
-//	first_ggjj.plotOn(ggjj_frame, LineColor(kBlue), LineWidth(2));
-	first_regggjj.fitTo(datasetreg, Save());
-//	first_regggjj.plotOn(ggjj_frame, LineColor(kBlue), LineWidth(2));
-	// finally, CB + pol fit
-	RooFitResult *fggjj = model_ggjj.fitTo(dataset, Save());
-	RooFitResult *fregggjj = model_regggjj.fitTo(datasetreg, Save());
-	model_ggjj.plotOn(ggjj_frame, LineColor(kGreen+3), LineWidth(2));
-	model_regggjj.plotOn(ggjj_frame, LineColor(kRed+2), LineWidth(2));
-	RooArgList pggjj = fggjj->floatParsFinal();
-	RooArgList pregggjj = fregggjj->floatParsFinal();	
-	ggjj_frame->Draw();
-	// printing out plot parameters + creating plots
-	plotParameters( &pggjj, c1, 0, ggjj_frame, true, 1, "CrystalBall+Pol3", 98, 99, 2);
-	plotParameters( &pregggjj, c1, 0, ggjj_frame, true, 3, "test", sigma_CrystalBall_ggjj.getVal()/mu_CrystalBall_ggjj.getVal()*100., sigma_CrystalBall_regggjj.getVal()/mu_CrystalBall_regggjj.getVal()*100., 2);
-	c1->Print("pdf/mggjj_CrystalBall.pdf");
-	c1->Print("root/mggjj_CrystalBall.root");
-	c1->Print("gif/mggjj_CrystalBall.gif");
-	c1->Clear();
-
-}
-if(VOIGT)
-{
-	RooRealVar mu_voigt("mu_voigt", "mean", mean_jj, mean_jj-rms_jj, mean_jj+rms_jj, "GeV");
-	RooRealVar width_voigt("width_voigt", "width", rms_jj, 0.1*rms_jj, 5.*rms_jj, "GeV");
-	RooRealVar sigma_voigt("sigma_voigt", "sigma", 5., 0.0001, 20., "GeV");
-	RooVoigtian voigt("voigt", "voigt", jj_mass, mu_voigt, width_voigt, sigma_voigt);
-
-	RooRealVar mu_voigtreg("mu_voigtreg", "mean (reg)", mean_regjj, mean_jj-rms_jj, mean_jj+rms_jj, "GeV");
-	RooRealVar width_voigtreg("width_voigtreg", "width (reg)", rms_jj, 0.1*rms_jj, 5.*rms_jj, "GeV");
-	RooRealVar sigma_voigtreg("sigma_voigtreg", "sigma (reg)", 5., 0.0001, 20., "GeV");
-	RooVoigtian voigtreg("voigtreg", "voigtreg", jj_mass, mu_voigtreg, width_voigtreg, sigma_voigtreg);
-	RooVoigtian voigtreg2("voigtreg2", "voigtreg2", jj_mass, mu_voigtreg, width_voigtreg, sigma_voigt);
-
-	RooPlot * jj_frame = jj_mass.frame();
-	dataset.plotOn(jj_frame, LineColor(kGreen+3));
-//	datasetreg.plotOn(jj_frame, LineColor(kRed+2));
-	RooFitResult *f = voigt.fitTo(dataset, Save());
-	voigt.plotOn(jj_frame, LineColor(kGreen+3), LineWidth(2));
-	RooFitResult * freg = voigtreg.fitTo(datasetreg, Save());
-//	voigtreg.plotOn(jj_frame, LineColor(kRed+2), LineWidth(2));
-	RooArgList p = f->floatParsFinal();
-	RooArgList preg = freg->floatParsFinal();	
-	jj_frame->Draw();
-  double fg = 2. * sigma_voigt.getVal() * sqrt(2. * log(2));
-  double fl = 2. * width_voigt.getVal();
-  double fv = 0.5346 * fl + sqrt(0.2166 * pow(fl, 2.) + pow(fg, 2.));
-  double fgreg = 2. * sigma_voigtreg.getVal() * sqrt(2. * log(2));
-  double flreg = 2. * width_voigtreg.getVal();
-  double fvreg = 0.5346 * flreg + sqrt(0.2166 * pow(flreg, 2.) + pow(fgreg, 2.));
-  double res=  fv / mu_voigt.getVal() * 100. / (2. * sqrt(2. * log(2.)));
-  double resreg=  fvreg / mu_voigtreg.getVal() * 100. / (2. * sqrt(2. * log(2.)));
-	plotParameters( &p, c1, 0, jj_frame, true, 1, "Voigtian", 98, 99, 2);
-	plotParameters( &preg, c1, 0, jj_frame, true, 4, "test", res, resreg, 2);
-	c1->Print("pdf/mjj_voigt.pdf");
-	c1->Print("root/mjj_voigt.root");
-	c1->Print("gif/mjj_voigt.gif");
-	c1->Clear();
-
-	RooRealVar mu_voigt_("mu_voigt_", "mean", 300., 200., 400., "GeV");
-	RooRealVar width_voigt_("width_voigt_", "width", 35., 5., 50., "GeV");
-	RooRealVar sigma_voigt_("sigma_voigt_", "sigma", 5., .0, 20., "GeV");
-	RooVoigtian voigt_("voigt_", "voigt_", ggjj_mass, mu_voigt_, width_voigt_, sigma_voigt_);
-
-	RooRealVar mu_voigt_reg("mu_voigt_reg", "mean (reg)", 300., 200., 400., "GeV");
-	RooRealVar width_voigt_reg("width_voigt_reg", "width (reg)", 35., 5., 50., "GeV");
-	RooRealVar sigma_voigt_reg("sigma_voigt_reg", "sigma (reg)", 5., 0.0001, 20., "GeV");
-	RooVoigtian voigt_reg("voigt_reg", "voigt_reg", ggjj_mass, mu_voigt_reg, width_voigt_reg, sigma_voigt_reg);
-
-	RooPlot * ggjj_frame = ggjj_mass.frame();
-	dataset.plotOn(ggjj_frame, LineColor(kGreen+3));
-	datasetreg.plotOn(ggjj_frame, LineColor(kRed+2));
-	RooFitResult *f_ = voigt_.fitTo(dataset, Save());
-	voigt_.plotOn(ggjj_frame, LineColor(kGreen+3), LineWidth(2));
-	RooFitResult * freg_ = voigt_reg.fitTo(datasetreg, Save());
-	voigt_reg.plotOn(ggjj_frame, LineColor(kRed+2), LineWidth(2));
-	RooArgList p_ = f_->floatParsFinal();
-	RooArgList preg_ = freg_->floatParsFinal();	
-	ggjj_frame->Draw();
-	double fg_ = 2. * sigma_voigt_.getVal() * sqrt(2. * log(2));
-	double fl_ = 2. * width_voigt_.getVal();
-	double fv_ = 0.5346 * fl_ + sqrt(0.2166 * pow(fl_, 2.) + pow(fg_, 2.));
-	double fgreg_ = 2. * sigma_voigt_reg.getVal() * sqrt(2. * log(2));
-	double flreg_ = 2. * width_voigt_reg.getVal();
-	double fvreg_ = 0.5346 * flreg_ + sqrt(0.2166 * pow(flreg_, 2.) + pow(fgreg_, 2.));
-	double res_=  fv_ / mu_voigt_.getVal() * 100. / (2. * sqrt(2. * log(2.)));
-	double resreg_=  fvreg_ / mu_voigt_reg.getVal() * 100. / (2. * sqrt(2. * log(2.)));
-	plotParameters( &p_, c1, 0, ggjj_frame, true, 1, "Voigtian", 98, 99, 2);
-	plotParameters( &preg_, c1, 0, ggjj_frame, true, 4, "test", res_, resreg_, 2);
-	c1->Print("pdf/mggjj_voigt.pdf");
-	c1->Print("root/mggjj_voigt.root");
-	c1->Print("gif/mggjj_voigt.gif");
-	c1->Clear();
-
-  cout << "fg= " << fg << "\tfl= " << fl << "\tfv= " << fv << endl;
-  cout << "fgreg= " << fgreg << "\tflreg= " << flreg << "\tfvreg= " << fvreg << endl;
-  cout << "res= " << res << "\tresreg= " << resreg << "\timprov= " << fabs(res - resreg)/res * 100.<< endl;
-	cout << "fg_= " << fg_ << "\tfl_= " << fl_ << "\tfv_= " << fv_ << endl;
-	cout << "fgreg_= " << fgreg_ << "\tflreg_= " << flreg_ << "\tfvreg_= " << fvreg_ << endl;
-	cout << "res_= " << res_ << "\tresreg_= " << resreg_ << "\timprov_= " << fabs(res_ - resreg_)/res_ * 100.<< endl;
-}
-
-if(SIMVOIGT)
-{
-	RooRealVar mu_voigt("mu_voigt", "mean", mean_jj, mean_jj-rms_jj, mean_jj+rms_jj, "GeV");
-	RooRealVar width_voigt("width_voigt", "width", rms_jj, 0.1*rms_jj, 5.*rms_jj, "GeV");
-	RooRealVar sigma_voigt("sigma_voigt", "sigma", 5., 0.0001, 20., "GeV");
-	RooVoigtian voigt("voigt", "voigt", jj_mass, mu_voigt, width_voigt, sigma_voigt);
-
-	RooRealVar mu_voigtreg("mu_voigtreg", "mean (reg)", mean_regjj, mean_jj-rms_jj, mean_jj+rms_jj, "GeV");
-	RooRealVar width_voigtreg("width_voigtreg", "width (reg)", rms_jj, 0.1*rms_jj, 5.*rms_jj, "GeV");
-	RooRealVar sigma_voigtreg("sigma_voigtreg", "sigma (reg)", 5., 0.0001, 20., "GeV");
-	RooVoigtian voigtreg2("voigtreg2", "voigtreg2", jj_mass, mu_voigtreg, width_voigtreg, sigma_voigt);
-
-	RooCategory sample("sample", "sample");
-	sample.defineType("vanilla");
-	sample.defineType("regression");
-
-	RooDataSet combData("combdata", "combdata", RooArgList(jj_mass, ggjj_mass), Index(sample), Import("vanilla", dataset), Import("regression", datasetreg));
-	RooSimultaneous sim("sim", "sim", sample);
-	sim.addPdf(voigt, "vanilla");
-	sim.addPdf(voigtreg2, "regression");
-
-	RooPlot * jj_frame = jj_mass.frame();
-	dataset.plotOn(jj_frame, LineColor(kGreen+3));
-	datasetreg.plotOn(jj_frame, LineColor(kRed+2));
-	RooFitResult *f = sim.fitTo(combData, Save());
-	voigt.plotOn(jj_frame, LineColor(kGreen+3), LineWidth(2));
-	voigtreg2.plotOn(jj_frame, LineColor(kRed+2), LineWidth(2));
-	RooArgList p = f->floatParsFinal();
-	jj_frame->Draw();
-  double fg = 2. * sigma_voigt.getVal() * sqrt(2. * log(2));
-  double fl = 2. * width_voigt.getVal();
-  double fv = 0.5346 * fl + sqrt(0.2166 * pow(fl, 2.) + pow(fg, 2.));
-  double fgreg = 2. * sigma_voigt.getVal() * sqrt(2. * log(2));
-  double flreg = 2. * width_voigtreg.getVal();
-  double fvreg = 0.5346 * flreg + sqrt(0.2166 * pow(flreg, 2.) + pow(fgreg, 2.));
-  double res=  fv / mu_voigt.getVal() * 100. / (2. * sqrt(2. * log(2.)));
-  double resreg=  fvreg / mu_voigtreg.getVal() * 100. / (2. * sqrt(2. * log(2.)));
-	plotParameters( &p, c1, 0, jj_frame, false, 1, "Simultaneous Voigtian fit", res, resreg, 2);
-	c1->Print("pdf/mjj_simvoigt.pdf");
-	c1->Print("root/mjj_simvoigt.root");
-	c1->Print("gif/mjj_simvoigt.gif");
-	c1->Clear();
-
-	RooRealVar mu_voigt_("mu_voigt_", "mean", 300., 200., 400., "GeV");
-	RooRealVar width_voigt_("width_voigt_", "width", 35., 5., 50., "GeV");
-	RooRealVar sigma_voigt_("sigma_voigt_", "sigma", 5., .0, 20., "GeV");
-	RooVoigtian voigt_("voigt_", "voigt_", ggjj_mass, mu_voigt_, width_voigt_, sigma_voigt_);
-
-	RooRealVar mu_voigt_reg("mu_voigt_reg", "mean (reg)", 300., 200., 400., "GeV");
-	RooRealVar width_voigt_reg("width_voigt_reg", "width (reg)", 35., 5., 50., "GeV");
-	RooRealVar sigma_voigt_reg("sigma_voigt_reg", "sigma (reg)", 5., 0.0001, 20., "GeV");
-	RooVoigtian voigt_reg2("voigt_reg2", "voigt_reg2", ggjj_mass, mu_voigt_reg, width_voigt_reg, sigma_voigt_);
-
-	RooSimultaneous sim_("sim_", "sim_", sample);
-	sim_.addPdf(voigt_, "vanilla");
-	sim_.addPdf(voigt_reg2, "regression");
-
-	RooPlot * ggjj_frame = ggjj_mass.frame();
-	dataset.plotOn(ggjj_frame, LineColor(kGreen+3));
-	datasetreg.plotOn(ggjj_frame, LineColor(kRed+2));
-	RooFitResult *f_ = sim_.fitTo(combData, Save());
-	voigt_.plotOn(ggjj_frame, LineColor(kGreen+3), LineWidth(2));
-	voigt_reg2.plotOn(ggjj_frame, LineColor(kRed+2), LineWidth(2));
-	RooArgList p_ = f_->floatParsFinal();
-	ggjj_frame->Draw();
-  double fg_ = 2. * sigma_voigt_.getVal() * sqrt(2. * log(2));
-  double fl_ = 2. * width_voigt_.getVal();
-  double fv_ = 0.5346 * fl_ + sqrt(0.2166 * pow(fl_, 2.) + pow(fg_, 2.));
-  double fg_reg = 2. * sigma_voigt_.getVal() * sqrt(2. * log(2));
-  double fl_reg = 2. * width_voigt_reg.getVal();
-  double fv_reg = 0.5346 * fl_reg + sqrt(0.2166 * pow(fl_reg, 2.) + pow(fg_reg, 2.));
-  double res_=  fv_ / mu_voigt_.getVal() * 100. / (2. * sqrt(2. * log(2.)));
-  double resreg_=  fv_reg / mu_voigt_reg.getVal() * 100. / (2. * sqrt(2. * log(2.)));
-	plotParameters( &p_, c1, 0, ggjj_frame, false, 1, "Simultaneous Voigtian fit", res_, resreg_, 2);
-	c1->Print("pdf/mggjj_simvoigt.pdf");
-	c1->Print("root/mggjj_simvoigt.root");
-	c1->Print("gif/mggjj_simvoigt.gif");
-	c1->Clear();
-}
-
+		if(VOIGT)
+		{
+			RooRealVar mu_voigt("mu_voigt", "mean", mean_jj, mean_jj-rms_jj, mean_jj+rms_jj, "GeV");
+			RooRealVar width_voigt("width_voigt", "width", rms_jj, 0.1*rms_jj, 5.*rms_jj, "GeV");
+			RooRealVar sigma_voigt("sigma_voigt", "sigma", 5., 0.0001, 20., "GeV");
+			RooVoigtian voigt("voigt", "voigt", jj_mass, mu_voigt, width_voigt, sigma_voigt);
+		
+			RooRealVar mu_voigtreg("mu_voigtreg", "mean (reg)", mean_regjj, mean_jj-rms_jj, mean_jj+rms_jj, "GeV");
+			RooRealVar width_voigtreg("width_voigtreg", "width (reg)", rms_jj, 0.1*rms_jj, 5.*rms_jj, "GeV");
+			RooRealVar sigma_voigtreg("sigma_voigtreg", "sigma (reg)", 5., 0.0001, 20., "GeV");
+			RooVoigtian voigtreg("voigtreg", "voigtreg", jj_mass, mu_voigtreg, width_voigtreg, sigma_voigtreg);
+			RooVoigtian voigtreg2("voigtreg2", "voigtreg2", jj_mass, mu_voigtreg, width_voigtreg, sigma_voigt);
+		
+			RooPlot * jj_frame = jj_mass.frame();
+			dataset.plotOn(jj_frame, LineColor(kGreen+3));
+		//	datasetreg.plotOn(jj_frame, LineColor(kRed+2));
+			RooFitResult *f = voigt.fitTo(dataset, Save());
+			voigt.plotOn(jj_frame, LineColor(kGreen+3), LineWidth(2));
+			RooFitResult * freg = voigtreg.fitTo(datasetreg, Save());
+		//	voigtreg.plotOn(jj_frame, LineColor(kRed+2), LineWidth(2));
+			RooArgList p = f->floatParsFinal();
+			RooArgList preg = freg->floatParsFinal();	
+			jj_frame->Draw();
+		  double fg = 2. * sigma_voigt.getVal() * sqrt(2. * log(2));
+		  double fl = 2. * width_voigt.getVal();
+		  double fv = 0.5346 * fl + sqrt(0.2166 * pow(fl, 2.) + pow(fg, 2.));
+		  double fgreg = 2. * sigma_voigtreg.getVal() * sqrt(2. * log(2));
+		  double flreg = 2. * width_voigtreg.getVal();
+		  double fvreg = 0.5346 * flreg + sqrt(0.2166 * pow(flreg, 2.) + pow(fgreg, 2.));
+		  double res=  fv / mu_voigt.getVal() * 100. / (2. * sqrt(2. * log(2.)));
+		  double resreg=  fvreg / mu_voigtreg.getVal() * 100. / (2. * sqrt(2. * log(2.)));
+			plotParameters( &p, c1, 0, jj_frame, true, 1, "Voigtian", 98, 99, 2);
+			plotParameters( &preg, c1, 0, jj_frame, true, 4, "test", res, resreg, 2);
+			c1->Print(Form("pdf/mjj_voigt_%s.pdf", categoryName[icat].c_str()));
+			c1->Print(Form("root/mjj_voigt_%s.root", categoryName[icat].c_str()));
+			c1->Print(Form("gif/mjj_voigt_%s.gif", categoryName[icat].c_str()));
+			c1->Clear();
+		
+			RooRealVar mu_voigt_("mu_voigt_", "mean", 300., 200., 400., "GeV");
+			RooRealVar width_voigt_("width_voigt_", "width", 35., 5., 50., "GeV");
+			RooRealVar sigma_voigt_("sigma_voigt_", "sigma", 5., .0, 20., "GeV");
+			RooVoigtian voigt_("voigt_", "voigt_", ggjj_mass, mu_voigt_, width_voigt_, sigma_voigt_);
+		
+			RooRealVar mu_voigt_reg("mu_voigt_reg", "mean (reg)", 300., 200., 400., "GeV");
+			RooRealVar width_voigt_reg("width_voigt_reg", "width (reg)", 35., 5., 50., "GeV");
+			RooRealVar sigma_voigt_reg("sigma_voigt_reg", "sigma (reg)", 5., 0.0001, 20., "GeV");
+			RooVoigtian voigt_reg("voigt_reg", "voigt_reg", ggjj_mass, mu_voigt_reg, width_voigt_reg, sigma_voigt_reg);
+		
+			RooPlot * ggjj_frame = ggjj_mass.frame();
+			dataset.plotOn(ggjj_frame, LineColor(kGreen+3));
+			datasetreg.plotOn(ggjj_frame, LineColor(kRed+2));
+			RooFitResult *f_ = voigt_.fitTo(dataset, Save());
+			voigt_.plotOn(ggjj_frame, LineColor(kGreen+3), LineWidth(2));
+			RooFitResult * freg_ = voigt_reg.fitTo(datasetreg, Save());
+			voigt_reg.plotOn(ggjj_frame, LineColor(kRed+2), LineWidth(2));
+			RooArgList p_ = f_->floatParsFinal();
+			RooArgList preg_ = freg_->floatParsFinal();	
+			ggjj_frame->Draw();
+			double fg_ = 2. * sigma_voigt_.getVal() * sqrt(2. * log(2));
+			double fl_ = 2. * width_voigt_.getVal();
+			double fv_ = 0.5346 * fl_ + sqrt(0.2166 * pow(fl_, 2.) + pow(fg_, 2.));
+			double fgreg_ = 2. * sigma_voigt_reg.getVal() * sqrt(2. * log(2));
+			double flreg_ = 2. * width_voigt_reg.getVal();
+			double fvreg_ = 0.5346 * flreg_ + sqrt(0.2166 * pow(flreg_, 2.) + pow(fgreg_, 2.));
+			double res_=  fv_ / mu_voigt_.getVal() * 100. / (2. * sqrt(2. * log(2.)));
+			double resreg_=  fvreg_ / mu_voigt_reg.getVal() * 100. / (2. * sqrt(2. * log(2.)));
+			plotParameters( &p_, c1, 0, ggjj_frame, true, 1, "Voigtian", 98, 99, 2);
+			plotParameters( &preg_, c1, 0, ggjj_frame, true, 4, "test", res_, resreg_, 2);
+			c1->Print(Form("pdf/mggjj_voigt_%s.pdf", categoryName[icat].c_str()));
+			c1->Print(Form("root/mggjj_voigt_%s.root", categoryName[icat].c_str()));
+			c1->Print(Form("gif/mggjj_voigt_%s.gif", categoryName[icat].c_str()));
+			c1->Clear();
+		
+		  cout << "fg= " << fg << "\tfl= " << fl << "\tfv= " << fv << endl;
+		  cout << "fgreg= " << fgreg << "\tflreg= " << flreg << "\tfvreg= " << fvreg << endl;
+		  cout << "res= " << res << "\tresreg= " << resreg << "\timprov= " << fabs(res - resreg)/res * 100.<< endl;
+			cout << "fg_= " << fg_ << "\tfl_= " << fl_ << "\tfv_= " << fv_ << endl;
+			cout << "fgreg_= " << fgreg_ << "\tflreg_= " << flreg_ << "\tfvreg_= " << fvreg_ << endl;
+			cout << "res_= " << res_ << "\tresreg_= " << resreg_ << "\timprov_= " << fabs(res_ - resreg_)/res_ * 100.<< endl;
+		}// end of if VOIGT
+		
+		if(SIMVOIGT)
+		{
+			RooRealVar mu_voigt("mu_voigt", "mean", mean_jj, mean_jj-rms_jj, mean_jj+rms_jj, "GeV");
+			RooRealVar width_voigt("width_voigt", "width", rms_jj, 0.1*rms_jj, 5.*rms_jj, "GeV");
+			RooRealVar sigma_voigt("sigma_voigt", "sigma", 5., 0.0001, 20., "GeV");
+			RooVoigtian voigt("voigt", "voigt", jj_mass, mu_voigt, width_voigt, sigma_voigt);
+		
+			RooRealVar mu_voigtreg("mu_voigtreg", "mean (reg)", mean_regjj, mean_jj-rms_jj, mean_jj+rms_jj, "GeV");
+			RooRealVar width_voigtreg("width_voigtreg", "width (reg)", rms_jj, 0.1*rms_jj, 5.*rms_jj, "GeV");
+			RooRealVar sigma_voigtreg("sigma_voigtreg", "sigma (reg)", 5., 0.0001, 20., "GeV");
+			RooVoigtian voigtreg2("voigtreg2", "voigtreg2", jj_mass, mu_voigtreg, width_voigtreg, sigma_voigt);
+		
+			RooCategory sample("sample", "sample");
+			sample.defineType("vanilla");
+			sample.defineType("regression");
+		
+			RooDataSet combData("combdata", "combdata", RooArgList(jj_mass, ggjj_mass), Index(sample), Import("vanilla", dataset), Import("regression", datasetreg));
+			RooSimultaneous sim("sim", "sim", sample);
+			sim.addPdf(voigt, "vanilla");
+			sim.addPdf(voigtreg2, "regression");
+		
+			RooPlot * jj_frame = jj_mass.frame();
+			dataset.plotOn(jj_frame, LineColor(kGreen+3));
+			datasetreg.plotOn(jj_frame, LineColor(kRed+2));
+			RooFitResult *f = sim.fitTo(combData, Save());
+			voigt.plotOn(jj_frame, LineColor(kGreen+3), LineWidth(2));
+			voigtreg2.plotOn(jj_frame, LineColor(kRed+2), LineWidth(2));
+			RooArgList p = f->floatParsFinal();
+			jj_frame->Draw();
+		  double fg = 2. * sigma_voigt.getVal() * sqrt(2. * log(2));
+		  double fl = 2. * width_voigt.getVal();
+		  double fv = 0.5346 * fl + sqrt(0.2166 * pow(fl, 2.) + pow(fg, 2.));
+		  double fgreg = 2. * sigma_voigt.getVal() * sqrt(2. * log(2));
+		  double flreg = 2. * width_voigtreg.getVal();
+		  double fvreg = 0.5346 * flreg + sqrt(0.2166 * pow(flreg, 2.) + pow(fgreg, 2.));
+		  double res=  fv / mu_voigt.getVal() * 100. / (2. * sqrt(2. * log(2.)));
+		  double resreg=  fvreg / mu_voigtreg.getVal() * 100. / (2. * sqrt(2. * log(2.)));
+			plotParameters( &p, c1, 0, jj_frame, false, 1, "Simultaneous Voigtian fit", res, resreg, 2);
+			c1->Print(Form("pdf/mjj_simvoigt_%s.pdf", categoryName[icat].c_str()));
+			c1->Print(Form("root/mjj_simvoigt_%s.root", categoryName[icat].c_str()));
+			c1->Print(Form("gif/mjj_simvoigt_%s.gif", categoryName[icat].c_str()));
+			c1->Clear();
+		
+			RooRealVar mu_voigt_("mu_voigt_", "mean", 300., 200., 400., "GeV");
+			RooRealVar width_voigt_("width_voigt_", "width", 35., 5., 50., "GeV");
+			RooRealVar sigma_voigt_("sigma_voigt_", "sigma", 5., .0, 20., "GeV");
+			RooVoigtian voigt_("voigt_", "voigt_", ggjj_mass, mu_voigt_, width_voigt_, sigma_voigt_);
+		
+			RooRealVar mu_voigt_reg("mu_voigt_reg", "mean (reg)", 300., 200., 400., "GeV");
+			RooRealVar width_voigt_reg("width_voigt_reg", "width (reg)", 35., 5., 50., "GeV");
+			RooRealVar sigma_voigt_reg("sigma_voigt_reg", "sigma (reg)", 5., 0.0001, 20., "GeV");
+			RooVoigtian voigt_reg2("voigt_reg2", "voigt_reg2", ggjj_mass, mu_voigt_reg, width_voigt_reg, sigma_voigt_);
+		
+			RooSimultaneous sim_("sim_", "sim_", sample);
+			sim_.addPdf(voigt_, "vanilla");
+			sim_.addPdf(voigt_reg2, "regression");
+		
+			RooPlot * ggjj_frame = ggjj_mass.frame();
+			dataset.plotOn(ggjj_frame, LineColor(kGreen+3));
+			datasetreg.plotOn(ggjj_frame, LineColor(kRed+2));
+			RooFitResult *f_ = sim_.fitTo(combData, Save());
+			voigt_.plotOn(ggjj_frame, LineColor(kGreen+3), LineWidth(2));
+			voigt_reg2.plotOn(ggjj_frame, LineColor(kRed+2), LineWidth(2));
+			RooArgList p_ = f_->floatParsFinal();
+			ggjj_frame->Draw();
+		  double fg_ = 2. * sigma_voigt_.getVal() * sqrt(2. * log(2));
+		  double fl_ = 2. * width_voigt_.getVal();
+		  double fv_ = 0.5346 * fl_ + sqrt(0.2166 * pow(fl_, 2.) + pow(fg_, 2.));
+		  double fg_reg = 2. * sigma_voigt_.getVal() * sqrt(2. * log(2));
+		  double fl_reg = 2. * width_voigt_reg.getVal();
+		  double fv_reg = 0.5346 * fl_reg + sqrt(0.2166 * pow(fl_reg, 2.) + pow(fg_reg, 2.));
+		  double res_=  fv_ / mu_voigt_.getVal() * 100. / (2. * sqrt(2. * log(2.)));
+		  double resreg_=  fv_reg / mu_voigt_reg.getVal() * 100. / (2. * sqrt(2. * log(2.)));
+			plotParameters( &p_, c1, 0, ggjj_frame, false, 1, "Simultaneous Voigtian fit", res_, resreg_, 2);
+			c1->Print(Form("pdf/mggjj_simvoigt_%s.pdf", categoryName[icat].c_str()));
+			c1->Print(Form("root/mggjj_simvoigt_%s.root", categoryName[icat].c_str()));
+			c1->Print(Form("gif/mggjj_simvoigt_%s.gif", categoryName[icat].c_str()));
+			c1->Clear();
+		} // end of if SIMVOIGT
+		
+	}// end of loop over categories
 
 	delete c1;
 	c1 = 0;
