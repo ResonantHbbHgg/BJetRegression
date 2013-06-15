@@ -11,6 +11,7 @@
 #include <TCanvas.h>
 #include <TStyle.h>
 #include <TLatex.h>
+#include <TEntryList.h>
 // RooFit headers
 #include "RooRealVar.h"
 #include "RooFormulaVar.h"
@@ -34,6 +35,7 @@ using namespace std;
 using namespace RooFit;
 
 void plotParameters(RooArgList *r2_cat0_param, TCanvas *c, int canvasDivision, RooPlot* frame0, bool isThereSeveralFits, int iclass, string datasetName, double mvaInf, double mvaSup, int precision);
+double sigmaEff(TTree* tree, string variable, string cut = "");
 
 int main ()
 {
@@ -51,7 +53,11 @@ int main ()
 	TTree *intreereg = (TTree*)infilereg->Get("Radion_m300_8TeV_nm");
 	
 	// Observables
-	RooRealVar jj_mass("jj_mass", "m_{jj}", 70., 250., "GeV");
+	float min_jj = 70.;
+	float max_jj = 250.;
+	float min_ggjj = 200.;
+	float max_ggjj = 400.;
+	RooRealVar jj_mass("jj_mass", "m_{jj}", min_jj, max_jj, "GeV");
 	jj_mass.setBins(45);
 	RooRealVar ggjj_mass("ggjj_mass", "m_{jj#gamma#gamma}", 200., 400., "GeV");
 	ggjj_mass.setBins(50);
@@ -61,18 +67,18 @@ int main ()
 	bool GAUSS = false;
 	bool VOIGT = false;
 	bool SIMVOIGT = false;
-	bool CRYSTALBALL = true;
+	bool CRYSTALBALL = false;
 
 	vector<string> categoryCut;
 	categoryCut.clear();
 	vector<string> categoryName;
 	categoryName.clear();
 
-	categoryCut.push_back("1");
+	categoryCut.push_back(Form("jj_mass > %f && jj_mass < %f && ggjj_mass > %f && ggjj_mass < %f", min_jj, max_jj, min_ggjj, max_ggjj));
 	categoryName.push_back("allcat");
-	categoryCut.push_back("njets_kRadionID_and_CSVM < 1.5");
+	categoryCut.push_back(Form("njets_kRadionID_and_CSVM < 1.5 && jj_mass > %f && jj_mass < %f && ggjj_mass > %f && ggjj_mass < %f", min_jj, max_jj, min_ggjj, max_ggjj));
 	categoryName.push_back("1btag");
-	categoryCut.push_back("njets_kRadionID_and_CSVM > 1.5");
+	categoryCut.push_back(Form("njets_kRadionID_and_CSVM > 1.5 && jj_mass > %f && jj_mass < %f && ggjj_mass > %f && ggjj_mass < %f", min_jj, max_jj, min_ggjj, max_ggjj));
 	categoryName.push_back("2btag");
 	
 
@@ -93,6 +99,9 @@ int main ()
 		double mean_regggjj = datasetreg.mean(ggjj_mass);
 		double rms_ggjj = dataset.rmsVar(ggjj_mass)->getVal();
 		double rms_regggjj = datasetreg.rmsVar(ggjj_mass)->getVal();
+
+		cout << "sigmaEff(intree)= " << sigmaEff(intree, "jj_mass", categoryCut[icat]) << endl;
+		cout << "sigmaEff(intreereg)= " << sigmaEff(intreereg, "jj_mass", categoryCut[icat]) << endl;
 
 		
 			// fit parameters
@@ -472,7 +481,7 @@ int main ()
 	infilereg->Close();
 
 	return 0;
-}
+} // end of main
 
 void plotParameters(RooArgList *r2_cat0_param, TCanvas *c, int canvasDivision, RooPlot* frame0, bool isThereSeveralFits, int iclass, string fitfunctionName, double mvaInf, double mvaSup, int precision )
 {
@@ -541,4 +550,63 @@ if( (iclass != 1) || (!isThereSeveralFits) )
 }
 
 	return;
-}
+} // end of plotParameters
+
+double sigmaEff(TTree* tree, string var, string cut)
+{
+	double sigmaEff_ = 0.;
+	int ntot = tree->GetEntries(cut.c_str());
+	float variable;
+	tree->SetBranchAddress(var.c_str(), &variable);
+
+  tree->Draw(">>elist", cut.c_str(), "entrylist");
+//  tree->Draw(">>elist", "jj_mass < 300", "entrylist");
+  TEntryList *elist = (TEntryList*)gDirectory->Get("elist");
+
+	cout << "ntot= " << ntot << endl;
+	cout << "elist->GetN()= " << elist->GetN() << endl;
+
+//	tree->SetEntryList(elist);
+	int ievt = elist->GetEntry(0);
+	double mean = 0.;
+	vector<float> values;
+	for(int ievtlist = 0 ; ievtlist < ntot ; ievtlist++)
+	{
+		if(ievt < 0 ) continue;
+//		cout << "ievtlist= " << ievtlist << "\tievt= " << ievt << endl;
+		tree->GetEntry(ievt);
+		mean += variable / (double)ntot;
+		values.push_back(variable);
+		ievt = elist->Next();
+	}// end of event loop
+
+	// sorting values
+	sort(values.begin(), values.end());
+	// number of entries to be considered
+	// 1 sigma = 68.2689492%
+	int nInSigma = floor(elist->GetN() * 0.682689492);
+	cout << "nInSigma= " << nInSigma << endl;
+	float sigmaMax = values[elist->GetN()-1] - values[0];
+	cout << "sigmaMax= " << sigmaMax << endl;
+	float valueMin = values[0];
+	float valueMax = values[elist->GetN()-1];
+	float sigma = valueMax - valueMin;
+	cout << "valueMin= " << valueMin << "\tvalueMax= " << valueMax << endl;
+	for(int iscan = 0 ; iscan < (elist->GetN() - nInSigma) ; iscan++)
+	{
+		sigma = values[iscan+nInSigma] - values[iscan];
+//		cout << "iscan= " << iscan << "\tvalues[iscan]= " << values[iscan] << "\tvalues[iscan+nInSigma]= " << values[iscan+nInSigma] << "\tsigma= " << sigma << "\tsigmaMax= " << sigmaMax << endl;
+		if( sigma < sigmaMax )
+		{
+			valueMin = values[iscan];
+			valueMax = values[iscan+nInSigma];
+			sigmaMax = sigma;
+		}
+	}
+	sigmaEff_ = sigmaMax;
+
+	cout << "elist->GetN()= " << elist->GetN() << "\tvalues.size()= " << values.size() << endl;
+	cout << var << "\tcut= " << cut << "\tntot= " << ntot << "\tmean= " << mean << endl;
+	return sigmaEff_;
+} // end of sigmaEff
+
