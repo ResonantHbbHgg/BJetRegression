@@ -35,7 +35,7 @@ using namespace std;
 using namespace RooFit;
 
 void plotParameters(RooArgList *r2_cat0_param, TCanvas *c, int canvasDivision, RooPlot* frame0, bool isThereSeveralFits, int iclass, string datasetName, double mvaInf, double mvaSup, int precision);
-double sigmaEff(TTree* tree, string variable, string cut = "");
+pair<double,double> sigmaEff(TTree* tree, string variable, string cut = "");
 
 int main ()
 {
@@ -100,10 +100,13 @@ int main ()
 		double rms_ggjj = dataset.rmsVar(ggjj_mass)->getVal();
 		double rms_regggjj = datasetreg.rmsVar(ggjj_mass)->getVal();
 
-		cout << "sigmaEff(intree)= " << sigmaEff(intree, "jj_mass", categoryCut[icat]) << endl;
-		cout << "sigmaEff(intreereg)= " << sigmaEff(intreereg, "jj_mass", categoryCut[icat]) << endl;
+		pair<double, double> ms_jj = sigmaEff(intree, "jj_mass", categoryCut[icat]);
+		pair<double, double> ms_regjj = sigmaEff(intreereg, "jj_mass", categoryCut[icat]);
 
-		
+		cout << "ncor: " << "\tmean= " << ms_jj.first << "\tsigma= " << ms_jj.second << "res= " << ms_jj.second / ms_jj.first * 100. << endl;
+		cout << "ncor: " << "\tmean= " << ms_regjj.first << "\tsigma= " << ms_regjj.second << "res= " << ms_regjj.second / ms_regjj.first * 100. << endl;
+		cout << "improvement= " << - (ms_regjj.second / ms_regjj.first - ms_jj.second / ms_jj.first) / (ms_jj.second / ms_jj.first) *100. << endl;
+	
 			// fit parameters
 		if(GAUSS)
 		{
@@ -552,7 +555,7 @@ if( (iclass != 1) || (!isThereSeveralFits) )
 	return;
 } // end of plotParameters
 
-double sigmaEff(TTree* tree, string var, string cut)
+pair<double,double> sigmaEff(TTree* tree, string var, string cut)
 {
 	double sigmaEff_ = 0.;
 	int ntot = tree->GetEntries(cut.c_str());
@@ -563,8 +566,8 @@ double sigmaEff(TTree* tree, string var, string cut)
 //  tree->Draw(">>elist", "jj_mass < 300", "entrylist");
   TEntryList *elist = (TEntryList*)gDirectory->Get("elist");
 
-	cout << "ntot= " << ntot << endl;
-	cout << "elist->GetN()= " << elist->GetN() << endl;
+//	cout << "ntot= " << ntot << endl;
+//	cout << "elist->GetN()= " << elist->GetN() << endl;
 
 //	tree->SetEntryList(elist);
 	int ievt = elist->GetEntry(0);
@@ -585,28 +588,28 @@ double sigmaEff(TTree* tree, string var, string cut)
 	// number of entries to be considered
 	// 1 sigma = 68.2689492%
 	int nInSigma = floor(elist->GetN() * 0.682689492);
-	cout << "nInSigma= " << nInSigma << endl;
-	float sigmaMax = values[elist->GetN()-1] - values[0];
-	cout << "sigmaMax= " << sigmaMax << endl;
+//	cout << "nInSigma= " << nInSigma << endl;
+	sigmaEff_ = values[elist->GetN()-1] - values[0];
+//	cout << "sigmaEff_= " << sigmaEff_ << endl;
 	float valueMin = values[0];
 	float valueMax = values[elist->GetN()-1];
 	float sigma = valueMax - valueMin;
-	cout << "valueMin= " << valueMin << "\tvalueMax= " << valueMax << endl;
+//	cout << "valueMin= " << valueMin << "\tvalueMax= " << valueMax << endl;
 	for(int iscan = 0 ; iscan < (elist->GetN() - nInSigma) ; iscan++)
 	{
 		sigma = values[iscan+nInSigma] - values[iscan];
 //		cout << "iscan= " << iscan << "\tvalues[iscan]= " << values[iscan] << "\tvalues[iscan+nInSigma]= " << values[iscan+nInSigma] << "\tsigma= " << sigma << "\tsigmaMax= " << sigmaMax << endl;
-		if( sigma < sigmaMax )
+		if( sigma < sigmaEff_ )
 		{
 			valueMin = values[iscan];
 			valueMax = values[iscan+nInSigma];
-			sigmaMax = sigma;
+			sigmaEff_ = sigma;
 		}
 	}
-	sigmaEff_ = sigmaMax;
+//	sigmaEff_ = sigmaEff_;
 
-	cout << "elist->GetN()= " << elist->GetN() << "\tvalues.size()= " << values.size() << endl;
-	cout << var << "\tcut= " << cut << "\tntot= " << ntot << "\tmean= " << mean << endl;
-	return sigmaEff_;
+//	cout << "elist->GetN()= " << elist->GetN() << "\tvalues.size()= " << values.size() << endl;
+//	cout << var << "\tcut= " << cut << "\tntot= " << ntot << "\tmean= " << mean << endl;
+	return make_pair(mean, sigmaEff_);
 } // end of sigmaEff
 
