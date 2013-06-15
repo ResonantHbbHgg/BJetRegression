@@ -103,10 +103,11 @@ int main ()
 		pair<double, double> ms_jj = sigmaEff(intree, "jj_mass", categoryCut[icat]);
 		pair<double, double> ms_regjj = sigmaEff(intreereg, "jj_mass", categoryCut[icat]);
 
-		cout << "ncor: " << "\tmean= " << ms_jj.first << "\tsigma= " << ms_jj.second << "res= " << ms_jj.second / ms_jj.first * 100. << endl;
-		cout << "ncor: " << "\tmean= " << ms_regjj.first << "\tsigma= " << ms_regjj.second << "res= " << ms_regjj.second / ms_regjj.first * 100. << endl;
-		cout << "improvement= " << - (ms_regjj.second / ms_regjj.first - ms_jj.second / ms_jj.first) / (ms_jj.second / ms_jj.first) *100. << endl;
+		cout << "ncor: " << "\tmean= " << ms_jj.first << "\tsigma= " << ms_jj.second << "\tres= " << ms_jj.second / ms_jj.first * 100. << endl;
+		cout << "cor: " << "\tmean= " << ms_regjj.first << "\tsigma= " << ms_regjj.second << "\tres= " << ms_regjj.second / ms_regjj.first * 100. << endl;
+		cout << "improvement= " << - (ms_regjj.second / ms_regjj.first - ms_jj.second / ms_jj.first) / (ms_jj.second / ms_jj.first) * 100. << endl;
 	
+		cout << "sigma improvement= " << (ms_jj.second - ms_regjj.second) / ms_jj.second * 100. << endl; 
 			// fit parameters
 		if(GAUSS)
 		{
@@ -127,8 +128,8 @@ int main ()
 			RooGaussian gauss_reg("gauss_reg", "gauss_reg", ggjj_mass, mu_gauss_reg, sigma_gauss_reg);
 		
 			RooPlot * jj_frame = jj_mass.frame();
-			dataset.plotOn(jj_frame, LineColor(kGreen+3));
-			datasetreg.plotOn(jj_frame, LineColor(kRed+2));
+			dataset.plotOn(jj_frame, LineColor(kGreen+3), MarkerColor(kGreen+3), XErrorSize(0));
+			datasetreg.plotOn(jj_frame, LineColor(kRed+2), MarkerColor(kRed+2), MarkerStyle(23), XErrorSize(0));
 		//	RooFitResult *f = gauss.fitTo(dataset, Save(), Range(mean_jj-0.9*rms_jj, mean_jj+1.5*rms_jj));
 			RooFitResult *f = gauss.fitTo(dataset, Save(), Range(mean_jj-1.5*rms_jj, mean_jj+1.5*rms_jj));
 			gauss.plotOn(jj_frame, LineColor(kGreen+3), LineWidth(2));
@@ -147,8 +148,8 @@ int main ()
 			c1->Clear();
 		
 			RooPlot * ggjj_frame = ggjj_mass.frame();
-			dataset.plotOn(ggjj_frame, LineColor(kGreen+3));
-			datasetreg.plotOn(ggjj_frame, LineColor(kRed+2));
+			dataset.plotOn(ggjj_frame, LineColor(kGreen+3), MarkerColor(kGreen+3), XErrorSize(0));
+			datasetreg.plotOn(ggjj_frame, LineColor(kRed+2), MarkerColor(kRed+2), MarkerStyle(23), XErrorSize(0));
 			RooFitResult *f_ = gauss_.fitTo(dataset, Save(), Range(mean_ggjj-1.5*rms_ggjj, mean_ggjj+1.5*rms_ggjj));
 			gauss_.plotOn(ggjj_frame, LineColor(kGreen+3), LineWidth(2));
 			RooFitResult * freg_ = gauss_reg.fitTo(datasetreg, Save(), Range(mean_regggjj-1.5*rms_regggjj, mean_regggjj+1.5*rms_regggjj));
@@ -329,12 +330,12 @@ int main ()
 			RooVoigtian voigtreg2("voigtreg2", "voigtreg2", jj_mass, mu_voigtreg, width_voigtreg, sigma_voigt);
 		
 			RooPlot * jj_frame = jj_mass.frame();
-			dataset.plotOn(jj_frame, LineColor(kGreen+3));
-		//	datasetreg.plotOn(jj_frame, LineColor(kRed+2));
+			dataset.plotOn(jj_frame, LineColor(kGreen+3), MarkerColor(kGreen+3), XErrorSize(0));
+			datasetreg.plotOn(jj_frame, LineColor(kRed+2), MarkerColor(kRed+2), MarkerStyle(23), XErrorSize(0));
 			RooFitResult *f = voigt.fitTo(dataset, Save());
 			voigt.plotOn(jj_frame, LineColor(kGreen+3), LineWidth(2));
 			RooFitResult * freg = voigtreg.fitTo(datasetreg, Save());
-		//	voigtreg.plotOn(jj_frame, LineColor(kRed+2), LineWidth(2));
+			voigtreg.plotOn(jj_frame, LineColor(kRed+2), LineWidth(2));
 			RooArgList p = f->floatParsFinal();
 			RooArgList preg = freg->floatParsFinal();	
 			jj_frame->Draw();
@@ -364,8 +365,8 @@ int main ()
 			RooVoigtian voigt_reg("voigt_reg", "voigt_reg", ggjj_mass, mu_voigt_reg, width_voigt_reg, sigma_voigt_reg);
 		
 			RooPlot * ggjj_frame = ggjj_mass.frame();
-			dataset.plotOn(ggjj_frame, LineColor(kGreen+3));
-			datasetreg.plotOn(ggjj_frame, LineColor(kRed+2));
+			dataset.plotOn(ggjj_frame, LineColor(kGreen+3), MarkerColor(kGreen+3), XErrorSize(0));
+			datasetreg.plotOn(ggjj_frame, LineColor(kRed+2), MarkerColor(kRed+2), MarkerStyle(23), XErrorSize(0));
 			RooFitResult *f_ = voigt_.fitTo(dataset, Save());
 			voigt_.plotOn(ggjj_frame, LineColor(kGreen+3), LineWidth(2));
 			RooFitResult * freg_ = voigt_reg.fitTo(datasetreg, Save());
@@ -418,8 +419,8 @@ int main ()
 			sim.addPdf(voigtreg2, "regression");
 		
 			RooPlot * jj_frame = jj_mass.frame();
-			dataset.plotOn(jj_frame, LineColor(kGreen+3));
-			datasetreg.plotOn(jj_frame, LineColor(kRed+2));
+			dataset.plotOn(jj_frame, LineColor(kGreen+3), MarkerColor(kGreen+3), XErrorSize(0));
+			datasetreg.plotOn(jj_frame, LineColor(kRed+2), MarkerColor(kRed+2), MarkerStyle(23), XErrorSize(0));
 			RooFitResult *f = sim.fitTo(combData, Save());
 			voigt.plotOn(jj_frame, LineColor(kGreen+3), LineWidth(2));
 			voigtreg2.plotOn(jj_frame, LineColor(kRed+2), LineWidth(2));
@@ -454,8 +455,8 @@ int main ()
 			sim_.addPdf(voigt_reg2, "regression");
 		
 			RooPlot * ggjj_frame = ggjj_mass.frame();
-			dataset.plotOn(ggjj_frame, LineColor(kGreen+3));
-			datasetreg.plotOn(ggjj_frame, LineColor(kRed+2));
+			dataset.plotOn(ggjj_frame, LineColor(kGreen+3), MarkerColor(kGreen+3), XErrorSize(0));
+			datasetreg.plotOn(ggjj_frame, LineColor(kRed+2), MarkerColor(kRed+2), MarkerStyle(23), XErrorSize(0));
 			RooFitResult *f_ = sim_.fitTo(combData, Save());
 			voigt_.plotOn(ggjj_frame, LineColor(kGreen+3), LineWidth(2));
 			voigt_reg2.plotOn(ggjj_frame, LineColor(kRed+2), LineWidth(2));
