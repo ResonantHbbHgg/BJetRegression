@@ -83,13 +83,6 @@ int main ()
 		RooDataSet full_datasetreg("radion", "radion", intreereg, RooArgList(jj_mass, ggjj_mass, njets_kRadionID_and_CSVM));
 		RooDataSet dataset = *((RooDataSet*)full_dataset.reduce(categoryCut[icat].c_str()));	
 		RooDataSet datasetreg = *((RooDataSet*)full_datasetreg.reduce(categoryCut[icat].c_str()));	
-//		RooPlot *frame = njets_kRadionID_and_CSVM.frame();
-//		dataset.plotOn(frame);
-//		frame->Draw();
-//		c1->Print("dump.pdf");
-
-//		cout << "\t\tdataset.numEntries()= " << dataset.numEntries() << endl;
-//		cout << "\t\tdatasetreg.numEntries()= " << datasetreg.numEntries() << endl;
 
 		double mean_jj = dataset.mean(jj_mass);
 		double mean_regjj = datasetreg.mean(jj_mass);
