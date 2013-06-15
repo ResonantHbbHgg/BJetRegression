@@ -159,17 +159,17 @@ if( CRYSTALBALL )
 	RooRealVar f0_regjj("f0_regjj", "f0_regjj", 0.2, 0.001, .5);
 
 	// Define gauss and CB (common parameters)
-	RooRealVar mu_CrystalBall_jj("mu_CrystalBall_jj", "mean", mean_jj, mean_jj-rms_jj, mean_jj+rms_jj, "GeV");
-	RooRealVar sigma_CrystalBall_jj("sigma_CrystalBall_jj", "sigma", rms_jj, .01*rms_jj, 5*rms_jj, "GeV");
-	RooRealVar alpha_CrystalBall_jj("alpha_CrystalBall_jj", "alpha", 1., 0., 30., "GeV");
-	RooRealVar n_CrystalBall_jj("n_CrystalBall_jj", "n", 20., 0., 30., "GeV");
+	RooRealVar mu_CrystalBall_jj("mu_CrystalBall_jj", "#mu", mean_jj, mean_jj-rms_jj, mean_jj+rms_jj, "GeV");
+	RooRealVar sigma_CrystalBall_jj("sigma_CrystalBall_jj", "#sigma", rms_jj, .01*rms_jj, 5*rms_jj, "GeV");
+	RooRealVar alpha_CrystalBall_jj("alpha_CrystalBall_jj", "#alpha", 1., 0., 30., "GeV");
+	RooRealVar n_CrystalBall_jj("n_CrystalBall_jj", "n", 10., 0., 30., "GeV");
 	RooCBShape CrystalBall_jj("CrystalBall_jj", "CrystalBall_jj", jj_mass, mu_CrystalBall_jj, sigma_CrystalBall_jj, alpha_CrystalBall_jj, n_CrystalBall_jj);
 	RooGaussian gauss_jj("gauss_jj", "gauss_jj", jj_mass, mu_CrystalBall_jj, sigma_CrystalBall_jj);
 
-	RooRealVar mu_CrystalBall_regjj("mu_CrystalBall_regjj", "mean (reg)", mean_regjj, mean_regjj-rms_regjj, mean_regjj+rms_regjj, "GeV");
-	RooRealVar sigma_CrystalBall_regjj("sigma_CrystalBall_regjj", "sigma (reg)", rms_regjj, .01*rms_regjj, 5*rms_regjj, "GeV");
-	RooRealVar alpha_CrystalBall_regjj("alpha_CrystalBall_regjj", "alpha (reg)", 1., 0., 30., "GeV");
-	RooRealVar n_CrystalBall_regjj("n_CrystalBall_regjj", "n (reg)", 20., 0., 30., "GeV");
+	RooRealVar mu_CrystalBall_regjj("mu_CrystalBall_regjj", "#mu (reg)", mean_regjj, mean_regjj-rms_regjj, mean_regjj+rms_regjj, "GeV");
+	RooRealVar sigma_CrystalBall_regjj("sigma_CrystalBall_regjj", "#sigma (reg)", rms_regjj, .01*rms_regjj, 5*rms_regjj, "GeV");
+	RooRealVar alpha_CrystalBall_regjj("alpha_CrystalBall_regjj", "#alpha (reg)", 1., 0., 30., "GeV");
+	RooRealVar n_CrystalBall_regjj("n_CrystalBall_regjj", "n (reg)", 10., 0., 30., "GeV");
 	RooCBShape CrystalBall_regjj("CrystalBall_regjj", "CrystalBall_regjj", jj_mass, mu_CrystalBall_regjj, sigma_CrystalBall_regjj, alpha_CrystalBall_regjj, n_CrystalBall_regjj);
 	RooGaussian gauss_regjj("gauss_regjj", "gauss_regjj", jj_mass, mu_CrystalBall_regjj, sigma_CrystalBall_regjj);
 
@@ -182,8 +182,8 @@ if( CRYSTALBALL )
 
 	RooPlot * jj_frame = jj_mass.frame();
 	// plot data
-	dataset.plotOn(jj_frame, LineColor(kGreen+3));
-	datasetreg.plotOn(jj_frame, LineColor(kRed+2));
+	dataset.plotOn(jj_frame, LineColor(kGreen+3), MarkerColor(kGreen+3), XErrorSize(0));
+	datasetreg.plotOn(jj_frame, LineColor(kRed+2), MarkerColor(kRed+2), MarkerStyle(23), XErrorSize(0));
 	// first: gaussian fit
 	gauss_jj.fitTo(dataset, Save(), Range(mean_jj-1.5*rms_jj, mean_jj+1.5*rms_jj));
 	gauss_regjj.fitTo(dataset, Save(), Range(mean_regjj-1.5*rms_regjj, mean_regjj+1.5*rms_regjj));
@@ -192,9 +192,9 @@ if( CRYSTALBALL )
 	pol3_regjj.fitTo(dataset, Save());
 	// then pol + gauss fit
 	first_jj.fitTo(dataset, Save());
-	first_jj.plotOn(jj_frame, LineColor(kBlue), LineWidth(2));
+//	first_jj.plotOn(jj_frame, LineColor(kBlue), LineWidth(2));
 	first_regjj.fitTo(datasetreg, Save());
-	first_regjj.plotOn(jj_frame, LineColor(kBlue), LineWidth(2));
+//	first_regjj.plotOn(jj_frame, LineColor(kBlue), LineWidth(2));
 	// finally, CB + pol fit
 	RooFitResult *f = model_jj.fitTo(dataset, Save());
 	RooFitResult *freg = model_regjj.fitTo(datasetreg, Save());
@@ -204,11 +204,80 @@ if( CRYSTALBALL )
 	RooArgList preg = freg->floatParsFinal();	
 	jj_frame->Draw();
 	// printing out plot parameters + creating plots
-	plotParameters( &p, c1, 0, jj_frame, true, 1, "CrystalBall", 98, 99, 2);
-	plotParameters( &preg, c1, 0, jj_frame, true, 5, "test", sigma_CrystalBall_jj.getVal(), sigma_CrystalBall_regjj.getVal(), 2);
+	plotParameters( &p, c1, 0, jj_frame, true, 1, "CrystalBall+Pol3", 98, 99, 2);
+	plotParameters( &preg, c1, 0, jj_frame, true, 3, "test", sigma_CrystalBall_jj.getVal()/mu_CrystalBall_jj.getVal()*100., sigma_CrystalBall_regjj.getVal()/mu_CrystalBall_regjj.getVal()*100., 2);
 	c1->Print("pdf/mjj_CrystalBall.pdf");
 	c1->Print("root/mjj_CrystalBall.root");
 	c1->Print("gif/mjj_CrystalBall.gif");
+	c1->Clear();
+
+// M_jjgg
+	// Define pol3
+	RooRealVar a0_ggjj("a0_ggjj", "a0_ggjj", 0.5001, 0., 1.);
+	RooRealVar a1_ggjj("a1_ggjj", "a1_ggjj", 0.5001, 0., 1.);
+	RooRealVar a2_ggjj("a2_ggjj", "a2_ggjj", 0.5001, 0., 1.);
+	RooRealVar a3_ggjj("a3_ggjj", "a3_ggjj", 0.5001, 0., 1.);
+	RooBernstein pol3_ggjj("pol3_ggjj", "pol3_ggjj", ggjj_mass, RooArgList(a0_ggjj, a1_ggjj, a2_ggjj, a3_ggjj));
+	RooRealVar f0_ggjj("f0_ggjj", "f0_ggjj", 0.2, 0.001, .5);
+
+	RooRealVar a0_regggjj("a0_regggjj", "a0_regggjj", 0.5001, 0., 1.);
+	RooRealVar a1_regggjj("a1_regggjj", "a1_regggjj", 0.5001, 0., 1.);
+	RooRealVar a2_regggjj("a2_regggjj", "a2_regggjj", 0.5001, 0., 1.);
+	RooRealVar a3_regggjj("a3_regggjj", "a3_regggjj", 0.5001, 0., 1.);
+	RooBernstein pol3_regggjj("pol3_regggjj", "pol3_regggjj", ggjj_mass, RooArgList(a0_regggjj, a1_regggjj, a2_regggjj, a3_regggjj));
+	RooRealVar f0_regggjj("f0_regggjj", "f0_regggjj", 0.2, 0.001, .5);
+
+	// Define gauss and CB (common parameters)
+	RooRealVar mu_CrystalBall_ggjj("mu_CrystalBall_ggjj", "#mu", mean_ggjj, mean_ggjj-rms_ggjj, mean_ggjj+rms_ggjj, "GeV");
+	RooRealVar sigma_CrystalBall_ggjj("sigma_CrystalBall_ggjj", "#sigma", rms_ggjj, .01*rms_ggjj, 5*rms_ggjj, "GeV");
+	RooRealVar alpha_CrystalBall_ggjj("alpha_CrystalBall_ggjj", "#alpha", 1., 0., 30., "GeV");
+	RooRealVar n_CrystalBall_ggjj("n_CrystalBall_ggjj", "n", 20., 0., 30., "GeV");
+	RooCBShape CrystalBall_ggjj("CrystalBall_ggjj", "CrystalBall_ggjj", ggjj_mass, mu_CrystalBall_ggjj, sigma_CrystalBall_ggjj, alpha_CrystalBall_ggjj, n_CrystalBall_ggjj);
+	RooGaussian gauss_ggjj("gauss_ggjj", "gauss_ggjj", ggjj_mass, mu_CrystalBall_ggjj, sigma_CrystalBall_ggjj);
+
+	RooRealVar mu_CrystalBall_regggjj("mu_CrystalBall_regggjj", "#mu (reg)", mean_regggjj, mean_regggjj-rms_regggjj, mean_regggjj+rms_regggjj, "GeV");
+	RooRealVar sigma_CrystalBall_regggjj("sigma_CrystalBall_regggjj", "#sigma (reg)", rms_regggjj, .01*rms_regggjj, 5*rms_regggjj, "GeV");
+	RooRealVar alpha_CrystalBall_regggjj("alpha_CrystalBall_regggjj", "#alpha (reg)", 1., 0., 30., "GeV");
+	RooRealVar n_CrystalBall_regggjj("n_CrystalBall_regggjj", "n (reg)", 20., 0., 30., "GeV");
+	RooCBShape CrystalBall_regggjj("CrystalBall_regggjj", "CrystalBall_regggjj", ggjj_mass, mu_CrystalBall_regggjj, sigma_CrystalBall_regggjj, alpha_CrystalBall_regggjj, n_CrystalBall_regggjj);
+	RooGaussian gauss_regggjj("gauss_regggjj", "gauss_regggjj", ggjj_mass, mu_CrystalBall_regggjj, sigma_CrystalBall_regggjj);
+
+	// Models definitions
+	RooAddPdf first_ggjj("first_ggjj", "first_ggjj", pol3_ggjj, gauss_ggjj, f0_ggjj);
+	RooAddPdf model_ggjj("model_ggjj", "model_ggjj", pol3_ggjj, CrystalBall_ggjj, f0_ggjj);
+
+	RooAddPdf first_regggjj("first_regggjj", "first_regggjj", pol3_regggjj, gauss_regggjj, f0_regggjj);
+	RooAddPdf model_regggjj("model_regggjj", "model_regggjj", pol3_regggjj, CrystalBall_regggjj, f0_regggjj);
+
+	RooPlot * ggjj_frame = ggjj_mass.frame();
+	// plot data
+	dataset.plotOn(ggjj_frame, LineColor(kGreen+3), MarkerColor(kGreen+3), XErrorSize(0));
+	datasetreg.plotOn(ggjj_frame, LineColor(kRed+2), MarkerColor(kRed+2), MarkerStyle(23), XErrorSize(0));
+	// first: gaussian fit
+	gauss_ggjj.fitTo(dataset, Save(), Range(mean_ggjj-1.5*rms_ggjj, mean_ggjj+1.5*rms_ggjj));
+	gauss_regggjj.fitTo(dataset, Save(), Range(mean_regggjj-1.5*rms_regggjj, mean_regggjj+1.5*rms_regggjj));
+	// then, pol3 fit
+	pol3_ggjj.fitTo(dataset, Save());
+	pol3_regggjj.fitTo(dataset, Save());
+	// then pol + gauss fit
+	first_ggjj.fitTo(dataset, Save());
+//	first_ggjj.plotOn(ggjj_frame, LineColor(kBlue), LineWidth(2));
+	first_regggjj.fitTo(datasetreg, Save());
+//	first_regggjj.plotOn(ggjj_frame, LineColor(kBlue), LineWidth(2));
+	// finally, CB + pol fit
+	RooFitResult *fggjj = model_ggjj.fitTo(dataset, Save());
+	RooFitResult *fregggjj = model_regggjj.fitTo(datasetreg, Save());
+	model_ggjj.plotOn(ggjj_frame, LineColor(kGreen+3), LineWidth(2));
+	model_regggjj.plotOn(ggjj_frame, LineColor(kRed+2), LineWidth(2));
+	RooArgList pggjj = fggjj->floatParsFinal();
+	RooArgList pregggjj = fregggjj->floatParsFinal();	
+	ggjj_frame->Draw();
+	// printing out plot parameters + creating plots
+	plotParameters( &pggjj, c1, 0, ggjj_frame, true, 1, "CrystalBall+Pol3", 98, 99, 2);
+	plotParameters( &pregggjj, c1, 0, ggjj_frame, true, 3, "test", sigma_CrystalBall_ggjj.getVal()/mu_CrystalBall_ggjj.getVal()*100., sigma_CrystalBall_regggjj.getVal()/mu_CrystalBall_regggjj.getVal()*100., 2);
+	c1->Print("pdf/mggjj_CrystalBall.pdf");
+	c1->Print("root/mggjj_CrystalBall.root");
+	c1->Print("gif/mggjj_CrystalBall.gif");
 	c1->Clear();
 
 }
@@ -408,16 +477,13 @@ void plotParameters(RooArgList *r2_cat0_param, TCanvas *c, int canvasDivision, R
 	while( obj != 0 )
   {
 //		cout << "obj->GetName()= " << obj->GetName() << "\tobj->getVal()= " << obj->getVal() << "\tobj->getError()= " << obj->getError() << endl;
-   if( ! strcmp(((char*)obj->GetName()), "f0_jj") ) {obj = (RooRealVar*)it->Next(); continue;}
-   if( ! strcmp(((char*)obj->GetName()), "a0_jj") ) {obj = (RooRealVar*)it->Next(); continue;}
-   if( ! strcmp(((char*)obj->GetName()), "a1_jj") ) {obj = (RooRealVar*)it->Next(); continue;}
-   if( ! strcmp(((char*)obj->GetName()), "a2_jj") ) {obj = (RooRealVar*)it->Next(); continue;}
-   if( ! strcmp(((char*)obj->GetName()), "a3_jj") ) {obj = (RooRealVar*)it->Next(); continue;}
-   if( ! strcmp(((char*)obj->GetName()), "f0_regjj") ) {obj = (RooRealVar*)it->Next(); continue;}
-   if( ! strcmp(((char*)obj->GetName()), "a0_regjj") ) {obj = (RooRealVar*)it->Next(); continue;}
-   if( ! strcmp(((char*)obj->GetName()), "a1_regjj") ) {obj = (RooRealVar*)it->Next(); continue;}
-   if( ! strcmp(((char*)obj->GetName()), "a2_regjj") ) {obj = (RooRealVar*)it->Next(); continue;}
-   if( ! strcmp(((char*)obj->GetName()), "a3_regjj") ) {obj = (RooRealVar*)it->Next(); continue;}
+   if( strspn("f0_", (char*)obj->GetName())>=3 ) {obj = (RooRealVar*)it->Next(); continue;}
+   if( strspn("a0_", (char*)obj->GetName())>=3 ) {obj = (RooRealVar*)it->Next(); continue;}
+   if( strspn("a1_", (char*)obj->GetName())>=3 ) {obj = (RooRealVar*)it->Next(); continue;}
+   if( strspn("a2_", (char*)obj->GetName())>=3 ) {obj = (RooRealVar*)it->Next(); continue;}
+   if( strspn("a3_", (char*)obj->GetName())>=3 ) {obj = (RooRealVar*)it->Next(); continue;}
+   if( strspn("n_", (char*)obj->GetName())>=2 ) {obj = (RooRealVar*)it->Next(); continue;}
+   if( strspn("alpha_", (char*)obj->GetName())>=6 ) {obj = (RooRealVar*)it->Next(); continue;}
     position -= 0.04;
     std::ostringstream valueStream;
     if( (double)obj->getError() != 0.0 )
@@ -438,12 +504,12 @@ if( (iclass != 1) || (!isThereSeveralFits) )
   std::ostringstream valueStream;
 	valueStream << setprecision (precision) << fixed << mvaInf;
 	string valueString = valueStream.str();
-	latexLabel.DrawLatex(0.60, position, Form("res= %s %%", valueString.c_str()));
+	latexLabel.DrawLatex(0.60, position, Form("#sigma/#mu= %s %%", valueString.c_str()));
 	position -= 0.04;
 	valueStream.clear(); valueStream.str(""); valueString = "";
 	valueStream << setprecision (precision) << fixed << mvaSup;
 	valueString = valueStream.str();
-	latexLabel.DrawLatex(0.60, position, Form("res (reg)= %s %%", valueString.c_str()));
+	latexLabel.DrawLatex(0.60, position, Form("#sigma/#mu (reg)= %s %%", valueString.c_str()));
 	position -= 0.04;
 	valueStream.clear(); valueStream.str(""); valueString = "";
 	valueStream << setprecision (precision) << fixed << fabs(mvaInf - mvaSup) / mvaInf * 100.;
