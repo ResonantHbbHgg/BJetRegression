@@ -3,6 +3,7 @@
 #include <sstream>
 #include <iostream>
 #include <iomanip>
+#include <fstream>
 // ROOT headers
 #include "TROOT.h"
 #include "TSystem.h"
@@ -34,8 +35,8 @@
 using namespace std;
 using namespace RooFit;
 
-void plotParameters(RooArgList *r2_cat0_param, TCanvas *c, int canvasDivision, RooPlot* frame0, bool isThereSeveralFits, int iclass, string datasetName, double mvaInf, double mvaSup, int precision);
-pair<double,double> sigmaEff(TTree* tree, string variable, string cut = "");
+void plotParameters(RooArgList *r2_cat0_param, TCanvas *c, int canvasDivision, RooPlot* frame0, bool isThereSeveralFits, int iclass, string datasetName, float mvaInf, float mvaSup, int precision);
+pair<float,float> sigmaEff(TTree* tree, string variable, string cut = "");
 
 int main ()
 {
@@ -51,6 +52,11 @@ int main ()
 	TFile *infilereg = TFile::Open("simple_reg_genjet.root");
 //	TFile *infilereg = TFile::Open("simple_reg_parton.root");
 	TTree *intreereg = (TTree*)infilereg->Get("Radion_m300_8TeV_nm");
+	ofstream outfile_mjj, outfile_mggjj;
+	outfile_mjj.open("performanceSummary_mjj.txt");
+	outfile_mggjj.open("performanceSummary_mggjj.txt");
+	outfile_mjj << "Category\tMethod\tmu\tsigma\tres\tmu_reg\tsigma_reg\tres_reg\timprovement" << endl;
+	outfile_mggjj << "Category\tMethod\tmu\tsigma\tres\tmu_reg\tsigma_reg\tres_reg\timprovement" << endl;
 	
 	// Observables
 	float min_jj = 70.;
@@ -64,10 +70,10 @@ int main ()
 	RooRealVar njets_kRadionID_and_CSVM("njets_kRadionID_and_CSVM", "njets_kRadionID_and_CSVM", 0, 10);
 	TCanvas *c1 = new TCanvas("c1", "c1", 600, 600);
 
-	bool GAUSS = false;
-	bool VOIGT = false;
-	bool SIMVOIGT = false;
-	bool CRYSTALBALL = false;
+	bool GAUSS = true;
+	bool CRYSTALBALL = true;
+	bool VOIGT = true;
+	bool SIMVOIGT = true;
 
 	vector<string> categoryCut;
 	categoryCut.clear();
@@ -76,11 +82,11 @@ int main ()
 
 	categoryCut.push_back(Form("jj_mass > %f && jj_mass < %f && ggjj_mass > %f && ggjj_mass < %f", min_jj, max_jj, min_ggjj, max_ggjj));
 	categoryName.push_back("allcat");
-	categoryCut.push_back(Form("njets_kRadionID_and_CSVM < 1.5 && jj_mass > %f && jj_mass < %f && ggjj_mass > %f && ggjj_mass < %f", min_jj, max_jj, min_ggjj, max_ggjj));
+/*	categoryCut.push_back(Form("njets_kRadionID_and_CSVM < 1.5 && jj_mass > %f && jj_mass < %f && ggjj_mass > %f && ggjj_mass < %f", min_jj, max_jj, min_ggjj, max_ggjj));
 	categoryName.push_back("1btag");
 	categoryCut.push_back(Form("njets_kRadionID_and_CSVM > 1.5 && jj_mass > %f && jj_mass < %f && ggjj_mass > %f && ggjj_mass < %f", min_jj, max_jj, min_ggjj, max_ggjj));
 	categoryName.push_back("2btag");
-	
+	*/
 
 	for(int icat = 0 ; icat < (int)categoryCut.size() ; icat++)
 	{
@@ -90,23 +96,43 @@ int main ()
 		RooDataSet dataset = *((RooDataSet*)full_dataset.reduce(categoryCut[icat].c_str()));	
 		RooDataSet datasetreg = *((RooDataSet*)full_datasetreg.reduce(categoryCut[icat].c_str()));	
 
-		double mean_jj = dataset.mean(jj_mass);
-		double mean_regjj = datasetreg.mean(jj_mass);
-		double rms_jj = dataset.rmsVar(jj_mass)->getVal();
-		double rms_regjj = datasetreg.rmsVar(jj_mass)->getVal();
+		float mean_jj = dataset.mean(jj_mass);
+		float mean_regjj = datasetreg.mean(jj_mass);
+		float rms_jj = dataset.rmsVar(jj_mass)->getVal();
+		float rms_regjj = datasetreg.rmsVar(jj_mass)->getVal();
 	
-		double mean_ggjj = dataset.mean(ggjj_mass);
-		double mean_regggjj = datasetreg.mean(ggjj_mass);
-		double rms_ggjj = dataset.rmsVar(ggjj_mass)->getVal();
-		double rms_regggjj = datasetreg.rmsVar(ggjj_mass)->getVal();
+		float mean_ggjj = dataset.mean(ggjj_mass);
+		float mean_regggjj = datasetreg.mean(ggjj_mass);
+		float rms_ggjj = dataset.rmsVar(ggjj_mass)->getVal();
+		float rms_regggjj = datasetreg.rmsVar(ggjj_mass)->getVal();
 
-		pair<double, double> ms_jj = sigmaEff(intree, "jj_mass", categoryCut[icat]);
-		pair<double, double> ms_regjj = sigmaEff(intreereg, "jj_mass", categoryCut[icat]);
+		pair<float, float> ms_jj = make_pair(0., 0.);
+		pair<float, float> ms_regjj = make_pair(0., 0.);
+		pair<float, float> ms_ggjj = make_pair(0., 0.);
+		pair<float, float> ms_regggjj = make_pair(0., 0.);
+
+		ms_jj = sigmaEff(intree, "jj_mass", categoryCut[icat]);
+		ms_regjj = sigmaEff(intreereg, "jj_mass", categoryCut[icat]);
+		ms_ggjj = sigmaEff(intree, "ggjj_mass", categoryCut[icat]);
+		ms_regggjj = sigmaEff(intreereg, "ggjj_mass", categoryCut[icat]);
 
 		cout << "ncor: " << "\tmean= " << ms_jj.first << "\tsigma= " << ms_jj.second << "\tres= " << ms_jj.second / ms_jj.first * 100. << endl;
 		cout << "cor: " << "\tmean= " << ms_regjj.first << "\tsigma= " << ms_regjj.second << "\tres= " << ms_regjj.second / ms_regjj.first * 100. << endl;
 		cout << "improvement= " << - (ms_regjj.second / ms_regjj.first - ms_jj.second / ms_jj.first) / (ms_jj.second / ms_jj.first) * 100. << endl;
 	
+//		outfile_mjj << "Category\tMethod\tmu\tsigma\tres\tmu_reg\tsigma_reg\tres_reg\timprovement" << endl;
+		outfile_mjj << setprecision (2) << fixed << categoryName[icat] << "\t" << "sigmaEff" 
+			<< "\t" << ms_jj.first << "\t" << ms_jj.second << "\t" << ms_jj.second / ms_jj.first * 100.
+			<< "\t" << ms_regjj.first << "\t" << ms_regjj.second << "\t" << ms_regjj.second / ms_regjj.first * 100.
+			<< "\t" << - (ms_regjj.second / ms_regjj.first - ms_jj.second / ms_jj.first) / (ms_jj.second / ms_jj.first) * 100.
+			<< endl;
+
+		outfile_mggjj << setprecision (2) << fixed << categoryName[icat] << "\t" << "sigmaEff" 
+			<< "\t" << ms_ggjj.first << "\t" << ms_ggjj.second << "\t" << ms_ggjj.second / ms_ggjj.first * 100.
+			<< "\t" << ms_regggjj.first << "\t" << ms_regggjj.second << "\t" << ms_regggjj.second / ms_regggjj.first * 100.
+			<< "\t" << - (ms_regggjj.second / ms_regggjj.first - ms_ggjj.second / ms_ggjj.first) / (ms_ggjj.second / ms_ggjj.first) * 100.
+			<< endl;
+
 		cout << "sigma improvement= " << (ms_jj.second - ms_regjj.second) / ms_jj.second * 100. << endl; 
 			// fit parameters
 		if(GAUSS)
@@ -138,14 +164,20 @@ int main ()
 			RooArgList p = f->floatParsFinal();
 			RooArgList preg = freg->floatParsFinal();	
 			jj_frame->Draw();
-			double res = sigma_gauss.getVal() / mu_gauss.getVal() * 100.;
-			double resreg = sigma_gaussreg.getVal() / mu_gaussreg.getVal() * 100.;
+			float res = sigma_gauss.getVal() / mu_gauss.getVal() * 100.;
+			float resreg = sigma_gaussreg.getVal() / mu_gaussreg.getVal() * 100.;
 			plotParameters( &p, c1, 0, jj_frame, true, 1, "Gaussian", 98, 99, 2);
 			plotParameters( &preg, c1, 0, jj_frame, true, 3, "test", res, resreg, 2);
 			c1->Print(Form("pdf/mjj_gauss_%s.pdf", categoryName[icat].c_str()));
 			c1->Print(Form("root/mjj_gauss_%s.root", categoryName[icat].c_str()));
 			c1->Print(Form("gif/mjj_gauss_%s.gif", categoryName[icat].c_str()));
 			c1->Clear();
+//		outfile_mjj << "Category\tMethod\tmu\tsigma\tres\tmu_reg\tsigma_reg\tres_reg\timprovement" << endl;
+			outfile_mjj << setprecision (2) << fixed << categoryName[icat] << "\tGauss"
+				<< "\t" << mu_gauss.getVal() << "\t" << sigma_gauss.getVal() << "\t" << sigma_gauss.getVal() / mu_gauss.getVal() * 100.
+				<< "\t" << mu_gaussreg.getVal() << "\t" << sigma_gaussreg.getVal() << "\t" << sigma_gaussreg.getVal() / mu_gaussreg.getVal() * 100.
+				<< "\t" << - (resreg - res) / res * 100.
+				<< endl;
 		
 			RooPlot * ggjj_frame = ggjj_mass.frame();
 			dataset.plotOn(ggjj_frame, LineColor(kGreen+3), MarkerColor(kGreen+3), XErrorSize(0));
@@ -157,8 +189,8 @@ int main ()
 			RooArgList p_ = f_->floatParsFinal();
 			RooArgList preg_ = freg_->floatParsFinal();	
 			ggjj_frame->Draw();
-			double res_ = sigma_gauss_.getVal() / mu_gauss_.getVal() * 100.;
-			double resreg_ = sigma_gauss_reg.getVal() / mu_gauss_reg.getVal() * 100.;
+			float res_ = sigma_gauss_.getVal() / mu_gauss_.getVal() * 100.;
+			float resreg_ = sigma_gauss_reg.getVal() / mu_gauss_reg.getVal() * 100.;
 			plotParameters( &p_, c1, 0, ggjj_frame, true, 1, "Gaussian", 98, 99, 2);
 			plotParameters( &preg_, c1, 0, ggjj_frame, true, 3, "test", res_, resreg_, 2);
 			c1->Print(Form("pdf/mggjj_gauss_%s.pdf", categoryName[icat].c_str()));
@@ -168,7 +200,13 @@ int main ()
 		
 			cout << "res= " << res << "\tresreg= " << resreg << "\timprov= " << fabs(res-resreg)/res*100. << endl;
 			cout << "res_= " << res_ << "\tresreg_= " << resreg_ << "\timprov= " << fabs(res_-resreg_)/res_*100. << endl;
-		} // end of if GAUSS
+//		outfile_mjj << "Category\tMethod\tmu\tsigma\tres\tmu_reg\tsigma_reg\tres_reg\timprovement" << endl;
+			outfile_mggjj << setprecision (2) << fixed << categoryName[icat] << "\tGauss"
+				<< "\t" << mu_gauss_.getVal() << "\t" << sigma_gauss_.getVal() << "\t" << sigma_gauss_.getVal() / mu_gauss_.getVal() * 100.
+				<< "\t" << mu_gauss_reg.getVal() << "\t" << sigma_gauss_reg.getVal() << "\t" << sigma_gauss_reg.getVal() / mu_gauss_reg.getVal() * 100.
+				<< "\t" << - (resreg_ - res_) / res_ * 100.
+				<< endl;
+			} // end of if GAUSS
 
 		if( CRYSTALBALL )
 		{
@@ -237,6 +275,8 @@ int main ()
 			RooArgList p = f->floatParsFinal();
 			RooArgList preg = freg->floatParsFinal();	
 			jj_frame->Draw();
+			double res = sigma_CrystalBall_jj.getVal()/mu_CrystalBall_jj.getVal()*100.;
+			double resreg = sigma_CrystalBall_regjj.getVal()/mu_CrystalBall_regjj.getVal()*100.;
 			// printing out plot parameters + creating plots
 			plotParameters( &p, c1, 0, jj_frame, true, 1, "CrystalBall+Pol3", 98, 99, 2);
 			plotParameters( &preg, c1, 0, jj_frame, true, 3, "test", sigma_CrystalBall_jj.getVal()/mu_CrystalBall_jj.getVal()*100., sigma_CrystalBall_regjj.getVal()/mu_CrystalBall_regjj.getVal()*100., 2);
@@ -244,6 +284,12 @@ int main ()
 			c1->Print(Form("root/mjj_CrystalBall_%s.root", categoryName[icat].c_str()));
 			c1->Print(Form("gif/mjj_CrystalBall_%s.gif", categoryName[icat].c_str()));
 			c1->Clear();
+	//		outfile_mjj << "Category\tMethod\tmu\tsigma\tres\tmu_reg\tsigma_reg\tres_reg\timprovement" << endl;
+			outfile_mjj << setprecision (2) << fixed << categoryName[icat] << "\tCrystalBall"
+				<< "\t" << mu_CrystalBall_jj.getVal() << "\t" << sigma_CrystalBall_jj.getVal() << "\t" << sigma_CrystalBall_jj.getVal() / mu_CrystalBall_jj.getVal() * 100.
+				<< "\t" << mu_CrystalBall_regjj.getVal() << "\t" << sigma_CrystalBall_regjj.getVal() << "\t" << sigma_CrystalBall_regjj.getVal() / mu_CrystalBall_regjj.getVal() * 100.
+				<< "\t" << - (resreg - res) / res * 100.
+				<< endl;
 		
 		// M_jjgg
 			// Define pol3
@@ -313,7 +359,15 @@ int main ()
 			c1->Print(Form("root/mggjj_CrystalBall_%s.root", categoryName[icat].c_str()));
 			c1->Print(Form("gif/mggjj_CrystalBall_%s.gif", categoryName[icat].c_str()));
 			c1->Clear();
-		
+			double res_ = sigma_CrystalBall_ggjj.getVal()/mu_CrystalBall_ggjj.getVal()*100.;
+			double resreg_ = sigma_CrystalBall_regggjj.getVal()/mu_CrystalBall_regggjj.getVal()*100.;
+			//		outfile_mjj << "Category\tMethod\tmu\tsigma\tres\tmu_reg\tsigma_reg\tres_reg\timprovement" << endl;
+			outfile_mggjj << setprecision (2) << fixed << categoryName[icat] << "\tCrystalBall"
+				<< "\t" << mu_CrystalBall_ggjj.getVal() << "\t" << sigma_CrystalBall_ggjj.getVal() << "\t" << sigma_CrystalBall_ggjj.getVal() / mu_CrystalBall_ggjj.getVal() * 100.
+				<< "\t" << mu_CrystalBall_regggjj.getVal() << "\t" << sigma_CrystalBall_regggjj.getVal() << "\t" << sigma_CrystalBall_regggjj.getVal() / mu_CrystalBall_regggjj.getVal() * 100.
+				<< "\t" << - (resreg_ - res_) / res_ * 100.
+				<< endl;
+	
 		} // end of if CRYSTALBALL
 
 		if(VOIGT)
@@ -339,21 +393,27 @@ int main ()
 			RooArgList p = f->floatParsFinal();
 			RooArgList preg = freg->floatParsFinal();	
 			jj_frame->Draw();
-		  double fg = 2. * sigma_voigt.getVal() * sqrt(2. * log(2));
-		  double fl = 2. * width_voigt.getVal();
-		  double fv = 0.5346 * fl + sqrt(0.2166 * pow(fl, 2.) + pow(fg, 2.));
-		  double fgreg = 2. * sigma_voigtreg.getVal() * sqrt(2. * log(2));
-		  double flreg = 2. * width_voigtreg.getVal();
-		  double fvreg = 0.5346 * flreg + sqrt(0.2166 * pow(flreg, 2.) + pow(fgreg, 2.));
-		  double res=  fv / mu_voigt.getVal() * 100. / (2. * sqrt(2. * log(2.)));
-		  double resreg=  fvreg / mu_voigtreg.getVal() * 100. / (2. * sqrt(2. * log(2.)));
+		  float fg = 2. * sigma_voigt.getVal() * sqrt(2. * log(2));
+		  float fl = 2. * width_voigt.getVal();
+		  float fv = 0.5346 * fl + sqrt(0.2166 * pow(fl, 2.) + pow(fg, 2.));
+		  float fgreg = 2. * sigma_voigtreg.getVal() * sqrt(2. * log(2));
+		  float flreg = 2. * width_voigtreg.getVal();
+		  float fvreg = 0.5346 * flreg + sqrt(0.2166 * pow(flreg, 2.) + pow(fgreg, 2.));
+		  float res=  fv / mu_voigt.getVal() * 100. / (2. * sqrt(2. * log(2.)));
+		  float resreg=  fvreg / mu_voigtreg.getVal() * 100. / (2. * sqrt(2. * log(2.)));
 			plotParameters( &p, c1, 0, jj_frame, true, 1, "Voigtian", 98, 99, 2);
 			plotParameters( &preg, c1, 0, jj_frame, true, 4, "test", res, resreg, 2);
 			c1->Print(Form("pdf/mjj_voigt_%s.pdf", categoryName[icat].c_str()));
 			c1->Print(Form("root/mjj_voigt_%s.root", categoryName[icat].c_str()));
 			c1->Print(Form("gif/mjj_voigt_%s.gif", categoryName[icat].c_str()));
 			c1->Clear();
-		
+			//		outfile_mjj << "Category\tMethod\tmu\tsigma\tres\tmu_reg\tsigma_reg\tres_reg\timprovement" << endl;
+			outfile_mjj << setprecision (2) << fixed << categoryName[icat] << "\tVoigt"
+				<< "\t" << mu_voigt.getVal() << "\t" << fv << "\t" << res
+				<< "\t" << mu_voigtreg.getVal() << "\t" << fvreg << "\t" << resreg
+				<< "\t" << - (resreg - res) / res * 100.
+				<< endl;
+			
 			RooRealVar mu_voigt_("mu_voigt_", "mean", 300., 200., 400., "GeV");
 			RooRealVar width_voigt_("width_voigt_", "width", 35., 5., 50., "GeV");
 			RooRealVar sigma_voigt_("sigma_voigt_", "sigma", 5., .0, 20., "GeV");
@@ -374,21 +434,26 @@ int main ()
 			RooArgList p_ = f_->floatParsFinal();
 			RooArgList preg_ = freg_->floatParsFinal();	
 			ggjj_frame->Draw();
-			double fg_ = 2. * sigma_voigt_.getVal() * sqrt(2. * log(2));
-			double fl_ = 2. * width_voigt_.getVal();
-			double fv_ = 0.5346 * fl_ + sqrt(0.2166 * pow(fl_, 2.) + pow(fg_, 2.));
-			double fgreg_ = 2. * sigma_voigt_reg.getVal() * sqrt(2. * log(2));
-			double flreg_ = 2. * width_voigt_reg.getVal();
-			double fvreg_ = 0.5346 * flreg_ + sqrt(0.2166 * pow(flreg_, 2.) + pow(fgreg_, 2.));
-			double res_=  fv_ / mu_voigt_.getVal() * 100. / (2. * sqrt(2. * log(2.)));
-			double resreg_=  fvreg_ / mu_voigt_reg.getVal() * 100. / (2. * sqrt(2. * log(2.)));
+			float fg_ = 2. * sigma_voigt_.getVal() * sqrt(2. * log(2));
+			float fl_ = 2. * width_voigt_.getVal();
+			float fv_ = 0.5346 * fl_ + sqrt(0.2166 * pow(fl_, 2.) + pow(fg_, 2.));
+			float fgreg_ = 2. * sigma_voigt_reg.getVal() * sqrt(2. * log(2));
+			float flreg_ = 2. * width_voigt_reg.getVal();
+			float fvreg_ = 0.5346 * flreg_ + sqrt(0.2166 * pow(flreg_, 2.) + pow(fgreg_, 2.));
+			float res_=  fv_ / mu_voigt_.getVal() * 100. / (2. * sqrt(2. * log(2.)));
+			float resreg_=  fvreg_ / mu_voigt_reg.getVal() * 100. / (2. * sqrt(2. * log(2.)));
 			plotParameters( &p_, c1, 0, ggjj_frame, true, 1, "Voigtian", 98, 99, 2);
 			plotParameters( &preg_, c1, 0, ggjj_frame, true, 4, "test", res_, resreg_, 2);
 			c1->Print(Form("pdf/mggjj_voigt_%s.pdf", categoryName[icat].c_str()));
 			c1->Print(Form("root/mggjj_voigt_%s.root", categoryName[icat].c_str()));
 			c1->Print(Form("gif/mggjj_voigt_%s.gif", categoryName[icat].c_str()));
 			c1->Clear();
-		
+			outfile_mggjj << setprecision (2) << fixed << categoryName[icat] << "\tVoigt"
+				<< "\t" << mu_voigt_.getVal() << "\t" << fv_ << "\t" << res_
+				<< "\t" << mu_voigt_reg.getVal() << "\t" << fvreg_ << "\t" << resreg_
+				<< "\t" << - (resreg_ - res_) / res_ * 100.
+				<< endl;
+			
 		  cout << "fg= " << fg << "\tfl= " << fl << "\tfv= " << fv << endl;
 		  cout << "fgreg= " << fgreg << "\tflreg= " << flreg << "\tfvreg= " << fvreg << endl;
 		  cout << "res= " << res << "\tresreg= " << resreg << "\timprov= " << fabs(res - resreg)/res * 100.<< endl;
@@ -426,19 +491,24 @@ int main ()
 			voigtreg2.plotOn(jj_frame, LineColor(kRed+2), LineWidth(2));
 			RooArgList p = f->floatParsFinal();
 			jj_frame->Draw();
-		  double fg = 2. * sigma_voigt.getVal() * sqrt(2. * log(2));
-		  double fl = 2. * width_voigt.getVal();
-		  double fv = 0.5346 * fl + sqrt(0.2166 * pow(fl, 2.) + pow(fg, 2.));
-		  double fgreg = 2. * sigma_voigt.getVal() * sqrt(2. * log(2));
-		  double flreg = 2. * width_voigtreg.getVal();
-		  double fvreg = 0.5346 * flreg + sqrt(0.2166 * pow(flreg, 2.) + pow(fgreg, 2.));
-		  double res=  fv / mu_voigt.getVal() * 100. / (2. * sqrt(2. * log(2.)));
-		  double resreg=  fvreg / mu_voigtreg.getVal() * 100. / (2. * sqrt(2. * log(2.)));
+		  float fg = 2. * sigma_voigt.getVal() * sqrt(2. * log(2));
+		  float fl = 2. * width_voigt.getVal();
+		  float fv = 0.5346 * fl + sqrt(0.2166 * pow(fl, 2.) + pow(fg, 2.));
+		  float fgreg = 2. * sigma_voigt.getVal() * sqrt(2. * log(2));
+		  float flreg = 2. * width_voigtreg.getVal();
+		  float fvreg = 0.5346 * flreg + sqrt(0.2166 * pow(flreg, 2.) + pow(fgreg, 2.));
+		  float res=  fv / mu_voigt.getVal() * 100. / (2. * sqrt(2. * log(2.)));
+		  float resreg=  fvreg / mu_voigtreg.getVal() * 100. / (2. * sqrt(2. * log(2.)));
 			plotParameters( &p, c1, 0, jj_frame, false, 1, "Simultaneous Voigtian fit", res, resreg, 2);
 			c1->Print(Form("pdf/mjj_simvoigt_%s.pdf", categoryName[icat].c_str()));
 			c1->Print(Form("root/mjj_simvoigt_%s.root", categoryName[icat].c_str()));
 			c1->Print(Form("gif/mjj_simvoigt_%s.gif", categoryName[icat].c_str()));
 			c1->Clear();
+			outfile_mjj << setprecision (2) << fixed << categoryName[icat] << "\tSimVoigt"
+				<< "\t" << mu_voigt.getVal() << "\t" << fv << "\t" << res
+				<< "\t" << mu_voigtreg.getVal() << "\t" << fvreg << "\t" << resreg
+				<< "\t" << - (resreg - res) / res * 100.
+				<< endl;
 		
 			RooRealVar mu_voigt_("mu_voigt_", "mean", 300., 200., 400., "GeV");
 			RooRealVar width_voigt_("width_voigt_", "width", 35., 5., 50., "GeV");
@@ -462,22 +532,30 @@ int main ()
 			voigt_reg2.plotOn(ggjj_frame, LineColor(kRed+2), LineWidth(2));
 			RooArgList p_ = f_->floatParsFinal();
 			ggjj_frame->Draw();
-		  double fg_ = 2. * sigma_voigt_.getVal() * sqrt(2. * log(2));
-		  double fl_ = 2. * width_voigt_.getVal();
-		  double fv_ = 0.5346 * fl_ + sqrt(0.2166 * pow(fl_, 2.) + pow(fg_, 2.));
-		  double fg_reg = 2. * sigma_voigt_.getVal() * sqrt(2. * log(2));
-		  double fl_reg = 2. * width_voigt_reg.getVal();
-		  double fv_reg = 0.5346 * fl_reg + sqrt(0.2166 * pow(fl_reg, 2.) + pow(fg_reg, 2.));
-		  double res_=  fv_ / mu_voigt_.getVal() * 100. / (2. * sqrt(2. * log(2.)));
-		  double resreg_=  fv_reg / mu_voigt_reg.getVal() * 100. / (2. * sqrt(2. * log(2.)));
+		  float fg_ = 2. * sigma_voigt_.getVal() * sqrt(2. * log(2));
+		  float fl_ = 2. * width_voigt_.getVal();
+		  float fv_ = 0.5346 * fl_ + sqrt(0.2166 * pow(fl_, 2.) + pow(fg_, 2.));
+		  float fg_reg = 2. * sigma_voigt_.getVal() * sqrt(2. * log(2));
+		  float fl_reg = 2. * width_voigt_reg.getVal();
+		  float fv_reg = 0.5346 * fl_reg + sqrt(0.2166 * pow(fl_reg, 2.) + pow(fg_reg, 2.));
+		  float res_=  fv_ / mu_voigt_.getVal() * 100. / (2. * sqrt(2. * log(2.)));
+		  float resreg_=  fv_reg / mu_voigt_reg.getVal() * 100. / (2. * sqrt(2. * log(2.)));
 			plotParameters( &p_, c1, 0, ggjj_frame, false, 1, "Simultaneous Voigtian fit", res_, resreg_, 2);
 			c1->Print(Form("pdf/mggjj_simvoigt_%s.pdf", categoryName[icat].c_str()));
 			c1->Print(Form("root/mggjj_simvoigt_%s.root", categoryName[icat].c_str()));
 			c1->Print(Form("gif/mggjj_simvoigt_%s.gif", categoryName[icat].c_str()));
 			c1->Clear();
-		} // end of if SIMVOIGT
+			outfile_mggjj << setprecision (2) << fixed << categoryName[icat] << "\tSimVoigt"
+				<< "\t" << mu_voigt_.getVal() << "\t" << fv_ << "\t" << res_
+				<< "\t" << mu_voigt_reg.getVal() << "\t" << fv_reg << "\t" << resreg_
+				<< "\t" << - (resreg_ - res_) / res_ * 100.
+				<< endl;
+			} // end of if SIMVOIGT
 		
 	}// end of loop over categories
+
+	outfile_mjj.close();
+	outfile_mggjj.close();
 
 	delete c1;
 	c1 = 0;
@@ -487,7 +565,7 @@ int main ()
 	return 0;
 } // end of main
 
-void plotParameters(RooArgList *r2_cat0_param, TCanvas *c, int canvasDivision, RooPlot* frame0, bool isThereSeveralFits, int iclass, string fitfunctionName, double mvaInf, double mvaSup, int precision )
+void plotParameters(RooArgList *r2_cat0_param, TCanvas *c, int canvasDivision, RooPlot* frame0, bool isThereSeveralFits, int iclass, string fitfunctionName, float mvaInf, float mvaSup, int precision )
 {
 //	cout << "entering plotParameters" << endl;
 	// Written by H. Brun (November 2011)
@@ -504,7 +582,7 @@ void plotParameters(RooArgList *r2_cat0_param, TCanvas *c, int canvasDivision, R
 //  latexLabel.DrawLatex(0.67, 0.91, isThereSeveralFits ? "Simulation: signal" : "Simulation: background");
   latexLabel.SetTextSize(0.03);
   RooRealVar* obj = new RooRealVar();
-  double position = 0.92;
+  float position = 0.92;
   position -= 0.04 * (iclass);
   if(iclass == 1) latexLabel.DrawLatex(0.55, position, Form("Fit: %s", fitfunctionName.c_str()));
   TIterator *it = (TIterator*) r2_cat0_param->createIterator();
@@ -522,12 +600,12 @@ void plotParameters(RooArgList *r2_cat0_param, TCanvas *c, int canvasDivision, R
    if( strspn("alpha_", (char*)obj->GetName())>=6 ) {obj = (RooRealVar*)it->Next(); continue;}
     position -= 0.04;
     std::ostringstream valueStream;
-    if( (double)obj->getError() != 0.0 )
+    if( (float)obj->getError() != 0.0 )
     {
-      valueStream << setprecision (precision) << fixed << (double)obj->getVal() << " +- " << (double)obj->getError();
-//      cout << setprecision (precision) << fixed << (double)obj->getVal() << " +- " << (double)obj->getError() << endl;;
+      valueStream << setprecision (precision) << fixed << (float)obj->getVal() << " +- " << (float)obj->getError();
+//      cout << setprecision (precision) << fixed << (float)obj->getVal() << " +- " << (float)obj->getError() << endl;;
     } else {
-       valueStream << setprecision (precision) << fixed << (double)obj->getVal();
+       valueStream << setprecision (precision) << fixed << (float)obj->getVal();
     }
     string valueString = valueStream.str();
     latexLabel.DrawLatex(0.60, position, Form("%s = %s %s", obj->GetTitle(), valueString.c_str(), (char*)obj->getUnit()));
@@ -556,11 +634,12 @@ if( (iclass != 1) || (!isThereSeveralFits) )
 	return;
 } // end of plotParameters
 
-pair<double,double> sigmaEff(TTree* tree, string var, string cut)
+pair<float,float> sigmaEff(TTree* tree, string var, string cut)
 {
-	double sigmaEff_ = 0.;
+	float sigmaEff_ = 0.;
+	float mean = 0.;
 	int ntot = tree->GetEntries(cut.c_str());
-	float variable;
+	float variable = 0.;
 	tree->SetBranchAddress(var.c_str(), &variable);
 
   tree->Draw(">>elist", cut.c_str(), "entrylist");
@@ -572,14 +651,13 @@ pair<double,double> sigmaEff(TTree* tree, string var, string cut)
 
 //	tree->SetEntryList(elist);
 	int ievt = elist->GetEntry(0);
-	double mean = 0.;
 	vector<float> values;
 	for(int ievtlist = 0 ; ievtlist < ntot ; ievtlist++)
 	{
 		if(ievt < 0 ) continue;
 //		cout << "ievtlist= " << ievtlist << "\tievt= " << ievt << endl;
 		tree->GetEntry(ievt);
-		mean += variable / (double)ntot;
+		mean += variable / (float)ntot;
 		values.push_back(variable);
 		ievt = elist->Next();
 	}// end of event loop
@@ -608,6 +686,7 @@ pair<double,double> sigmaEff(TTree* tree, string var, string cut)
 		}
 	}
 //	sigmaEff_ = sigmaEff_;
+	tree->ResetBranchAddresses();
 
 //	cout << "elist->GetN()= " << elist->GetN() << "\tvalues.size()= " << values.size() << endl;
 //	cout << var << "\tcut= " << cut << "\tntot= " << ntot << "\tmean= " << mean << endl;
