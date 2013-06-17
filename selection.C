@@ -38,7 +38,8 @@ int main()
 	TFile *outfile = new TFile("Radion_m500_8TeV_nm_genjet.root", "RECREATE");
 	TTree *outtree = new TTree("Radion_m500_8TeV_nm", "Radion_m500_8TeV_nm reduced");
 */
-	TFile *infile = TFile::Open("root://eoscms//eos/cms/store/group/phys_higgs/Resonant_HH/trees/radion_tree_v04_dev/Radion_300-nm.root");
+//	TFile *infile = TFile::Open("root://eoscms//eos/cms/store/group/phys_higgs/Resonant_HH/trees/radion_tree_v04_dev/Radion_300-nm.root");
+	TFile *infile = TFile::Open("radion_tree_v04_dev_Radion_300-nm.root");
 	TTree *intree = (TTree*)infile->Get("Radion_m300_8TeV_nm");
 	TFile *outfile = new TFile("Radion_m300_8TeV_nm_genjet.root", "RECREATE");
 //	TFile *outfile = new TFile("Radion_m300_8TeV_nm_parton.root", "RECREATE");
@@ -474,8 +475,10 @@ int main()
 
 
 
-	int nevents[20] = {0};
-	int njets[20] = {0};
+	int nevents[30] = {0};
+	string eventcut[30];
+	int njets[30] = {0};
+	string jetcut[30];
   int decade = 0;
   int totevents = intree->GetEntries();
   if(DEBUG) totevents = 10;
@@ -493,31 +496,31 @@ int main()
     intree->GetEntry(ievt);
 	
 		// Apply photon ID cuts
-		nevents[0]++;
+		nevents[0]++; eventcut[0] = "Before photon ID";
 		if( (fabs(ph1_eta) > 2.5) || (fabs(ph2_eta) > 2.5) ) continue;
-		nevents[1]++;
+		nevents[1]++; eventcut[1] = "After eta < 2.5";
 		if( (fabs(ph1_eta) < 1.566) && (fabs(ph1_eta) >1.4442) ) continue;
-		nevents[2]++;
+		nevents[2]++; eventcut[2] = "After eta gap for photon 1";
 		if( (fabs(ph2_eta) < 1.566) && (fabs(ph2_eta) >1.4442) ) continue;
-		nevents[3]++;
+		nevents[3]++; eventcut[3] = "After eta gap for photon 2";
 		if( ph1_pt < (float)(40.*PhotonsMass)/(float)120. ) continue;
-		nevents[4]++;
+		nevents[4]++; eventcut[4] = "After floating pt cut for photon 1 (40*mgg/120 GeV)";
 		if( ph2_pt < 25. ) continue;
-		nevents[5]++;
+		nevents[5]++; eventcut[5] = "After fixed pt cut for photon 2 (25 GeV)";
 		if(DEBUG) cout << "ph1_ciclevel= " << ph1_ciclevel << "\tph2_ciclevel= " << ph2_ciclevel << endl;
 		if( (ph1_ciclevel < 4) || (ph2_ciclevel < 4) ) continue;
-		nevents[6]++;
+		nevents[6]++; eventcut[6] = "After cic cut on both photons";
 		if( (PhotonsMass < 100.) || (PhotonsMass > 180.) ) continue;
-		nevents[7]++;
+		nevents[7]++; eventcut[7] = "After 100 < mgg < 180";
 		if(BLIND)
 			{ if( (PhotonsMass > 120.) && (PhotonsMass < 130.) ) continue; }
-		nevents[8]++;
+		nevents[8]++; eventcut[8] = "After blinding data in 120 < mgg < 130";
 
 		// take only the subset of events where at least two jets remains
 		if( njets_passing_kLooseID < 2 ) continue;
-		nevents[9]++;
+		nevents[9]++; eventcut[9] = "After njet >= 2";
 		if( njets_passing_kLooseID_and_CSVM < 1 ) continue;
-		nevents[10]++;
+		nevents[10]++; eventcut[10] = "After nbjet >= 1";
 
 		TLorentzVector jet;
 		vector<float> jetPt;
@@ -532,7 +535,7 @@ int main()
 		// loop over jets, store jet info + info on closest genjet / parton (no selection applied)
 		for( int ijet = 0 ; ijet < min(njets_passing_kLooseID, 4); ijet ++ )
 		{
-			njets[0]++;
+			njets[0]++; jetcut[0] = "Before JetID";
 			if( ijet == 0 )
 			{
 				jet_e = j1_e;
@@ -712,15 +715,15 @@ int main()
 			// jet selection
 			// ** acceptance + pu id **
 			if( jet_pt < 25. ) continue;
-			njets[1]++;
+			njets[1]++; jetcut[1] = "After jet pt > 25";
 			if( fabs(jet_eta) > 2.5 ) continue;
-			njets[2]++;
+			njets[2]++; jetcut[2] = "After jet |eta| < 2.5";
 			if( jet_betaStarClassic > 0.2 * log( nvtx - 0.64) ) continue;
-			njets[3]++;
+			njets[3]++; jetcut[3] = "After jet_betaStarClassic > 0.2 * log( nvtx - 0.64)";
 			if( jet_dR2Mean > 0.06 ) continue;
-			njets[4]++;
+			njets[4]++; jetcut[4] = "After jet_dR2Mean > 0.06";
 			if( jet_csvBtag < 0. ) continue;
-			njets[5]++;
+			njets[5]++; jetcut[5] = "After jet_csvBtag < 0.";
 			// ** call regression to correct the pt **
 			jet_MLPweight = (float)(MLPreader->EvaluateMVA("MLP"));
 			jet_regPt = (float)(BDTreader->EvaluateMVA("BDT"));
@@ -740,7 +743,7 @@ int main()
 		
 		// jet combinatorics
 		if( jetPt.size() < 2 ) continue;
-		nevents[11]++;
+		nevents[11]++; eventcut[11] = "After njet >=2 passing the jet selection";
 
 		vector<int> btaggedJet;
 		for( unsigned int ijet = 0 ; ijet < jetPt.size() ; ijet++ )
@@ -750,7 +753,7 @@ int main()
 		}
 
 		if( btaggedJet.size() < 1 ) continue;
-		nevents[12]++;
+		nevents[12]++; eventcut[12] = "After nbjet >=1 passing the jet selection";
 
 		int ij1, ij2;
 		int ij1Reg, ij2Reg;
@@ -934,10 +937,10 @@ int main()
 
 
 	for(int i=0 ; i < 13 ; i++)
-    cout << "#nevents[" << i << "]= " << nevents[i] << endl;
+    cout << "#nevents[" << i << "]= " << nevents[i] << "\teventcut[" << i << "]= " << eventcut[i] << endl;
 	cout << endl;
 	for(int i=0 ; i < 6 ; i++)
-    cout << "#njets[" << i << "]= " << njets[i] << endl;
+    cout << "#njets[" << i << "]= " << njets[i] << "\tjetcut[" << i << "]= " << jetcut[i] << endl;
 
   outfile->cd();
   outtree->Write();
