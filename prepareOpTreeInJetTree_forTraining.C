@@ -18,7 +18,8 @@ int main()
 {
 //	TFile *infile = TFile::Open("root://eoscms//eos/cms/store/group/phys_higgs/Resonant_HH/trees/radion_tree_v04/Graviton_Radion-nm.root");
 //	TFile *infile = TFile::Open("root://eoscms//eos/cms/store/group/phys_higgs/Resonant_HH/trees/radion_tree_v04/Radion_300-nm.root");
-	TFile *infile = TFile::Open("root://eoscms//eos/cms/store/group/phys_higgs/Resonant_HH/trees/radion_tree_v04_dev/Radion_300-nm.root");
+//	TFile *infile = TFile::Open("root://eoscms//eos/cms/store/group/phys_higgs/Resonant_HH/trees/radion_tree_v04_dev/Radion_300-nm.root");
+	TFile *infile = TFile::Open("radion_tree_v04_dev_Radion_300-nm.root");
 	TFile *outfile = new TFile("jetTreeForTraining.root", "RECREATE");
 	TTree *intree = (TTree*)infile->Get("Radion_m300_8TeV_nm");
 	TTree *outtree = new TTree("jets", "jets");

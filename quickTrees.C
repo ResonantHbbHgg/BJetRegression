@@ -15,8 +15,10 @@ int main ()
 {
 //	TFile *infile = TFile::Open("Radion_m300_8TeV_nm_parton.root");
 //	TFile *outfile = new TFile("simple_parton.root", "RECREATE");
-	TFile *infile = TFile::Open("Radion_m300_8TeV_nm_genjet.root");
-	TFile *outfile = new TFile("simple_genjet.root", "RECREATE");
+//	TFile *infile = TFile::Open("Radion_m300_8TeV_nm_genjet.root");
+//	TFile *outfile = new TFile("simple_genjet.root", "RECREATE");
+	TFile *infile = TFile::Open("Radion_m300_8TeV_nm_genjet_globeinputs.root");
+	TFile *outfile = new TFile("simple_genjet_globeinputs.root", "RECREATE");
 	TTree *intree = (TTree*)infile->Get("Radion_m300_8TeV_nm");
 	TTree *outtree = new TTree("Radion_m300_8TeV_nm", "Radion_m300_8TeV_nm noreg");
 

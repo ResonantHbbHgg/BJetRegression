@@ -5,6 +5,8 @@
 #include "TMVA/Tools.h"
 // C++ headers
 #include <iostream>
+#include <string>
+#include <fstream>
 // ROOT headers
 #include "TROOT.h"
 #include <TSystem.h>
@@ -41,9 +43,11 @@ int main()
 //	TFile *infile = TFile::Open("root://eoscms//eos/cms/store/group/phys_higgs/Resonant_HH/trees/radion_tree_v04_dev/Radion_300-nm.root");
 	TFile *infile = TFile::Open("radion_tree_v04_dev_Radion_300-nm.root");
 	TTree *intree = (TTree*)infile->Get("Radion_m300_8TeV_nm");
-	TFile *outfile = new TFile("Radion_m300_8TeV_nm_genjet.root", "RECREATE");
+	TFile *outfile = new TFile("Radion_m300_8TeV_nm_genjet_globeinputs.root", "RECREATE");
 //	TFile *outfile = new TFile("Radion_m300_8TeV_nm_parton.root", "RECREATE");
 	TTree *outtree = new TTree("Radion_m300_8TeV_nm", "Radion_m300_8TeV_nm reduced");
+	ofstream synchrofile;
+	synchrofile.open("synchronisation.txt");
 
 	// setup tree inputs
 	float ph1_eta, ph2_eta, ph1_pt, ph2_pt, PhotonsMass, ph1_phi, ph2_phi, ph1_e, ph2_e;
@@ -440,11 +444,11 @@ int main()
 			BDTreader->AddVariable("jet_pt",&jet_pt);
 			BDTreader->AddVariable("jet_eta", &jet_eta);
 			BDTreader->AddVariable("jet_dPhiMet", &jet_dPhiMet);
-			BDTreader->AddVariable("jet_Chadfrac", &jet_Chadfrac);
-			BDTreader->AddVariable("jet_Phofrac", &jet_Phofrac);
-			BDTreader->AddVariable("jet_Nhadfrac", &jet_Nhadfrac);
-			BDTreader->AddVariable("jet_Elefrac", &jet_Elefrac);
-			BDTreader->AddVariable("jet_Mufrac", &jet_Mufrac);
+//			BDTreader->AddVariable("jet_Chadfrac", &jet_Chadfrac);
+//			BDTreader->AddVariable("jet_Phofrac", &jet_Phofrac);
+//			BDTreader->AddVariable("jet_Nhadfrac", &jet_Nhadfrac);
+//			BDTreader->AddVariable("jet_Elefrac", &jet_Elefrac);
+//			BDTreader->AddVariable("jet_Mufrac", &jet_Mufrac);
 			BDTreader->AddVariable("jet_ptD", &jet_ptD);
 			BDTreader->AddVariable("jet_secVtxPt", &jet_secVtxPt);
 			BDTreader->AddVariable("jet_secVtx3dL", &jet_secVtx3dL);
@@ -452,7 +456,8 @@ int main()
 			BDTreader->AddVariable("ev_met_corrMet", &met_corrMet);
 			BDTreader->AddVariable("ev_rho", &rho);
 //			BDTreader->BookMVA("BDT", "weights/factoryJetRegParton2_BDT.weights.xml");
-			BDTreader->BookMVA("BDT", "weights/factoryJetRegGen2_BDT.weights.xml");
+//			BDTreader->BookMVA("BDT", "weights/factoryJetRegGen2_BDT.weights.xml");
+			BDTreader->BookMVA("BDT", "weights/factoryJetRegGen2_globeinputs_BDT.weights.xml");
 			TMVA::Reader* MLPreader = new TMVA::Reader( "!Color:!Silent" );
 			MLPreader->AddVariable("jet_csvBtag",&jet_csvBtag);
 			MLPreader->AddVariable("jet_pt",&jet_pt);
@@ -485,6 +490,7 @@ int main()
   cout << "#entries= " << totevents << endl;
   // loop over events
   for(int ievt=0 ; ievt < totevents ; ievt++)
+//  for(int ievt=10127 ; ievt < 10128 ; ievt++)
   {
     double progress = 10.0*ievt/(1.0*totevents);
     int k = TMath::FloorNint(progress);
@@ -497,12 +503,12 @@ int main()
 	
 		// Apply photon ID cuts
 		nevents[0]++; eventcut[0] = "Before photon ID";
-		if( (fabs(ph1_eta) > 2.5) || (fabs(ph2_eta) > 2.5) ) continue;
-		nevents[1]++; eventcut[1] = "After eta < 2.5";
-		if( (fabs(ph1_eta) < 1.566) && (fabs(ph1_eta) >1.4442) ) continue;
-		nevents[2]++; eventcut[2] = "After eta gap for photon 1";
-		if( (fabs(ph2_eta) < 1.566) && (fabs(ph2_eta) >1.4442) ) continue;
-		nevents[3]++; eventcut[3] = "After eta gap for photon 2";
+//		if( (fabs(ph1_eta) > 2.5) || (fabs(ph2_eta) > 2.5) ) continue;
+		nevents[1]++; eventcut[1] = "(OBSOLETE) After eta < 2.5";
+//		if( (fabs(ph1_eta) < 1.566) && (fabs(ph1_eta) >1.4442) ) continue;
+		nevents[2]++; eventcut[2] = "(OBSOLETE) After eta gap for photon 1";
+//		if( (fabs(ph2_eta) < 1.566) && (fabs(ph2_eta) >1.4442) ) continue;
+		nevents[3]++; eventcut[3] = "(OBSOLETE) After eta gap for photon 2";
 		if( ph1_pt < (float)(40.*PhotonsMass)/(float)120. ) continue;
 		nevents[4]++; eventcut[4] = "After floating pt cut for photon 1 (40*mgg/120 GeV)";
 		if( ph2_pt < 25. ) continue;
@@ -519,7 +525,25 @@ int main()
 		// take only the subset of events where at least two jets remains
 		if( njets_passing_kLooseID < 2 ) continue;
 		nevents[9]++; eventcut[9] = "After njet >= 2";
-		if( njets_passing_kLooseID_and_CSVM < 1 ) continue;
+//		if( njets_passing_kLooseID_and_CSVM < 1 ) continue;
+// alternative counting: taking into account only the 4 jets stored !
+		int nbjet_tmp = 0;
+		for( int ijet = 0 ; ijet < min(njets_passing_kLooseID, 4); ijet ++ )
+		{
+			if( ijet == 0 )
+				if(j1_csvBtag > 0.679)
+					nbjet_tmp++; 
+			if( ijet == 1 )
+				if(j2_csvBtag > 0.679)
+					nbjet_tmp++; 
+			if( ijet == 2 )
+				if(j3_csvBtag > 0.679)
+					nbjet_tmp++; 
+			if( ijet == 3 )
+				if(j4_csvBtag > 0.679)
+					nbjet_tmp++; 
+		}
+		if( nbjet_tmp < 1 ) continue;
 		nevents[10]++; eventcut[10] = "After nbjet >= 1";
 
 		TLorentzVector jet;
@@ -722,7 +746,7 @@ int main()
 			njets[3]++; jetcut[3] = "After jet_betaStarClassic > 0.2 * log( nvtx - 0.64)";
 			if( jet_dR2Mean > 0.06 ) continue;
 			njets[4]++; jetcut[4] = "After jet_dR2Mean > 0.06";
-			if( jet_csvBtag < 0. ) continue;
+//			if( jet_csvBtag < 0. ) continue;
 			njets[5]++; jetcut[5] = "After jet_csvBtag < 0.";
 			// ** call regression to correct the pt **
 			jet_MLPweight = (float)(MLPreader->EvaluateMVA("MLP"));
@@ -736,6 +760,12 @@ int main()
 			jetRegPt.push_back(jet_regPt);
 			jetRegE.push_back( sqrt( pow(jet_e,2) - pow(jet_pt,2) + pow(jet_regPt,2) ) );
 			jetMLP.push_back(jet_MLPweight);
+
+//			if(DEBUG)
+//			{
+//				if(fabs(jet_pt - 32.0997) < 0.01)
+//					cout << "ievt= " << ievt << "\tjet_pt= " << jet_pt << endl;
+//			}
 
 			njets_kRadionID_++;
 			if(jet_csvBtag > .679) njets_kRadionID_and_CSVM_++;
@@ -757,11 +787,17 @@ int main()
 
 		int ij1, ij2;
 		int ij1Reg, ij2Reg;
-
+	
+		if(DEBUG) cout << "btaggedJet.size()= " << btaggedJet.size() << endl;
+		if(DEBUG)
+			for(int ijet_=0; ijet_ < btaggedJet.size() ; ijet_++)
+				cout << "jetPt[btaggedJet[" << ijet_ << "]]= " << jetPt[btaggedJet[ijet_]] << endl;
 		// if exactly one btag, pick it up, then find the other jet that gives max ptjj
 		if( btaggedJet.size() == 1 )
 		{
+			if(DEBUG) cout << "Entering jet combinatorics: 1btag category" << endl;
 			unsigned int ij = btaggedJet[0];
+			if(DEBUG) cout << "btaggedJet[0]= " << btaggedJet[0] << endl;
 			TLorentzVector j, jreg;
 			j.SetPtEtaPhiE(jetPt[ij], jetEta[ij], jetPhi[ij], jetE[ij]);
 //			jreg.SetPtEtaPhiE(jetRegPt[ij], jetEta[ij], jetPhi[ij], jetRegE[ij]);
@@ -799,14 +835,18 @@ int main()
 		// if two or more bjets, then loop only over btagged jets
 		if( btaggedJet.size() > 1 )
 		{
+			if(DEBUG) cout << "Entering jet combinatorics: 2btag category" << endl;
 			int ij;
 			int imaxptjj;
 			int imaxptjjReg;
+			int jmaxptjj;
+			int jmaxptjjReg;
 			float maxptjj = -99.;
 			float maxptjjReg = -99.;
 			for( unsigned int i = 0 ; i < btaggedJet.size() - 1 ; i++ )
 			{
 				ij = btaggedJet[i];
+				if(DEBUG) cout << "btaggedJet[" << i << "]= " << ij << "\tjetPt[" << ij << "]= " << jetPt[ij] << endl;
 				TLorentzVector j, jreg;
 				j.SetPtEtaPhiE(jetPt[ij], jetEta[ij], jetPhi[ij], jetE[ij]);
 //				jreg.SetPtEtaPhiE(jetRegPt[ij], jetEta[ij], jetPhi[ij], jetRegE[ij]);
@@ -821,22 +861,25 @@ int main()
 					tmp_jReg = ((float)jetRegPt[ijet]/(float)jetPt[ijet]) * tmp_j;
 					TLorentzVector jj = j + tmp_j;
 					TLorentzVector jjReg = jreg + tmp_jReg;
+					if(DEBUG) cout << "btaggedJet[" << k << "]= " << btaggedJet[k] << "\tjetPt[" << ijet << "]= " << jetPt[ijet] << "\tjj.Pt()= " << jj.Pt() << "\t(maxptjj= " << maxptjj << ")" << endl;
 					if( jj.Pt() > maxptjj )
 					{
 						maxptjj = jj.Pt();
-						imaxptjj = ijet;
+						imaxptjj = ij;
+						jmaxptjj = ijet;
 					}
 					if( jjReg.Pt() > maxptjjReg )
 					{
 						maxptjjReg = jjReg.Pt();
-						imaxptjjReg = ijet; 
+						imaxptjjReg = ij;
+						jmaxptjjReg = ijet; 
 					}
 				}
 			} // end of loop over bjets
-			ij1 = ij;
-			ij2 = imaxptjj;
-			ij1Reg = ij;
-			ij2Reg = imaxptjjReg;
+			ij1 = imaxptjj;
+			ij2 = jmaxptjj;
+			ij1Reg = imaxptjjReg;
+			ij2Reg = jmaxptjjReg;
 		} // end of if two bjets
 
 		TLorentzVector pho1;
@@ -931,17 +974,46 @@ int main()
 		njets_kRadionID = njets_kRadionID_;
 		njets_kRadionID_and_CSVM = njets_kRadionID_and_CSVM_;
 
+		synchrofile << jet1_pt << "\t" << jet2_pt << "\t" << jj_mass << "\t" << ggjj_mass << endl;
+		if(njets_kRadionID_and_CSVM == 1)
+		{
+			nevents[13]++;
+			eventcut[13] = "1btag category";
+		} else if( njets_kRadionID_and_CSVM >=2) {
+			nevents[14]++;
+			eventcut[14] = "2btag category";
+		}
+		
+		if(njets_kRadionID_and_CSVM == 1 && jj_mass > 90 && jj_mass < 165)
+		{
+			nevents[15]++;
+			eventcut[15] = "1btag category & 90 <  jj_mass < 165";
+		} else if( njets_kRadionID_and_CSVM >=2 && jj_mass > 95 && jj_mass < 140) {
+			nevents[16]++;
+			eventcut[16] = "2btag category & 95 < jj_mass < 140";
+		}
+
+		if(njets_kRadionID_and_CSVM == 1 && jj_mass > 90 && jj_mass < 165 && ggjj_mass > 255 && ggjj_mass < 340)
+		{
+			nevents[17]++;
+			eventcut[17] = "1btag category & 90 <  jj_mass < 165 & 255 < ggjj_mass < 340";
+		} else if( njets_kRadionID_and_CSVM >=2 && jj_mass > 95 && jj_mass < 140 && ggjj_mass > 265 && ggjj_mass < 320) {
+//			if (ievt < 100 ) cout << "event= " << ievt << "\tjetpt1= " << jet1_pt << "\tjetpt2= " << jet2_pt << "\tjj_mass= " << jj_mass << "\tggjj_mass= " << ggjj_mass << endl;
+			nevents[18]++;
+			eventcut[18] = "2btag category & 95 < jj_mass < 140 & 265 < ggjj_mass < 320";
+		}
 		outtree->Fill();
 
 	} // end of loop over events
 
 
-	for(int i=0 ; i < 13 ; i++)
+	for(int i=0 ; i < 19 ; i++)
     cout << "#nevents[" << i << "]= " << nevents[i] << "\teventcut[" << i << "]= " << eventcut[i] << endl;
 	cout << endl;
 	for(int i=0 ; i < 6 ; i++)
     cout << "#njets[" << i << "]= " << njets[i] << "\tjetcut[" << i << "]= " << jetcut[i] << endl;
 
+	synchrofile.close();
   outfile->cd();
   outtree->Write();
   outfile->Close();

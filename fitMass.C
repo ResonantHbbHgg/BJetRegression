@@ -46,7 +46,8 @@ int main ()
 	gStyle->SetOptTitle(0);
 	gStyle->SetOptStat(0);
 
-	TFile *infile = TFile::Open("simple_genjet.root");
+//	TFile *infile = TFile::Open("simple_genjet.root");
+	TFile *infile = TFile::Open("simple_genjet_globeinputs.root");
 //	TFile *infile = TFile::Open("simple_parton.root");
 	TTree *intree = (TTree*)infile->Get("Radion_m300_8TeV_nm");
 	TFile *infilereg = TFile::Open("simple_reg_genjet.root");
