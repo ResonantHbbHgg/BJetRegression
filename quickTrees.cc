@@ -22,12 +22,14 @@ int main ()
 	TTree *intree = (TTree*)infile->Get("Radion_m300_8TeV_nm");
 	TTree *outtree = new TTree("Radion_m300_8TeV_nm", "Radion_m300_8TeV_nm noreg");
 
-	float jj_mass, regjj_mass, ggjj_mass, regggjj_mass;
+	float jj_mass, regjj_mass, regMLPjj_mass, ggjj_mass, regggjj_mass, regMLPggjj_mass;
 	int njets_kRadionID, njets_kRadionID_and_CSVM;
 	intree->SetBranchAddress("jj_mass", &jj_mass);
 	intree->SetBranchAddress("regjj_mass", &regjj_mass);
+	intree->SetBranchAddress("regMLPjj_mass", &regMLPjj_mass);
 	intree->SetBranchAddress("ggjj_mass", &ggjj_mass);
 	intree->SetBranchAddress("regggjj_mass", &regggjj_mass);
+	intree->SetBranchAddress("regMLPggjj_mass", &regMLPggjj_mass);
 	intree->SetBranchAddress("njets_kRadionID", &njets_kRadionID);
 	intree->SetBranchAddress("njets_kRadionID_and_CSVM", &njets_kRadionID_and_CSVM);
 
@@ -45,7 +47,7 @@ int main ()
   outfile->Close();
 
 //	TFile *outfilereg = new TFile("simple_reg_parton.root", "RECREATE");
-	TFile *outfilereg = new TFile("simple_reg_genjet.root", "RECREATE");
+	TFile *outfilereg = new TFile("simple_reg_genjet_globeinputs.root", "RECREATE");
 	TTree *outtreereg = new TTree("Radion_m300_8TeV_nm", "Radion_m300_8TeV_nm reg");
 	outtreereg->Branch("jj_mass", &regjj_mass, "jj_mass/F");
 	outtreereg->Branch("ggjj_mass", &regggjj_mass, "ggjj_mass/F");
@@ -59,6 +61,22 @@ int main ()
 	outfilereg->cd();
   outtreereg->Write();
   outfilereg->Close();
+
+//	TFile *outfileregMLP = new TFile("simple_regMLP_parton.root", "RECREATE");
+	TFile *outfileregMLP = new TFile("simple_regMLP_genjet_globeinputs.root", "RECREATE");
+	TTree *outtreeregMLP = new TTree("Radion_m300_8TeV_nm", "Radion_m300_8TeV_nm regMLP");
+	outtreeregMLP->Branch("jj_mass", &regMLPjj_mass, "jj_mass/F");
+	outtreeregMLP->Branch("ggjj_mass", &regMLPggjj_mass, "ggjj_mass/F");
+	outtreeregMLP->Branch("njets_kRadionID_and_CSVM", &njets_kRadionID_and_CSVM, "njets_kRadionID_and_CSVM/I");
+	for(int ievt= 0 ; ievt < (int)intree->GetEntries() ; ievt++)
+	{
+		intree->GetEntry(ievt);
+		outtreeregMLP->Fill();
+	}
+
+	outfileregMLP->cd();
+  outtreeregMLP->Write();
+  outfileregMLP->Close();
   infile->Close();
 
 	return 0;
