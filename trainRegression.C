@@ -27,7 +27,7 @@ int main()
 //  factory->AddVariable("jet_Nhadfrac"    ,'F');
 //  factory->AddVariable("jet_Elefrac"    ,'F');
 //  factory->AddVariable("jet_Mufrac"    ,'F');
-  factory->AddVariable("jet_ptD"    ,'F');
+//  factory->AddVariable("jet_ptD"    ,'F');
   factory->AddVariable("jet_secVtxPt"  ,'F');
   factory->AddVariable("jet_secVtx3dL" ,'F');
   factory->AddVariable("jet_secVtx3deL",'F');
