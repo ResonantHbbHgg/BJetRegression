@@ -75,7 +75,7 @@ int main ()
 	bool GAUSS = true;
 	bool CRYSTALBALL = true;
 	bool VOIGT = true;
-	bool SIMVOIGT = true;
+	bool SIMVOIGT = false;
 
 	vector<string> categoryCut;
 	categoryCut.clear();
