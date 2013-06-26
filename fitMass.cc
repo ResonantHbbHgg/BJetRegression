@@ -50,7 +50,8 @@ int main ()
 	TFile *infile = TFile::Open("simple_genjet_globeinputs.root");
 //	TFile *infile = TFile::Open("simple_parton.root");
 	TTree *intree = (TTree*)infile->Get("Radion_m300_8TeV_nm");
-	TFile *infilereg = TFile::Open("simple_reg_genjet.root");
+//	TFile *infilereg = TFile::Open("simple_reg_genjet.root");
+	TFile *infilereg = TFile::Open("simple_reg_genjet_globeinputs.root");
 //	TFile *infilereg = TFile::Open("simple_reg_parton.root");
 	TTree *intreereg = (TTree*)infilereg->Get("Radion_m300_8TeV_nm");
 	ofstream outfile_mjj, outfile_mggjj;
