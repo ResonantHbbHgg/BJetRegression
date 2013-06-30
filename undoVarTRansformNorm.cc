@@ -1,10 +1,12 @@
+// ROOT headers
 #include "TFile.h"
 #include "TTree.h"
 #include "TCut.h"
 #include "TEntryList.h"
+// C++ headers
 #include <vector>
 #include <iostream>
-
+#include <algorithm>
 using namespace std;
 
 int main()

@@ -4,6 +4,7 @@
 #include <iostream>
 #include <iomanip>
 #include <fstream>
+#include <algorithm>
 // ROOT headers
 #include "TROOT.h"
 #include "TSystem.h"

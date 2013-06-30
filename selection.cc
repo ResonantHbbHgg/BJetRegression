@@ -42,7 +42,8 @@ int main()
 	TTree *outtree = new TTree("Radion_m500_8TeV_nm", "Radion_m500_8TeV_nm reduced");
 */
 //	TFile *infile = TFile::Open("root://eoscms//eos/cms/store/group/phys_higgs/Resonant_HH/trees/radion_tree_v04_dev/Radion_300-nm.root");
-	TFile *infile = TFile::Open("radion_tree_v04_dev_Radion_300-nm.root");
+//	TFile *infile = TFile::Open("radion_tree_v04_dev_Radion_300-nm.root");
+	TFile *infile = TFile::Open("Radion_m300.root");
 	TTree *intree = (TTree*)infile->Get("Radion_m300_8TeV_nm");
 	TFile *outfile = new TFile("Radion_m300_8TeV_nm_genjet_globeinputs.root", "RECREATE");
 //	TFile *outfile = new TFile("Radion_m300_8TeV_nm_parton.root", "RECREATE");
@@ -54,23 +55,26 @@ int main()
 	float ph1_eta, ph2_eta, ph1_pt, ph2_pt, PhotonsMass, ph1_phi, ph2_phi, ph1_e, ph2_e;
 	int ph1_ciclevel, ph2_ciclevel;
 //	float gr_radion_p4_pt, gr_radion_p4_eta, gr_radion_p4_phi, gr_radion_p4_mass, gr_hgg_p4_pt, gr_hgg_p4_eta, gr_hgg_p4_phi, gr_hgg_p4_mass, gr_hbb_p4_pt, gr_hbb_p4_eta, gr_hbb_p4_phi, gr_hbb_p4_mass, gr_g1_p4_pt, gr_g1_p4_eta, gr_g1_p4_phi, gr_g1_p4_mass, gr_g2_p4_pt, gr_g2_p4_eta, gr_g2_p4_phi, gr_g2_p4_mass, gr_b1_p4_pt, gr_b1_p4_eta, gr_b1_p4_phi, gr_b1_p4_mass, gr_b2_p4_pt, gr_b2_p4_eta, gr_b2_p4_phi, gr_b2_p4_mass, gr_j1_p4_pt, gr_j1_p4_eta, gr_j1_p4_phi, gr_j1_p4_mass, gr_j2_p4_pt, gr_j2_p4_eta, gr_j2_p4_phi, gr_j2_p4_mass;
-	float met_corrMet, met_corrMetPhi, pu_n, nvtx, rho;
+	float met_corr_pfmet, met_corr_phi_pfmet, met_corr_eta_pfmet, met_corr_e_pfmet;
+	float pu_n, nvtx, rho;
 	float weight, evweight, pu_weight;
 	float ev_weight, ev_evweight, ev_pu_weight;
-	float j1_e, j1_pt, j1_phi, j1_eta, j1_beta, j1_betaStar, j1_betaStarClassic, j1_dR2Mean, j1_csvBtag, j1_csvMvaBtag, j1_jetProbBtag, j1_tcheBtag, j1_ptD, j1_nSecondaryVertices, j1_secVtxPt, j1_secVtx3dL, j1_secVtx3deL, j1_emfrac, j1_hadfrac, j1_ntk, j1_nNeutrals, j1_nCharged, j1_axis1, j1_axis2, j1_pull, j1_Rchg, j1_Rneutral, j1_R, j1_chargedMultiplicity, j1_neutralMultiplicity, j1_Chadfrac, j1_Nhadfrac, j1_Phofrac, j1_Mufrac, j1_Elefrac, j1_dPhiMet, j1_radionMatched;
-	int j1_pfloose;
-	float j2_e, j2_pt, j2_phi, j2_eta, j2_beta, j2_betaStar, j2_betaStarClassic, j2_dR2Mean, j2_csvBtag, j2_csvMvaBtag, j2_jetProbBtag, j2_tcheBtag, j2_ptD, j2_nSecondaryVertices, j2_secVtxPt, j2_secVtx3dL, j2_secVtx3deL, j2_emfrac, j2_hadfrac, j2_ntk, j2_nNeutrals, j2_nCharged, j2_axis1, j2_axis2, j2_pull, j2_Rchg, j2_Rneutral, j2_R, j2_chargedMultiplicity, j2_neutralMultiplicity, j2_Chadfrac, j2_Nhadfrac, j2_Phofrac, j2_Mufrac, j2_Elefrac, j2_dPhiMet, j2_radionMatched;
-	int j2_pfloose;
-	float j3_e, j3_pt, j3_phi, j3_eta, j3_beta, j3_betaStar, j3_betaStarClassic, j3_dR2Mean, j3_csvBtag, j3_csvMvaBtag, j3_jetProbBtag, j3_tcheBtag, j3_ptD, j3_nSecondaryVertices, j3_secVtxPt, j3_secVtx3dL, j3_secVtx3deL, j3_emfrac, j3_hadfrac, j3_ntk, j3_nNeutrals, j3_nCharged, j3_axis1, j3_axis2, j3_pull, j3_Rchg, j3_Rneutral, j3_R, j3_chargedMultiplicity, j3_neutralMultiplicity, j3_Chadfrac, j3_Nhadfrac, j3_Phofrac, j3_Mufrac, j3_Elefrac, j3_dPhiMet, j3_radionMatched;
-	int j3_pfloose;
-	float j4_e, j4_pt, j4_phi, j4_eta, j4_beta, j4_betaStar, j4_betaStarClassic, j4_dR2Mean, j4_csvBtag, j4_csvMvaBtag, j4_jetProbBtag, j4_tcheBtag, j4_ptD, j4_nSecondaryVertices, j4_secVtxPt, j4_secVtx3dL, j4_secVtx3deL, j4_emfrac, j4_hadfrac, j4_ntk, j4_nNeutrals, j4_nCharged, j4_axis1, j4_axis2, j4_pull, j4_Rchg, j4_Rneutral, j4_R, j4_chargedMultiplicity, j4_neutralMultiplicity, j4_Chadfrac, j4_Nhadfrac, j4_Phofrac, j4_Mufrac, j4_Elefrac, j4_dPhiMet, j4_radionMatched;
-	int j4_pfloose;
+	float j1_e, j1_pt, j1_phi, j1_eta, j1_beta, j1_betaStar, j1_betaStarClassic, j1_dR2Mean, j1_csvBtag, j1_csvMvaBtag, j1_jetProbBtag, j1_tcheBtag, j1_ptD, j1_nSecondaryVertices, j1_secVtxPt, j1_secVtx3dL, j1_secVtx3deL, j1_emfrac, j1_hadfrac, j1_axis1, j1_axis2, j1_pull, /*j1_Rchg, j1_Rneutral, j1_R, j1_chargedMultiplicity, j1_neutralMultiplicity, j1_Chadfrac, j1_Nhadfrac, j1_Phofrac, j1_Mufrac, j1_Elefrac, j1_dPhiMet,*/ j1_radionMatched;
+	int j1_ntk, j1_nNeutrals, j1_nCharged/*, j1_pfloose*/;
+	float j2_e, j2_pt, j2_phi, j2_eta, j2_beta, j2_betaStar, j2_betaStarClassic, j2_dR2Mean, j2_csvBtag, j2_csvMvaBtag, j2_jetProbBtag, j2_tcheBtag, j2_ptD, j2_nSecondaryVertices, j2_secVtxPt, j2_secVtx3dL, j2_secVtx3deL, j2_emfrac, j2_hadfrac, j2_axis1, j2_axis2, j2_pull, /*j2_Rchg, j2_Rneutral, j2_R, j2_chargedMultiplicity, j2_neutralMultiplicity, j2_Chadfrac, j2_Nhadfrac, j2_Phofrac, j2_Mufrac, j2_Elefrac, j2_dPhiMet,*/ j2_radionMatched;
+	int j2_ntk, j2_nNeutrals, j2_nCharged/*, j2_pfloose*/;
+	float j3_e, j3_pt, j3_phi, j3_eta, j3_beta, j3_betaStar, j3_betaStarClassic, j3_dR2Mean, j3_csvBtag, j3_csvMvaBtag, j3_jetProbBtag, j3_tcheBtag, j3_ptD, j3_nSecondaryVertices, j3_secVtxPt, j3_secVtx3dL, j3_secVtx3deL, j3_emfrac, j3_hadfrac, j3_axis1, j3_axis2, j3_pull, /*j3_Rchg, j3_Rneutral, j3_R, j3_chargedMultiplicity, j3_neutralMultiplicity, j3_Chadfrac, j3_Nhadfrac, j3_Phofrac, j3_Mufrac, j3_Elefrac, j3_dPhiMet,*/ j3_radionMatched;
+	int j3_ntk, j3_nNeutrals, j3_nCharged/*, j3_pfloose*/;
+	float j4_e, j4_pt, j4_phi, j4_eta, j4_beta, j4_betaStar, j4_betaStarClassic, j4_dR2Mean, j4_csvBtag, j4_csvMvaBtag, j4_jetProbBtag, j4_tcheBtag, j4_ptD, j4_nSecondaryVertices, j4_secVtxPt, j4_secVtx3dL, j4_secVtx3deL, j4_emfrac, j4_hadfrac, j4_axis1, j4_axis2, j4_pull, /*j4_Rchg, j4_Rneutral, j4_R, j4_chargedMultiplicity, j4_neutralMultiplicity, j4_Chadfrac, j4_Nhadfrac, j4_Phofrac, j4_Mufrac, j4_Elefrac, j4_dPhiMet,*/ j4_radionMatched;
+	int j4_ntk, j4_nNeutrals, j4_nCharged/*, j4_pfloose*/;
 	float jet_e, jet_pt, jet_phi, jet_eta;
 //jet_beta, jet_betaStar, 
 	float jet_betaStarClassic, jet_dR2Mean, jet_csvBtag;
 //, jet_csvMvaBtag, jet_jetProbBtag, jet_tcheBtag, 
-	float jet_ptD, jet_nSecondaryVertices, jet_secVtxPt, jet_secVtx3dL, jet_secVtx3deL;
-//, jet_emfrac, jet_hadfrac, jet_ntk, jet_nNeutrals, jet_nCharged, jet_axis1, jet_axis2, jet_pull, jet_Rchg, jet_Rneutral, jet_R, jet_chargedMultiplicity, jet_neutralMultiplicity, 
+	float jet_ptD, jet_nSecondaryVertices, jet_secVtxPt, jet_secVtx3dL, jet_secVtx3deL, jet_emfrac, jet_hadfrac;
+	int jet_nNeutrals, jet_nCharged, jet_nConstituents;
+	float jet_nConstituents_;
+//, jet_ntk, jet_axis1, jet_axis2, jet_pull, jet_Rchg, jet_Rneutral, jet_R, jet_chargedMultiplicity, jet_neutralMultiplicity, 
 	float jet_Chadfrac, jet_Nhadfrac, jet_Phofrac, jet_Mufrac, jet_Elefrac, jet_dPhiMet, jet_radionMatched, jet_regPt, jet_MLPweight;
 	int jet_index, jet_pfloose;
 //	float ev_met_corrMet, ev_met_corrMetPhi, ev_pu_n, ev_nvtx, ev_rho;
@@ -111,8 +115,10 @@ int main()
 	intree->SetBranchAddress("PhotonsMass", &PhotonsMass);
 	intree->SetBranchAddress("ph1_ciclevel", &ph1_ciclevel);
 	intree->SetBranchAddress("ph2_ciclevel", &ph2_ciclevel);
-	intree->SetBranchAddress("met_corrMet", &met_corrMet);
-	intree->SetBranchAddress("met_corrMetPhi", &met_corrMetPhi);
+	intree->SetBranchAddress("met_corr_pfmet", &met_corr_pfmet);
+	intree->SetBranchAddress("met_corr_phi_pfmet", &met_corr_phi_pfmet);
+	intree->SetBranchAddress("met_corr_eta_pfmet", &met_corr_eta_pfmet);
+	intree->SetBranchAddress("met_corr_e_pfmet", &met_corr_e_pfmet);
 	intree->SetBranchAddress("pu_n", &pu_n);
 	intree->SetBranchAddress("nvtx", &nvtx);
 	intree->SetBranchAddress("rho", &rho);
@@ -183,7 +189,7 @@ int main()
 	intree->SetBranchAddress("j1_axis1", &j1_axis1);
 	intree->SetBranchAddress("j1_axis2", &j1_axis2);
 	intree->SetBranchAddress("j1_pull", &j1_pull);
-	intree->SetBranchAddress("j1_Rchg", &j1_Rchg);
+/*	intree->SetBranchAddress("j1_Rchg", &j1_Rchg);
 	intree->SetBranchAddress("j1_Rneutral", &j1_Rneutral);
 	intree->SetBranchAddress("j1_R", &j1_R);
 	intree->SetBranchAddress("j1_chargedMultiplicity", &j1_chargedMultiplicity);
@@ -195,6 +201,7 @@ int main()
 	intree->SetBranchAddress("j1_Elefrac", &j1_Elefrac);
 	intree->SetBranchAddress("j1_dPhiMet", &j1_dPhiMet);
 	intree->SetBranchAddress("j1_pfloose", &j1_pfloose);
+*/
 
 	intree->SetBranchAddress("j2_e", &j2_e);
 	intree->SetBranchAddress("j2_pt", &j2_pt);
@@ -222,7 +229,7 @@ int main()
 	intree->SetBranchAddress("j2_axis1", &j2_axis1);
 	intree->SetBranchAddress("j2_axis2", &j2_axis2);
 	intree->SetBranchAddress("j2_pull", &j2_pull);
-	intree->SetBranchAddress("j2_Rchg", &j2_Rchg);
+/*	intree->SetBranchAddress("j2_Rchg", &j2_Rchg);
 	intree->SetBranchAddress("j2_Rneutral", &j2_Rneutral);
 	intree->SetBranchAddress("j2_R", &j2_R);
 	intree->SetBranchAddress("j2_chargedMultiplicity", &j2_chargedMultiplicity);
@@ -234,6 +241,7 @@ int main()
 	intree->SetBranchAddress("j2_Elefrac", &j2_Elefrac);
 	intree->SetBranchAddress("j2_dPhiMet", &j2_dPhiMet);
 	intree->SetBranchAddress("j2_pfloose", &j2_pfloose);
+*/
 
 	intree->SetBranchAddress("j3_e", &j3_e);
 	intree->SetBranchAddress("j3_pt", &j3_pt);
@@ -261,7 +269,7 @@ int main()
 	intree->SetBranchAddress("j3_axis1", &j3_axis1);
 	intree->SetBranchAddress("j3_axis2", &j3_axis2);
 	intree->SetBranchAddress("j3_pull", &j3_pull);
-	intree->SetBranchAddress("j3_Rchg", &j3_Rchg);
+/*	intree->SetBranchAddress("j3_Rchg", &j3_Rchg);
 	intree->SetBranchAddress("j3_Rneutral", &j3_Rneutral);
 	intree->SetBranchAddress("j3_R", &j3_R);
 	intree->SetBranchAddress("j3_chargedMultiplicity", &j3_chargedMultiplicity);
@@ -273,6 +281,7 @@ int main()
 	intree->SetBranchAddress("j3_Elefrac", &j3_Elefrac);
 	intree->SetBranchAddress("j3_dPhiMet", &j3_dPhiMet);
 	intree->SetBranchAddress("j3_pfloose", &j3_pfloose);
+*/
 
 	intree->SetBranchAddress("j4_e", &j4_e);
 	intree->SetBranchAddress("j4_pt", &j4_pt);
@@ -300,7 +309,7 @@ int main()
 	intree->SetBranchAddress("j4_axis1", &j4_axis1);
 	intree->SetBranchAddress("j4_axis2", &j4_axis2);
 	intree->SetBranchAddress("j4_pull", &j4_pull);
-	intree->SetBranchAddress("j4_Rchg", &j4_Rchg);
+/*	intree->SetBranchAddress("j4_Rchg", &j4_Rchg);
 	intree->SetBranchAddress("j4_Rneutral", &j4_Rneutral);
 	intree->SetBranchAddress("j4_R", &j4_R);
 	intree->SetBranchAddress("j4_chargedMultiplicity", &j4_chargedMultiplicity);
@@ -312,6 +321,8 @@ int main()
 	intree->SetBranchAddress("j4_Elefrac", &j4_Elefrac);
 	intree->SetBranchAddress("j4_dPhiMet", &j4_dPhiMet);
 	intree->SetBranchAddress("j4_pfloose", &j4_pfloose);
+*/
+
 /*
 	outtree->Branch("jet_e", &jet_e, "jet_e/F");
 	outtree->Branch("jet_pt", &jet_pt, "jet_pt/F");
@@ -374,6 +385,10 @@ int main()
 	outtree->Branch("weight", &weight, "weight/F");
 	outtree->Branch("evweight", &evweight, "evweight/F");
 	outtree->Branch("pu_weight", &pu_weight, "pu_weight/F");
+	outtree->Branch("met_corr_pfmet", &met_corr_pfmet, "met_corr_pfmet/F");
+	outtree->Branch("met_corr_phi_pfmet", &met_corr_phi_pfmet, "met_corr_phi_pfmet/F");
+	outtree->Branch("met_corr_eta_pfmet", &met_corr_eta_pfmet, "met_corr_eta_pfmet/F");
+	outtree->Branch("met_corr_e_pfmet", &met_corr_e_pfmet, "met_corr_e_pfmet/F");
 	outtree->Branch("pho1_pt", &pho1_pt, "pho1_pt/F");
 	outtree->Branch("pho1_e", &pho1_e, "pho1_e/F");
 	outtree->Branch("pho1_phi", &pho1_phi, "pho1_phi/F");
@@ -481,7 +496,7 @@ int main()
 			BDTreader->AddVariable("jet_secVtxPt", &jet_secVtxPt);
 			BDTreader->AddVariable("jet_secVtx3dL", &jet_secVtx3dL);
 			BDTreader->AddVariable("jet_secVtx3deL", &jet_secVtx3deL);
-			BDTreader->AddVariable("ev_met_corrMet", &met_corrMet);
+			BDTreader->AddVariable("ev_met_corrMet", &met_corr_pfmet);
 			BDTreader->AddVariable("ev_rho", &rho);
 //			BDTreader->BookMVA("BDT", "weights/factoryJetRegParton2_BDT.weights.xml");
 //			BDTreader->BookMVA("BDT", "weights/factoryJetRegGen2_BDT.weights.xml");
@@ -500,7 +515,7 @@ int main()
 			MLPreader->AddVariable("jet_secVtxPt", &jet_secVtxPt);
 			MLPreader->AddVariable("jet_secVtx3dL", &jet_secVtx3dL);
 			MLPreader->AddVariable("jet_secVtx3deL", &jet_secVtx3deL);
-			MLPreader->AddVariable("ev_met_corrMet", &met_corrMet);
+			MLPreader->AddVariable("ev_met_corrMet", &met_corr_pfmet);
 			MLPreader->AddVariable("ev_rho", &rho);
 //			MLPreader->BookMVA("MLP", "weights/factoryJetRegParton2_MLP.weights.xml");
 //			MLPreader->BookMVA("MLP", "weights/factoryJetRegGen2_MLP.weights.xml");
@@ -509,6 +524,17 @@ int main()
 			float mlp_min = 25.0004;
 			float mlp_max = 337.647;
 
+			TMVA::Reader *readerRegres = new TMVA::Reader( "!Color:!Silent" );
+		  readerRegres->AddVariable( "hJet_pt", &jet_pt);
+  		readerRegres->AddVariable( "hJet_eta", &jet_eta);
+  		readerRegres->AddVariable( "hJet_cef", &jet_emfrac);
+		  readerRegres->AddVariable( "hJet_nconstituents", &jet_nConstituents_);
+		  readerRegres->AddVariable( "hJet_chf", &jet_hadfrac);
+		  readerRegres->AddVariable( "hJet_vtxPt", &jet_secVtxPt);
+		  readerRegres->AddVariable( "hJet_vtx3dL", &jet_secVtx3dL);
+		  readerRegres->AddVariable( "MET", &met_corr_pfmet);
+		  readerRegres->AddVariable( "hJet_dPhiMETJet", &jet_dPhiMet);
+		  readerRegres->BookMVA("BDTG method","/afs/cern.ch/user/h/hebda/public/TMVARegression_BDTG.weights.xml");
 
 
 	int nevents[30] = {0};
@@ -586,6 +612,8 @@ int main()
 		vector<float> jetRegPt;
 		vector<float> jetRegE;
 		vector<float> jetMLP;
+		TLorentzVector met;
+		met.SetPtEtaPhiE(met_corr_pfmet, met_corr_eta_pfmet, met_corr_phi_pfmet, met_corr_e_pfmet);
 
 		// loop over jets, store jet info + info on closest genjet / parton (no selection applied)
 		for( int ijet = 0 ; ijet < min(njets_passing_kLooseID, 4); ijet ++ )
@@ -611,11 +639,13 @@ int main()
 				jet_secVtxPt = j1_secVtxPt;
 				jet_secVtx3dL = j1_secVtx3dL;
 				jet_secVtx3deL = j1_secVtx3deL;
-/*				jet_emfrac = j1_emfrac;
+				jet_emfrac = j1_emfrac;
 				jet_hadfrac = j1_hadfrac;
-				jet_ntk = j1_ntk;
 				jet_nNeutrals = j1_nNeutrals;
 				jet_nCharged = j1_nCharged;
+				jet_nConstituents = jet_nNeutrals + jet_nCharged;
+/*
+				jet_ntk = j1_ntk;
 				jet_axis1 = j1_axis1;
 				jet_axis2 = j1_axis2;
 				jet_pull = j1_pull;
@@ -624,15 +654,15 @@ int main()
 				jet_R = j1_R;
 				jet_chargedMultiplicity = j1_chargedMultiplicity;
 				jet_neutralMultiplicity = j1_neutralMultiplicity;
-*/				jet_Chadfrac = j1_Chadfrac;
+				jet_Chadfrac = j1_Chadfrac;
 				jet_Nhadfrac = j1_Nhadfrac;
 				jet_Phofrac = j1_Phofrac;
 				jet_Mufrac = j1_Mufrac;
 				jet_Elefrac = j1_Elefrac;
-				jet_dPhiMet = j1_dPhiMet;
 				jet_pfloose = j1_pfloose;
-				jet_index = 1;
+*/				jet_index = 1;
 				jet.SetPtEtaPhiE(j1_pt, j1_eta, j1_phi, j1_e);
+				jet_dPhiMet = jet.DeltaPhi(met);
 			} // end if jet == 0
 
 			if( ijet == 1 )
@@ -655,11 +685,12 @@ int main()
 				jet_secVtxPt = j2_secVtxPt;
 				jet_secVtx3dL = j2_secVtx3dL;
 				jet_secVtx3deL = j2_secVtx3deL;
-/*				jet_emfrac = j2_emfrac;
+				jet_emfrac = j2_emfrac;
 				jet_hadfrac = j2_hadfrac;
-				jet_ntk = j2_ntk;
 				jet_nNeutrals = j2_nNeutrals;
 				jet_nCharged = j2_nCharged;
+				jet_nConstituents = jet_nNeutrals + jet_nCharged;
+	/*			jet_ntk = j2_ntk;
 				jet_axis1 = j2_axis1;
 				jet_axis2 = j2_axis2;
 				jet_pull = j2_pull;
@@ -668,15 +699,15 @@ int main()
 				jet_R = j2_R;
 				jet_chargedMultiplicity = j2_chargedMultiplicity;
 				jet_neutralMultiplicity = j2_neutralMultiplicity;
-*/				jet_Chadfrac = j2_Chadfrac;
+				jet_Chadfrac = j2_Chadfrac;
 				jet_Nhadfrac = j2_Nhadfrac;
 				jet_Phofrac = j2_Phofrac;
 				jet_Mufrac = j2_Mufrac;
 				jet_Elefrac = j2_Elefrac;
-				jet_dPhiMet = j2_dPhiMet;
 				jet_pfloose = j2_pfloose;
-				jet_index = 2;
+*/				jet_index = 2;
 				jet.SetPtEtaPhiE(j2_pt, j2_eta, j2_phi, j2_e);
+				jet_dPhiMet = jet.DeltaPhi(met);
 			} // end if jet == 1
 
 			if( ijet == 2 )
@@ -699,11 +730,12 @@ int main()
 				jet_secVtxPt = j3_secVtxPt;
 				jet_secVtx3dL = j3_secVtx3dL;
 				jet_secVtx3deL = j3_secVtx3deL;
-/*				jet_emfrac = j3_emfrac;
+				jet_emfrac = j3_emfrac;
 				jet_hadfrac = j3_hadfrac;
-				jet_ntk = j3_ntk;
 				jet_nNeutrals = j3_nNeutrals;
 				jet_nCharged = j3_nCharged;
+				jet_nConstituents = jet_nNeutrals + jet_nCharged;
+/*				jet_ntk = j3_ntk;
 				jet_axis1 = j3_axis1;
 				jet_axis2 = j3_axis2;
 				jet_pull = j3_pull;
@@ -712,15 +744,15 @@ int main()
 				jet_R = j3_R;
 				jet_chargedMultiplicity = j3_chargedMultiplicity;
 				jet_neutralMultiplicity = j3_neutralMultiplicity;
-*/				jet_Chadfrac = j3_Chadfrac;
+				jet_Chadfrac = j3_Chadfrac;
 				jet_Nhadfrac = j3_Nhadfrac;
 				jet_Phofrac = j3_Phofrac;
 				jet_Mufrac = j3_Mufrac;
 				jet_Elefrac = j3_Elefrac;
-				jet_dPhiMet = j3_dPhiMet;
 				jet_pfloose = j3_pfloose;
-				jet_index = 3;
+*/				jet_index = 3;
 				jet.SetPtEtaPhiE(j3_pt, j3_eta, j3_phi, j3_e);
+				jet_dPhiMet = jet.DeltaPhi(met);
 			} // end if jet == 2
 
 			if( ijet == 3 )
@@ -743,11 +775,12 @@ int main()
 				jet_secVtxPt = j4_secVtxPt;
 				jet_secVtx3dL = j4_secVtx3dL;
 				jet_secVtx3deL = j4_secVtx3deL;
-/*				jet_emfrac = j4_emfrac;
+				jet_emfrac = j4_emfrac;
 				jet_hadfrac = j4_hadfrac;
-				jet_ntk = j4_ntk;
 				jet_nNeutrals = j4_nNeutrals;
 				jet_nCharged = j4_nCharged;
+				jet_nConstituents = jet_nNeutrals + jet_nCharged;
+/*				jet_ntk = j4_ntk;
 				jet_axis1 = j4_axis1;
 				jet_axis2 = j4_axis2;
 				jet_pull = j4_pull;
@@ -756,17 +789,27 @@ int main()
 				jet_R = j4_R;
 				jet_chargedMultiplicity = j4_chargedMultiplicity;
 				jet_neutralMultiplicity = j4_neutralMultiplicity;
-*/				jet_Chadfrac = j4_Chadfrac;
+				jet_Chadfrac = j4_Chadfrac;
 				jet_Nhadfrac = j4_Nhadfrac;
 				jet_Phofrac = j4_Phofrac;
 				jet_Mufrac = j4_Mufrac;
 				jet_Elefrac = j4_Elefrac;
-				jet_dPhiMet = j4_dPhiMet;
 				jet_pfloose = j4_pfloose;
-				jet_index = 4;
+*/				jet_index = 4;
 				jet.SetPtEtaPhiE(j4_pt, j4_eta, j4_phi, j4_e);
+				jet_dPhiMet = jet.DeltaPhi(met);
 			} // end if jet == 3
+			jet_nConstituents_ = (float) jet_nConstituents;
 
+			// TODO: now use regression before cut
+			if(DEBUG) cout << "input= " << jet_pt << "\toutput= " << readerRegres->EvaluateRegression("BDTG method")[0] << endl;
+			TLorentzVector jnew;
+			jnew.SetPtEtaPhiE(jet_pt, jet_eta, jet_phi, jet_e);
+			jnew = ((float)readerRegres->EvaluateRegression("BDTG method")[0]/(float)jet_pt) * jnew;
+			jet_pt = jnew.Pt();
+			jet_eta = jnew.Eta();
+			jet_phi = jnew.Phi();
+			jet_e = jnew.Energy();
 			// jet selection
 			// ** acceptance + pu id **
 			if( jet_pt < 25. ) continue;
@@ -807,6 +850,9 @@ int main()
 		// jet combinatorics
 		if( jetPt.size() < 2 ) continue;
 		nevents[11]++; eventcut[11] = "After njet >=2 passing the jet selection";
+
+		// TODO: now use kinematic fit after selection but before combinatorics
+
 
 		vector<int> btaggedJet;
 		for( unsigned int ijet = 0 ; ijet < jetPt.size() ; ijet++ )
