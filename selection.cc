@@ -805,6 +805,8 @@ int main()
 			if(DEBUG) cout << "input= " << jet_pt << "\toutput= " << readerRegres->EvaluateRegression("BDTG method")[0] << endl;
 			TLorentzVector jnew;
 			jnew.SetPtEtaPhiE(jet_pt, jet_eta, jet_phi, jet_e);
+			if( jet_csvBtag < 0. ) continue;
+			njets[5]++; jetcut[5] = "After jet_csvBtag < 0.";
 			jnew = ((float)readerRegres->EvaluateRegression("BDTG method")[0]/(float)jet_pt) * jnew;
 			jet_pt = jnew.Pt();
 			jet_eta = jnew.Eta();
@@ -820,8 +822,6 @@ int main()
 			njets[3]++; jetcut[3] = "After jet_betaStarClassic > 0.2 * log( nvtx - 0.64)";
 			if( jet_dR2Mean > 0.06 ) continue;
 			njets[4]++; jetcut[4] = "After jet_dR2Mean > 0.06";
-//			if( jet_csvBtag < 0. ) continue;
-			njets[5]++; jetcut[5] = "After jet_csvBtag < 0.";
 			// ** call regression to correct the pt **
 			jet_MLPweight = (float)(MLPreader->EvaluateMVA("MLP"));
 			jet_regPt = (float)(BDTreader->EvaluateMVA("BDT"));
