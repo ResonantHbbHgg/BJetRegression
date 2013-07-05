@@ -15,8 +15,29 @@ prepareOpTreeInJetTree_forTraining.exe: prepareOpTreeInJetTree_forTraining.cc
 trainRegression.exe: trainRegression.cc
 	$(CC) $(TMVA) $(CCFLAGS) $(ROOTFLAGS) $(ROOTLIBS) trainRegression.cc -o trainRegression.exe
 
-selection.exe: selection.cc
-	$(CC) $(TMVA) $(CCFLAGS) $(ROOTFLAGS) $(ROOTLIBS) selection.cc -o selection.exe
+TFitParticleEtEtaPhi.o: ../KinematicFit/TFitParticleEtEtaPhi.cc
+	$(CC) $(CCFLAGS) $(ROOTFLAGS) -c ../KinematicFit/TFitParticleEtEtaPhi.cc -o TFitParticleEtEtaPhi.o
+
+TKinFitter.o: ../KinematicFit/TKinFitter.cc
+	$(CC) $(CCFLAGS) $(ROOTFLAGS) -c ../KinematicFit/TKinFitter.cc -o TKinFitter.o
+
+TFitConstraintM.o: ../KinematicFit/TFitConstraintM.cc
+	$(CC) $(CCFLAGS) $(ROOTFLAGS) -c ../KinematicFit/TFitConstraintM.cc -o TFitConstraintM.o
+
+TAbsFitParticle.o: ../KinematicFit/TAbsFitParticle.cc
+	$(CC) $(CCFLAGS) $(ROOTFLAGS) -c ../KinematicFit/TAbsFitParticle.cc -o TAbsFitParticle.o
+
+DiJetKinFitter.o: ../KinematicFit/DiJetKinFitter.cc
+	$(CC) $(CCFLAGS) $(ROOTFLAGS) -c ../KinematicFit/DiJetKinFitter.cc -o DiJetKinFitter.o
+
+TAbsFitConstraint.o: ../KinematicFit/TAbsFitConstraint.cc
+	$(CC) $(CCFLAGS) $(ROOTFLAGS) -c ../KinematicFit/TAbsFitConstraint.cc -o TAbsFitConstraint.o
+
+selection.o: selection.cc
+	$(CC) $(TMVA) $(CCFLAGS) $(ROOTFLAGS) -c selection.cc -o selection.o
+
+selection.exe: selection.o DiJetKinFitter.o TKinFitter.o TFitParticleEtEtaPhi.o TAbsFitParticle.o TFitConstraintM.o TAbsFitConstraint.o
+	$(CC) $(TMVA)  $(ROOTLIBS) selection.o DiJetKinFitter.o TKinFitter.o TFitParticleEtEtaPhi.o TAbsFitParticle.o TFitConstraintM.o TAbsFitConstraint.o -o selection.exe
 
 quickTrees.exe: quickTrees.cc
 	$(CC) $(TMVA) $(CCFLAGS) $(ROOTFLAGS) $(ROOTLIBS) quickTrees.cc -o quickTrees.exe
@@ -28,4 +49,4 @@ undoVarTRansformNorm.exe: undoVarTRansformNorm.cc
 	$(CC) $(CCFLAGS) $(ROOTFLAGS) $(ROOTLIBS) undoVarTRansformNorm.cc -o undoVarTRansformNorm.exe
 
 clean:
-	rm *.exe
+	rm *.exe; rm *.o
