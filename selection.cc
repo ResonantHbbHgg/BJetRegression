@@ -523,7 +523,8 @@ int main()
 			// parameters determined on the training sample to recast the output from [-1, 1] to the correct pt range
 			float mlp_min = 25.0004;
 			float mlp_max = 337.647;
-
+/*
+// Phil's regression
 			TMVA::Reader *readerRegres = new TMVA::Reader( "!Color:!Silent" );
 		  readerRegres->AddVariable( "hJet_pt", &jet_pt);
   		readerRegres->AddVariable( "hJet_eta", &jet_eta);
@@ -535,6 +536,19 @@ int main()
 		  readerRegres->AddVariable( "MET", &met_corr_pfmet);
 		  readerRegres->AddVariable( "hJet_dPhiMETJet", &jet_dPhiMet);
 		  readerRegres->BookMVA("BDTG method","/afs/cern.ch/user/h/hebda/public/TMVARegression_BDTG.weights.xml");
+*/
+// Olivier's regression
+      TMVA::Reader* readerRegres = new TMVA::Reader( "!Color:!Silent" );
+      readerRegres->AddVariable( "jet_pt", &jet_pt);
+      readerRegres->AddVariable( "jet_eta", &jet_eta);
+      readerRegres->AddVariable( "jet_emfrac", &jet_emfrac);
+      readerRegres->AddVariable( "jet_nConstituents", &jet_nConstituents_);
+      readerRegres->AddVariable( "jet_hadfrac", &jet_hadfrac);
+      readerRegres->AddVariable( "jet_secVtxPt", &jet_secVtxPt);
+      readerRegres->AddVariable( "jet_secVtx3dL", &jet_secVtx3dL);
+      readerRegres->AddVariable( "ev_met_corr_pfmet", &met_corr_pfmet);
+      readerRegres->AddVariable( "jet_dPhiMet", &jet_dPhiMet);
+      readerRegres->BookMVA("BDT", "/afs/cern.ch/work/o/obondu/public/forRadion/factoryJetRegGen2_globeinputs_BDT.weights.xml");
 
 
 	int nevents[30] = {0};
@@ -802,12 +816,14 @@ int main()
 			jet_nConstituents_ = (float) jet_nConstituents;
 
 			// TODO: now use regression before cut
-			if(DEBUG) cout << "input= " << jet_pt << "\toutput= " << readerRegres->EvaluateRegression("BDTG method")[0] << endl;
+//			if(DEBUG) cout << "input= " << jet_pt << "\toutput= " << readerRegres->EvaluateRegression("BDTG method")[0] << endl; // Phil regression
+			if(DEBUG) cout << "input= " << jet_pt << "\toutput= " << readerRegres->EvaluateMVA("BDT") << endl; // Olivier regression
 			TLorentzVector jnew;
 			jnew.SetPtEtaPhiE(jet_pt, jet_eta, jet_phi, jet_e);
 			if( jet_csvBtag < 0. ) continue;
 			njets[5]++; jetcut[5] = "After jet_csvBtag < 0.";
-			jnew = ((float)readerRegres->EvaluateRegression("BDTG method")[0]/(float)jet_pt) * jnew;
+//			jnew = ((float)readerRegres->EvaluateRegression("BDTG method")[0]/(float)jet_pt) * jnew; // Phil regression
+			jnew = ((float)readerRegres->EvaluateMVA("BDT")/(float)jet_pt) * jnew; // Olivier regression
 			jet_pt = jnew.Pt();
 			jet_eta = jnew.Eta();
 			jet_phi = jnew.Phi();
