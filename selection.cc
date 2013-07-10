@@ -1247,7 +1247,7 @@ int main()
 		}
 
 // njets < 4
-		if( njets_passing_kLooseID > 4 ) continue;
+		if( njets_passing_kLooseID >= 3 ) continue;
 		if(njets_kRadionID_and_CSVM == 1)
 		{
 			nevents[25]++;
