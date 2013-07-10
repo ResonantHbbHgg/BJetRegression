@@ -1225,10 +1225,18 @@ int main()
 		}
 
 // deltaR(g,j) >= 1
+/*
 		if( pho1.DeltaR(jet1) < 1. ) continue;
 		if( pho1.DeltaR(jet2) < 1. ) continue;
 		if( pho2.DeltaR(jet1) < 1. ) continue;
 		if( pho2.DeltaR(jet2) < 1. ) continue;
+*/
+		double minDRgj = 999999.0;
+		minDRgj = min(minDRgj, pho1.DeltaR(jet1));
+		minDRgj = min(minDRgj, pho1.DeltaR(jet2));
+		minDRgj = min(minDRgj, pho2.DeltaR(jet1));
+		minDRgj = min(minDRgj, pho2.DeltaR(jet2));
+		if( minDRgj < 1.) continue;
 		if(njets_kRadionID_and_CSVM == 1)
 		{
 			nevents[23]++;
