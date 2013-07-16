@@ -1,14 +1,24 @@
+# C++ and compilation
 *.[oa]
 *.exe
+*dSYM
+
+# ROOT
 *.root
+
+# Text editing
 *~
 *.swp
+
+# Original files used to setup the code
 CreateRegressionTMVATree.C
 regressionTMVA.C
-*.pdf
 fitMgg.C
 quickPlot.C
+
+# plots & logs
+*.pdf
 2013*
 *.gif
-*dSYM
 *txt
+*log

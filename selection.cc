@@ -22,34 +22,45 @@
 // namespaces
 using namespace std;
 
-int main()
+int main(int argc, char *argv[])
 {
-//	TFile *infile = TFile::Open("/afs/cern.ch/work/o/obondu/Higgs/CMSSW_5_3_9_patch1_radion/src/h2gglobe_tree_v04_dev_02013-05-29/AnalysisScripts/tree_SMHiggs/tmp_SMHiggs.root");
-/*	TTree *intree = (TTree*)infile->Get("ggh_m125_8TeV");
-	TFile *outfile = new TFile("ggh_m125_8TeV_genjet.root", "RECREATE");
-	TTree *outtree = new TTree("ggh_m125_8TeV", "ggh_m125_8TeV reduced");
-*/
-/*	TTree *intree = (TTree*)infile->Get("vbf_m125_8TeV");
-	TFile *outfile = new TFile("vbf_m125_8TeV_genjet.root", "RECREATE");
-	TTree *outtree = new TTree("vbf_m125_8TeV", "vbf_m125_8TeV reduced");
-*/
-/*	TTree *intree = (TTree*)infile->Get("wzh_m125_8TeV");
-	TFile *outfile = new TFile("wzh_m125_8TeV_genjet.root", "RECREATE");
-	TTree *outtree = new TTree("wzh_m125_8TeV", "wzh_m125_8TeV reduced");
-*/
-/*
-	TFile *infile = TFile::Open("root://eoscms//eos/cms/store/group/phys_higgs/Resonant_HH/trees/radion_tree_v04_dev/Radion_500-nm.root");
-	TTree *intree = (TTree*)infile->Get("Radion_m500_8TeV_nm");
-	TFile *outfile = new TFile("Radion_m500_8TeV_nm_genjet.root", "RECREATE");
-	TTree *outtree = new TTree("Radion_m500_8TeV_nm", "Radion_m500_8TeV_nm reduced");
-*/
-//	TFile *infile = TFile::Open("root://eoscms//eos/cms/store/group/phys_higgs/Resonant_HH/trees/radion_tree_v04_dev/Radion_300-nm.root");
-//	TFile *infile = TFile::Open("radion_tree_v04_dev_Radion_300-nm.root");
-	TFile *infile = TFile::Open("Radion_m300.root");
-	TTree *intree = (TTree*)infile->Get("Radion_m300_8TeV_nm");
-	TFile *outfile = new TFile("Radion_m300_8TeV_nm_genjet_globeinputs.root", "RECREATE");
-//	TFile *outfile = new TFile("Radion_m300_8TeV_nm_parton.root", "RECREATE");
-	TTree *outtree = new TTree("Radion_m300_8TeV_nm", "Radion_m300_8TeV_nm reduced");
+	cout << "argc= " << argc << endl;
+	for(int iarg = 0 ; iarg < argc; iarg++)
+		cout << "argv[" << iarg << "]= " << argv[iarg] << endl;
+
+	if( argc == 1 )
+	{
+		cerr << "WARNING: Arguments should be passed ! Default arguments will be used" << endl;
+		cerr << "WARNING: Syntax is " << argv[0] << " -i (inputfile) -it (inputtree) -o (outputfile) -ot (outputtree)" << endl;
+	}
+
+	
+	string inputfile = "Radion_m300.root";
+	string inputtree = "Radion_m300_8TeV_nm";
+	string outputfile = "Radion_m300_8TeV_nm_genjet_globeinputs.root";
+	string outputtree = "Radion_m300_8TeV_nm";
+
+	for(int iarg=0 ; iarg < argc ; iarg++)
+	{
+		if(strcmp("-i", argv[iarg]) == 0 && argc >= iarg + 1)
+			inputfile = argv[iarg+1];
+		if(strcmp("-it", argv[iarg]) == 0 && argc >= iarg + 1)
+			inputtree = argv[iarg+1];
+		if(strcmp("-o", argv[iarg]) == 0 && argc >= iarg + 1)
+			outputfile = argv[iarg+1];
+		if(strcmp("-ot", argv[iarg]) == 0 && argc >= iarg + 1)
+			outputtree = argv[iarg+1];
+	}
+
+	cout << "inputfile= " << inputfile << endl;
+	cout << "inputtree= " << inputtree << endl;
+	cout << "outputfile= " << outputfile << endl;
+	cout << "outputtree= " << outputtree << endl;
+
+	TFile *infile = TFile::Open(inputfile.c_str());
+	TTree *intree = (TTree*)infile->Get(inputtree.c_str());
+	TFile *outfile = new TFile(outputfile.c_str(), "RECREATE");
+	TTree *outtree = new TTree(outputtree.c_str(), Form("%s reduced", outputtree.c_str()));
 	ofstream synchrofile;
 	if(SYNCHRO) synchrofile.open("synchronisation.txt");
 
@@ -77,8 +88,8 @@ int main()
 	int jet_nNeutrals, jet_nCharged, jet_nConstituents;
 	float jet_nConstituents_;
 //, jet_ntk, jet_axis1, jet_axis2, jet_pull, jet_Rchg, jet_Rneutral, jet_R, jet_chargedMultiplicity, jet_neutralMultiplicity, 
-	float jet_Chadfrac, jet_Nhadfrac, jet_Phofrac, jet_Mufrac, jet_Elefrac, jet_dPhiMet, jet_radionMatched, jet_regPt, jet_MLPweight;
-	int jet_index, jet_pfloose;
+	float /*jet_Chadfrac, jet_Nhadfrac, jet_Phofrac, jet_Mufrac, jet_Elefrac,*/ jet_dPhiMet, jet_radionMatched, jet_regPt, jet_MLPweight;
+	int jet_index/*, jet_pfloose*/;
 //	float ev_met_corrMet, ev_met_corrMetPhi, ev_pu_n, ev_nvtx, ev_rho;
 
 	float pho1_pt, pho1_e, pho1_phi, pho1_eta, pho1_mass;
