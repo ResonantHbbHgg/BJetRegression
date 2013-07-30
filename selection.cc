@@ -1050,13 +1050,51 @@ int main(int argc, char *argv[])
 		jet2.SetPtEtaPhiE(jetPt[ij2], jetEta[ij2], jetPhi[ij2], jetE[ij2]);
 		regjet1.SetPtEtaPhiE(jetPt[ij1Reg], jetEta[ij1Reg], jetPhi[ij1Reg], jetE[ij1Reg]);
 		regjet2.SetPtEtaPhiE(jetPt[ij2Reg], jetEta[ij2Reg], jetPhi[ij2Reg], jetE[ij2Reg]);
-		regkinjet1.SetPtEtaPhiE(jetPt[ij1Reg], jetEta[ij1Reg], jetPhi[ij1Reg], jetE[ij1Reg]);
-		regkinjet2.SetPtEtaPhiE(jetPt[ij2Reg], jetEta[ij2Reg], jetPhi[ij2Reg], jetE[ij2Reg]);
+//		regkinjet1.SetPtEtaPhiE(jetPt[ij1Reg], jetEta[ij1Reg], jetPhi[ij1Reg], jetE[ij1Reg]);
+//		regkinjet2.SetPtEtaPhiE(jetPt[ij2Reg], jetEta[ij2Reg], jetPhi[ij2Reg], jetE[ij2Reg]);
 		regjet1 = ((float)jetRegPt[ij1Reg]/(float)jetPt[ij1Reg]) * regjet1;
 		regjet2 = ((float)jetRegPt[ij2Reg]/(float)jetPt[ij2Reg]) * regjet2;
-		regkinjet1 = ((float)jetRegPt[ij1Reg]/(float)jetPt[ij1Reg]) * regkinjet1;
-		regkinjet2 = ((float)jetRegPt[ij2Reg]/(float)jetPt[ij2Reg]) * regkinjet2;
-
+//		regkinjet1 = ((float)jetRegPt[ij1Reg]/(float)jetPt[ij1Reg]) * regkinjet1;
+//		regkinjet2 = ((float)jetRegPt[ij2Reg]/(float)jetPt[ij2Reg]) * regkinjet2;
+		regkinjet1 = regjet1;
+		regkinjet2 = regjet2;
+		float Hmass = 125.;
+		DiJetKinFitter* fitter_jetsH = new DiJetKinFitter( "fitter_jetsH", "fitter_jets", Hmass );
+		pair<TLorentzVector,TLorentzVector> jets_kinfitH = fitter_jetsH->fit(regkinjet1, regkinjet2);
+//		TLorentzVector jet1_kinfit, jet2_kinfit;
+		regkinjet1 = jets_kinfitH.first;
+		regkinjet2 = jets_kinfitH.second;
+//		jet1 = jet1_kinfit;
+//		jet2 = jet2_kinfit;
+/*
+		// reassign variables
+		// jets
+		regkinjet1_pt = regkinjet1.Pt();
+		regkinjet1_e = regkinjet1.E();
+		regkinjet1_phi = regkinjet1.Phi();
+		regkinjet1_eta = regkinjet1.Eta();
+		regkinjet1_mass = regkinjet1.M();
+		regkinjet2_pt = regkinjet2.Pt();
+		regkinjet2_e = regkinjet2.E();
+		regkinjet2_phi = regkinjet2.Phi();
+		regkinjet2_eta = regkinjet2.Eta();
+		regkinjet2_mass = regkinjet2.M();
+		// dijet
+		regkinjj = regkinjet1 + regkinjet2;
+		regkinjj_pt = regkinjj.Pt();
+		regkinjj_e = regkinjj.E();
+		regkinjj_phi = regkinjj.Phi();
+		regkinjj_eta = regkinjj.Eta();
+		regkinjj_mass = regkinjj.M();
+		regkinjj_DR = regkinjet1.DeltaR(regkinjet2);
+		// radion
+		regkinggjj = regkinjj + gg;
+		regkinggjj_pt = regkinggjj.Pt();
+		regkinggjj_e = regkinggjj.E();
+		regkinggjj_phi = regkinggjj.Phi();
+		regkinggjj_eta = regkinggjj.Eta();
+		regkinggjj_mass = regkinggjj.M();
+*/	
 		TLorentzVector jj = jet1 + jet2;
 		TLorentzVector regjj = regjet1 + regjet2;
 		TLorentzVector regkinjj = regkinjet1 + regkinjet2;
@@ -1218,42 +1256,8 @@ int main(int argc, char *argv[])
 		}
 
 // kin fit
-		float Hmass = 125.;
-		DiJetKinFitter* fitter_jetsH = new DiJetKinFitter( "fitter_jetsH", "fitter_jets", Hmass );
-		pair<TLorentzVector,TLorentzVector> jets_kinfitH = fitter_jetsH->fit(regkinjet1, regkinjet2);
-//		TLorentzVector jet1_kinfit, jet2_kinfit;
-		regkinjet1 = jets_kinfitH.first;
-		regkinjet2 = jets_kinfitH.second;
-//		jet1 = jet1_kinfit;
-//		jet2 = jet2_kinfit;
-		// reassign variables
-		// jets
-		regkinjet1_pt = regkinjet1.Pt();
-		regkinjet1_e = regkinjet1.E();
-		regkinjet1_phi = regkinjet1.Phi();
-		regkinjet1_eta = regkinjet1.Eta();
-		regkinjet1_mass = regkinjet1.M();
-		regkinjet2_pt = regkinjet2.Pt();
-		regkinjet2_e = regkinjet2.E();
-		regkinjet2_phi = regkinjet2.Phi();
-		regkinjet2_eta = regkinjet2.Eta();
-		regkinjet2_mass = regkinjet2.M();
-		// dijet
-		regkinjj = regkinjet1 + regkinjet2;
-		regkinjj_pt = regkinjj.Pt();
-		regkinjj_e = regkinjj.E();
-		regkinjj_phi = regkinjj.Phi();
-		regkinjj_eta = regkinjj.Eta();
-		regkinjj_mass = regkinjj.M();
-		regkinjj_DR = regkinjet1.DeltaR(regkinjet2);
-		// radion
-		regkinggjj = regkinjj + gg;
-		regkinggjj_pt = regkinggjj.Pt();
-		regkinggjj_e = regkinggjj.E();
-		regkinggjj_phi = regkinggjj.Phi();
-		regkinggjj_eta = regkinggjj.Eta();
-		regkinggjj_mass = regkinggjj.M();
-		
+// MOVED UPSTREAM, SHOULD BE TRANSPARENT
+	
 		if(njets_kRadionID_and_CSVM == 1)
 		{
 			category = 1;
