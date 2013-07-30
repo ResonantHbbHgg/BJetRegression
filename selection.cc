@@ -108,7 +108,8 @@ int main(int argc, char *argv[])
 	float regggjj_pt, regggjj_e, regggjj_phi, regggjj_eta, regggjj_mass;
 	float regMLPggjj_pt, regMLPggjj_e, regMLPggjj_phi, regMLPggjj_eta, regMLPggjj_mass;
 	float jet1_MLPweight, jet2_MLPweight;
-
+	int selection_cut_level = 0;
+	int category = 0;
 
 	int njets_passing_kLooseID;
 	intree->SetBranchAddress("njets_passing_kLooseID", &njets_passing_kLooseID);
@@ -395,6 +396,8 @@ int main(int argc, char *argv[])
 	outtree->Branch("ev_nvtx", &ev_nvtx, "ev_nvtx/F");
 	outtree->Branch("ev_rho", &ev_rho, "ev_rho/F");
 */
+	outtree->Branch("category", &category, "category/I");
+	outtree->Branch("selection_cut_level", &selection_cut_level, "selection_cut_level/I");
 	outtree->Branch("weight", &weight, "weight/F");
 	outtree->Branch("evweight", &evweight, "evweight/F");
 	outtree->Branch("pu_weight", &pu_weight, "pu_weight/F");
@@ -902,6 +905,7 @@ int main(int argc, char *argv[])
 		if( btaggedJet.size() == 1 )
 		{
 			if(DEBUG) cout << "Entering jet combinatorics: 1btag category" << endl;
+			category = 1;
 			unsigned int ij = btaggedJet[0];
 			if(DEBUG) cout << "btaggedJet[0]= " << btaggedJet[0] << endl;
 			TLorentzVector j, jreg, jregMLP;
@@ -954,6 +958,7 @@ int main(int argc, char *argv[])
 		// if two or more bjets, then loop only over btagged jets
 		if( btaggedJet.size() > 1 )
 		{
+			category = 2;
 			if(DEBUG) cout << "Entering jet combinatorics: 2btag category" << endl;
 			int ij;
 			int imaxptjj;
@@ -1045,6 +1050,7 @@ int main(int argc, char *argv[])
 		TLorentzVector regggjj = regjj + gg;
 		TLorentzVector regMLPggjj = regMLPjj + gg;
 
+		selection_cut_level = 0;
 		weight = ev_weight;
 		evweight = ev_evweight;
 		pu_weight = ev_pu_weight;
@@ -1143,9 +1149,11 @@ int main(int argc, char *argv[])
 		if(SYNCHRO) synchrofile << jet1_pt << "\t" << jet2_pt << "\t" << jj_mass << "\t" << ggjj_mass << endl;
 		if(njets_kRadionID_and_CSVM == 1)
 		{
+			category = 1;
 			nevents[13]++;
 			eventcut[13] = "1btag category";
 		} else if( njets_kRadionID_and_CSVM >=2) {
+			category = 2;
 			nevents[14]++;
 			eventcut[14] = "2btag category";
 		}
@@ -1154,24 +1162,41 @@ int main(int argc, char *argv[])
 		TLorentzVector Hgg_Rstar(gg);
 		Hgg_Rstar.Boost(-ggjj.BoostVector());
 		float costhetastar = Hgg_Rstar.CosTheta();
-		if( fabs(costhetastar) >= .9 ) continue;
+		if( fabs(costhetastar) >= .9 )
+		{
+			selection_cut_level = 1;
+			outtree->Fill();
+			continue;
+		}
 		if(njets_kRadionID_and_CSVM == 1)
 		{
+			category = 1;
 			nevents[15]++;
 			eventcut[15] = "1btag category, after | cos theta* | <.9";
 		} else if( njets_kRadionID_and_CSVM >=2) {
+			category = 2;
 			nevents[16]++;
 			eventcut[16] = "2btag category, after | cos theta* | <.9";
 		}
 
 // mjj cut (90/150 for 1btag and 95/140 for 2btags)
-		if(njets_kRadionID_and_CSVM == 1 && (jj_mass < 90. || jj_mass > 150.) ) continue;
-		if(njets_kRadionID_and_CSVM >= 2 && (jj_mass < 95. || jj_mass > 140.) ) continue;
+		if(
+			(njets_kRadionID_and_CSVM == 1 && (jj_mass < 90. || jj_mass > 150.))
+			||
+			(njets_kRadionID_and_CSVM >= 2 && (jj_mass < 95. || jj_mass > 140.))
+			)
+		{
+			selection_cut_level = 2;
+			outtree->Fill();
+			continue;
+		}
 		if(njets_kRadionID_and_CSVM == 1)
 		{
+			category = 1;
 			nevents[17]++;
 			eventcut[17] = "1btag category, after mjj cut (90/150 for 1btag and 95/140 for 2btags)";
 		} else if( njets_kRadionID_and_CSVM >=2) {
+			category = 2;
 			nevents[18]++;
 			eventcut[18] = "2btag category, after mjj cut (90/150 for 1btag and 95/140 for 2btags)";
 		}
@@ -1215,22 +1240,34 @@ int main(int argc, char *argv[])
 		
 		if(njets_kRadionID_and_CSVM == 1)
 		{
+			category = 1;
 			nevents[19]++;
 			eventcut[19] = "1btag category, after kin fit";
 		} else if( njets_kRadionID_and_CSVM >=2) {
+			category = 2;
 			nevents[20]++;
 			eventcut[20] = "2btag category, after kin fit";
 		}
 
 
 // mggjj cut (260/335 and 255/320)
-		if(njets_kRadionID_and_CSVM == 1 && (ggjj_mass < 260. || ggjj_mass > 335.) ) continue;
-		if(njets_kRadionID_and_CSVM >= 2 && (ggjj_mass < 255. || ggjj_mass > 320.) ) continue;
+		if(
+			(njets_kRadionID_and_CSVM == 1 && (ggjj_mass < 260. || ggjj_mass > 335.) )
+			||
+			(njets_kRadionID_and_CSVM >= 2 && (ggjj_mass < 255. || ggjj_mass > 320.) )
+			)
+		{
+			selection_cut_level = 3;
+			outtree->Fill();
+			continue;
+		}
 		if(njets_kRadionID_and_CSVM == 1)
 		{
+			category = 1;
 			nevents[21]++;
 			eventcut[21] = "1btag category, after mggjj cut (260/335 and 255/320)";
 		} else if( njets_kRadionID_and_CSVM >=2) {
+			category = 2;
 			nevents[22]++;
 			eventcut[22] = "2btag category, after mggjj cut (260/335 and 255/320)";
 		}
@@ -1247,23 +1284,37 @@ int main(int argc, char *argv[])
 		minDRgj = min(minDRgj, pho1.DeltaR(jet2));
 		minDRgj = min(minDRgj, pho2.DeltaR(jet1));
 		minDRgj = min(minDRgj, pho2.DeltaR(jet2));
-		if( minDRgj < 1.) continue;
+		if( minDRgj < 1.)
+		{
+			selection_cut_level = 4;
+			outtree->Fill();
+			continue;
+		}
 		if(njets_kRadionID_and_CSVM == 1)
 		{
+			category = 1;
 			nevents[23]++;
 			eventcut[23] = "1btag category, after deltaR(g,j) >= 1";
 		} else if( njets_kRadionID_and_CSVM >=2) {
+			category = 2;
 			nevents[24]++;
 			eventcut[24] = "2btag category, after deltaR(g,j) >= 1";
 		}
 
 // njets < 4
-		if( njets_passing_kLooseID >= 3 ) continue;
+		if( njets_passing_kLooseID >= 3 )
+		{
+			selection_cut_level = 5;
+			outtree->Fill();
+			continue;
+		}
 		if(njets_kRadionID_and_CSVM == 1)
 		{
+			category = 1;
 			nevents[25]++;
 			eventcut[25] = "1btag category, after njets < 4";
 		} else if( njets_kRadionID_and_CSVM >=2) {
+			category = 2;
 			nevents[26]++;
 			eventcut[26] = "2btag category, after njets < 4";
 		}
