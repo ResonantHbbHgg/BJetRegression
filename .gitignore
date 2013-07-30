@@ -22,3 +22,6 @@ quickPlot.C
 *.gif
 *txt
 *log
+test*
+*.diff
+dump*
