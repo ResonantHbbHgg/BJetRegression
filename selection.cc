@@ -122,6 +122,7 @@ int main(int argc, char *argv[])
 	int selection_cut_level = 0;
 	int category = 0;
 	float costhetastar, regcosthetastar, regkincosthetastar;
+	float minDRgj, minDRgregj, minDRgregkinj;
 
 	int njets_passing_kLooseID;
 	intree->SetBranchAddress("njets_passing_kLooseID", &njets_passing_kLooseID);
@@ -510,6 +511,9 @@ int main(int argc, char *argv[])
 	outtree->Branch("costhetastar", &costhetastar, "costhetastar/F");
 	outtree->Branch("regcosthetastar", &regcosthetastar, "regcosthetastar/F");
 	outtree->Branch("regkincosthetastar", &regkincosthetastar, "regkincosthetastar/F");
+	outtree->Branch("minDRgj", &minDRgj, "minDRgj/F");
+	outtree->Branch("minDRgregj", &minDRgregj, "minDRgregj/F");
+	outtree->Branch("minDRgregkinj", &minDRgregkinj, "minDRgregkinj/F");
 
 
 // prepare for regression
@@ -1211,6 +1215,22 @@ int main(int argc, char *argv[])
 		costhetastar = Hgg_Rstar.CosTheta();
 		regcosthetastar = regHgg_Rstar.CosTheta();
 		regkincosthetastar = regkinHgg_Rstar.CosTheta();
+// min DR(g, j)
+		minDRgj = 999999.0;
+		minDRgregj = 999999.0;
+		minDRgregkinj = 999999.0;
+		minDRgj = min(minDRgj, pho1.DeltaR(jet1));
+		minDRgj = min(minDRgj, pho1.DeltaR(jet2));
+		minDRgj = min(minDRgj, pho2.DeltaR(jet1));
+		minDRgj = min(minDRgj, pho2.DeltaR(jet2));
+		minDRgregj = min(minDRgregj, pho1.DeltaR(regjet1));
+		minDRgregj = min(minDRgregj, pho1.DeltaR(regjet2));
+		minDRgregj = min(minDRgregj, pho2.DeltaR(regjet1));
+		minDRgregj = min(minDRgregj, pho2.DeltaR(regjet2));
+		minDRgregkinj = min(minDRgregkinj, pho1.DeltaR(regkinjet1));
+		minDRgregkinj = min(minDRgregkinj, pho1.DeltaR(regkinjet2));
+		minDRgregkinj = min(minDRgregkinj, pho2.DeltaR(regkinjet1));
+		minDRgregkinj = min(minDRgregkinj, pho2.DeltaR(regkinjet2));
 
 // categorisation
 		selection_cut_level = 0;
@@ -1311,12 +1331,8 @@ int main(int argc, char *argv[])
 		if( pho2.DeltaR(jet1) < 1. ) continue;
 		if( pho2.DeltaR(jet2) < 1. ) continue;
 */
-		double minDRgj = 999999.0;
-		minDRgj = min(minDRgj, pho1.DeltaR(regkinjet1));
-		minDRgj = min(minDRgj, pho1.DeltaR(regkinjet2));
-		minDRgj = min(minDRgj, pho2.DeltaR(regkinjet1));
-		minDRgj = min(minDRgj, pho2.DeltaR(regkinjet2));
-		if( minDRgj < 1.)
+// MOVED UPSTREAM, SHOULD BE TRANSPARENT
+		if( minDRgregkinj < 1.)
 		{
 			outtree->Fill();
 			continue;
