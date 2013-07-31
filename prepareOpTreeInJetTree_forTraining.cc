@@ -14,32 +14,80 @@
 // namespaces
 using namespace std;
 
-int main()
+int main(int argc, char *argv[])
 {
+	cout << "argc= " << argc << endl;
+	for(int iarg = 0 ; iarg < argc; iarg++)
+		cout << "argv[" << iarg << "]= " << argv[iarg] << endl;
+
+	if( argc == 1 )
+	{
+		cerr << "WARNING: Arguments should be passed ! Default arguments will be used" << endl;
+		cerr << "WARNING: Syntax is " << argv[0] << " -i (inputfile) -it (inputtree) -o (outputfile) -ot (outputtree)" << endl;
+	}
+
+	
+	string inputfile = "../h2gglobe_git/AnalysisScripts/tree_05_AllSignal/Graviton_Radion-nm.root";
+	string inputtree = "Radion_m300_8TeV_nm";
+	string outputfile = "jetTreeForTraining.root";
+	string outputtree = "jets";
+
+	for(int iarg=0 ; iarg < argc ; iarg++)
+	{
+		if(strcmp("-i", argv[iarg]) == 0 && argc >= iarg + 1)
+			inputfile = argv[iarg+1];
+		if(strcmp("-it", argv[iarg]) == 0 && argc >= iarg + 1)
+			inputtree = argv[iarg+1];
+		if(strcmp("-o", argv[iarg]) == 0 && argc >= iarg + 1)
+			outputfile = argv[iarg+1];
+		if(strcmp("-ot", argv[iarg]) == 0 && argc >= iarg + 1)
+			outputtree = argv[iarg+1];
+		if((strcmp("-h", argv[iarg]) == 0) || (strcmp("--help", argv[iarg]) == 0))
+		{
+			cerr << "WARNING: Arguments should be passed ! Default arguments will be used" << endl;
+			cerr << "WARNING: Syntax is " << argv[0] << " -i (inputfile) -it (inputtree) -o (outputfile) -ot (outputtree)" << endl;
+			cerr << "inputfile= " << inputfile << endl;
+			cerr << "inputtree= " << inputtree << endl;
+			cerr << "outputfile= " << outputfile << endl;
+			cerr << "outputtree= " << outputtree << endl;
+			return 2;
+		}
+	}
+
+	cout << "inputfile= " << inputfile << endl;
+	cout << "inputtree= " << inputtree << endl;
+	cout << "outputfile= " << outputfile << endl;
+	cout << "outputtree= " << outputtree << endl;
+
+	TFile *infile = TFile::Open(inputfile.c_str());
+	TTree *intree = (TTree*)infile->Get(inputtree.c_str());
+	TFile *outfile = new TFile(outputfile.c_str(), "RECREATE");
+	TTree *outtree = new TTree(outputtree.c_str(), Form("%s for training", outputtree.c_str()));
 //	TFile *infile = TFile::Open("root://eoscms//eos/cms/store/group/phys_higgs/Resonant_HH/trees/radion_tree_v04/Graviton_Radion-nm.root");
 //	TFile *infile = TFile::Open("root://eoscms//eos/cms/store/group/phys_higgs/Resonant_HH/trees/radion_tree_v04/Radion_300-nm.root");
 //	TFile *infile = TFile::Open("root://eoscms//eos/cms/store/group/phys_higgs/Resonant_HH/trees/radion_tree_v04_dev/Radion_300-nm.root");
+/*
 	TFile *infile = TFile::Open("radion_tree_v04_dev_Radion_300-nm.root");
 	TFile *outfile = new TFile("jetTreeForTraining.root", "RECREATE");
 	TTree *intree = (TTree*)infile->Get("Radion_m300_8TeV_nm");
 	TTree *outtree = new TTree("jets", "jets");
-
+*/
 	float gr_radion_p4_pt, gr_radion_p4_eta, gr_radion_p4_phi, gr_radion_p4_mass, gr_hgg_p4_pt, gr_hgg_p4_eta, gr_hgg_p4_phi, gr_hgg_p4_mass, gr_hbb_p4_pt, gr_hbb_p4_eta, gr_hbb_p4_phi, gr_hbb_p4_mass, gr_g1_p4_pt, gr_g1_p4_eta, gr_g1_p4_phi, gr_g1_p4_mass, gr_g2_p4_pt, gr_g2_p4_eta, gr_g2_p4_phi, gr_g2_p4_mass, gr_b1_p4_pt, gr_b1_p4_eta, gr_b1_p4_phi, gr_b1_p4_mass, gr_b2_p4_pt, gr_b2_p4_eta, gr_b2_p4_phi, gr_b2_p4_mass, gr_j1_p4_pt, gr_j1_p4_eta, gr_j1_p4_phi, gr_j1_p4_mass, gr_j2_p4_pt, gr_j2_p4_eta, gr_j2_p4_phi, gr_j2_p4_mass;
-	float met_pfmet, met_phi_pfmet, met_sumet_pfmet, met_mEtSig_pfmet, met_significance_pfmet, met_corrMet, met_corrMetPhi, pu_n, nvtx, rho;
+	float met_pfmet, met_phi_pfmet/*, met_sumet_pfmet, met_mEtSig_pfmet, met_significance_pfmet, met_corrMet, met_corrMetPhi*/, pu_n, nvtx, rho;
 	float weight, evweight, pu_weight;
-	float j1_e, j1_pt, j1_phi, j1_eta, j1_beta, j1_betaStar, j1_betaStarClassic, j1_dR2Mean, j1_csvBtag, j1_csvMvaBtag, j1_jetProbBtag, j1_tcheBtag, j1_ptD, j1_nSecondaryVertices, j1_secVtxPt, j1_secVtx3dL, j1_secVtx3deL, j1_emfrac, j1_hadfrac, j1_ntk, j1_nNeutrals, j1_nCharged, j1_axis1, j1_axis2, j1_pull, j1_Rchg, j1_Rneutral, j1_R, j1_chargedMultiplicity, j1_neutralMultiplicity, j1_Chadfrac, j1_Nhadfrac, j1_Phofrac, j1_Mufrac, j1_Elefrac, j1_dPhiMet, j1_radionMatched;
-	int j1_pfloose;
-	float j2_e, j2_pt, j2_phi, j2_eta, j2_beta, j2_betaStar, j2_betaStarClassic, j2_dR2Mean, j2_csvBtag, j2_csvMvaBtag, j2_jetProbBtag, j2_tcheBtag, j2_ptD, j2_nSecondaryVertices, j2_secVtxPt, j2_secVtx3dL, j2_secVtx3deL, j2_emfrac, j2_hadfrac, j2_ntk, j2_nNeutrals, j2_nCharged, j2_axis1, j2_axis2, j2_pull, j2_Rchg, j2_Rneutral, j2_R, j2_chargedMultiplicity, j2_neutralMultiplicity, j2_Chadfrac, j2_Nhadfrac, j2_Phofrac, j2_Mufrac, j2_Elefrac, j2_dPhiMet, j2_radionMatched;
-	int j2_pfloose;
-	float j3_e, j3_pt, j3_phi, j3_eta, j3_beta, j3_betaStar, j3_betaStarClassic, j3_dR2Mean, j3_csvBtag, j3_csvMvaBtag, j3_jetProbBtag, j3_tcheBtag, j3_ptD, j3_nSecondaryVertices, j3_secVtxPt, j3_secVtx3dL, j3_secVtx3deL, j3_emfrac, j3_hadfrac, j3_ntk, j3_nNeutrals, j3_nCharged, j3_axis1, j3_axis2, j3_pull, j3_Rchg, j3_Rneutral, j3_R, j3_chargedMultiplicity, j3_neutralMultiplicity, j3_Chadfrac, j3_Nhadfrac, j3_Phofrac, j3_Mufrac, j3_Elefrac, j3_dPhiMet, j3_radionMatched;
-	int j3_pfloose;
-	float j4_e, j4_pt, j4_phi, j4_eta, j4_beta, j4_betaStar, j4_betaStarClassic, j4_dR2Mean, j4_csvBtag, j4_csvMvaBtag, j4_jetProbBtag, j4_tcheBtag, j4_ptD, j4_nSecondaryVertices, j4_secVtxPt, j4_secVtx3dL, j4_secVtx3deL, j4_emfrac, j4_hadfrac, j4_ntk, j4_nNeutrals, j4_nCharged, j4_axis1, j4_axis2, j4_pull, j4_Rchg, j4_Rneutral, j4_R, j4_chargedMultiplicity, j4_neutralMultiplicity, j4_Chadfrac, j4_Nhadfrac, j4_Phofrac, j4_Mufrac, j4_Elefrac, j4_dPhiMet, j4_radionMatched;
-	int j4_pfloose;
-	float jet_e, jet_pt, jet_phi, jet_eta, jet_beta, jet_betaStar, jet_betaStarClassic, jet_dR2Mean, jet_csvBtag, jet_csvMvaBtag, jet_jetProbBtag, jet_tcheBtag, jet_ptD, jet_nSecondaryVertices, jet_secVtxPt, jet_secVtx3dL, jet_secVtx3deL, jet_emfrac, jet_hadfrac, jet_ntk, jet_nNeutrals, jet_nCharged, jet_axis1, jet_axis2, jet_pull, jet_Rchg, jet_Rneutral, jet_R, jet_chargedMultiplicity, jet_neutralMultiplicity, jet_Chadfrac, jet_Nhadfrac, jet_Phofrac, jet_Mufrac, jet_Elefrac, jet_dPhiMet, jet_radionMatched;
-	int jet_pfloose;
+	float j1_e, j1_pt, j1_phi, j1_eta, j1_beta, j1_betaStar, j1_betaStarClassic, j1_dR2Mean, j1_csvBtag, j1_csvMvaBtag, j1_jetProbBtag, j1_tcheBtag, j1_ptD, j1_nSecondaryVertices, j1_secVtxPt, j1_secVtx3dL, j1_secVtx3deL, j1_emfrac, j1_hadfrac, j1_axis1, j1_axis2, j1_pull/*, j1_Rchg, j1_Rneutral, j1_R, j1_chargedMultiplicity, j1_neutralMultiplicity, j1_Chadfrac, j1_Nhadfrac, j1_Phofrac, j1_Mufrac, j1_Elefrac, j1_dPhiMet*/, j1_radionMatched;
+	int /*j1_pfloose, */j1_ntk, j1_nNeutrals, j1_nCharged;
+	float j2_e, j2_pt, j2_phi, j2_eta, j2_beta, j2_betaStar, j2_betaStarClassic, j2_dR2Mean, j2_csvBtag, j2_csvMvaBtag, j2_jetProbBtag, j2_tcheBtag, j2_ptD, j2_nSecondaryVertices, j2_secVtxPt, j2_secVtx3dL, j2_secVtx3deL, j2_emfrac, j2_hadfrac, j2_axis1, j2_axis2, j2_pull/*, j2_Rchg, j2_Rneutral, j2_R, j2_chargedMultiplicity, j2_neutralMultiplicity, j2_Chadfrac, j2_Nhadfrac, j2_Phofrac, j2_Mufrac, j2_Elefrac, j2_dPhiMet*/, j2_radionMatched;
+	int /*j2_pfloose, */j2_ntk, j2_nNeutrals, j2_nCharged;
+	float j3_e, j3_pt, j3_phi, j3_eta, j3_beta, j3_betaStar, j3_betaStarClassic, j3_dR2Mean, j3_csvBtag, j3_csvMvaBtag, j3_jetProbBtag, j3_tcheBtag, j3_ptD, j3_nSecondaryVertices, j3_secVtxPt, j3_secVtx3dL, j3_secVtx3deL, j3_emfrac, j3_hadfrac, j3_axis1, j3_axis2, j3_pull,/* j3_Rchg, j3_Rneutral, j3_R, j3_chargedMultiplicity, j3_neutralMultiplicity, j3_Chadfrac, j3_Nhadfrac, j3_Phofrac, j3_Mufrac, j3_Elefrac, j3_dPhiMet, */j3_radionMatched;
+	int /*j3_pfloose, */j3_ntk, j3_nNeutrals, j3_nCharged;
+	float j4_e, j4_pt, j4_phi, j4_eta, j4_beta, j4_betaStar, j4_betaStarClassic, j4_dR2Mean, j4_csvBtag, j4_csvMvaBtag, j4_jetProbBtag, j4_tcheBtag, j4_ptD, j4_nSecondaryVertices, j4_secVtxPt, j4_secVtx3dL, j4_secVtx3deL, j4_emfrac, j4_hadfrac, j4_axis1, j4_axis2, j4_pull, /*j4_Rchg, j4_Rneutral, j4_R, j4_chargedMultiplicity, j4_neutralMultiplicity, j4_Chadfrac, j4_Nhadfrac, j4_Phofrac, j4_Mufrac, j4_Elefrac, j4_dPhiMet,*/ j4_radionMatched;
+	int /*j4_pfloose, */j4_ntk, j4_nNeutrals, j4_nCharged;
+	float jet_e, jet_pt, jet_phi, jet_eta, jet_beta, jet_betaStar, jet_betaStarClassic, jet_dR2Mean, jet_csvBtag, jet_csvMvaBtag, jet_jetProbBtag, jet_tcheBtag, jet_ptD, jet_nSecondaryVertices, jet_secVtxPt, jet_secVtx3dL, jet_secVtx3deL, jet_emfrac, jet_hadfrac, jet_axis1, jet_axis2, jet_pull, /*jet_Rchg, jet_Rneutral, jet_R, jet_chargedMultiplicity, jet_neutralMultiplicity, jet_Chadfrac, jet_Nhadfrac, jet_Phofrac, jet_Mufrac, jet_Elefrac, jet_dPhiMet, */jet_radionMatched;
+	int /*jet_pfloose, */jet_ntk, jet_nNeutrals, jet_nCharged;
 	float jet_genDR, jet_genPt, jet_genE, jet_genR, jet_prtDR, jet_prtPt, jet_prtE, jet_prtR;
 	int jet_index;
-	float ev_met_pfmet, ev_met_phi_pfmet, ev_met_sumet_pfmet, ev_met_mEtSig_pfmet, ev_met_significance_pfmet, ev_met_corrMet, ev_met_corrMetPhi, ev_pu_n, ev_nvtx, ev_rho;
+	float ev_met_pfmet, ev_met_phi_pfmet, /*ev_met_sumet_pfmet, ev_met_mEtSig_pfmet, ev_met_significance_pfmet, ev_met_corrMet, ev_met_corrMetPhi,*/ ev_pu_n, ev_nvtx, ev_rho;
 	float ev_weight, ev_evweight, ev_pu_weight;
 
 	int njets_passing_kLooseID;
@@ -49,11 +97,13 @@ int main()
 
 	intree->SetBranchAddress("met_pfmet", &met_pfmet);
 	intree->SetBranchAddress("met_phi_pfmet", &met_phi_pfmet);
+/*
 	intree->SetBranchAddress("met_sumet_pfmet", &met_sumet_pfmet);
 	intree->SetBranchAddress("met_mEtSig_pfmet", &met_mEtSig_pfmet);
 	intree->SetBranchAddress("met_significance_pfmet", &met_significance_pfmet);
 	intree->SetBranchAddress("met_corrMet", &met_corrMet);
 	intree->SetBranchAddress("met_corrMetPhi", &met_corrMetPhi);
+*/
 	intree->SetBranchAddress("pu_n", &pu_n);
 	intree->SetBranchAddress("nvtx", &nvtx);
 	intree->SetBranchAddress("rho", &rho);
@@ -123,6 +173,7 @@ int main()
 	intree->SetBranchAddress("j1_axis1", &j1_axis1);
 	intree->SetBranchAddress("j1_axis2", &j1_axis2);
 	intree->SetBranchAddress("j1_pull", &j1_pull);
+/*
 	intree->SetBranchAddress("j1_Rchg", &j1_Rchg);
 	intree->SetBranchAddress("j1_Rneutral", &j1_Rneutral);
 	intree->SetBranchAddress("j1_R", &j1_R);
@@ -135,7 +186,7 @@ int main()
 	intree->SetBranchAddress("j1_Elefrac", &j1_Elefrac);
 	intree->SetBranchAddress("j1_dPhiMet", &j1_dPhiMet);
 	intree->SetBranchAddress("j1_pfloose", &j1_pfloose);
-
+*/
 	intree->SetBranchAddress("j2_e", &j2_e);
 	intree->SetBranchAddress("j2_pt", &j2_pt);
 	intree->SetBranchAddress("j2_phi", &j2_phi);
@@ -162,6 +213,7 @@ int main()
 	intree->SetBranchAddress("j2_axis1", &j2_axis1);
 	intree->SetBranchAddress("j2_axis2", &j2_axis2);
 	intree->SetBranchAddress("j2_pull", &j2_pull);
+/*
 	intree->SetBranchAddress("j2_Rchg", &j2_Rchg);
 	intree->SetBranchAddress("j2_Rneutral", &j2_Rneutral);
 	intree->SetBranchAddress("j2_R", &j2_R);
@@ -174,6 +226,7 @@ int main()
 	intree->SetBranchAddress("j2_Elefrac", &j2_Elefrac);
 	intree->SetBranchAddress("j2_dPhiMet", &j2_dPhiMet);
 	intree->SetBranchAddress("j2_pfloose", &j2_pfloose);
+*/
 
 	intree->SetBranchAddress("j3_e", &j3_e);
 	intree->SetBranchAddress("j3_pt", &j3_pt);
@@ -201,6 +254,7 @@ int main()
 	intree->SetBranchAddress("j3_axis1", &j3_axis1);
 	intree->SetBranchAddress("j3_axis2", &j3_axis2);
 	intree->SetBranchAddress("j3_pull", &j3_pull);
+/*
 	intree->SetBranchAddress("j3_Rchg", &j3_Rchg);
 	intree->SetBranchAddress("j3_Rneutral", &j3_Rneutral);
 	intree->SetBranchAddress("j3_R", &j3_R);
@@ -213,6 +267,7 @@ int main()
 	intree->SetBranchAddress("j3_Elefrac", &j3_Elefrac);
 	intree->SetBranchAddress("j3_dPhiMet", &j3_dPhiMet);
 	intree->SetBranchAddress("j3_pfloose", &j3_pfloose);
+*/
 
 	intree->SetBranchAddress("j4_e", &j4_e);
 	intree->SetBranchAddress("j4_pt", &j4_pt);
@@ -240,6 +295,7 @@ int main()
 	intree->SetBranchAddress("j4_axis1", &j4_axis1);
 	intree->SetBranchAddress("j4_axis2", &j4_axis2);
 	intree->SetBranchAddress("j4_pull", &j4_pull);
+/*
 	intree->SetBranchAddress("j4_Rchg", &j4_Rchg);
 	intree->SetBranchAddress("j4_Rneutral", &j4_Rneutral);
 	intree->SetBranchAddress("j4_R", &j4_R);
@@ -252,6 +308,7 @@ int main()
 	intree->SetBranchAddress("j4_Elefrac", &j4_Elefrac);
 	intree->SetBranchAddress("j4_dPhiMet", &j4_dPhiMet);
 	intree->SetBranchAddress("j4_pfloose", &j4_pfloose);
+*/
 
 	outtree->Branch("jet_e", &jet_e, "jet_e/F");
 	outtree->Branch("jet_pt", &jet_pt, "jet_pt/F");
@@ -273,12 +330,13 @@ int main()
 	outtree->Branch("jet_secVtx3deL", &jet_secVtx3deL, "jet_secVtx3deL/F");
 	outtree->Branch("jet_emfrac", &jet_emfrac, "jet_emfrac/F");
 	outtree->Branch("jet_hadfrac", &jet_hadfrac, "jet_hadfrac/F");
-	outtree->Branch("jet_ntk", &jet_ntk, "jet_ntk/F");
-	outtree->Branch("jet_nNeutrals", &jet_nNeutrals, "jet_nNeutrals/F");
-	outtree->Branch("jet_nCharged", &jet_nCharged, "jet_nCharged/F");
+	outtree->Branch("jet_ntk", &jet_ntk, "jet_ntk/I");
+	outtree->Branch("jet_nNeutrals", &jet_nNeutrals, "jet_nNeutrals/I");
+	outtree->Branch("jet_nCharged", &jet_nCharged, "jet_nCharged/I");
 	outtree->Branch("jet_axis1", &jet_axis1, "jet_axis1/F");
 	outtree->Branch("jet_axis2", &jet_axis2, "jet_axis2/F");
 	outtree->Branch("jet_pull", &jet_pull, "jet_pull/F");
+/*
 	outtree->Branch("jet_Rchg", &jet_Rchg, "jet_Rchg/F");
 	outtree->Branch("jet_Rneutral", &jet_Rneutral, "jet_Rneutral/F");
 	outtree->Branch("jet_R", &jet_R, "jet_R/F");
@@ -291,6 +349,7 @@ int main()
 	outtree->Branch("jet_Elefrac", &jet_Elefrac, "jet_Elefrac/F");
 	outtree->Branch("jet_dPhiMet", &jet_dPhiMet, "jet_dPhiMet/F");
 	outtree->Branch("jet_pfloose", &jet_pfloose, "jet_pfloose/I");
+*/
 	outtree->Branch("jet_genDR", &jet_genDR, "jet_genDR/F");
 	outtree->Branch("jet_genPt", &jet_genPt, "jet_genPt/F");
 	outtree->Branch("jet_genE", &jet_genE, "jet_genE/F");
@@ -302,11 +361,13 @@ int main()
 	outtree->Branch("jet_index", &jet_index, "jet_index/I");
 	outtree->Branch("ev_met_pfmet", &ev_met_pfmet, "ev_met_pfmet/F");
 	outtree->Branch("ev_met_phi_pfmet", &ev_met_phi_pfmet, "ev_met_phi_pfmet/F");
+/*
 	outtree->Branch("ev_met_sumet_pfmet", &ev_met_sumet_pfmet, "ev_met_sumet_pfmet/F");
 	outtree->Branch("ev_met_mEtSig_pfmet", &ev_met_mEtSig_pfmet, "ev_met_mEtSig_pfmet/F");
 	outtree->Branch("ev_met_significance_pfmet", &ev_met_significance_pfmet, "ev_met_significance_pfmet/F");
 	outtree->Branch("ev_met_corrMet", &ev_met_corrMet, "ev_met_corrMet/F");
 	outtree->Branch("ev_met_corrMetPhi", &ev_met_corrMetPhi, "ev_met_corrMetPhi/F");
+*/
 	outtree->Branch("ev_pu_n", &ev_pu_n, "ev_pu_n/F");
 	outtree->Branch("ev_nvtx", &ev_nvtx, "ev_nvtx/F");
 	outtree->Branch("ev_rho", &ev_rho, "ev_rho/F");
@@ -380,6 +441,7 @@ int main()
 				jet_axis1 = j1_axis1;
 				jet_axis2 = j1_axis2;
 				jet_pull = j1_pull;
+/*
 				jet_Rchg = j1_Rchg;
 				jet_Rneutral = j1_Rneutral;
 				jet_R = j1_R;
@@ -392,6 +454,7 @@ int main()
 				jet_Elefrac = j1_Elefrac;
 				jet_dPhiMet = j1_dPhiMet;
 				jet_pfloose = j1_pfloose;
+*/
 				jet_index = 1;
 				jet.SetPtEtaPhiE(j1_pt, j1_eta, j1_phi, j1_e);
 			} // end if jet == 0
@@ -424,6 +487,7 @@ int main()
 				jet_axis1 = j2_axis1;
 				jet_axis2 = j2_axis2;
 				jet_pull = j2_pull;
+/*
 				jet_Rchg = j2_Rchg;
 				jet_Rneutral = j2_Rneutral;
 				jet_R = j2_R;
@@ -436,6 +500,7 @@ int main()
 				jet_Elefrac = j2_Elefrac;
 				jet_dPhiMet = j2_dPhiMet;
 				jet_pfloose = j2_pfloose;
+*/
 				jet_index = 2;
 				jet.SetPtEtaPhiE(j2_pt, j2_eta, j2_phi, j2_e);
 			} // end if jet == 1
@@ -468,6 +533,7 @@ int main()
 				jet_axis1 = j3_axis1;
 				jet_axis2 = j3_axis2;
 				jet_pull = j3_pull;
+/*
 				jet_Rchg = j3_Rchg;
 				jet_Rneutral = j3_Rneutral;
 				jet_R = j3_R;
@@ -480,6 +546,7 @@ int main()
 				jet_Elefrac = j3_Elefrac;
 				jet_dPhiMet = j3_dPhiMet;
 				jet_pfloose = j3_pfloose;
+*/
 				jet_index = 3;
 				jet.SetPtEtaPhiE(j3_pt, j3_eta, j3_phi, j3_e);
 			} // end if jet == 2
@@ -512,6 +579,7 @@ int main()
 				jet_axis1 = j4_axis1;
 				jet_axis2 = j4_axis2;
 				jet_pull = j4_pull;
+/*
 				jet_Rchg = j4_Rchg;
 				jet_Rneutral = j4_Rneutral;
 				jet_R = j4_R;
@@ -524,6 +592,7 @@ int main()
 				jet_Elefrac = j4_Elefrac;
 				jet_dPhiMet = j4_dPhiMet;
 				jet_pfloose = j4_pfloose;
+*/
 				jet_index = 4;
 				jet.SetPtEtaPhiE(j4_pt, j4_eta, j4_phi, j4_e);
 			} // end if jet == 3
@@ -558,11 +627,13 @@ int main()
 			}
 			ev_met_pfmet = met_pfmet;
 			ev_met_phi_pfmet = met_phi_pfmet;
+/*
 			ev_met_sumet_pfmet = met_sumet_pfmet;
 			ev_met_mEtSig_pfmet = met_mEtSig_pfmet;
 			ev_met_significance_pfmet = met_significance_pfmet;
 			ev_met_corrMet = met_corrMet;
 			ev_met_corrMetPhi = met_corrMetPhi;
+*/
 			ev_pu_n = pu_n;
 			ev_nvtx = nvtx;
 			ev_rho = rho;
