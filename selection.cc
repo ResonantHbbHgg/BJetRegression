@@ -7,6 +7,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <algorithm>
 // ROOT headers
 #include "TROOT.h"
 #include <TSystem.h>
@@ -32,7 +33,7 @@ int main(int argc, char *argv[])
 	if( argc == 1 )
 	{
 		cerr << "WARNING: Arguments should be passed ! Default arguments will be used" << endl;
-		cerr << "WARNING: Syntax is " << argv[0] << " -i (inputfile) -it (inputtree) -o (outputfile) -ot (outputtree)" << endl;
+		cerr << "WARNING: Syntax is " << argv[0] << " -i (inputfile) -it (inputtree) -o (outputfile) -ot (outputtree) -rf (regressionfile)" << endl;
 	}
 
 	
@@ -40,6 +41,7 @@ int main(int argc, char *argv[])
 	string inputtree = "Radion_m300_8TeV_nm";
 	string outputfile = "Radion_m300_8TeV_nm_genjet_globeinputs.root";
 	string outputtree = "Radion_m300_8TeV_nm";
+	string regressionfile = "/afs/cern.ch/work/o/obondu/public/forRadion/factoryJetRegGen2_globeinputs_BDT.weights.xml";
 
 	for(int iarg=0 ; iarg < argc ; iarg++)
 	{
@@ -51,14 +53,17 @@ int main(int argc, char *argv[])
 			outputfile = argv[iarg+1];
 		if(strcmp("-ot", argv[iarg]) == 0 && argc >= iarg + 1)
 			outputtree = argv[iarg+1];
+		if(strcmp("-rf", argv[iarg]) == 0 && argc >= iarg + 1)
+			regressionfile = argv[iarg+1];
 		if((strcmp("-h", argv[iarg]) == 0) || (strcmp("--help", argv[iarg]) == 0))
 		{
 			cerr << "WARNING: Arguments should be passed ! Default arguments will be used" << endl;
-			cerr << "WARNING: Syntax is " << argv[0] << " -i (inputfile) -it (inputtree) -o (outputfile) -ot (outputtree)" << endl;
+			cerr << "WARNING: Syntax is " << argv[0] << " -i (inputfile) -it (inputtree) -o (outputfile) -ot (outputtree) -rf (regressionfile)" << endl;
 			cerr << "inputfile= " << inputfile << endl;
 			cerr << "inputtree= " << inputtree << endl;
 			cerr << "outputfile= " << outputfile << endl;
 			cerr << "outputtree= " << outputtree << endl;
+			cerr << "regressionfile= " << regressionfile << endl;
 			return 2;
 		}
 	}
@@ -67,6 +72,7 @@ int main(int argc, char *argv[])
 	cout << "inputtree= " << inputtree << endl;
 	cout << "outputfile= " << outputfile << endl;
 	cout << "outputtree= " << outputtree << endl;
+	cout << "regressionfile= " << regressionfile << endl;
 
 	TFile *infile = TFile::Open(inputfile.c_str());
 	TTree *intree = (TTree*)infile->Get(inputtree.c_str());
@@ -584,7 +590,8 @@ int main(int argc, char *argv[])
       readerRegres->AddVariable( "jet_secVtx3dL", &jet_secVtx3dL);
       readerRegres->AddVariable( "ev_met_corr_pfmet", &met_corr_pfmet);
       readerRegres->AddVariable( "jet_dPhiMet", &jet_dPhiMet);
-      readerRegres->BookMVA("BDT", "/afs/cern.ch/work/o/obondu/public/forRadion/factoryJetRegGen2_globeinputs_BDT.weights.xml");
+//      readerRegres->BookMVA("BDT", "/afs/cern.ch/work/o/obondu/public/forRadion/factoryJetRegGen2_globeinputs_BDT.weights.xml");
+      readerRegres->BookMVA("BDT", regressionfile.c_str());
 
 
 	int nevents[30] = {0};
@@ -1219,18 +1226,18 @@ int main(int argc, char *argv[])
 		minDRgj = 999999.0;
 		minDRgregj = 999999.0;
 		minDRgregkinj = 999999.0;
-		minDRgj = min(minDRgj, pho1.DeltaR(jet1));
-		minDRgj = min(minDRgj, pho1.DeltaR(jet2));
-		minDRgj = min(minDRgj, pho2.DeltaR(jet1));
-		minDRgj = min(minDRgj, pho2.DeltaR(jet2));
-		minDRgregj = min(minDRgregj, pho1.DeltaR(regjet1));
-		minDRgregj = min(minDRgregj, pho1.DeltaR(regjet2));
-		minDRgregj = min(minDRgregj, pho2.DeltaR(regjet1));
-		minDRgregj = min(minDRgregj, pho2.DeltaR(regjet2));
-		minDRgregkinj = min(minDRgregkinj, pho1.DeltaR(regkinjet1));
-		minDRgregkinj = min(minDRgregkinj, pho1.DeltaR(regkinjet2));
-		minDRgregkinj = min(minDRgregkinj, pho2.DeltaR(regkinjet1));
-		minDRgregkinj = min(minDRgregkinj, pho2.DeltaR(regkinjet2));
+		minDRgj = min(minDRgj, (float)pho1.DeltaR(jet1));
+		minDRgj = min(minDRgj, (float)pho1.DeltaR(jet2));
+		minDRgj = min(minDRgj, (float)pho2.DeltaR(jet1));
+		minDRgj = min(minDRgj, (float)pho2.DeltaR(jet2));
+		minDRgregj = min(minDRgregj, (float)pho1.DeltaR(regjet1));
+		minDRgregj = min(minDRgregj, (float)pho1.DeltaR(regjet2));
+		minDRgregj = min(minDRgregj, (float)pho2.DeltaR(regjet1));
+		minDRgregj = min(minDRgregj, (float)pho2.DeltaR(regjet2));
+		minDRgregkinj = min(minDRgregkinj, (float)pho1.DeltaR(regkinjet1));
+		minDRgregkinj = min(minDRgregkinj, (float)pho1.DeltaR(regkinjet2));
+		minDRgregkinj = min(minDRgregkinj, (float)pho2.DeltaR(regkinjet1));
+		minDRgregkinj = min(minDRgregkinj, (float)pho2.DeltaR(regkinjet2));
 
 // categorisation
 		selection_cut_level = 0;
