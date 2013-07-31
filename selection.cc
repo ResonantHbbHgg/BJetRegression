@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
 	}
 
 	
-	string inputfile = "Radion_m300.root";
+	string inputfile = "root://eoscms//eos/cms/store/cmst3/user/obondu/H2GGLOBE/Radion/trees/radion_redu_08_tree_05/Graviton_Radion-nm.root";
 	string inputtree = "Radion_m300_8TeV_nm";
 	string outputfile = "Radion_m300_8TeV_nm_genjet_globeinputs.root";
 	string outputtree = "Radion_m300_8TeV_nm";
