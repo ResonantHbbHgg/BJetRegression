@@ -49,7 +49,12 @@ int main(int argc, char *argv[])
 			outputxml = argv[iarg+1];
 		if(strcmp("--help", argv[iarg]) == 0 || strcmp("-h", argv[iarg]) == 0)
 		{
+			cerr << "WARNING: Arguments should be passed ! Default arguments will be used" << endl;
 			cerr << "WARNING: Syntax is " << argv[0] << " -i (inputfile) -it (inputtree) -o (outputfile) -ox (outputxml)" << endl;
+			cerr << "inputfile= " << inputfile << endl;
+			cerr << "inputtree= " << inputtree << endl;
+			cerr << "outputfile= " << outputfile << endl;
+			cerr << "outputxml= " << outputxml << endl;
 			return 2;
 		}
 	}
