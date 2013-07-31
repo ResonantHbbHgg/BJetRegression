@@ -121,6 +121,7 @@ int main(int argc, char *argv[])
 //	float jet1_MLPweight, jet2_MLPweight;
 	int selection_cut_level = 0;
 	int category = 0;
+	float costhetastar, regcosthetastar, regkincosthetastar;
 
 	int njets_passing_kLooseID;
 	intree->SetBranchAddress("njets_passing_kLooseID", &njets_passing_kLooseID);
@@ -506,6 +507,9 @@ int main(int argc, char *argv[])
 	outtree->Branch("njets_kLooseID_and_CSVM", &njets_kLooseID_and_CSVM, "njets_kLooseID_and_CSVM/I");
 	outtree->Branch("njets_kRadionID", &njets_kRadionID, "njets_kRadionID/I");
 	outtree->Branch("njets_kRadionID_and_CSVM", &njets_kRadionID_and_CSVM, "njets_kRadionID_and_CSVM/I");
+	outtree->Branch("costhetastar", &costhetastar, "costhetastar/F");
+	outtree->Branch("regcosthetastar", &regcosthetastar, "regcosthetastar/F");
+	outtree->Branch("regkincosthetastar", &regkincosthetastar, "regkincosthetastar/F");
 
 
 // prepare for regression
@@ -1197,6 +1201,16 @@ int main(int argc, char *argv[])
 		njets_kLooseID_and_CSVM = njets_passing_kLooseID_and_CSVM;
 		njets_kRadionID = njets_kRadionID_;
 		njets_kRadionID_and_CSVM = njets_kRadionID_and_CSVM_;
+// costhetastar
+		TLorentzVector Hgg_Rstar(gg);
+		TLorentzVector regHgg_Rstar(gg);
+		TLorentzVector regkinHgg_Rstar(gg);
+		Hgg_Rstar.Boost(-ggjj.BoostVector());
+		regHgg_Rstar.Boost(-regggjj.BoostVector());
+		regkinHgg_Rstar.Boost(-regkinggjj.BoostVector());
+		costhetastar = Hgg_Rstar.CosTheta();
+		regcosthetastar = regHgg_Rstar.CosTheta();
+		regkincosthetastar = regkinHgg_Rstar.CosTheta();
 
 // categorisation
 		selection_cut_level = 0;
@@ -1214,10 +1228,7 @@ int main(int argc, char *argv[])
 
 // | cos theta* | <.9
 		selection_cut_level = 1;
-		TLorentzVector Hgg_Rstar(gg);
-		Hgg_Rstar.Boost(-regggjj.BoostVector());
-		float costhetastar = Hgg_Rstar.CosTheta();
-		if( fabs(costhetastar) >= .9 )
+		if( fabs(regcosthetastar) >= .9 )
 		{
 			outtree->Fill();
 			continue;
