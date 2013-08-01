@@ -7,6 +7,8 @@
 #include "TMVA/Tools.h"
 // C++ HEADERS
 #include <string>
+#include <iostream>
+#include <sstream>
 // DEFINES
 #define DEBUG 0
 // namespaces
@@ -26,10 +28,19 @@ int main(int argc, char *argv[])
 		cerr << "WARNING: Syntax is " << argv[0] << " -i (inputfile) -it (inputtree) -o (outputfile) -ox (outputxml)" << endl;
 	}
 
+	int nTrainingTrees = 1;
 	string inputfile = "jetTreeForTraining_m300.root";
 	string inputtree = "jets";
+	float w1 = 1.0;
 	string inputfile2 = "jetTreeForTraining_m500.root";
 	string inputtree2 = "jets";
+	float w2 = 1.0;
+	string inputfile3 = "jetTreeForTraining_m700.root";
+	string inputtree3 = "jets";
+	float w3 = 1.0;
+	string inputfile4 = "jetTreeForTraining_m1000.root";
+	string inputtree4 = "jets";
+	float w4 = 1.0;
 	string outputfile = "regression_test.root";
 	string outputxml = "test";
 
@@ -39,14 +50,32 @@ int main(int argc, char *argv[])
 			inputfile = argv[iarg+1];
 		if(strcmp("-i2", argv[iarg]) == 0 && argc >= iarg + 1)
 			inputfile2 = argv[iarg+1];
+		if(strcmp("-i3", argv[iarg]) == 0 && argc >= iarg + 1)
+			inputfile3 = argv[iarg+1];
+		if(strcmp("-i4", argv[iarg]) == 0 && argc >= iarg + 1)
+			inputfile4 = argv[iarg+1];
 		if(strcmp("-it", argv[iarg]) == 0 && argc >= iarg + 1)
 			inputtree = argv[iarg+1];
 		if(strcmp("-it2", argv[iarg]) == 0 && argc >= iarg + 1)
 			inputtree2 = argv[iarg+1];
+		if(strcmp("-it3", argv[iarg]) == 0 && argc >= iarg + 1)
+			inputtree3 = argv[iarg+1];
+		if(strcmp("-it4", argv[iarg]) == 0 && argc >= iarg + 1)
+			inputtree4 = argv[iarg+1];
+		if(strcmp("-w1", argv[iarg]) == 0 && argc >= iarg + 1)
+			{ std::stringstream ss ( argv[iarg+1] ); ss >> w1; }
+		if(strcmp("-w2", argv[iarg]) == 0 && argc >= iarg + 1)
+			{ std::stringstream ss ( argv[iarg+1] ); ss >> w2; }
+		if(strcmp("-w3", argv[iarg]) == 0 && argc >= iarg + 1)
+			{ std::stringstream ss ( argv[iarg+1] ); ss >> w3; }
+		if(strcmp("-w4", argv[iarg]) == 0 && argc >= iarg + 1)
+			{ std::stringstream ss ( argv[iarg+1] ); ss >> w4; }
 		if(strcmp("-o", argv[iarg]) == 0 && argc >= iarg + 1)
 			outputfile = argv[iarg+1];
 		if(strcmp("-ox", argv[iarg]) == 0 && argc >= iarg + 1)
 			outputxml = argv[iarg+1];
+		if(strcmp("-ntt", argv[iarg]) == 0 && argc >= iarg + 1)
+			{ std::stringstream ss ( argv[iarg+1] ); ss >> nTrainingTrees; }
 		if(strcmp("--help", argv[iarg]) == 0 || strcmp("-h", argv[iarg]) == 0)
 		{
 			cerr << "WARNING: Arguments should be passed ! Default arguments will be used" << endl;
@@ -68,6 +97,10 @@ int main(int argc, char *argv[])
 	TTree *intree = (TTree*)infile->Get(inputtree.c_str());
 	TFile *infile2 = TFile::Open(inputfile2.c_str());
 	TTree *intree2 = (TTree*)infile2->Get(inputtree2.c_str());
+	TFile *infile3 = TFile::Open(inputfile3.c_str());
+	TTree *intree3 = (TTree*)infile3->Get(inputtree3.c_str());
+	TFile *infile4 = TFile::Open(inputfile4.c_str());
+	TTree *intree4 = (TTree*)infile4->Get(inputtree4.c_str());
 	TFile *outfile = new TFile(outputfile.c_str(), "RECREATE");
 //	TTree *outtree = new TTree(outputxml.c_str(), Form("%s reduced", outputxml.c_str()));
 //  TFile *infile = TFile::Open("jetTreeForTraining.root");
@@ -79,8 +112,10 @@ int main(int argc, char *argv[])
 //  TMVA::Factory* factory = new TMVA::Factory("factoryJetRegParton2",outfile,"!V:!Silent:Color:DrawProgressBar:AnalysisType=Regression");
   TMVA::Factory* factory = new TMVA::Factory(outputxml.c_str(),outfile,"!V:!Silent:Color:DrawProgressBar:AnalysisType=Regression");
 
-  factory->AddRegressionTree(intree, 1.0);
-//  factory->AddRegressionTree(intree2, 100.0);
+  factory->AddRegressionTree(intree, w1);
+  if( nTrainingTrees > 1) factory->AddRegressionTree(intree2, w2);
+  if( nTrainingTrees > 2) factory->AddRegressionTree(intree3, w3);
+  if( nTrainingTrees > 3) factory->AddRegressionTree(intree4, w4);
   
   factory->AddVariable("jet_pt"						, "p_{T}^{j}", "GeV",'F');
   factory->AddVariable("jet_eta"					, "#eta^{j}", "",'F');
