@@ -117,18 +117,22 @@ int main(int argc, char *argv[])
 	float regjet2_pt, regjet2_e, regjet2_phi, regjet2_eta, regjet2_mass, regjet2_csvBtag;
 	float regkinjet1_pt, regkinjet1_e, regkinjet1_phi, regkinjet1_eta, regkinjet1_mass, regkinjet1_csvBtag;
 	float regkinjet2_pt, regkinjet2_e, regkinjet2_phi, regkinjet2_eta, regkinjet2_mass, regkinjet2_csvBtag;
+	float kinjet1_pt, kinjet1_e, kinjet1_phi, kinjet1_eta, kinjet1_mass, kinjet1_csvBtag;
+	float kinjet2_pt, kinjet2_e, kinjet2_phi, kinjet2_eta, kinjet2_mass, kinjet2_csvBtag;
 	float jj_pt, jj_e, jj_phi, jj_eta, jj_mass, jj_DR;
 	float regjj_pt, regjj_e, regjj_phi, regjj_eta, regjj_mass;
 	float regkinjj_pt, regkinjj_e, regkinjj_phi, regkinjj_eta, regkinjj_mass;
+	float kinjj_pt, kinjj_e, kinjj_phi, kinjj_eta, kinjj_mass;
 	float gg_pt, gg_e, gg_phi, gg_eta, gg_mass;
-	float ggjj_pt, ggjj_e, ggjj_phi, ggjj_eta, ggjj_mass, regjj_DR, regkinjj_DR;
+	float ggjj_pt, ggjj_e, ggjj_phi, ggjj_eta, ggjj_mass, regjj_DR, regkinjj_DR, kinjj_DR;
 	float regggjj_pt, regggjj_e, regggjj_phi, regggjj_eta, regggjj_mass;
 	float regkinggjj_pt, regkinggjj_e, regkinggjj_phi, regkinggjj_eta, regkinggjj_mass;
+	float kinggjj_pt, kinggjj_e, kinggjj_phi, kinggjj_eta, kinggjj_mass;
 //	float jet1_MLPweight, jet2_MLPweight;
 	int selection_cut_level = 0;
 	int category = 0;
-	float costhetastar, regcosthetastar, regkincosthetastar;
-	float minDRgj, minDRgregj, minDRgregkinj;
+	float costhetastar, regcosthetastar, regkincosthetastar, kincosthetastar;
+	float minDRgj, minDRgregj, minDRgregkinj, minDRgkinj;
 
 	int njets_passing_kLooseID;
 	intree->SetBranchAddress("njets_passing_kLooseID", &njets_passing_kLooseID);
@@ -470,6 +474,18 @@ int main(int argc, char *argv[])
 	outtree->Branch("regkinjet2_eta", &regkinjet2_eta, "regkinjet2_eta/F");
 	outtree->Branch("regkinjet2_mass", &regkinjet2_mass, "regkinjet2_mass/F");
 	outtree->Branch("regkinjet2_csvBtag", &regkinjet2_csvBtag, "regkinjet2_csvBtag/F");
+	outtree->Branch("kinjet1_pt", &kinjet1_pt, "kinjet1_pt/F");
+	outtree->Branch("kinjet1_e", &kinjet1_e, "kinjet1_e/F");
+	outtree->Branch("kinjet1_phi", &kinjet1_phi, "kinjet1_phi/F");
+	outtree->Branch("kinjet1_eta", &kinjet1_eta, "kinjet1_eta/F");
+	outtree->Branch("kinjet1_mass", &kinjet1_mass, "kinjet1_mass/F");
+	outtree->Branch("kinjet1_csvBtag", &kinjet1_csvBtag, "kinjet1_csvBtag/F");
+	outtree->Branch("kinjet2_pt", &kinjet2_pt, "kinjet2_pt/F");
+	outtree->Branch("kinjet2_e", &kinjet2_e, "kinjet2_e/F");
+	outtree->Branch("kinjet2_phi", &kinjet2_phi, "kinjet2_phi/F");
+	outtree->Branch("kinjet2_eta", &kinjet2_eta, "kinjet2_eta/F");
+	outtree->Branch("kinjet2_mass", &kinjet2_mass, "kinjet2_mass/F");
+	outtree->Branch("kinjet2_csvBtag", &kinjet2_csvBtag, "kinjet2_csvBtag/F");
 	outtree->Branch("jj_pt", &jj_pt, "jj_pt/F");
 	outtree->Branch("jj_e", &jj_e, "jj_e/F");
 	outtree->Branch("jj_phi", &jj_phi, "jj_phi/F");
@@ -488,6 +504,12 @@ int main(int argc, char *argv[])
 	outtree->Branch("regkinjj_eta", &regkinjj_eta, "regkinjj_eta/F");
 	outtree->Branch("regkinjj_mass", &regkinjj_mass, "regkinjj_mass/F");
 	outtree->Branch("regkinjj_DR", &regkinjj_DR, "regkinjj_DR/F");
+	outtree->Branch("kinjj_pt", &kinjj_pt, "kinjj_pt/F");
+	outtree->Branch("kinjj_e", &kinjj_e, "kinjj_e/F");
+	outtree->Branch("kinjj_phi", &kinjj_phi, "kinjj_phi/F");
+	outtree->Branch("kinjj_eta", &kinjj_eta, "kinjj_eta/F");
+	outtree->Branch("kinjj_mass", &kinjj_mass, "kinjj_mass/F");
+	outtree->Branch("kinjj_DR", &kinjj_DR, "kinjj_DR/F");
 	outtree->Branch("gg_pt", &gg_pt, "gg_pt/F");
 	outtree->Branch("gg_e", &gg_e, "gg_e/F");
 	outtree->Branch("gg_phi", &gg_phi, "gg_phi/F");
@@ -508,6 +530,11 @@ int main(int argc, char *argv[])
 	outtree->Branch("regkinggjj_phi", &regkinggjj_phi, "regkinggjj_phi/F");
 	outtree->Branch("regkinggjj_eta", &regkinggjj_eta, "regkinggjj_eta/F");
 	outtree->Branch("regkinggjj_mass", &regkinggjj_mass, "regkinggjj_mass/F");
+	outtree->Branch("kinggjj_pt", &kinggjj_pt, "kinggjj_pt/F");
+	outtree->Branch("kinggjj_e", &kinggjj_e, "kinggjj_e/F");
+	outtree->Branch("kinggjj_phi", &kinggjj_phi, "kinggjj_phi/F");
+	outtree->Branch("kinggjj_eta", &kinggjj_eta, "kinggjj_eta/F");
+	outtree->Branch("kinggjj_mass", &kinggjj_mass, "kinggjj_mass/F");
 //	outtree->Branch("jet1_MLPweight", &jet1_MLPweight, "jet1_MLPweight/F");
 //	outtree->Branch("jet2_MLPweight", &jet2_MLPweight, "jet2_MLPweight/F");
 	outtree->Branch("njets_kLooseID", &njets_kLooseID, "njets_kLooseID/I");
@@ -517,9 +544,11 @@ int main(int argc, char *argv[])
 	outtree->Branch("costhetastar", &costhetastar, "costhetastar/F");
 	outtree->Branch("regcosthetastar", &regcosthetastar, "regcosthetastar/F");
 	outtree->Branch("regkincosthetastar", &regkincosthetastar, "regkincosthetastar/F");
+	outtree->Branch("kincosthetastar", &kincosthetastar, "kincosthetastar/F");
 	outtree->Branch("minDRgj", &minDRgj, "minDRgj/F");
 	outtree->Branch("minDRgregj", &minDRgregj, "minDRgregj/F");
 	outtree->Branch("minDRgregkinj", &minDRgregkinj, "minDRgregkinj/F");
+	outtree->Branch("minDRgkinj", &minDRgkinj, "minDRgkinj/F");
 
 
 // prepare for regression
@@ -1059,6 +1088,8 @@ int main(int argc, char *argv[])
 		TLorentzVector regjet2;
 		TLorentzVector regkinjet1;
 		TLorentzVector regkinjet2;
+		TLorentzVector kinjet1;
+		TLorentzVector kinjet2;
 		pho1.SetPtEtaPhiE(ph1_pt, ph1_eta, ph1_phi, ph1_e);
 		pho2.SetPtEtaPhiE(ph2_pt, ph2_eta, ph2_phi, ph2_e);
 		jet1.SetPtEtaPhiE(jetPt[ij1], jetEta[ij1], jetPhi[ij1], jetE[ij1]);
@@ -1079,6 +1110,12 @@ int main(int argc, char *argv[])
 //		TLorentzVector jet1_kinfit, jet2_kinfit;
 		regkinjet1 = jets_kinfitH.first;
 		regkinjet2 = jets_kinfitH.second;
+		kinjet1 = jet1;
+		kinjet2 = jet2;
+		jets_kinfitH = fitter_jetsH->fit(kinjet1, kinjet2);
+//		TLorentzVector jet1_kinfit, jet2_kinfit;
+		kinjet1 = jets_kinfitH.first;
+		kinjet2 = jets_kinfitH.second;
 //		jet1 = jet1_kinfit;
 //		jet2 = jet2_kinfit;
 /*
@@ -1113,10 +1150,12 @@ int main(int argc, char *argv[])
 		TLorentzVector jj = jet1 + jet2;
 		TLorentzVector regjj = regjet1 + regjet2;
 		TLorentzVector regkinjj = regkinjet1 + regkinjet2;
+		TLorentzVector kinjj = kinjet1 + kinjet2;
 		TLorentzVector gg = pho1 + pho2;
 		TLorentzVector ggjj = jj + gg;
 		TLorentzVector regggjj = regjj + gg;
 		TLorentzVector regkinggjj = regkinjj + gg;
+		TLorentzVector kinggjj = kinjj + gg;
 
 		selection_cut_level = 0;
 		weight = ev_weight;
@@ -1168,6 +1207,18 @@ int main(int argc, char *argv[])
 		regkinjet2_eta = regkinjet2.Eta();
 		regkinjet2_mass = regkinjet2.M();
 		regkinjet2_csvBtag = jetCSV[ij2RegKin];
+		kinjet1_pt = kinjet1.Pt();
+		kinjet1_e = kinjet1.E();
+		kinjet1_phi = kinjet1.Phi();
+		kinjet1_eta = kinjet1.Eta();
+		kinjet1_mass = kinjet1.M();
+		kinjet1_csvBtag = jetCSV[ij1];
+		kinjet2_pt = kinjet2.Pt();
+		kinjet2_e = kinjet2.E();
+		kinjet2_phi = kinjet2.Phi();
+		kinjet2_eta = kinjet2.Eta();
+		kinjet2_mass = kinjet2.M();
+		kinjet2_csvBtag = jetCSV[ij2];
 		jj_pt = jj.Pt();
 		jj_e = jj.E();
 		jj_phi = jj.Phi();
@@ -1186,6 +1237,12 @@ int main(int argc, char *argv[])
 		regkinjj_eta = regkinjj.Eta();
 		regkinjj_mass = regkinjj.M();
 		regkinjj_DR = regkinjet1.DeltaR(regkinjet2);
+		kinjj_pt = kinjj.Pt();
+		kinjj_e = kinjj.E();
+		kinjj_phi = kinjj.Phi();
+		kinjj_eta = kinjj.Eta();
+		kinjj_mass = kinjj.M();
+		kinjj_DR = kinjet1.DeltaR(kinjet2);
 		gg_pt = gg.Pt();
 		gg_e = gg.E();
 		gg_phi = gg.Phi();
@@ -1206,6 +1263,11 @@ int main(int argc, char *argv[])
 		regkinggjj_phi = regkinggjj.Phi();
 		regkinggjj_eta = regkinggjj.Eta();
 		regkinggjj_mass = regkinggjj.M();
+		kinggjj_pt = kinggjj.Pt();
+		kinggjj_e = kinggjj.E();
+		kinggjj_phi = kinggjj.Phi();
+		kinggjj_eta = kinggjj.Eta();
+		kinggjj_mass = kinggjj.M();
 //		jet1_MLPweight = jetRegKinPt[ij1];
 //		jet2_MLPweight = jetRegKinPt[ij2];
 		njets_kLooseID = njets_passing_kLooseID;
@@ -1216,16 +1278,20 @@ int main(int argc, char *argv[])
 		TLorentzVector Hgg_Rstar(gg);
 		TLorentzVector regHgg_Rstar(gg);
 		TLorentzVector regkinHgg_Rstar(gg);
+		TLorentzVector kinHgg_Rstar(gg);
 		Hgg_Rstar.Boost(-ggjj.BoostVector());
 		regHgg_Rstar.Boost(-regggjj.BoostVector());
 		regkinHgg_Rstar.Boost(-regkinggjj.BoostVector());
+		kinHgg_Rstar.Boost(-kinggjj.BoostVector());
 		costhetastar = Hgg_Rstar.CosTheta();
 		regcosthetastar = regHgg_Rstar.CosTheta();
 		regkincosthetastar = regkinHgg_Rstar.CosTheta();
+		kincosthetastar = kinHgg_Rstar.CosTheta();
 // min DR(g, j)
 		minDRgj = 999999.0;
 		minDRgregj = 999999.0;
 		minDRgregkinj = 999999.0;
+		minDRgkinj = 999999.0;
 		minDRgj = min(minDRgj, (float)pho1.DeltaR(jet1));
 		minDRgj = min(minDRgj, (float)pho1.DeltaR(jet2));
 		minDRgj = min(minDRgj, (float)pho2.DeltaR(jet1));
@@ -1238,6 +1304,10 @@ int main(int argc, char *argv[])
 		minDRgregkinj = min(minDRgregkinj, (float)pho1.DeltaR(regkinjet2));
 		minDRgregkinj = min(minDRgregkinj, (float)pho2.DeltaR(regkinjet1));
 		minDRgregkinj = min(minDRgregkinj, (float)pho2.DeltaR(regkinjet2));
+		minDRgkinj = min(minDRgkinj, (float)pho1.DeltaR(kinjet1));
+		minDRgkinj = min(minDRgkinj, (float)pho1.DeltaR(kinjet2));
+		minDRgkinj = min(minDRgkinj, (float)pho2.DeltaR(kinjet1));
+		minDRgkinj = min(minDRgkinj, (float)pho2.DeltaR(kinjet2));
 
 // categorisation
 		selection_cut_level = 0;
