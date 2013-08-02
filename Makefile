@@ -40,7 +40,7 @@ selection.exe: selection.o DiJetKinFitter.o TKinFitter.o TFitParticleEtEtaPhi.o 
 	$(CC) $(TMVA)  $(ROOTLIBS) selection.o DiJetKinFitter.o TKinFitter.o TFitParticleEtEtaPhi.o TAbsFitParticle.o TFitConstraintM.o TAbsFitConstraint.o -o selection.exe
 
 quickTrees.exe: quickTrees.cc
-	$(CC) $(TMVA) $(CCFLAGS) $(ROOTFLAGS) $(ROOTLIBS) quickTrees.cc -o quickTrees.exe
+	$(CC) $(CCFLAGS) $(ROOTFLAGS) $(ROOTLIBS) quickTrees.cc -o quickTrees.exe
 
 fitMass.exe: fitMass.cc
 	$(CC) $(CCFLAGS) $(ROOTFLAGS) $(ROOTLIBS) $(ROOFITLIBS) fitMass.cc -o fitMass.exe
