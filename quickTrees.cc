@@ -22,13 +22,14 @@ int main(int argc, char *argv[])
 	if( argc == 1 )
 	{
 		cerr << "WARNING: Arguments should be passed ! Default arguments will be used" << endl;
-		cerr << "WARNING: Syntax is " << argv[0] << " -i (inputfile) -it (inputtree) -o (outputfile) -ot (outputtree)" << endl;
+		cerr << "WARNING: Syntax is " << argv[0] << " -i (inputfile) -it (inputtree) -o (outputfile) -ot (outputtree) -wj (whichJet)" << endl;
 	}
 	
 	string inputfile = "Data_m300_StandardFullSelection_v2.root";
 	string inputtree = "Data";
 	string outputfile = "Data_m300_test_minimal.root";
 	string outputtree = "TCVARS";
+	string whichJet = "";
 
 	for(int iarg=0 ; iarg < argc ; iarg++)
 	{
@@ -40,14 +41,17 @@ int main(int argc, char *argv[])
 			outputfile = argv[iarg+1];
 		if(strcmp("-ot", argv[iarg]) == 0 && argc >= iarg + 1)
 			outputtree = argv[iarg+1];
+		if(strcmp("-wj", argv[iarg]) == 0 && argc >= iarg + 1)
+			whichJet = argv[iarg+1];
 		if((strcmp("-h", argv[iarg]) == 0) || (strcmp("--help", argv[iarg]) == 0))
 		{
 			cerr << "WARNING: Arguments should be passed ! Default arguments will be used" << endl;
-			cerr << "WARNING: Syntax is " << argv[0] << " -i (inputfile) -it (inputtree) -o (outputfile) -ot (outputtree)" << endl;
+			cerr << "WARNING: Syntax is " << argv[0] << " -i (inputfile) -it (inputtree) -o (outputfile) -ot (outputtree) -wj (whichJet)" << endl;
 			cerr << "inputfile= " << inputfile << endl;
 			cerr << "inputtree= " << inputtree << endl;
 			cerr << "outputfile= " << outputfile << endl;
 			cerr << "outputtree= " << outputtree << endl;
+			cerr << "whichJet= " << whichJet << endl;
 			return 2;
 		}
 	}
@@ -56,6 +60,7 @@ int main(int argc, char *argv[])
 	cout << "inputtree= " << inputtree << endl;
 	cout << "outputfile= " << outputfile << endl;
 	cout << "outputtree= " << outputtree << endl;
+	cout << "whichJet= " << whichJet << endl;
 
 	TFile *infile = TFile::Open(inputfile.c_str());
 	TTree *intree = (TTree*)infile->Get(inputtree.c_str());
@@ -67,11 +72,11 @@ int main(int argc, char *argv[])
 	int cut_based_ct, njets_kRadionID_and_CSVM, selection_cut_level;
 	float evWeight;
 	intree->SetBranchAddress("gg_mass", &mgg);
-	intree->SetBranchAddress("jj_mass", &mjj);
-	intree->SetBranchAddress("ggjj_mass", &mtot);
+	intree->SetBranchAddress(Form("%sjj_mass", whichJet.c_str()), &mjj);
+	intree->SetBranchAddress(Form("%sggjj_mass", whichJet.c_str()), &mtot);
 	intree->SetBranchAddress("njets_kRadionID_and_CSVM", &njets_kRadionID_and_CSVM);
 	intree->SetBranchAddress("selection_cut_level", &selection_cut_level);
-	intree->SetBranchAddress("evweight", &evWeight);
+	intree->SetBranchAddress("weight", &evWeight);
 
 	outtree->Branch("mgg", &mgg, "mgg/F");
 	outtree->Branch("mjj", &mjj, "mjj/F");
