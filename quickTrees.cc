@@ -1,4 +1,6 @@
 // C++ headers
+#include <iostream>
+#include <string>
 // ROOT headers
 #include "TROOT.h"
 #include "TSystem.h"
@@ -11,27 +13,67 @@
 // namespaces
 using namespace std;
 
-int main ()
+int main(int argc, char *argv[])
 {
-//	TFile *infile = TFile::Open("Radion_m300_8TeV_nm_parton.root");
-//	TFile *outfile = new TFile("simple_parton.root", "RECREATE");
-//	TFile *infile = TFile::Open("Radion_m300_8TeV_nm_genjet.root");
-//	TFile *outfile = new TFile("simple_genjet.root", "RECREATE");
-	TFile *infile = TFile::Open("Radion_m300_8TeV_nm_genjet_globeinputs.root");
-	TFile *outfile = new TFile("simple_genjet_globeinputs.root", "RECREATE");
-	TTree *intree = (TTree*)infile->Get("Radion_m300_8TeV_nm");
-	TTree *outtree = new TTree("Radion_m300_8TeV_nm", "Radion_m300_8TeV_nm noreg");
+	cout << "argc= " << argc << endl;
+	for(int iarg = 0 ; iarg < argc; iarg++)
+		cout << "argv[" << iarg << "]= " << argv[iarg] << endl;
 
-	float jj_mass, regjj_mass, regMLPjj_mass, ggjj_mass, regggjj_mass, regMLPggjj_mass;
-	int njets_kRadionID, njets_kRadionID_and_CSVM;
+	if( argc == 1 )
+	{
+		cerr << "WARNING: Arguments should be passed ! Default arguments will be used" << endl;
+		cerr << "WARNING: Syntax is " << argv[0] << " -i (inputfile) -it (inputtree) -o (outputfile) -ot (outputtree)" << endl;
+	}
+	
+	string inputfile = "Data_m300_StandardFullSelection_v2.root";
+	string inputtree = "Data";
+	string outputfile = "Data_m300_test_minimal.root";
+	string outputtree = "TCVARS";
+
+	for(int iarg=0 ; iarg < argc ; iarg++)
+	{
+		if(strcmp("-i", argv[iarg]) == 0 && argc >= iarg + 1)
+			inputfile = argv[iarg+1];
+		if(strcmp("-it", argv[iarg]) == 0 && argc >= iarg + 1)
+			inputtree = argv[iarg+1];
+		if(strcmp("-o", argv[iarg]) == 0 && argc >= iarg + 1)
+			outputfile = argv[iarg+1];
+		if(strcmp("-ot", argv[iarg]) == 0 && argc >= iarg + 1)
+			outputtree = argv[iarg+1];
+		if((strcmp("-h", argv[iarg]) == 0) || (strcmp("--help", argv[iarg]) == 0))
+		{
+			cerr << "WARNING: Arguments should be passed ! Default arguments will be used" << endl;
+			cerr << "WARNING: Syntax is " << argv[0] << " -i (inputfile) -it (inputtree) -o (outputfile) -ot (outputtree)" << endl;
+			cerr << "inputfile= " << inputfile << endl;
+			cerr << "inputtree= " << inputtree << endl;
+			cerr << "outputfile= " << outputfile << endl;
+			cerr << "outputtree= " << outputtree << endl;
+			return 2;
+		}
+	}
+
+	cout << "inputfile= " << inputfile << endl;
+	cout << "inputtree= " << inputtree << endl;
+	cout << "outputfile= " << outputfile << endl;
+	cout << "outputtree= " << outputtree << endl;
+
+	TFile *infile = TFile::Open(inputfile.c_str());
+	TTree *intree = (TTree*)infile->Get(inputtree.c_str());
+	TFile *outfile = new TFile(outputfile.c_str(), "RECREATE");
+	TTree *outtree = new TTree(outputtree.c_str(), Form("%s minimal", outputtree.c_str()));
+
+	float mgg, mjj, mtot;
+	int cut_based_ct;
+	float evWeight;
+
+	float gg_mass, jj_mass, ggjj_mass;
+	int njets_kRadionID_and_CSVM;
+	float weight;
+	intree->SetBranchAddress("gg_mass", &gg_mass);
 	intree->SetBranchAddress("jj_mass", &jj_mass);
-	intree->SetBranchAddress("regjj_mass", &regjj_mass);
-	intree->SetBranchAddress("regMLPjj_mass", &regMLPjj_mass);
 	intree->SetBranchAddress("ggjj_mass", &ggjj_mass);
-	intree->SetBranchAddress("regggjj_mass", &regggjj_mass);
-	intree->SetBranchAddress("regMLPggjj_mass", &regMLPggjj_mass);
-	intree->SetBranchAddress("njets_kRadionID", &njets_kRadionID);
 	intree->SetBranchAddress("njets_kRadionID_and_CSVM", &njets_kRadionID_and_CSVM);
+	intree->SetBranchAddress("weight", &weight);
 
 	outtree->Branch("jj_mass", &jj_mass, "jj_mass/F");
 	outtree->Branch("ggjj_mass", &ggjj_mass, "ggjj_mass/F");
@@ -45,7 +87,7 @@ int main ()
   outfile->cd();
   outtree->Write();
   outfile->Close();
-
+/*
 //	TFile *outfilereg = new TFile("simple_reg_parton.root", "RECREATE");
 	TFile *outfilereg = new TFile("simple_reg_genjet_globeinputs.root", "RECREATE");
 	TTree *outtreereg = new TTree("Radion_m300_8TeV_nm", "Radion_m300_8TeV_nm reg");
@@ -77,6 +119,7 @@ int main ()
 	outfileregMLP->cd();
   outtreeregMLP->Write();
   outfileregMLP->Close();
+*/
   infile->Close();
 
 	return 0;
