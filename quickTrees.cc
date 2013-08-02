@@ -62,64 +62,34 @@ int main(int argc, char *argv[])
 	TFile *outfile = new TFile(outputfile.c_str(), "RECREATE");
 	TTree *outtree = new TTree(outputtree.c_str(), Form("%s minimal", outputtree.c_str()));
 
+
 	float mgg, mjj, mtot;
-	int cut_based_ct;
+	int cut_based_ct, njets_kRadionID_and_CSVM, selection_cut_level;
 	float evWeight;
-
-	float gg_mass, jj_mass, ggjj_mass;
-	int njets_kRadionID_and_CSVM;
-	float weight;
-	intree->SetBranchAddress("gg_mass", &gg_mass);
-	intree->SetBranchAddress("jj_mass", &jj_mass);
-	intree->SetBranchAddress("ggjj_mass", &ggjj_mass);
+	intree->SetBranchAddress("gg_mass", &mgg);
+	intree->SetBranchAddress("jj_mass", &mjj);
+	intree->SetBranchAddress("ggjj_mass", &mtot);
 	intree->SetBranchAddress("njets_kRadionID_and_CSVM", &njets_kRadionID_and_CSVM);
-	intree->SetBranchAddress("weight", &weight);
+	intree->SetBranchAddress("selection_cut_level", &selection_cut_level);
+	intree->SetBranchAddress("evweight", &evWeight);
 
-	outtree->Branch("jj_mass", &jj_mass, "jj_mass/F");
-	outtree->Branch("ggjj_mass", &ggjj_mass, "ggjj_mass/F");
-	outtree->Branch("njets_kRadionID_and_CSVM", &njets_kRadionID_and_CSVM, "njets_kRadionID_and_CSVM/I");
+	outtree->Branch("mgg", &mgg, "mgg/F");
+	outtree->Branch("mjj", &mjj, "mjj/F");
+	outtree->Branch("mtot", &mtot, "mtot/F");
+	outtree->Branch("cut_based_ct", &cut_based_ct, "cut_based_ct/I");
+	outtree->Branch("evWeight", &evWeight, "evWeight/F");
 
 	for(int ievt= 0 ; ievt < (int)intree->GetEntries() ; ievt++)
 	{
 		intree->GetEntry(ievt);
+		// FIXME: add possible further selection
+		if( njets_kRadionID_and_CSVM >= 2 ) cut_based_ct = 0;
+		if( njets_kRadionID_and_CSVM == 1 ) cut_based_ct = 1;
 		outtree->Fill();
 	}
   outfile->cd();
   outtree->Write();
   outfile->Close();
-/*
-//	TFile *outfilereg = new TFile("simple_reg_parton.root", "RECREATE");
-	TFile *outfilereg = new TFile("simple_reg_genjet_globeinputs.root", "RECREATE");
-	TTree *outtreereg = new TTree("Radion_m300_8TeV_nm", "Radion_m300_8TeV_nm reg");
-	outtreereg->Branch("jj_mass", &regjj_mass, "jj_mass/F");
-	outtreereg->Branch("ggjj_mass", &regggjj_mass, "ggjj_mass/F");
-	outtreereg->Branch("njets_kRadionID_and_CSVM", &njets_kRadionID_and_CSVM, "njets_kRadionID_and_CSVM/I");
-	for(int ievt= 0 ; ievt < (int)intree->GetEntries() ; ievt++)
-	{
-		intree->GetEntry(ievt);
-		outtreereg->Fill();
-	}
-
-	outfilereg->cd();
-  outtreereg->Write();
-  outfilereg->Close();
-
-//	TFile *outfileregMLP = new TFile("simple_regMLP_parton.root", "RECREATE");
-	TFile *outfileregMLP = new TFile("simple_regMLP_genjet_globeinputs.root", "RECREATE");
-	TTree *outtreeregMLP = new TTree("Radion_m300_8TeV_nm", "Radion_m300_8TeV_nm regMLP");
-	outtreeregMLP->Branch("jj_mass", &regMLPjj_mass, "jj_mass/F");
-	outtreeregMLP->Branch("ggjj_mass", &regMLPggjj_mass, "ggjj_mass/F");
-	outtreeregMLP->Branch("njets_kRadionID_and_CSVM", &njets_kRadionID_and_CSVM, "njets_kRadionID_and_CSVM/I");
-	for(int ievt= 0 ; ievt < (int)intree->GetEntries() ; ievt++)
-	{
-		intree->GetEntry(ievt);
-		outtreeregMLP->Fill();
-	}
-
-	outfileregMLP->cd();
-  outtreeregMLP->Write();
-  outfileregMLP->Close();
-*/
   infile->Close();
 
 	return 0;
