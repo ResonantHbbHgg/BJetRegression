@@ -88,6 +88,7 @@ int main(int argc, char *argv[])
 
 
 	float mgg, mjj, mtot;
+	float mjj_wokinfit, mtot_wokinfit;
 	int cut_based_ct, njets_kRadionID_and_CSVM, selection_cut_level;
 	float evWeight;
 	float regcosthetastar, minDRgregkinj;
@@ -95,6 +96,15 @@ int main(int argc, char *argv[])
 	intree->SetBranchAddress("gg_mass", &mgg);
 	intree->SetBranchAddress(Form("%sjj_mass", whichJet.c_str()), &mjj);
 	intree->SetBranchAddress(Form("%sggjj_mass", whichJet.c_str()), &mtot);
+// Prepare mjj and mggjj variables "without kin fit" on which to cut
+// (in case there is no kin fit asked for, they are just a dumb copy/paste)
+	if( (strcmp("kin", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
+	{
+		string whichJet_tmp = "";
+		if(strcmp("regkin", whichJet.c_str()) == 0) whichJet_tmp = "reg";
+		intree->SetBranchAddress(Form("%sjj_mass", whichJet_tmp.c_str()), &mjj_wokinfit);
+		intree->SetBranchAddress(Form("%sggjj_mass", whichJet_tmp.c_str()), &mtot_wokinfit);
+	}
 	intree->SetBranchAddress("njets_kRadionID_and_CSVM", &njets_kRadionID_and_CSVM);
 	intree->SetBranchAddress("selection_cut_level", &selection_cut_level);
 	intree->SetBranchAddress("weight", &evWeight);
@@ -106,6 +116,8 @@ int main(int argc, char *argv[])
 	outtree->Branch("mgg", &mgg, "mgg/F");
 	outtree->Branch("mjj", &mjj, "mjj/F");
 	outtree->Branch("mtot", &mtot, "mtot/F");
+	outtree->Branch("mjj_wokinfit", &mjj_wokinfit, "mjj_wokinfit/F");
+	outtree->Branch("mtot_wokinfit", &mtot_wokinfit, "mtot_wokinfit/F");
 	outtree->Branch("cut_based_ct", &cut_based_ct, "cut_based_ct/I");
 	outtree->Branch("evWeight", &evWeight, "evWeight/F");
 
@@ -115,6 +127,9 @@ int main(int argc, char *argv[])
 	for(int ievt= 0 ; ievt < (int)intree->GetEntries() ; ievt++)
 	{
 		intree->GetEntry(ievt);
+		if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("reg", whichJet.c_str()) == 0) )
+			{ mjj_wokinfit = mjj; mtot_wokinfit = mtot; }
+		
 // EXTRA CUTS
 //		if( selection_cut_level < cutLevel ) continue; // hard-coded in the trees, out of date wrt to the rest of the cuts
 	if( cutLevel > 5)
@@ -130,33 +145,33 @@ int main(int argc, char *argv[])
 			if( njets_kRadionID_and_CSVM >= 2 )
 			{
 				if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
-					if( mjj < 95. || mjj > 175. ) continue;
+					if( mjj_wokinfit < 95. || mjj_wokinfit > 175. ) continue;
 				if( (strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
-					if( mjj < 90. || mjj > 150. ) continue;
+					if( mjj_wokinfit < 90. || mjj_wokinfit > 150. ) continue;
 			}
 			if( njets_kRadionID_and_CSVM == 1 )
 			{
 				if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
-					if( mjj < 100. || mjj > 160. ) continue;
+					if( mjj_wokinfit < 100. || mjj_wokinfit > 160. ) continue;
 				if( (strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
-					if( mjj < 95. || mjj > 140. ) continue;
+					if( mjj_wokinfit < 95. || mjj_wokinfit > 140. ) continue;
 			}
 			if( mass == 300 )
 			{
 				if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
 				{
-					if( njets_kRadionID_and_CSVM >= 2 && (mtot < 255. || mtot > 320.) ) continue;
-					if( njets_kRadionID_and_CSVM == 1 && (mtot < 260. || mtot > 335.) ) continue;
+					if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 255. || mtot_wokinfit > 320.) ) continue;
+					if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 260. || mtot_wokinfit > 335.) ) continue;
 				}
 				if( (strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
 				{
-					if( njets_kRadionID_and_CSVM >= 2 && (mtot < 260. || mtot > 335.) ) continue;
-					if( njets_kRadionID_and_CSVM == 1 && (mtot < 265. || mtot > 345.) ) continue;
+					if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 260. || mtot_wokinfit > 335.) ) continue;
+					if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 265. || mtot_wokinfit > 345.) ) continue;
 				}
 			}
-			if( mass == 500 && (mtot < 465. || mtot > 535.) ) continue;
-			if( mass == 700 && (mtot < 660. || mtot > 740.) ) continue;
-			if( mass == 1000 && (mtot < 955. || mtot > 1055.) ) continue;
+			if( mass == 500 && (mtot_wokinfit < 465. || mtot_wokinfit > 535.) ) continue;
+			if( mass == 700 && (mtot_wokinfit < 660. || mtot_wokinfit > 740.) ) continue;
+			if( mass == 1000 && (mtot_wokinfit < 955. || mtot_wokinfit > 1055.) ) continue;
 		}
 
 // FITTING THE MGGJJ SPECTRUM
@@ -166,12 +181,12 @@ int main(int argc, char *argv[])
 			if( njets_kRadionID_and_CSVM >= 2 )
 			{
 				if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
-					if( mjj < 95. || mjj > 150. ) continue;
+					if( mjj_wokinfit < 95. || mjj_wokinfit > 150. ) continue;
 				if( (strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
-					if( mjj < 100. || mjj > 160. ) continue;
+					if( mjj_wokinfit < 100. || mjj_wokinfit > 160. ) continue;
 			}
 			if( njets_kRadionID_and_CSVM == 1 ) 
-				if( mjj < 90. || mjj > 170. ) continue;
+				if( mjj_wokinfit < 90. || mjj_wokinfit > 170. ) continue;
 		}
 		if( njets_kRadionID_and_CSVM >= 2 ) cut_based_ct = 0;
 		if( njets_kRadionID_and_CSVM == 1 ) cut_based_ct = 1;
