@@ -156,7 +156,6 @@ int main(int argc, char *argv[])
 	float regggjj_pt, regggjj_e, regggjj_phi, regggjj_eta, regggjj_mass;
 	float regkinggjj_pt, regkinggjj_e, regkinggjj_phi, regkinggjj_eta, regkinggjj_mass;
 	float kinggjj_pt, kinggjj_e, kinggjj_phi, kinggjj_eta, kinggjj_mass;
-//	float jet1_MLPweight, jet2_MLPweight;
 	int selection_cut_level = 0;
 	int category = 0;
 	float costhetastar, regcosthetastar, regkincosthetastar, kincosthetastar;
@@ -390,65 +389,6 @@ int main(int argc, char *argv[])
 	intree->SetBranchAddress("j4_pfloose", &j4_pfloose);
 */
 
-/*
-	outtree->Branch("jet_e", &jet_e, "jet_e/F");
-	outtree->Branch("jet_pt", &jet_pt, "jet_pt/F");
-	outtree->Branch("jet_phi", &jet_phi, "jet_phi/F");
-	outtree->Branch("jet_eta", &jet_eta, "jet_eta/F");
-	outtree->Branch("jet_beta", &jet_beta, "jet_beta/F");
-	outtree->Branch("jet_betaStar", &jet_betaStar, "jet_betaStar/F");
-	outtree->Branch("jet_betaStarClassic", &jet_betaStarClassic, "jet_betaStarClassic/F");
-	outtree->Branch("jet_dR2Mean", &jet_dR2Mean, "jet_dR2Mean/F");
-	outtree->Branch("jet_csvBtag", &jet_csvBtag, "jet_csvBtag/F");
-	outtree->Branch("jet_csvMvaBtag", &jet_csvMvaBtag, "jet_csvMvaBtag/F");
-	outtree->Branch("jet_jetProbBtag", &jet_jetProbBtag, "jet_jetProbBtag/F");
-	outtree->Branch("jet_tcheBtag", &jet_tcheBtag, "jet_tcheBtag/F");
-	outtree->Branch("jet_radionMatched", &jet_radionMatched, "jet_radionMatched/F");
-	outtree->Branch("jet_ptD", &jet_ptD, "jet_ptD/F");
-	outtree->Branch("jet_nSecondaryVertices", &jet_nSecondaryVertices, "jet_nSecondaryVertices/F");
-	outtree->Branch("jet_secVtxPt", &jet_secVtxPt, "jet_secVtxPt/F");
-	outtree->Branch("jet_secVtx3dL", &jet_secVtx3dL, "jet_secVtx3dL/F");
-	outtree->Branch("jet_secVtx3deL", &jet_secVtx3deL, "jet_secVtx3deL/F");
-	outtree->Branch("jet_emfrac", &jet_emfrac, "jet_emfrac/F");
-	outtree->Branch("jet_hadfrac", &jet_hadfrac, "jet_hadfrac/F");
-	outtree->Branch("jet_ntk", &jet_ntk, "jet_ntk/F");
-	outtree->Branch("jet_nNeutrals", &jet_nNeutrals, "jet_nNeutrals/F");
-	outtree->Branch("jet_nCharged", &jet_nCharged, "jet_nCharged/F");
-	outtree->Branch("jet_axis1", &jet_axis1, "jet_axis1/F");
-	outtree->Branch("jet_axis2", &jet_axis2, "jet_axis2/F");
-	outtree->Branch("jet_pull", &jet_pull, "jet_pull/F");
-	outtree->Branch("jet_Rchg", &jet_Rchg, "jet_Rchg/F");
-	outtree->Branch("jet_Rneutral", &jet_Rneutral, "jet_Rneutral/F");
-	outtree->Branch("jet_R", &jet_R, "jet_R/F");
-	outtree->Branch("jet_chargedMultiplicity", &jet_chargedMultiplicity, "jet_chargedMultiplicity/F");
-	outtree->Branch("jet_neutralMultiplicity", &jet_neutralMultiplicity, "jet_neutralMultiplicity/F");
-	outtree->Branch("jet_Chadfrac", &jet_Chadfrac, "jet_Chadfrac/F");
-	outtree->Branch("jet_Nhadfrac", &jet_Nhadfrac, "jet_Nhadfrac/F");
-	outtree->Branch("jet_Phofrac", &jet_Phofrac, "jet_Phofrac/F");
-	outtree->Branch("jet_Mufrac", &jet_Mufrac, "jet_Mufrac/F");
-	outtree->Branch("jet_Elefrac", &jet_Elefrac, "jet_Elefrac/F");
-	outtree->Branch("jet_dPhiMet", &jet_dPhiMet, "jet_dPhiMet/F");
-	outtree->Branch("jet_pfloose", &jet_pfloose, "jet_pfloose/I");
-	outtree->Branch("jet_genDR", &jet_genDR, "jet_genDR/F");
-	outtree->Branch("jet_genPt", &jet_genPt, "jet_genPt/F");
-	outtree->Branch("jet_genE", &jet_genE, "jet_genE/F");
-	outtree->Branch("jet_genR", &jet_genR, "jet_genR/F");
-	outtree->Branch("jet_prtDR", &jet_prtDR, "jet_prtDR/F");
-	outtree->Branch("jet_prtPt", &jet_prtPt, "jet_prtPt/F");
-	outtree->Branch("jet_prtE", &jet_prtE, "jet_prtE/F");
-	outtree->Branch("jet_prtR", &jet_prtR, "jet_prtR/F");
-	outtree->Branch("jet_index", &jet_index, "jet_index/I");
-	outtree->Branch("ev_met_pfmet", &ev_met_pfmet, "ev_met_pfmet/F");
-	outtree->Branch("ev_met_phi_pfmet", &ev_met_phi_pfmet, "ev_met_phi_pfmet/F");
-	outtree->Branch("ev_met_sumet_pfmet", &ev_met_sumet_pfmet, "ev_met_sumet_pfmet/F");
-	outtree->Branch("ev_met_mEtSig_pfmet", &ev_met_mEtSig_pfmet, "ev_met_mEtSig_pfmet/F");
-	outtree->Branch("ev_met_significance_pfmet", &ev_met_significance_pfmet, "ev_met_significance_pfmet/F");
-	outtree->Branch("ev_met_corrMet", &ev_met_corrMet, "ev_met_corrMet/F");
-	outtree->Branch("ev_met_corrMetPhi", &ev_met_corrMetPhi, "ev_met_corrMetPhi/F");
-	outtree->Branch("ev_pu_n", &ev_pu_n, "ev_pu_n/F");
-	outtree->Branch("ev_nvtx", &ev_nvtx, "ev_nvtx/F");
-	outtree->Branch("ev_rho", &ev_rho, "ev_rho/F");
-*/
 	outtree->Branch("category", &category, "category/I");
 	outtree->Branch("selection_cut_level", &selection_cut_level, "selection_cut_level/I");
 	outtree->Branch("weight", &weight, "weight/F");
@@ -565,8 +505,6 @@ int main(int argc, char *argv[])
 	outtree->Branch("kinggjj_phi", &kinggjj_phi, "kinggjj_phi/F");
 	outtree->Branch("kinggjj_eta", &kinggjj_eta, "kinggjj_eta/F");
 	outtree->Branch("kinggjj_mass", &kinggjj_mass, "kinggjj_mass/F");
-//	outtree->Branch("jet1_MLPweight", &jet1_MLPweight, "jet1_MLPweight/F");
-//	outtree->Branch("jet2_MLPweight", &jet2_MLPweight, "jet2_MLPweight/F");
 	outtree->Branch("njets_kLooseID", &njets_kLooseID, "njets_kLooseID/I");
 	outtree->Branch("njets_kLooseID_and_CSVM", &njets_kLooseID_and_CSVM, "njets_kLooseID_and_CSVM/I");
 	outtree->Branch("njets_kRadionID", &njets_kRadionID, "njets_kRadionID/I");
@@ -579,64 +517,61 @@ int main(int argc, char *argv[])
 	outtree->Branch("minDRgregj", &minDRgregj, "minDRgregj/F");
 	outtree->Branch("minDRgregkinj", &minDRgregkinj, "minDRgregkinj/F");
 	outtree->Branch("minDRgkinj", &minDRgkinj, "minDRgkinj/F");
-//	if( isMC < 0 )
-//	{
-		outtree->Branch("gr_radion_p4_pt", &gr_radion_p4_pt, "gr_radion_p4_pt/F");
-		outtree->Branch("gr_radion_p4_eta", &gr_radion_p4_eta, "gr_radion_p4_eta/F");
-		outtree->Branch("gr_radion_p4_phi", &gr_radion_p4_phi, "gr_radion_p4_phi/F");
-		outtree->Branch("gr_radion_p4_mass", &gr_radion_p4_mass, "gr_radion_p4_mass/F");
-		outtree->Branch("gr_hgg_p4_pt", &gr_hgg_p4_pt, "gr_hgg_p4_pt/F");
-		outtree->Branch("gr_hgg_p4_eta", &gr_hgg_p4_eta, "gr_hgg_p4_eta/F");
-		outtree->Branch("gr_hgg_p4_phi", &gr_hgg_p4_phi, "gr_hgg_p4_phi/F");
-		outtree->Branch("gr_hgg_p4_mass", &gr_hgg_p4_mass, "gr_hgg_p4_mass/F");
-		outtree->Branch("gr_hbb_p4_pt", &gr_hbb_p4_pt, "gr_hbb_p4_pt/F");
-		outtree->Branch("gr_hbb_p4_eta", &gr_hbb_p4_eta, "gr_hbb_p4_eta/F");
-		outtree->Branch("gr_hbb_p4_phi", &gr_hbb_p4_phi, "gr_hbb_p4_phi/F");
-		outtree->Branch("gr_hbb_p4_mass", &gr_hbb_p4_mass, "gr_hbb_p4_mass/F");
-		outtree->Branch("gr_hjj_p4_pt", &gr_hjj_p4_pt, "gr_hjj_p4_pt/F");
-		outtree->Branch("gr_hjj_p4_eta", &gr_hjj_p4_eta, "gr_hjj_p4_eta/F");
-		outtree->Branch("gr_hjj_p4_phi", &gr_hjj_p4_phi, "gr_hjj_p4_phi/F");
-		outtree->Branch("gr_hjj_p4_mass", &gr_hjj_p4_mass, "gr_hjj_p4_mass/F");
-		outtree->Branch("gr_g1_p4_pt", &gr_g1_p4_pt, "gr_g1_p4_pt/F");
-		outtree->Branch("gr_g1_p4_eta", &gr_g1_p4_eta, "gr_g1_p4_eta/F");
-		outtree->Branch("gr_g1_p4_phi", &gr_g1_p4_phi, "gr_g1_p4_phi/F");
-		outtree->Branch("gr_g1_p4_mass", &gr_g1_p4_mass, "gr_g1_p4_mass/F");
-		outtree->Branch("gr_g2_p4_pt", &gr_g2_p4_pt, "gr_g2_p4_pt/F");
-		outtree->Branch("gr_g2_p4_eta", &gr_g2_p4_eta, "gr_g2_p4_eta/F");
-		outtree->Branch("gr_g2_p4_phi", &gr_g2_p4_phi, "gr_g2_p4_phi/F");
-		outtree->Branch("gr_g2_p4_mass", &gr_g2_p4_mass, "gr_g2_p4_mass/F");
-		outtree->Branch("gr_b1_p4_pt", &gr_b1_p4_pt, "gr_b1_p4_pt/F");
-		outtree->Branch("gr_b1_p4_eta", &gr_b1_p4_eta, "gr_b1_p4_eta/F");
-		outtree->Branch("gr_b1_p4_phi", &gr_b1_p4_phi, "gr_b1_p4_phi/F");
-		outtree->Branch("gr_b1_p4_mass", &gr_b1_p4_mass, "gr_b1_p4_mass/F");
-		outtree->Branch("gr_b2_p4_pt", &gr_b2_p4_pt, "gr_b2_p4_pt/F");
-		outtree->Branch("gr_b2_p4_eta", &gr_b2_p4_eta, "gr_b2_p4_eta/F");
-		outtree->Branch("gr_b2_p4_phi", &gr_b2_p4_phi, "gr_b2_p4_phi/F");
-		outtree->Branch("gr_b2_p4_mass", &gr_b2_p4_mass, "gr_b2_p4_mass/F");
-		outtree->Branch("gr_j1_p4_pt", &gr_j1_p4_pt, "gr_j1_p4_pt/F");
-		outtree->Branch("gr_j1_p4_eta", &gr_j1_p4_eta, "gr_j1_p4_eta/F");
-		outtree->Branch("gr_j1_p4_phi", &gr_j1_p4_phi, "gr_j1_p4_phi/F");
-		outtree->Branch("gr_j1_p4_mass", &gr_j1_p4_mass, "gr_j1_p4_mass/F");
-		outtree->Branch("gr_j2_p4_pt", &gr_j2_p4_pt, "gr_j2_p4_pt/F");
-		outtree->Branch("gr_j2_p4_eta", &gr_j2_p4_eta, "gr_j2_p4_eta/F");
-		outtree->Branch("gr_j2_p4_phi", &gr_j2_p4_phi, "gr_j2_p4_phi/F");
-		outtree->Branch("gr_j2_p4_mass", &gr_j2_p4_mass, "gr_j2_p4_mass/F");
-//	}
+// gen level info
+	outtree->Branch("gr_radion_p4_pt", &gr_radion_p4_pt, "gr_radion_p4_pt/F");
+	outtree->Branch("gr_radion_p4_eta", &gr_radion_p4_eta, "gr_radion_p4_eta/F");
+	outtree->Branch("gr_radion_p4_phi", &gr_radion_p4_phi, "gr_radion_p4_phi/F");
+	outtree->Branch("gr_radion_p4_mass", &gr_radion_p4_mass, "gr_radion_p4_mass/F");
+	outtree->Branch("gr_hgg_p4_pt", &gr_hgg_p4_pt, "gr_hgg_p4_pt/F");
+	outtree->Branch("gr_hgg_p4_eta", &gr_hgg_p4_eta, "gr_hgg_p4_eta/F");
+	outtree->Branch("gr_hgg_p4_phi", &gr_hgg_p4_phi, "gr_hgg_p4_phi/F");
+	outtree->Branch("gr_hgg_p4_mass", &gr_hgg_p4_mass, "gr_hgg_p4_mass/F");
+	outtree->Branch("gr_hbb_p4_pt", &gr_hbb_p4_pt, "gr_hbb_p4_pt/F");
+	outtree->Branch("gr_hbb_p4_eta", &gr_hbb_p4_eta, "gr_hbb_p4_eta/F");
+	outtree->Branch("gr_hbb_p4_phi", &gr_hbb_p4_phi, "gr_hbb_p4_phi/F");
+	outtree->Branch("gr_hbb_p4_mass", &gr_hbb_p4_mass, "gr_hbb_p4_mass/F");
+	outtree->Branch("gr_hjj_p4_pt", &gr_hjj_p4_pt, "gr_hjj_p4_pt/F");
+	outtree->Branch("gr_hjj_p4_eta", &gr_hjj_p4_eta, "gr_hjj_p4_eta/F");
+	outtree->Branch("gr_hjj_p4_phi", &gr_hjj_p4_phi, "gr_hjj_p4_phi/F");
+	outtree->Branch("gr_hjj_p4_mass", &gr_hjj_p4_mass, "gr_hjj_p4_mass/F");
+	outtree->Branch("gr_g1_p4_pt", &gr_g1_p4_pt, "gr_g1_p4_pt/F");
+	outtree->Branch("gr_g1_p4_eta", &gr_g1_p4_eta, "gr_g1_p4_eta/F");
+	outtree->Branch("gr_g1_p4_phi", &gr_g1_p4_phi, "gr_g1_p4_phi/F");
+	outtree->Branch("gr_g1_p4_mass", &gr_g1_p4_mass, "gr_g1_p4_mass/F");
+	outtree->Branch("gr_g2_p4_pt", &gr_g2_p4_pt, "gr_g2_p4_pt/F");
+	outtree->Branch("gr_g2_p4_eta", &gr_g2_p4_eta, "gr_g2_p4_eta/F");
+	outtree->Branch("gr_g2_p4_phi", &gr_g2_p4_phi, "gr_g2_p4_phi/F");
+	outtree->Branch("gr_g2_p4_mass", &gr_g2_p4_mass, "gr_g2_p4_mass/F");
+	outtree->Branch("gr_b1_p4_pt", &gr_b1_p4_pt, "gr_b1_p4_pt/F");
+	outtree->Branch("gr_b1_p4_eta", &gr_b1_p4_eta, "gr_b1_p4_eta/F");
+	outtree->Branch("gr_b1_p4_phi", &gr_b1_p4_phi, "gr_b1_p4_phi/F");
+	outtree->Branch("gr_b1_p4_mass", &gr_b1_p4_mass, "gr_b1_p4_mass/F");
+	outtree->Branch("gr_b2_p4_pt", &gr_b2_p4_pt, "gr_b2_p4_pt/F");
+	outtree->Branch("gr_b2_p4_eta", &gr_b2_p4_eta, "gr_b2_p4_eta/F");
+	outtree->Branch("gr_b2_p4_phi", &gr_b2_p4_phi, "gr_b2_p4_phi/F");
+	outtree->Branch("gr_b2_p4_mass", &gr_b2_p4_mass, "gr_b2_p4_mass/F");
+	outtree->Branch("gr_j1_p4_pt", &gr_j1_p4_pt, "gr_j1_p4_pt/F");
+	outtree->Branch("gr_j1_p4_eta", &gr_j1_p4_eta, "gr_j1_p4_eta/F");
+	outtree->Branch("gr_j1_p4_phi", &gr_j1_p4_phi, "gr_j1_p4_phi/F");
+	outtree->Branch("gr_j1_p4_mass", &gr_j1_p4_mass, "gr_j1_p4_mass/F");
+	outtree->Branch("gr_j2_p4_pt", &gr_j2_p4_pt, "gr_j2_p4_pt/F");
+	outtree->Branch("gr_j2_p4_eta", &gr_j2_p4_eta, "gr_j2_p4_eta/F");
+	outtree->Branch("gr_j2_p4_phi", &gr_j2_p4_phi, "gr_j2_p4_phi/F");
+	outtree->Branch("gr_j2_p4_mass", &gr_j2_p4_mass, "gr_j2_p4_mass/F");
 
 
 // prepare for regression
-      TMVA::Reader* readerRegres = new TMVA::Reader( "!Color:!Silent" );
-      readerRegres->AddVariable( "jet_pt", &jet_pt);
-      readerRegres->AddVariable( "jet_eta", &jet_eta);
-      readerRegres->AddVariable( "jet_emfrac", &jet_emfrac);
-      readerRegres->AddVariable( "jet_nConstituents", &jet_nConstituents_);
-      readerRegres->AddVariable( "jet_hadfrac", &jet_hadfrac);
-      readerRegres->AddVariable( "jet_secVtxPt", &jet_secVtxPt);
-      readerRegres->AddVariable( "jet_secVtx3dL", &jet_secVtx3dL);
-      readerRegres->AddVariable( "ev_met_corr_pfmet", &met_corr_pfmet);
-      readerRegres->AddVariable( "jet_dPhiMet", &jet_dPhiMet);
-//      readerRegres->BookMVA("BDT", "/afs/cern.ch/work/o/obondu/public/forRadion/factoryJetRegGen2_globeinputs_BDT.weights.xml");
-      readerRegres->BookMVA("BDT", regressionfile.c_str());
+	TMVA::Reader* readerRegres = new TMVA::Reader( "!Color:!Silent" );
+	readerRegres->AddVariable( "jet_pt", &jet_pt);
+	readerRegres->AddVariable( "jet_eta", &jet_eta);
+	readerRegres->AddVariable( "jet_emfrac", &jet_emfrac);
+	readerRegres->AddVariable( "jet_nConstituents", &jet_nConstituents_);
+	readerRegres->AddVariable( "jet_hadfrac", &jet_hadfrac);
+	readerRegres->AddVariable( "jet_secVtxPt", &jet_secVtxPt);
+	readerRegres->AddVariable( "jet_secVtx3dL", &jet_secVtx3dL);
+	readerRegres->AddVariable( "ev_met_corr_pfmet", &met_corr_pfmet);
+	readerRegres->AddVariable( "jet_dPhiMet", &jet_dPhiMet);
+	readerRegres->BookMVA("BDT", regressionfile.c_str());
 
 
 	int nevents[30] = {0};
@@ -722,7 +657,6 @@ int main(int argc, char *argv[])
 		vector<float> jetPhi;
 		vector<float> jetCSV;
 		vector<float> jetRegPt;
-//		vector<float> jetRegE;
 		vector<float> jetRegKinPt;
 		TLorentzVector met;
 		met.SetPtEtaPhiE(met_corr_pfmet, met_corr_eta_pfmet, met_corr_phi_pfmet, met_corr_e_pfmet);
@@ -920,19 +854,10 @@ int main(int argc, char *argv[])
 			if( jet_csvBtag < 0. ) continue;
 			njets[5]++; jetcut[5] = "After jet_csvBtag < 0.";
 //			jnew = ((float)readerRegres->EvaluateRegression("BDTG method")[0]/(float)jet_pt) * jnew; // Phil regression
-/*
-// CAREFUL, will switch manually to regressed variables in pertinent places
-			jnew = ((float)readerRegres->EvaluateMVA("BDT")/(float)jet_pt) * jnew; // Olivier regression
-			jet_pt = jnew.Pt();
-			jet_eta = jnew.Eta();
-			jet_phi = jnew.Phi();
-			jet_e = jnew.Energy();
-*/
 			jet_regPt = (float)(readerRegres->EvaluateMVA("BDT"));
 			jet_regkinPt = jet_regPt;
 			// jet selection
 			// ** acceptance + pu id **
-//			if( jet_pt < 25. ) continue;
 			if( jet_regPt < 25. ) continue;
 			njets[1]++; jetcut[1] = "After jet pt > 25";
 			if( fabs(jet_eta) > 2.5 ) continue;
@@ -942,8 +867,6 @@ int main(int argc, char *argv[])
 			if( jet_dR2Mean > 0.06 ) continue;
 			njets[4]++; jetcut[4] = "After jet_dR2Mean > 0.06";
 			// ** call regression to correct the pt **
-			// ** for MLP, rescale output from [-1, 1] to the original pt range from training sample **
-//			jet_regkinPt = ((float)(jet_regkinPt + 1)/(float)2.)*(mlp_max - mlp_min) + mlp_min;
 			// ** store 4-momentum + csv output for combinatorics **
 			jetPt.push_back(jet_pt);
 			jetE.push_back(jet_e);
@@ -951,14 +874,7 @@ int main(int argc, char *argv[])
 			jetPhi.push_back(jet_phi);
 			jetCSV.push_back(jet_csvBtag);
 			jetRegPt.push_back(jet_regPt);
-//			jetRegE.push_back( sqrt( pow(jet_e,2) - pow(jet_pt,2) + pow(jet_regPt,2) ) );
 			jetRegKinPt.push_back(jet_regkinPt);
-
-//			if(DEBUG)
-//			{
-//				if(fabs(jet_pt - 32.0997) < 0.01)
-//					cout << "ievt= " << ievt << "\tjet_pt= " << jet_pt << endl;
-//			}
 
 			njets_kRadionID_++;
 			if(jet_csvBtag > .679) njets_kRadionID_and_CSVM_++;
@@ -995,7 +911,6 @@ int main(int argc, char *argv[])
 			if(DEBUG) cout << "btaggedJet[0]= " << btaggedJet[0] << endl;
 			TLorentzVector j, jreg, jregkin;
 			j.SetPtEtaPhiE(jetPt[ij], jetEta[ij], jetPhi[ij], jetE[ij]);
-//			jreg.SetPtEtaPhiE(jetRegPt[ij], jetEta[ij], jetPhi[ij], jetRegE[ij]);
 			jreg = ((float)jetRegPt[ij]/(float)jetPt[ij]) * j;
 			jregkin = ((float)jetRegKinPt[ij]/(float)jetPt[ij]) * j;
 			int imaxptjj;
@@ -1011,7 +926,6 @@ int main(int argc, char *argv[])
 				TLorentzVector tmp_jReg;
 				TLorentzVector tmp_jRegKin;
 				tmp_j.SetPtEtaPhiE(jetPt[ijet], jetEta[ijet], jetPhi[ijet], jetE[ijet]);
-//				tmp_jReg.SetPtEtaPhiE(jetRegPt[ijet], jetEta[ijet], jetPhi[ijet], jetRegE[ijet]);
 				tmp_jReg = ((float)jetRegPt[ijet]/(float)jetPt[ijet]) * tmp_j;
 				tmp_jRegKin = ((float)jetRegKinPt[ijet]/(float)jetPt[ijet]) * tmp_j;
 				TLorentzVector jj = j + tmp_j;
@@ -1061,7 +975,6 @@ int main(int argc, char *argv[])
 				if(DEBUG) cout << "btaggedJet[" << i << "]= " << ij << "\tjetPt[" << ij << "]= " << jetPt[ij] << endl;
 				TLorentzVector j, jreg, jregkin;
 				j.SetPtEtaPhiE(jetPt[ij], jetEta[ij], jetPhi[ij], jetE[ij]);
-//				jreg.SetPtEtaPhiE(jetRegPt[ij], jetEta[ij], jetPhi[ij], jetRegE[ij]);
 				jreg = ((float)jetRegPt[ij]/(float)jetPt[ij]) * j;
 				jregkin = ((float)jetRegKinPt[ij]/(float)jetPt[ij]) * j;
 				for(unsigned int k = i+1 ; k < btaggedJet.size() ; k++)
@@ -1071,7 +984,6 @@ int main(int argc, char *argv[])
 					TLorentzVector tmp_jReg;
 					TLorentzVector tmp_jRegKin;
 					tmp_j.SetPtEtaPhiE(jetPt[ijet], jetEta[ijet], jetPhi[ijet], jetE[ijet]);
-//					tmp_jReg.SetPtEtaPhiE(jetRegPt[ijet], jetEta[ijet], jetPhi[ijet], jetRegE[ijet]);
 					tmp_jReg = ((float)jetRegPt[ijet]/(float)jetPt[ijet]) * tmp_j;
 					tmp_jRegKin = ((float)jetRegKinPt[ijet]/(float)jetPt[ijet]) * tmp_j;
 					TLorentzVector jj = j + tmp_j;
@@ -1122,57 +1034,21 @@ int main(int argc, char *argv[])
 		jet2.SetPtEtaPhiE(jetPt[ij2], jetEta[ij2], jetPhi[ij2], jetE[ij2]);
 		regjet1.SetPtEtaPhiE(jetPt[ij1Reg], jetEta[ij1Reg], jetPhi[ij1Reg], jetE[ij1Reg]);
 		regjet2.SetPtEtaPhiE(jetPt[ij2Reg], jetEta[ij2Reg], jetPhi[ij2Reg], jetE[ij2Reg]);
-//		regkinjet1.SetPtEtaPhiE(jetPt[ij1Reg], jetEta[ij1Reg], jetPhi[ij1Reg], jetE[ij1Reg]);
-//		regkinjet2.SetPtEtaPhiE(jetPt[ij2Reg], jetEta[ij2Reg], jetPhi[ij2Reg], jetE[ij2Reg]);
 		regjet1 = ((float)jetRegPt[ij1Reg]/(float)jetPt[ij1Reg]) * regjet1;
 		regjet2 = ((float)jetRegPt[ij2Reg]/(float)jetPt[ij2Reg]) * regjet2;
-//		regkinjet1 = ((float)jetRegPt[ij1Reg]/(float)jetPt[ij1Reg]) * regkinjet1;
-//		regkinjet2 = ((float)jetRegPt[ij2Reg]/(float)jetPt[ij2Reg]) * regkinjet2;
 		regkinjet1 = regjet1;
 		regkinjet2 = regjet2;
 		float Hmass = 125.;
 		DiJetKinFitter* fitter_jetsH = new DiJetKinFitter( "fitter_jetsH", "fitter_jets", Hmass );
 		pair<TLorentzVector,TLorentzVector> jets_kinfitH = fitter_jetsH->fit(regkinjet1, regkinjet2);
-//		TLorentzVector jet1_kinfit, jet2_kinfit;
 		regkinjet1 = jets_kinfitH.first;
 		regkinjet2 = jets_kinfitH.second;
 		kinjet1 = jet1;
 		kinjet2 = jet2;
 		jets_kinfitH = fitter_jetsH->fit(kinjet1, kinjet2);
-//		TLorentzVector jet1_kinfit, jet2_kinfit;
 		kinjet1 = jets_kinfitH.first;
 		kinjet2 = jets_kinfitH.second;
-//		jet1 = jet1_kinfit;
-//		jet2 = jet2_kinfit;
-/*
-		// reassign variables
-		// jets
-		regkinjet1_pt = regkinjet1.Pt();
-		regkinjet1_e = regkinjet1.E();
-		regkinjet1_phi = regkinjet1.Phi();
-		regkinjet1_eta = regkinjet1.Eta();
-		regkinjet1_mass = regkinjet1.M();
-		regkinjet2_pt = regkinjet2.Pt();
-		regkinjet2_e = regkinjet2.E();
-		regkinjet2_phi = regkinjet2.Phi();
-		regkinjet2_eta = regkinjet2.Eta();
-		regkinjet2_mass = regkinjet2.M();
-		// dijet
-		regkinjj = regkinjet1 + regkinjet2;
-		regkinjj_pt = regkinjj.Pt();
-		regkinjj_e = regkinjj.E();
-		regkinjj_phi = regkinjj.Phi();
-		regkinjj_eta = regkinjj.Eta();
-		regkinjj_mass = regkinjj.M();
-		regkinjj_DR = regkinjet1.DeltaR(regkinjet2);
-		// radion
-		regkinggjj = regkinjj + gg;
-		regkinggjj_pt = regkinggjj.Pt();
-		regkinggjj_e = regkinggjj.E();
-		regkinggjj_phi = regkinggjj.Phi();
-		regkinggjj_eta = regkinggjj.Eta();
-		regkinggjj_mass = regkinggjj.M();
-*/	
+
 		TLorentzVector jj = jet1 + jet2;
 		TLorentzVector regjj = regjet1 + regjet2;
 		TLorentzVector regkinjj = regkinjet1 + regkinjet2;
@@ -1294,8 +1170,6 @@ int main(int argc, char *argv[])
 		kinggjj_phi = kinggjj.Phi();
 		kinggjj_eta = kinggjj.Eta();
 		kinggjj_mass = kinggjj.M();
-//		jet1_MLPweight = jetRegKinPt[ij1];
-//		jet2_MLPweight = jetRegKinPt[ij2];
 		njets_kLooseID = njets_passing_kLooseID;
 		njets_kLooseID_and_CSVM = njets_passing_kLooseID_and_CSVM;
 		njets_kRadionID = njets_kRadionID_;
@@ -1428,13 +1302,6 @@ int main(int argc, char *argv[])
 
 // deltaR(g,j) >= 1
 		selection_cut_level = 4;
-/*
-		if( pho1.DeltaR(jet1) < 1. ) continue;
-		if( pho1.DeltaR(jet2) < 1. ) continue;
-		if( pho2.DeltaR(jet1) < 1. ) continue;
-		if( pho2.DeltaR(jet2) < 1. ) continue;
-*/
-// MOVED UPSTREAM, SHOULD BE TRANSPARENT
 		if( minDRgregkinj < 1.)
 		{
 			outtree->Fill();
@@ -1471,26 +1338,6 @@ int main(int argc, char *argv[])
 
 
 
-/*
-		if(njets_kRadionID_and_CSVM == 1 && jj_mass > 90 && jj_mass < 165)
-		{
-			nevents[15]++;
-			eventcut[15] = "1btag category & 90 <  jj_mass < 165";
-		} else if( njets_kRadionID_and_CSVM >=2 && jj_mass > 95 && jj_mass < 140) {
-			nevents[16]++;
-			eventcut[16] = "2btag category & 95 < jj_mass < 140";
-		}
-
-		if(njets_kRadionID_and_CSVM == 1 && jj_mass > 90 && jj_mass < 165 && ggjj_mass > 255 && ggjj_mass < 340)
-		{
-			nevents[17]++;
-			eventcut[17] = "1btag category & 90 <  jj_mass < 165 & 255 < ggjj_mass < 340";
-		} else if( njets_kRadionID_and_CSVM >=2 && jj_mass > 95 && jj_mass < 140 && ggjj_mass > 265 && ggjj_mass < 320) {
-//			if (ievt < 100 ) cout << "event= " << ievt << "\tjetpt1= " << jet1_pt << "\tjetpt2= " << jet2_pt << "\tjj_mass= " << jj_mass << "\tggjj_mass= " << ggjj_mass << endl;
-			nevents[18]++;
-			eventcut[18] = "2btag category & 95 < jj_mass < 140 & 265 < ggjj_mass < 320";
-		}
-*/
 		selection_cut_level = 6;
 		outtree->Fill();
 
