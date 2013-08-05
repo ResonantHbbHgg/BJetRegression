@@ -625,63 +625,6 @@ int main(int argc, char *argv[])
 
 
 // prepare for regression
-			TMVA::Reader* BDTreader = new TMVA::Reader( "!Color:!Silent" );
-			BDTreader->AddVariable("jet_csvBtag",&jet_csvBtag);
-			BDTreader->AddVariable("jet_pt",&jet_pt);
-			BDTreader->AddVariable("jet_eta", &jet_eta);
-			BDTreader->AddVariable("jet_dPhiMet", &jet_dPhiMet);
-//			BDTreader->AddVariable("jet_Chadfrac", &jet_Chadfrac);
-//			BDTreader->AddVariable("jet_Phofrac", &jet_Phofrac);
-//			BDTreader->AddVariable("jet_Nhadfrac", &jet_Nhadfrac);
-//			BDTreader->AddVariable("jet_Elefrac", &jet_Elefrac);
-//			BDTreader->AddVariable("jet_Mufrac", &jet_Mufrac);
-//			BDTreader->AddVariable("jet_ptD", &jet_ptD);
-			BDTreader->AddVariable("jet_secVtxPt", &jet_secVtxPt);
-			BDTreader->AddVariable("jet_secVtx3dL", &jet_secVtx3dL);
-			BDTreader->AddVariable("jet_secVtx3deL", &jet_secVtx3deL);
-			BDTreader->AddVariable("ev_met_corrMet", &met_corr_pfmet);
-			BDTreader->AddVariable("ev_rho", &rho);
-//			BDTreader->BookMVA("BDT", "weights/factoryJetRegParton2_BDT.weights.xml");
-//			BDTreader->BookMVA("BDT", "weights/factoryJetRegGen2_BDT.weights.xml");
-			BDTreader->BookMVA("BDT", "weights/factoryJetRegGen2_globeinputs_BDT.weights.xml");
-/*			TMVA::Reader* MLPreader = new TMVA::Reader( "!Color:!Silent" );
-			MLPreader->AddVariable("jet_csvBtag",&jet_csvBtag);
-			MLPreader->AddVariable("jet_pt",&jet_pt);
-			MLPreader->AddVariable("jet_eta", &jet_eta);
-			MLPreader->AddVariable("jet_dPhiMet", &jet_dPhiMet);
-//			MLPreader->AddVariable("jet_Chadfrac", &jet_Chadfrac);
-//			MLPreader->AddVariable("jet_Phofrac", &jet_Phofrac);
-//			MLPreader->AddVariable("jet_Nhadfrac", &jet_Nhadfrac);
-//			MLPreader->AddVariable("jet_Elefrac", &jet_Elefrac);
-//			MLPreader->AddVariable("jet_Mufrac", &jet_Mufrac);
-//			MLPreader->AddVariable("jet_ptD", &jet_ptD);
-			MLPreader->AddVariable("jet_secVtxPt", &jet_secVtxPt);
-			MLPreader->AddVariable("jet_secVtx3dL", &jet_secVtx3dL);
-			MLPreader->AddVariable("jet_secVtx3deL", &jet_secVtx3deL);
-			MLPreader->AddVariable("ev_met_corrMet", &met_corr_pfmet);
-			MLPreader->AddVariable("ev_rho", &rho);
-//			MLPreader->BookMVA("MLP", "weights/factoryJetRegParton2_MLP.weights.xml");
-//			MLPreader->BookMVA("MLP", "weights/factoryJetRegGen2_MLP.weights.xml");
-			MLPreader->BookMVA("MLP", "weights/factoryJetRegGen2_globeinputs_MLP.weights.xml");
-			// parameters determined on the training sample to recast the output from [-1, 1] to the correct pt range
-			float mlp_min = 25.0004;
-			float mlp_max = 337.647;
-*/
-/*
-// Phil's regression
-			TMVA::Reader *readerRegres = new TMVA::Reader( "!Color:!Silent" );
-		  readerRegres->AddVariable( "hJet_pt", &jet_pt);
-  		readerRegres->AddVariable( "hJet_eta", &jet_eta);
-  		readerRegres->AddVariable( "hJet_cef", &jet_emfrac);
-		  readerRegres->AddVariable( "hJet_nconstituents", &jet_nConstituents_);
-		  readerRegres->AddVariable( "hJet_chf", &jet_hadfrac);
-		  readerRegres->AddVariable( "hJet_vtxPt", &jet_secVtxPt);
-		  readerRegres->AddVariable( "hJet_vtx3dL", &jet_secVtx3dL);
-		  readerRegres->AddVariable( "MET", &met_corr_pfmet);
-		  readerRegres->AddVariable( "hJet_dPhiMETJet", &jet_dPhiMet);
-		  readerRegres->BookMVA("BDTG method","/afs/cern.ch/user/h/hebda/public/TMVARegression_BDTG.weights.xml");
-*/
-// Olivier's regression
       TMVA::Reader* readerRegres = new TMVA::Reader( "!Color:!Silent" );
       readerRegres->AddVariable( "jet_pt", &jet_pt);
       readerRegres->AddVariable( "jet_eta", &jet_eta);
