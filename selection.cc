@@ -7,6 +7,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <sstream>
 #include <algorithm>
 // ROOT headers
 #include "TROOT.h"
@@ -30,10 +31,11 @@ int main(int argc, char *argv[])
 	for(int iarg = 0 ; iarg < argc; iarg++)
 		cout << "argv[" << iarg << "]= " << argv[iarg] << endl;
 
+	string syntaxMessage =  Form("WARNING: Syntax is %s -i (inputfile) -it (inputtree) -o (outputfile) -ot (outputtree) -rf (regressionfile) -mc (isMC)", argv[0]);
 	if( argc == 1 )
 	{
 		cerr << "WARNING: Arguments should be passed ! Default arguments will be used" << endl;
-		cerr << "WARNING: Syntax is " << argv[0] << " -i (inputfile) -it (inputtree) -o (outputfile) -ot (outputtree) -rf (regressionfile)" << endl;
+		cerr << syntaxMessage << endl;
 	}
 
 	
@@ -42,6 +44,7 @@ int main(int argc, char *argv[])
 	string outputfile = "Radion_m300_8TeV_nm_genjet_globeinputs.root";
 	string outputtree = "Radion_m300_8TeV_nm";
 	string regressionfile = "/afs/cern.ch/work/o/obondu/public/forRadion/factoryJetRegGen2_globeinputs_BDT.weights.xml";
+	int isMC = 0; // Same conventions as in h2gglobe: <0 = signal ; =0 = data ; >0 = background
 
 	for(int iarg=0 ; iarg < argc ; iarg++)
 	{
@@ -55,10 +58,12 @@ int main(int argc, char *argv[])
 			outputtree = argv[iarg+1];
 		if(strcmp("-rf", argv[iarg]) == 0 && argc >= iarg + 1)
 			regressionfile = argv[iarg+1];
+		if(strcmp("-mc", argv[iarg]) == 0 && argc >= iarg + 1)
+			{ std::stringstream ss ( argv[iarg+1] ); ss >> isMC; }
 		if((strcmp("-h", argv[iarg]) == 0) || (strcmp("--help", argv[iarg]) == 0))
 		{
 			cerr << "WARNING: Arguments should be passed ! Default arguments will be used" << endl;
-			cerr << "WARNING: Syntax is " << argv[0] << " -i (inputfile) -it (inputtree) -o (outputfile) -ot (outputtree) -rf (regressionfile)" << endl;
+			cerr << syntaxMessage << endl;
 			cerr << "inputfile= " << inputfile << endl;
 			cerr << "inputtree= " << inputtree << endl;
 			cerr << "outputfile= " << outputfile << endl;
@@ -82,13 +87,35 @@ int main(int argc, char *argv[])
 	if(SYNCHRO) synchrofile.open("synchronisation.txt");
 
 	// setup tree inputs
-	float ph1_eta, ph2_eta, ph1_pt, ph2_pt, PhotonsMass, ph1_phi, ph2_phi, ph1_e, ph2_e;
-	int ph1_ciclevel, ph2_ciclevel;
-//	float gr_radion_p4_pt, gr_radion_p4_eta, gr_radion_p4_phi, gr_radion_p4_mass, gr_hgg_p4_pt, gr_hgg_p4_eta, gr_hgg_p4_phi, gr_hgg_p4_mass, gr_hbb_p4_pt, gr_hbb_p4_eta, gr_hbb_p4_phi, gr_hbb_p4_mass, gr_g1_p4_pt, gr_g1_p4_eta, gr_g1_p4_phi, gr_g1_p4_mass, gr_g2_p4_pt, gr_g2_p4_eta, gr_g2_p4_phi, gr_g2_p4_mass, gr_b1_p4_pt, gr_b1_p4_eta, gr_b1_p4_phi, gr_b1_p4_mass, gr_b2_p4_pt, gr_b2_p4_eta, gr_b2_p4_phi, gr_b2_p4_mass, gr_j1_p4_pt, gr_j1_p4_eta, gr_j1_p4_phi, gr_j1_p4_mass, gr_j2_p4_pt, gr_j2_p4_eta, gr_j2_p4_phi, gr_j2_p4_mass;
+// gen level info
+	float gr_radion_p4_pt, gr_radion_p4_eta, gr_radion_p4_phi, gr_radion_p4_mass;
+	float gr_hgg_p4_pt, gr_hgg_p4_eta, gr_hgg_p4_phi, gr_hgg_p4_mass;
+	float gr_hbb_p4_pt, gr_hbb_p4_eta, gr_hbb_p4_phi, gr_hbb_p4_mass;
+	float gr_hjj_p4_pt, gr_hjj_p4_eta, gr_hjj_p4_phi, gr_hjj_p4_mass;
+	float gr_g1_p4_pt, gr_g1_p4_eta, gr_g1_p4_phi, gr_g1_p4_mass;
+	float gr_g2_p4_pt, gr_g2_p4_eta, gr_g2_p4_phi, gr_g2_p4_mass;
+	float gr_b1_p4_pt, gr_b1_p4_eta, gr_b1_p4_phi, gr_b1_p4_mass;
+	float gr_b2_p4_pt, gr_b2_p4_eta, gr_b2_p4_phi, gr_b2_p4_mass;
+	float gr_j1_p4_pt, gr_j1_p4_eta, gr_j1_p4_phi, gr_j1_p4_mass;
+	float gr_j2_p4_pt, gr_j2_p4_eta, gr_j2_p4_phi, gr_j2_p4_mass;
+	gr_radion_p4_pt = gr_radion_p4_eta = gr_radion_p4_phi = gr_radion_p4_mass = 0.;
+	gr_hgg_p4_pt = gr_hgg_p4_eta = gr_hgg_p4_phi = gr_hgg_p4_mass = 0.;
+	gr_hbb_p4_pt = gr_hbb_p4_eta = gr_hbb_p4_phi = gr_hbb_p4_mass = 0.;
+	gr_hjj_p4_pt = gr_hjj_p4_eta = gr_hjj_p4_phi = gr_hjj_p4_mass = 0.;
+	gr_g1_p4_pt = gr_g1_p4_eta = gr_g1_p4_phi = gr_g1_p4_mass = 0.;
+	gr_g2_p4_pt = gr_g2_p4_eta = gr_g2_p4_phi = gr_g2_p4_mass = 0.;
+	gr_b1_p4_pt = gr_b1_p4_eta = gr_b1_p4_phi = gr_b1_p4_mass = 0.;
+	gr_b2_p4_pt = gr_b2_p4_eta = gr_b2_p4_phi = gr_b2_p4_mass = 0.;
+	gr_j1_p4_pt = gr_j1_p4_eta = gr_j1_p4_phi = gr_j1_p4_mass = 0.;
+	gr_j2_p4_pt = gr_j2_p4_eta = gr_j2_p4_phi = gr_j2_p4_mass = 0.;
+// event variables
 	float met_corr_pfmet, met_corr_phi_pfmet, met_corr_eta_pfmet, met_corr_e_pfmet;
 	float pu_n, nvtx, rho;
 	float weight, evweight, pu_weight;
 	float ev_weight, ev_evweight, ev_pu_weight;
+// object variables
+	float ph1_eta, ph2_eta, ph1_pt, ph2_pt, PhotonsMass, ph1_phi, ph2_phi, ph1_e, ph2_e;
+	int ph1_ciclevel, ph2_ciclevel;
 	float j1_e, j1_pt, j1_phi, j1_eta, j1_beta, j1_betaStar, j1_betaStarClassic, j1_dR2Mean, j1_csvBtag, j1_csvMvaBtag, j1_jetProbBtag, j1_tcheBtag, j1_ptD, j1_nSecondaryVertices, j1_secVtxPt, j1_secVtx3dL, j1_secVtx3deL, j1_emfrac, j1_hadfrac, j1_axis1, j1_axis2, j1_pull, /*j1_Rchg, j1_Rneutral, j1_R, j1_chargedMultiplicity, j1_neutralMultiplicity, j1_Chadfrac, j1_Nhadfrac, j1_Phofrac, j1_Mufrac, j1_Elefrac, j1_dPhiMet,*/ j1_radionMatched;
 	int j1_ntk, j1_nNeutrals, j1_nCharged/*, j1_pfloose*/;
 	float j2_e, j2_pt, j2_phi, j2_eta, j2_beta, j2_betaStar, j2_betaStarClassic, j2_dR2Mean, j2_csvBtag, j2_csvMvaBtag, j2_jetProbBtag, j2_tcheBtag, j2_ptD, j2_nSecondaryVertices, j2_secVtxPt, j2_secVtx3dL, j2_secVtx3deL, j2_emfrac, j2_hadfrac, j2_axis1, j2_axis2, j2_pull, /*j2_Rchg, j2_Rneutral, j2_R, j2_chargedMultiplicity, j2_neutralMultiplicity, j2_Chadfrac, j2_Nhadfrac, j2_Phofrac, j2_Mufrac, j2_Elefrac, j2_dPhiMet,*/ j2_radionMatched;
@@ -109,6 +136,7 @@ int main(int argc, char *argv[])
 	int jet_index/*, jet_pfloose*/;
 //	float ev_met_corrMet, ev_met_corrMetPhi, ev_pu_n, ev_nvtx, ev_rho;
 
+// setup tree outputs
 	float pho1_pt, pho1_e, pho1_phi, pho1_eta, pho1_mass;
 	float pho2_pt, pho2_e, pho2_phi, pho2_eta, pho2_mass;
 	float jet1_pt, jet1_e, jet1_phi, jet1_eta, jet1_mass, jet1_csvBtag;
@@ -162,44 +190,46 @@ int main(int argc, char *argv[])
 	intree->SetBranchAddress("weight", &ev_weight);
 	intree->SetBranchAddress("evweight", &ev_evweight);
 	intree->SetBranchAddress("pu_weight", &ev_pu_weight);
-/*
-	intree->SetBranchAddress("gr_radion_p4_pt", &gr_radion_p4_pt);
-	intree->SetBranchAddress("gr_radion_p4_eta", &gr_radion_p4_eta);
-	intree->SetBranchAddress("gr_radion_p4_phi", &gr_radion_p4_phi);
-	intree->SetBranchAddress("gr_radion_p4_mass", &gr_radion_p4_mass);
-	intree->SetBranchAddress("gr_hgg_p4_pt", &gr_hgg_p4_pt);
-	intree->SetBranchAddress("gr_hgg_p4_eta", &gr_hgg_p4_eta);
-	intree->SetBranchAddress("gr_hgg_p4_phi", &gr_hgg_p4_phi);
-	intree->SetBranchAddress("gr_hgg_p4_mass", &gr_hgg_p4_mass);
-	intree->SetBranchAddress("gr_hbb_p4_pt", &gr_hbb_p4_pt);
-	intree->SetBranchAddress("gr_hbb_p4_eta", &gr_hbb_p4_eta);
-	intree->SetBranchAddress("gr_hbb_p4_phi", &gr_hbb_p4_phi);
-	intree->SetBranchAddress("gr_hbb_p4_mass", &gr_hbb_p4_mass);
-	intree->SetBranchAddress("gr_g1_p4_pt", &gr_g1_p4_pt);
-	intree->SetBranchAddress("gr_g1_p4_eta", &gr_g1_p4_eta);
-	intree->SetBranchAddress("gr_g1_p4_phi", &gr_g1_p4_phi);
-	intree->SetBranchAddress("gr_g1_p4_mass", &gr_g1_p4_mass);
-	intree->SetBranchAddress("gr_g2_p4_pt", &gr_g2_p4_pt);
-	intree->SetBranchAddress("gr_g2_p4_eta", &gr_g2_p4_eta);
-	intree->SetBranchAddress("gr_g2_p4_phi", &gr_g2_p4_phi);
-	intree->SetBranchAddress("gr_g2_p4_mass", &gr_g2_p4_mass);
-	intree->SetBranchAddress("gr_b1_p4_pt", &gr_b1_p4_pt);
-	intree->SetBranchAddress("gr_b1_p4_eta", &gr_b1_p4_eta);
-	intree->SetBranchAddress("gr_b1_p4_phi", &gr_b1_p4_phi);
-	intree->SetBranchAddress("gr_b1_p4_mass", &gr_b1_p4_mass);
-	intree->SetBranchAddress("gr_b2_p4_pt", &gr_b2_p4_pt);
-	intree->SetBranchAddress("gr_b2_p4_eta", &gr_b2_p4_eta);
-	intree->SetBranchAddress("gr_b2_p4_phi", &gr_b2_p4_phi);
-	intree->SetBranchAddress("gr_b2_p4_mass", &gr_b2_p4_mass);
-	intree->SetBranchAddress("gr_j1_p4_pt", &gr_j1_p4_pt);
-	intree->SetBranchAddress("gr_j1_p4_eta", &gr_j1_p4_eta);
-	intree->SetBranchAddress("gr_j1_p4_phi", &gr_j1_p4_phi);
-	intree->SetBranchAddress("gr_j1_p4_mass", &gr_j1_p4_mass);
-	intree->SetBranchAddress("gr_j2_p4_pt", &gr_j2_p4_pt);
-	intree->SetBranchAddress("gr_j2_p4_eta", &gr_j2_p4_eta);
-	intree->SetBranchAddress("gr_j2_p4_phi", &gr_j2_p4_phi);
-	intree->SetBranchAddress("gr_j2_p4_mass", &gr_j2_p4_mass);
-*/
+
+	if( isMC < 0 )
+	{
+		intree->SetBranchAddress("gr_radion_p4_pt", &gr_radion_p4_pt);
+		intree->SetBranchAddress("gr_radion_p4_eta", &gr_radion_p4_eta);
+		intree->SetBranchAddress("gr_radion_p4_phi", &gr_radion_p4_phi);
+		intree->SetBranchAddress("gr_radion_p4_mass", &gr_radion_p4_mass);
+		intree->SetBranchAddress("gr_hgg_p4_pt", &gr_hgg_p4_pt);
+		intree->SetBranchAddress("gr_hgg_p4_eta", &gr_hgg_p4_eta);
+		intree->SetBranchAddress("gr_hgg_p4_phi", &gr_hgg_p4_phi);
+		intree->SetBranchAddress("gr_hgg_p4_mass", &gr_hgg_p4_mass);
+		intree->SetBranchAddress("gr_hbb_p4_pt", &gr_hbb_p4_pt);
+		intree->SetBranchAddress("gr_hbb_p4_eta", &gr_hbb_p4_eta);
+		intree->SetBranchAddress("gr_hbb_p4_phi", &gr_hbb_p4_phi);
+		intree->SetBranchAddress("gr_hbb_p4_mass", &gr_hbb_p4_mass);
+		intree->SetBranchAddress("gr_g1_p4_pt", &gr_g1_p4_pt);
+		intree->SetBranchAddress("gr_g1_p4_eta", &gr_g1_p4_eta);
+		intree->SetBranchAddress("gr_g1_p4_phi", &gr_g1_p4_phi);
+		intree->SetBranchAddress("gr_g1_p4_mass", &gr_g1_p4_mass);
+		intree->SetBranchAddress("gr_g2_p4_pt", &gr_g2_p4_pt);
+		intree->SetBranchAddress("gr_g2_p4_eta", &gr_g2_p4_eta);
+		intree->SetBranchAddress("gr_g2_p4_phi", &gr_g2_p4_phi);
+		intree->SetBranchAddress("gr_g2_p4_mass", &gr_g2_p4_mass);
+		intree->SetBranchAddress("gr_b1_p4_pt", &gr_b1_p4_pt);
+		intree->SetBranchAddress("gr_b1_p4_eta", &gr_b1_p4_eta);
+		intree->SetBranchAddress("gr_b1_p4_phi", &gr_b1_p4_phi);
+		intree->SetBranchAddress("gr_b1_p4_mass", &gr_b1_p4_mass);
+		intree->SetBranchAddress("gr_b2_p4_pt", &gr_b2_p4_pt);
+		intree->SetBranchAddress("gr_b2_p4_eta", &gr_b2_p4_eta);
+		intree->SetBranchAddress("gr_b2_p4_phi", &gr_b2_p4_phi);
+		intree->SetBranchAddress("gr_b2_p4_mass", &gr_b2_p4_mass);
+		intree->SetBranchAddress("gr_j1_p4_pt", &gr_j1_p4_pt);
+		intree->SetBranchAddress("gr_j1_p4_eta", &gr_j1_p4_eta);
+		intree->SetBranchAddress("gr_j1_p4_phi", &gr_j1_p4_phi);
+		intree->SetBranchAddress("gr_j1_p4_mass", &gr_j1_p4_mass);
+		intree->SetBranchAddress("gr_j2_p4_pt", &gr_j2_p4_pt);
+		intree->SetBranchAddress("gr_j2_p4_eta", &gr_j2_p4_eta);
+		intree->SetBranchAddress("gr_j2_p4_phi", &gr_j2_p4_phi);
+		intree->SetBranchAddress("gr_j2_p4_mass", &gr_j2_p4_mass);
+	}
 	intree->SetBranchAddress("j1_e", &j1_e);
 	intree->SetBranchAddress("j1_pt", &j1_pt);
 	intree->SetBranchAddress("j1_phi", &j1_phi);
@@ -549,6 +579,49 @@ int main(int argc, char *argv[])
 	outtree->Branch("minDRgregj", &minDRgregj, "minDRgregj/F");
 	outtree->Branch("minDRgregkinj", &minDRgregkinj, "minDRgregkinj/F");
 	outtree->Branch("minDRgkinj", &minDRgkinj, "minDRgkinj/F");
+//	if( isMC < 0 )
+//	{
+		outtree->Branch("gr_radion_p4_pt", &gr_radion_p4_pt, "gr_radion_p4_pt/F");
+		outtree->Branch("gr_radion_p4_eta", &gr_radion_p4_eta, "gr_radion_p4_eta/F");
+		outtree->Branch("gr_radion_p4_phi", &gr_radion_p4_phi, "gr_radion_p4_phi/F");
+		outtree->Branch("gr_radion_p4_mass", &gr_radion_p4_mass, "gr_radion_p4_mass/F");
+		outtree->Branch("gr_hgg_p4_pt", &gr_hgg_p4_pt, "gr_hgg_p4_pt/F");
+		outtree->Branch("gr_hgg_p4_eta", &gr_hgg_p4_eta, "gr_hgg_p4_eta/F");
+		outtree->Branch("gr_hgg_p4_phi", &gr_hgg_p4_phi, "gr_hgg_p4_phi/F");
+		outtree->Branch("gr_hgg_p4_mass", &gr_hgg_p4_mass, "gr_hgg_p4_mass/F");
+		outtree->Branch("gr_hbb_p4_pt", &gr_hbb_p4_pt, "gr_hbb_p4_pt/F");
+		outtree->Branch("gr_hbb_p4_eta", &gr_hbb_p4_eta, "gr_hbb_p4_eta/F");
+		outtree->Branch("gr_hbb_p4_phi", &gr_hbb_p4_phi, "gr_hbb_p4_phi/F");
+		outtree->Branch("gr_hbb_p4_mass", &gr_hbb_p4_mass, "gr_hbb_p4_mass/F");
+		outtree->Branch("gr_hjj_p4_pt", &gr_hjj_p4_pt, "gr_hjj_p4_pt/F");
+		outtree->Branch("gr_hjj_p4_eta", &gr_hjj_p4_eta, "gr_hjj_p4_eta/F");
+		outtree->Branch("gr_hjj_p4_phi", &gr_hjj_p4_phi, "gr_hjj_p4_phi/F");
+		outtree->Branch("gr_hjj_p4_mass", &gr_hjj_p4_mass, "gr_hjj_p4_mass/F");
+		outtree->Branch("gr_g1_p4_pt", &gr_g1_p4_pt, "gr_g1_p4_pt/F");
+		outtree->Branch("gr_g1_p4_eta", &gr_g1_p4_eta, "gr_g1_p4_eta/F");
+		outtree->Branch("gr_g1_p4_phi", &gr_g1_p4_phi, "gr_g1_p4_phi/F");
+		outtree->Branch("gr_g1_p4_mass", &gr_g1_p4_mass, "gr_g1_p4_mass/F");
+		outtree->Branch("gr_g2_p4_pt", &gr_g2_p4_pt, "gr_g2_p4_pt/F");
+		outtree->Branch("gr_g2_p4_eta", &gr_g2_p4_eta, "gr_g2_p4_eta/F");
+		outtree->Branch("gr_g2_p4_phi", &gr_g2_p4_phi, "gr_g2_p4_phi/F");
+		outtree->Branch("gr_g2_p4_mass", &gr_g2_p4_mass, "gr_g2_p4_mass/F");
+		outtree->Branch("gr_b1_p4_pt", &gr_b1_p4_pt, "gr_b1_p4_pt/F");
+		outtree->Branch("gr_b1_p4_eta", &gr_b1_p4_eta, "gr_b1_p4_eta/F");
+		outtree->Branch("gr_b1_p4_phi", &gr_b1_p4_phi, "gr_b1_p4_phi/F");
+		outtree->Branch("gr_b1_p4_mass", &gr_b1_p4_mass, "gr_b1_p4_mass/F");
+		outtree->Branch("gr_b2_p4_pt", &gr_b2_p4_pt, "gr_b2_p4_pt/F");
+		outtree->Branch("gr_b2_p4_eta", &gr_b2_p4_eta, "gr_b2_p4_eta/F");
+		outtree->Branch("gr_b2_p4_phi", &gr_b2_p4_phi, "gr_b2_p4_phi/F");
+		outtree->Branch("gr_b2_p4_mass", &gr_b2_p4_mass, "gr_b2_p4_mass/F");
+		outtree->Branch("gr_j1_p4_pt", &gr_j1_p4_pt, "gr_j1_p4_pt/F");
+		outtree->Branch("gr_j1_p4_eta", &gr_j1_p4_eta, "gr_j1_p4_eta/F");
+		outtree->Branch("gr_j1_p4_phi", &gr_j1_p4_phi, "gr_j1_p4_phi/F");
+		outtree->Branch("gr_j1_p4_mass", &gr_j1_p4_mass, "gr_j1_p4_mass/F");
+		outtree->Branch("gr_j2_p4_pt", &gr_j2_p4_pt, "gr_j2_p4_pt/F");
+		outtree->Branch("gr_j2_p4_eta", &gr_j2_p4_eta, "gr_j2_p4_eta/F");
+		outtree->Branch("gr_j2_p4_phi", &gr_j2_p4_phi, "gr_j2_p4_phi/F");
+		outtree->Branch("gr_j2_p4_mass", &gr_j2_p4_mass, "gr_j2_p4_mass/F");
+//	}
 
 
 // prepare for regression
@@ -644,6 +717,16 @@ int main(int argc, char *argv[])
 		int njets_kRadionID_and_CSVM_ = 0;
     intree->GetEntry(ievt);
 	
+// Compute hjj system
+		TLorentzVector gj1, gj2;
+		gj1.SetPtEtaPhiM(gr_j1_p4_pt, gr_j1_p4_eta, gr_j1_p4_phi, gr_j1_p4_mass);
+		gj2.SetPtEtaPhiM(gr_j2_p4_pt, gr_j2_p4_eta, gr_j2_p4_phi, gr_j2_p4_mass);
+		TLorentzVector hjj = gj1 + gj2;
+		gr_hjj_p4_pt = hjj.Pt();
+		gr_hjj_p4_eta = hjj.Eta();
+		gr_hjj_p4_phi = hjj.Phi();
+		gr_hjj_p4_mass = hjj.M();
+
 		// Apply photon ID cuts
 		nevents[0]++; eventcut[0] = "Before photon ID";
 //		if( (fabs(ph1_eta) > 2.5) || (fabs(ph2_eta) > 2.5) ) continue;
