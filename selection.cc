@@ -141,6 +141,10 @@ int main(int argc, char *argv[])
 	float pho2_pt, pho2_e, pho2_phi, pho2_eta, pho2_mass;
 	float jet1_pt, jet1_e, jet1_phi, jet1_eta, jet1_mass, jet1_csvBtag;
 	float jet2_pt, jet2_e, jet2_phi, jet2_eta, jet2_mass, jet2_csvBtag;
+	float regjet1_emfrac, regjet1_hadfrac, regjet1_secVtxPt, regjet1_secVtx3dL, regjet1_dPhiMet;
+	int regjet1_nConstituents;
+	float regjet2_emfrac, regjet2_hadfrac, regjet2_secVtxPt, regjet2_secVtx3dL, regjet2_dPhiMet;
+	int regjet2_nConstituents;
 	float regjet1_pt, regjet1_e, regjet1_phi, regjet1_eta, regjet1_mass, regjet1_csvBtag;
 	float regjet2_pt, regjet2_e, regjet2_phi, regjet2_eta, regjet2_mass, regjet2_csvBtag;
 	float regkinjet1_pt, regkinjet1_e, regkinjet1_phi, regkinjet1_eta, regkinjet1_mass, regkinjet1_csvBtag;
@@ -420,6 +424,20 @@ int main(int argc, char *argv[])
 	outtree->Branch("jet2_eta", &jet2_eta, "jet2_eta/F");
 	outtree->Branch("jet2_mass", &jet2_mass, "jet2_mass/F");
 	outtree->Branch("jet2_csvBtag", &jet2_csvBtag, "jet2_csvBtag/F");
+// storing inputs of the regression for comparison
+	outtree->Branch("regjet1_emfrac", &regjet1_emfrac, "regjet1_emfrac/F");
+	outtree->Branch("regjet1_hadfrac", &regjet1_hadfrac, "regjet1_hadfrac/F");
+	outtree->Branch("regjet1_secVtxPt", &regjet1_secVtxPt, "regjet1_secVtxPt/F");
+	outtree->Branch("regjet1_secVtx3dL", &regjet1_secVtx3dL, "regjet1_secVtx3dL/F");
+	outtree->Branch("regjet1_dPhiMet", &regjet1_dPhiMet, "regjet1_dPhiMet/F");
+	outtree->Branch("regjet1_nConstituents", &regjet1_nConstituents, "regjet1_nConstituents/I");
+	outtree->Branch("regjet2_emfrac", &regjet2_emfrac, "regjet2_emfrac/F");
+	outtree->Branch("regjet2_hadfrac", &regjet2_hadfrac, "regjet2_hadfrac/F");
+	outtree->Branch("regjet2_secVtxPt", &regjet2_secVtxPt, "regjet2_secVtxPt/F");
+	outtree->Branch("regjet2_secVtx3dL", &regjet2_secVtx3dL, "regjet2_secVtx3dL/F");
+	outtree->Branch("regjet2_dPhiMet", &regjet2_dPhiMet, "regjet2_dPhiMet/F");
+	outtree->Branch("regjet2_nConstituents", &regjet2_nConstituents, "regjet2_nConstituents/I");
+// regressed / kin fitted jets
 	outtree->Branch("regjet1_pt", &regjet1_pt, "regjet1_pt/F");
 	outtree->Branch("regjet1_e", &regjet1_e, "regjet1_e/F");
 	outtree->Branch("regjet1_phi", &regjet1_phi, "regjet1_phi/F");
@@ -597,13 +615,21 @@ int main(int argc, char *argv[])
 	
 // Compute hjj system
 		TLorentzVector gj1, gj2;
-		gj1.SetPtEtaPhiM(gr_j1_p4_pt, gr_j1_p4_eta, gr_j1_p4_phi, gr_j1_p4_mass);
-		gj2.SetPtEtaPhiM(gr_j2_p4_pt, gr_j2_p4_eta, gr_j2_p4_phi, gr_j2_p4_mass);
-		TLorentzVector hjj = gj1 + gj2;
-		gr_hjj_p4_pt = hjj.Pt();
-		gr_hjj_p4_eta = hjj.Eta();
-		gr_hjj_p4_phi = hjj.Phi();
-		gr_hjj_p4_mass = hjj.M();
+		if( gr_j1_p4_pt > .01 && gr_j2_p4_pt > .01)
+		{
+			gj1.SetPtEtaPhiM(gr_j1_p4_pt, gr_j1_p4_eta, gr_j1_p4_phi, gr_j1_p4_mass);
+			gj2.SetPtEtaPhiM(gr_j2_p4_pt, gr_j2_p4_eta, gr_j2_p4_phi, gr_j2_p4_mass);
+			TLorentzVector hjj = gj1 + gj2;
+			gr_hjj_p4_pt = hjj.Pt();
+			gr_hjj_p4_eta = hjj.Eta();
+			gr_hjj_p4_phi = hjj.Phi();
+			gr_hjj_p4_mass = hjj.M();
+		} else {
+			gr_hjj_p4_pt = 0.;
+			gr_hjj_p4_eta = 0.;
+			gr_hjj_p4_phi = 0.;
+			gr_hjj_p4_mass = 0.;
+		}
 
 		// Apply photon ID cuts
 		nevents[0]++; eventcut[0] = "Before photon ID";
@@ -658,6 +684,14 @@ int main(int argc, char *argv[])
 		vector<float> jetCSV;
 		vector<float> jetRegPt;
 		vector<float> jetRegKinPt;
+// regression inputs
+		vector<float> jetEmfrac;
+		vector<float> jetHadfrac;
+		vector<float> jetSecVtxPt;
+		vector<float> jetSecVtx3dL;
+		vector<float> jetDPhiMet;
+		vector<int> jetNConstituents;
+
 		TLorentzVector met;
 		met.SetPtEtaPhiE(met_corr_pfmet, met_corr_eta_pfmet, met_corr_phi_pfmet, met_corr_e_pfmet);
 
@@ -875,6 +909,13 @@ int main(int argc, char *argv[])
 			jetCSV.push_back(jet_csvBtag);
 			jetRegPt.push_back(jet_regPt);
 			jetRegKinPt.push_back(jet_regkinPt);
+			jetEmfrac.push_back(jet_emfrac);
+			jetHadfrac.push_back(jet_hadfrac);
+			jetSecVtxPt.push_back(jet_secVtxPt);
+			jetSecVtx3dL.push_back(jet_secVtx3dL);
+			jetDPhiMet.push_back(jet_dPhiMet);
+			jetNConstituents.push_back(jet_nConstituents);
+
 
 			njets_kRadionID_++;
 			if(jet_csvBtag > .679) njets_kRadionID_and_CSVM_++;
@@ -1097,6 +1138,18 @@ int main(int argc, char *argv[])
 		regjet2_eta = regjet2.Eta();
 		regjet2_mass = regjet2.M();
 		regjet2_csvBtag = jetCSV[ij2Reg];
+		regjet1_emfrac = jetEmfrac[ij1Reg];
+		regjet1_hadfrac = jetHadfrac[ij1Reg];
+		regjet1_secVtxPt = jetSecVtxPt[ij1Reg];
+		regjet1_secVtx3dL = jetSecVtx3dL[ij1Reg];
+		regjet1_dPhiMet = jetDPhiMet[ij1Reg];
+		regjet1_nConstituents = jetNConstituents[ij1Reg];
+		regjet2_emfrac = jetEmfrac[ij2Reg];
+		regjet2_hadfrac = jetHadfrac[ij2Reg];
+		regjet2_secVtxPt = jetSecVtxPt[ij2Reg];
+		regjet2_secVtx3dL = jetSecVtx3dL[ij2Reg];
+		regjet2_dPhiMet = jetDPhiMet[ij2Reg];
+		regjet2_nConstituents = jetNConstituents[ij2Reg];
 		regkinjet1_pt = regkinjet1.Pt();
 		regkinjet1_e = regkinjet1.E();
 		regkinjet1_phi = regkinjet1.Phi();
