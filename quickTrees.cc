@@ -132,6 +132,15 @@ int main(int argc, char *argv[])
 		
 // EXTRA CUTS
 //		if( selection_cut_level < cutLevel ) continue; // hard-coded in the trees, out of date wrt to the rest of the cuts
+	if( cutLevel > 0)
+	{
+		if(fabs(regcosthetastar) >= .9) continue;
+	}
+	if( cutLevel > 1)
+	{
+		if(fabs(regcosthetastar) >= .9) continue;
+		if( njets_kLooseID >= 4 ) continue;
+	}
 	if( cutLevel > 5)
 	{
 		if(fabs(regcosthetastar) >= .9) continue;
