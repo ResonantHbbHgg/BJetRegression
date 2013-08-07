@@ -67,6 +67,8 @@ int main(int argc, char *argv[])
 
 	if(DEBUG) cout << "DEBUG: creating all the needed floats" << endl;
 
+	float event;
+	float ph1_pt, ph2_pt;
 	float gr_radion_p4_pt, gr_radion_p4_eta, gr_radion_p4_phi, gr_radion_p4_mass, gr_hgg_p4_pt, gr_hgg_p4_eta, gr_hgg_p4_phi, gr_hgg_p4_mass, gr_hbb_p4_pt, gr_hbb_p4_eta, gr_hbb_p4_phi, gr_hbb_p4_mass, gr_g1_p4_pt, gr_g1_p4_eta, gr_g1_p4_phi, gr_g1_p4_mass, gr_g2_p4_pt, gr_g2_p4_eta, gr_g2_p4_phi, gr_g2_p4_mass, gr_b1_p4_pt, gr_b1_p4_eta, gr_b1_p4_phi, gr_b1_p4_mass, gr_b2_p4_pt, gr_b2_p4_eta, gr_b2_p4_phi, gr_b2_p4_mass, gr_j1_p4_pt, gr_j1_p4_eta, gr_j1_p4_phi, gr_j1_p4_mass, gr_j2_p4_pt, gr_j2_p4_eta, gr_j2_p4_phi, gr_j2_p4_mass;
 	float met_corr_pfmet, met_corr_phi_pfmet, met_corr_eta_pfmet, met_corr_e_pfmet;
 //	float met_pfmet, met_phi_pfmet, met_sumet_pfmet, met_mEtSig_pfmet, met_significance_pfmet, met_corrMet, met_corrMetPhi;
@@ -102,6 +104,9 @@ int main(int argc, char *argv[])
 	intree->SetBranchAddress("met_corrMet", &met_corrMet);
 	intree->SetBranchAddress("met_corrMetPhi", &met_corrMetPhi);
 */
+	intree->SetBranchAddress("event", &event);
+	intree->SetBranchAddress("ph1_pt", &ph1_pt);
+	intree->SetBranchAddress("ph2_pt", &ph2_pt);
 	intree->SetBranchAddress("met_corr_pfmet", &met_corr_pfmet);
 	intree->SetBranchAddress("met_corr_phi_pfmet", &met_corr_phi_pfmet);
 	intree->SetBranchAddress("met_corr_eta_pfmet", &met_corr_eta_pfmet);
@@ -305,6 +310,9 @@ int main(int argc, char *argv[])
 	intree->SetBranchAddress("j4_dPhiMet", &j4_dPhiMet);
 	intree->SetBranchAddress("j4_pfloose", &j4_pfloose);
 */
+	outtree->Branch("event", &event, "event/F");
+	outtree->Branch("ph1_pt", &ph1_pt, "ph1_pt/F");
+	outtree->Branch("ph2_pt", &ph2_pt, "ph2_pt/F");
 	outtree->Branch("jet_e", &jet_e, "jet_e/F");
 	outtree->Branch("jet_pt", &jet_pt, "jet_pt/F");
 	outtree->Branch("jet_phi", &jet_phi, "jet_phi/F");
