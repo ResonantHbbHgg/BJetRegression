@@ -111,11 +111,6 @@ int main(int argc, char *argv[])
 	TTree *intree4 = (TTree*)infile4->Get(inputtree4.c_str());
 	TFile *outfile = new TFile(outputfile.c_str(), "RECREATE");
 
-	TClonesArray *intree_subset = new TClonesArray("TTree", n);
-	for(int i = 0 ; i < n ; i++)
-	{
-		new ((*intree_subset)[i]) (TTree*)intree->CopyTree(Form("(event % %i == (%i % %i)) && jet_genDR<0.4 && jet_csvBtag > 0.", n, j+i, n));
-	}
 
 //	TTree *outtree = new TTree(outputxml.c_str(), Form("%s reduced", outputxml.c_str()));
 //  TFile *infile = TFile::Open("jetTreeForTraining.root");
@@ -127,14 +122,56 @@ int main(int argc, char *argv[])
 //  TMVA::Factory* factory = new TMVA::Factory("factoryJetRegParton2",outfile,"!V:!Silent:Color:DrawProgressBar:AnalysisType=Regression");
   TMVA::Factory* factory = new TMVA::Factory(outputxml.c_str(),outfile,"!V:!Silent:Color:DrawProgressBar:AnalysisType=Regression");
 
+	int nTrain = 0;
+	int nTest = 0;
+	int nEval = 0;
+
 	if( n == 1 )
 	{
   	factory->AddRegressionTree(intree, w1);
   	if( nTrainingTrees > 1) factory->AddRegressionTree(intree2, w2);
   	if( nTrainingTrees > 2) factory->AddRegressionTree(intree3, w3);
   	if( nTrainingTrees > 3) factory->AddRegressionTree(intree4, w4);
+	} else {
+		for(int i = 0 ; i < n ; i++)
+		{
+			if(i == 0)
+			{
+				factory->AddRegressionTree( intree->CopyTree(Form("(event %% %i == (%i %% %i)) && jet_genDR<0.4 && jet_csvBtag > 0.", n, j+i, n)), w1, TMVA::Types::kTraining );
+				nTrain = intree->CopyTree(Form("(event %% %i == (%i %% %i)) && jet_genDR<0.4 && jet_csvBtag > 0.", n, j+i, n))->GetEntries();
+				cout << "nTrain= " << nTrain << endl; 
+				if( nTrainingTrees > 1)
+					factory->AddRegressionTree( intree2->CopyTree(Form("(event %% %i == (%i %% %i)) && jet_genDR<0.4 && jet_csvBtag > 0.", n, j+i, n)), w2, TMVA::Types::kTraining );
+				if( nTrainingTrees > 2)
+					factory->AddRegressionTree( intree3->CopyTree(Form("(event %% %i == (%i %% %i)) && jet_genDR<0.4 && jet_csvBtag > 0.", n, j+i, n)), w3, TMVA::Types::kTraining );
+				if( nTrainingTrees > 3)
+					factory->AddRegressionTree( intree4->CopyTree(Form("(event %% %i == (%i %% %i)) && jet_genDR<0.4 && jet_csvBtag > 0.", n, j+i, n)), w4, TMVA::Types::kTraining );
+			} else if(i == 1) {
+				factory->AddRegressionTree( intree->CopyTree(Form("(event %% %i == (%i %% %i)) && jet_genDR<0.4 && jet_csvBtag > 0.", n, j+i, n)), w1, TMVA::Types::kTesting );
+				nTest = intree->CopyTree(Form("(event %% %i == (%i %% %i)) && jet_genDR<0.4 && jet_csvBtag > 0.", n, j+i, n))->GetEntries();
+				cout << "nTest= " << nTest << endl;
+				if( nTrainingTrees > 1)
+					factory->AddRegressionTree( intree2->CopyTree(Form("(event %% %i == (%i %% %i)) && jet_genDR<0.4 && jet_csvBtag > 0.", n, j+i, n)), w2, TMVA::Types::kTesting );
+				if( nTrainingTrees > 2)
+					factory->AddRegressionTree( intree3->CopyTree(Form("(event %% %i == (%i %% %i)) && jet_genDR<0.4 && jet_csvBtag > 0.", n, j+i, n)), w3, TMVA::Types::kTesting );
+				if( nTrainingTrees > 3)
+					factory->AddRegressionTree( intree4->CopyTree(Form("(event %% %i == (%i %% %i)) && jet_genDR<0.4 && jet_csvBtag > 0.", n, j+i, n)), w4, TMVA::Types::kTesting );
+/*			} else {
+				factory->AddRegressionTree( intree->CopyTree(Form("(event %% %i == (%i %% %i)) && jet_genDR<0.4 && jet_csvBtag > 0.", n, j+i, n)), w1, TMVA::Types::kValidation );
+				cout << "nEval= " << intree->CopyTree(Form("(event %% %i == (%i %% %i)) && jet_genDR<0.4 && jet_csvBtag > 0.", n, j+i, n))->GetEntries() << endl;
+				if( nTrainingTrees > 1)
+					factory->AddRegressionTree( intree2->CopyTree(Form("(event %% %i == (%i %% %i)) && jet_genDR<0.4 && jet_csvBtag > 0.", n, j+i, n)), w2, TMVA::Types::kValidation );
+				if( nTrainingTrees > 2)
+					factory->AddRegressionTree( intree3->CopyTree(Form("(event %% %i == (%i %% %i)) && jet_genDR<0.4 && jet_csvBtag > 0.", n, j+i, n)), w3, TMVA::Types::kValidation );
+				if( nTrainingTrees > 3)
+					factory->AddRegressionTree( intree4->CopyTree(Form("(event %% %i == (%i %% %i)) && jet_genDR<0.4 && jet_csvBtag > 0.", n, j+i, n)), w4, TMVA::Types::kValidation );
+*/
+			}
+		}
 	}
-  
+//		intree->CopyTree(Form("(event %% %i == (%i %% %i)) && jet_genDR<0.4 && jet_csvBtag > 0.", n, j+i, n));
+
+
   factory->AddVariable("jet_pt"						, "p_{T}^{j}", "GeV",'F');
   factory->AddVariable("jet_eta"					, "#eta^{j}", "",'F');
 	factory->AddVariable("jet_emfrac"				, "#epsilon_{EM}^{j}", "", 'F');
@@ -165,13 +202,22 @@ int main(int argc, char *argv[])
   TCut preselectionCut("jet_genDR<0.4 && jet_csvBtag > 0.");
 	unsigned int nentries = intree->GetEntries(preselectionCut);
 	cout << "nentries= " << nentries << endl;
+	cout << "nTrain + nTest = " << nTrain + nTest << endl;
 
-  factory->PrepareTrainingAndTestTree(preselectionCut,"nTrain_Regression=10000:nTest_Regression=10000");
+	if(DEBUG) cout << "prepare training" << endl;
+//  factory->PrepareTrainingAndTestTree(preselectionCut,"nTrain_Regression=10000:nTest_Regression=10000");
+  factory->PrepareTrainingAndTestTree(preselectionCut,"SplitMode=Block:nTrain_Regression=0:nTest_Regression=0");
+	if(DEBUG) cout << "book method" << endl;
 //  factory->BookMethod(TMVA::Types::kMLP,"MLP","NCycles=700:HiddenLayers=N,N-1:TestRate=5:TrainingMethod=BFGS:VarTRansform=Norm");
-  factory->BookMethod(TMVA::Types::kBDT,"BDT","NTrees=200;nCuts=25"); 
-    
+//  factory->BookMethod(TMVA::Types::kBDT,"BDT","NTrees=200:nCuts=25"); // default
+//  factory->BookMethod(TMVA::Types::kBDT,"BDT","NTrees=200:nCuts=-1:PruneStrength=-1:PruneMethod=CostComplexity"); 
+//  factory->BookMethod(TMVA::Types::kBDT,"BDT","NTrees=1000:nCuts=25:MaxDepth=4"); // TMVA manual, page 110: Currently it looks as if in TMVA, better results for the whole forest are often achieved when pruning is not applied, but rather the maximal tree depth is set to a relatively small value (3 or 4) already during the tree building phase.
+  factory->BookMethod(TMVA::Types::kBDT,"BDT",Form("NTrees=%i:nCuts=25:MaxDepth=4", 500)); 
+  if(DEBUG) cout << "train" << endl; 
   factory->TrainAllMethods();
+  if(DEBUG) cout << "test" << endl; 
   factory->TestAllMethods();
+  if(DEBUG) cout << "evaluate" << endl; 
   factory->EvaluateAllMethods(); 
 
 	return 0;
