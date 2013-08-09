@@ -12,6 +12,9 @@ all: prepareOpTreeInJetTree_forTraining.exe trainRegression.exe selection.exe fi
 prepareOpTreeInJetTree_forTraining.exe: prepareOpTreeInJetTree_forTraining.cc
 	$(CC) $(CCFLAGS) $(ROOTFLAGS) $(ROOTLIBS) prepareOpTreeInJetTree_forTraining.cc -o prepareOpTreeInJetTree_forTraining.exe
 
+prepareCheckOverTraining.exe: prepareCheckOverTraining.cc
+	$(CC) $(TMVA) $(CCFLAGS) $(ROOTFLAGS) $(ROOTLIBS) prepareCheckOverTraining.cc -o prepareCheckOverTraining.exe
+
 trainRegression.exe: trainRegression.cc
 	$(CC) $(TMVA) $(CCFLAGS) $(ROOTFLAGS) $(ROOTLIBS) trainRegression.cc -o trainRegression.exe
 
