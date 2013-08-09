@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
 	for(int iarg = 0 ; iarg < argc; iarg++)
 		cout << "argv[" << iarg << "]= " << argv[iarg] << endl;
 
-	string syntaxMessage =  Form("WARNING: Syntax is %s -i (inputfile) -it (inputtree) -o (outputfile) -ot (outputtree) -rf (regressionfile) -mc (isMC)", argv[0]);
+	string syntaxMessage =  Form("WARNING: Syntax is %s -i (inputfile) -it (inputtree) -o (outputfile) -ot (outputtree) -rf (regressionfile) -mc (isMC) -n (numberOfSplit) -j (treeSplit)", argv[0]);
 	if( argc == 1 )
 	{
 		cerr << "WARNING: Arguments should be passed ! Default arguments will be used" << endl;
@@ -44,6 +44,8 @@ int main(int argc, char *argv[])
 	string outputfile = "Radion_m300_8TeV_nm_genjet_globeinputs.root";
 	string outputtree = "Radion_m300_8TeV_nm";
 	string regressionfile = "/afs/cern.ch/work/o/obondu/public/forRadion/factoryJetRegGen2_globeinputs_BDT.weights.xml";
+	int numberOfSplit = 1;
+	int treeSplit = 0;
 	int isMC = 0; // Same conventions as in h2gglobe: <0 = signal ; =0 = data ; >0 = background
 
 	for(int iarg=0 ; iarg < argc ; iarg++)
@@ -60,6 +62,10 @@ int main(int argc, char *argv[])
 			regressionfile = argv[iarg+1];
 		if(strcmp("-mc", argv[iarg]) == 0 && argc >= iarg + 1)
 			{ std::stringstream ss ( argv[iarg+1] ); ss >> isMC; }
+		if(strcmp("-n", argv[iarg]) == 0 && argc >= iarg + 1)
+			{ std::stringstream ss ( argv[iarg+1] ); ss >> numberOfSplit; }
+		if(strcmp("-j", argv[iarg]) == 0 && argc >= iarg + 1)
+			{ std::stringstream ss ( argv[iarg+1] ); ss >> treeSplit; }
 		if((strcmp("-h", argv[iarg]) == 0) || (strcmp("--help", argv[iarg]) == 0))
 		{
 			cerr << "WARNING: Arguments should be passed ! Default arguments will be used" << endl;
@@ -112,6 +118,7 @@ int main(int argc, char *argv[])
 	float met_corr_pfmet, met_corr_phi_pfmet, met_corr_eta_pfmet, met_corr_e_pfmet;
 	float pu_n, nvtx, rho;
 	float weight, evweight, pu_weight;
+	float event;
 	float ev_weight, ev_evweight, ev_pu_weight;
 // object variables
 	float ph1_eta, ph2_eta, ph1_pt, ph2_pt, PhotonsMass, ph1_phi, ph2_phi, ph1_e, ph2_e;
@@ -190,6 +197,7 @@ int main(int argc, char *argv[])
 	intree->SetBranchAddress("pu_n", &pu_n);
 	intree->SetBranchAddress("nvtx", &nvtx);
 	intree->SetBranchAddress("rho", &rho);
+	intree->SetBranchAddress("event", &event);
 	intree->SetBranchAddress("weight", &ev_weight);
 	intree->SetBranchAddress("evweight", &ev_evweight);
 	intree->SetBranchAddress("pu_weight", &ev_pu_weight);
@@ -395,6 +403,7 @@ int main(int argc, char *argv[])
 
 	outtree->Branch("category", &category, "category/I");
 	outtree->Branch("selection_cut_level", &selection_cut_level, "selection_cut_level/I");
+	outtree->Branch("event", &event, "event/F");
 	outtree->Branch("weight", &weight, "weight/F");
 	outtree->Branch("evweight", &evweight, "evweight/F");
 	outtree->Branch("pu_weight", &pu_weight, "pu_weight/F");
@@ -590,6 +599,10 @@ int main(int argc, char *argv[])
 	readerRegres->AddVariable( "ev_met_corr_pfmet", &met_corr_pfmet);
 	readerRegres->AddVariable( "jet_dPhiMet", &jet_dPhiMet);
 	readerRegres->BookMVA("BDT", regressionfile.c_str());
+	for(int i = 0; i < numberOfSplit ; i++)
+	{
+		readerRegres->BookMVA(Form("BDT_%i", i), Form("weights/2013-08-08_test_n%i_j%i_BDT.weights.xml", numberOfSplit, i));
+	}
 
 
 	int nevents[30] = {0};
@@ -882,13 +895,15 @@ int main(int argc, char *argv[])
 			jet_nConstituents_ = (float) jet_nConstituents;
 
 //			if(DEBUG) cout << "input= " << jet_pt << "\toutput= " << readerRegres->EvaluateRegression("BDTG method")[0] << endl; // Phil regression
-			if(DEBUG) cout << "input= " << jet_pt << "\toutput= " << readerRegres->EvaluateMVA("BDT") << endl; // Olivier regression
+			if(DEBUG) cout << "input= " << jet_pt << "\toutput (BDT)= " << readerRegres->EvaluateMVA("BDT") << endl; // Olivier regression
+			if(DEBUG) cout << "input= " << jet_pt << "\toutput (BDT_i)= " << readerRegres->EvaluateMVA(Form("BDT_%i", (int)(event + treeSplit) % numberOfSplit)) << endl; // Olivier regression
 			TLorentzVector jnew;
 			jnew.SetPtEtaPhiE(jet_pt, jet_eta, jet_phi, jet_e);
 			if( jet_csvBtag < 0. ) continue;
 			njets[5]++; jetcut[5] = "After jet_csvBtag < 0.";
 //			jnew = ((float)readerRegres->EvaluateRegression("BDTG method")[0]/(float)jet_pt) * jnew; // Phil regression
-			jet_regPt = (float)(readerRegres->EvaluateMVA("BDT"));
+//			jet_regPt = (float)(readerRegres->EvaluateMVA("BDT"));
+			jet_regPt = (float)(readerRegres->EvaluateMVA(Form("BDT_%i", (int)(event + treeSplit) % numberOfSplit)));
 			jet_regkinPt = jet_regPt;
 			// jet selection
 			// ** acceptance + pu id **
