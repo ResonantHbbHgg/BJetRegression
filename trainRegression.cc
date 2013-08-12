@@ -123,8 +123,13 @@ int main(int argc, char *argv[])
   TMVA::Factory* factory = new TMVA::Factory(outputxml.c_str(),outfile,"!V:!Silent:Color:DrawProgressBar:AnalysisType=Regression");
 
 	int nTrain = 0;
+	int nTrain2 = 0;
+	int nTrain3 = 0;
+	int nTrain4 = 0;
 	int nTest = 0;
-	int nEval = 0;
+	int nTest2 = 0;
+	int nTest3 = 0;
+	int nTest4 = 0;
 
 	if( n == 1 )
 	{
@@ -135,41 +140,70 @@ int main(int argc, char *argv[])
 	} else {
 		for(int i = 0 ; i < n ; i++)
 		{
+			string selection = Form("(event %% %i == (%i %% %i)) && jet_genDR<0.4 && jet_csvBtag > 0.", n, j+i, n);
 			if(i == 0)
 			{
-				factory->AddRegressionTree( intree->CopyTree(Form("(event %% %i == (%i %% %i)) && jet_genDR<0.4 && jet_csvBtag > 0.", n, j+i, n)), w1, TMVA::Types::kTraining );
-				nTrain = intree->CopyTree(Form("(event %% %i == (%i %% %i)) && jet_genDR<0.4 && jet_csvBtag > 0.", n, j+i, n))->GetEntries();
+				factory->AddRegressionTree( intree->CopyTree(selection.c_str()), w1, TMVA::Types::kTraining );
+				nTrain = intree->CopyTree(selection.c_str())->GetEntries();
 				cout << "nTrain= " << nTrain << endl; 
 				if( nTrainingTrees > 1)
-					factory->AddRegressionTree( intree2->CopyTree(Form("(event %% %i == (%i %% %i)) && jet_genDR<0.4 && jet_csvBtag > 0.", n, j+i, n)), w2, TMVA::Types::kTraining );
+				{
+					factory->AddRegressionTree( intree2->CopyTree(selection.c_str()), w2, TMVA::Types::kTraining );
+					nTrain2 = intree2->CopyTree(selection.c_str())->GetEntries();
+					cout << "nTrain2= " << nTrain2 << endl; 
+				}
 				if( nTrainingTrees > 2)
-					factory->AddRegressionTree( intree3->CopyTree(Form("(event %% %i == (%i %% %i)) && jet_genDR<0.4 && jet_csvBtag > 0.", n, j+i, n)), w3, TMVA::Types::kTraining );
+				{
+					factory->AddRegressionTree( intree3->CopyTree(selection.c_str()), w3, TMVA::Types::kTraining );
+					nTrain3 = intree3->CopyTree(selection.c_str())->GetEntries();
+					cout << "nTrain3= " << nTrain3 << endl; 
+				}
 				if( nTrainingTrees > 3)
-					factory->AddRegressionTree( intree4->CopyTree(Form("(event %% %i == (%i %% %i)) && jet_genDR<0.4 && jet_csvBtag > 0.", n, j+i, n)), w4, TMVA::Types::kTraining );
+				{
+					factory->AddRegressionTree( intree4->CopyTree(selection.c_str()), w4, TMVA::Types::kTraining );
+					nTrain4 = intree4->CopyTree(selection.c_str())->GetEntries();
+					cout << "nTrain4= " << nTrain4 << endl; 
+				}
+				nTrain += nTrain2 + nTrain3 + nTrain4;
+				cout << "nTrain= " << nTrain << endl; 
 			} else if(i == 1) {
-				factory->AddRegressionTree( intree->CopyTree(Form("(event %% %i == (%i %% %i)) && jet_genDR<0.4 && jet_csvBtag > 0.", n, j+i, n)), w1, TMVA::Types::kTesting );
-				nTest = intree->CopyTree(Form("(event %% %i == (%i %% %i)) && jet_genDR<0.4 && jet_csvBtag > 0.", n, j+i, n))->GetEntries();
+				factory->AddRegressionTree( intree->CopyTree(selection.c_str()), w1, TMVA::Types::kTesting );
+				nTest = intree->CopyTree(selection.c_str())->GetEntries();
 				cout << "nTest= " << nTest << endl;
 				if( nTrainingTrees > 1)
-					factory->AddRegressionTree( intree2->CopyTree(Form("(event %% %i == (%i %% %i)) && jet_genDR<0.4 && jet_csvBtag > 0.", n, j+i, n)), w2, TMVA::Types::kTesting );
+				{
+					factory->AddRegressionTree( intree2->CopyTree(selection.c_str()), w2, TMVA::Types::kTesting );
+					nTest2 = intree2->CopyTree(selection.c_str())->GetEntries();
+					cout << "nTest2= " << nTest2 << endl;
+				}
 				if( nTrainingTrees > 2)
-					factory->AddRegressionTree( intree3->CopyTree(Form("(event %% %i == (%i %% %i)) && jet_genDR<0.4 && jet_csvBtag > 0.", n, j+i, n)), w3, TMVA::Types::kTesting );
+				{
+					factory->AddRegressionTree( intree3->CopyTree(selection.c_str()), w3, TMVA::Types::kTesting );
+					nTest3 = intree3->CopyTree(selection.c_str())->GetEntries();
+					cout << "nTest3= " << nTest3 << endl;
+				}
 				if( nTrainingTrees > 3)
-					factory->AddRegressionTree( intree4->CopyTree(Form("(event %% %i == (%i %% %i)) && jet_genDR<0.4 && jet_csvBtag > 0.", n, j+i, n)), w4, TMVA::Types::kTesting );
+				{
+					factory->AddRegressionTree( intree4->CopyTree(selection.c_str()), w4, TMVA::Types::kTesting );
+					nTest4 = intree4->CopyTree(selection.c_str())->GetEntries();
+					cout << "nTest4= " << nTest4 << endl;
+				}
+				nTest += nTest2 + nTest3 + nTest4;
+				cout << "nTest= " << nTest << endl;
 /*			} else {
-				factory->AddRegressionTree( intree->CopyTree(Form("(event %% %i == (%i %% %i)) && jet_genDR<0.4 && jet_csvBtag > 0.", n, j+i, n)), w1, TMVA::Types::kValidation );
-				cout << "nEval= " << intree->CopyTree(Form("(event %% %i == (%i %% %i)) && jet_genDR<0.4 && jet_csvBtag > 0.", n, j+i, n))->GetEntries() << endl;
+				factory->AddRegressionTree( intree->CopyTree(selection.c_str()), w1, TMVA::Types::kValidation );
+				cout << "nEval= " << intree->CopyTree(selection.c_str())->GetEntries() << endl;
 				if( nTrainingTrees > 1)
-					factory->AddRegressionTree( intree2->CopyTree(Form("(event %% %i == (%i %% %i)) && jet_genDR<0.4 && jet_csvBtag > 0.", n, j+i, n)), w2, TMVA::Types::kValidation );
+					factory->AddRegressionTree( intree2->CopyTree(selection.c_str()), w2, TMVA::Types::kValidation );
 				if( nTrainingTrees > 2)
-					factory->AddRegressionTree( intree3->CopyTree(Form("(event %% %i == (%i %% %i)) && jet_genDR<0.4 && jet_csvBtag > 0.", n, j+i, n)), w3, TMVA::Types::kValidation );
+					factory->AddRegressionTree( intree3->CopyTree(selection.c_str()), w3, TMVA::Types::kValidation );
 				if( nTrainingTrees > 3)
-					factory->AddRegressionTree( intree4->CopyTree(Form("(event %% %i == (%i %% %i)) && jet_genDR<0.4 && jet_csvBtag > 0.", n, j+i, n)), w4, TMVA::Types::kValidation );
+					factory->AddRegressionTree( intree4->CopyTree(selection.c_str()), w4, TMVA::Types::kValidation );
 */
 			}
 		}
 	}
-//		intree->CopyTree(Form("(event %% %i == (%i %% %i)) && jet_genDR<0.4 && jet_csvBtag > 0.", n, j+i, n));
+//		intree->CopyTree(selection.c_str());
 
 
   factory->AddVariable("jet_pt"						, "p_{T}^{j}", "GeV",'F');
@@ -212,9 +246,10 @@ int main(int argc, char *argv[])
 //  factory->BookMethod(TMVA::Types::kBDT,"BDT","NTrees=200:nCuts=25"); // default
 //  factory->BookMethod(TMVA::Types::kBDT,"BDT","NTrees=200:nCuts=-1:PruneStrength=-1:PruneMethod=CostComplexity"); 
 //  factory->BookMethod(TMVA::Types::kBDT,"BDT","NTrees=1000:nCuts=25:MaxDepth=4"); // TMVA manual, page 110: Currently it looks as if in TMVA, better results for the whole forest are often achieved when pruning is not applied, but rather the maximal tree depth is set to a relatively small value (3 or 4) already during the tree building phase.
-//  factory->BookMethod(TMVA::Types::kBDT,"BDT",Form("NTrees=%i:nCuts=25:MaxDepth=4", 200)); // test
+//  factory->BookMethod(TMVA::Types::kBDT,"BDT",Form("NTrees=%i:nCuts=25:MaxDepth=4", 500)); // test
 //  factory->BookMethod(TMVA::Types::kBDT,"BDT",Form("NTrees=%i:nCuts=25:MaxDepth=4", 200)); // test02
-  factory->BookMethod(TMVA::Types::kBDT,"BDT","NTrees=200:nCuts=25"); // test03 (back to default)
+//  factory->BookMethod(TMVA::Types::kBDT,"BDT","NTrees=200:nCuts=25"); // test03 (back to default)
+  factory->BookMethod(TMVA::Types::kBDT,"BDT","NTrees=200:nCuts=25:PruneStrength=-1"); // test04
   if(DEBUG) cout << "train" << endl; 
   factory->TrainAllMethods();
   if(DEBUG) cout << "test" << endl; 
