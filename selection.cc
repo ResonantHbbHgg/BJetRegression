@@ -598,10 +598,16 @@ int main(int argc, char *argv[])
 	readerRegres->AddVariable( "jet_secVtx3dL", &jet_secVtx3dL);
 	readerRegres->AddVariable( "ev_met_corr_pfmet", &met_corr_pfmet);
 	readerRegres->AddVariable( "jet_dPhiMet", &jet_dPhiMet);
-	readerRegres->BookMVA("BDT", regressionfile.c_str());
-	for(int i = 0; i < numberOfSplit ; i++)
-	{
-		readerRegres->BookMVA(Form("BDT_%i", i), Form("weights/2013-08-08_test_n%i_j%i_BDT.weights.xml", numberOfSplit, i));
+	if(numberOfSplit <= 1)
+		readerRegres->BookMVA("BDT", regressionfile.c_str());
+	else {
+		for(int i = 0; i < numberOfSplit ; i++)
+		{
+//			readerRegres->BookMVA(Form("BDT_%i", i), Form("weights/2013-08-08_test_n%i_j%i_BDT.weights.xml", numberOfSplit, i));
+//			readerRegres->BookMVA(Form("BDT_%i", i), Form("weights/2013-08-08_test02_n%i_j%i_BDT.weights.xml", numberOfSplit, i));
+//			readerRegres->BookMVA(Form("BDT_%i", i), Form("weights/2013-08-08_test03_n%i_j%i_BDT.weights.xml", numberOfSplit, i));
+			readerRegres->BookMVA(Form("BDT_%i", i), Form("weights/%s_n%i_j%i_BDT.weights.xml", regressionfile.c_str(), numberOfSplit, i));
+		}
 	}
 
 
