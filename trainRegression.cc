@@ -212,7 +212,9 @@ int main(int argc, char *argv[])
 //  factory->BookMethod(TMVA::Types::kBDT,"BDT","NTrees=200:nCuts=25"); // default
 //  factory->BookMethod(TMVA::Types::kBDT,"BDT","NTrees=200:nCuts=-1:PruneStrength=-1:PruneMethod=CostComplexity"); 
 //  factory->BookMethod(TMVA::Types::kBDT,"BDT","NTrees=1000:nCuts=25:MaxDepth=4"); // TMVA manual, page 110: Currently it looks as if in TMVA, better results for the whole forest are often achieved when pruning is not applied, but rather the maximal tree depth is set to a relatively small value (3 or 4) already during the tree building phase.
-  factory->BookMethod(TMVA::Types::kBDT,"BDT",Form("NTrees=%i:nCuts=25:MaxDepth=4", 500)); 
+//  factory->BookMethod(TMVA::Types::kBDT,"BDT",Form("NTrees=%i:nCuts=25:MaxDepth=4", 200)); // test
+//  factory->BookMethod(TMVA::Types::kBDT,"BDT",Form("NTrees=%i:nCuts=25:MaxDepth=4", 200)); // test02
+  factory->BookMethod(TMVA::Types::kBDT,"BDT","NTrees=200:nCuts=25"); // test03 (back to default)
   if(DEBUG) cout << "train" << endl; 
   factory->TrainAllMethods();
   if(DEBUG) cout << "test" << endl; 
