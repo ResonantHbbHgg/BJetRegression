@@ -249,7 +249,8 @@ int main(int argc, char *argv[])
 //  factory->BookMethod(TMVA::Types::kBDT,"BDT",Form("NTrees=%i:nCuts=25:MaxDepth=4", 500)); // test
 //  factory->BookMethod(TMVA::Types::kBDT,"BDT",Form("NTrees=%i:nCuts=25:MaxDepth=4", 200)); // test02
 //  factory->BookMethod(TMVA::Types::kBDT,"BDT","NTrees=200:nCuts=25"); // test03 (back to default)
-  factory->BookMethod(TMVA::Types::kBDT,"BDT","NTrees=200:nCuts=25:PruneStrength=-1"); // test04
+//  factory->BookMethod(TMVA::Types::kBDT,"BDT","NTrees=200:nCuts=25:PruneStrength=-1"); // test04
+  factory->BookMethod(TMVA::Types::kBDT,"BDT","NTrees=200:nCuts=25:MaxDepth=10"); // test05
   if(DEBUG) cout << "train" << endl; 
   factory->TrainAllMethods();
   if(DEBUG) cout << "test" << endl; 
