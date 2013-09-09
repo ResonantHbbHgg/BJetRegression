@@ -88,12 +88,39 @@ int main(int argc, char *argv[])
 
 
 	float mgg, mjj, mtot;
+	float pho1_pt, pho1_e, pho1_phi, pho1_eta, pho1_mass;
+	float pho2_pt, pho2_e, pho2_phi, pho2_eta, pho2_mass;
+	float pho1_r9, pho2_r9;
+	float jet1_pt, jet1_e, jet1_phi, jet1_eta, jet1_mass;
+	float jet2_pt, jet2_e, jet2_phi, jet2_eta, jet2_mass;
 	float mjj_wokinfit, mtot_wokinfit;
 	int cut_based_ct, njets_kRadionID_and_CSVM, selection_cut_level;
 	float evWeight;
 	float regcosthetastar, minDRgregkinj;
 	int njets_kLooseID;
 	intree->SetBranchAddress("gg_mass", &mgg);
+	intree->SetBranchAddress("pho1_pt", &pho1_pt);
+	intree->SetBranchAddress("pho1_e", &pho1_e);
+	intree->SetBranchAddress("pho1_phi", &pho1_phi);
+	intree->SetBranchAddress("pho1_eta", &pho1_eta);
+	intree->SetBranchAddress("pho1_mass", &pho1_mass);
+	intree->SetBranchAddress("pho1_r9", &pho1_r9);
+	intree->SetBranchAddress("pho2_pt", &pho2_pt);
+	intree->SetBranchAddress("pho2_e", &pho2_e);
+	intree->SetBranchAddress("pho2_phi", &pho2_phi);
+	intree->SetBranchAddress("pho2_eta", &pho2_eta);
+	intree->SetBranchAddress("pho2_mass", &pho2_mass);
+	intree->SetBranchAddress("pho2_r9", &pho2_r9);
+	intree->SetBranchAddress(Form("%sjet1_pt", whichJet.c_str()), &jet1_pt);
+	intree->SetBranchAddress(Form("%sjet1_e", whichJet.c_str()), &jet1_e);
+	intree->SetBranchAddress(Form("%sjet1_phi", whichJet.c_str()), &jet1_phi);
+	intree->SetBranchAddress(Form("%sjet1_eta", whichJet.c_str()), &jet1_eta);
+	intree->SetBranchAddress(Form("%sjet1_mass", whichJet.c_str()), &jet1_mass);
+	intree->SetBranchAddress(Form("%sjet2_pt", whichJet.c_str()), &jet2_pt);
+	intree->SetBranchAddress(Form("%sjet2_e", whichJet.c_str()), &jet2_e);
+	intree->SetBranchAddress(Form("%sjet2_phi", whichJet.c_str()), &jet2_phi);
+	intree->SetBranchAddress(Form("%sjet2_eta", whichJet.c_str()), &jet2_eta);
+	intree->SetBranchAddress(Form("%sjet2_mass", whichJet.c_str()), &jet2_mass);
 	intree->SetBranchAddress(Form("%sjj_mass", whichJet.c_str()), &mjj);
 	intree->SetBranchAddress(Form("%sggjj_mass", whichJet.c_str()), &mtot);
 // Prepare mjj and mggjj variables "without kin fit" on which to cut
@@ -113,6 +140,18 @@ int main(int argc, char *argv[])
 	intree->SetBranchAddress("njets_kLooseID", &njets_kLooseID);
 	
 
+	outtree->Branch("pho1_pt", &pho1_pt, "pho1_pt/F");
+	outtree->Branch("pho1_e", &pho1_e, "pho1_e/F");
+	outtree->Branch("pho1_phi", &pho1_phi, "pho1_phi/F");
+	outtree->Branch("pho1_eta", &pho1_eta, "pho1_eta/F");
+	outtree->Branch("pho1_mass", &pho1_mass, "pho1_mass/F");
+	outtree->Branch("pho1_r9", &pho1_r9, "pho1_r9/F");
+	outtree->Branch("pho2_pt", &pho2_pt, "pho2_pt/F");
+	outtree->Branch("pho2_e", &pho2_e, "pho2_e/F");
+	outtree->Branch("pho2_phi", &pho2_phi, "pho2_phi/F");
+	outtree->Branch("pho2_eta", &pho2_eta, "pho2_eta/F");
+	outtree->Branch("pho2_mass", &pho2_mass, "pho2_mass/F");
+	outtree->Branch("pho2_r9", &pho2_r9, "pho2_r9/F");
 	outtree->Branch("mgg", &mgg, "mgg/F");
 	outtree->Branch("mjj", &mjj, "mjj/F");
 	outtree->Branch("mtot", &mtot, "mtot/F");

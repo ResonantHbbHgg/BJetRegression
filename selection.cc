@@ -22,6 +22,7 @@
 #define BLIND 0
 #define SYNCHRO 0
 #define SYNCHRO_LIGHT 0
+#define USEHT 0
 // namespaces
 using namespace std;
 
@@ -121,7 +122,7 @@ int main(int argc, char *argv[])
 	float event;
 	float ev_weight, ev_evweight, ev_pu_weight;
 // object variables
-	float ph1_eta, ph2_eta, ph1_pt, ph2_pt, PhotonsMass, ph1_phi, ph2_phi, ph1_e, ph2_e;
+	float ph1_eta, ph2_eta, ph1_pt, ph2_pt, PhotonsMass, ph1_phi, ph2_phi, ph1_e, ph2_e, ph1_r9, ph2_r9;
 	int ph1_ciclevel, ph2_ciclevel;
 	float j1_e, j1_pt, j1_phi, j1_eta, j1_beta, j1_betaStar, j1_betaStarClassic, j1_dR2Mean, j1_csvBtag, j1_csvMvaBtag, j1_jetProbBtag, j1_tcheBtag, j1_ptD, j1_nSecondaryVertices, j1_secVtxPt, j1_secVtx3dL, j1_secVtx3deL, j1_emfrac, j1_hadfrac, j1_axis1, j1_axis2, j1_pull, /*j1_Rchg, j1_Rneutral, j1_R, j1_chargedMultiplicity, j1_neutralMultiplicity, j1_Chadfrac, j1_Nhadfrac, j1_Phofrac, j1_Mufrac, j1_Elefrac, j1_dPhiMet,*/ j1_radionMatched;
 	int j1_ntk, j1_nNeutrals, j1_nCharged/*, j1_pfloose*/;
@@ -144,8 +145,8 @@ int main(int argc, char *argv[])
 //	float ev_met_corrMet, ev_met_corrMetPhi, ev_pu_n, ev_nvtx, ev_rho;
 
 // setup tree outputs
-	float pho1_pt, pho1_e, pho1_phi, pho1_eta, pho1_mass;
-	float pho2_pt, pho2_e, pho2_phi, pho2_eta, pho2_mass;
+	float pho1_pt, pho1_e, pho1_phi, pho1_eta, pho1_mass, pho1_r9;
+	float pho2_pt, pho2_e, pho2_phi, pho2_eta, pho2_mass, pho2_r9;
 	float jet1_pt, jet1_e, jet1_phi, jet1_eta, jet1_mass, jet1_csvBtag;
 	float jet2_pt, jet2_e, jet2_phi, jet2_eta, jet2_mass, jet2_csvBtag;
 	float regjet1_emfrac, regjet1_hadfrac, regjet1_secVtxPt, regjet1_secVtx3dL, regjet1_dPhiMet;
@@ -171,6 +172,7 @@ int main(int argc, char *argv[])
 	int category = 0;
 	float costhetastar, regcosthetastar, regkincosthetastar, kincosthetastar;
 	float minDRgj, minDRgregj, minDRgregkinj, minDRgkinj;
+	float HT_gg;
 
 	int njets_passing_kLooseID;
 	intree->SetBranchAddress("njets_passing_kLooseID", &njets_passing_kLooseID);
@@ -187,6 +189,8 @@ int main(int argc, char *argv[])
 	intree->SetBranchAddress("ph2_phi", &ph2_phi);
 	intree->SetBranchAddress("ph1_e", &ph1_e);
 	intree->SetBranchAddress("ph2_e", &ph2_e);
+	intree->SetBranchAddress("ph1_r9", &ph1_r9);
+	intree->SetBranchAddress("ph2_r9", &ph2_r9);
 	intree->SetBranchAddress("PhotonsMass", &PhotonsMass);
 	intree->SetBranchAddress("ph1_ciclevel", &ph1_ciclevel);
 	intree->SetBranchAddress("ph2_ciclevel", &ph2_ciclevel);
@@ -416,11 +420,13 @@ int main(int argc, char *argv[])
 	outtree->Branch("pho1_phi", &pho1_phi, "pho1_phi/F");
 	outtree->Branch("pho1_eta", &pho1_eta, "pho1_eta/F");
 	outtree->Branch("pho1_mass", &pho1_mass, "pho1_mass/F");
+	outtree->Branch("pho1_r9", &pho1_r9, "pho1_r9/F");
 	outtree->Branch("pho2_pt", &pho2_pt, "pho2_pt/F");
 	outtree->Branch("pho2_e", &pho2_e, "pho2_e/F");
 	outtree->Branch("pho2_phi", &pho2_phi, "pho2_phi/F");
 	outtree->Branch("pho2_eta", &pho2_eta, "pho2_eta/F");
 	outtree->Branch("pho2_mass", &pho2_mass, "pho2_mass/F");
+	outtree->Branch("pho2_r9", &pho2_r9, "pho2_r9/F");
 	outtree->Branch("jet1_pt", &jet1_pt, "jet1_pt/F");
 	outtree->Branch("jet1_e", &jet1_e, "jet1_e/F");
 	outtree->Branch("jet1_phi", &jet1_phi, "jet1_phi/F");
@@ -598,6 +604,9 @@ int main(int argc, char *argv[])
 	readerRegres->AddVariable( "jet_secVtx3dL", &jet_secVtx3dL);
 	readerRegres->AddVariable( "ev_met_corr_pfmet", &met_corr_pfmet);
 	readerRegres->AddVariable( "jet_dPhiMet", &jet_dPhiMet);
+// Adding variables
+//	readerRegres->AddVariable( "ev_rho", &rho);
+	if( USEHT ) readerRegres->AddVariable( "ph1_pt+ph2_pt", &HT_gg);
 	if(numberOfSplit <= 1)
 		readerRegres->BookMVA("BDT", regressionfile.c_str());
 	else {
@@ -670,6 +679,7 @@ int main(int argc, char *argv[])
 		if(BLIND)
 			{ if( (PhotonsMass > 120.) && (PhotonsMass < 130.) ) continue; }
 		nevents[8]++; eventcut[8] = "After blinding data in 120 < mgg < 130";
+		HT_gg = ph1_pt + ph2_pt;
 
 		// take only the subset of events where at least two jets remains
 		if( njets_passing_kLooseID < 2 ) continue;
@@ -909,7 +919,10 @@ int main(int argc, char *argv[])
 			njets[5]++; jetcut[5] = "After jet_csvBtag < 0.";
 //			jnew = ((float)readerRegres->EvaluateRegression("BDTG method")[0]/(float)jet_pt) * jnew; // Phil regression
 //			jet_regPt = (float)(readerRegres->EvaluateMVA("BDT"));
-			jet_regPt = (float)(readerRegres->EvaluateMVA(Form("BDT_%i", (int)(event + treeSplit) % numberOfSplit)));
+			if(numberOfSplit <= 1)
+				jet_regPt = (float)(readerRegres->EvaluateMVA("BDT"));
+			else
+				jet_regPt = (float)(readerRegres->EvaluateMVA(Form("BDT_%i", (int)(event + treeSplit) % numberOfSplit)));
 			jet_regkinPt = jet_regPt;
 			// jet selection
 			// ** acceptance + pu id **
@@ -1130,11 +1143,13 @@ int main(int argc, char *argv[])
 		pho1_phi = pho1.Phi();
 		pho1_eta = pho1.Eta();
 		pho1_mass = pho1.M();
+		pho1_r9 = ph1_r9;
 		pho2_pt = pho2.Pt();
 		pho2_e = pho2.E();
 		pho2_phi = pho2.Phi();
 		pho2_eta = pho2.Eta();
 		pho2_mass = pho2.M();
+		pho2_r9 = ph2_r9;
 		jet1_pt = jet1.Pt();
 		jet1_e = jet1.E();
 		jet1_phi = jet1.Phi();
