@@ -12,6 +12,7 @@
 #include <sstream>
 // DEFINES
 #define DEBUG 0
+#define USEHT 1
 // namespaces
 using namespace std;
 using namespace TMVA;
@@ -215,10 +216,12 @@ int main(int argc, char *argv[])
   factory->AddVariable("jet_secVtx3dL"		, "2^{nd}vtx_{3dL}", "", 'F');
   factory->AddVariable("ev_met_corr_pfmet", "MET", "", 'F');
   factory->AddVariable("jet_dPhiMet"			, "#Delta #phi(j, MET)", "",'F');
+// adding variables for test 06 and above
+  factory->AddVariable("ev_rho"       , "#rho", "GeV",'F');
+	if( USEHT ) factory->AddVariable("ph1_pt+ph2_pt"		, "HT(#gamma#gamma)", "GeV", 'F');
 //	factory->AddSpectator("ev_weight", 'F');
 //	factory->SetWeightExpression("ev_weight");
 //  factory->AddVariable("jet_csvBtag"   ,"CSV output", "",'F');
-//  factory->AddVariable("ev_rho"       , "#rho", "GeV",'F');
 
 //  factory->AddVariable("jet_Chadfrac"    ,'F');
 //  factory->AddVariable("jet_Phofrac"    ,'F');
@@ -250,7 +253,11 @@ int main(int argc, char *argv[])
 //  factory->BookMethod(TMVA::Types::kBDT,"BDT",Form("NTrees=%i:nCuts=25:MaxDepth=4", 200)); // test02
 //  factory->BookMethod(TMVA::Types::kBDT,"BDT","NTrees=200:nCuts=25"); // test03 (back to default)
 //  factory->BookMethod(TMVA::Types::kBDT,"BDT","NTrees=200:nCuts=25:PruneStrength=-1"); // test04
-  factory->BookMethod(TMVA::Types::kBDT,"BDT","NTrees=200:nCuts=25:MaxDepth=10"); // test05
+//  factory->BookMethod(TMVA::Types::kBDT,"BDT","NTrees=200:nCuts=25:MaxDepth=10"); // test05
+//	factory->BookMethod(TMVA::Types::kBDT,"BDT","NTrees=200:MaxDepth=-1:PruneStrength=-1"); // test06
+//	factory->BookMethod(TMVA::Types::kBDT,"BDT","NTrees=200:MaxDepth=-1:PruneStrength=-1:PruneBeforeBoost=True:NNodesMax=4000:SeparationType=RegressionVariance:PruneMethod=CostComplexity"); // test07
+//	factory->BookMethod(TMVA::Types::kBDT,"BDT","NTrees=500:MaxDepth=-1:PruneStrength=-1:PruneBeforeBoost=True:NNodesMax=4000:SeparationType=RegressionVariance:PruneMethod=CostComplexity"); // test08
+	factory->BookMethod(TMVA::Types::kBDT,"BDT","NTrees=200:MaxDepth=-1:PruneStrength=-1:PruneBeforeBoost=True:SeparationType=RegressionVariance:PruneMethod=CostComplexity"); // test09
   if(DEBUG) cout << "train" << endl; 
   factory->TrainAllMethods();
   if(DEBUG) cout << "test" << endl; 

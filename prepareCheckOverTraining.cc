@@ -12,6 +12,7 @@
 #include <sstream>
 // DEFINES
 #define DEBUG 0
+#define USEHT 1
 // namespaces
 using namespace std;
 using namespace TMVA;
@@ -115,6 +116,7 @@ int main(int argc, char *argv[])
 	TTree *outtree = new TTree(inputtree.c_str(), inputtree.c_str());
 
 	float event, jet_pt, jet_eta, jet_emfrac, jet_nConstituents, jet_hadfrac, jet_secVtxPt, jet_secVtx3dL, ev_met_corr_pfmet, jet_dPhiMet, regjet_pt, jet_genDR, jet_csvBtag;
+	float ph1_pt, ph2_pt, ev_rho, HT_gg;
 	int lot;
 	intree->SetBranchAddress("event", &event);
 	intree->SetBranchAddress("jet_pt", &jet_pt);
@@ -128,6 +130,9 @@ int main(int argc, char *argv[])
 	intree->SetBranchAddress("jet_dPhiMet", &jet_dPhiMet);
 	intree->SetBranchAddress("jet_genDR", &jet_genDR);
 	intree->SetBranchAddress("jet_csvBtag", &jet_csvBtag);
+	intree->SetBranchAddress("ph1_pt", &ph1_pt);
+	intree->SetBranchAddress("ph2_pt", &ph2_pt);
+	intree->SetBranchAddress("ev_rho", &ev_rho);
 	outtree->Branch("event", &event, "event/F");
 	outtree->Branch("jet_pt", &jet_pt, "jet_pt/F");
 	outtree->Branch("jet_eta", &jet_eta, "jet_eta/F");
@@ -140,6 +145,10 @@ int main(int argc, char *argv[])
 	outtree->Branch("jet_dPhiMet", &jet_dPhiMet, "jet_dPhiMet/F");
 	outtree->Branch("jet_genDR", &jet_genDR, "jet_genDR/F");
 	outtree->Branch("jet_csvBtag", &jet_csvBtag, "jet_csvBtag/F");
+	outtree->Branch("ph1_pt", &ph1_pt, "ph1_pt/F");
+	outtree->Branch("ph2_pt", &ph2_pt, "ph2_pt/F");
+	outtree->Branch("HT_gg", &HT_gg, "HT_gg/F");
+	outtree->Branch("ev_rho", &ev_rho, "ev_rho/F");
 	outtree->Branch("regjet_pt", &regjet_pt, "regjet_pt/F");
 	outtree->Branch("lot", &lot, "lot/I");
 
@@ -153,6 +162,9 @@ int main(int argc, char *argv[])
 	readerRegres_0->AddVariable( "jet_secVtx3dL", &jet_secVtx3dL);
 	readerRegres_0->AddVariable( "ev_met_corr_pfmet", &ev_met_corr_pfmet);
 	readerRegres_0->AddVariable( "jet_dPhiMet", &jet_dPhiMet);
+// Adding variables
+	readerRegres_0->AddVariable( "ev_rho", &ev_rho);
+	if( USEHT ) readerRegres_0->AddVariable( "ph1_pt+ph2_pt", &HT_gg);
 //	readerRegres_0->BookMVA("BDT", "weights/2013-08-08_test_n3_j0_BDT.weights.xml");
 	readerRegres_0->BookMVA("BDT", regressionfile.c_str());
 /*
@@ -191,6 +203,7 @@ int main(int argc, char *argv[])
 //		if( (int)event % 3 == 0)
 //			regjet_pt = readerRegres_2->EvaluateMVA("BDT");	
 //		if( (int)event % 3 == 1)
+			HT_gg = ph1_pt + ph2_pt;
 			regjet_pt = readerRegres_0->EvaluateMVA("BDT");	
 //		if( (int)event % 3 == 2)
 //			regjet_pt = readerRegres_0->EvaluateMVA("BDT");	
