@@ -152,6 +152,16 @@ int main(int argc, char *argv[])
 	outtree->Branch("pho2_eta", &pho2_eta, "pho2_eta/F");
 	outtree->Branch("pho2_mass", &pho2_mass, "pho2_mass/F");
 	outtree->Branch("pho2_r9", &pho2_r9, "pho2_r9/F");
+	outtree->Branch("jet1_pt", &jet1_pt, "jet1_pt/F");
+	outtree->Branch("jet1_e", &jet1_e, "jet1_e/F");
+	outtree->Branch("jet1_phi", &jet1_phi, "jet1_phi/F");
+	outtree->Branch("jet1_eta", &jet1_eta, "jet1_eta/F");
+	outtree->Branch("jet1_mass", &jet1_mass, "jet1_mass/F");
+	outtree->Branch("jet2_pt", &jet2_pt, "jet2_pt/F");
+	outtree->Branch("jet2_e", &jet2_e, "jet2_e/F");
+	outtree->Branch("jet2_phi", &jet2_phi, "jet2_phi/F");
+	outtree->Branch("jet2_eta", &jet2_eta, "jet2_eta/F");
+	outtree->Branch("jet2_mass", &jet2_mass, "jet2_mass/F");
 	outtree->Branch("mgg", &mgg, "mgg/F");
 	outtree->Branch("mjj", &mjj, "mjj/F");
 	outtree->Branch("mtot", &mtot, "mtot/F");
@@ -235,6 +245,25 @@ int main(int argc, char *argv[])
 			}
 			if( njets_kRadionID_and_CSVM == 1 ) 
 				if( mjj_wokinfit < 90. || mjj_wokinfit > 170. ) continue;
+		}
+
+// MGG-LIKE SELECTION FOR MAXIME TO PLAY WITH SYSTEMATICS
+		if( strcmp("mgg_noCutOnMTot", fitStrategy.c_str()) == 0 )
+		{
+			if( njets_kRadionID_and_CSVM >= 2 )
+			{
+				if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
+					if( mjj_wokinfit < 95. || mjj_wokinfit > 175. ) continue;
+				if( (strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
+					if( mjj_wokinfit < 90. || mjj_wokinfit > 150. ) continue;
+			}
+			if( njets_kRadionID_and_CSVM == 1 )
+			{
+				if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
+					if( mjj_wokinfit < 100. || mjj_wokinfit > 160. ) continue;
+				if( (strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
+					if( mjj_wokinfit < 95. || mjj_wokinfit > 140. ) continue;
+			}
 		}
 		if( njets_kRadionID_and_CSVM >= 2 ) cut_based_ct = 0;
 		if( njets_kRadionID_and_CSVM == 1 ) cut_based_ct = 1;
