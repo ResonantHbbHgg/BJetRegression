@@ -9,6 +9,7 @@
 #include <fstream>
 #include <sstream>
 #include <algorithm>
+#include <boost/program_options.hpp>
 // ROOT headers
 #include "TROOT.h"
 #include <TSystem.h>
@@ -21,14 +22,65 @@
 #define DEBUG 0
 #define BLIND 0
 #define SYNCHRO 0
-#define SYNCHRO_GGANA 1
+#define SYNCHRO_GGANA 0
 #define SYNCHRO_LIGHT 0
 #define USEHT 0
 // namespaces
 using namespace std;
+namespace po = boost::program_options;
 
 int main(int argc, char *argv[])
 {
+	// declare arguments
+ 	string inputfile = "root://eoscms//eos/cms/store/cmst3/user/obondu/H2GGLOBE/Radion/trees/radion_redu_08_tree_05/Graviton_Radion-nm.root";
+	string inputtree = "Radion_m300_8TeV_nm";
+	string outputfile = "Radion_m300_8TeV_nm_genjet_globeinputs.root";
+	string outputtree = "Radion_m300_8TeV_nm";
+	string regressionfile = "/afs/cern.ch/work/o/obondu/public/forRadion/factoryJetRegGen2_globeinputs_BDT.weights.xml";
+	int numberOfSplit = 1;
+	int treeSplit = 0;
+	int isMC = 0; // Same conventions as in h2gglobe: <0 = signal ; =0 = data ; >0 = background
+
+	// print out passed arguments
+	copy(argv, argv + argc, ostream_iterator<char*>(cout, " ")); cout << endl;
+	// argument parsing
+	try
+	{
+		po::options_description desc("Allowed options");
+		desc.add_options()
+			("help,h", "produce help message")
+			("inputfile,i", po::value<string>(&inputfile)->default_value("root://eoscms//eos/cms/store/cmst3/user/obondu/H2GGLOBE/Radion/trees/radion_tree_v06/Radion_Graviton_nm.root"), "input file")
+			("inputtree,it", po::value<string>(&inputtree)->default_value("Radion_m300_8TeV_nm"), "input tree")
+			("outputfile,o", po::value<string>(&outputfile)->default_value("selected.root"), "output file")
+			("outputtree,ot", po::value<string>(&outputtree)->default_value("Radion_m300_8TeV_nm"), "output tree")
+			("regressionfile,rf", po::value<string>(&regressionfile)->default_value("/afs/cern.ch/work/o/obondu/public/forRadion/factoryJetRegGen2_globeinputs_BDT.weights.xml"), "regression file")
+			("numberOfSplit,n", po::value<int>(&numberOfSplit)->default_value(1), "number of split (regression files)")
+			("isMC,n", po::value<int>(&isMC)->default_value(1), "same conventions as in h2gglobe: <0 = signal ; =0 = data ; >0 = background")
+		;
+		po::variables_map vm;
+		po::store(po::parse_command_line(argc, argv, desc), vm);
+		po::notify(vm);
+		if (vm.count("help")) {
+			cout << desc << "\n";
+			return 1;
+		}
+	} catch(exception& e) {
+		cerr << "error: " << e.what() << "\n";
+		return 1;
+	} catch(...) {
+		cerr << "Exception of unknown type!\n";
+	}
+	// end of argument parsing
+  //################################################
+
+
+
+
+
+
+
+
+/*
 	cout << "argc= " << argc << endl;
 	for(int iarg = 0 ; iarg < argc; iarg++)
 		cout << "argv[" << iarg << "]= " << argv[iarg] << endl;
@@ -41,15 +93,6 @@ int main(int argc, char *argv[])
 	}
 
 	
-	string inputfile = "root://eoscms//eos/cms/store/cmst3/user/obondu/H2GGLOBE/Radion/trees/radion_redu_08_tree_05/Graviton_Radion-nm.root";
-	string inputtree = "Radion_m300_8TeV_nm";
-	string outputfile = "Radion_m300_8TeV_nm_genjet_globeinputs.root";
-	string outputtree = "Radion_m300_8TeV_nm";
-	string regressionfile = "/afs/cern.ch/work/o/obondu/public/forRadion/factoryJetRegGen2_globeinputs_BDT.weights.xml";
-	int numberOfSplit = 1;
-	int treeSplit = 0;
-	int isMC = 0; // Same conventions as in h2gglobe: <0 = signal ; =0 = data ; >0 = background
-
 	for(int iarg=0 ; iarg < argc ; iarg++)
 	{
 		if(strcmp("-i", argv[iarg]) == 0 && argc >= iarg + 1)
@@ -86,7 +129,7 @@ int main(int argc, char *argv[])
 	cout << "outputfile= " << outputfile << endl;
 	cout << "outputtree= " << outputtree << endl;
 	cout << "regressionfile= " << regressionfile << endl;
-
+*/
 	TFile *infile = TFile::Open(inputfile.c_str());
 	TTree *intree = (TTree*)infile->Get(inputtree.c_str());
 	TFile *outfile = new TFile(outputfile.c_str(), "RECREATE");

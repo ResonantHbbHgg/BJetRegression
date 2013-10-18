@@ -5,6 +5,10 @@ ROOTFLAGS = `root-config --cflags`
 ROOTLIBS  = `root-config --libs --ldflags`
 ROOFITLIBS = -lRooFit -lRooFitCore -lMinuit -lFoam
 ROOSTATSLIBS = -lRooStats
+# boost
+BOOSTFLAGS = -I${BOOST_ROOT}include/boost-1_48
+BOOSTLIBS = -L${BOOST_ROOT}lib -lboost_program_options-gcc43-mt-1_48
+
 TMVA = -L${ROOTSYS}lib -lTMVA
 
 all: prepareOpTreeInJetTree_forTraining.exe trainRegression.exe selection.exe quickTrees.exe undoVarTRansformNorm.exe prepareCheckOverTraining.exe
@@ -37,10 +41,10 @@ TAbsFitConstraint.o: ../KinematicFit/TAbsFitConstraint.cc
 	$(CC) $(CCFLAGS) $(ROOTFLAGS) -c ../KinematicFit/TAbsFitConstraint.cc -o TAbsFitConstraint.o
 
 selection.o: selection.cc
-	$(CC) $(TMVA) $(CCFLAGS) $(ROOTFLAGS) -c selection.cc -o selection.o
+	$(CC) $(TMVA) $(CCFLAGS) $(ROOTFLAGS) $(BOOSTFLAGS) -c selection.cc -o selection.o
 
 selection.exe: selection.o DiJetKinFitter.o TKinFitter.o TFitParticleEtEtaPhi.o TAbsFitParticle.o TFitConstraintM.o TAbsFitConstraint.o
-	$(CC) $(TMVA)  $(ROOTLIBS) selection.o DiJetKinFitter.o TKinFitter.o TFitParticleEtEtaPhi.o TAbsFitParticle.o TFitConstraintM.o TAbsFitConstraint.o -o selection.exe
+	$(CC) $(TMVA)  $(ROOTLIBS) $(BOOSTLIBS) selection.o DiJetKinFitter.o TKinFitter.o TFitParticleEtEtaPhi.o TAbsFitParticle.o TFitConstraintM.o TAbsFitConstraint.o -o selection.exe
 
 quickTrees.exe: quickTrees.cc
 	$(CC) $(CCFLAGS) $(ROOTFLAGS) $(ROOTLIBS) quickTrees.cc -o quickTrees.exe
