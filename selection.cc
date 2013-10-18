@@ -21,6 +21,7 @@
 #define DEBUG 0
 #define BLIND 0
 #define SYNCHRO 0
+#define SYNCHRO_GGANA 1
 #define SYNCHRO_LIGHT 0
 #define USEHT 0
 // namespaces
@@ -92,6 +93,7 @@ int main(int argc, char *argv[])
 	TTree *outtree = new TTree(outputtree.c_str(), Form("%s reduced", outputtree.c_str()));
 	ofstream synchrofile;
 	if(SYNCHRO) synchrofile.open("synchronisation.txt");
+	if(SYNCHRO_GGANA) synchrofile.open("synchronisation_ggAna.txt");
 
 	// setup tree inputs
 // gen level info
@@ -621,6 +623,8 @@ int main(int argc, char *argv[])
 
 
 	int nevents[30] = {0};
+	int nevents1btag[30] = {0};
+	int nevents2btag[30] = {0};
 	string eventcut[30];
 	int njets[30] = {0};
 	string jetcut[30];
@@ -687,23 +691,27 @@ int main(int argc, char *argv[])
 //		if( njets_passing_kLooseID_and_CSVM < 1 ) continue;
 // alternative counting: taking into account only the 4 jets stored !
 		int nbjet_tmp = 0;
+//		float csv_cut = 0.244; // CSVL
+		float csv_cut = 0.679; // CSVM
 		for( int ijet = 0 ; ijet < min(njets_passing_kLooseID, 4); ijet ++ )
 		{
 			if( ijet == 0 )
-				if(j1_csvBtag > 0.679)
+				if(j1_csvBtag > csv_cut)
 					nbjet_tmp++; 
 			if( ijet == 1 )
-				if(j2_csvBtag > 0.679)
+				if(j2_csvBtag > csv_cut)
 					nbjet_tmp++; 
 			if( ijet == 2 )
-				if(j3_csvBtag > 0.679)
+				if(j3_csvBtag > csv_cut)
 					nbjet_tmp++; 
 			if( ijet == 3 )
-				if(j4_csvBtag > 0.679)
+				if(j4_csvBtag > csv_cut)
 					nbjet_tmp++; 
 		}
 		if( nbjet_tmp < 1 ) continue;
 		nevents[10]++; eventcut[10] = "After nbjet >= 1";
+		if( nbjet_tmp == 1) nevents1btag[10]++; 
+		else nevents2btag[10]++;
 
 		TLorentzVector jet;
 		vector<float> jetPt;
@@ -919,11 +927,14 @@ int main(int argc, char *argv[])
 			njets[5]++; jetcut[5] = "After jet_csvBtag < 0.";
 //			jnew = ((float)readerRegres->EvaluateRegression("BDTG method")[0]/(float)jet_pt) * jnew; // Phil regression
 //			jet_regPt = (float)(readerRegres->EvaluateMVA("BDT"));
-			if(numberOfSplit <= 1)
+			if(numberOfSplit == -1)
+				jet_regPt = jet_pt; // no regression applied
+			else if(numberOfSplit <= 1)
 				jet_regPt = (float)(readerRegres->EvaluateMVA("BDT"));
 			else
 				jet_regPt = (float)(readerRegres->EvaluateMVA(Form("BDT_%i", (int)(event + treeSplit) % numberOfSplit)));
 			jet_regkinPt = jet_regPt;
+			jet_regPt = jet_pt; // FIXME DEBUG SYNCHRONISATION
 			// jet selection
 			// ** acceptance + pu id **
 			if( jet_regPt < 25. ) continue;
@@ -952,7 +963,7 @@ int main(int argc, char *argv[])
 
 
 			njets_kRadionID_++;
-			if(jet_csvBtag > .679) njets_kRadionID_and_CSVM_++;
+			if(jet_csvBtag > csv_cut) njets_kRadionID_and_CSVM_++;
 		} // end of loop over jets
 		
 		// jet combinatorics
@@ -962,12 +973,18 @@ int main(int argc, char *argv[])
 		vector<int> btaggedJet;
 		for( unsigned int ijet = 0 ; ijet < jetPt.size() ; ijet++ )
 		{
-			if( jetCSV[ijet] > .679 )
+			if( jetCSV[ijet] > csv_cut )
 				btaggedJet.push_back(ijet);
 		}
 
 		if( btaggedJet.size() < 1 ) continue;
 		nevents[12]++; eventcut[12] = "After nbjet >=1 passing the jet selection";
+		if( btaggedJet.size() == 1) nevents1btag[12]++; 
+		else nevents2btag[12]++;
+
+		if(nevents[0] == 1 && SYNCHRO_GGANA) synchrofile << "event" << "\t" << "ph1_pt" << "\t" << "ph2_pt" << "\t" << "PhotonsMass" << "\t" << "j1_pt" << "\t" << "j2_pt" << "\t" << "j3_pt" << "\t" << "j4_pt" << endl;
+		if(SYNCHRO_GGANA) synchrofile << event << "\t" << ph1_pt << "\t" << ph2_pt << "\t" << PhotonsMass << "\t" << j1_pt << "\t" << j2_pt << "\t" << j3_pt << "\t" << j4_pt << endl;
+
 
 		int ij1, ij2;
 		int ij1Reg, ij2Reg;
@@ -1434,7 +1451,7 @@ int main(int argc, char *argv[])
 
 
 	for(int i=0 ; i < 27 ; i++)
-    if(!SYNCHRO_LIGHT) cout << "#nevents[" << i << "]= " << nevents[i] << "\teventcut[" << i << "]= " << eventcut[i] << endl;
+    if(!SYNCHRO_LIGHT) cout << "#nevents[" << i << "]= " << nevents[i] << "\teventcut[" << i << "]= " << eventcut[i] << "\t\t( 1btag= " << nevents1btag[i] << " , 2btag= " << nevents2btag[i] << " ) " << endl;
     else
 		{
 			if(i>0 && i< 5) continue;
@@ -1447,6 +1464,7 @@ int main(int argc, char *argv[])
     	cout << "#njets[" << i << "]= " << njets[i] << "\tjetcut[" << i << "]= " << jetcut[i] << endl;
 
 	if(SYNCHRO) synchrofile.close();
+	if(SYNCHRO_GGANA) synchrofile.close();
   outfile->cd();
   outtree->Write();
   outfile->Close();
