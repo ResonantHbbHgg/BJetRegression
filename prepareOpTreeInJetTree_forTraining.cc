@@ -82,7 +82,7 @@ int main(int argc, char *argv[])
 	int j3_nNeutrals, j3_nCharged, j3_ntk/*, j3_pfloose*/;
 	float j4_e, j4_pt, j4_phi, j4_eta, j4_beta, j4_betaStar, j4_betaStarClassic, j4_dR2Mean, j4_csvBtag, j4_csvMvaBtag, j4_jetProbBtag, j4_tcheBtag, j4_ptD, j4_nSecondaryVertices, j4_secVtxPt, j4_secVtx3dL, j4_secVtx3deL, j4_emfrac, j4_hadfrac, j4_axis1, j4_axis2, j4_pull, /*j4_Rchg, j4_Rneutral, j4_R, j4_chargedMultiplicity, j4_neutralMultiplicity, j4_Chadfrac, j4_Nhadfrac, j4_Phofrac, j4_Mufrac, j4_Elefrac, j4_dPhiMet,*/ j4_radionMatched;
 	int j4_nNeutrals, j4_nCharged, j4_ntk/*, j4_pfloose*/;
-	float jet_e, jet_pt, jet_phi, jet_eta, jet_beta, jet_betaStar, jet_betaStarClassic, jet_dR2Mean, jet_csvBtag, jet_csvMvaBtag, jet_jetProbBtag, jet_tcheBtag, jet_ptD, jet_nSecondaryVertices, jet_secVtxPt, jet_secVtx3dL, jet_secVtx3deL, jet_emfrac, jet_hadfrac, jet_axis1, jet_axis2, jet_pull, /*jet_Rchg, jet_Rneutral, jet_R, jet_chargedMultiplicity, jet_neutralMultiplicity, jet_Chadfrac, jet_Nhadfrac, jet_Phofrac, jet_Mufrac, jet_Elefrac,*/ jet_dPhiMet, jet_radionMatched, jet_nConstituents;
+	float jet_e, jet_pt, jet_phi, jet_eta, jet_beta, jet_betaStar, jet_betaStarClassic, jet_dR2Mean, jet_csvBtag, jet_csvMvaBtag, jet_jetProbBtag, jet_tcheBtag, jet_ptD, jet_nSecondaryVertices, jet_secVtxPt, jet_secVtx3dL, jet_secVtx3deL, jet_emfrac, jet_hadfrac, jet_axis1, jet_axis2, jet_pull, /*jet_Rchg, jet_Rneutral, jet_R, jet_chargedMultiplicity, jet_neutralMultiplicity, jet_Chadfrac, jet_Nhadfrac, jet_Phofrac, jet_Mufrac, jet_Elefrac,*/ fabs_jet_dPhiMet, jet_dPhiMet, jet_radionMatched, jet_nConstituents;
 	int jet_nNeutrals, jet_nCharged, jet_ntk/*, jet_pfloose*/;
 	float jet_genDR, jet_genPt, jet_genE, jet_genR, jet_prtDR, jet_prtPt, jet_prtE, jet_prtR;
 	int jet_index;
@@ -310,6 +310,20 @@ int main(int argc, char *argv[])
 	intree->SetBranchAddress("j4_dPhiMet", &j4_dPhiMet);
 	intree->SetBranchAddress("j4_pfloose", &j4_pfloose);
 */
+	outtree->Branch("hJet_pt", &jet_pt, "hJet_pt/F");
+	outtree->Branch("hJet_eta", &jet_eta, "hJet_eta/F");
+	outtree->Branch("hJet_cef", &jet_emfrac, "hJet_cef/F");
+	outtree->Branch("hJet_nconstituents", &jet_nConstituents, "hJet_nconstituents/F");
+	outtree->Branch("hJet_chf", &jet_hadfrac, "hJet_chf/F");
+	outtree->Branch("hJet_vtx3dL", &jet_secVtx3dL, "hJet_vtx3dL/F");
+	outtree->Branch("MET", &ev_met_corr_pfmet, "MET/F");
+	outtree->Branch("hJet_dPhiMETJet", &fabs_jet_dPhiMet, "hJet_dPhiMETJet/F");
+
+	outtree->Branch("ievent", &event, "ievent/F");
+	outtree->Branch("hJet_csv", &jet_csvBtag, "hJet_csv/F");
+	outtree->Branch("hJet_dRJetGenJet", &jet_genDR, "hJet_dRJetGenJet/F");
+	outtree->Branch("hJet_genJetPt", &jet_genPt, "hJet_genJetPt/F");
+
 	outtree->Branch("event", &event, "event/F");
 	outtree->Branch("ph1_pt", &ph1_pt, "ph1_pt/F");
 	outtree->Branch("ph2_pt", &ph2_pt, "ph2_pt/F");
@@ -466,6 +480,7 @@ int main(int argc, char *argv[])
 				jet_index = 1;
 				jet.SetPtEtaPhiE(j1_pt, j1_eta, j1_phi, j1_e);
 				jet_dPhiMet = jet.DeltaPhi(met);
+				fabs_jet_dPhiMet = fabs(jet.DeltaPhi(met));
 			} // end if jet == 0
 
 			if( ijet == 1 )
@@ -513,6 +528,7 @@ int main(int argc, char *argv[])
 				jet_index = 2;
 				jet.SetPtEtaPhiE(j2_pt, j2_eta, j2_phi, j2_e);
 				jet_dPhiMet = jet.DeltaPhi(met);
+				fabs_jet_dPhiMet = fabs(jet.DeltaPhi(met));
 			} // end if jet == 1
 
 			if( ijet == 2 )
@@ -560,6 +576,7 @@ int main(int argc, char *argv[])
 				jet_index = 3;
 				jet.SetPtEtaPhiE(j3_pt, j3_eta, j3_phi, j3_e);
 				jet_dPhiMet = jet.DeltaPhi(met);
+				fabs_jet_dPhiMet = fabs(jet.DeltaPhi(met));
 			} // end if jet == 2
 
 			if( ijet == 3 )
@@ -607,6 +624,7 @@ int main(int argc, char *argv[])
 				jet_index = 4;
 				jet.SetPtEtaPhiE(j4_pt, j4_eta, j4_phi, j4_e);
 				jet_dPhiMet = jet.DeltaPhi(met);
+				fabs_jet_dPhiMet = fabs(jet.DeltaPhi(met));
 			} // end if jet == 3
 
 
