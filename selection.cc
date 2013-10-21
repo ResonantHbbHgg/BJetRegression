@@ -24,6 +24,9 @@
 #define SYNCHRO 0
 #define SYNCHRO_GGANA 0
 #define SYNCHRO_LIGHT 0
+#define SYNC_W_CHIARA 1
+#define SYNC_W_CHIARA_GGJJ 0
+#define SYNC 1
 #define USEHT 0
 // namespaces
 using namespace std;
@@ -50,12 +53,12 @@ int main(int argc, char *argv[])
 		desc.add_options()
 			("help,h", "produce help message")
 			("inputfile,i", po::value<string>(&inputfile)->default_value("root://eoscms//eos/cms/store/cmst3/user/obondu/H2GGLOBE/Radion/trees/radion_tree_v06/Radion_Graviton_nm.root"), "input file")
-			("inputtree,it", po::value<string>(&inputtree)->default_value("Radion_m300_8TeV_nm"), "input tree")
-			("outputfile,o", po::value<string>(&outputfile)->default_value("selected.root"), "output file")
-			("outputtree,ot", po::value<string>(&outputtree)->default_value("Radion_m300_8TeV_nm"), "output tree")
-			("regressionfile,rf", po::value<string>(&regressionfile)->default_value("/afs/cern.ch/work/o/obondu/public/forRadion/factoryJetRegGen2_globeinputs_BDT.weights.xml"), "regression file")
+			("inputtree,t", po::value<string>(&inputtree)->default_value("Radion_m300_8TeV_nm"), "input tree")
+			("outputfile,O", po::value<string>(&outputfile)->default_value("selected.root"), "output file")
+			("outputtree,T", po::value<string>(&outputtree)->default_value("Radion_m300_8TeV_nm"), "output tree")
+			("regressionfile,r", po::value<string>(&regressionfile)->default_value("/afs/cern.ch/user/h/hebda/public/"), "regression file")
 			("numberOfSplit,n", po::value<int>(&numberOfSplit)->default_value(1), "number of split (regression files)")
-			("isMC,n", po::value<int>(&isMC)->default_value(1), "same conventions as in h2gglobe: <0 = signal ; =0 = data ; >0 = background")
+			("isMC", po::value<int>(&isMC)->default_value(1), "same conventions as in h2gglobe: <0 = signal ; =0 = data ; >0 = background")
 		;
 		po::variables_map vm;
 		po::store(po::parse_command_line(argc, argv, desc), vm);
@@ -74,7 +77,7 @@ int main(int argc, char *argv[])
   //################################################
 
 
-
+	if(DEBUG) cout << "End of argument parsing" << endl;
 
 
 
@@ -123,13 +126,13 @@ int main(int argc, char *argv[])
 			return 2;
 		}
 	}
-
+*/
 	cout << "inputfile= " << inputfile << endl;
 	cout << "inputtree= " << inputtree << endl;
 	cout << "outputfile= " << outputfile << endl;
 	cout << "outputtree= " << outputtree << endl;
 	cout << "regressionfile= " << regressionfile << endl;
-*/
+
 	TFile *infile = TFile::Open(inputfile.c_str());
 	TTree *intree = (TTree*)infile->Get(inputtree.c_str());
 	TFile *outfile = new TFile(outputfile.c_str(), "RECREATE");
@@ -138,6 +141,7 @@ int main(int argc, char *argv[])
 	if(SYNCHRO) synchrofile.open("synchronisation.txt");
 	if(SYNCHRO_GGANA) synchrofile.open("synchronisation_ggAna.txt");
 
+	if(DEBUG) cout << "Setup tree inputs" << endl;
 	// setup tree inputs
 // gen level info
 	float gr_radion_p4_pt, gr_radion_p4_eta, gr_radion_p4_phi, gr_radion_p4_mass;
@@ -184,11 +188,13 @@ int main(int argc, char *argv[])
 	float jet_ptD, jet_nSecondaryVertices, jet_secVtxPt, jet_secVtx3dL, jet_secVtx3deL, jet_emfrac, jet_hadfrac;
 	int jet_nNeutrals, jet_nCharged, jet_nConstituents;
 	float jet_nConstituents_;
+	float jet_dPhiMet_fabs;
 //, jet_ntk, jet_axis1, jet_axis2, jet_pull, jet_Rchg, jet_Rneutral, jet_R, jet_chargedMultiplicity, jet_neutralMultiplicity, 
 	float /*jet_Chadfrac, jet_Nhadfrac, jet_Phofrac, jet_Mufrac, jet_Elefrac,*/ jet_dPhiMet, jet_radionMatched, jet_regPt, jet_regkinPt;
 	int jet_index/*, jet_pfloose*/;
 //	float ev_met_corrMet, ev_met_corrMetPhi, ev_pu_n, ev_nvtx, ev_rho;
 
+	if(DEBUG) cout << "Setup tree outputs" << endl;
 // setup tree outputs
 	float pho1_pt, pho1_e, pho1_phi, pho1_eta, pho1_mass, pho1_r9;
 	float pho2_pt, pho2_e, pho2_phi, pho2_eta, pho2_mass, pho2_r9;
@@ -226,6 +232,7 @@ int main(int argc, char *argv[])
 	int njets_kLooseID, njets_kRadionID;
 	int njets_kLooseID_and_CSVM, njets_kRadionID_and_CSVM;
 
+	if(DEBUG) cout << "SetBranchAddresses" << endl;
 	intree->SetBranchAddress("ph1_eta", &ph1_eta);
 	intree->SetBranchAddress("ph2_eta", &ph2_eta);
 	intree->SetBranchAddress("ph1_pt", &ph1_pt);
@@ -637,9 +644,17 @@ int main(int argc, char *argv[])
 	outtree->Branch("gr_j2_p4_phi", &gr_j2_p4_phi, "gr_j2_p4_phi/F");
 	outtree->Branch("gr_j2_p4_mass", &gr_j2_p4_mass, "gr_j2_p4_mass/F");
 
-
+	if(DEBUG) cout << "Prepare for regression" << endl;
 // prepare for regression
 	TMVA::Reader* readerRegres = new TMVA::Reader( "!Color:!Silent" );
+	readerRegres->AddVariable( "jet_eta", &jet_eta); 
+	readerRegres->AddVariable( "jet_emfrac", &jet_emfrac);
+	readerRegres->AddVariable( "jet_hadfrac", &jet_hadfrac);
+	readerRegres->AddVariable( "jet_nconstituents", &jet_nConstituents_);
+	readerRegres->AddVariable( "jet_vtx3dL", &jet_secVtx3dL);
+	readerRegres->AddVariable( "MET", &met_corr_pfmet);
+	readerRegres->AddVariable( "jet_dPhiMETJet", &jet_dPhiMet_fabs);
+/*
 	readerRegres->AddVariable( "jet_pt", &jet_pt);
 	readerRegres->AddVariable( "jet_eta", &jet_eta);
 	readerRegres->AddVariable( "jet_emfrac", &jet_emfrac);
@@ -649,6 +664,7 @@ int main(int argc, char *argv[])
 	readerRegres->AddVariable( "jet_secVtx3dL", &jet_secVtx3dL);
 	readerRegres->AddVariable( "ev_met_corr_pfmet", &met_corr_pfmet);
 	readerRegres->AddVariable( "jet_dPhiMet", &jet_dPhiMet);
+*/
 // Adding variables
 //	readerRegres->AddVariable( "ev_rho", &rho);
 	if( USEHT ) readerRegres->AddVariable( "ph1_pt+ph2_pt", &HT_gg);
@@ -660,25 +676,30 @@ int main(int argc, char *argv[])
 //			readerRegres->BookMVA(Form("BDT_%i", i), Form("weights/2013-08-08_test_n%i_j%i_BDT.weights.xml", numberOfSplit, i));
 //			readerRegres->BookMVA(Form("BDT_%i", i), Form("weights/2013-08-08_test02_n%i_j%i_BDT.weights.xml", numberOfSplit, i));
 //			readerRegres->BookMVA(Form("BDT_%i", i), Form("weights/2013-08-08_test03_n%i_j%i_BDT.weights.xml", numberOfSplit, i));
-			readerRegres->BookMVA(Form("BDT_%i", i), Form("weights/%s_n%i_j%i_BDT.weights.xml", regressionfile.c_str(), numberOfSplit, i));
+//			readerRegres->BookMVA(Form("BDT_%i", i), Form("weights/%s_n%i_j%i_BDT.weights.xml", regressionfile.c_str(), numberOfSplit, i));
+			readerRegres->BookMVA(Form("BDT_%i", i), Form("%s/TMVARegression_10_Cat%i_BDTG.weights.xml", regressionfile.c_str(), i));
 		}
 	}
 
 
 	int nevents[30] = {0};
+	int nevents_sync[30] = {0};
 	int nevents1btag[30] = {0};
 	int nevents2btag[30] = {0};
 	string eventcut[30];
 	int njets[30] = {0};
 	string jetcut[30];
   int decade = 0;
+	int n_sync_events_before_mjj = 0;
+	int n_sync_events_before_mggjj = 0;
   int totevents = intree->GetEntries();
-  if(DEBUG) totevents = 10;
+  if(DEBUG) totevents = 100;
   cout << "#entries= " << totevents << endl;
   // loop over events
   for(int ievt=0 ; ievt < totevents ; ievt++)
 //  for(int ievt=10127 ; ievt < 10128 ; ievt++)
   {
+		if(DEBUG) cout << "#####\tievt= " << ievt << endl;
     double progress = 10.0*ievt/(1.0*totevents);
     int k = TMath::FloorNint(progress);
     if (k > decade) cout<<10*k<<" %"<<endl;
@@ -687,6 +708,8 @@ int main(int argc, char *argv[])
 		int njets_kRadionID_ = 0;
 		int njets_kRadionID_and_CSVM_ = 0;
     intree->GetEntry(ievt);
+		if(DEBUG) cout << "event= " << event << endl;
+		if( isMC < 0 && ((int)event % 2 == 0)) continue; // use regression only on odd events
 	
 // Compute hjj system
 		TLorentzVector gj1, gj2;
@@ -708,6 +731,7 @@ int main(int argc, char *argv[])
 
 		// Apply photon ID cuts
 		nevents[0]++; eventcut[0] = "Before photon ID";
+		nevents_sync[0]++;
 //		if( (fabs(ph1_eta) > 2.5) || (fabs(ph2_eta) > 2.5) ) continue;
 		nevents[1]++; eventcut[1] = "(OBSOLETE) After eta < 2.5";
 //		if( (fabs(ph1_eta) < 1.566) && (fabs(ph1_eta) >1.4442) ) continue;
@@ -718,19 +742,23 @@ int main(int argc, char *argv[])
 		nevents[4]++; eventcut[4] = "After floating pt cut for photon 1 (40*mgg/120 GeV)";
 		if( ph2_pt < 25. ) continue;
 		nevents[5]++; eventcut[5] = "After fixed pt cut for photon 2 (25 GeV)";
+		nevents_sync[1]++;
 		if(DEBUG) cout << "ph1_ciclevel= " << ph1_ciclevel << "\tph2_ciclevel= " << ph2_ciclevel << endl;
 		if( (ph1_ciclevel < 4) || (ph2_ciclevel < 4) ) continue;
 		nevents[6]++; eventcut[6] = "After cic cut on both photons";
+		nevents_sync[2]++;
 		if( (PhotonsMass < 100.) || (PhotonsMass > 180.) ) continue;
 		nevents[7]++; eventcut[7] = "After 100 < mgg < 180";
 		if(BLIND)
 			{ if( (PhotonsMass > 120.) && (PhotonsMass < 130.) ) continue; }
 		nevents[8]++; eventcut[8] = "After blinding data in 120 < mgg < 130";
+		nevents_sync[3]++;
 		HT_gg = ph1_pt + ph2_pt;
 
 		// take only the subset of events where at least two jets remains
 		if( njets_passing_kLooseID < 2 ) continue;
 		nevents[9]++; eventcut[9] = "After njet >= 2";
+		nevents_sync[4]++;
 //		if( njets_passing_kLooseID_and_CSVM < 1 ) continue;
 // alternative counting: taking into account only the 4 jets stored !
 		int nbjet_tmp = 0;
@@ -753,6 +781,7 @@ int main(int argc, char *argv[])
 		}
 		if( nbjet_tmp < 1 ) continue;
 		nevents[10]++; eventcut[10] = "After nbjet >= 1";
+		nevents_sync[5]++;
 		if( nbjet_tmp == 1) nevents1btag[10]++; 
 		else nevents2btag[10]++;
 
@@ -776,6 +805,7 @@ int main(int argc, char *argv[])
 		met.SetPtEtaPhiE(met_corr_pfmet, met_corr_eta_pfmet, met_corr_phi_pfmet, met_corr_e_pfmet);
 
 		// loop over jets, store jet info + info on closest genjet / parton (no selection applied)
+		if(DEBUG) cout << "njets_passing_kLooseID= " << njets_passing_kLooseID << endl;
 		for( int ijet = 0 ; ijet < min(njets_passing_kLooseID, 4); ijet ++ )
 		{
 			njets[0]++; jetcut[0] = "Before JetID";
@@ -960,14 +990,16 @@ int main(int argc, char *argv[])
 				jet_dPhiMet = jet.DeltaPhi(met);
 			} // end if jet == 3
 			jet_nConstituents_ = (float) jet_nConstituents;
+			jet_dPhiMet_fabs = fabs(jet_dPhiMet);
 
 //			if(DEBUG) cout << "input= " << jet_pt << "\toutput= " << readerRegres->EvaluateRegression("BDTG method")[0] << endl; // Phil regression
-			if(DEBUG) cout << "input= " << jet_pt << "\toutput (BDT)= " << readerRegres->EvaluateMVA("BDT") << endl; // Olivier regression
-			if(DEBUG) cout << "input= " << jet_pt << "\toutput (BDT_i)= " << readerRegres->EvaluateMVA(Form("BDT_%i", (int)(event + treeSplit) % numberOfSplit)) << endl; // Olivier regression
-			TLorentzVector jnew;
-			jnew.SetPtEtaPhiE(jet_pt, jet_eta, jet_phi, jet_e);
+//			if(DEBUG) cout << "input= " << jet_pt << "\toutput (BDT)= " << readerRegres->EvaluateMVA("BDT") << endl; // Olivier regression
+			if(DEBUG) cout << "input= " << jet_pt << "\toutput (BDT_0)= " << readerRegres->EvaluateMVA(Form("BDT_%i", 0)) << "\toutput (BDT_1)= " << readerRegres->EvaluateMVA(Form("BDT_%i", 1)) << endl; // Olivier regression
+//			TLorentzVector jnew;
+//			jnew.SetPtEtaPhiE(jet_pt, jet_eta, jet_phi, jet_e);
 			if( jet_csvBtag < 0. ) continue;
 			njets[5]++; jetcut[5] = "After jet_csvBtag < 0.";
+			if(DEBUG) cout << "now with the regression" << endl;
 //			jnew = ((float)readerRegres->EvaluateRegression("BDTG method")[0]/(float)jet_pt) * jnew; // Phil regression
 //			jet_regPt = (float)(readerRegres->EvaluateMVA("BDT"));
 			if(numberOfSplit == -1)
@@ -975,9 +1007,11 @@ int main(int argc, char *argv[])
 			else if(numberOfSplit <= 1)
 				jet_regPt = (float)(readerRegres->EvaluateMVA("BDT"));
 			else
-				jet_regPt = (float)(readerRegres->EvaluateMVA(Form("BDT_%i", (int)(event + treeSplit) % numberOfSplit)));
+				jet_regPt = (float)(readerRegres->EvaluateRegression(Form("BDT_%i", jet_pt < 80. ? 0 : 1))[0]) * jet_pt;
+//			if(DEBUG) cout << "jet_pt= " << jet_pt << "\tjet_regPt= " << jet_regPt << endl;
 			jet_regkinPt = jet_regPt;
-			jet_regPt = jet_pt; // FIXME DEBUG SYNCHRONISATION
+//			jnew = (float)jet_regPt / (float)jet_pt * jnew; // applying regression
+//			jet_regPt = jet_pt; // FIXME DEBUG SYNCHRONISATION
 			// jet selection
 			// ** acceptance + pu id **
 			if( jet_regPt < 25. ) continue;
@@ -988,6 +1022,7 @@ int main(int argc, char *argv[])
 			njets[3]++; jetcut[3] = "After jet_betaStarClassic > 0.2 * log( nvtx - 0.64)";
 			if( jet_dR2Mean > 0.06 ) continue;
 			njets[4]++; jetcut[4] = "After jet_dR2Mean > 0.06";
+			if(DEBUG) cout << "Jet is passing selection cuts" << endl;
 			// ** call regression to correct the pt **
 			// ** store 4-momentum + csv output for combinatorics **
 			jetPt.push_back(jet_pt);
@@ -1009,9 +1044,11 @@ int main(int argc, char *argv[])
 			if(jet_csvBtag > csv_cut) njets_kRadionID_and_CSVM_++;
 		} // end of loop over jets
 		
+		if(DEBUG) cout << "jetPt.size()= " << jetPt.size() << endl;
 		// jet combinatorics
 		if( jetPt.size() < 2 ) continue;
 		nevents[11]++; eventcut[11] = "After njet >=2 passing the jet selection";
+		nevents_sync[6]++;
 
 		vector<int> btaggedJet;
 		for( unsigned int ijet = 0 ; ijet < jetPt.size() ; ijet++ )
@@ -1022,6 +1059,7 @@ int main(int argc, char *argv[])
 
 		if( btaggedJet.size() < 1 ) continue;
 		nevents[12]++; eventcut[12] = "After nbjet >=1 passing the jet selection";
+		nevents_sync[7]++;
 		if( btaggedJet.size() == 1) nevents1btag[12]++; 
 		else nevents2btag[12]++;
 
@@ -1365,15 +1403,18 @@ int main(int argc, char *argv[])
 		{
 			category = 1;
 			nevents[13]++;
+			nevents_sync[8]++;
 			eventcut[13] = "1btag category";
 		} else if( njets_kRadionID_and_CSVM >=2) {
 			category = 2;
 			nevents[14]++;
+			nevents_sync[9]++;
 			eventcut[14] = "2btag category";
 		}
 
 // | cos theta* | <.9
 		selection_cut_level = 1;
+/*
 		if( fabs(regcosthetastar) >= .9 )
 		{
 			outtree->Fill();
@@ -1389,14 +1430,18 @@ int main(int argc, char *argv[])
 			nevents[16]++;
 			eventcut[16] = "2btag category, after | cos theta* | <.9";
 		}
-
+*/
 // mjj cut (90/150 for 1btag and 95/140 for 2btags)
+		if(SYNC_W_CHIARA && n_sync_events_before_mjj == 0) cout << "event\tjet1_index\tjet2_index\tjet1_regPt\tjet2_regPt\tregjj_mass" << endl;
+		if(SYNC_W_CHIARA && n_sync_events_before_mjj < 10) cout << event << "\t" << ij1Reg << "\t" << ij2Reg << "\t" << regjet1_pt << "\t" << regjet2_pt << "\t" << regjj_mass << endl;
+		if(SYNC_W_CHIARA) n_sync_events_before_mjj++;
 		selection_cut_level = 2;
-		if(
-			(njets_kRadionID_and_CSVM == 1 && (regjj_mass < 90. || regjj_mass > 150.))
-			||
-			(njets_kRadionID_and_CSVM >= 2 && (regjj_mass < 95. || regjj_mass > 140.))
-			)
+		bool pass_mjj = false;
+		if(!SYNC)
+			pass_mjj = (njets_kRadionID_and_CSVM == 1 && (regjj_mass < 90. || regjj_mass > 150.)) || (njets_kRadionID_and_CSVM >= 2 && (regjj_mass < 95. || regjj_mass > 140.));
+		else
+			pass_mjj = (njets_kRadionID_and_CSVM == 1 && (regjj_mass < 90. || regjj_mass > 165.)) || (njets_kRadionID_and_CSVM >= 2 && (regjj_mass < 95. || regjj_mass > 140.));
+		if(pass_mjj)
 		{
 			outtree->Fill();
 			continue;
@@ -1405,11 +1450,19 @@ int main(int argc, char *argv[])
 		{
 			category = 1;
 			nevents[17]++;
-			eventcut[17] = "1btag category, after mjj cut (90/150 for 1btag and 95/140 for 2btags)";
+			nevents_sync[10]++;
+			if(SYNC)
+				eventcut[17] = "1btag category, after mjj cut (90/165 for 1btag and 95/140 for 2btags)";
+			else
+				eventcut[17] = "1btag category, after mjj cut (90/150 for 1btag and 95/140 for 2btags)";
 		} else if( njets_kRadionID_and_CSVM >=2) {
 			category = 2;
 			nevents[18]++;
-			eventcut[18] = "2btag category, after mjj cut (90/150 for 1btag and 95/140 for 2btags)";
+			nevents_sync[11]++;
+			if(SYNC)
+				eventcut[18] = "2btag category, after mjj cut (90/165 for 1btag and 95/140 for 2btags)";
+			else
+				eventcut[18] = "2btag category, after mjj cut (90/150 for 1btag and 95/140 for 2btags)";
 		}
 
 // kin fit
@@ -1426,14 +1479,18 @@ int main(int argc, char *argv[])
 			eventcut[20] = "2btag category, after kin fit";
 		}
 
+		if(SYNC_W_CHIARA_GGJJ && n_sync_events_before_mggjj == 0) cout << "event\tregjet1_pt\tregjet2_pt\tregkinjet1_pt\tregkinjet2_pt\tregjj_mass\tregggjj_mass\tregkinjj_mass\tregkinggjj_mass" << endl; 
+		if(SYNC_W_CHIARA_GGJJ && n_sync_events_before_mggjj < 10) cout << event << "\t" << regjet1_pt << "\t" << regjet2_pt << "\t" << regkinjet1_pt << "\t" << regkinjet2_pt << "\t" << regjj_mass << "\t" << regggjj_mass << "\t" << regkinjj_mass << "\t" << regkinggjj_mass << endl;
+		if(SYNC_W_CHIARA_GGJJ) n_sync_events_before_mggjj++;
 
 // mggjj cut (260/335 and 255/320)
 		selection_cut_level = 3;
-		if(
-			(njets_kRadionID_and_CSVM == 1 && (regkinggjj_mass < 260. || regkinggjj_mass > 335.) )
-			||
-			(njets_kRadionID_and_CSVM >= 2 && (regkinggjj_mass < 255. || regkinggjj_mass > 320.) )
-			)
+		bool pass_mggjj_cut = false;
+		if(!SYNC) 
+			pass_mggjj_cut = (njets_kRadionID_and_CSVM == 1 && (regkinggjj_mass < 260. || regkinggjj_mass > 335.) ) || (njets_kRadionID_and_CSVM >= 2 && (regkinggjj_mass < 255. || regkinggjj_mass > 320.) );
+		else
+			pass_mggjj_cut = (njets_kRadionID_and_CSVM == 1 && (regkinggjj_mass < 255. || regkinggjj_mass > 340.) ) || (njets_kRadionID_and_CSVM >= 2 && (regkinggjj_mass < 265. || regkinggjj_mass > 320.) );
+		if( pass_mggjj_cut )
 		{
 			outtree->Fill();
 			continue;
@@ -1442,11 +1499,19 @@ int main(int argc, char *argv[])
 		{
 			category = 1;
 			nevents[21]++;
-			eventcut[21] = "1btag category, after mggjj cut (260/335 and 255/320)";
+			nevents_sync[12]++;
+			if(!SYNC)
+				eventcut[21] = "1btag category, after mggjj cut (260/335 and 255/320)";
+			else
+				eventcut[21] = "1btag category, after mggjj cut (255/340 and 265/320)";
 		} else if( njets_kRadionID_and_CSVM >=2) {
 			category = 2;
 			nevents[22]++;
-			eventcut[22] = "2btag category, after mggjj cut (260/335 and 255/320)";
+			nevents_sync[13]++;
+			if(!SYNC)
+				eventcut[22] = "2btag category, after mggjj cut (260/335 and 255/320)";
+			else
+				eventcut[22] = "2btag category, after mggjj cut (255/340 and 265/320)";
 		}
 
 // deltaR(g,j) >= 1
@@ -1505,6 +1570,10 @@ int main(int argc, char *argv[])
 	if(!SYNCHRO_LIGHT)
 		for(int i=0 ; i < 6 ; i++)
     	cout << "#njets[" << i << "]= " << njets[i] << "\tjetcut[" << i << "]= " << jetcut[i] << endl;
+
+	if(SYNC)
+		for(int i=0 ; i < 14 ; i++)
+			cout << nevents_sync[i] << endl;
 
 	if(SYNCHRO) synchrofile.close();
 	if(SYNCHRO_GGANA) synchrofile.close();
