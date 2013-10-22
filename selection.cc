@@ -24,9 +24,9 @@
 #define SYNCHRO 0
 #define SYNCHRO_GGANA 0
 #define SYNCHRO_LIGHT 0
-#define SYNC_W_CHIARA 1
+#define SYNC_W_CHIARA 0
 #define SYNC_W_CHIARA_GGJJ 0
-#define SYNC 1
+#define SYNC 0
 #define USEHT 0
 // namespaces
 using namespace std;
@@ -173,19 +173,19 @@ int main(int argc, char *argv[])
 // object variables
 	float ph1_eta, ph2_eta, ph1_pt, ph2_pt, PhotonsMass, ph1_phi, ph2_phi, ph1_e, ph2_e, ph1_r9, ph2_r9;
 	int ph1_ciclevel, ph2_ciclevel;
-	float j1_e, j1_pt, j1_phi, j1_eta, j1_beta, j1_betaStar, j1_betaStarClassic, j1_dR2Mean, j1_csvBtag, j1_csvMvaBtag, j1_jetProbBtag, j1_tcheBtag, j1_ptD, j1_nSecondaryVertices, j1_secVtxPt, j1_secVtx3dL, j1_secVtx3deL, j1_emfrac, j1_hadfrac, j1_axis1, j1_axis2, j1_pull, /*j1_Rchg, j1_Rneutral, j1_R, j1_chargedMultiplicity, j1_neutralMultiplicity, j1_Chadfrac, j1_Nhadfrac, j1_Phofrac, j1_Mufrac, j1_Elefrac, j1_dPhiMet,*/ j1_radionMatched;
+	float j1_e, j1_pt, j1_phi, j1_eta, j1_beta, j1_betaStar, j1_betaStarClassic, j1_dR2Mean, j1_csvBtag, j1_csvMvaBtag, j1_jetProbBtag, j1_tcheBtag, j1_ptD, j1_nSecondaryVertices, j1_secVtxPt, j1_secVtx3dL, j1_secVtx3deL, j1_emfrac, j1_hadfrac, j1_axis1, j1_axis2, j1_pull, /*j1_Rchg, j1_Rneutral, j1_R, j1_chargedMultiplicity, j1_neutralMultiplicity, j1_Chadfrac, j1_Nhadfrac, j1_Phofrac, j1_Mufrac, j1_Elefrac, j1_dPhiMet,*/ j1_radionMatched, j1_btagSF;
 	int j1_ntk, j1_nNeutrals, j1_nCharged/*, j1_pfloose*/;
-	float j2_e, j2_pt, j2_phi, j2_eta, j2_beta, j2_betaStar, j2_betaStarClassic, j2_dR2Mean, j2_csvBtag, j2_csvMvaBtag, j2_jetProbBtag, j2_tcheBtag, j2_ptD, j2_nSecondaryVertices, j2_secVtxPt, j2_secVtx3dL, j2_secVtx3deL, j2_emfrac, j2_hadfrac, j2_axis1, j2_axis2, j2_pull, /*j2_Rchg, j2_Rneutral, j2_R, j2_chargedMultiplicity, j2_neutralMultiplicity, j2_Chadfrac, j2_Nhadfrac, j2_Phofrac, j2_Mufrac, j2_Elefrac, j2_dPhiMet,*/ j2_radionMatched;
+	float j2_e, j2_pt, j2_phi, j2_eta, j2_beta, j2_betaStar, j2_betaStarClassic, j2_dR2Mean, j2_csvBtag, j2_csvMvaBtag, j2_jetProbBtag, j2_tcheBtag, j2_ptD, j2_nSecondaryVertices, j2_secVtxPt, j2_secVtx3dL, j2_secVtx3deL, j2_emfrac, j2_hadfrac, j2_axis1, j2_axis2, j2_pull, /*j2_Rchg, j2_Rneutral, j2_R, j2_chargedMultiplicity, j2_neutralMultiplicity, j2_Chadfrac, j2_Nhadfrac, j2_Phofrac, j2_Mufrac, j2_Elefrac, j2_dPhiMet,*/ j2_radionMatched, j2_btagSF;
 	int j2_ntk, j2_nNeutrals, j2_nCharged/*, j2_pfloose*/;
-	float j3_e, j3_pt, j3_phi, j3_eta, j3_beta, j3_betaStar, j3_betaStarClassic, j3_dR2Mean, j3_csvBtag, j3_csvMvaBtag, j3_jetProbBtag, j3_tcheBtag, j3_ptD, j3_nSecondaryVertices, j3_secVtxPt, j3_secVtx3dL, j3_secVtx3deL, j3_emfrac, j3_hadfrac, j3_axis1, j3_axis2, j3_pull, /*j3_Rchg, j3_Rneutral, j3_R, j3_chargedMultiplicity, j3_neutralMultiplicity, j3_Chadfrac, j3_Nhadfrac, j3_Phofrac, j3_Mufrac, j3_Elefrac, j3_dPhiMet,*/ j3_radionMatched;
+	float j3_e, j3_pt, j3_phi, j3_eta, j3_beta, j3_betaStar, j3_betaStarClassic, j3_dR2Mean, j3_csvBtag, j3_csvMvaBtag, j3_jetProbBtag, j3_tcheBtag, j3_ptD, j3_nSecondaryVertices, j3_secVtxPt, j3_secVtx3dL, j3_secVtx3deL, j3_emfrac, j3_hadfrac, j3_axis1, j3_axis2, j3_pull, /*j3_Rchg, j3_Rneutral, j3_R, j3_chargedMultiplicity, j3_neutralMultiplicity, j3_Chadfrac, j3_Nhadfrac, j3_Phofrac, j3_Mufrac, j3_Elefrac, j3_dPhiMet,*/ j3_radionMatched, j3_btagSF;
 	int j3_ntk, j3_nNeutrals, j3_nCharged/*, j3_pfloose*/;
-	float j4_e, j4_pt, j4_phi, j4_eta, j4_beta, j4_betaStar, j4_betaStarClassic, j4_dR2Mean, j4_csvBtag, j4_csvMvaBtag, j4_jetProbBtag, j4_tcheBtag, j4_ptD, j4_nSecondaryVertices, j4_secVtxPt, j4_secVtx3dL, j4_secVtx3deL, j4_emfrac, j4_hadfrac, j4_axis1, j4_axis2, j4_pull, /*j4_Rchg, j4_Rneutral, j4_R, j4_chargedMultiplicity, j4_neutralMultiplicity, j4_Chadfrac, j4_Nhadfrac, j4_Phofrac, j4_Mufrac, j4_Elefrac, j4_dPhiMet,*/ j4_radionMatched;
+	float j4_e, j4_pt, j4_phi, j4_eta, j4_beta, j4_betaStar, j4_betaStarClassic, j4_dR2Mean, j4_csvBtag, j4_csvMvaBtag, j4_jetProbBtag, j4_tcheBtag, j4_ptD, j4_nSecondaryVertices, j4_secVtxPt, j4_secVtx3dL, j4_secVtx3deL, j4_emfrac, j4_hadfrac, j4_axis1, j4_axis2, j4_pull, /*j4_Rchg, j4_Rneutral, j4_R, j4_chargedMultiplicity, j4_neutralMultiplicity, j4_Chadfrac, j4_Nhadfrac, j4_Phofrac, j4_Mufrac, j4_Elefrac, j4_dPhiMet,*/ j4_radionMatched, j4_btagSF;
 	int j4_ntk, j4_nNeutrals, j4_nCharged/*, j4_pfloose*/;
 	float jet_e, jet_pt, jet_phi, jet_eta;
 //jet_beta, jet_betaStar, 
 	float jet_betaStarClassic, jet_dR2Mean, jet_csvBtag;
 //, jet_csvMvaBtag, jet_jetProbBtag, jet_tcheBtag, 
-	float jet_ptD, jet_nSecondaryVertices, jet_secVtxPt, jet_secVtx3dL, jet_secVtx3deL, jet_emfrac, jet_hadfrac;
+	float jet_ptD, jet_nSecondaryVertices, jet_secVtxPt, jet_secVtx3dL, jet_secVtx3deL, jet_emfrac, jet_hadfrac, jet_btagSF;
 	int jet_nNeutrals, jet_nCharged, jet_nConstituents;
 	float jet_nConstituents_;
 	float jet_dPhiMet_fabs;
@@ -198,22 +198,22 @@ int main(int argc, char *argv[])
 // setup tree outputs
 	float pho1_pt, pho1_e, pho1_phi, pho1_eta, pho1_mass, pho1_r9;
 	float pho2_pt, pho2_e, pho2_phi, pho2_eta, pho2_mass, pho2_r9;
-	float jet1_pt, jet1_e, jet1_phi, jet1_eta, jet1_mass, jet1_csvBtag;
-	float jet2_pt, jet2_e, jet2_phi, jet2_eta, jet2_mass, jet2_csvBtag;
+	float jet1_pt, jet1_e, jet1_phi, jet1_eta, jet1_mass, jet1_csvBtag, jet1_btagSF;
+	float jet2_pt, jet2_e, jet2_phi, jet2_eta, jet2_mass, jet2_csvBtag, jet2_btagSF;
 	float regjet1_emfrac, regjet1_hadfrac, regjet1_secVtxPt, regjet1_secVtx3dL, regjet1_dPhiMet;
 	int regjet1_nConstituents;
 	float regjet2_emfrac, regjet2_hadfrac, regjet2_secVtxPt, regjet2_secVtx3dL, regjet2_dPhiMet;
 	int regjet2_nConstituents;
-	float regjet1_pt, regjet1_e, regjet1_phi, regjet1_eta, regjet1_mass, regjet1_csvBtag;
-	float regjet2_pt, regjet2_e, regjet2_phi, regjet2_eta, regjet2_mass, regjet2_csvBtag;
-	float regkinjet1_pt, regkinjet1_e, regkinjet1_phi, regkinjet1_eta, regkinjet1_mass, regkinjet1_csvBtag;
-	float regkinjet2_pt, regkinjet2_e, regkinjet2_phi, regkinjet2_eta, regkinjet2_mass, regkinjet2_csvBtag;
-	float kinjet1_pt, kinjet1_e, kinjet1_phi, kinjet1_eta, kinjet1_mass, kinjet1_csvBtag;
-	float kinjet2_pt, kinjet2_e, kinjet2_phi, kinjet2_eta, kinjet2_mass, kinjet2_csvBtag;
-	float jj_pt, jj_e, jj_phi, jj_eta, jj_mass, jj_DR;
-	float regjj_pt, regjj_e, regjj_phi, regjj_eta, regjj_mass;
-	float regkinjj_pt, regkinjj_e, regkinjj_phi, regkinjj_eta, regkinjj_mass;
-	float kinjj_pt, kinjj_e, kinjj_phi, kinjj_eta, kinjj_mass;
+	float regjet1_pt, regjet1_e, regjet1_phi, regjet1_eta, regjet1_mass, regjet1_csvBtag, regjet1_btagSF;
+	float regjet2_pt, regjet2_e, regjet2_phi, regjet2_eta, regjet2_mass, regjet2_csvBtag, regjet2_btagSF;
+	float regkinjet1_pt, regkinjet1_e, regkinjet1_phi, regkinjet1_eta, regkinjet1_mass, regkinjet1_csvBtag, regkinjet1_btagSF;
+	float regkinjet2_pt, regkinjet2_e, regkinjet2_phi, regkinjet2_eta, regkinjet2_mass, regkinjet2_csvBtag, regkinjet2_btagSF;
+	float kinjet1_pt, kinjet1_e, kinjet1_phi, kinjet1_eta, kinjet1_mass, kinjet1_csvBtag, kinjet1_btagSF;
+	float kinjet2_pt, kinjet2_e, kinjet2_phi, kinjet2_eta, kinjet2_mass, kinjet2_csvBtag, kinjet2_btagSF;
+	float jj_pt, jj_e, jj_phi, jj_eta, jj_mass, jj_DR, jj_btagSF;
+	float regjj_pt, regjj_e, regjj_phi, regjj_eta, regjj_mass, regjj_btagSF;
+	float regkinjj_pt, regkinjj_e, regkinjj_phi, regkinjj_eta, regkinjj_mass, regkinjj_btagSF;
+	float kinjj_pt, kinjj_e, kinjj_phi, kinjj_eta, kinjj_mass, kinjj_btagSF;
 	float gg_pt, gg_e, gg_phi, gg_eta, gg_mass;
 	float ggjj_pt, ggjj_e, ggjj_phi, ggjj_eta, ggjj_mass, regjj_DR, regkinjj_DR, kinjj_DR;
 	float regggjj_pt, regggjj_e, regggjj_phi, regggjj_eta, regggjj_mass;
@@ -317,6 +317,7 @@ int main(int argc, char *argv[])
 	intree->SetBranchAddress("j1_secVtx3deL", &j1_secVtx3deL);
 	intree->SetBranchAddress("j1_emfrac", &j1_emfrac);
 	intree->SetBranchAddress("j1_hadfrac", &j1_hadfrac);
+	intree->SetBranchAddress("j1_btagSF", &j1_btagSF);
 	intree->SetBranchAddress("j1_ntk", &j1_ntk);
 	intree->SetBranchAddress("j1_nNeutrals", &j1_nNeutrals);
 	intree->SetBranchAddress("j1_nCharged", &j1_nCharged);
@@ -357,6 +358,7 @@ int main(int argc, char *argv[])
 	intree->SetBranchAddress("j2_secVtx3deL", &j2_secVtx3deL);
 	intree->SetBranchAddress("j2_emfrac", &j2_emfrac);
 	intree->SetBranchAddress("j2_hadfrac", &j2_hadfrac);
+	intree->SetBranchAddress("j2_btagSF", &j2_btagSF);
 	intree->SetBranchAddress("j2_ntk", &j2_ntk);
 	intree->SetBranchAddress("j2_nNeutrals", &j2_nNeutrals);
 	intree->SetBranchAddress("j2_nCharged", &j2_nCharged);
@@ -397,6 +399,7 @@ int main(int argc, char *argv[])
 	intree->SetBranchAddress("j3_secVtx3deL", &j3_secVtx3deL);
 	intree->SetBranchAddress("j3_emfrac", &j3_emfrac);
 	intree->SetBranchAddress("j3_hadfrac", &j3_hadfrac);
+	intree->SetBranchAddress("j3_btagSF", &j3_btagSF);
 	intree->SetBranchAddress("j3_ntk", &j3_ntk);
 	intree->SetBranchAddress("j3_nNeutrals", &j3_nNeutrals);
 	intree->SetBranchAddress("j3_nCharged", &j3_nCharged);
@@ -437,6 +440,7 @@ int main(int argc, char *argv[])
 	intree->SetBranchAddress("j4_secVtx3deL", &j4_secVtx3deL);
 	intree->SetBranchAddress("j4_emfrac", &j4_emfrac);
 	intree->SetBranchAddress("j4_hadfrac", &j4_hadfrac);
+	intree->SetBranchAddress("j4_btagSF", &j4_btagSF);
 	intree->SetBranchAddress("j4_ntk", &j4_ntk);
 	intree->SetBranchAddress("j4_nNeutrals", &j4_nNeutrals);
 	intree->SetBranchAddress("j4_nCharged", &j4_nCharged);
@@ -485,12 +489,14 @@ int main(int argc, char *argv[])
 	outtree->Branch("jet1_eta", &jet1_eta, "jet1_eta/F");
 	outtree->Branch("jet1_mass", &jet1_mass, "jet1_mass/F");
 	outtree->Branch("jet1_csvBtag", &jet1_csvBtag, "jet1_csvBtag/F");
+	outtree->Branch("jet1_btagSF", &jet1_btagSF, "jet1_btagSF/F");
 	outtree->Branch("jet2_pt", &jet2_pt, "jet2_pt/F");
 	outtree->Branch("jet2_e", &jet2_e, "jet2_e/F");
 	outtree->Branch("jet2_phi", &jet2_phi, "jet2_phi/F");
 	outtree->Branch("jet2_eta", &jet2_eta, "jet2_eta/F");
 	outtree->Branch("jet2_mass", &jet2_mass, "jet2_mass/F");
 	outtree->Branch("jet2_csvBtag", &jet2_csvBtag, "jet2_csvBtag/F");
+	outtree->Branch("jet2_btagSF", &jet2_btagSF, "jet2_btagSF/F");
 // storing inputs of the regression for comparison
 	outtree->Branch("regjet1_emfrac", &regjet1_emfrac, "regjet1_emfrac/F");
 	outtree->Branch("regjet1_hadfrac", &regjet1_hadfrac, "regjet1_hadfrac/F");
@@ -511,59 +517,69 @@ int main(int argc, char *argv[])
 	outtree->Branch("regjet1_eta", &regjet1_eta, "regjet1_eta/F");
 	outtree->Branch("regjet1_mass", &regjet1_mass, "regjet1_mass/F");
 	outtree->Branch("regjet1_csvBtag", &regjet1_csvBtag, "regjet1_csvBtag/F");
+	outtree->Branch("regjet1_btagSF", &regjet1_btagSF, "regjet1_btagSF/F");
 	outtree->Branch("regjet2_pt", &regjet2_pt, "regjet2_pt/F");
 	outtree->Branch("regjet2_e", &regjet2_e, "regjet2_e/F");
 	outtree->Branch("regjet2_phi", &regjet2_phi, "regjet2_phi/F");
 	outtree->Branch("regjet2_eta", &regjet2_eta, "regjet2_eta/F");
 	outtree->Branch("regjet2_mass", &regjet2_mass, "regjet2_mass/F");
 	outtree->Branch("regjet2_csvBtag", &regjet2_csvBtag, "regjet2_csvBtag/F");
+	outtree->Branch("regjet2_btagSF", &regjet2_btagSF, "regjet2_btagSF/F");
 	outtree->Branch("regkinjet1_pt", &regkinjet1_pt, "regkinjet1_pt/F");
 	outtree->Branch("regkinjet1_e", &regkinjet1_e, "regkinjet1_e/F");
 	outtree->Branch("regkinjet1_phi", &regkinjet1_phi, "regkinjet1_phi/F");
 	outtree->Branch("regkinjet1_eta", &regkinjet1_eta, "regkinjet1_eta/F");
 	outtree->Branch("regkinjet1_mass", &regkinjet1_mass, "regkinjet1_mass/F");
 	outtree->Branch("regkinjet1_csvBtag", &regkinjet1_csvBtag, "regkinjet1_csvBtag/F");
+	outtree->Branch("regkinjet1_btagSF", &regkinjet1_btagSF, "regkinjet1_btagSF/F");
 	outtree->Branch("regkinjet2_pt", &regkinjet2_pt, "regkinjet2_pt/F");
 	outtree->Branch("regkinjet2_e", &regkinjet2_e, "regkinjet2_e/F");
 	outtree->Branch("regkinjet2_phi", &regkinjet2_phi, "regkinjet2_phi/F");
 	outtree->Branch("regkinjet2_eta", &regkinjet2_eta, "regkinjet2_eta/F");
 	outtree->Branch("regkinjet2_mass", &regkinjet2_mass, "regkinjet2_mass/F");
 	outtree->Branch("regkinjet2_csvBtag", &regkinjet2_csvBtag, "regkinjet2_csvBtag/F");
+	outtree->Branch("regkinjet2_btagSF", &regkinjet2_btagSF, "regkinjet2_btagSF/F");
 	outtree->Branch("kinjet1_pt", &kinjet1_pt, "kinjet1_pt/F");
 	outtree->Branch("kinjet1_e", &kinjet1_e, "kinjet1_e/F");
 	outtree->Branch("kinjet1_phi", &kinjet1_phi, "kinjet1_phi/F");
 	outtree->Branch("kinjet1_eta", &kinjet1_eta, "kinjet1_eta/F");
 	outtree->Branch("kinjet1_mass", &kinjet1_mass, "kinjet1_mass/F");
 	outtree->Branch("kinjet1_csvBtag", &kinjet1_csvBtag, "kinjet1_csvBtag/F");
+	outtree->Branch("kinjet1_btagSF", &kinjet1_btagSF, "kinjet1_btagSF/F");
 	outtree->Branch("kinjet2_pt", &kinjet2_pt, "kinjet2_pt/F");
 	outtree->Branch("kinjet2_e", &kinjet2_e, "kinjet2_e/F");
 	outtree->Branch("kinjet2_phi", &kinjet2_phi, "kinjet2_phi/F");
 	outtree->Branch("kinjet2_eta", &kinjet2_eta, "kinjet2_eta/F");
 	outtree->Branch("kinjet2_mass", &kinjet2_mass, "kinjet2_mass/F");
 	outtree->Branch("kinjet2_csvBtag", &kinjet2_csvBtag, "kinjet2_csvBtag/F");
+	outtree->Branch("kinjet2_btagSF", &kinjet2_btagSF, "kinjet2_btagSF/F");
 	outtree->Branch("jj_pt", &jj_pt, "jj_pt/F");
 	outtree->Branch("jj_e", &jj_e, "jj_e/F");
 	outtree->Branch("jj_phi", &jj_phi, "jj_phi/F");
 	outtree->Branch("jj_eta", &jj_eta, "jj_eta/F");
 	outtree->Branch("jj_mass", &jj_mass, "jj_mass/F");
+	outtree->Branch("jj_btagSF", &jj_btagSF, "jj_btagSF/F");
 	outtree->Branch("jj_DR", &jj_DR, "jj_DR/F");
 	outtree->Branch("regjj_pt", &regjj_pt, "regjj_pt/F");
 	outtree->Branch("regjj_e", &regjj_e, "regjj_e/F");
 	outtree->Branch("regjj_phi", &regjj_phi, "regjj_phi/F");
 	outtree->Branch("regjj_eta", &regjj_eta, "regjj_eta/F");
 	outtree->Branch("regjj_mass", &regjj_mass, "regjj_mass/F");
+	outtree->Branch("regjj_btagSF", &regjj_btagSF, "regjj_btagSF/F");
 	outtree->Branch("regjj_DR", &regjj_DR, "regjj_DR/F");
 	outtree->Branch("regkinjj_pt", &regkinjj_pt, "regkinjj_pt/F");
 	outtree->Branch("regkinjj_e", &regkinjj_e, "regkinjj_e/F");
 	outtree->Branch("regkinjj_phi", &regkinjj_phi, "regkinjj_phi/F");
 	outtree->Branch("regkinjj_eta", &regkinjj_eta, "regkinjj_eta/F");
 	outtree->Branch("regkinjj_mass", &regkinjj_mass, "regkinjj_mass/F");
+	outtree->Branch("regkinjj_btagSF", &regkinjj_btagSF, "regkinjj_btagSF/F");
 	outtree->Branch("regkinjj_DR", &regkinjj_DR, "regkinjj_DR/F");
 	outtree->Branch("kinjj_pt", &kinjj_pt, "kinjj_pt/F");
 	outtree->Branch("kinjj_e", &kinjj_e, "kinjj_e/F");
 	outtree->Branch("kinjj_phi", &kinjj_phi, "kinjj_phi/F");
 	outtree->Branch("kinjj_eta", &kinjj_eta, "kinjj_eta/F");
 	outtree->Branch("kinjj_mass", &kinjj_mass, "kinjj_mass/F");
+	outtree->Branch("kinjj_btagSF", &kinjj_btagSF, "kinjj_btagSF/F");
 	outtree->Branch("kinjj_DR", &kinjj_DR, "kinjj_DR/F");
 	outtree->Branch("gg_pt", &gg_pt, "gg_pt/F");
 	outtree->Branch("gg_e", &gg_e, "gg_e/F");
@@ -683,6 +699,8 @@ int main(int argc, char *argv[])
 
 
 	int nevents[30] = {0};
+	float nevents_w[30] = {0.};
+	float nevents_w_btagSF[30] = {0.};
 	int nevents_sync[30] = {0};
 	int nevents1btag[30] = {0};
 	int nevents2btag[30] = {0};
@@ -731,33 +749,43 @@ int main(int argc, char *argv[])
 
 		// Apply photon ID cuts
 		nevents[0]++; eventcut[0] = "Before photon ID";
+		nevents_w[0] += weight;
 		nevents_sync[0]++;
 //		if( (fabs(ph1_eta) > 2.5) || (fabs(ph2_eta) > 2.5) ) continue;
 		nevents[1]++; eventcut[1] = "(OBSOLETE) After eta < 2.5";
+		nevents_w[1] += weight;
 //		if( (fabs(ph1_eta) < 1.566) && (fabs(ph1_eta) >1.4442) ) continue;
 		nevents[2]++; eventcut[2] = "(OBSOLETE) After eta gap for photon 1";
+		nevents_w[2] += weight;
 //		if( (fabs(ph2_eta) < 1.566) && (fabs(ph2_eta) >1.4442) ) continue;
 		nevents[3]++; eventcut[3] = "(OBSOLETE) After eta gap for photon 2";
+		nevents_w[3] += weight;
 		if( ph1_pt < (float)(40.*PhotonsMass)/(float)120. ) continue;
 		nevents[4]++; eventcut[4] = "After floating pt cut for photon 1 (40*mgg/120 GeV)";
+		nevents_w[4] += weight;
 		if( ph2_pt < 25. ) continue;
 		nevents[5]++; eventcut[5] = "After fixed pt cut for photon 2 (25 GeV)";
+		nevents_w[5] += weight;
 		nevents_sync[1]++;
 		if(DEBUG) cout << "ph1_ciclevel= " << ph1_ciclevel << "\tph2_ciclevel= " << ph2_ciclevel << endl;
 		if( (ph1_ciclevel < 4) || (ph2_ciclevel < 4) ) continue;
 		nevents[6]++; eventcut[6] = "After cic cut on both photons";
+		nevents_w[6] += weight;
 		nevents_sync[2]++;
 		if( (PhotonsMass < 100.) || (PhotonsMass > 180.) ) continue;
 		nevents[7]++; eventcut[7] = "After 100 < mgg < 180";
+		nevents_w[7] += weight;
 		if(BLIND)
 			{ if( (PhotonsMass > 120.) && (PhotonsMass < 130.) ) continue; }
 		nevents[8]++; eventcut[8] = "After blinding data in 120 < mgg < 130";
+		nevents_w[8] += weight;
 		nevents_sync[3]++;
 		HT_gg = ph1_pt + ph2_pt;
 
 		// take only the subset of events where at least two jets remains
 		if( njets_passing_kLooseID < 2 ) continue;
 		nevents[9]++; eventcut[9] = "After njet >= 2";
+		nevents_w[9] += weight;
 		nevents_sync[4]++;
 //		if( njets_passing_kLooseID_and_CSVM < 1 ) continue;
 // alternative counting: taking into account only the 4 jets stored !
@@ -781,12 +809,14 @@ int main(int argc, char *argv[])
 		}
 		if( nbjet_tmp < 1 ) continue;
 		nevents[10]++; eventcut[10] = "After nbjet >= 1";
+		nevents_w[10] += weight;
 		nevents_sync[5]++;
 		if( nbjet_tmp == 1) nevents1btag[10]++; 
 		else nevents2btag[10]++;
 
 		TLorentzVector jet;
 		vector<float> jetPt;
+		vector<float> jetbtagSF;
 		vector<float> jetE;
 		vector<float> jetEta;
 		vector<float> jetPhi;
@@ -831,6 +861,7 @@ int main(int argc, char *argv[])
 				jet_secVtx3deL = j1_secVtx3deL;
 				jet_emfrac = j1_emfrac;
 				jet_hadfrac = j1_hadfrac;
+				jet_btagSF = j1_btagSF;
 				jet_nNeutrals = j1_nNeutrals;
 				jet_nCharged = j1_nCharged;
 				jet_nConstituents = jet_nNeutrals + jet_nCharged;
@@ -877,6 +908,7 @@ int main(int argc, char *argv[])
 				jet_secVtx3deL = j2_secVtx3deL;
 				jet_emfrac = j2_emfrac;
 				jet_hadfrac = j2_hadfrac;
+				jet_btagSF = j2_btagSF;
 				jet_nNeutrals = j2_nNeutrals;
 				jet_nCharged = j2_nCharged;
 				jet_nConstituents = jet_nNeutrals + jet_nCharged;
@@ -922,6 +954,7 @@ int main(int argc, char *argv[])
 				jet_secVtx3deL = j3_secVtx3deL;
 				jet_emfrac = j3_emfrac;
 				jet_hadfrac = j3_hadfrac;
+				jet_btagSF = j3_btagSF;
 				jet_nNeutrals = j3_nNeutrals;
 				jet_nCharged = j3_nCharged;
 				jet_nConstituents = jet_nNeutrals + jet_nCharged;
@@ -967,6 +1000,7 @@ int main(int argc, char *argv[])
 				jet_secVtx3deL = j4_secVtx3deL;
 				jet_emfrac = j4_emfrac;
 				jet_hadfrac = j4_hadfrac;
+				jet_btagSF = j4_btagSF;
 				jet_nNeutrals = j4_nNeutrals;
 				jet_nCharged = j4_nCharged;
 				jet_nConstituents = jet_nNeutrals + jet_nCharged;
@@ -1026,6 +1060,7 @@ int main(int argc, char *argv[])
 			// ** call regression to correct the pt **
 			// ** store 4-momentum + csv output for combinatorics **
 			jetPt.push_back(jet_pt);
+			jetbtagSF.push_back(jet_btagSF);
 			jetE.push_back(jet_e);
 			jetEta.push_back(jet_eta);
 			jetPhi.push_back(jet_phi);
@@ -1048,6 +1083,7 @@ int main(int argc, char *argv[])
 		// jet combinatorics
 		if( jetPt.size() < 2 ) continue;
 		nevents[11]++; eventcut[11] = "After njet >=2 passing the jet selection";
+		nevents_w[11] += weight;
 		nevents_sync[6]++;
 
 		vector<int> btaggedJet;
@@ -1059,6 +1095,7 @@ int main(int argc, char *argv[])
 
 		if( btaggedJet.size() < 1 ) continue;
 		nevents[12]++; eventcut[12] = "After nbjet >=1 passing the jet selection";
+		nevents_w[12] += weight;
 		nevents_sync[7]++;
 		if( btaggedJet.size() == 1) nevents1btag[12]++; 
 		else nevents2btag[12]++;
@@ -1254,24 +1291,28 @@ int main(int argc, char *argv[])
 		jet1_eta = jet1.Eta();
 		jet1_mass = jet1.M();
 		jet1_csvBtag = jetCSV[ij1];
+		jet1_btagSF = jetbtagSF[ij1];
 		jet2_pt = jet2.Pt();
 		jet2_e = jet2.E();
 		jet2_phi = jet2.Phi();
 		jet2_eta = jet2.Eta();
 		jet2_mass = jet2.M();
 		jet2_csvBtag = jetCSV[ij2];
+		jet2_btagSF = jetbtagSF[ij2];
 		regjet1_pt = regjet1.Pt();
 		regjet1_e = regjet1.E();
 		regjet1_phi = regjet1.Phi();
 		regjet1_eta = regjet1.Eta();
 		regjet1_mass = regjet1.M();
 		regjet1_csvBtag = jetCSV[ij1Reg];
+		regjet1_btagSF = jetbtagSF[ij1Reg];
 		regjet2_pt = regjet2.Pt();
 		regjet2_e = regjet2.E();
 		regjet2_phi = regjet2.Phi();
 		regjet2_eta = regjet2.Eta();
 		regjet2_mass = regjet2.M();
 		regjet2_csvBtag = jetCSV[ij2Reg];
+		regjet2_btagSF = jetbtagSF[ij2Reg];
 		regjet1_emfrac = jetEmfrac[ij1Reg];
 		regjet1_hadfrac = jetHadfrac[ij1Reg];
 		regjet1_secVtxPt = jetSecVtxPt[ij1Reg];
@@ -1290,47 +1331,55 @@ int main(int argc, char *argv[])
 		regkinjet1_eta = regkinjet1.Eta();
 		regkinjet1_mass = regkinjet1.M();
 		regkinjet1_csvBtag = jetCSV[ij1RegKin];
+		regkinjet1_btagSF = jetbtagSF[ij1RegKin];
 		regkinjet2_pt = regkinjet2.Pt();
 		regkinjet2_e = regkinjet2.E();
 		regkinjet2_phi = regkinjet2.Phi();
 		regkinjet2_eta = regkinjet2.Eta();
 		regkinjet2_mass = regkinjet2.M();
 		regkinjet2_csvBtag = jetCSV[ij2RegKin];
+		regkinjet2_btagSF = jetbtagSF[ij2RegKin];
 		kinjet1_pt = kinjet1.Pt();
 		kinjet1_e = kinjet1.E();
 		kinjet1_phi = kinjet1.Phi();
 		kinjet1_eta = kinjet1.Eta();
 		kinjet1_mass = kinjet1.M();
 		kinjet1_csvBtag = jetCSV[ij1];
+		kinjet1_btagSF = jetbtagSF[ij1];
 		kinjet2_pt = kinjet2.Pt();
 		kinjet2_e = kinjet2.E();
 		kinjet2_phi = kinjet2.Phi();
 		kinjet2_eta = kinjet2.Eta();
 		kinjet2_mass = kinjet2.M();
 		kinjet2_csvBtag = jetCSV[ij2];
+		kinjet2_btagSF = jetbtagSF[ij2];
 		jj_pt = jj.Pt();
 		jj_e = jj.E();
 		jj_phi = jj.Phi();
 		jj_eta = jj.Eta();
 		jj_mass = jj.M();
+		jj_btagSF = jet1_btagSF * jet2_btagSF;
 		jj_DR = jet1.DeltaR(jet2);
 		regjj_pt = regjj.Pt();
 		regjj_e = regjj.E();
 		regjj_phi = regjj.Phi();
 		regjj_eta = regjj.Eta();
 		regjj_mass = regjj.M();
+		regjj_btagSF = regjet1_btagSF * regjet2_btagSF;
 		regjj_DR = regjet1.DeltaR(regjet2);
 		regkinjj_pt = regkinjj.Pt();
 		regkinjj_e = regkinjj.E();
 		regkinjj_phi = regkinjj.Phi();
 		regkinjj_eta = regkinjj.Eta();
 		regkinjj_mass = regkinjj.M();
+		regkinjj_btagSF = regkinjet1_btagSF * regkinjet2_btagSF;
 		regkinjj_DR = regkinjet1.DeltaR(regkinjet2);
 		kinjj_pt = kinjj.Pt();
 		kinjj_e = kinjj.E();
 		kinjj_phi = kinjj.Phi();
 		kinjj_eta = kinjj.Eta();
 		kinjj_mass = kinjj.M();
+		kinjj_btagSF = kinjet1_btagSF * kinjet2_btagSF;
 		kinjj_DR = kinjet1.DeltaR(kinjet2);
 		gg_pt = gg.Pt();
 		gg_e = gg.E();
@@ -1396,6 +1445,12 @@ int main(int argc, char *argv[])
 		minDRgkinj = min(minDRgkinj, (float)pho2.DeltaR(kinjet1));
 		minDRgkinj = min(minDRgkinj, (float)pho2.DeltaR(kinjet2));
 
+		if(regjet1_btagSF == -1001 || regjet2_btagSF == -1001)
+		{
+			cout << "WARNING: undefined btagSF, skipping the event:\tevent= " << event << "\tregjet1_btagSF= " << regjet1_btagSF << "\tregjet2_btagSF= " << regjet2_btagSF << "\tregjet1_pt= " << regjet1_pt << "\tregjet2_pt= " << regjet2_pt << endl;
+			continue;
+		}
+
 // categorisation
 		selection_cut_level = 0;
 		if(SYNCHRO) synchrofile << jet1_pt << "\t" << jet2_pt << "\t" << jj_mass << "\t" << ggjj_mass << endl;
@@ -1403,11 +1458,13 @@ int main(int argc, char *argv[])
 		{
 			category = 1;
 			nevents[13]++;
+			nevents_w[13] += weight;
 			nevents_sync[8]++;
 			eventcut[13] = "1btag category";
 		} else if( njets_kRadionID_and_CSVM >=2) {
 			category = 2;
 			nevents[14]++;
+			nevents_w[14] += weight;
 			nevents_sync[9]++;
 			eventcut[14] = "2btag category";
 		}
@@ -1431,6 +1488,8 @@ int main(int argc, char *argv[])
 			eventcut[16] = "2btag category, after | cos theta* | <.9";
 		}
 */
+
+
 // mjj cut (90/150 for 1btag and 95/140 for 2btags)
 		if(SYNC_W_CHIARA && n_sync_events_before_mjj == 0) cout << "event\tjet1_index\tjet2_index\tjet1_regPt\tjet2_regPt\tregjj_mass" << endl;
 		if(SYNC_W_CHIARA && n_sync_events_before_mjj < 10) cout << event << "\t" << ij1Reg << "\t" << ij2Reg << "\t" << regjet1_pt << "\t" << regjet2_pt << "\t" << regjj_mass << endl;
@@ -1450,6 +1509,7 @@ int main(int argc, char *argv[])
 		{
 			category = 1;
 			nevents[17]++;
+			nevents_w[17] += weight;
 			nevents_sync[10]++;
 			if(SYNC)
 				eventcut[17] = "1btag category, after mjj cut (90/165 for 1btag and 95/140 for 2btags)";
@@ -1458,6 +1518,7 @@ int main(int argc, char *argv[])
 		} else if( njets_kRadionID_and_CSVM >=2) {
 			category = 2;
 			nevents[18]++;
+			nevents_w[18] += weight;
 			nevents_sync[11]++;
 			if(SYNC)
 				eventcut[18] = "2btag category, after mjj cut (90/165 for 1btag and 95/140 for 2btags)";
@@ -1499,6 +1560,7 @@ int main(int argc, char *argv[])
 		{
 			category = 1;
 			nevents[21]++;
+			nevents_w[21] += weight;
 			nevents_sync[12]++;
 			if(!SYNC)
 				eventcut[21] = "1btag category, after mggjj cut (260/335 and 255/320)";
@@ -1507,6 +1569,7 @@ int main(int argc, char *argv[])
 		} else if( njets_kRadionID_and_CSVM >=2) {
 			category = 2;
 			nevents[22]++;
+			nevents_w[22] += weight;
 			nevents_sync[13]++;
 			if(!SYNC)
 				eventcut[22] = "2btag category, after mggjj cut (260/335 and 255/320)";
@@ -1559,7 +1622,7 @@ int main(int argc, char *argv[])
 
 
 	for(int i=0 ; i < 27 ; i++)
-    if(!SYNCHRO_LIGHT) cout << "#nevents[" << i << "]= " << nevents[i] << "\teventcut[" << i << "]= " << eventcut[i] << "\t\t( 1btag= " << nevents1btag[i] << " , 2btag= " << nevents2btag[i] << " ) " << endl;
+    if(!SYNCHRO_LIGHT) cout << "#nevents[" << i << "]= " << nevents[i] << "\t#nevents_w[" << i << "]= " << nevents_w[i] << "\teventcut[" << i << "]= " << eventcut[i] << "\t\t( 1btag= " << nevents1btag[i] << " , 2btag= " << nevents2btag[i] << " ) " << endl;
     else
 		{
 			if(i>0 && i< 5) continue;
