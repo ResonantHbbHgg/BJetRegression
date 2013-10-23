@@ -717,6 +717,7 @@ int main(int argc, char *argv[])
   for(int ievt=0 ; ievt < totevents ; ievt++)
 //  for(int ievt=10127 ; ievt < 10128 ; ievt++)
   {
+		int ilevel = 0;
 		if(DEBUG) cout << "#####\tievt= " << ievt << endl;
     double progress = 10.0*ievt/(1.0*totevents);
     int k = TMath::FloorNint(progress);
@@ -729,6 +730,7 @@ int main(int argc, char *argv[])
 		if(DEBUG) cout << "event= " << event << endl;
 		if( isMC < 0 && ((int)event % 2 == 0)) continue; // use regression only on odd events
 	
+		if(DEBUG) cout << "for MC, get the MC truth hjj system" << endl;
 // Compute hjj system
 		TLorentzVector gj1, gj2;
 		if( gr_j1_p4_pt > .01 && gr_j2_p4_pt > .01)
@@ -747,45 +749,46 @@ int main(int argc, char *argv[])
 			gr_hjj_p4_mass = 0.;
 		}
 
+		if(DEBUG) cout << "Apply photon ID cuts" << endl;
 		// Apply photon ID cuts
-		nevents[0]++; eventcut[0] = "Before photon ID";
-		nevents_w[0] += weight;
+		nevents[ilevel]++; eventcut[ilevel] = "Before photon ID";
+		nevents_w[ilevel] += weight; ilevel++;
 		nevents_sync[0]++;
 //		if( (fabs(ph1_eta) > 2.5) || (fabs(ph2_eta) > 2.5) ) continue;
-		nevents[1]++; eventcut[1] = "(OBSOLETE) After eta < 2.5";
-		nevents_w[1] += weight;
+		nevents[ilevel]++; eventcut[ilevel] = "(OBSOLETE) After eta < 2.5";
+		nevents_w[ilevel] += weight; ilevel++;
 //		if( (fabs(ph1_eta) < 1.566) && (fabs(ph1_eta) >1.4442) ) continue;
-		nevents[2]++; eventcut[2] = "(OBSOLETE) After eta gap for photon 1";
-		nevents_w[2] += weight;
+		nevents[ilevel]++; eventcut[ilevel] = "(OBSOLETE) After eta gap for photon 1";
+		nevents_w[ilevel] += weight; ilevel++;
 //		if( (fabs(ph2_eta) < 1.566) && (fabs(ph2_eta) >1.4442) ) continue;
-		nevents[3]++; eventcut[3] = "(OBSOLETE) After eta gap for photon 2";
-		nevents_w[3] += weight;
+		nevents[ilevel]++; eventcut[ilevel] = "(OBSOLETE) After eta gap for photon 2";
+		nevents_w[ilevel] += weight; ilevel++;
 		if( ph1_pt < (float)(40.*PhotonsMass)/(float)120. ) continue;
-		nevents[4]++; eventcut[4] = "After floating pt cut for photon 1 (40*mgg/120 GeV)";
-		nevents_w[4] += weight;
+		nevents[ilevel]++; eventcut[ilevel] = "After floating pt cut for photon 1 (40*mgg/120 GeV)";
+		nevents_w[ilevel] += weight; ilevel++;
 		if( ph2_pt < 25. ) continue;
-		nevents[5]++; eventcut[5] = "After fixed pt cut for photon 2 (25 GeV)";
-		nevents_w[5] += weight;
+		nevents[ilevel]++; eventcut[ilevel] = "After fixed pt cut for photon 2 (25 GeV)";
+		nevents_w[ilevel] += weight; ilevel++;
 		nevents_sync[1]++;
 		if(DEBUG) cout << "ph1_ciclevel= " << ph1_ciclevel << "\tph2_ciclevel= " << ph2_ciclevel << endl;
 		if( (ph1_ciclevel < 4) || (ph2_ciclevel < 4) ) continue;
-		nevents[6]++; eventcut[6] = "After cic cut on both photons";
-		nevents_w[6] += weight;
+		nevents[ilevel]++; eventcut[ilevel] = "After cic cut on both photons";
+		nevents_w[ilevel] += weight; ilevel++;
 		nevents_sync[2]++;
 		if( (PhotonsMass < 100.) || (PhotonsMass > 180.) ) continue;
-		nevents[7]++; eventcut[7] = "After 100 < mgg < 180";
-		nevents_w[7] += weight;
+		nevents[ilevel]++; eventcut[ilevel] = "After 100 < mgg < 180";
+		nevents_w[ilevel] += weight; ilevel++;
 		if(BLIND)
 			{ if( (PhotonsMass > 120.) && (PhotonsMass < 130.) ) continue; }
-		nevents[8]++; eventcut[8] = "After blinding data in 120 < mgg < 130";
-		nevents_w[8] += weight;
+		nevents[ilevel]++; eventcut[ilevel] = "After blinding data in 120 < mgg < 130";
+		nevents_w[ilevel] += weight; ilevel++;
 		nevents_sync[3]++;
 		HT_gg = ph1_pt + ph2_pt;
 
 		// take only the subset of events where at least two jets remains
 		if( njets_passing_kLooseID < 2 ) continue;
-		nevents[9]++; eventcut[9] = "After njet >= 2";
-		nevents_w[9] += weight;
+		nevents[ilevel]++; eventcut[ilevel] = "After njet >= 2";
+		nevents_w[ilevel] += weight; ilevel++;
 		nevents_sync[4]++;
 //		if( njets_passing_kLooseID_and_CSVM < 1 ) continue;
 // alternative counting: taking into account only the 4 jets stored !
@@ -808,8 +811,8 @@ int main(int argc, char *argv[])
 					nbjet_tmp++; 
 		}
 		if( nbjet_tmp < 1 ) continue;
-		nevents[10]++; eventcut[10] = "After nbjet >= 1";
-		nevents_w[10] += weight;
+		nevents[ilevel]++; eventcut[ilevel] = "After nbjet >= 1";
+		nevents_w[ilevel] += weight; ilevel++;
 		nevents_sync[5]++;
 		if( nbjet_tmp == 1) nevents1btag[10]++; 
 		else nevents2btag[10]++;
@@ -1082,8 +1085,8 @@ int main(int argc, char *argv[])
 		if(DEBUG) cout << "jetPt.size()= " << jetPt.size() << endl;
 		// jet combinatorics
 		if( jetPt.size() < 2 ) continue;
-		nevents[11]++; eventcut[11] = "After njet >=2 passing the jet selection";
-		nevents_w[11] += weight;
+		nevents[ilevel]++; eventcut[ilevel] = "After njet >=2 passing the jet selection";
+		nevents_w[ilevel] += weight; ilevel++;
 		nevents_sync[6]++;
 
 		vector<int> btaggedJet;
@@ -1094,8 +1097,8 @@ int main(int argc, char *argv[])
 		}
 
 		if( btaggedJet.size() < 1 ) continue;
-		nevents[12]++; eventcut[12] = "After nbjet >=1 passing the jet selection";
-		nevents_w[12] += weight;
+		nevents[ilevel]++; eventcut[ilevel] = "After nbjet >=1 passing the jet selection";
+		nevents_w[ilevel] += weight; ilevel++;
 		nevents_sync[7]++;
 		if( btaggedJet.size() == 1) nevents1btag[12]++; 
 		else nevents2btag[12]++;
@@ -1450,6 +1453,8 @@ int main(int argc, char *argv[])
 			cout << "WARNING: undefined btagSF, skipping the event:\tevent= " << event << "\tregjet1_btagSF= " << regjet1_btagSF << "\tregjet2_btagSF= " << regjet2_btagSF << "\tregjet1_pt= " << regjet1_pt << "\tregjet2_pt= " << regjet2_pt << endl;
 			continue;
 		}
+		nevents[ilevel]++; eventcut[ilevel] = "After removing undefined btagSF";
+		nevents_w[ilevel] += evweight; nevents_w_btagSF[ilevel] += evweight * regjj_btagSF; ilevel++;
 
 // categorisation
 		selection_cut_level = 0;
@@ -1457,20 +1462,21 @@ int main(int argc, char *argv[])
 		if(njets_kRadionID_and_CSVM == 1)
 		{
 			category = 1;
-			nevents[13]++;
-			nevents_w[13] += weight;
+			nevents[ilevel]++;
+			nevents_w[ilevel] += weight;
 			nevents_sync[8]++;
-			eventcut[13] = "1btag category";
+			eventcut[ilevel] = "1btag category"; ilevel++;
 		} else if( njets_kRadionID_and_CSVM >=2) {
 			category = 2;
-			nevents[14]++;
-			nevents_w[14] += weight;
+			nevents[ilevel]++;
+			nevents_w[ilevel] += weight;
 			nevents_sync[9]++;
-			eventcut[14] = "2btag category";
+			eventcut[ilevel] = "2btag category"; ilevel++;
 		}
 
 // | cos theta* | <.9
 		selection_cut_level = 1;
+ilevel++; ilevel++;
 /*
 		if( fabs(regcosthetastar) >= .9 )
 		{
@@ -1508,22 +1514,26 @@ int main(int argc, char *argv[])
 		if(njets_kRadionID_and_CSVM == 1)
 		{
 			category = 1;
-			nevents[17]++;
-			nevents_w[17] += weight;
+			nevents[ilevel]++;
+			nevents_w[ilevel] += weight;
 			nevents_sync[10]++;
 			if(SYNC)
-				eventcut[17] = "1btag category, after mjj cut (90/165 for 1btag and 95/140 for 2btags)";
-			else
-				eventcut[17] = "1btag category, after mjj cut (90/150 for 1btag and 95/140 for 2btags)";
+			{
+				eventcut[17] = "1btag category, after mjj cut (90/165 for 1btag and 95/140 for 2btags)"; ilevel++;
+			} else {
+				eventcut[17] = "1btag category, after mjj cut (90/150 for 1btag and 95/140 for 2btags)"; ilevel++;
+			}
 		} else if( njets_kRadionID_and_CSVM >=2) {
 			category = 2;
-			nevents[18]++;
-			nevents_w[18] += weight;
+			nevents[ilevel]++;
+			nevents_w[ilevel] += weight;
 			nevents_sync[11]++;
 			if(SYNC)
-				eventcut[18] = "2btag category, after mjj cut (90/165 for 1btag and 95/140 for 2btags)";
-			else
-				eventcut[18] = "2btag category, after mjj cut (90/150 for 1btag and 95/140 for 2btags)";
+			{
+				eventcut[18] = "2btag category, after mjj cut (90/165 for 1btag and 95/140 for 2btags)"; ilevel++;
+			} else {
+				eventcut[18] = "2btag category, after mjj cut (90/150 for 1btag and 95/140 for 2btags)"; ilevel++;
+			}
 		}
 
 // kin fit
@@ -1532,12 +1542,12 @@ int main(int argc, char *argv[])
 		if(njets_kRadionID_and_CSVM == 1)
 		{
 			category = 1;
-			nevents[19]++;
-			eventcut[19] = "1btag category, after kin fit";
+			nevents[ilevel]++;
+			eventcut[ilevel] = "1btag category, after kin fit"; ilevel++;
 		} else if( njets_kRadionID_and_CSVM >=2) {
 			category = 2;
-			nevents[20]++;
-			eventcut[20] = "2btag category, after kin fit";
+			nevents[ilevel]++;
+			eventcut[ilevel] = "2btag category, after kin fit"; ilevel++;
 		}
 
 		if(SYNC_W_CHIARA_GGJJ && n_sync_events_before_mggjj == 0) cout << "event\tregjet1_pt\tregjet2_pt\tregkinjet1_pt\tregkinjet2_pt\tregjj_mass\tregggjj_mass\tregkinjj_mass\tregkinggjj_mass" << endl; 
@@ -1559,24 +1569,28 @@ int main(int argc, char *argv[])
 		if(njets_kRadionID_and_CSVM == 1)
 		{
 			category = 1;
-			nevents[21]++;
-			nevents_w[21] += weight;
+			nevents[ilevel]++;
+			nevents_w[ilevel] += weight;
 			nevents_sync[12]++;
 			if(!SYNC)
-				eventcut[21] = "1btag category, after mggjj cut (260/335 and 255/320)";
-			else
-				eventcut[21] = "1btag category, after mggjj cut (255/340 and 265/320)";
+			{
+				eventcut[ilevel] = "1btag category, after mggjj cut (260/335 and 255/320)"; ilevel++;
+			} else {
+				eventcut[ilevel] = "1btag category, after mggjj cut (255/340 and 265/320)"; ilevel++;
+			}
 		} else if( njets_kRadionID_and_CSVM >=2) {
 			category = 2;
-			nevents[22]++;
-			nevents_w[22] += weight;
+			nevents[ilevel]++;
+			nevents_w[ilevel] += weight;
 			nevents_sync[13]++;
 			if(!SYNC)
-				eventcut[22] = "2btag category, after mggjj cut (260/335 and 255/320)";
-			else
-				eventcut[22] = "2btag category, after mggjj cut (255/340 and 265/320)";
+			{
+				eventcut[ilevel] = "2btag category, after mggjj cut (260/335 and 255/320)"; ilevel++;
+			} else {
+				eventcut[ilevel] = "2btag category, after mggjj cut (255/340 and 265/320)"; ilevel++;
+			}
 		}
-
+/*
 // deltaR(g,j) >= 1
 		selection_cut_level = 4;
 		if( minDRgregkinj < 1.)
@@ -1613,7 +1627,7 @@ int main(int argc, char *argv[])
 			eventcut[26] = "2btag category, after njets < 4";
 		}
 
-
+*/
 
 		selection_cut_level = 6;
 		outtree->Fill();
@@ -1622,7 +1636,7 @@ int main(int argc, char *argv[])
 
 
 	for(int i=0 ; i < 27 ; i++)
-    if(!SYNCHRO_LIGHT) cout << "#nevents[" << i << "]= " << nevents[i] << "\t#nevents_w[" << i << "]= " << nevents_w[i] << "\teventcut[" << i << "]= " << eventcut[i] << "\t\t( 1btag= " << nevents1btag[i] << " , 2btag= " << nevents2btag[i] << " ) " << endl;
+    if(!SYNCHRO_LIGHT) cout << "#nevents[" << i << "]= " << nevents[i] << "\t#nevents_w[" << i << "]= " << nevents_w[i] << "\t#nevents_w_btagSF[" << i << "]= " << nevents_w_btagSF[i] << "\teventcut[" << i << "]= " << eventcut[i] << "\t\t( 1btag= " << nevents1btag[i] << " , 2btag= " << nevents2btag[i] << " ) " << endl;
     else
 		{
 			if(i>0 && i< 5) continue;
