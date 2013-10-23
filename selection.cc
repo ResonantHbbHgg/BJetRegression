@@ -28,6 +28,7 @@
 #define SYNC_W_CHIARA_GGJJ 0
 #define SYNC 1
 #define USEHT 0
+#define REMOVE_UNDEFINED_BTAGSF 0
 // namespaces
 using namespace std;
 namespace po = boost::program_options;
@@ -1342,7 +1343,7 @@ int main(int argc, char *argv[])
 		minDRgkinj = min(minDRgkinj, (float)pho2.DeltaR(kinjet1));
 		minDRgkinj = min(minDRgkinj, (float)pho2.DeltaR(kinjet2));
 
-		if(regjet1_btagSF == -1001 || regjet2_btagSF == -1001)
+		if(REMOVE_UNDEFINED_BTAGSF && (regjet1_btagSF == -1001 || regjet2_btagSF == -1001))
 		{
 			cout << "WARNING: undefined btagSF, skipping the event:\tevent= " << event << "\tregjet1_btagSF= " << regjet1_btagSF << "\tregjet2_btagSF= " << regjet2_btagSF << "\tregjet1_pt= " << regjet1_pt << "\tregjet2_pt= " << regjet2_pt << endl;
 			continue;
