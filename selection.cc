@@ -577,17 +577,12 @@ int main(int argc, char *argv[])
 	readerRegres->AddVariable( "jet_dPhiMETJet", &jet_dPhiMet_fabs);
 
 // Adding variables
-//	readerRegres->AddVariable( "ev_rho", &rho);
 	if( USEHT ) readerRegres->AddVariable( "ph1_pt+ph2_pt", &HT_gg);
 	if(numberOfSplit <= 1)
 		readerRegres->BookMVA("BDT", regressionfile.c_str());
 	else {
 		for(int i = 0; i < numberOfSplit ; i++)
 		{
-//			readerRegres->BookMVA(Form("BDT_%i", i), Form("weights/2013-08-08_test_n%i_j%i_BDT.weights.xml", numberOfSplit, i));
-//			readerRegres->BookMVA(Form("BDT_%i", i), Form("weights/2013-08-08_test02_n%i_j%i_BDT.weights.xml", numberOfSplit, i));
-//			readerRegres->BookMVA(Form("BDT_%i", i), Form("weights/2013-08-08_test03_n%i_j%i_BDT.weights.xml", numberOfSplit, i));
-//			readerRegres->BookMVA(Form("BDT_%i", i), Form("weights/%s_n%i_j%i_BDT.weights.xml", regressionfile.c_str(), numberOfSplit, i));
 			readerRegres->BookMVA(Form("BDT_%i", i), Form("%s/TMVARegression_10_Cat%i_BDTG.weights.xml", regressionfile.c_str(), i));
 		}
 	}
@@ -610,7 +605,6 @@ int main(int argc, char *argv[])
   cout << "#entries= " << totevents << endl;
   // loop over events
   for(int ievt=0 ; ievt < totevents ; ievt++)
-//  for(int ievt=10127 ; ievt < 10128 ; ievt++)
   {
 		int ilevel = 0;
 		if(DEBUG) cout << "#####\tievt= " << ievt << endl;
@@ -649,15 +643,6 @@ int main(int argc, char *argv[])
 		nevents[ilevel]++; eventcut[ilevel] = "Before photon ID";
 		nevents_w[ilevel] += weight; ilevel++;
 		nevents_sync[0]++;
-//		if( (fabs(ph1_eta) > 2.5) || (fabs(ph2_eta) > 2.5) ) continue;
-		nevents[ilevel]++; eventcut[ilevel] = "(OBSOLETE) After eta < 2.5";
-		nevents_w[ilevel] += weight; ilevel++;
-//		if( (fabs(ph1_eta) < 1.566) && (fabs(ph1_eta) >1.4442) ) continue;
-		nevents[ilevel]++; eventcut[ilevel] = "(OBSOLETE) After eta gap for photon 1";
-		nevents_w[ilevel] += weight; ilevel++;
-//		if( (fabs(ph2_eta) < 1.566) && (fabs(ph2_eta) >1.4442) ) continue;
-		nevents[ilevel]++; eventcut[ilevel] = "(OBSOLETE) After eta gap for photon 2";
-		nevents_w[ilevel] += weight; ilevel++;
 		if( ph1_pt < (float)(40.*PhotonsMass)/(float)120. ) continue;
 		nevents[ilevel]++; eventcut[ilevel] = "After floating pt cut for photon 1 (40*mgg/120 GeV)";
 		nevents_w[ilevel] += weight; ilevel++;
@@ -685,7 +670,6 @@ int main(int argc, char *argv[])
 		nevents[ilevel]++; eventcut[ilevel] = "After njet >= 2";
 		nevents_w[ilevel] += weight; ilevel++;
 		nevents_sync[4]++;
-//		if( njets_passing_kLooseID_and_CSVM < 1 ) continue;
 // alternative counting: taking into account only the 4 jets stored !
 		int nbjet_tmp = 0;
 //		float csv_cut = 0.244; // CSVL
@@ -743,15 +727,10 @@ int main(int argc, char *argv[])
 				jet_pt = j1_pt;
 				jet_phi = j1_phi;
 				jet_eta = j1_eta;
-/*				jet_beta = j1_beta;
-				jet_betaStar = j1_betaStar;
-*/				jet_betaStarClassic = j1_betaStarClassic;
+				jet_betaStarClassic = j1_betaStarClassic;
 				jet_dR2Mean = j1_dR2Mean;
 				jet_csvBtag = j1_csvBtag;
-/*				jet_csvMvaBtag = j1_csvMvaBtag;
-				jet_jetProbBtag = j1_jetProbBtag;
-				jet_tcheBtag = j1_tcheBtag;
-*/				jet_radionMatched = j1_radionMatched;
+				jet_radionMatched = j1_radionMatched;
 				jet_ptD = j1_ptD;
 				jet_nSecondaryVertices = j1_nSecondaryVertices;
 				jet_secVtxPt = j1_secVtxPt;
@@ -763,23 +742,7 @@ int main(int argc, char *argv[])
 				jet_nNeutrals = j1_nNeutrals;
 				jet_nCharged = j1_nCharged;
 				jet_nConstituents = jet_nNeutrals + jet_nCharged;
-/*
-				jet_ntk = j1_ntk;
-				jet_axis1 = j1_axis1;
-				jet_axis2 = j1_axis2;
-				jet_pull = j1_pull;
-				jet_Rchg = j1_Rchg;
-				jet_Rneutral = j1_Rneutral;
-				jet_R = j1_R;
-				jet_chargedMultiplicity = j1_chargedMultiplicity;
-				jet_neutralMultiplicity = j1_neutralMultiplicity;
-				jet_Chadfrac = j1_Chadfrac;
-				jet_Nhadfrac = j1_Nhadfrac;
-				jet_Phofrac = j1_Phofrac;
-				jet_Mufrac = j1_Mufrac;
-				jet_Elefrac = j1_Elefrac;
-				jet_pfloose = j1_pfloose;
-*/				jet_index = 1;
+				jet_index = 1;
 				jet.SetPtEtaPhiE(j1_pt, j1_eta, j1_phi, j1_e);
 				jet_dPhiMet = jet.DeltaPhi(met);
 			} // end if jet == 0
@@ -790,15 +753,10 @@ int main(int argc, char *argv[])
 				jet_pt = j2_pt;
 				jet_phi = j2_phi;
 				jet_eta = j2_eta;
-/*				jet_beta = j2_beta;
-				jet_betaStar = j2_betaStar;
-*/				jet_betaStarClassic = j2_betaStarClassic;
+				jet_betaStarClassic = j2_betaStarClassic;
 				jet_dR2Mean = j2_dR2Mean;
 				jet_csvBtag = j2_csvBtag;
-/*				jet_csvMvaBtag = j2_csvMvaBtag;
-				jet_jetProbBtag = j2_jetProbBtag;
-				jet_tcheBtag = j2_tcheBtag;
-*/				jet_radionMatched = j2_radionMatched;
+				jet_radionMatched = j2_radionMatched;
 				jet_ptD = j2_ptD;
 				jet_nSecondaryVertices = j2_nSecondaryVertices;
 				jet_secVtxPt = j2_secVtxPt;
@@ -810,22 +768,7 @@ int main(int argc, char *argv[])
 				jet_nNeutrals = j2_nNeutrals;
 				jet_nCharged = j2_nCharged;
 				jet_nConstituents = jet_nNeutrals + jet_nCharged;
-	/*			jet_ntk = j2_ntk;
-				jet_axis1 = j2_axis1;
-				jet_axis2 = j2_axis2;
-				jet_pull = j2_pull;
-				jet_Rchg = j2_Rchg;
-				jet_Rneutral = j2_Rneutral;
-				jet_R = j2_R;
-				jet_chargedMultiplicity = j2_chargedMultiplicity;
-				jet_neutralMultiplicity = j2_neutralMultiplicity;
-				jet_Chadfrac = j2_Chadfrac;
-				jet_Nhadfrac = j2_Nhadfrac;
-				jet_Phofrac = j2_Phofrac;
-				jet_Mufrac = j2_Mufrac;
-				jet_Elefrac = j2_Elefrac;
-				jet_pfloose = j2_pfloose;
-*/				jet_index = 2;
+				jet_index = 2;
 				jet.SetPtEtaPhiE(j2_pt, j2_eta, j2_phi, j2_e);
 				jet_dPhiMet = jet.DeltaPhi(met);
 			} // end if jet == 1
@@ -836,15 +779,10 @@ int main(int argc, char *argv[])
 				jet_pt = j3_pt;
 				jet_phi = j3_phi;
 				jet_eta = j3_eta;
-/*				jet_beta = j3_beta;
-				jet_betaStar = j3_betaStar;
-*/				jet_betaStarClassic = j3_betaStarClassic;
+				jet_betaStarClassic = j3_betaStarClassic;
 				jet_dR2Mean = j3_dR2Mean;
 				jet_csvBtag = j3_csvBtag;
-/*				jet_csvMvaBtag = j3_csvMvaBtag;
-				jet_jetProbBtag = j3_jetProbBtag;
-				jet_tcheBtag = j3_tcheBtag;
-*/				jet_radionMatched = j3_radionMatched;
+				jet_radionMatched = j3_radionMatched;
 				jet_ptD = j3_ptD;
 				jet_nSecondaryVertices = j3_nSecondaryVertices;
 				jet_secVtxPt = j3_secVtxPt;
@@ -856,22 +794,7 @@ int main(int argc, char *argv[])
 				jet_nNeutrals = j3_nNeutrals;
 				jet_nCharged = j3_nCharged;
 				jet_nConstituents = jet_nNeutrals + jet_nCharged;
-/*				jet_ntk = j3_ntk;
-				jet_axis1 = j3_axis1;
-				jet_axis2 = j3_axis2;
-				jet_pull = j3_pull;
-				jet_Rchg = j3_Rchg;
-				jet_Rneutral = j3_Rneutral;
-				jet_R = j3_R;
-				jet_chargedMultiplicity = j3_chargedMultiplicity;
-				jet_neutralMultiplicity = j3_neutralMultiplicity;
-				jet_Chadfrac = j3_Chadfrac;
-				jet_Nhadfrac = j3_Nhadfrac;
-				jet_Phofrac = j3_Phofrac;
-				jet_Mufrac = j3_Mufrac;
-				jet_Elefrac = j3_Elefrac;
-				jet_pfloose = j3_pfloose;
-*/				jet_index = 3;
+				jet_index = 3;
 				jet.SetPtEtaPhiE(j3_pt, j3_eta, j3_phi, j3_e);
 				jet_dPhiMet = jet.DeltaPhi(met);
 			} // end if jet == 2
@@ -882,15 +805,10 @@ int main(int argc, char *argv[])
 				jet_pt = j4_pt;
 				jet_phi = j4_phi;
 				jet_eta = j4_eta;
-/*				jet_beta = j4_beta;
-				jet_betaStar = j4_betaStar;
-*/				jet_betaStarClassic = j4_betaStarClassic;
+				jet_betaStarClassic = j4_betaStarClassic;
 				jet_dR2Mean = j4_dR2Mean;
 				jet_csvBtag = j4_csvBtag;
-/*				jet_csvMvaBtag = j4_csvMvaBtag;
-				jet_jetProbBtag = j4_jetProbBtag;
-				jet_tcheBtag = j4_tcheBtag;
-*/				jet_radionMatched = j4_radionMatched;
+				jet_radionMatched = j4_radionMatched;
 				jet_ptD = j4_ptD;
 				jet_nSecondaryVertices = j4_nSecondaryVertices;
 				jet_secVtxPt = j4_secVtxPt;
@@ -902,48 +820,24 @@ int main(int argc, char *argv[])
 				jet_nNeutrals = j4_nNeutrals;
 				jet_nCharged = j4_nCharged;
 				jet_nConstituents = jet_nNeutrals + jet_nCharged;
-/*				jet_ntk = j4_ntk;
-				jet_axis1 = j4_axis1;
-				jet_axis2 = j4_axis2;
-				jet_pull = j4_pull;
-				jet_Rchg = j4_Rchg;
-				jet_Rneutral = j4_Rneutral;
-				jet_R = j4_R;
-				jet_chargedMultiplicity = j4_chargedMultiplicity;
-				jet_neutralMultiplicity = j4_neutralMultiplicity;
-				jet_Chadfrac = j4_Chadfrac;
-				jet_Nhadfrac = j4_Nhadfrac;
-				jet_Phofrac = j4_Phofrac;
-				jet_Mufrac = j4_Mufrac;
-				jet_Elefrac = j4_Elefrac;
-				jet_pfloose = j4_pfloose;
-*/				jet_index = 4;
+				jet_index = 4;
 				jet.SetPtEtaPhiE(j4_pt, j4_eta, j4_phi, j4_e);
 				jet_dPhiMet = jet.DeltaPhi(met);
 			} // end if jet == 3
 			jet_nConstituents_ = (float) jet_nConstituents;
 			jet_dPhiMet_fabs = fabs(jet_dPhiMet);
 
-//			if(DEBUG) cout << "input= " << jet_pt << "\toutput= " << readerRegres->EvaluateRegression("BDTG method")[0] << endl; // Phil regression
-//			if(DEBUG) cout << "input= " << jet_pt << "\toutput (BDT)= " << readerRegres->EvaluateMVA("BDT") << endl; // Olivier regression
-			if(DEBUG) cout << "input= " << jet_pt << "\toutput (BDT_0)= " << readerRegres->EvaluateMVA(Form("BDT_%i", 0)) << "\toutput (BDT_1)= " << readerRegres->EvaluateMVA(Form("BDT_%i", 1)) << endl; // Olivier regression
-//			TLorentzVector jnew;
-//			jnew.SetPtEtaPhiE(jet_pt, jet_eta, jet_phi, jet_e);
+			if(DEBUG) cout << "input= " << jet_pt << "\toutput (BDT_0)= " << readerRegres->EvaluateMVA(Form("BDT_%i", 0)) << "\toutput (BDT_1)= " << readerRegres->EvaluateMVA(Form("BDT_%i", 1)) << endl;
 			if( jet_csvBtag < 0. ) continue;
 			njets[5]++; jetcut[5] = "After jet_csvBtag < 0.";
 			if(DEBUG) cout << "now with the regression" << endl;
-//			jnew = ((float)readerRegres->EvaluateRegression("BDTG method")[0]/(float)jet_pt) * jnew; // Phil regression
-//			jet_regPt = (float)(readerRegres->EvaluateMVA("BDT"));
 			if(numberOfSplit == -1)
 				jet_regPt = jet_pt; // no regression applied
 			else if(numberOfSplit <= 1)
 				jet_regPt = (float)(readerRegres->EvaluateMVA("BDT"));
 			else
 				jet_regPt = (float)(readerRegres->EvaluateRegression(Form("BDT_%i", jet_pt < 80. ? 0 : 1))[0]) * jet_pt;
-//			if(DEBUG) cout << "jet_pt= " << jet_pt << "\tjet_regPt= " << jet_regPt << endl;
 			jet_regkinPt = jet_regPt;
-//			jnew = (float)jet_regPt / (float)jet_pt * jnew; // applying regression
-//			jet_regPt = jet_pt; // FIXME DEBUG SYNCHRONISATION
 			// jet selection
 			// ** acceptance + pu id **
 			if( jet_regPt < 25. ) continue;
@@ -1369,26 +1263,6 @@ int main(int argc, char *argv[])
 			eventcut[ilevel] = "2btag category"; ilevel++;
 		}
 
-// | cos theta* | <.9
-		selection_cut_level = 1;
-ilevel++; ilevel++;
-/*
-		if( fabs(regcosthetastar) >= .9 )
-		{
-			outtree->Fill();
-			continue;
-		}
-		if(njets_kRadionID_and_CSVM == 1)
-		{
-			category = 1;
-			nevents[15]++;
-			eventcut[15] = "1btag category, after | cos theta* | <.9";
-		} else if( njets_kRadionID_and_CSVM >=2) {
-			category = 2;
-			nevents[16]++;
-			eventcut[16] = "2btag category, after | cos theta* | <.9";
-		}
-*/
 
 
 // mjj cut (90/150 for 1btag and 95/140 for 2btags)
@@ -1485,44 +1359,6 @@ ilevel++; ilevel++;
 				eventcut[ilevel] = "2btag category, after mggjj cut (255/340 and 265/320)"; ilevel++;
 			}
 		}
-/*
-// deltaR(g,j) >= 1
-		selection_cut_level = 4;
-		if( minDRgregkinj < 1.)
-		{
-			outtree->Fill();
-			continue;
-		}
-		if(njets_kRadionID_and_CSVM == 1)
-		{
-			category = 1;
-			nevents[23]++;
-			eventcut[23] = "1btag category, after deltaR(g,j) >= 1";
-		} else if( njets_kRadionID_and_CSVM >=2) {
-			category = 2;
-			nevents[24]++;
-			eventcut[24] = "2btag category, after deltaR(g,j) >= 1";
-		}
-
-// njets < 4
-		selection_cut_level = 5;
-		if( njets_passing_kLooseID >= 3 )
-		{
-			outtree->Fill();
-			continue;
-		}
-		if(njets_kRadionID_and_CSVM == 1)
-		{
-			category = 1;
-			nevents[25]++;
-			eventcut[25] = "1btag category, after njets < 4";
-		} else if( njets_kRadionID_and_CSVM >=2) {
-			category = 2;
-			nevents[26]++;
-			eventcut[26] = "2btag category, after njets < 4";
-		}
-
-*/
 
 		selection_cut_level = 6;
 		outtree->Fill();
