@@ -10,6 +10,9 @@
 *~
 *.swp
 
+# Lxplus stuff
+.__afs*
+
 # Original files used to setup the code
 CreateRegressionTMVATree.C
 regressionTMVA.C
