@@ -26,7 +26,7 @@
 #define SYNCHRO_LIGHT 0
 #define SYNC_W_CHIARA 0
 #define SYNC_W_CHIARA_GGJJ 0
-#define SYNC 0
+#define SYNC 1
 #define USEHT 0
 // namespaces
 using namespace std;
@@ -82,51 +82,6 @@ int main(int argc, char *argv[])
 
 
 
-
-/*
-	cout << "argc= " << argc << endl;
-	for(int iarg = 0 ; iarg < argc; iarg++)
-		cout << "argv[" << iarg << "]= " << argv[iarg] << endl;
-
-	string syntaxMessage =  Form("WARNING: Syntax is %s -i (inputfile) -it (inputtree) -o (outputfile) -ot (outputtree) -rf (regressionfile) -mc (isMC) -n (numberOfSplit) -j (treeSplit)", argv[0]);
-	if( argc == 1 )
-	{
-		cerr << "WARNING: Arguments should be passed ! Default arguments will be used" << endl;
-		cerr << syntaxMessage << endl;
-	}
-
-	
-	for(int iarg=0 ; iarg < argc ; iarg++)
-	{
-		if(strcmp("-i", argv[iarg]) == 0 && argc >= iarg + 1)
-			inputfile = argv[iarg+1];
-		if(strcmp("-it", argv[iarg]) == 0 && argc >= iarg + 1)
-			inputtree = argv[iarg+1];
-		if(strcmp("-o", argv[iarg]) == 0 && argc >= iarg + 1)
-			outputfile = argv[iarg+1];
-		if(strcmp("-ot", argv[iarg]) == 0 && argc >= iarg + 1)
-			outputtree = argv[iarg+1];
-		if(strcmp("-rf", argv[iarg]) == 0 && argc >= iarg + 1)
-			regressionfile = argv[iarg+1];
-		if(strcmp("-mc", argv[iarg]) == 0 && argc >= iarg + 1)
-			{ std::stringstream ss ( argv[iarg+1] ); ss >> isMC; }
-		if(strcmp("-n", argv[iarg]) == 0 && argc >= iarg + 1)
-			{ std::stringstream ss ( argv[iarg+1] ); ss >> numberOfSplit; }
-		if(strcmp("-j", argv[iarg]) == 0 && argc >= iarg + 1)
-			{ std::stringstream ss ( argv[iarg+1] ); ss >> treeSplit; }
-		if((strcmp("-h", argv[iarg]) == 0) || (strcmp("--help", argv[iarg]) == 0))
-		{
-			cerr << "WARNING: Arguments should be passed ! Default arguments will be used" << endl;
-			cerr << syntaxMessage << endl;
-			cerr << "inputfile= " << inputfile << endl;
-			cerr << "inputtree= " << inputtree << endl;
-			cerr << "outputfile= " << outputfile << endl;
-			cerr << "outputtree= " << outputtree << endl;
-			cerr << "regressionfile= " << regressionfile << endl;
-			return 2;
-		}
-	}
-*/
 	cout << "inputfile= " << inputfile << endl;
 	cout << "inputtree= " << inputtree << endl;
 	cout << "outputfile= " << outputfile << endl;
@@ -173,26 +128,27 @@ int main(int argc, char *argv[])
 // object variables
 	float ph1_eta, ph2_eta, ph1_pt, ph2_pt, PhotonsMass, ph1_phi, ph2_phi, ph1_e, ph2_e, ph1_r9, ph2_r9;
 	int ph1_ciclevel, ph2_ciclevel;
-	float j1_e, j1_pt, j1_phi, j1_eta, j1_beta, j1_betaStar, j1_betaStarClassic, j1_dR2Mean, j1_csvBtag, j1_csvMvaBtag, j1_jetProbBtag, j1_tcheBtag, j1_ptD, j1_nSecondaryVertices, j1_secVtxPt, j1_secVtx3dL, j1_secVtx3deL, j1_emfrac, j1_hadfrac, j1_axis1, j1_axis2, j1_pull, /*j1_Rchg, j1_Rneutral, j1_R, j1_chargedMultiplicity, j1_neutralMultiplicity, j1_Chadfrac, j1_Nhadfrac, j1_Phofrac, j1_Mufrac, j1_Elefrac, j1_dPhiMet,*/ j1_radionMatched, j1_btagSF;
-	int j1_ntk, j1_nNeutrals, j1_nCharged/*, j1_pfloose*/;
-	float j2_e, j2_pt, j2_phi, j2_eta, j2_beta, j2_betaStar, j2_betaStarClassic, j2_dR2Mean, j2_csvBtag, j2_csvMvaBtag, j2_jetProbBtag, j2_tcheBtag, j2_ptD, j2_nSecondaryVertices, j2_secVtxPt, j2_secVtx3dL, j2_secVtx3deL, j2_emfrac, j2_hadfrac, j2_axis1, j2_axis2, j2_pull, /*j2_Rchg, j2_Rneutral, j2_R, j2_chargedMultiplicity, j2_neutralMultiplicity, j2_Chadfrac, j2_Nhadfrac, j2_Phofrac, j2_Mufrac, j2_Elefrac, j2_dPhiMet,*/ j2_radionMatched, j2_btagSF;
-	int j2_ntk, j2_nNeutrals, j2_nCharged/*, j2_pfloose*/;
-	float j3_e, j3_pt, j3_phi, j3_eta, j3_beta, j3_betaStar, j3_betaStarClassic, j3_dR2Mean, j3_csvBtag, j3_csvMvaBtag, j3_jetProbBtag, j3_tcheBtag, j3_ptD, j3_nSecondaryVertices, j3_secVtxPt, j3_secVtx3dL, j3_secVtx3deL, j3_emfrac, j3_hadfrac, j3_axis1, j3_axis2, j3_pull, /*j3_Rchg, j3_Rneutral, j3_R, j3_chargedMultiplicity, j3_neutralMultiplicity, j3_Chadfrac, j3_Nhadfrac, j3_Phofrac, j3_Mufrac, j3_Elefrac, j3_dPhiMet,*/ j3_radionMatched, j3_btagSF;
-	int j3_ntk, j3_nNeutrals, j3_nCharged/*, j3_pfloose*/;
-	float j4_e, j4_pt, j4_phi, j4_eta, j4_beta, j4_betaStar, j4_betaStarClassic, j4_dR2Mean, j4_csvBtag, j4_csvMvaBtag, j4_jetProbBtag, j4_tcheBtag, j4_ptD, j4_nSecondaryVertices, j4_secVtxPt, j4_secVtx3dL, j4_secVtx3deL, j4_emfrac, j4_hadfrac, j4_axis1, j4_axis2, j4_pull, /*j4_Rchg, j4_Rneutral, j4_R, j4_chargedMultiplicity, j4_neutralMultiplicity, j4_Chadfrac, j4_Nhadfrac, j4_Phofrac, j4_Mufrac, j4_Elefrac, j4_dPhiMet,*/ j4_radionMatched, j4_btagSF;
-	int j4_ntk, j4_nNeutrals, j4_nCharged/*, j4_pfloose*/;
+
+	float j1_e, j1_pt, j1_phi, j1_eta, j1_beta, j1_betaStar, j1_betaStarClassic, j1_dR2Mean, j1_csvBtag, j1_csvMvaBtag, j1_jetProbBtag, j1_tcheBtag, j1_ptD, j1_nSecondaryVertices, j1_secVtxPt, j1_secVtx3dL, j1_secVtx3deL, j1_emfrac, j1_hadfrac, j1_axis1, j1_axis2, j1_pull, j1_radionMatched, j1_btagSF;
+	int j1_ntk, j1_nNeutrals, j1_nCharged;
+
+	float j2_e, j2_pt, j2_phi, j2_eta, j2_beta, j2_betaStar, j2_betaStarClassic, j2_dR2Mean, j2_csvBtag, j2_csvMvaBtag, j2_jetProbBtag, j2_tcheBtag, j2_ptD, j2_nSecondaryVertices, j2_secVtxPt, j2_secVtx3dL, j2_secVtx3deL, j2_emfrac, j2_hadfrac, j2_axis1, j2_axis2, j2_pull, j2_radionMatched, j2_btagSF;
+	int j2_ntk, j2_nNeutrals, j2_nCharged;
+
+	float j3_e, j3_pt, j3_phi, j3_eta, j3_beta, j3_betaStar, j3_betaStarClassic, j3_dR2Mean, j3_csvBtag, j3_csvMvaBtag, j3_jetProbBtag, j3_tcheBtag, j3_ptD, j3_nSecondaryVertices, j3_secVtxPt, j3_secVtx3dL, j3_secVtx3deL, j3_emfrac, j3_hadfrac, j3_axis1, j3_axis2, j3_pull, j3_radionMatched, j3_btagSF;
+	int j3_ntk, j3_nNeutrals, j3_nCharged;
+
+	float j4_e, j4_pt, j4_phi, j4_eta, j4_beta, j4_betaStar, j4_betaStarClassic, j4_dR2Mean, j4_csvBtag, j4_csvMvaBtag, j4_jetProbBtag, j4_tcheBtag, j4_ptD, j4_nSecondaryVertices, j4_secVtxPt, j4_secVtx3dL, j4_secVtx3deL, j4_emfrac, j4_hadfrac, j4_axis1, j4_axis2, j4_pull, j4_radionMatched, j4_btagSF;
+	int j4_ntk, j4_nNeutrals, j4_nCharged;
+
 	float jet_e, jet_pt, jet_phi, jet_eta;
-//jet_beta, jet_betaStar, 
 	float jet_betaStarClassic, jet_dR2Mean, jet_csvBtag;
-//, jet_csvMvaBtag, jet_jetProbBtag, jet_tcheBtag, 
 	float jet_ptD, jet_nSecondaryVertices, jet_secVtxPt, jet_secVtx3dL, jet_secVtx3deL, jet_emfrac, jet_hadfrac, jet_btagSF;
 	int jet_nNeutrals, jet_nCharged, jet_nConstituents;
 	float jet_nConstituents_;
 	float jet_dPhiMet_fabs;
-//, jet_ntk, jet_axis1, jet_axis2, jet_pull, jet_Rchg, jet_Rneutral, jet_R, jet_chargedMultiplicity, jet_neutralMultiplicity, 
-	float /*jet_Chadfrac, jet_Nhadfrac, jet_Phofrac, jet_Mufrac, jet_Elefrac,*/ jet_dPhiMet, jet_radionMatched, jet_regPt, jet_regkinPt;
-	int jet_index/*, jet_pfloose*/;
-//	float ev_met_corrMet, ev_met_corrMetPhi, ev_pu_n, ev_nvtx, ev_rho;
+	float jet_dPhiMet, jet_radionMatched, jet_regPt, jet_regkinPt;
+	int jet_index;
 
 	if(DEBUG) cout << "Setup tree outputs" << endl;
 // setup tree outputs
@@ -324,19 +280,6 @@ int main(int argc, char *argv[])
 	intree->SetBranchAddress("j1_axis1", &j1_axis1);
 	intree->SetBranchAddress("j1_axis2", &j1_axis2);
 	intree->SetBranchAddress("j1_pull", &j1_pull);
-/*	intree->SetBranchAddress("j1_Rchg", &j1_Rchg);
-	intree->SetBranchAddress("j1_Rneutral", &j1_Rneutral);
-	intree->SetBranchAddress("j1_R", &j1_R);
-	intree->SetBranchAddress("j1_chargedMultiplicity", &j1_chargedMultiplicity);
-	intree->SetBranchAddress("j1_neutralMultiplicity", &j1_neutralMultiplicity);
-	intree->SetBranchAddress("j1_Chadfrac", &j1_Chadfrac);
-	intree->SetBranchAddress("j1_Nhadfrac", &j1_Nhadfrac);
-	intree->SetBranchAddress("j1_Phofrac", &j1_Phofrac);
-	intree->SetBranchAddress("j1_Mufrac", &j1_Mufrac);
-	intree->SetBranchAddress("j1_Elefrac", &j1_Elefrac);
-	intree->SetBranchAddress("j1_dPhiMet", &j1_dPhiMet);
-	intree->SetBranchAddress("j1_pfloose", &j1_pfloose);
-*/
 
 	intree->SetBranchAddress("j2_e", &j2_e);
 	intree->SetBranchAddress("j2_pt", &j2_pt);
@@ -365,19 +308,6 @@ int main(int argc, char *argv[])
 	intree->SetBranchAddress("j2_axis1", &j2_axis1);
 	intree->SetBranchAddress("j2_axis2", &j2_axis2);
 	intree->SetBranchAddress("j2_pull", &j2_pull);
-/*	intree->SetBranchAddress("j2_Rchg", &j2_Rchg);
-	intree->SetBranchAddress("j2_Rneutral", &j2_Rneutral);
-	intree->SetBranchAddress("j2_R", &j2_R);
-	intree->SetBranchAddress("j2_chargedMultiplicity", &j2_chargedMultiplicity);
-	intree->SetBranchAddress("j2_neutralMultiplicity", &j2_neutralMultiplicity);
-	intree->SetBranchAddress("j2_Chadfrac", &j2_Chadfrac);
-	intree->SetBranchAddress("j2_Nhadfrac", &j2_Nhadfrac);
-	intree->SetBranchAddress("j2_Phofrac", &j2_Phofrac);
-	intree->SetBranchAddress("j2_Mufrac", &j2_Mufrac);
-	intree->SetBranchAddress("j2_Elefrac", &j2_Elefrac);
-	intree->SetBranchAddress("j2_dPhiMet", &j2_dPhiMet);
-	intree->SetBranchAddress("j2_pfloose", &j2_pfloose);
-*/
 
 	intree->SetBranchAddress("j3_e", &j3_e);
 	intree->SetBranchAddress("j3_pt", &j3_pt);
@@ -406,19 +336,6 @@ int main(int argc, char *argv[])
 	intree->SetBranchAddress("j3_axis1", &j3_axis1);
 	intree->SetBranchAddress("j3_axis2", &j3_axis2);
 	intree->SetBranchAddress("j3_pull", &j3_pull);
-/*	intree->SetBranchAddress("j3_Rchg", &j3_Rchg);
-	intree->SetBranchAddress("j3_Rneutral", &j3_Rneutral);
-	intree->SetBranchAddress("j3_R", &j3_R);
-	intree->SetBranchAddress("j3_chargedMultiplicity", &j3_chargedMultiplicity);
-	intree->SetBranchAddress("j3_neutralMultiplicity", &j3_neutralMultiplicity);
-	intree->SetBranchAddress("j3_Chadfrac", &j3_Chadfrac);
-	intree->SetBranchAddress("j3_Nhadfrac", &j3_Nhadfrac);
-	intree->SetBranchAddress("j3_Phofrac", &j3_Phofrac);
-	intree->SetBranchAddress("j3_Mufrac", &j3_Mufrac);
-	intree->SetBranchAddress("j3_Elefrac", &j3_Elefrac);
-	intree->SetBranchAddress("j3_dPhiMet", &j3_dPhiMet);
-	intree->SetBranchAddress("j3_pfloose", &j3_pfloose);
-*/
 
 	intree->SetBranchAddress("j4_e", &j4_e);
 	intree->SetBranchAddress("j4_pt", &j4_pt);
@@ -447,19 +364,6 @@ int main(int argc, char *argv[])
 	intree->SetBranchAddress("j4_axis1", &j4_axis1);
 	intree->SetBranchAddress("j4_axis2", &j4_axis2);
 	intree->SetBranchAddress("j4_pull", &j4_pull);
-/*	intree->SetBranchAddress("j4_Rchg", &j4_Rchg);
-	intree->SetBranchAddress("j4_Rneutral", &j4_Rneutral);
-	intree->SetBranchAddress("j4_R", &j4_R);
-	intree->SetBranchAddress("j4_chargedMultiplicity", &j4_chargedMultiplicity);
-	intree->SetBranchAddress("j4_neutralMultiplicity", &j4_neutralMultiplicity);
-	intree->SetBranchAddress("j4_Chadfrac", &j4_Chadfrac);
-	intree->SetBranchAddress("j4_Nhadfrac", &j4_Nhadfrac);
-	intree->SetBranchAddress("j4_Phofrac", &j4_Phofrac);
-	intree->SetBranchAddress("j4_Mufrac", &j4_Mufrac);
-	intree->SetBranchAddress("j4_Elefrac", &j4_Elefrac);
-	intree->SetBranchAddress("j4_dPhiMet", &j4_dPhiMet);
-	intree->SetBranchAddress("j4_pfloose", &j4_pfloose);
-*/
 
 	outtree->Branch("category", &category, "category/I");
 	outtree->Branch("selection_cut_level", &selection_cut_level, "selection_cut_level/I");
@@ -670,17 +574,7 @@ int main(int argc, char *argv[])
 	readerRegres->AddVariable( "jet_vtx3dL", &jet_secVtx3dL);
 	readerRegres->AddVariable( "MET", &met_corr_pfmet);
 	readerRegres->AddVariable( "jet_dPhiMETJet", &jet_dPhiMet_fabs);
-/*
-	readerRegres->AddVariable( "jet_pt", &jet_pt);
-	readerRegres->AddVariable( "jet_eta", &jet_eta);
-	readerRegres->AddVariable( "jet_emfrac", &jet_emfrac);
-	readerRegres->AddVariable( "jet_nConstituents", &jet_nConstituents_);
-	readerRegres->AddVariable( "jet_hadfrac", &jet_hadfrac);
-	readerRegres->AddVariable( "jet_secVtxPt", &jet_secVtxPt);
-	readerRegres->AddVariable( "jet_secVtx3dL", &jet_secVtx3dL);
-	readerRegres->AddVariable( "ev_met_corr_pfmet", &met_corr_pfmet);
-	readerRegres->AddVariable( "jet_dPhiMet", &jet_dPhiMet);
-*/
+
 // Adding variables
 //	readerRegres->AddVariable( "ev_rho", &rho);
 	if( USEHT ) readerRegres->AddVariable( "ph1_pt+ph2_pt", &HT_gg);
