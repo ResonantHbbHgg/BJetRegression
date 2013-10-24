@@ -355,6 +355,8 @@ int main(int argc, char *argv[])
 	outtree->Branch("weight", &weight, "weight/F");
 	outtree->Branch("evweight", &evweight, "evweight/F");
 	outtree->Branch("pu_weight", &pu_weight, "pu_weight/F");
+	outtree->Branch("nvtx", &nvtx, "nvtx/F");
+	outtree->Branch("rho", &rho, "rho/F");
 	outtree->Branch("met_corr_pfmet", &met_corr_pfmet, "met_corr_pfmet/F");
 	outtree->Branch("met_corr_phi_pfmet", &met_corr_phi_pfmet, "met_corr_phi_pfmet/F");
 	outtree->Branch("met_corr_eta_pfmet", &met_corr_eta_pfmet, "met_corr_eta_pfmet/F");
