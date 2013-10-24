@@ -73,42 +73,42 @@ typ[${i}]="-1"
 
 ##### Diphoton backgrounds
 i=$((${i} + 1))
-infile[${i}]="radion_tree_v06/Backgrounds.root"
+infile[${i}]="radion_tree_v07/Backgrounds.root"
 tree[${i}]="qcd_30_8TeV_ff"
 typ[${i}]="1"
 
 i=$((${i} + 1))
-infile[${i}]="radion_tree_v06/Backgrounds.root"
+infile[${i}]="radion_tree_v07/Backgrounds.root"
 tree[${i}]="qcd_40_8TeV_ff"
 typ[${i}]="1"
 
 i=$((${i} + 1))
-infile[${i}]="radion_tree_v06/Backgrounds.root"
+infile[${i}]="radion_tree_v07/Backgrounds.root"
 tree[${i}]="qcd_30_8TeV_pf"
 typ[${i}]="1"
 
 i=$((${i} + 1))
-infile[${i}]="radion_tree_v06/Backgrounds.root"
+infile[${i}]="radion_tree_v07/Backgrounds.root"
 tree[${i}]="qcd_40_8TeV_pf"
 typ[${i}]="1"
 
 i=$((${i} + 1))
-infile[${i}]="radion_tree_v06/Backgrounds.root"
+infile[${i}]="radion_tree_v07/Backgrounds.root"
 tree[${i}]="gjet_20_8TeV_pf"
 typ[${i}]="1"
 
 i=$((${i} + 1))
-infile[${i}]="radion_tree_v06/Backgrounds.root"
+infile[${i}]="radion_tree_v07/Backgrounds.root"
 tree[${i}]="gjet_40_8TeV_pf"
 typ[${i}]="1"
 
 i=$((${i} + 1))
-infile[${i}]="radion_tree_v06/Backgrounds.root"
+infile[${i}]="radion_tree_v07/Backgrounds.root"
 tree[${i}]="diphojet_sherpa_8TeV"
 typ[${i}]="1"
 
 i=$((${i} + 1))
-infile[${i}]="radion_tree_v06/Backgrounds.root"
+infile[${i}]="radion_tree_v07/Backgrounds.root"
 tree[${i}]="DYJetsToLL"
 typ[${i}]="1"
 
