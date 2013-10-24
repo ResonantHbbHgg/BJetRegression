@@ -21,10 +21,7 @@
 // Verbosity
 #define DEBUG 0
 #define SYNCHRO 0
-#define SYNC_W_CHIARA 0
-#define SYNC_W_CHIARA_GGJJ 0
 #define SYNC 1 // mjj and mggjj cuts are different for sync and analysis
-#define USEHT 0
 #define REMOVE_UNDEFINED_BTAGSF 0
 // namespaces
 using namespace std;
@@ -38,7 +35,7 @@ int main(int argc, char *argv[])
 	string outputfile = "Radion_m300_8TeV_nm_genjet_globeinputs.root";
 	string outputtree = "Radion_m300_8TeV_nm";
 	string regressionfile = "/afs/cern.ch/work/o/obondu/public/forRadion/factoryJetRegGen2_globeinputs_BDT.weights.xml";
-	int numberOfSplit = 1;
+	int numberOfRegressionFiles = 1;
 	int isMC = 0; // Same conventions as in h2gglobe: <0 = signal ; =0 = data ; >0 = background
 
 	// print out passed arguments
@@ -54,7 +51,7 @@ int main(int argc, char *argv[])
 			("outputfile,O", po::value<string>(&outputfile)->default_value("selected.root"), "output file")
 			("outputtree,T", po::value<string>(&outputtree)->default_value("Radion_m300_8TeV_nm"), "output tree")
 			("regressionfile,r", po::value<string>(&regressionfile)->default_value("/afs/cern.ch/user/h/hebda/public/"), "regression file")
-			("numberOfSplit,n", po::value<int>(&numberOfSplit)->default_value(1), "number of split (regression files)")
+			("numberOfRegressionFiles,n", po::value<int>(&numberOfRegressionFiles)->default_value(1), "number of split (regression files)")
 			("isMC", po::value<int>(&isMC)->default_value(1), "same conventions as in h2gglobe: <0 = signal ; =0 = data ; >0 = background")
 		;
 		po::variables_map vm;
@@ -125,26 +122,25 @@ int main(int argc, char *argv[])
 	float ph1_eta, ph2_eta, ph1_pt, ph2_pt, PhotonsMass, ph1_phi, ph2_phi, ph1_e, ph2_e, ph1_r9, ph2_r9;
 	int ph1_ciclevel, ph2_ciclevel;
 
-	float j1_e, j1_pt, j1_phi, j1_eta, j1_beta, j1_betaStar, j1_betaStarClassic, j1_dR2Mean, j1_csvBtag, j1_csvMvaBtag, j1_jetProbBtag, j1_tcheBtag, j1_ptD, j1_nSecondaryVertices, j1_secVtxPt, j1_secVtx3dL, j1_secVtx3deL, j1_emfrac, j1_hadfrac, j1_axis1, j1_axis2, j1_pull, j1_radionMatched, j1_btagSF;
+	float j1_e, j1_pt, j1_phi, j1_eta, j1_beta, j1_betaStar, j1_betaStarClassic, j1_dR2Mean, j1_csvBtag, j1_csvMvaBtag, j1_jetProbBtag, j1_tcheBtag, j1_secVtxPt, j1_secVtx3dL, j1_emfrac, j1_hadfrac, j1_axis1, j1_axis2, j1_pull, j1_radionMatched, j1_btagSF;
 	int j1_ntk, j1_nNeutrals, j1_nCharged;
 
-	float j2_e, j2_pt, j2_phi, j2_eta, j2_beta, j2_betaStar, j2_betaStarClassic, j2_dR2Mean, j2_csvBtag, j2_csvMvaBtag, j2_jetProbBtag, j2_tcheBtag, j2_ptD, j2_nSecondaryVertices, j2_secVtxPt, j2_secVtx3dL, j2_secVtx3deL, j2_emfrac, j2_hadfrac, j2_axis1, j2_axis2, j2_pull, j2_radionMatched, j2_btagSF;
+	float j2_e, j2_pt, j2_phi, j2_eta, j2_beta, j2_betaStar, j2_betaStarClassic, j2_dR2Mean, j2_csvBtag, j2_csvMvaBtag, j2_jetProbBtag, j2_tcheBtag, j2_secVtxPt, j2_secVtx3dL, j2_emfrac, j2_hadfrac, j2_axis1, j2_axis2, j2_pull, j2_radionMatched, j2_btagSF;
 	int j2_ntk, j2_nNeutrals, j2_nCharged;
 
-	float j3_e, j3_pt, j3_phi, j3_eta, j3_beta, j3_betaStar, j3_betaStarClassic, j3_dR2Mean, j3_csvBtag, j3_csvMvaBtag, j3_jetProbBtag, j3_tcheBtag, j3_ptD, j3_nSecondaryVertices, j3_secVtxPt, j3_secVtx3dL, j3_secVtx3deL, j3_emfrac, j3_hadfrac, j3_axis1, j3_axis2, j3_pull, j3_radionMatched, j3_btagSF;
+	float j3_e, j3_pt, j3_phi, j3_eta, j3_beta, j3_betaStar, j3_betaStarClassic, j3_dR2Mean, j3_csvBtag, j3_csvMvaBtag, j3_jetProbBtag, j3_tcheBtag, j3_secVtxPt, j3_secVtx3dL, j3_emfrac, j3_hadfrac, j3_axis1, j3_axis2, j3_pull, j3_radionMatched, j3_btagSF;
 	int j3_ntk, j3_nNeutrals, j3_nCharged;
 
-	float j4_e, j4_pt, j4_phi, j4_eta, j4_beta, j4_betaStar, j4_betaStarClassic, j4_dR2Mean, j4_csvBtag, j4_csvMvaBtag, j4_jetProbBtag, j4_tcheBtag, j4_ptD, j4_nSecondaryVertices, j4_secVtxPt, j4_secVtx3dL, j4_secVtx3deL, j4_emfrac, j4_hadfrac, j4_axis1, j4_axis2, j4_pull, j4_radionMatched, j4_btagSF;
+	float j4_e, j4_pt, j4_phi, j4_eta, j4_beta, j4_betaStar, j4_betaStarClassic, j4_dR2Mean, j4_csvBtag, j4_csvMvaBtag, j4_jetProbBtag, j4_tcheBtag, j4_secVtxPt, j4_secVtx3dL, j4_emfrac, j4_hadfrac, j4_axis1, j4_axis2, j4_pull, j4_radionMatched, j4_btagSF;
 	int j4_ntk, j4_nNeutrals, j4_nCharged;
 
 	float jet_e, jet_pt, jet_phi, jet_eta;
 	float jet_betaStarClassic, jet_dR2Mean, jet_csvBtag;
-	float jet_ptD, jet_nSecondaryVertices, jet_secVtxPt, jet_secVtx3dL, jet_secVtx3deL, jet_emfrac, jet_hadfrac, jet_btagSF;
+	float jet_secVtxPt, jet_secVtx3dL, jet_emfrac, jet_hadfrac, jet_btagSF;
 	int jet_nNeutrals, jet_nCharged, jet_nConstituents;
 	float jet_nConstituents_;
 	float jet_dPhiMet_fabs;
 	float jet_dPhiMet, jet_radionMatched, jet_regPt, jet_regkinPt;
-	int jet_index;
 
 	if(DEBUG) cout << "Setup tree outputs" << endl;
 // setup tree outputs
@@ -262,11 +258,8 @@ int main(int argc, char *argv[])
 	intree->SetBranchAddress("j1_jetProbBtag", &j1_jetProbBtag);
 	intree->SetBranchAddress("j1_tcheBtag", &j1_tcheBtag);
 	intree->SetBranchAddress("j1_radionMatched", &j1_radionMatched);
-	intree->SetBranchAddress("j1_ptD", &j1_ptD);
-	intree->SetBranchAddress("j1_nSecondaryVertices", &j1_nSecondaryVertices);
 	intree->SetBranchAddress("j1_secVtxPt", &j1_secVtxPt);
 	intree->SetBranchAddress("j1_secVtx3dL", &j1_secVtx3dL);
-	intree->SetBranchAddress("j1_secVtx3deL", &j1_secVtx3deL);
 	intree->SetBranchAddress("j1_emfrac", &j1_emfrac);
 	intree->SetBranchAddress("j1_hadfrac", &j1_hadfrac);
 	intree->SetBranchAddress("j1_btagSF", &j1_btagSF);
@@ -290,11 +283,8 @@ int main(int argc, char *argv[])
 	intree->SetBranchAddress("j2_jetProbBtag", &j2_jetProbBtag);
 	intree->SetBranchAddress("j2_tcheBtag", &j2_tcheBtag);
 	intree->SetBranchAddress("j2_radionMatched", &j2_radionMatched);
-	intree->SetBranchAddress("j2_ptD", &j2_ptD);
-	intree->SetBranchAddress("j2_nSecondaryVertices", &j2_nSecondaryVertices);
 	intree->SetBranchAddress("j2_secVtxPt", &j2_secVtxPt);
 	intree->SetBranchAddress("j2_secVtx3dL", &j2_secVtx3dL);
-	intree->SetBranchAddress("j2_secVtx3deL", &j2_secVtx3deL);
 	intree->SetBranchAddress("j2_emfrac", &j2_emfrac);
 	intree->SetBranchAddress("j2_hadfrac", &j2_hadfrac);
 	intree->SetBranchAddress("j2_btagSF", &j2_btagSF);
@@ -318,11 +308,8 @@ int main(int argc, char *argv[])
 	intree->SetBranchAddress("j3_jetProbBtag", &j3_jetProbBtag);
 	intree->SetBranchAddress("j3_tcheBtag", &j3_tcheBtag);
 	intree->SetBranchAddress("j3_radionMatched", &j3_radionMatched);
-	intree->SetBranchAddress("j3_ptD", &j3_ptD);
-	intree->SetBranchAddress("j3_nSecondaryVertices", &j3_nSecondaryVertices);
 	intree->SetBranchAddress("j3_secVtxPt", &j3_secVtxPt);
 	intree->SetBranchAddress("j3_secVtx3dL", &j3_secVtx3dL);
-	intree->SetBranchAddress("j3_secVtx3deL", &j3_secVtx3deL);
 	intree->SetBranchAddress("j3_emfrac", &j3_emfrac);
 	intree->SetBranchAddress("j3_hadfrac", &j3_hadfrac);
 	intree->SetBranchAddress("j3_btagSF", &j3_btagSF);
@@ -346,11 +333,8 @@ int main(int argc, char *argv[])
 	intree->SetBranchAddress("j4_jetProbBtag", &j4_jetProbBtag);
 	intree->SetBranchAddress("j4_tcheBtag", &j4_tcheBtag);
 	intree->SetBranchAddress("j4_radionMatched", &j4_radionMatched);
-	intree->SetBranchAddress("j4_ptD", &j4_ptD);
-	intree->SetBranchAddress("j4_nSecondaryVertices", &j4_nSecondaryVertices);
 	intree->SetBranchAddress("j4_secVtxPt", &j4_secVtxPt);
 	intree->SetBranchAddress("j4_secVtx3dL", &j4_secVtx3dL);
-	intree->SetBranchAddress("j4_secVtx3deL", &j4_secVtx3deL);
 	intree->SetBranchAddress("j4_emfrac", &j4_emfrac);
 	intree->SetBranchAddress("j4_hadfrac", &j4_hadfrac);
 	intree->SetBranchAddress("j4_btagSF", &j4_btagSF);
@@ -518,6 +502,7 @@ int main(int argc, char *argv[])
 	outtree->Branch("minDRgregj", &minDRgregj, "minDRgregj/F");
 	outtree->Branch("minDRgregkinj", &minDRgregkinj, "minDRgregkinj/F");
 	outtree->Branch("minDRgkinj", &minDRgkinj, "minDRgkinj/F");
+	outtree->Branch("HT_gg", &HT_gg, "HT_gg/F");
 // gen level info
 	outtree->Branch("gr_radion_p4_pt", &gr_radion_p4_pt, "gr_radion_p4_pt/F");
 	outtree->Branch("gr_radion_p4_eta", &gr_radion_p4_eta, "gr_radion_p4_eta/F");
@@ -572,11 +557,10 @@ int main(int argc, char *argv[])
 	readerRegres->AddVariable( "jet_dPhiMETJet", &jet_dPhiMet_fabs);
 
 // Adding variables
-	if( USEHT ) readerRegres->AddVariable( "ph1_pt+ph2_pt", &HT_gg);
-	if(numberOfSplit <= 1)
+	if(numberOfRegressionFiles <= 1)
 		readerRegres->BookMVA("BDT", regressionfile.c_str());
 	else {
-		for(int i = 0; i < numberOfSplit ; i++)
+		for(int i = 0; i < numberOfRegressionFiles ; i++)
 		{
 			readerRegres->BookMVA(Form("BDT_%i", i), Form("%s/TMVARegression_10_Cat%i_BDTG.weights.xml", regressionfile.c_str(), i));
 		}
@@ -594,8 +578,6 @@ int main(int argc, char *argv[])
 	int njets[30] = {0};
 	string jetcut[30];
   int decade = 0;
-	int n_sync_events_before_mjj = 0;
-	int n_sync_events_before_mggjj = 0;
   int totevents = intree->GetEntries();
   if(DEBUG) totevents = 100;
   cout << "#entries= " << totevents << endl;
@@ -723,18 +705,14 @@ int main(int argc, char *argv[])
 				jet_dR2Mean = j1_dR2Mean;
 				jet_csvBtag = j1_csvBtag;
 				jet_radionMatched = j1_radionMatched;
-				jet_ptD = j1_ptD;
-				jet_nSecondaryVertices = j1_nSecondaryVertices;
 				jet_secVtxPt = j1_secVtxPt;
 				jet_secVtx3dL = j1_secVtx3dL;
-				jet_secVtx3deL = j1_secVtx3deL;
 				jet_emfrac = j1_emfrac;
 				jet_hadfrac = j1_hadfrac;
 				jet_btagSF = j1_btagSF;
 				jet_nNeutrals = j1_nNeutrals;
 				jet_nCharged = j1_nCharged;
 				jet_nConstituents = jet_nNeutrals + jet_nCharged;
-				jet_index = 1;
 				jet.SetPtEtaPhiE(j1_pt, j1_eta, j1_phi, j1_e);
 				jet_dPhiMet = jet.DeltaPhi(met);
 			} // end if jet == 0
@@ -749,18 +727,14 @@ int main(int argc, char *argv[])
 				jet_dR2Mean = j2_dR2Mean;
 				jet_csvBtag = j2_csvBtag;
 				jet_radionMatched = j2_radionMatched;
-				jet_ptD = j2_ptD;
-				jet_nSecondaryVertices = j2_nSecondaryVertices;
 				jet_secVtxPt = j2_secVtxPt;
 				jet_secVtx3dL = j2_secVtx3dL;
-				jet_secVtx3deL = j2_secVtx3deL;
 				jet_emfrac = j2_emfrac;
 				jet_hadfrac = j2_hadfrac;
 				jet_btagSF = j2_btagSF;
 				jet_nNeutrals = j2_nNeutrals;
 				jet_nCharged = j2_nCharged;
 				jet_nConstituents = jet_nNeutrals + jet_nCharged;
-				jet_index = 2;
 				jet.SetPtEtaPhiE(j2_pt, j2_eta, j2_phi, j2_e);
 				jet_dPhiMet = jet.DeltaPhi(met);
 			} // end if jet == 1
@@ -775,18 +749,14 @@ int main(int argc, char *argv[])
 				jet_dR2Mean = j3_dR2Mean;
 				jet_csvBtag = j3_csvBtag;
 				jet_radionMatched = j3_radionMatched;
-				jet_ptD = j3_ptD;
-				jet_nSecondaryVertices = j3_nSecondaryVertices;
 				jet_secVtxPt = j3_secVtxPt;
 				jet_secVtx3dL = j3_secVtx3dL;
-				jet_secVtx3deL = j3_secVtx3deL;
 				jet_emfrac = j3_emfrac;
 				jet_hadfrac = j3_hadfrac;
 				jet_btagSF = j3_btagSF;
 				jet_nNeutrals = j3_nNeutrals;
 				jet_nCharged = j3_nCharged;
 				jet_nConstituents = jet_nNeutrals + jet_nCharged;
-				jet_index = 3;
 				jet.SetPtEtaPhiE(j3_pt, j3_eta, j3_phi, j3_e);
 				jet_dPhiMet = jet.DeltaPhi(met);
 			} // end if jet == 2
@@ -801,18 +771,14 @@ int main(int argc, char *argv[])
 				jet_dR2Mean = j4_dR2Mean;
 				jet_csvBtag = j4_csvBtag;
 				jet_radionMatched = j4_radionMatched;
-				jet_ptD = j4_ptD;
-				jet_nSecondaryVertices = j4_nSecondaryVertices;
 				jet_secVtxPt = j4_secVtxPt;
 				jet_secVtx3dL = j4_secVtx3dL;
-				jet_secVtx3deL = j4_secVtx3deL;
 				jet_emfrac = j4_emfrac;
 				jet_hadfrac = j4_hadfrac;
 				jet_btagSF = j4_btagSF;
 				jet_nNeutrals = j4_nNeutrals;
 				jet_nCharged = j4_nCharged;
 				jet_nConstituents = jet_nNeutrals + jet_nCharged;
-				jet_index = 4;
 				jet.SetPtEtaPhiE(j4_pt, j4_eta, j4_phi, j4_e);
 				jet_dPhiMet = jet.DeltaPhi(met);
 			} // end if jet == 3
@@ -823,9 +789,9 @@ int main(int argc, char *argv[])
 			if( jet_csvBtag < 0. ) continue;
 			njets[5]++; jetcut[5] = "After jet_csvBtag < 0.";
 			if(DEBUG) cout << "now with the regression" << endl;
-			if(numberOfSplit == -1)
+			if(numberOfRegressionFiles == -1)
 				jet_regPt = jet_pt; // no regression applied
-			else if(numberOfSplit <= 1)
+			else if(numberOfRegressionFiles <= 1)
 				jet_regPt = (float)(readerRegres->EvaluateMVA("BDT"));
 			else
 				jet_regPt = (float)(readerRegres->EvaluateRegression(Form("BDT_%i", jet_pt < 80. ? 0 : 1))[0]) * jet_pt;
@@ -1257,9 +1223,6 @@ int main(int argc, char *argv[])
 
 
 // mjj cut (90/150 for 1btag and 95/140 for 2btags)
-		if(SYNC_W_CHIARA && n_sync_events_before_mjj == 0) cout << "event\tjet1_index\tjet2_index\tjet1_regPt\tjet2_regPt\tregjj_mass" << endl;
-		if(SYNC_W_CHIARA && n_sync_events_before_mjj < 10) cout << event << "\t" << ij1Reg << "\t" << ij2Reg << "\t" << regjet1_pt << "\t" << regjet2_pt << "\t" << regjj_mass << endl;
-		if(SYNC_W_CHIARA) n_sync_events_before_mjj++;
 		selection_cut_level = 2;
 		bool pass_mjj = false;
 		float min_mjj_1btag, max_mjj_1btag, min_mjj_2btag, max_mjj_2btag;
@@ -1303,10 +1266,6 @@ int main(int argc, char *argv[])
 			nevents_w[ilevel] += evweight;
 			eventcut[ilevel] = "2btag category, after kin fit"; ilevel++;
 		}
-
-		if(SYNC_W_CHIARA_GGJJ && n_sync_events_before_mggjj == 0) cout << "event\tregjet1_pt\tregjet2_pt\tregkinjet1_pt\tregkinjet2_pt\tregjj_mass\tregggjj_mass\tregkinjj_mass\tregkinggjj_mass" << endl; 
-		if(SYNC_W_CHIARA_GGJJ && n_sync_events_before_mggjj < 10) cout << event << "\t" << regjet1_pt << "\t" << regjet2_pt << "\t" << regkinjet1_pt << "\t" << regkinjet2_pt << "\t" << regjj_mass << "\t" << regggjj_mass << "\t" << regkinjj_mass << "\t" << regkinggjj_mass << endl;
-		if(SYNC_W_CHIARA_GGJJ) n_sync_events_before_mggjj++;
 
 // mggjj cut (260/335 and 255/320)
 		selection_cut_level = 3;
