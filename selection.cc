@@ -20,9 +20,6 @@
 #include "../KinematicFit/DiJetKinFitter.h"
 // Verbosity
 #define DEBUG 0
-#define SYNCHRO 0
-#define SYNC 1 // mjj and mggjj cuts are different for sync and analysis
-#define REMOVE_UNDEFINED_BTAGSF 0
 // namespaces
 using namespace std;
 namespace po = boost::program_options;
@@ -36,6 +33,8 @@ int main(int argc, char *argv[])
 	string regressionFolder;
 	int numberOfRegressionFiles;
 	int type; // Same conventions as in h2gglobe: <0 = signal ; =0 = data ; >0 = background
+	int SYNC; // mjj and mggjj cuts are different for sync and analysis
+	int REMOVE_UNDEFINED_BTAGSF;
 
 	// print out passed arguments
 	copy(argv, argv + argc, ostream_iterator<char*>(cout, " ")); cout << endl;
@@ -51,6 +50,8 @@ int main(int argc, char *argv[])
 			("regressionFolder", po::value<string>(&regressionFolder)->default_value("/afs/cern.ch/user/h/hebda/public/"), "regression folder")
 			("numberOfRegressionFiles,r", po::value<int>(&numberOfRegressionFiles)->default_value(2), "number of split (regression files)")
 			("type", po::value<int>(&type)->default_value(0), "same conventions as in h2gglobe: <0 = signal ; =0 = data ; >0 = background")
+			("sync", po::value<int>(&SYNC)->default_value(0), "mjj and mggjj cuts are overwritten if sync is switched on")
+			("removeUndefinedBtagSF", po::value<int>(&REMOVE_UNDEFINED_BTAGSF)->default_value(0), "remove undefined btagSF values (should be used only for the limit trees)")
 		;
 		po::variables_map vm;
 		po::store(po::parse_command_line(argc, argv, desc), vm);
@@ -86,7 +87,7 @@ int main(int argc, char *argv[])
 	TFile *outfile = new TFile(outputfile.c_str(), "RECREATE");
 	TTree *outtree = new TTree(outputtree.c_str(), Form("%s reduced", outputtree.c_str()));
 	ofstream synchrofile;
-	if(SYNCHRO) synchrofile.open("synchronisation.txt");
+	if(SYNC) synchrofile.open("synchronisation.txt");
 
 	if(DEBUG) cout << "Setup tree inputs" << endl;
 	// setup tree inputs
@@ -1205,7 +1206,7 @@ int main(int argc, char *argv[])
 
 // categorisation
 		selection_cut_level = 0;
-		if(SYNCHRO) synchrofile << jet1_pt << "\t" << jet2_pt << "\t" << jj_mass << "\t" << ggjj_mass << endl;
+		if(SYNC) synchrofile << jet1_pt << "\t" << jet2_pt << "\t" << jj_mass << "\t" << ggjj_mass << endl;
 		if(njets_kRadionID_and_CSVM == 1)
 		{
 			category = 1;
@@ -1311,7 +1312,7 @@ int main(int argc, char *argv[])
 		for(int i=0 ; i < 14 ; i++)
 			cout << nevents_sync[i] << endl;
 
-	if(SYNCHRO) synchrofile.close();
+	if(SYNC) synchrofile.close();
   outfile->cd();
   outtree->Write();
   outfile->Close();
