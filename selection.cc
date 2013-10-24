@@ -30,13 +30,12 @@ namespace po = boost::program_options;
 int main(int argc, char *argv[])
 {
 	// declare arguments
- 	string inputfile = "root://eoscms//eos/cms/store/cmst3/user/obondu/H2GGLOBE/Radion/trees/radion_redu_08_tree_05/Graviton_Radion-nm.root";
-	string inputtree = "Radion_m300_8TeV_nm";
-	string outputfile = "Radion_m300_8TeV_nm_genjet_globeinputs.root";
-	string outputtree = "Radion_m300_8TeV_nm";
-	string regressionfile = "/afs/cern.ch/work/o/obondu/public/forRadion/factoryJetRegGen2_globeinputs_BDT.weights.xml";
-	int numberOfRegressionFiles = 1;
-	int isMC = 0; // Same conventions as in h2gglobe: <0 = signal ; =0 = data ; >0 = background
+ 	string inputfile;
+	string inputtree;
+	string outputfile;
+	string regressionFolder;
+	int numberOfRegressionFiles;
+	int type; // Same conventions as in h2gglobe: <0 = signal ; =0 = data ; >0 = background
 
 	// print out passed arguments
 	copy(argv, argv + argc, ostream_iterator<char*>(cout, " ")); cout << endl;
@@ -48,11 +47,10 @@ int main(int argc, char *argv[])
 			("help,h", "produce help message")
 			("inputfile,i", po::value<string>(&inputfile)->default_value("root://eoscms//eos/cms/store/cmst3/user/obondu/H2GGLOBE/Radion/trees/radion_tree_v06/Radion_Graviton_nm.root"), "input file")
 			("inputtree,t", po::value<string>(&inputtree)->default_value("Radion_m300_8TeV_nm"), "input tree")
-			("outputfile,O", po::value<string>(&outputfile)->default_value("selected.root"), "output file")
-			("outputtree,T", po::value<string>(&outputtree)->default_value("Radion_m300_8TeV_nm"), "output tree")
-			("regressionfile,r", po::value<string>(&regressionfile)->default_value("/afs/cern.ch/user/h/hebda/public/"), "regression file")
-			("numberOfRegressionFiles,n", po::value<int>(&numberOfRegressionFiles)->default_value(1), "number of split (regression files)")
-			("isMC", po::value<int>(&isMC)->default_value(1), "same conventions as in h2gglobe: <0 = signal ; =0 = data ; >0 = background")
+			("outputfile,o", po::value<string>(&outputfile)->default_value("selected.root"), "output file")
+			("regressionFolder", po::value<string>(&regressionFolder)->default_value("/afs/cern.ch/user/h/hebda/public/"), "regression folder")
+			("numberOfRegressionFiles,r", po::value<int>(&numberOfRegressionFiles)->default_value(2), "number of split (regression files)")
+			("type", po::value<int>(&type)->default_value(0), "same conventions as in h2gglobe: <0 = signal ; =0 = data ; >0 = background")
 		;
 		po::variables_map vm;
 		po::store(po::parse_command_line(argc, argv, desc), vm);
@@ -70,6 +68,7 @@ int main(int argc, char *argv[])
 	// end of argument parsing
   //################################################
 
+	string outputtree = inputtree;
 
 	if(DEBUG) cout << "End of argument parsing" << endl;
 
@@ -80,7 +79,7 @@ int main(int argc, char *argv[])
 	cout << "inputtree= " << inputtree << endl;
 	cout << "outputfile= " << outputfile << endl;
 	cout << "outputtree= " << outputtree << endl;
-	cout << "regressionfile= " << regressionfile << endl;
+	cout << "regressionFolder= " << regressionFolder << endl;
 
 	TFile *infile = TFile::Open(inputfile.c_str());
 	TTree *intree = (TTree*)infile->Get(inputtree.c_str());
@@ -206,7 +205,7 @@ int main(int argc, char *argv[])
 	intree->SetBranchAddress("evweight", &ev_evweight);
 	intree->SetBranchAddress("pu_weight", &ev_pu_weight);
 
-	if( isMC < 0 )
+	if( type < 0 )
 	{
 		intree->SetBranchAddress("gr_radion_p4_pt", &gr_radion_p4_pt);
 		intree->SetBranchAddress("gr_radion_p4_eta", &gr_radion_p4_eta);
@@ -557,12 +556,15 @@ int main(int argc, char *argv[])
 	readerRegres->AddVariable( "jet_dPhiMETJet", &jet_dPhiMet_fabs);
 
 // Adding variables
-	if(numberOfRegressionFiles <= 1)
-		readerRegres->BookMVA("BDT", regressionfile.c_str());
-	else {
+	if(numberOfRegressionFiles != 0 && numberOfRegressionFiles != 2)
+	{
+		cout << "ERROR: current version must have two regression files or no regression" << endl;
+		return 1;
+//		readerRegres->BookMVA("BDT", regressionFolder.c_str());
+	} else {
 		for(int i = 0; i < numberOfRegressionFiles ; i++)
 		{
-			readerRegres->BookMVA(Form("BDT_%i", i), Form("%s/TMVARegression_10_Cat%i_BDTG.weights.xml", regressionfile.c_str(), i));
+			readerRegres->BookMVA(Form("BDT_%i", i), Form("%s/TMVARegression_10_Cat%i_BDTG.weights.xml", regressionFolder.c_str(), i));
 		}
 	}
 
@@ -595,7 +597,7 @@ int main(int argc, char *argv[])
 		int njets_kRadionID_and_CSVM_ = 0;
     intree->GetEntry(ievt);
 		if(DEBUG) cout << "event= " << event << endl;
-		if( isMC < 0 && ((int)event % 2 == 0)) continue; // use regression only on odd events
+		if( type < 0 && ((int)event % 2 == 0)) continue; // use regression only on odd events
 	
 		if(DEBUG) cout << "for MC, get the MC truth hjj system" << endl;
 // Compute hjj system
@@ -785,14 +787,14 @@ int main(int argc, char *argv[])
 			jet_nConstituents_ = (float) jet_nConstituents;
 			jet_dPhiMet_fabs = fabs(jet_dPhiMet);
 
-			if(DEBUG) cout << "input= " << jet_pt << "\toutput (BDT_0)= " << readerRegres->EvaluateMVA(Form("BDT_%i", 0)) << "\toutput (BDT_1)= " << readerRegres->EvaluateMVA(Form("BDT_%i", 1)) << endl;
+			if(DEBUG) cout << "input= " << jet_pt << "\toutput (BDT_0)= " << readerRegres->EvaluateRegression(Form("BDT_%i", 0))[0] << "\toutput (BDT_1)= " << readerRegres->EvaluateRegression(Form("BDT_%i", 1))[0] << endl;
 			if( jet_csvBtag < 0. ) continue;
 			njets[5]++; jetcut[5] = "After jet_csvBtag < 0.";
 			if(DEBUG) cout << "now with the regression" << endl;
-			if(numberOfRegressionFiles == -1)
+			if(numberOfRegressionFiles == 0)
 				jet_regPt = jet_pt; // no regression applied
-			else if(numberOfRegressionFiles <= 1)
-				jet_regPt = (float)(readerRegres->EvaluateMVA("BDT"));
+//			else if(numberOfRegressionFiles <= 1)
+//				jet_regPt = (float)(readerRegres->EvaluateMVA("BDT"));
 			else
 				jet_regPt = (float)(readerRegres->EvaluateRegression(Form("BDT_%i", jet_pt < 80. ? 0 : 1))[0]) * jet_pt;
 			jet_regkinPt = jet_regPt;
