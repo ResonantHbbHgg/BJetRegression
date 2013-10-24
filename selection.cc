@@ -35,6 +35,8 @@ int main(int argc, char *argv[])
 	int type; // Same conventions as in h2gglobe: <0 = signal ; =0 = data ; >0 = background
 	int SYNC; // mjj and mggjj cuts are different for sync and analysis
 	int REMOVE_UNDEFINED_BTAGSF;
+	int applyMassCuts;
+	int applyPhotonIDControlSample;
 
 	// print out passed arguments
 	copy(argv, argv + argc, ostream_iterator<char*>(cout, " ")); cout << endl;
@@ -48,10 +50,12 @@ int main(int argc, char *argv[])
 			("inputtree,t", po::value<string>(&inputtree)->default_value("Radion_m300_8TeV_nm"), "input tree")
 			("outputfile,o", po::value<string>(&outputfile)->default_value("selected.root"), "output file")
 			("regressionFolder", po::value<string>(&regressionFolder)->default_value("/afs/cern.ch/user/h/hebda/public/"), "regression folder")
-			("numberOfRegressionFiles,r", po::value<int>(&numberOfRegressionFiles)->default_value(2), "number of split (regression files)")
+			("numberOfRegressionFiles,r", po::value<int>(&numberOfRegressionFiles)->default_value(2), "number of regression files")
 			("type", po::value<int>(&type)->default_value(0), "same conventions as in h2gglobe: <0 = signal ; =0 = data ; >0 = background")
 			("sync", po::value<int>(&SYNC)->default_value(0), "mjj and mggjj cuts are overwritten if sync is switched on")
 			("removeUndefinedBtagSF", po::value<int>(&REMOVE_UNDEFINED_BTAGSF)->default_value(0), "remove undefined btagSF values (should be used only for the limit trees)")
+			("applyMassCuts", po::value<int>(&applyMassCuts)->default_value(1), "can switch off mass cuts (e.g. for control plots), prevails other mass cut options if switched off")
+			("applyPhotonIDControlSample", po::value<int>(&applyPhotonIDControlSample)->default_value(0), "Invert photon ID CiC cut to populate selection in gjjj instead of ggjj")
 		;
 		po::variables_map vm;
 		po::store(po::parse_command_line(argc, argv, desc), vm);
@@ -632,7 +636,17 @@ int main(int argc, char *argv[])
 		nevents_w[ilevel] += evweight; ilevel++;
 		nevents_sync[1]++;
 		if(DEBUG) cout << "ph1_ciclevel= " << ph1_ciclevel << "\tph2_ciclevel= " << ph2_ciclevel << endl;
-		if( (ph1_ciclevel < 4) || (ph2_ciclevel < 4) ) continue;
+		if( (!applyPhotonIDControlSample) && ((ph1_ciclevel < 4) || (ph2_ciclevel < 4)) ) continue;
+		else if (applyPhotonIDControlSample)
+		{
+			bool ph1_id = (ph1_ciclevel >= 3);
+			bool ph2_id = (ph2_ciclevel >= 3);
+			bool ph1_Lid = (ph1_ciclevel >= 0) && (ph1_ciclevel < 3);
+			bool ph2_Lid = (ph2_ciclevel >= 0) && (ph2_ciclevel < 3);
+			if(ph1_id && ph2_id) continue; // reject gg
+			if(ph1_Lid && ph2_Lid) continue; // reject jj
+			if( !( (ph1_id && ph2_Lid) || (ph2_id && ph1_Lid)) ) continue; // reject if different from gj or jg
+		}
 		nevents[ilevel]++; eventcut[ilevel] = "After cic cut on both photons";
 		nevents_w[ilevel] += evweight; ilevel++;
 		nevents_sync[2]++;
@@ -1231,6 +1245,7 @@ int main(int argc, char *argv[])
 		float min_mjj_1btag, max_mjj_1btag, min_mjj_2btag, max_mjj_2btag;
 		min_mjj_1btag = 90.; max_mjj_1btag = 150.; min_mjj_2btag = 95.; max_mjj_2btag = 140.;
 		if(SYNC) min_mjj_1btag = 90.; max_mjj_1btag = 165.; min_mjj_2btag = 95.; max_mjj_2btag = 140.;
+		if(!applyMassCuts) min_mjj_1btag = 0.; max_mjj_1btag = 14000.; min_mjj_2btag = 0.; max_mjj_2btag = 14000.;
 		pass_mjj = (njets_kRadionID_and_CSVM == 1 && (regjj_mass < min_mjj_1btag || regjj_mass > max_mjj_1btag)) || (njets_kRadionID_and_CSVM >= 2 && (regjj_mass < min_mjj_2btag || regjj_mass > max_mjj_2btag));
 		if(pass_mjj)
 		{
@@ -1276,6 +1291,7 @@ int main(int argc, char *argv[])
 		float min_mggjj_1btag, max_mggjj_1btag, min_mggjj_2btag, max_mggjj_2btag;
 		min_mggjj_1btag = 260.; max_mggjj_1btag = 335.; min_mggjj_2btag = 255.; max_mggjj_2btag = 320.;
 		if(SYNC) min_mggjj_1btag = 255.; max_mggjj_1btag = 340.; min_mggjj_2btag = 265.; max_mggjj_2btag = 320.;
+		if(!applyMassCuts) min_mggjj_1btag = 0.; max_mggjj_1btag = 14000.; min_mggjj_2btag = 0.; max_mggjj_2btag = 14000.;
 		pass_mggjj_cut = (njets_kRadionID_and_CSVM == 1 && (regkinggjj_mass < min_mggjj_1btag || regkinggjj_mass > max_mggjj_1btag) ) || (njets_kRadionID_and_CSVM >= 2 && (regkinggjj_mass < min_mggjj_2btag || regkinggjj_mass > max_mggjj_2btag) );
 		if( pass_mggjj_cut )
 		{
@@ -1318,6 +1334,7 @@ int main(int argc, char *argv[])
   outfile->Close();
   infile->Close();
 
+	if(applyPhotonIDControlSample) cout << "WARNING: you applied the photon ID control sample, please make sure to reweight in (pt, eta) accordingly" << endl;
 
 	return 0;
 }
