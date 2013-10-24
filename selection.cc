@@ -20,14 +20,9 @@
 #include "../KinematicFit/DiJetKinFitter.h"
 // Verbosity
 #define DEBUG 0
-#define BLIND 0
 #define SYNCHRO 0
-#define SYNCHRO_GGANA 0
-#define SYNCHRO_LIGHT 0
-#define SYNC_W_CHIARA 0
-#define SYNC_W_CHIARA_GGJJ 0
-#define SYNC 0
-#define USEHT 0
+#define SYNC 1 // mjj and mggjj cuts are different for sync and analysis
+#define REMOVE_UNDEFINED_BTAGSF 0
 // namespaces
 using namespace std;
 namespace po = boost::program_options;
@@ -35,14 +30,12 @@ namespace po = boost::program_options;
 int main(int argc, char *argv[])
 {
 	// declare arguments
- 	string inputfile = "root://eoscms//eos/cms/store/cmst3/user/obondu/H2GGLOBE/Radion/trees/radion_redu_08_tree_05/Graviton_Radion-nm.root";
-	string inputtree = "Radion_m300_8TeV_nm";
-	string outputfile = "Radion_m300_8TeV_nm_genjet_globeinputs.root";
-	string outputtree = "Radion_m300_8TeV_nm";
-	string regressionfile = "/afs/cern.ch/work/o/obondu/public/forRadion/factoryJetRegGen2_globeinputs_BDT.weights.xml";
-	int numberOfSplit = 1;
-	int treeSplit = 0;
-	int isMC = 0; // Same conventions as in h2gglobe: <0 = signal ; =0 = data ; >0 = background
+ 	string inputfile;
+	string inputtree;
+	string outputfile;
+	string regressionFolder;
+	int numberOfRegressionFiles;
+	int type; // Same conventions as in h2gglobe: <0 = signal ; =0 = data ; >0 = background
 
 	// print out passed arguments
 	copy(argv, argv + argc, ostream_iterator<char*>(cout, " ")); cout << endl;
@@ -54,11 +47,10 @@ int main(int argc, char *argv[])
 			("help,h", "produce help message")
 			("inputfile,i", po::value<string>(&inputfile)->default_value("root://eoscms//eos/cms/store/cmst3/user/obondu/H2GGLOBE/Radion/trees/radion_tree_v06/Radion_Graviton_nm.root"), "input file")
 			("inputtree,t", po::value<string>(&inputtree)->default_value("Radion_m300_8TeV_nm"), "input tree")
-			("outputfile,O", po::value<string>(&outputfile)->default_value("selected.root"), "output file")
-			("outputtree,T", po::value<string>(&outputtree)->default_value("Radion_m300_8TeV_nm"), "output tree")
-			("regressionfile,r", po::value<string>(&regressionfile)->default_value("/afs/cern.ch/user/h/hebda/public/"), "regression file")
-			("numberOfSplit,n", po::value<int>(&numberOfSplit)->default_value(1), "number of split (regression files)")
-			("isMC", po::value<int>(&isMC)->default_value(1), "same conventions as in h2gglobe: <0 = signal ; =0 = data ; >0 = background")
+			("outputfile,o", po::value<string>(&outputfile)->default_value("selected.root"), "output file")
+			("regressionFolder", po::value<string>(&regressionFolder)->default_value("/afs/cern.ch/user/h/hebda/public/"), "regression folder")
+			("numberOfRegressionFiles,r", po::value<int>(&numberOfRegressionFiles)->default_value(2), "number of split (regression files)")
+			("type", po::value<int>(&type)->default_value(0), "same conventions as in h2gglobe: <0 = signal ; =0 = data ; >0 = background")
 		;
 		po::variables_map vm;
 		po::store(po::parse_command_line(argc, argv, desc), vm);
@@ -76,62 +68,18 @@ int main(int argc, char *argv[])
 	// end of argument parsing
   //################################################
 
+	string outputtree = inputtree;
 
 	if(DEBUG) cout << "End of argument parsing" << endl;
 
 
 
 
-
-/*
-	cout << "argc= " << argc << endl;
-	for(int iarg = 0 ; iarg < argc; iarg++)
-		cout << "argv[" << iarg << "]= " << argv[iarg] << endl;
-
-	string syntaxMessage =  Form("WARNING: Syntax is %s -i (inputfile) -it (inputtree) -o (outputfile) -ot (outputtree) -rf (regressionfile) -mc (isMC) -n (numberOfSplit) -j (treeSplit)", argv[0]);
-	if( argc == 1 )
-	{
-		cerr << "WARNING: Arguments should be passed ! Default arguments will be used" << endl;
-		cerr << syntaxMessage << endl;
-	}
-
-	
-	for(int iarg=0 ; iarg < argc ; iarg++)
-	{
-		if(strcmp("-i", argv[iarg]) == 0 && argc >= iarg + 1)
-			inputfile = argv[iarg+1];
-		if(strcmp("-it", argv[iarg]) == 0 && argc >= iarg + 1)
-			inputtree = argv[iarg+1];
-		if(strcmp("-o", argv[iarg]) == 0 && argc >= iarg + 1)
-			outputfile = argv[iarg+1];
-		if(strcmp("-ot", argv[iarg]) == 0 && argc >= iarg + 1)
-			outputtree = argv[iarg+1];
-		if(strcmp("-rf", argv[iarg]) == 0 && argc >= iarg + 1)
-			regressionfile = argv[iarg+1];
-		if(strcmp("-mc", argv[iarg]) == 0 && argc >= iarg + 1)
-			{ std::stringstream ss ( argv[iarg+1] ); ss >> isMC; }
-		if(strcmp("-n", argv[iarg]) == 0 && argc >= iarg + 1)
-			{ std::stringstream ss ( argv[iarg+1] ); ss >> numberOfSplit; }
-		if(strcmp("-j", argv[iarg]) == 0 && argc >= iarg + 1)
-			{ std::stringstream ss ( argv[iarg+1] ); ss >> treeSplit; }
-		if((strcmp("-h", argv[iarg]) == 0) || (strcmp("--help", argv[iarg]) == 0))
-		{
-			cerr << "WARNING: Arguments should be passed ! Default arguments will be used" << endl;
-			cerr << syntaxMessage << endl;
-			cerr << "inputfile= " << inputfile << endl;
-			cerr << "inputtree= " << inputtree << endl;
-			cerr << "outputfile= " << outputfile << endl;
-			cerr << "outputtree= " << outputtree << endl;
-			cerr << "regressionfile= " << regressionfile << endl;
-			return 2;
-		}
-	}
-*/
 	cout << "inputfile= " << inputfile << endl;
 	cout << "inputtree= " << inputtree << endl;
 	cout << "outputfile= " << outputfile << endl;
 	cout << "outputtree= " << outputtree << endl;
-	cout << "regressionfile= " << regressionfile << endl;
+	cout << "regressionFolder= " << regressionFolder << endl;
 
 	TFile *infile = TFile::Open(inputfile.c_str());
 	TTree *intree = (TTree*)infile->Get(inputtree.c_str());
@@ -139,7 +87,6 @@ int main(int argc, char *argv[])
 	TTree *outtree = new TTree(outputtree.c_str(), Form("%s reduced", outputtree.c_str()));
 	ofstream synchrofile;
 	if(SYNCHRO) synchrofile.open("synchronisation.txt");
-	if(SYNCHRO_GGANA) synchrofile.open("synchronisation_ggAna.txt");
 
 	if(DEBUG) cout << "Setup tree inputs" << endl;
 	// setup tree inputs
@@ -173,26 +120,26 @@ int main(int argc, char *argv[])
 // object variables
 	float ph1_eta, ph2_eta, ph1_pt, ph2_pt, PhotonsMass, ph1_phi, ph2_phi, ph1_e, ph2_e, ph1_r9, ph2_r9;
 	int ph1_ciclevel, ph2_ciclevel;
-	float j1_e, j1_pt, j1_phi, j1_eta, j1_beta, j1_betaStar, j1_betaStarClassic, j1_dR2Mean, j1_csvBtag, j1_csvMvaBtag, j1_jetProbBtag, j1_tcheBtag, j1_ptD, j1_nSecondaryVertices, j1_secVtxPt, j1_secVtx3dL, j1_secVtx3deL, j1_emfrac, j1_hadfrac, j1_axis1, j1_axis2, j1_pull, /*j1_Rchg, j1_Rneutral, j1_R, j1_chargedMultiplicity, j1_neutralMultiplicity, j1_Chadfrac, j1_Nhadfrac, j1_Phofrac, j1_Mufrac, j1_Elefrac, j1_dPhiMet,*/ j1_radionMatched, j1_btagSF;
-	int j1_ntk, j1_nNeutrals, j1_nCharged/*, j1_pfloose*/;
-	float j2_e, j2_pt, j2_phi, j2_eta, j2_beta, j2_betaStar, j2_betaStarClassic, j2_dR2Mean, j2_csvBtag, j2_csvMvaBtag, j2_jetProbBtag, j2_tcheBtag, j2_ptD, j2_nSecondaryVertices, j2_secVtxPt, j2_secVtx3dL, j2_secVtx3deL, j2_emfrac, j2_hadfrac, j2_axis1, j2_axis2, j2_pull, /*j2_Rchg, j2_Rneutral, j2_R, j2_chargedMultiplicity, j2_neutralMultiplicity, j2_Chadfrac, j2_Nhadfrac, j2_Phofrac, j2_Mufrac, j2_Elefrac, j2_dPhiMet,*/ j2_radionMatched, j2_btagSF;
-	int j2_ntk, j2_nNeutrals, j2_nCharged/*, j2_pfloose*/;
-	float j3_e, j3_pt, j3_phi, j3_eta, j3_beta, j3_betaStar, j3_betaStarClassic, j3_dR2Mean, j3_csvBtag, j3_csvMvaBtag, j3_jetProbBtag, j3_tcheBtag, j3_ptD, j3_nSecondaryVertices, j3_secVtxPt, j3_secVtx3dL, j3_secVtx3deL, j3_emfrac, j3_hadfrac, j3_axis1, j3_axis2, j3_pull, /*j3_Rchg, j3_Rneutral, j3_R, j3_chargedMultiplicity, j3_neutralMultiplicity, j3_Chadfrac, j3_Nhadfrac, j3_Phofrac, j3_Mufrac, j3_Elefrac, j3_dPhiMet,*/ j3_radionMatched, j3_btagSF;
-	int j3_ntk, j3_nNeutrals, j3_nCharged/*, j3_pfloose*/;
-	float j4_e, j4_pt, j4_phi, j4_eta, j4_beta, j4_betaStar, j4_betaStarClassic, j4_dR2Mean, j4_csvBtag, j4_csvMvaBtag, j4_jetProbBtag, j4_tcheBtag, j4_ptD, j4_nSecondaryVertices, j4_secVtxPt, j4_secVtx3dL, j4_secVtx3deL, j4_emfrac, j4_hadfrac, j4_axis1, j4_axis2, j4_pull, /*j4_Rchg, j4_Rneutral, j4_R, j4_chargedMultiplicity, j4_neutralMultiplicity, j4_Chadfrac, j4_Nhadfrac, j4_Phofrac, j4_Mufrac, j4_Elefrac, j4_dPhiMet,*/ j4_radionMatched, j4_btagSF;
-	int j4_ntk, j4_nNeutrals, j4_nCharged/*, j4_pfloose*/;
+
+	float j1_e, j1_pt, j1_phi, j1_eta, j1_beta, j1_betaStar, j1_betaStarClassic, j1_dR2Mean, j1_csvBtag, j1_csvMvaBtag, j1_jetProbBtag, j1_tcheBtag, j1_secVtxPt, j1_secVtx3dL, j1_emfrac, j1_hadfrac, j1_axis1, j1_axis2, j1_pull, j1_radionMatched, j1_btagSF;
+	int j1_ntk, j1_nNeutrals, j1_nCharged;
+
+	float j2_e, j2_pt, j2_phi, j2_eta, j2_beta, j2_betaStar, j2_betaStarClassic, j2_dR2Mean, j2_csvBtag, j2_csvMvaBtag, j2_jetProbBtag, j2_tcheBtag, j2_secVtxPt, j2_secVtx3dL, j2_emfrac, j2_hadfrac, j2_axis1, j2_axis2, j2_pull, j2_radionMatched, j2_btagSF;
+	int j2_ntk, j2_nNeutrals, j2_nCharged;
+
+	float j3_e, j3_pt, j3_phi, j3_eta, j3_beta, j3_betaStar, j3_betaStarClassic, j3_dR2Mean, j3_csvBtag, j3_csvMvaBtag, j3_jetProbBtag, j3_tcheBtag, j3_secVtxPt, j3_secVtx3dL, j3_emfrac, j3_hadfrac, j3_axis1, j3_axis2, j3_pull, j3_radionMatched, j3_btagSF;
+	int j3_ntk, j3_nNeutrals, j3_nCharged;
+
+	float j4_e, j4_pt, j4_phi, j4_eta, j4_beta, j4_betaStar, j4_betaStarClassic, j4_dR2Mean, j4_csvBtag, j4_csvMvaBtag, j4_jetProbBtag, j4_tcheBtag, j4_secVtxPt, j4_secVtx3dL, j4_emfrac, j4_hadfrac, j4_axis1, j4_axis2, j4_pull, j4_radionMatched, j4_btagSF;
+	int j4_ntk, j4_nNeutrals, j4_nCharged;
+
 	float jet_e, jet_pt, jet_phi, jet_eta;
-//jet_beta, jet_betaStar, 
 	float jet_betaStarClassic, jet_dR2Mean, jet_csvBtag;
-//, jet_csvMvaBtag, jet_jetProbBtag, jet_tcheBtag, 
-	float jet_ptD, jet_nSecondaryVertices, jet_secVtxPt, jet_secVtx3dL, jet_secVtx3deL, jet_emfrac, jet_hadfrac, jet_btagSF;
+	float jet_secVtxPt, jet_secVtx3dL, jet_emfrac, jet_hadfrac, jet_btagSF;
 	int jet_nNeutrals, jet_nCharged, jet_nConstituents;
 	float jet_nConstituents_;
 	float jet_dPhiMet_fabs;
-//, jet_ntk, jet_axis1, jet_axis2, jet_pull, jet_Rchg, jet_Rneutral, jet_R, jet_chargedMultiplicity, jet_neutralMultiplicity, 
-	float /*jet_Chadfrac, jet_Nhadfrac, jet_Phofrac, jet_Mufrac, jet_Elefrac,*/ jet_dPhiMet, jet_radionMatched, jet_regPt, jet_regkinPt;
-	int jet_index/*, jet_pfloose*/;
-//	float ev_met_corrMet, ev_met_corrMetPhi, ev_pu_n, ev_nvtx, ev_rho;
+	float jet_dPhiMet, jet_radionMatched, jet_regPt, jet_regkinPt;
 
 	if(DEBUG) cout << "Setup tree outputs" << endl;
 // setup tree outputs
@@ -258,7 +205,7 @@ int main(int argc, char *argv[])
 	intree->SetBranchAddress("evweight", &ev_evweight);
 	intree->SetBranchAddress("pu_weight", &ev_pu_weight);
 
-	if( isMC < 0 )
+	if( type < 0 )
 	{
 		intree->SetBranchAddress("gr_radion_p4_pt", &gr_radion_p4_pt);
 		intree->SetBranchAddress("gr_radion_p4_eta", &gr_radion_p4_eta);
@@ -310,11 +257,8 @@ int main(int argc, char *argv[])
 	intree->SetBranchAddress("j1_jetProbBtag", &j1_jetProbBtag);
 	intree->SetBranchAddress("j1_tcheBtag", &j1_tcheBtag);
 	intree->SetBranchAddress("j1_radionMatched", &j1_radionMatched);
-	intree->SetBranchAddress("j1_ptD", &j1_ptD);
-	intree->SetBranchAddress("j1_nSecondaryVertices", &j1_nSecondaryVertices);
 	intree->SetBranchAddress("j1_secVtxPt", &j1_secVtxPt);
 	intree->SetBranchAddress("j1_secVtx3dL", &j1_secVtx3dL);
-	intree->SetBranchAddress("j1_secVtx3deL", &j1_secVtx3deL);
 	intree->SetBranchAddress("j1_emfrac", &j1_emfrac);
 	intree->SetBranchAddress("j1_hadfrac", &j1_hadfrac);
 	intree->SetBranchAddress("j1_btagSF", &j1_btagSF);
@@ -324,19 +268,6 @@ int main(int argc, char *argv[])
 	intree->SetBranchAddress("j1_axis1", &j1_axis1);
 	intree->SetBranchAddress("j1_axis2", &j1_axis2);
 	intree->SetBranchAddress("j1_pull", &j1_pull);
-/*	intree->SetBranchAddress("j1_Rchg", &j1_Rchg);
-	intree->SetBranchAddress("j1_Rneutral", &j1_Rneutral);
-	intree->SetBranchAddress("j1_R", &j1_R);
-	intree->SetBranchAddress("j1_chargedMultiplicity", &j1_chargedMultiplicity);
-	intree->SetBranchAddress("j1_neutralMultiplicity", &j1_neutralMultiplicity);
-	intree->SetBranchAddress("j1_Chadfrac", &j1_Chadfrac);
-	intree->SetBranchAddress("j1_Nhadfrac", &j1_Nhadfrac);
-	intree->SetBranchAddress("j1_Phofrac", &j1_Phofrac);
-	intree->SetBranchAddress("j1_Mufrac", &j1_Mufrac);
-	intree->SetBranchAddress("j1_Elefrac", &j1_Elefrac);
-	intree->SetBranchAddress("j1_dPhiMet", &j1_dPhiMet);
-	intree->SetBranchAddress("j1_pfloose", &j1_pfloose);
-*/
 
 	intree->SetBranchAddress("j2_e", &j2_e);
 	intree->SetBranchAddress("j2_pt", &j2_pt);
@@ -351,11 +282,8 @@ int main(int argc, char *argv[])
 	intree->SetBranchAddress("j2_jetProbBtag", &j2_jetProbBtag);
 	intree->SetBranchAddress("j2_tcheBtag", &j2_tcheBtag);
 	intree->SetBranchAddress("j2_radionMatched", &j2_radionMatched);
-	intree->SetBranchAddress("j2_ptD", &j2_ptD);
-	intree->SetBranchAddress("j2_nSecondaryVertices", &j2_nSecondaryVertices);
 	intree->SetBranchAddress("j2_secVtxPt", &j2_secVtxPt);
 	intree->SetBranchAddress("j2_secVtx3dL", &j2_secVtx3dL);
-	intree->SetBranchAddress("j2_secVtx3deL", &j2_secVtx3deL);
 	intree->SetBranchAddress("j2_emfrac", &j2_emfrac);
 	intree->SetBranchAddress("j2_hadfrac", &j2_hadfrac);
 	intree->SetBranchAddress("j2_btagSF", &j2_btagSF);
@@ -365,19 +293,6 @@ int main(int argc, char *argv[])
 	intree->SetBranchAddress("j2_axis1", &j2_axis1);
 	intree->SetBranchAddress("j2_axis2", &j2_axis2);
 	intree->SetBranchAddress("j2_pull", &j2_pull);
-/*	intree->SetBranchAddress("j2_Rchg", &j2_Rchg);
-	intree->SetBranchAddress("j2_Rneutral", &j2_Rneutral);
-	intree->SetBranchAddress("j2_R", &j2_R);
-	intree->SetBranchAddress("j2_chargedMultiplicity", &j2_chargedMultiplicity);
-	intree->SetBranchAddress("j2_neutralMultiplicity", &j2_neutralMultiplicity);
-	intree->SetBranchAddress("j2_Chadfrac", &j2_Chadfrac);
-	intree->SetBranchAddress("j2_Nhadfrac", &j2_Nhadfrac);
-	intree->SetBranchAddress("j2_Phofrac", &j2_Phofrac);
-	intree->SetBranchAddress("j2_Mufrac", &j2_Mufrac);
-	intree->SetBranchAddress("j2_Elefrac", &j2_Elefrac);
-	intree->SetBranchAddress("j2_dPhiMet", &j2_dPhiMet);
-	intree->SetBranchAddress("j2_pfloose", &j2_pfloose);
-*/
 
 	intree->SetBranchAddress("j3_e", &j3_e);
 	intree->SetBranchAddress("j3_pt", &j3_pt);
@@ -392,11 +307,8 @@ int main(int argc, char *argv[])
 	intree->SetBranchAddress("j3_jetProbBtag", &j3_jetProbBtag);
 	intree->SetBranchAddress("j3_tcheBtag", &j3_tcheBtag);
 	intree->SetBranchAddress("j3_radionMatched", &j3_radionMatched);
-	intree->SetBranchAddress("j3_ptD", &j3_ptD);
-	intree->SetBranchAddress("j3_nSecondaryVertices", &j3_nSecondaryVertices);
 	intree->SetBranchAddress("j3_secVtxPt", &j3_secVtxPt);
 	intree->SetBranchAddress("j3_secVtx3dL", &j3_secVtx3dL);
-	intree->SetBranchAddress("j3_secVtx3deL", &j3_secVtx3deL);
 	intree->SetBranchAddress("j3_emfrac", &j3_emfrac);
 	intree->SetBranchAddress("j3_hadfrac", &j3_hadfrac);
 	intree->SetBranchAddress("j3_btagSF", &j3_btagSF);
@@ -406,19 +318,6 @@ int main(int argc, char *argv[])
 	intree->SetBranchAddress("j3_axis1", &j3_axis1);
 	intree->SetBranchAddress("j3_axis2", &j3_axis2);
 	intree->SetBranchAddress("j3_pull", &j3_pull);
-/*	intree->SetBranchAddress("j3_Rchg", &j3_Rchg);
-	intree->SetBranchAddress("j3_Rneutral", &j3_Rneutral);
-	intree->SetBranchAddress("j3_R", &j3_R);
-	intree->SetBranchAddress("j3_chargedMultiplicity", &j3_chargedMultiplicity);
-	intree->SetBranchAddress("j3_neutralMultiplicity", &j3_neutralMultiplicity);
-	intree->SetBranchAddress("j3_Chadfrac", &j3_Chadfrac);
-	intree->SetBranchAddress("j3_Nhadfrac", &j3_Nhadfrac);
-	intree->SetBranchAddress("j3_Phofrac", &j3_Phofrac);
-	intree->SetBranchAddress("j3_Mufrac", &j3_Mufrac);
-	intree->SetBranchAddress("j3_Elefrac", &j3_Elefrac);
-	intree->SetBranchAddress("j3_dPhiMet", &j3_dPhiMet);
-	intree->SetBranchAddress("j3_pfloose", &j3_pfloose);
-*/
 
 	intree->SetBranchAddress("j4_e", &j4_e);
 	intree->SetBranchAddress("j4_pt", &j4_pt);
@@ -433,11 +332,8 @@ int main(int argc, char *argv[])
 	intree->SetBranchAddress("j4_jetProbBtag", &j4_jetProbBtag);
 	intree->SetBranchAddress("j4_tcheBtag", &j4_tcheBtag);
 	intree->SetBranchAddress("j4_radionMatched", &j4_radionMatched);
-	intree->SetBranchAddress("j4_ptD", &j4_ptD);
-	intree->SetBranchAddress("j4_nSecondaryVertices", &j4_nSecondaryVertices);
 	intree->SetBranchAddress("j4_secVtxPt", &j4_secVtxPt);
 	intree->SetBranchAddress("j4_secVtx3dL", &j4_secVtx3dL);
-	intree->SetBranchAddress("j4_secVtx3deL", &j4_secVtx3deL);
 	intree->SetBranchAddress("j4_emfrac", &j4_emfrac);
 	intree->SetBranchAddress("j4_hadfrac", &j4_hadfrac);
 	intree->SetBranchAddress("j4_btagSF", &j4_btagSF);
@@ -447,19 +343,6 @@ int main(int argc, char *argv[])
 	intree->SetBranchAddress("j4_axis1", &j4_axis1);
 	intree->SetBranchAddress("j4_axis2", &j4_axis2);
 	intree->SetBranchAddress("j4_pull", &j4_pull);
-/*	intree->SetBranchAddress("j4_Rchg", &j4_Rchg);
-	intree->SetBranchAddress("j4_Rneutral", &j4_Rneutral);
-	intree->SetBranchAddress("j4_R", &j4_R);
-	intree->SetBranchAddress("j4_chargedMultiplicity", &j4_chargedMultiplicity);
-	intree->SetBranchAddress("j4_neutralMultiplicity", &j4_neutralMultiplicity);
-	intree->SetBranchAddress("j4_Chadfrac", &j4_Chadfrac);
-	intree->SetBranchAddress("j4_Nhadfrac", &j4_Nhadfrac);
-	intree->SetBranchAddress("j4_Phofrac", &j4_Phofrac);
-	intree->SetBranchAddress("j4_Mufrac", &j4_Mufrac);
-	intree->SetBranchAddress("j4_Elefrac", &j4_Elefrac);
-	intree->SetBranchAddress("j4_dPhiMet", &j4_dPhiMet);
-	intree->SetBranchAddress("j4_pfloose", &j4_pfloose);
-*/
 
 	outtree->Branch("category", &category, "category/I");
 	outtree->Branch("selection_cut_level", &selection_cut_level, "selection_cut_level/I");
@@ -618,6 +501,7 @@ int main(int argc, char *argv[])
 	outtree->Branch("minDRgregj", &minDRgregj, "minDRgregj/F");
 	outtree->Branch("minDRgregkinj", &minDRgregkinj, "minDRgregkinj/F");
 	outtree->Branch("minDRgkinj", &minDRgkinj, "minDRgkinj/F");
+	outtree->Branch("HT_gg", &HT_gg, "HT_gg/F");
 // gen level info
 	outtree->Branch("gr_radion_p4_pt", &gr_radion_p4_pt, "gr_radion_p4_pt/F");
 	outtree->Branch("gr_radion_p4_eta", &gr_radion_p4_eta, "gr_radion_p4_eta/F");
@@ -670,35 +554,23 @@ int main(int argc, char *argv[])
 	readerRegres->AddVariable( "jet_vtx3dL", &jet_secVtx3dL);
 	readerRegres->AddVariable( "MET", &met_corr_pfmet);
 	readerRegres->AddVariable( "jet_dPhiMETJet", &jet_dPhiMet_fabs);
-/*
-	readerRegres->AddVariable( "jet_pt", &jet_pt);
-	readerRegres->AddVariable( "jet_eta", &jet_eta);
-	readerRegres->AddVariable( "jet_emfrac", &jet_emfrac);
-	readerRegres->AddVariable( "jet_nConstituents", &jet_nConstituents_);
-	readerRegres->AddVariable( "jet_hadfrac", &jet_hadfrac);
-	readerRegres->AddVariable( "jet_secVtxPt", &jet_secVtxPt);
-	readerRegres->AddVariable( "jet_secVtx3dL", &jet_secVtx3dL);
-	readerRegres->AddVariable( "ev_met_corr_pfmet", &met_corr_pfmet);
-	readerRegres->AddVariable( "jet_dPhiMet", &jet_dPhiMet);
-*/
+
 // Adding variables
-//	readerRegres->AddVariable( "ev_rho", &rho);
-	if( USEHT ) readerRegres->AddVariable( "ph1_pt+ph2_pt", &HT_gg);
-	if(numberOfSplit <= 1)
-		readerRegres->BookMVA("BDT", regressionfile.c_str());
-	else {
-		for(int i = 0; i < numberOfSplit ; i++)
+	if(numberOfRegressionFiles != 0 && numberOfRegressionFiles != 2)
+	{
+		cout << "ERROR: current version must have two regression files or no regression" << endl;
+		return 1;
+//		readerRegres->BookMVA("BDT", regressionFolder.c_str());
+	} else {
+		for(int i = 0; i < numberOfRegressionFiles ; i++)
 		{
-//			readerRegres->BookMVA(Form("BDT_%i", i), Form("weights/2013-08-08_test_n%i_j%i_BDT.weights.xml", numberOfSplit, i));
-//			readerRegres->BookMVA(Form("BDT_%i", i), Form("weights/2013-08-08_test02_n%i_j%i_BDT.weights.xml", numberOfSplit, i));
-//			readerRegres->BookMVA(Form("BDT_%i", i), Form("weights/2013-08-08_test03_n%i_j%i_BDT.weights.xml", numberOfSplit, i));
-//			readerRegres->BookMVA(Form("BDT_%i", i), Form("weights/%s_n%i_j%i_BDT.weights.xml", regressionfile.c_str(), numberOfSplit, i));
-			readerRegres->BookMVA(Form("BDT_%i", i), Form("%s/TMVARegression_10_Cat%i_BDTG.weights.xml", regressionfile.c_str(), i));
+			readerRegres->BookMVA(Form("BDT_%i", i), Form("%s/TMVARegression_10_Cat%i_BDTG.weights.xml", regressionFolder.c_str(), i));
 		}
 	}
 
 
 	int nevents[30] = {0};
+	int ilevelmax=0;
 	float nevents_w[30] = {0.};
 	float nevents_w_btagSF[30] = {0.};
 	int nevents_sync[30] = {0};
@@ -708,14 +580,11 @@ int main(int argc, char *argv[])
 	int njets[30] = {0};
 	string jetcut[30];
   int decade = 0;
-	int n_sync_events_before_mjj = 0;
-	int n_sync_events_before_mggjj = 0;
   int totevents = intree->GetEntries();
   if(DEBUG) totevents = 100;
   cout << "#entries= " << totevents << endl;
   // loop over events
   for(int ievt=0 ; ievt < totevents ; ievt++)
-//  for(int ievt=10127 ; ievt < 10128 ; ievt++)
   {
 		int ilevel = 0;
 		if(DEBUG) cout << "#####\tievt= " << ievt << endl;
@@ -728,7 +597,7 @@ int main(int argc, char *argv[])
 		int njets_kRadionID_and_CSVM_ = 0;
     intree->GetEntry(ievt);
 		if(DEBUG) cout << "event= " << event << endl;
-		if( isMC < 0 && ((int)event % 2 == 0)) continue; // use regression only on odd events
+		if( type < 0 && ((int)event % 2 == 0)) continue; // use regression only on odd events
 	
 		if(DEBUG) cout << "for MC, get the MC truth hjj system" << endl;
 // Compute hjj system
@@ -752,45 +621,31 @@ int main(int argc, char *argv[])
 		if(DEBUG) cout << "Apply photon ID cuts" << endl;
 		// Apply photon ID cuts
 		nevents[ilevel]++; eventcut[ilevel] = "Before photon ID";
-		nevents_w[ilevel] += weight; ilevel++;
+		nevents_w[ilevel] += evweight; ilevel++;
 		nevents_sync[0]++;
-//		if( (fabs(ph1_eta) > 2.5) || (fabs(ph2_eta) > 2.5) ) continue;
-		nevents[ilevel]++; eventcut[ilevel] = "(OBSOLETE) After eta < 2.5";
-		nevents_w[ilevel] += weight; ilevel++;
-//		if( (fabs(ph1_eta) < 1.566) && (fabs(ph1_eta) >1.4442) ) continue;
-		nevents[ilevel]++; eventcut[ilevel] = "(OBSOLETE) After eta gap for photon 1";
-		nevents_w[ilevel] += weight; ilevel++;
-//		if( (fabs(ph2_eta) < 1.566) && (fabs(ph2_eta) >1.4442) ) continue;
-		nevents[ilevel]++; eventcut[ilevel] = "(OBSOLETE) After eta gap for photon 2";
-		nevents_w[ilevel] += weight; ilevel++;
 		if( ph1_pt < (float)(40.*PhotonsMass)/(float)120. ) continue;
 		nevents[ilevel]++; eventcut[ilevel] = "After floating pt cut for photon 1 (40*mgg/120 GeV)";
-		nevents_w[ilevel] += weight; ilevel++;
+		nevents_w[ilevel] += evweight; ilevel++;
 		if( ph2_pt < 25. ) continue;
 		nevents[ilevel]++; eventcut[ilevel] = "After fixed pt cut for photon 2 (25 GeV)";
-		nevents_w[ilevel] += weight; ilevel++;
+		nevents_w[ilevel] += evweight; ilevel++;
 		nevents_sync[1]++;
 		if(DEBUG) cout << "ph1_ciclevel= " << ph1_ciclevel << "\tph2_ciclevel= " << ph2_ciclevel << endl;
 		if( (ph1_ciclevel < 4) || (ph2_ciclevel < 4) ) continue;
 		nevents[ilevel]++; eventcut[ilevel] = "After cic cut on both photons";
-		nevents_w[ilevel] += weight; ilevel++;
+		nevents_w[ilevel] += evweight; ilevel++;
 		nevents_sync[2]++;
 		if( (PhotonsMass < 100.) || (PhotonsMass > 180.) ) continue;
 		nevents[ilevel]++; eventcut[ilevel] = "After 100 < mgg < 180";
-		nevents_w[ilevel] += weight; ilevel++;
-		if(BLIND)
-			{ if( (PhotonsMass > 120.) && (PhotonsMass < 130.) ) continue; }
-		nevents[ilevel]++; eventcut[ilevel] = "After blinding data in 120 < mgg < 130";
-		nevents_w[ilevel] += weight; ilevel++;
+		nevents_w[ilevel] += evweight; ilevel++;
 		nevents_sync[3]++;
 		HT_gg = ph1_pt + ph2_pt;
 
 		// take only the subset of events where at least two jets remains
 		if( njets_passing_kLooseID < 2 ) continue;
 		nevents[ilevel]++; eventcut[ilevel] = "After njet >= 2";
-		nevents_w[ilevel] += weight; ilevel++;
+		nevents_w[ilevel] += evweight; ilevel++;
 		nevents_sync[4]++;
-//		if( njets_passing_kLooseID_and_CSVM < 1 ) continue;
 // alternative counting: taking into account only the 4 jets stored !
 		int nbjet_tmp = 0;
 //		float csv_cut = 0.244; // CSVL
@@ -812,7 +667,7 @@ int main(int argc, char *argv[])
 		}
 		if( nbjet_tmp < 1 ) continue;
 		nevents[ilevel]++; eventcut[ilevel] = "After nbjet >= 1";
-		nevents_w[ilevel] += weight; ilevel++;
+		nevents_w[ilevel] += evweight; ilevel++;
 		nevents_sync[5]++;
 		if( nbjet_tmp == 1) nevents1btag[10]++; 
 		else nevents2btag[10]++;
@@ -848,43 +703,18 @@ int main(int argc, char *argv[])
 				jet_pt = j1_pt;
 				jet_phi = j1_phi;
 				jet_eta = j1_eta;
-/*				jet_beta = j1_beta;
-				jet_betaStar = j1_betaStar;
-*/				jet_betaStarClassic = j1_betaStarClassic;
+				jet_betaStarClassic = j1_betaStarClassic;
 				jet_dR2Mean = j1_dR2Mean;
 				jet_csvBtag = j1_csvBtag;
-/*				jet_csvMvaBtag = j1_csvMvaBtag;
-				jet_jetProbBtag = j1_jetProbBtag;
-				jet_tcheBtag = j1_tcheBtag;
-*/				jet_radionMatched = j1_radionMatched;
-				jet_ptD = j1_ptD;
-				jet_nSecondaryVertices = j1_nSecondaryVertices;
+				jet_radionMatched = j1_radionMatched;
 				jet_secVtxPt = j1_secVtxPt;
 				jet_secVtx3dL = j1_secVtx3dL;
-				jet_secVtx3deL = j1_secVtx3deL;
 				jet_emfrac = j1_emfrac;
 				jet_hadfrac = j1_hadfrac;
 				jet_btagSF = j1_btagSF;
 				jet_nNeutrals = j1_nNeutrals;
 				jet_nCharged = j1_nCharged;
 				jet_nConstituents = jet_nNeutrals + jet_nCharged;
-/*
-				jet_ntk = j1_ntk;
-				jet_axis1 = j1_axis1;
-				jet_axis2 = j1_axis2;
-				jet_pull = j1_pull;
-				jet_Rchg = j1_Rchg;
-				jet_Rneutral = j1_Rneutral;
-				jet_R = j1_R;
-				jet_chargedMultiplicity = j1_chargedMultiplicity;
-				jet_neutralMultiplicity = j1_neutralMultiplicity;
-				jet_Chadfrac = j1_Chadfrac;
-				jet_Nhadfrac = j1_Nhadfrac;
-				jet_Phofrac = j1_Phofrac;
-				jet_Mufrac = j1_Mufrac;
-				jet_Elefrac = j1_Elefrac;
-				jet_pfloose = j1_pfloose;
-*/				jet_index = 1;
 				jet.SetPtEtaPhiE(j1_pt, j1_eta, j1_phi, j1_e);
 				jet_dPhiMet = jet.DeltaPhi(met);
 			} // end if jet == 0
@@ -895,42 +725,18 @@ int main(int argc, char *argv[])
 				jet_pt = j2_pt;
 				jet_phi = j2_phi;
 				jet_eta = j2_eta;
-/*				jet_beta = j2_beta;
-				jet_betaStar = j2_betaStar;
-*/				jet_betaStarClassic = j2_betaStarClassic;
+				jet_betaStarClassic = j2_betaStarClassic;
 				jet_dR2Mean = j2_dR2Mean;
 				jet_csvBtag = j2_csvBtag;
-/*				jet_csvMvaBtag = j2_csvMvaBtag;
-				jet_jetProbBtag = j2_jetProbBtag;
-				jet_tcheBtag = j2_tcheBtag;
-*/				jet_radionMatched = j2_radionMatched;
-				jet_ptD = j2_ptD;
-				jet_nSecondaryVertices = j2_nSecondaryVertices;
+				jet_radionMatched = j2_radionMatched;
 				jet_secVtxPt = j2_secVtxPt;
 				jet_secVtx3dL = j2_secVtx3dL;
-				jet_secVtx3deL = j2_secVtx3deL;
 				jet_emfrac = j2_emfrac;
 				jet_hadfrac = j2_hadfrac;
 				jet_btagSF = j2_btagSF;
 				jet_nNeutrals = j2_nNeutrals;
 				jet_nCharged = j2_nCharged;
 				jet_nConstituents = jet_nNeutrals + jet_nCharged;
-	/*			jet_ntk = j2_ntk;
-				jet_axis1 = j2_axis1;
-				jet_axis2 = j2_axis2;
-				jet_pull = j2_pull;
-				jet_Rchg = j2_Rchg;
-				jet_Rneutral = j2_Rneutral;
-				jet_R = j2_R;
-				jet_chargedMultiplicity = j2_chargedMultiplicity;
-				jet_neutralMultiplicity = j2_neutralMultiplicity;
-				jet_Chadfrac = j2_Chadfrac;
-				jet_Nhadfrac = j2_Nhadfrac;
-				jet_Phofrac = j2_Phofrac;
-				jet_Mufrac = j2_Mufrac;
-				jet_Elefrac = j2_Elefrac;
-				jet_pfloose = j2_pfloose;
-*/				jet_index = 2;
 				jet.SetPtEtaPhiE(j2_pt, j2_eta, j2_phi, j2_e);
 				jet_dPhiMet = jet.DeltaPhi(met);
 			} // end if jet == 1
@@ -941,42 +747,18 @@ int main(int argc, char *argv[])
 				jet_pt = j3_pt;
 				jet_phi = j3_phi;
 				jet_eta = j3_eta;
-/*				jet_beta = j3_beta;
-				jet_betaStar = j3_betaStar;
-*/				jet_betaStarClassic = j3_betaStarClassic;
+				jet_betaStarClassic = j3_betaStarClassic;
 				jet_dR2Mean = j3_dR2Mean;
 				jet_csvBtag = j3_csvBtag;
-/*				jet_csvMvaBtag = j3_csvMvaBtag;
-				jet_jetProbBtag = j3_jetProbBtag;
-				jet_tcheBtag = j3_tcheBtag;
-*/				jet_radionMatched = j3_radionMatched;
-				jet_ptD = j3_ptD;
-				jet_nSecondaryVertices = j3_nSecondaryVertices;
+				jet_radionMatched = j3_radionMatched;
 				jet_secVtxPt = j3_secVtxPt;
 				jet_secVtx3dL = j3_secVtx3dL;
-				jet_secVtx3deL = j3_secVtx3deL;
 				jet_emfrac = j3_emfrac;
 				jet_hadfrac = j3_hadfrac;
 				jet_btagSF = j3_btagSF;
 				jet_nNeutrals = j3_nNeutrals;
 				jet_nCharged = j3_nCharged;
 				jet_nConstituents = jet_nNeutrals + jet_nCharged;
-/*				jet_ntk = j3_ntk;
-				jet_axis1 = j3_axis1;
-				jet_axis2 = j3_axis2;
-				jet_pull = j3_pull;
-				jet_Rchg = j3_Rchg;
-				jet_Rneutral = j3_Rneutral;
-				jet_R = j3_R;
-				jet_chargedMultiplicity = j3_chargedMultiplicity;
-				jet_neutralMultiplicity = j3_neutralMultiplicity;
-				jet_Chadfrac = j3_Chadfrac;
-				jet_Nhadfrac = j3_Nhadfrac;
-				jet_Phofrac = j3_Phofrac;
-				jet_Mufrac = j3_Mufrac;
-				jet_Elefrac = j3_Elefrac;
-				jet_pfloose = j3_pfloose;
-*/				jet_index = 3;
 				jet.SetPtEtaPhiE(j3_pt, j3_eta, j3_phi, j3_e);
 				jet_dPhiMet = jet.DeltaPhi(met);
 			} // end if jet == 2
@@ -987,68 +769,35 @@ int main(int argc, char *argv[])
 				jet_pt = j4_pt;
 				jet_phi = j4_phi;
 				jet_eta = j4_eta;
-/*				jet_beta = j4_beta;
-				jet_betaStar = j4_betaStar;
-*/				jet_betaStarClassic = j4_betaStarClassic;
+				jet_betaStarClassic = j4_betaStarClassic;
 				jet_dR2Mean = j4_dR2Mean;
 				jet_csvBtag = j4_csvBtag;
-/*				jet_csvMvaBtag = j4_csvMvaBtag;
-				jet_jetProbBtag = j4_jetProbBtag;
-				jet_tcheBtag = j4_tcheBtag;
-*/				jet_radionMatched = j4_radionMatched;
-				jet_ptD = j4_ptD;
-				jet_nSecondaryVertices = j4_nSecondaryVertices;
+				jet_radionMatched = j4_radionMatched;
 				jet_secVtxPt = j4_secVtxPt;
 				jet_secVtx3dL = j4_secVtx3dL;
-				jet_secVtx3deL = j4_secVtx3deL;
 				jet_emfrac = j4_emfrac;
 				jet_hadfrac = j4_hadfrac;
 				jet_btagSF = j4_btagSF;
 				jet_nNeutrals = j4_nNeutrals;
 				jet_nCharged = j4_nCharged;
 				jet_nConstituents = jet_nNeutrals + jet_nCharged;
-/*				jet_ntk = j4_ntk;
-				jet_axis1 = j4_axis1;
-				jet_axis2 = j4_axis2;
-				jet_pull = j4_pull;
-				jet_Rchg = j4_Rchg;
-				jet_Rneutral = j4_Rneutral;
-				jet_R = j4_R;
-				jet_chargedMultiplicity = j4_chargedMultiplicity;
-				jet_neutralMultiplicity = j4_neutralMultiplicity;
-				jet_Chadfrac = j4_Chadfrac;
-				jet_Nhadfrac = j4_Nhadfrac;
-				jet_Phofrac = j4_Phofrac;
-				jet_Mufrac = j4_Mufrac;
-				jet_Elefrac = j4_Elefrac;
-				jet_pfloose = j4_pfloose;
-*/				jet_index = 4;
 				jet.SetPtEtaPhiE(j4_pt, j4_eta, j4_phi, j4_e);
 				jet_dPhiMet = jet.DeltaPhi(met);
 			} // end if jet == 3
 			jet_nConstituents_ = (float) jet_nConstituents;
 			jet_dPhiMet_fabs = fabs(jet_dPhiMet);
 
-//			if(DEBUG) cout << "input= " << jet_pt << "\toutput= " << readerRegres->EvaluateRegression("BDTG method")[0] << endl; // Phil regression
-//			if(DEBUG) cout << "input= " << jet_pt << "\toutput (BDT)= " << readerRegres->EvaluateMVA("BDT") << endl; // Olivier regression
-			if(DEBUG) cout << "input= " << jet_pt << "\toutput (BDT_0)= " << readerRegres->EvaluateMVA(Form("BDT_%i", 0)) << "\toutput (BDT_1)= " << readerRegres->EvaluateMVA(Form("BDT_%i", 1)) << endl; // Olivier regression
-//			TLorentzVector jnew;
-//			jnew.SetPtEtaPhiE(jet_pt, jet_eta, jet_phi, jet_e);
+			if(DEBUG) cout << "input= " << jet_pt << "\toutput (BDT_0)= " << readerRegres->EvaluateRegression(Form("BDT_%i", 0))[0] << "\toutput (BDT_1)= " << readerRegres->EvaluateRegression(Form("BDT_%i", 1))[0] << endl;
 			if( jet_csvBtag < 0. ) continue;
 			njets[5]++; jetcut[5] = "After jet_csvBtag < 0.";
 			if(DEBUG) cout << "now with the regression" << endl;
-//			jnew = ((float)readerRegres->EvaluateRegression("BDTG method")[0]/(float)jet_pt) * jnew; // Phil regression
-//			jet_regPt = (float)(readerRegres->EvaluateMVA("BDT"));
-			if(numberOfSplit == -1)
+			if(numberOfRegressionFiles == 0)
 				jet_regPt = jet_pt; // no regression applied
-			else if(numberOfSplit <= 1)
-				jet_regPt = (float)(readerRegres->EvaluateMVA("BDT"));
+//			else if(numberOfRegressionFiles <= 1)
+//				jet_regPt = (float)(readerRegres->EvaluateMVA("BDT"));
 			else
 				jet_regPt = (float)(readerRegres->EvaluateRegression(Form("BDT_%i", jet_pt < 80. ? 0 : 1))[0]) * jet_pt;
-//			if(DEBUG) cout << "jet_pt= " << jet_pt << "\tjet_regPt= " << jet_regPt << endl;
 			jet_regkinPt = jet_regPt;
-//			jnew = (float)jet_regPt / (float)jet_pt * jnew; // applying regression
-//			jet_regPt = jet_pt; // FIXME DEBUG SYNCHRONISATION
 			// jet selection
 			// ** acceptance + pu id **
 			if( jet_regPt < 25. ) continue;
@@ -1086,7 +835,7 @@ int main(int argc, char *argv[])
 		// jet combinatorics
 		if( jetPt.size() < 2 ) continue;
 		nevents[ilevel]++; eventcut[ilevel] = "After njet >=2 passing the jet selection";
-		nevents_w[ilevel] += weight; ilevel++;
+		nevents_w[ilevel] += evweight; ilevel++;
 		nevents_sync[6]++;
 
 		vector<int> btaggedJet;
@@ -1098,13 +847,11 @@ int main(int argc, char *argv[])
 
 		if( btaggedJet.size() < 1 ) continue;
 		nevents[ilevel]++; eventcut[ilevel] = "After nbjet >=1 passing the jet selection";
-		nevents_w[ilevel] += weight; ilevel++;
+		nevents_w[ilevel] += evweight; ilevel++;
 		nevents_sync[7]++;
 		if( btaggedJet.size() == 1) nevents1btag[12]++; 
 		else nevents2btag[12]++;
 
-		if(nevents[0] == 1 && SYNCHRO_GGANA) synchrofile << "event" << "\t" << "ph1_pt" << "\t" << "ph2_pt" << "\t" << "PhotonsMass" << "\t" << "j1_pt" << "\t" << "j2_pt" << "\t" << "j3_pt" << "\t" << "j4_pt" << endl;
-		if(SYNCHRO_GGANA) synchrofile << event << "\t" << ph1_pt << "\t" << ph2_pt << "\t" << PhotonsMass << "\t" << j1_pt << "\t" << j2_pt << "\t" << j3_pt << "\t" << j4_pt << endl;
 
 
 		int ij1, ij2;
@@ -1227,7 +974,7 @@ int main(int argc, char *argv[])
 			ij2 = jmaxptjj;
 			ij1Reg = imaxptjjReg;
 			ij2Reg = jmaxptjjReg;
-			ij1RegKin = imaxptjjReg;
+			ij1RegKin = imaxptjjRegKin;
 			ij2RegKin = jmaxptjjRegKin;
 		} // end of if two bjets
 
@@ -1448,13 +1195,13 @@ int main(int argc, char *argv[])
 		minDRgkinj = min(minDRgkinj, (float)pho2.DeltaR(kinjet1));
 		minDRgkinj = min(minDRgkinj, (float)pho2.DeltaR(kinjet2));
 
-		if(regjet1_btagSF == -1001 || regjet2_btagSF == -1001)
+		if(REMOVE_UNDEFINED_BTAGSF && (regjet1_btagSF == -1001 || regjet2_btagSF == -1001))
 		{
 			cout << "WARNING: undefined btagSF, skipping the event:\tevent= " << event << "\tregjet1_btagSF= " << regjet1_btagSF << "\tregjet2_btagSF= " << regjet2_btagSF << "\tregjet1_pt= " << regjet1_pt << "\tregjet2_pt= " << regjet2_pt << endl;
 			continue;
+			nevents[ilevel]++; eventcut[ilevel] = "After removing undefined btagSF";
+			nevents_w[ilevel] += evweight; nevents_w_btagSF[ilevel] += evweight * regjj_btagSF; ilevel++;
 		}
-		nevents[ilevel]++; eventcut[ilevel] = "After removing undefined btagSF";
-		nevents_w[ilevel] += evweight; nevents_w_btagSF[ilevel] += evweight * regjj_btagSF; ilevel++;
 
 // categorisation
 		selection_cut_level = 0;
@@ -1463,49 +1210,27 @@ int main(int argc, char *argv[])
 		{
 			category = 1;
 			nevents[ilevel]++;
-			nevents_w[ilevel] += weight;
+			nevents_w[ilevel] += evweight;
 			nevents_sync[8]++;
-			eventcut[ilevel] = "1btag category"; ilevel++;
+			eventcut[ilevel] = "1btag category"; ilevel++; ilevel++;
 		} else if( njets_kRadionID_and_CSVM >=2) {
+			ilevel++;
 			category = 2;
 			nevents[ilevel]++;
-			nevents_w[ilevel] += weight;
+			nevents_w[ilevel] += evweight;
 			nevents_sync[9]++;
 			eventcut[ilevel] = "2btag category"; ilevel++;
 		}
 
-// | cos theta* | <.9
-		selection_cut_level = 1;
-ilevel++; ilevel++;
-/*
-		if( fabs(regcosthetastar) >= .9 )
-		{
-			outtree->Fill();
-			continue;
-		}
-		if(njets_kRadionID_and_CSVM == 1)
-		{
-			category = 1;
-			nevents[15]++;
-			eventcut[15] = "1btag category, after | cos theta* | <.9";
-		} else if( njets_kRadionID_and_CSVM >=2) {
-			category = 2;
-			nevents[16]++;
-			eventcut[16] = "2btag category, after | cos theta* | <.9";
-		}
-*/
 
 
 // mjj cut (90/150 for 1btag and 95/140 for 2btags)
-		if(SYNC_W_CHIARA && n_sync_events_before_mjj == 0) cout << "event\tjet1_index\tjet2_index\tjet1_regPt\tjet2_regPt\tregjj_mass" << endl;
-		if(SYNC_W_CHIARA && n_sync_events_before_mjj < 10) cout << event << "\t" << ij1Reg << "\t" << ij2Reg << "\t" << regjet1_pt << "\t" << regjet2_pt << "\t" << regjj_mass << endl;
-		if(SYNC_W_CHIARA) n_sync_events_before_mjj++;
 		selection_cut_level = 2;
 		bool pass_mjj = false;
-		if(!SYNC)
-			pass_mjj = (njets_kRadionID_and_CSVM == 1 && (regjj_mass < 90. || regjj_mass > 150.)) || (njets_kRadionID_and_CSVM >= 2 && (regjj_mass < 95. || regjj_mass > 140.));
-		else
-			pass_mjj = (njets_kRadionID_and_CSVM == 1 && (regjj_mass < 90. || regjj_mass > 165.)) || (njets_kRadionID_and_CSVM >= 2 && (regjj_mass < 95. || regjj_mass > 140.));
+		float min_mjj_1btag, max_mjj_1btag, min_mjj_2btag, max_mjj_2btag;
+		min_mjj_1btag = 90.; max_mjj_1btag = 150.; min_mjj_2btag = 95.; max_mjj_2btag = 140.;
+		if(SYNC) min_mjj_1btag = 90.; max_mjj_1btag = 165.; min_mjj_2btag = 95.; max_mjj_2btag = 140.;
+		pass_mjj = (njets_kRadionID_and_CSVM == 1 && (regjj_mass < min_mjj_1btag || regjj_mass > max_mjj_1btag)) || (njets_kRadionID_and_CSVM >= 2 && (regjj_mass < min_mjj_2btag || regjj_mass > max_mjj_2btag));
 		if(pass_mjj)
 		{
 			outtree->Fill();
@@ -1515,25 +1240,16 @@ ilevel++; ilevel++;
 		{
 			category = 1;
 			nevents[ilevel]++;
-			nevents_w[ilevel] += weight;
+			nevents_w[ilevel] += evweight;
 			nevents_sync[10]++;
-			if(SYNC)
-			{
-				eventcut[17] = "1btag category, after mjj cut (90/165 for 1btag and 95/140 for 2btags)"; ilevel++;
-			} else {
-				eventcut[17] = "1btag category, after mjj cut (90/150 for 1btag and 95/140 for 2btags)"; ilevel++;
-			}
+			eventcut[ilevel] = Form("1btag category, after mjj cut (%.1f/%.1f and %.1f/%.1f)",min_mjj_1btag, max_mjj_1btag, min_mjj_2btag, max_mjj_2btag); ilevel++; ilevel++;
 		} else if( njets_kRadionID_and_CSVM >=2) {
+			ilevel++;
 			category = 2;
 			nevents[ilevel]++;
-			nevents_w[ilevel] += weight;
+			nevents_w[ilevel] += evweight;
 			nevents_sync[11]++;
-			if(SYNC)
-			{
-				eventcut[18] = "2btag category, after mjj cut (90/165 for 1btag and 95/140 for 2btags)"; ilevel++;
-			} else {
-				eventcut[18] = "2btag category, after mjj cut (90/150 for 1btag and 95/140 for 2btags)"; ilevel++;
-			}
+			eventcut[ilevel] = Form("2btag category, after mjj cut (%.1f/%.1f and %.1f/%.1f)",min_mjj_1btag, max_mjj_1btag, min_mjj_2btag, max_mjj_2btag); ilevel++;
 		}
 
 // kin fit
@@ -1543,24 +1259,23 @@ ilevel++; ilevel++;
 		{
 			category = 1;
 			nevents[ilevel]++;
-			eventcut[ilevel] = "1btag category, after kin fit"; ilevel++;
+			nevents_w[ilevel] += evweight;
+			eventcut[ilevel] = "1btag category, after kin fit"; ilevel++; ilevel++;
 		} else if( njets_kRadionID_and_CSVM >=2) {
+			ilevel++;
 			category = 2;
 			nevents[ilevel]++;
+			nevents_w[ilevel] += evweight;
 			eventcut[ilevel] = "2btag category, after kin fit"; ilevel++;
 		}
-
-		if(SYNC_W_CHIARA_GGJJ && n_sync_events_before_mggjj == 0) cout << "event\tregjet1_pt\tregjet2_pt\tregkinjet1_pt\tregkinjet2_pt\tregjj_mass\tregggjj_mass\tregkinjj_mass\tregkinggjj_mass" << endl; 
-		if(SYNC_W_CHIARA_GGJJ && n_sync_events_before_mggjj < 10) cout << event << "\t" << regjet1_pt << "\t" << regjet2_pt << "\t" << regkinjet1_pt << "\t" << regkinjet2_pt << "\t" << regjj_mass << "\t" << regggjj_mass << "\t" << regkinjj_mass << "\t" << regkinggjj_mass << endl;
-		if(SYNC_W_CHIARA_GGJJ) n_sync_events_before_mggjj++;
 
 // mggjj cut (260/335 and 255/320)
 		selection_cut_level = 3;
 		bool pass_mggjj_cut = false;
-		if(!SYNC) 
-			pass_mggjj_cut = (njets_kRadionID_and_CSVM == 1 && (regkinggjj_mass < 260. || regkinggjj_mass > 335.) ) || (njets_kRadionID_and_CSVM >= 2 && (regkinggjj_mass < 255. || regkinggjj_mass > 320.) );
-		else
-			pass_mggjj_cut = (njets_kRadionID_and_CSVM == 1 && (regkinggjj_mass < 255. || regkinggjj_mass > 340.) ) || (njets_kRadionID_and_CSVM >= 2 && (regkinggjj_mass < 265. || regkinggjj_mass > 320.) );
+		float min_mggjj_1btag, max_mggjj_1btag, min_mggjj_2btag, max_mggjj_2btag;
+		min_mggjj_1btag = 260.; max_mggjj_1btag = 335.; min_mggjj_2btag = 255.; max_mggjj_2btag = 320.;
+		if(SYNC) min_mggjj_1btag = 255.; max_mggjj_1btag = 340.; min_mggjj_2btag = 265.; max_mggjj_2btag = 320.;
+		pass_mggjj_cut = (njets_kRadionID_and_CSVM == 1 && (regkinggjj_mass < min_mggjj_1btag || regkinggjj_mass > max_mggjj_1btag) ) || (njets_kRadionID_and_CSVM >= 2 && (regkinggjj_mass < min_mggjj_2btag || regkinggjj_mass > max_mggjj_2btag) );
 		if( pass_mggjj_cut )
 		{
 			outtree->Fill();
@@ -1570,90 +1285,33 @@ ilevel++; ilevel++;
 		{
 			category = 1;
 			nevents[ilevel]++;
-			nevents_w[ilevel] += weight;
+			nevents_w[ilevel] += evweight;
 			nevents_sync[12]++;
-			if(!SYNC)
-			{
-				eventcut[ilevel] = "1btag category, after mggjj cut (260/335 and 255/320)"; ilevel++;
-			} else {
-				eventcut[ilevel] = "1btag category, after mggjj cut (255/340 and 265/320)"; ilevel++;
-			}
+			eventcut[ilevel] = Form("1btag category, after mggjj cut (%.1f/%.1f and %.1f/%.1f)", min_mggjj_1btag, max_mggjj_1btag, min_mggjj_2btag, max_mggjj_2btag); ilevel++; ilevel++;
 		} else if( njets_kRadionID_and_CSVM >=2) {
+			ilevel++;
 			category = 2;
 			nevents[ilevel]++;
-			nevents_w[ilevel] += weight;
+			nevents_w[ilevel] += evweight;
 			nevents_sync[13]++;
-			if(!SYNC)
-			{
-				eventcut[ilevel] = "2btag category, after mggjj cut (260/335 and 255/320)"; ilevel++;
-			} else {
-				eventcut[ilevel] = "2btag category, after mggjj cut (255/340 and 265/320)"; ilevel++;
-			}
-		}
-/*
-// deltaR(g,j) >= 1
-		selection_cut_level = 4;
-		if( minDRgregkinj < 1.)
-		{
-			outtree->Fill();
-			continue;
-		}
-		if(njets_kRadionID_and_CSVM == 1)
-		{
-			category = 1;
-			nevents[23]++;
-			eventcut[23] = "1btag category, after deltaR(g,j) >= 1";
-		} else if( njets_kRadionID_and_CSVM >=2) {
-			category = 2;
-			nevents[24]++;
-			eventcut[24] = "2btag category, after deltaR(g,j) >= 1";
+			eventcut[ilevel] = Form("2btag category, after mggjj cut (%.1f/%.1f and %.1f/%.1f)", min_mggjj_1btag, max_mggjj_1btag, min_mggjj_2btag, max_mggjj_2btag); ilevel++;
 		}
 
-// njets < 4
-		selection_cut_level = 5;
-		if( njets_passing_kLooseID >= 3 )
-		{
-			outtree->Fill();
-			continue;
-		}
-		if(njets_kRadionID_and_CSVM == 1)
-		{
-			category = 1;
-			nevents[25]++;
-			eventcut[25] = "1btag category, after njets < 4";
-		} else if( njets_kRadionID_and_CSVM >=2) {
-			category = 2;
-			nevents[26]++;
-			eventcut[26] = "2btag category, after njets < 4";
-		}
-
-*/
-
+		ilevelmax=ilevel;
 		selection_cut_level = 6;
 		outtree->Fill();
 
 	} // end of loop over events
 
 
-	for(int i=0 ; i < 27 ; i++)
-    if(!SYNCHRO_LIGHT) cout << "#nevents[" << i << "]= " << nevents[i] << "\t#nevents_w[" << i << "]= " << nevents_w[i] << "\t#nevents_w_btagSF[" << i << "]= " << nevents_w_btagSF[i] << "\teventcut[" << i << "]= " << eventcut[i] << "\t\t( 1btag= " << nevents1btag[i] << " , 2btag= " << nevents2btag[i] << " ) " << endl;
-    else
-		{
-			if(i>0 && i< 5) continue;
-			else if(i==8) continue;
-			else cout << nevents[i] << endl;
-		}
-	if(!SYNCHRO_LIGHT) cout << endl;
-	if(!SYNCHRO_LIGHT)
-		for(int i=0 ; i < 6 ; i++)
-    	cout << "#njets[" << i << "]= " << njets[i] << "\tjetcut[" << i << "]= " << jetcut[i] << endl;
+	for(int i=0 ; i < ilevelmax ; i++)
+    cout << "#nevents[" << i << "]= " << nevents[i] << "\t#nevents_w[" << i << "]= " << nevents_w[i] << /*"\t#nevents_w_btagSF[" << i << "]= " << nevents_w_btagSF[i] << */"\teventcut[" << i << "]= " << eventcut[i] /*<< "\t\t( 1btag= " << nevents1btag[i] << " , 2btag= " << nevents2btag[i] << " ) "*/ << endl;
 
 	if(SYNC)
 		for(int i=0 ; i < 14 ; i++)
 			cout << nevents_sync[i] << endl;
 
 	if(SYNCHRO) synchrofile.close();
-	if(SYNCHRO_GGANA) synchrofile.close();
   outfile->cd();
   outtree->Write();
   outfile->Close();
