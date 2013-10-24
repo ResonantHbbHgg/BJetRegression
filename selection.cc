@@ -210,7 +210,7 @@ int main(int argc, char *argv[])
 	intree->SetBranchAddress("evweight", &ev_evweight);
 	intree->SetBranchAddress("pu_weight", &ev_pu_weight);
 
-	if( type < 0 )
+	if( type < -250 )
 	{
 		intree->SetBranchAddress("gr_radion_p4_pt", &gr_radion_p4_pt);
 		intree->SetBranchAddress("gr_radion_p4_eta", &gr_radion_p4_eta);
@@ -604,7 +604,7 @@ int main(int argc, char *argv[])
 		int njets_kRadionID_and_CSVM_ = 0;
     intree->GetEntry(ievt);
 		if(DEBUG) cout << "event= " << event << endl;
-		if( type < 0 && ((int)event % 2 == 0)) continue; // use regression only on odd events
+		if( type < -250 && ((int)event % 2 == 0)) continue; // use regression only on odd events
 	
 		if(DEBUG) cout << "for MC, get the MC truth hjj system" << endl;
 // Compute hjj system
