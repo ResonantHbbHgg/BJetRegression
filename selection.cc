@@ -561,7 +561,7 @@ int main(int argc, char *argv[])
 	readerRegres->AddVariable( "jet_vtx3dL", &jet_secVtx3dL);
 	readerRegres->AddVariable( "MET", &met_corr_pfmet);
 	readerRegres->AddVariable( "jet_dPhiMETJet", &jet_dPhiMet_fabs);
-	readerRegres->AddVariable( "rho25", &rho); // Added for Phil Oct 28
+//	readerRegres->AddVariable( "rho25", &rho); // Added for Phil Oct 28 (later: removed)
 
 // Adding variables
 	if(numberOfRegressionFiles != 0 && numberOfRegressionFiles != 2)
@@ -1249,8 +1249,8 @@ int main(int argc, char *argv[])
 		bool pass_mjj = false;
 		float min_mjj_1btag, max_mjj_1btag, min_mjj_2btag, max_mjj_2btag;
 		min_mjj_1btag = 90.; max_mjj_1btag = 150.; min_mjj_2btag = 95.; max_mjj_2btag = 140.;
-		if(SYNC) min_mjj_1btag = 90.; max_mjj_1btag = 165.; min_mjj_2btag = 95.; max_mjj_2btag = 140.;
-		if(!applyMassCuts) min_mjj_1btag = 0.; max_mjj_1btag = 14000.; min_mjj_2btag = 0.; max_mjj_2btag = 14000.;
+		if(SYNC){ min_mjj_1btag = 90.; max_mjj_1btag = 165.; min_mjj_2btag = 95.; max_mjj_2btag = 140.;}
+		if(!applyMassCuts){ min_mjj_1btag = 0.; max_mjj_1btag = 14000.; min_mjj_2btag = 0.; max_mjj_2btag = 14000.;}
 		pass_mjj = (njets_kRadionID_and_CSVM == 1 && (regjj_mass < min_mjj_1btag || regjj_mass > max_mjj_1btag)) || (njets_kRadionID_and_CSVM >= 2 && (regjj_mass < min_mjj_2btag || regjj_mass > max_mjj_2btag));
 		if(pass_mjj)
 		{
@@ -1295,8 +1295,8 @@ int main(int argc, char *argv[])
 		bool pass_mggjj_cut = false;
 		float min_mggjj_1btag, max_mggjj_1btag, min_mggjj_2btag, max_mggjj_2btag;
 		min_mggjj_1btag = 260.; max_mggjj_1btag = 335.; min_mggjj_2btag = 255.; max_mggjj_2btag = 320.;
-		if(SYNC) min_mggjj_1btag = 255.; max_mggjj_1btag = 340.; min_mggjj_2btag = 265.; max_mggjj_2btag = 320.;
-		if(!applyMassCuts) min_mggjj_1btag = 0.; max_mggjj_1btag = 14000.; min_mggjj_2btag = 0.; max_mggjj_2btag = 14000.;
+		if(SYNC){ min_mggjj_1btag = 255.; max_mggjj_1btag = 340.; min_mggjj_2btag = 265.; max_mggjj_2btag = 320.;}
+		if(!applyMassCuts){ min_mggjj_1btag = 0.; max_mggjj_1btag = 14000.; min_mggjj_2btag = 0.; max_mggjj_2btag = 14000.;}
 		pass_mggjj_cut = (njets_kRadionID_and_CSVM == 1 && (regkinggjj_mass < min_mggjj_1btag || regkinggjj_mass > max_mggjj_1btag) ) || (njets_kRadionID_and_CSVM >= 2 && (regkinggjj_mass < min_mggjj_2btag || regkinggjj_mass > max_mggjj_2btag) );
 		if( pass_mggjj_cut )
 		{
