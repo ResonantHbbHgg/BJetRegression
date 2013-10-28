@@ -48,11 +48,12 @@ int main ()
 	gStyle->SetOptStat(0);
 
 //	TFile *infile = TFile::Open("simple_genjet.root");
-	TFile *infile = TFile::Open("simple_genjet_globeinputs.root");
+//	TFile *infile = TFile::Open("simple_genjet_globeinputs.root");
+	TFile *infile = TFile::Open("2013-10-28_selection_noRegression_noMassCut_v01/Radion_m300_8TeV_nm_noRegression_noMassCut_v01.root");
 //	TFile *infile = TFile::Open("simple_parton.root");
 	TTree *intree = (TTree*)infile->Get("Radion_m300_8TeV_nm");
 //	TFile *infilereg = TFile::Open("simple_reg_genjet.root");
-	TFile *infilereg = TFile::Open("simple_reg_genjet_globeinputs.root");
+	TFile *infilereg = TFile::Open("2013-10-28_selection_PhilRegr1028_noMassCut_v01/Radion_m300_8TeV_nm_PhilRegr1028_noMassCut_v01.root");
 //	TFile *infilereg = TFile::Open("simple_reg_parton.root");
 	TTree *intreereg = (TTree*)infilereg->Get("Radion_m300_8TeV_nm");
 	ofstream outfile_mjj, outfile_mggjj;
