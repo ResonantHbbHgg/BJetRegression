@@ -22,24 +22,24 @@ namespace po = boost::program_options;
 int main(int argc, char *argv[])
 {
 	// declare arguments
- 	int numberOfRegressionFiles = 2;
- 	int nTrainingTrees = 1;
-	string inputfile = "2013-08-07_jetTreeForTraining_m300.root";
-	string inputtree = "jets";
-	float w1 = 1.0;
-	string inputfile2 = "jetTreeForTraining_m500.root";
-	string inputtree2 = "jets";
-	float w2 = 1.0;
-	string inputfile3 = "jetTreeForTraining_m700.root";
-	string inputtree3 = "jets";
-	float w3 = 1.0;
-	string inputfile4 = "jetTreeForTraining_m1000.root";
-	string inputtree4 = "jets";
-	float w4 = 1.0;
-	string outputfile = "jetTreeForOverTrainingChecks_m300.root";
-	string regressionFolder = "weights/test_BDT.weights.xml";
-	int n = 1;
-	int j = 0;
+ 	int numberOfRegressionFiles;
+ 	int nTrainingTrees;
+	string inputfile;
+	string inputtree;
+	float w1;
+	string inputfile2;
+	string inputtree2;
+	float w2;
+	string inputfile3;
+	string inputtree3;
+	float w3;
+	string inputfile4;
+	string inputtree4;
+	float w4;
+	string outputfile;
+	string regressionFolder;
+	int n;
+	int j;
 
  // print out passed arguments
   copy(argv, argv + argc, ostream_iterator<char*>(cout, " ")); cout << endl;
@@ -49,24 +49,24 @@ int main(int argc, char *argv[])
     po::options_description desc("Allowed options");
     desc.add_options()
       ("help,h", "produce help message")
-      ("nTrainingTrees", po::value<int>(&nTrainingTrees)->default_value(1), "number of regression files")
-      (",n", po::value<int>(&numberOfRegressionFiles)->default_value(1), "number of regression files")
-      (",j", po::value<int>(&numberOfRegressionFiles)->default_value(0), "number of regression files")
-      ("inputfile,i", po::value<string>(&inputfile)->default_value("root://eoscms//eos/cms/store/cmst3/user/obondu/H2GGLOBE/Radion/trees/radion_tree_v06/Radion_Graviton_nm.root"), "input file")
-      ("inputtree,t", po::value<string>(&inputtree)->default_value("Radion_m300_8TeV_nm"), "input tree")
-      ("inputfile2", po::value<string>(&inputfile2)->default_value("root://eoscms//eos/cms/store/cmst3/user/obondu/H2GGLOBE/Radion/trees/radion_tree_v06/Radion_Graviton_nm.root"), "input file")
-      ("inputtree2", po::value<string>(&inputtree2)->default_value("Radion_m300_8TeV_nm"), "input tree")
-      ("inputfile3", po::value<string>(&inputfile3)->default_value("root://eoscms//eos/cms/store/cmst3/user/obondu/H2GGLOBE/Radion/trees/radion_tree_v06/Radion_Graviton_nm.root"), "input file")
-      ("inputtree3", po::value<string>(&inputtree3)->default_value("Radion_m300_8TeV_nm"), "input tree")
-      ("inputfile4", po::value<string>(&inputfile4)->default_value("root://eoscms//eos/cms/store/cmst3/user/obondu/H2GGLOBE/Radion/trees/radion_tree_v06/Radion_Graviton_nm.root"), "input file")
-      ("inputtree4", po::value<string>(&inputtree4)->default_value("Radion_m300_8TeV_nm"), "input tree")
-      ("outputfile,o", po::value<string>(&outputfile)->default_value("selected.root"), "output file")
+      ("nTrainingTrees", po::value<int>(&nTrainingTrees)->default_value(1), "number of training trees")
+      (",n", po::value<int>(&numberOfRegressionFiles)->default_value(2), "number of split for circular training")
+      (",j", po::value<int>(&numberOfRegressionFiles)->default_value(0), "index of split for circular checking")
+      ("inputfile,i", po::value<string>(&inputfile)->default_value("2013-08-07_jetTreeForTraining_m300.root"), "input file 1")
+      ("inputtree,t", po::value<string>(&inputtree)->default_value("jets"), "input tree 1")
+      ("inputfile2", po::value<string>(&inputfile2)->default_value("jetTreeForTraining_m500.root"), "input file 2")
+      ("inputtree2", po::value<string>(&inputtree2)->default_value("jets"), "input tree 2")
+      ("inputfile3", po::value<string>(&inputfile3)->default_value("jetTreeForTraining_m700.root"), "input file 3")
+      ("inputtree3", po::value<string>(&inputtree3)->default_value("jets"), "input tree 3")
+      ("inputfile4", po::value<string>(&inputfile4)->default_value("jetTreeForTraining_m1000.root"), "input file 4")
+      ("inputtree4", po::value<string>(&inputtree4)->default_value("jets"), "input tree 4")
+      ("outputfile,o", po::value<string>(&outputfile)->default_value("jetTreeForOverTrainingChecks_m300.root"), "output file")
       ("regressionFolder", po::value<string>(&regressionFolder)->default_value("/afs/cern.ch/user/h/hebda/public/"), "regression folder")
       ("numberOfRegressionFiles,r", po::value<int>(&numberOfRegressionFiles)->default_value(2), "number of regression files")
-      ("weight1", po::value<float>(&w1)->default_value(1.), "number of regression files")
-      ("weight2", po::value<float>(&w2)->default_value(1.), "number of regression files")
-      ("weight3", po::value<float>(&w3)->default_value(1.), "number of regression files")
-      ("weight4", po::value<float>(&w4)->default_value(1.), "number of regression files")
+      ("weight1", po::value<float>(&w1)->default_value(1.), "weight for inputfile 1")
+      ("weight2", po::value<float>(&w2)->default_value(1.), "weight for inputfile 2")
+      ("weight3", po::value<float>(&w3)->default_value(1.), "weight for inputfile 3")
+      ("weight4", po::value<float>(&w4)->default_value(1.), "weight for inputfile 4")
     ;
     po::variables_map vm;
     po::store(po::parse_command_line(argc, argv, desc), vm);
@@ -85,67 +85,6 @@ int main(int argc, char *argv[])
   //################################################
 
   if(DEBUG) cout << "End of argument parsing" << endl;
-/*
-	if(DEBUG) cout << "DEBUG: Initialisation: reading parameters" << endl;
-	cout << "argc= " << argc << endl;
-	for(int iarg = 0 ; iarg < argc; iarg++)
-		cout << "argv[" << iarg << "]= " << argv[iarg] << endl;
-		string syntax = Form("WARNING: Syntax is %s -i (inputfile) -it (inputtree) -o (outputfile) -rf (regressionfile) -n (numberOfSplit) -j (treeSplit)", argv[0]);
-
-	if( argc == 1 )
-	{
-		cerr << "WARNING: Arguments should be passed ! Default arguments will be used" << endl;
-		cerr << syntax << endl;
-	}
-
-	for(int iarg=0 ; iarg < argc ; iarg++)
-	{
-		if(strcmp("-i", argv[iarg]) == 0 && argc >= iarg + 1)
-			inputfile = argv[iarg+1];
-		if(strcmp("-i2", argv[iarg]) == 0 && argc >= iarg + 1)
-			inputfile2 = argv[iarg+1];
-		if(strcmp("-i3", argv[iarg]) == 0 && argc >= iarg + 1)
-			inputfile3 = argv[iarg+1];
-		if(strcmp("-i4", argv[iarg]) == 0 && argc >= iarg + 1)
-			inputfile4 = argv[iarg+1];
-		if(strcmp("-it", argv[iarg]) == 0 && argc >= iarg + 1)
-			inputtree = argv[iarg+1];
-		if(strcmp("-it2", argv[iarg]) == 0 && argc >= iarg + 1)
-			inputtree2 = argv[iarg+1];
-		if(strcmp("-it3", argv[iarg]) == 0 && argc >= iarg + 1)
-			inputtree3 = argv[iarg+1];
-		if(strcmp("-it4", argv[iarg]) == 0 && argc >= iarg + 1)
-			inputtree4 = argv[iarg+1];
-		if(strcmp("-w1", argv[iarg]) == 0 && argc >= iarg + 1)
-			{ std::stringstream ss ( argv[iarg+1] ); ss >> w1; }
-		if(strcmp("-w2", argv[iarg]) == 0 && argc >= iarg + 1)
-			{ std::stringstream ss ( argv[iarg+1] ); ss >> w2; }
-		if(strcmp("-w3", argv[iarg]) == 0 && argc >= iarg + 1)
-			{ std::stringstream ss ( argv[iarg+1] ); ss >> w3; }
-		if(strcmp("-w4", argv[iarg]) == 0 && argc >= iarg + 1)
-			{ std::stringstream ss ( argv[iarg+1] ); ss >> w4; }
-		if(strcmp("-n", argv[iarg]) == 0 && argc >= iarg + 1)
-			{ std::stringstream ss ( argv[iarg+1] ); ss >> n; }
-		if(strcmp("-j", argv[iarg]) == 0 && argc >= iarg + 1)
-			{ std::stringstream ss ( argv[iarg+1] ); ss >> j; }
-		if(strcmp("-o", argv[iarg]) == 0 && argc >= iarg + 1)
-			outputfile = argv[iarg+1];
-		if(strcmp("-rf", argv[iarg]) == 0 && argc >= iarg + 1)
-			regressionfile = argv[iarg+1];
-		if(strcmp("-ntt", argv[iarg]) == 0 && argc >= iarg + 1)
-			{ std::stringstream ss ( argv[iarg+1] ); ss >> nTrainingTrees; }
-		if(strcmp("--help", argv[iarg]) == 0 || strcmp("-h", argv[iarg]) == 0)
-		{
-			cerr << "WARNING: Arguments should be passed ! Default arguments will be used" << endl;
-			cerr << syntax << endl;
-			cerr << "inputfile= " << inputfile << endl;
-			cerr << "inputtree= " << inputtree << endl;
-			cerr << "outputfile= " << outputfile << endl;
-			cerr << "regressionfile= " << regressionfile << endl;
-			return 2;
-		}
-	}
-*/
 	string regressionfile = regressionFolder + "weights/test_BDT.weights.xml";
 	cout << "inputfile= " << inputfile << endl;
 	cout << "inputtree= " << inputtree << endl;
