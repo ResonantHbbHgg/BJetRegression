@@ -10,28 +10,20 @@
 #include <string>
 #include <iostream>
 #include <sstream>
+#include <boost/program_options.hpp>
 // DEFINES
 #define DEBUG 0
 #define USEHT 1
 // namespaces
 using namespace std;
 using namespace TMVA;
+namespace po = boost::program_options;
 
 int main(int argc, char *argv[])
 {
-	if(DEBUG) cout << "DEBUG: Initialisation: reading parameters" << endl;
-	cout << "argc= " << argc << endl;
-	for(int iarg = 0 ; iarg < argc; iarg++)
-		cout << "argv[" << iarg << "]= " << argv[iarg] << endl;
-		string syntax = Form("WARNING: Syntax is %s -i (inputfile) -it (inputtree) -o (outputfile) -rf (regressionfile) -n (numberOfSplit) -j (treeSplit)", argv[0]);
-
-	if( argc == 1 )
-	{
-		cerr << "WARNING: Arguments should be passed ! Default arguments will be used" << endl;
-		cerr << syntax << endl;
-	}
-
-	int nTrainingTrees = 1;
+	// declare arguments
+ 	int numberOfRegressionFiles = 2;
+ 	int nTrainingTrees = 1;
 	string inputfile = "2013-08-07_jetTreeForTraining_m300.root";
 	string inputtree = "jets";
 	float w1 = 1.0;
@@ -45,9 +37,66 @@ int main(int argc, char *argv[])
 	string inputtree4 = "jets";
 	float w4 = 1.0;
 	string outputfile = "jetTreeForOverTrainingChecks_m300.root";
-	string regressionfile = "weights/test_BDT.weights.xml";
+	string regressionFolder = "weights/test_BDT.weights.xml";
 	int n = 1;
 	int j = 0;
+
+ // print out passed arguments
+  copy(argv, argv + argc, ostream_iterator<char*>(cout, " ")); cout << endl;
+  // argument parsing
+  try
+  {
+    po::options_description desc("Allowed options");
+    desc.add_options()
+      ("help,h", "produce help message")
+      ("nTrainingTrees", po::value<int>(&nTrainingTrees)->default_value(1), "number of regression files")
+      (",n", po::value<int>(&numberOfRegressionFiles)->default_value(1), "number of regression files")
+      (",j", po::value<int>(&numberOfRegressionFiles)->default_value(0), "number of regression files")
+      ("inputfile,i", po::value<string>(&inputfile)->default_value("root://eoscms//eos/cms/store/cmst3/user/obondu/H2GGLOBE/Radion/trees/radion_tree_v06/Radion_Graviton_nm.root"), "input file")
+      ("inputtree,t", po::value<string>(&inputtree)->default_value("Radion_m300_8TeV_nm"), "input tree")
+      ("inputfile2", po::value<string>(&inputfile2)->default_value("root://eoscms//eos/cms/store/cmst3/user/obondu/H2GGLOBE/Radion/trees/radion_tree_v06/Radion_Graviton_nm.root"), "input file")
+      ("inputtree2", po::value<string>(&inputtree2)->default_value("Radion_m300_8TeV_nm"), "input tree")
+      ("inputfile3", po::value<string>(&inputfile3)->default_value("root://eoscms//eos/cms/store/cmst3/user/obondu/H2GGLOBE/Radion/trees/radion_tree_v06/Radion_Graviton_nm.root"), "input file")
+      ("inputtree3", po::value<string>(&inputtree3)->default_value("Radion_m300_8TeV_nm"), "input tree")
+      ("inputfile4", po::value<string>(&inputfile4)->default_value("root://eoscms//eos/cms/store/cmst3/user/obondu/H2GGLOBE/Radion/trees/radion_tree_v06/Radion_Graviton_nm.root"), "input file")
+      ("inputtree4", po::value<string>(&inputtree4)->default_value("Radion_m300_8TeV_nm"), "input tree")
+      ("outputfile,o", po::value<string>(&outputfile)->default_value("selected.root"), "output file")
+      ("regressionFolder", po::value<string>(&regressionFolder)->default_value("/afs/cern.ch/user/h/hebda/public/"), "regression folder")
+      ("numberOfRegressionFiles,r", po::value<int>(&numberOfRegressionFiles)->default_value(2), "number of regression files")
+      ("weight1", po::value<float>(&w1)->default_value(1.), "number of regression files")
+      ("weight2", po::value<float>(&w2)->default_value(1.), "number of regression files")
+      ("weight3", po::value<float>(&w3)->default_value(1.), "number of regression files")
+      ("weight4", po::value<float>(&w4)->default_value(1.), "number of regression files")
+    ;
+    po::variables_map vm;
+    po::store(po::parse_command_line(argc, argv, desc), vm);
+    po::notify(vm);
+    if (vm.count("help")) {
+      cout << desc << "\n";
+      return 1;
+    }
+  } catch(exception& e) {
+    cerr << "error: " << e.what() << "\n";
+    return 1;
+  } catch(...) {
+    cerr << "Exception of unknown type!\n";
+  }
+  // end of argument parsing
+  //################################################
+
+  if(DEBUG) cout << "End of argument parsing" << endl;
+/*
+	if(DEBUG) cout << "DEBUG: Initialisation: reading parameters" << endl;
+	cout << "argc= " << argc << endl;
+	for(int iarg = 0 ; iarg < argc; iarg++)
+		cout << "argv[" << iarg << "]= " << argv[iarg] << endl;
+		string syntax = Form("WARNING: Syntax is %s -i (inputfile) -it (inputtree) -o (outputfile) -rf (regressionfile) -n (numberOfSplit) -j (treeSplit)", argv[0]);
+
+	if( argc == 1 )
+	{
+		cerr << "WARNING: Arguments should be passed ! Default arguments will be used" << endl;
+		cerr << syntax << endl;
+	}
 
 	for(int iarg=0 ; iarg < argc ; iarg++)
 	{
@@ -96,7 +145,8 @@ int main(int argc, char *argv[])
 			return 2;
 		}
 	}
-
+*/
+	string regressionfile = regressionFolder + "weights/test_BDT.weights.xml";
 	cout << "inputfile= " << inputfile << endl;
 	cout << "inputtree= " << inputtree << endl;
 	cout << "outputfile= " << outputfile << endl;
