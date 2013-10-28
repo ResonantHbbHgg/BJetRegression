@@ -561,6 +561,7 @@ int main(int argc, char *argv[])
 	readerRegres->AddVariable( "jet_vtx3dL", &jet_secVtx3dL);
 	readerRegres->AddVariable( "MET", &met_corr_pfmet);
 	readerRegres->AddVariable( "jet_dPhiMETJet", &jet_dPhiMet_fabs);
+	readerRegres->AddVariable( "rho25", &rho); // Added for Phil Oct 28
 
 // Adding variables
 	if(numberOfRegressionFiles != 0 && numberOfRegressionFiles != 2)
@@ -571,7 +572,8 @@ int main(int argc, char *argv[])
 	} else {
 		for(int i = 0; i < numberOfRegressionFiles ; i++)
 		{
-			readerRegres->BookMVA(Form("BDT_%i", i), Form("%s/TMVARegression_10_Cat%i_BDTG.weights.xml", regressionFolder.c_str(), i));
+//			readerRegres->BookMVA(Form("BDT_%i", i), Form("%s/TMVARegression_10_Cat%i_BDTG.weights.xml", regressionFolder.c_str(), i)); // Phil, Oct 17
+			readerRegres->BookMVA(Form("BDT_%i", i), Form("%s/jetRegressionWeights/TMVARegression_Cat%i_BDTG.weights.xml", regressionFolder.c_str(), i)); // Phil, Oct 28
 		}
 	}
 
@@ -813,7 +815,8 @@ int main(int argc, char *argv[])
 //			else if(numberOfRegressionFiles <= 1)
 //				jet_regPt = (float)(readerRegres->EvaluateMVA("BDT"));
 			else
-				jet_regPt = (float)(readerRegres->EvaluateRegression(Form("BDT_%i", jet_pt < 80. ? 0 : 1))[0]) * jet_pt;
+//				jet_regPt = (float)(readerRegres->EvaluateRegression(Form("BDT_%i", jet_pt < 80. ? 0 : 1))[0]) * jet_pt; // Phil Oct 17
+				jet_regPt = (float)(readerRegres->EvaluateRegression(Form("BDT_%i", jet_pt < 90. ? 0 : 1))[0]) * jet_pt; // Phil Oct 28
 			jet_regkinPt = jet_regPt;
 			// jet selection
 			// ** acceptance + pu id **

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 today=`date +"%Y-%m-%d"`
-version="v00"
+version="v01"
 
 eosprefix="root://eoscms//eos/cms"
 eospath="/store/cmst3/user/obondu/H2GGLOBE/Radion/trees/"
@@ -116,7 +116,8 @@ typ[${i}]="1"
 itot=${i}
 masscutsuffix[0]="noMassCut"
 regsuffix[0]="noRegression"
-regsuffix[2]="PhilRegr1017"
+#regsuffix[2]="PhilRegr1017"
+regsuffix[2]="PhilRegr1028"
 imasscut=0
 
 for ireg in `echo "2 0"`
