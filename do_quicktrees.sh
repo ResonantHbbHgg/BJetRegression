@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version="v13"
+version="v13bis"
 today=`date +"0%Y-%m-%d"`
 
 # do mgg trees

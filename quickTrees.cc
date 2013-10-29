@@ -184,6 +184,8 @@ int main(int argc, char *argv[])
 
 //	cout << "strcmp mgg= " << (strcmp("mgg", fitStrategy.c_str()) ) << endl;
 //	cout << "strcmp mggjj= " << (strcmp("mggjj", fitStrategy.c_str()) ) << endl;
+	int n_1btag = 0;
+	int n_2btag = 0;
 
 	for(int ievt= 0 ; ievt < (int)intree->GetEntries() ; ievt++)
 	{
@@ -326,10 +328,12 @@ int main(int argc, char *argv[])
 					if( mjj_wokinfit < 95. || mjj_wokinfit > 140. ) continue;
 			}
 		}
-		if( njets_kRadionID_and_CSVM >= 2 ) cut_based_ct = 0;
-		if( njets_kRadionID_and_CSVM == 1 ) cut_based_ct = 1;
+		if( njets_kRadionID_and_CSVM >= 2 ) {cut_based_ct = 0; n_2btag++; }
+		if( njets_kRadionID_and_CSVM == 1 ) {cut_based_ct = 1; n_1btag++; }
 		outtree->Fill();
 	}
+	cout << "n_1btag= " << n_1btag << "\tn_2btag= " << n_2btag << endl;
+
   outfile->cd();
   outtree->Write();
   outfile->Close();
