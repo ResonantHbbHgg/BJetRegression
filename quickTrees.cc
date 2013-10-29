@@ -8,10 +8,12 @@
 #include "TSystem.h"
 #include <TFile.h>
 #include <TTree.h>
+#include <TH1F.h>
 // RooFit headers
 // local files
 // Verbosity
 #define DEBUG 0
+#define MGGJJ_CUT 1
 // namespaces
 using namespace std;
 
@@ -140,7 +142,7 @@ int main(int argc, char *argv[])
 	}
 	intree->SetBranchAddress("njets_kRadionID_and_CSVM", &njets_kRadionID_and_CSVM);
 	intree->SetBranchAddress("selection_cut_level", &selection_cut_level);
-	intree->SetBranchAddress("weight", &evWeight);
+	intree->SetBranchAddress("evweight", &evWeight);
 	intree->SetBranchAddress("regcosthetastar", &regcosthetastar);
 	intree->SetBranchAddress("minDRgregkinj", &minDRgregkinj);
 	intree->SetBranchAddress("njets_kLooseID", &njets_kLooseID);
@@ -182,6 +184,14 @@ int main(int argc, char *argv[])
 //	cout << "strcmp mgg= " << (strcmp("mgg", fitStrategy.c_str()) ) << endl;
 //	cout << "strcmp mggjj= " << (strcmp("mggjj", fitStrategy.c_str()) ) << endl;
 
+	int ntot = (int)intree->GetEntries();
+	int n_1btag = 0;
+	int n_2btag = 0;
+	int n_1btag_selected = 0;
+	int n_2btag_selected = 0;
+	TH1F mjj_1btag("mjj_1btag", "mjj_1btag", 20, 80, 180);
+	TH1F mjj_2btag("mjj_2btag", "mjj_2btag", 20, 80, 180);
+
 	for(int ievt= 0 ; ievt < (int)intree->GetEntries() ; ievt++)
 	{
 		intree->GetEntry(ievt);
@@ -196,7 +206,11 @@ int main(int argc, char *argv[])
 
 		if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("reg", whichJet.c_str()) == 0) )
 			{ mjj_wokinfit = mjj; mtot_wokinfit = mtot; }
-		
+
+		if( njets_kRadionID_and_CSVM == 1 ) n_1btag++;
+		if( njets_kRadionID_and_CSVM >= 2 ) n_2btag++;
+
+
 // EXTRA CUTS
 //		if( selection_cut_level < cutLevel ) continue; // hard-coded in the trees, out of date wrt to the rest of the cuts
 	if( cutLevel > 0)
@@ -322,10 +336,22 @@ int main(int argc, char *argv[])
 					if( mjj_wokinfit < 95. || mjj_wokinfit > 140. ) continue;
 			}
 		}
+		if( njets_kRadionID_and_CSVM == 1 ) n_1btag_selected++;
+		if( njets_kRadionID_and_CSVM >= 2 ) n_2btag_selected++;
 		if( njets_kRadionID_and_CSVM >= 2 ) cut_based_ct = 0;
 		if( njets_kRadionID_and_CSVM == 1 ) cut_based_ct = 1;
+		if(MGGJJ_CUT && (njets_kRadionID_and_CSVM == 1) ) mjj_1btag.Fill(mjj_wokinfit, evWeight);
+		if(MGGJJ_CUT && (njets_kRadionID_and_CSVM >= 2) ) mjj_2btag.Fill(mjj_wokinfit, evWeight);
+
 		outtree->Fill();
 	}
+	if(MGGJJ_CUT) cout << "ntot= " << ntot << endl;
+	if(MGGJJ_CUT) cout << "n_1btag= " << n_1btag << "\tn_1btag_selected= " << n_1btag_selected << "\teff= " << (float)n_1btag_selected / (float)n_1btag << endl;
+	if(MGGJJ_CUT) cout << "n_2btag= " << n_2btag << "\tn_2btag_selected= " << n_2btag_selected << "\teff= " << (float)n_2btag_selected / (float)n_2btag << endl;
+
+	if(MGGJJ_CUT) mjj_1btag.Write();
+	if(MGGJJ_CUT) mjj_2btag.Write();
+
   outfile->cd();
   outtree->Write();
   outfile->Close();

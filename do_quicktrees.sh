@@ -1,9 +1,10 @@
 #!/bin/bash
 
-version="v10"
+version="v10bis"
 today=`date +"0%Y-%m-%d"`
 
-for data in `echo "data signal"`
+#for data in `echo "data signal"`
+for data in `echo "signal"`
 do
 #	for mass in `echo "300 500 700 1000"`
 	for mass in `echo "300"`
@@ -24,7 +25,7 @@ do
 					elif [[ "${data}" == "signal" ]]
 					then
 						intree="Radion_m${mass}_8TeV_nm"
-						removeUndefinedBtagSF=1
+						removeUndefinedBtagSF=0
 					fi
 					if [[ "${whichJet}"	== "base" ]]
 					then
