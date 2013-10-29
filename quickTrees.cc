@@ -248,13 +248,13 @@ int main(int argc, char *argv[])
 			}
 			if( strcmp("kin", whichJet.c_str()) == 0 )
 			{
-				if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 290. || mtot_wokinfit > 315.) ) continue;
-				if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 285. || mtot_wokinfit > 315.) ) continue;
+				if( njets_kRadionID_and_CSVM == 1 && (mtot < 290. || mtot > 315.) ) continue;
+				if( njets_kRadionID_and_CSVM >= 2 && (mtot < 285. || mtot > 315.) ) continue;
 			}
 			if( strcmp("regkin", whichJet.c_str()) == 0 )
 			{
-				if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 290. || mtot_wokinfit > 315.) ) continue;
-				if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 285. || mtot_wokinfit > 315.) ) continue;
+				if( njets_kRadionID_and_CSVM == 1 && (mtot < 290. || mtot > 315.) ) continue;
+				if( njets_kRadionID_and_CSVM >= 2 && (mtot < 285. || mtot > 315.) ) continue;
 			}
 }
 			// mjj cut depends on the mass hypothesis
