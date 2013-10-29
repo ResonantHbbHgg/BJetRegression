@@ -19,9 +19,11 @@ do
 					if [[ "${data}" == "data" ]]
 					then
 						intree="Data"
+						removeUndefinedBtagSF=0
 					elif [[ "${data}" == "signal" ]]
 					then
 						intree="Radion_m${mass}_8TeV_nm"
+						removeUndefinedBtagSF=1
 					fi
 					if [[ "${whichJet}"	== "base" ]]
 					then
@@ -45,6 +47,7 @@ do
 -m ${mass} \
 -fs ${fitStrategy} \
 -wj ${whichJet} \
+--removeUndefinedBtagSF ${removeUndefinedBtagSF} \
 | tee ${outfolder}/${today}-${intree}_m${mass}.log
 
 				done # whichJet

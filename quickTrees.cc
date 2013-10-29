@@ -35,6 +35,7 @@ int main(int argc, char *argv[])
 	string fitStrategy = "mgg";
 	int cutLevel = 0;
 	int mass = 300;
+	int removeUndefinedBtagSF = 0;
 
 	for(int iarg=0 ; iarg < argc ; iarg++)
 	{
@@ -54,6 +55,8 @@ int main(int argc, char *argv[])
 			{ std::stringstream ss ( argv[iarg+1] ); ss >> cutLevel; }
 		if(strcmp("-m", argv[iarg]) == 0 && argc >= iarg + 1)
 			{ std::stringstream ss ( argv[iarg+1] ); ss >> mass; }
+		if(strcmp("--removeUndefinedBtagSF", argv[iarg]) == 0 && argc >= iarg + 1)
+			{ std::stringstream ss ( argv[iarg+1] ); ss >> removeUndefinedBtagSF; }
 		if((strcmp("-h", argv[iarg]) == 0) || (strcmp("--help", argv[iarg]) == 0))
 		{
 			cerr << "WARNING: Arguments should be passed ! Default arguments will be used" << endl;
@@ -86,18 +89,19 @@ int main(int argc, char *argv[])
 	TFile *outfile = new TFile(outputfile.c_str(), "RECREATE");
 	TTree *outtree = new TTree(outputtree.c_str(), Form("%s minimal", outputtree.c_str()));
 
-
+	float event;
 	float mgg, mjj, mtot;
 	float pho1_pt, pho1_e, pho1_phi, pho1_eta, pho1_mass;
 	float pho2_pt, pho2_e, pho2_phi, pho2_eta, pho2_mass;
 	float pho1_r9, pho2_r9;
-	float jet1_pt, jet1_e, jet1_phi, jet1_eta, jet1_mass;
-	float jet2_pt, jet2_e, jet2_phi, jet2_eta, jet2_mass;
+	float jet1_pt, jet1_e, jet1_phi, jet1_eta, jet1_mass, jet1_btagSF;
+	float jet2_pt, jet2_e, jet2_phi, jet2_eta, jet2_mass, jet2_btagSF;
 	float mjj_wokinfit, mtot_wokinfit;
 	int cut_based_ct, njets_kRadionID_and_CSVM, selection_cut_level;
-	float evWeight;
+	float evWeight, evWeight_w_btagSF;
 	float regcosthetastar, minDRgregkinj;
 	int njets_kLooseID;
+	intree->SetBranchAddress("event", &event);
 	intree->SetBranchAddress("gg_mass", &mgg);
 	intree->SetBranchAddress("pho1_pt", &pho1_pt);
 	intree->SetBranchAddress("pho1_e", &pho1_e);
@@ -116,11 +120,13 @@ int main(int argc, char *argv[])
 	intree->SetBranchAddress(Form("%sjet1_phi", whichJet.c_str()), &jet1_phi);
 	intree->SetBranchAddress(Form("%sjet1_eta", whichJet.c_str()), &jet1_eta);
 	intree->SetBranchAddress(Form("%sjet1_mass", whichJet.c_str()), &jet1_mass);
+	intree->SetBranchAddress(Form("%sjet1_btagSF", whichJet.c_str()), &jet1_btagSF);
 	intree->SetBranchAddress(Form("%sjet2_pt", whichJet.c_str()), &jet2_pt);
 	intree->SetBranchAddress(Form("%sjet2_e", whichJet.c_str()), &jet2_e);
 	intree->SetBranchAddress(Form("%sjet2_phi", whichJet.c_str()), &jet2_phi);
 	intree->SetBranchAddress(Form("%sjet2_eta", whichJet.c_str()), &jet2_eta);
 	intree->SetBranchAddress(Form("%sjet2_mass", whichJet.c_str()), &jet2_mass);
+	intree->SetBranchAddress(Form("%sjet2_btagSF", whichJet.c_str()), &jet2_btagSF);
 	intree->SetBranchAddress(Form("%sjj_mass", whichJet.c_str()), &mjj);
 	intree->SetBranchAddress(Form("%sggjj_mass", whichJet.c_str()), &mtot);
 // Prepare mjj and mggjj variables "without kin fit" on which to cut
@@ -140,6 +146,7 @@ int main(int argc, char *argv[])
 	intree->SetBranchAddress("njets_kLooseID", &njets_kLooseID);
 	
 
+	outtree->Branch("event", &event, "event/F");
 	outtree->Branch("pho1_pt", &pho1_pt, "pho1_pt/F");
 	outtree->Branch("pho1_e", &pho1_e, "pho1_e/F");
 	outtree->Branch("pho1_phi", &pho1_phi, "pho1_phi/F");
@@ -157,18 +164,20 @@ int main(int argc, char *argv[])
 	outtree->Branch("jet1_phi", &jet1_phi, "jet1_phi/F");
 	outtree->Branch("jet1_eta", &jet1_eta, "jet1_eta/F");
 	outtree->Branch("jet1_mass", &jet1_mass, "jet1_mass/F");
+	outtree->Branch("jet1_btagSF", &jet1_btagSF, "jet1_btagSF/F");
 	outtree->Branch("jet2_pt", &jet2_pt, "jet2_pt/F");
 	outtree->Branch("jet2_e", &jet2_e, "jet2_e/F");
 	outtree->Branch("jet2_phi", &jet2_phi, "jet2_phi/F");
 	outtree->Branch("jet2_eta", &jet2_eta, "jet2_eta/F");
 	outtree->Branch("jet2_mass", &jet2_mass, "jet2_mass/F");
+	outtree->Branch("jet2_btagSF", &jet2_btagSF, "jet2_btagSF/F");
 	outtree->Branch("mgg", &mgg, "mgg/F");
 	outtree->Branch("mjj", &mjj, "mjj/F");
 	outtree->Branch("mtot", &mtot, "mtot/F");
 	outtree->Branch("mjj_wokinfit", &mjj_wokinfit, "mjj_wokinfit/F");
 	outtree->Branch("mtot_wokinfit", &mtot_wokinfit, "mtot_wokinfit/F");
 	outtree->Branch("cut_based_ct", &cut_based_ct, "cut_based_ct/I");
-	outtree->Branch("evWeight", &evWeight, "evWeight/F");
+	outtree->Branch("evWeight", &evWeight_w_btagSF, "evWeight/F");
 
 //	cout << "strcmp mgg= " << (strcmp("mgg", fitStrategy.c_str()) ) << endl;
 //	cout << "strcmp mggjj= " << (strcmp("mggjj", fitStrategy.c_str()) ) << endl;
@@ -176,6 +185,12 @@ int main(int argc, char *argv[])
 	for(int ievt= 0 ; ievt < (int)intree->GetEntries() ; ievt++)
 	{
 		intree->GetEntry(ievt);
+
+		if(removeUndefinedBtagSF)
+			if( jet1_btagSF == -1001 || jet2_btagSF == -1001) 
+				cerr << "WARNING: undefined btagSF, skipping the event:\tevent= " << event << "\tjet1_btagSF= " << jet1_btagSF << "\tjet2_btagSF= " << jet2_btagSF << "\tjet1_pt= " << jet1_pt << "\tjet2_pt= " << jet2_pt << endl;
+		evWeight_w_btagSF = evWeight * jet1_btagSF * jet2_btagSF;
+
 		if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("reg", whichJet.c_str()) == 0) )
 			{ mjj_wokinfit = mjj; mtot_wokinfit = mtot; }
 		
