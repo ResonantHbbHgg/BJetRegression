@@ -1,19 +1,20 @@
 #!/bin/bash
 
-version="v09"
+version="v10"
 today=`date +"0%Y-%m-%d"`
 
 for data in `echo "data signal"`
 do
-	for mass in `echo "300 500 700 1000"`
+#	for mass in `echo "300 500 700 1000"`
+	for mass in `echo "300"`
 	do
 		for cutLevel in `echo "0"`
 		do
 #			for fitStrategy in `echo "mggjj_noCut"`
 			for fitStrategy in `echo "mgg"`
 			do
-#				for whichJet in `echo "base reg kin regkin"`	
-				for whichJet in `echo "base reg"`	
+				for whichJet in `echo "base reg kin regkin"`	
+#				for whichJet in `echo "base reg"`	
 				do
 
 					if [[ "${data}" == "data" ]]

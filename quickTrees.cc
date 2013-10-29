@@ -218,16 +218,26 @@ int main(int argc, char *argv[])
 // FITTING THE MGG SPECTRUM
 		if( strcmp("mgg", fitStrategy.c_str()) == 0 )
 		{
-			// mggjj cut do not depend on the mass hypothesis
-			if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
+			// mggjj cut does depend on the mass hypothesis
+			if( strcmp("", whichJet.c_str()) == 0 )
 			{
 				if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 255. || mtot_wokinfit > 330.) ) continue;
 				if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 250. || mtot_wokinfit > 325.) ) continue;
 			}
-			if( (strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
+			if( strcmp("reg", whichJet.c_str()) == 0 )
 			{
 				if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 250. || mtot_wokinfit > 330.) ) continue;
 				if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 265. || mtot_wokinfit > 330.) ) continue;
+			}
+			if( strcmp("kin", whichJet.c_str()) == 0 )
+			{
+				if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 290. || mtot_wokinfit > 315.) ) continue;
+				if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 285. || mtot_wokinfit > 315.) ) continue;
+			}
+			if( strcmp("regkin", whichJet.c_str()) == 0 )
+			{
+				if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 290. || mtot_wokinfit > 315.) ) continue;
+				if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 285. || mtot_wokinfit > 315.) ) continue;
 			}
 
 			// mjj cut depends on the mass hypothesis
