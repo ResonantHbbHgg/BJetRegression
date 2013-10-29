@@ -5,6 +5,7 @@
 #include <iomanip>
 #include <fstream>
 #include <algorithm>
+#include <boost/program_options.hpp>
 // ROOT headers
 #include "TROOT.h"
 #include "TSystem.h"
@@ -35,12 +36,45 @@
 // namespaces
 using namespace std;
 using namespace RooFit;
+namespace po = boost::program_options;
 
 void plotParameters(RooArgList *r2_cat0_param, TCanvas *c, int canvasDivision, RooPlot* frame0, bool isThereSeveralFits, int iclass, string datasetName, float mvaInf, float mvaSup, int precision);
 pair<float,float> sigmaEff(TTree* tree, string variable, string cut = "");
 
-int main ()
+int main (int argc, char *argv[])
 {
+  // declare arguments
+  string inputfile;
+  string inputtree;
+	// print out passed arguments
+  copy(argv, argv + argc, ostream_iterator<char*>(cout, " ")); cout << endl;
+  // argument parsing
+  try
+  {
+    po::options_description desc("Allowed options");
+    desc.add_options()
+      ("help,h", "produce help message")
+      ("inputfile,i", po::value<string>(&inputfile)->default_value("root://eoscms//eos/cms/store/cmst3/user/obondu/H2GGLOBE/Radion/trees/radion_tree_v06/Radion_Graviton_nm.root"), "input file")
+      ("inputtree,t", po::value<string>(&inputtree)->default_value("Radion_m300_8TeV_nm"), "input tree")
+    ;
+    po::variables_map vm;
+    po::store(po::parse_command_line(argc, argv, desc), vm);
+    po::notify(vm);
+    if (vm.count("help")) {
+      cout << desc << "\n";
+      return 1;
+    }
+  } catch(exception& e) {
+    cerr << "error: " << e.what() << "\n";
+    return 1;
+  } catch(...) {
+    cerr << "Exception of unknown type!\n";
+  }
+  // end of argument parsing
+  //################################################
+
+  if(DEBUG) cout << "End of argument parsing" << endl;
+
 	gROOT->Reset();
 	gROOT->ProcessLine(".x setTDRStyle.C");
 	CMSstyle();

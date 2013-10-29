@@ -50,7 +50,7 @@ quickTrees.exe: quickTrees.cc
 	$(CC) $(CCFLAGS) $(ROOTFLAGS) $(ROOTLIBS) quickTrees.cc -o quickTrees.exe
 
 fitMass.exe: fitMass.cc
-	$(CC) $(CCFLAGS) $(ROOTFLAGS) $(ROOTLIBS) $(ROOFITLIBS) fitMass.cc -o fitMass.exe
+	$(CC) $(CCFLAGS) $(ROOTFLAGS) $(ROOTLIBS) $(ROOFITLIBS) $(BOOSTFLAGS) $(BOOSTLIBS) fitMass.cc -o fitMass.exe
 
 undoVarTRansformNorm.exe: undoVarTRansformNorm.cc
 	$(CC) $(CCFLAGS) $(ROOTFLAGS) $(ROOTLIBS) undoVarTRansformNorm.cc -o undoVarTRansformNorm.exe
