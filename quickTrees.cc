@@ -200,36 +200,65 @@ int main(int argc, char *argv[])
 // FITTING THE MGG SPECTRUM
 		if( strcmp("mgg", fitStrategy.c_str()) == 0 )
 		{
-			if( njets_kRadionID_and_CSVM >= 2 )
+			// mggjj cut do not depend on the mass hypothesis
+			if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
 			{
-				if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
-					if( mjj_wokinfit < 95. || mjj_wokinfit > 175. ) continue;
-				if( (strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
-					if( mjj_wokinfit < 90. || mjj_wokinfit > 150. ) continue;
+				if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 255. || mtot_wokinfit > 330.) ) continue;
+				if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 250. || mtot_wokinfit > 325.) ) continue;
 			}
-			if( njets_kRadionID_and_CSVM == 1 )
+			if( (strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
 			{
-				if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
-					if( mjj_wokinfit < 100. || mjj_wokinfit > 160. ) continue;
-				if( (strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
-					if( mjj_wokinfit < 95. || mjj_wokinfit > 140. ) continue;
+				if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 250. || mtot_wokinfit > 330.) ) continue;
+				if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 265. || mtot_wokinfit > 330.) ) continue;
 			}
+
+			// mjj cut depends on the mass hypothesis
 			if( mass == 300 )
 			{
 				if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
 				{
-					if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 255. || mtot_wokinfit > 320.) ) continue;
-					if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 260. || mtot_wokinfit > 335.) ) continue;
+					if( njets_kRadionID_and_CSVM == 1 && (mjj_wokinfit < 85. || mjj_wokinfit > 155. ) ) continue;
+					if( njets_kRadionID_and_CSVM >= 2 && (mjj_wokinfit < 110. || mjj_wokinfit > 145. ) ) continue;
 				}
 				if( (strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
 				{
-					if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 260. || mtot_wokinfit > 335.) ) continue;
-					if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 265. || mtot_wokinfit > 345.) ) continue;
+					if( njets_kRadionID_and_CSVM == 1 && (mjj_wokinfit < 85. || mjj_wokinfit > 155. ) ) continue;
+					if( njets_kRadionID_and_CSVM >= 2 && (mjj_wokinfit < 110. || mjj_wokinfit > 145. ) ) continue;
+				}
+			} else if ( mass == 500 ) {
+				if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
+				{
+					if( njets_kRadionID_and_CSVM == 1 && (mjj_wokinfit < 90. || mjj_wokinfit > 155. ) ) continue;
+					if( njets_kRadionID_and_CSVM >= 2 && (mjj_wokinfit < 110. || mjj_wokinfit > 140. ) ) continue;
+				}
+				if( (strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
+				{
+					if( njets_kRadionID_and_CSVM == 1 && (mjj_wokinfit < 95. || mjj_wokinfit > 155. ) ) continue;
+					if( njets_kRadionID_and_CSVM >= 2 && (mjj_wokinfit < 120. || mjj_wokinfit > 145. ) ) continue;
+				}
+			} else if ( mass == 700 ) {
+				if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
+				{
+					if( njets_kRadionID_and_CSVM == 1 && (mjj_wokinfit < 100. || mjj_wokinfit > 155. ) ) continue;
+					if( njets_kRadionID_and_CSVM >= 2 && (mjj_wokinfit < 110. || mjj_wokinfit > 140. ) ) continue;
+				}
+				if( (strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
+				{
+					if( njets_kRadionID_and_CSVM == 1 && (mjj_wokinfit < 115. || mjj_wokinfit > 155. ) ) continue;
+					if( njets_kRadionID_and_CSVM >= 2 && (mjj_wokinfit < 120. || mjj_wokinfit > 145. ) ) continue;
+				}
+			} else if ( mass == 1000 ) {
+				if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
+				{
+					if( njets_kRadionID_and_CSVM == 1 && (mjj_wokinfit < 105. || mjj_wokinfit > 155. ) ) continue;
+					if( njets_kRadionID_and_CSVM >= 2 && (mjj_wokinfit < 110. || mjj_wokinfit > 155. ) ) continue;
+				}
+				if( (strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
+				{
+					if( njets_kRadionID_and_CSVM == 1 && (mjj_wokinfit < 120. || mjj_wokinfit > 170. ) ) continue;
+					if( njets_kRadionID_and_CSVM >= 2 && (mjj_wokinfit < 120. || mjj_wokinfit > 160. ) ) continue;
 				}
 			}
-			if( mass == 500 && (mtot_wokinfit < 465. || mtot_wokinfit > 535.) ) continue;
-			if( mass == 700 && (mtot_wokinfit < 660. || mtot_wokinfit > 740.) ) continue;
-			if( mass == 1000 && (mtot_wokinfit < 955. || mtot_wokinfit > 1055.) ) continue;
 		}
 
 // FITTING THE MGGJJ SPECTRUM
