@@ -189,10 +189,12 @@ int main(int argc, char *argv[])
 	int n_2btag = 0;
 	int n_1btag_selected = 0;
 	int n_2btag_selected = 0;
-	TH1F mjj_1btag("mjj_1btag", "mjj_1btag", 20, 80., 180.);
-	TH1F mjj_2btag("mjj_2btag", "mjj_2btag", 20, 80., 180.);
-	TH1F mggjj_1btag("mggjj_1btag", "mggjj_1btag", 24, mass - 60., mass + 60.);
-	TH1F mggjj_2btag("mggjj_2btag", "mggjj_2btag", 24, mass - 60., mass + 60.);
+	TH1F mjj_1btag("mjj_1btag", "mjj_1btag", 20, 80., 180.); mjj_1btag.Sumw2();
+	TH1F mjj_2btag("mjj_2btag", "mjj_2btag", 20, 80., 180.); mjj_2btag.Sumw2();
+	TH1F mggjj_1btag("mggjj_1btag", "mggjj_1btag", 24, mass - 60., mass + 60.); mggjj_1btag.Sumw2();
+	TH1F mggjj_2btag("mggjj_2btag", "mggjj_2btag", 24, mass - 60., mass + 60.); mggjj_2btag.Sumw2();
+	
+	
 
 	for(int ievt= 0 ; ievt < (int)intree->GetEntries() ; ievt++)
 	{

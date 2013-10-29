@@ -7,7 +7,7 @@ today=`date +"0%Y-%m-%d"`
 for data in `echo "signal"`
 do
 #	for mass in `echo "300 500 700 1000"`
-	for mass in `echo "300"`
+	for mass in `echo "300 500"`
 	do
 		for cutLevel in `echo "0"`
 		do
