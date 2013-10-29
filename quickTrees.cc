@@ -219,30 +219,53 @@ int main(int argc, char *argv[])
 		if( strcmp("mgg", fitStrategy.c_str()) == 0 )
 		{
 			// mggjj cut does depend on the mass hypothesis
-			if( strcmp("", whichJet.c_str()) == 0 )
-			{
-				if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 255. || mtot_wokinfit > 330.) ) continue;
-				if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 250. || mtot_wokinfit > 325.) ) continue;
-			}
-			if( strcmp("reg", whichJet.c_str()) == 0 )
-			{
-				if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 250. || mtot_wokinfit > 330.) ) continue;
-				if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 265. || mtot_wokinfit > 330.) ) continue;
-			}
-			if( strcmp("kin", whichJet.c_str()) == 0 )
-			{
-				if( njets_kRadionID_and_CSVM == 1 && (mtot < 290. || mtot > 315.) ) continue;
-				if( njets_kRadionID_and_CSVM >= 2 && (mtot < 285. || mtot > 315.) ) continue;
-			}
-			if( strcmp("regkin", whichJet.c_str()) == 0 )
-			{
-				if( njets_kRadionID_and_CSVM == 1 && (mtot < 290. || mtot > 315.) ) continue;
-				if( njets_kRadionID_and_CSVM >= 2 && (mtot < 285. || mtot > 315.) ) continue;
-			}
-
-			// mjj cut depends on the mass hypothesis
 			if( mass == 300 )
 			{
+				if( strcmp("", whichJet.c_str()) == 0 )
+				{
+					if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 255. || mtot_wokinfit > 330.) ) continue;
+					if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 250. || mtot_wokinfit > 325.) ) continue;
+				}
+				if( strcmp("reg", whichJet.c_str()) == 0 )
+				{
+					if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 250. || mtot_wokinfit > 330.) ) continue;
+					if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 265. || mtot_wokinfit > 330.) ) continue;
+				}
+				if( strcmp("kin", whichJet.c_str()) == 0 )
+				{
+					if( njets_kRadionID_and_CSVM == 1 && (mtot < 290. || mtot > 315.) ) continue;
+					if( njets_kRadionID_and_CSVM >= 2 && (mtot < 285. || mtot > 315.) ) continue;
+				}
+				if( strcmp("regkin", whichJet.c_str()) == 0 )
+				{
+					if( njets_kRadionID_and_CSVM == 1 && (mtot < 290. || mtot > 315.) ) continue;
+					if( njets_kRadionID_and_CSVM >= 2 && (mtot < 285. || mtot > 315.) ) continue;
+				}
+			} else if( mass == 500 ) {
+				if( strcmp("", whichJet.c_str()) == 0 )
+				{
+					if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 485. || mtot_wokinfit > 535.) ) continue;
+					if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 490. || mtot_wokinfit > 525.) ) continue;
+				}
+				if( strcmp("reg", whichJet.c_str()) == 0 )
+				{
+					if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 495. || mtot_wokinfit > 555.) ) continue;
+					if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 485. || mtot_wokinfit > 515.) ) continue;
+				}
+				if( strcmp("kin", whichJet.c_str()) == 0 )
+				{
+					if( njets_kRadionID_and_CSVM == 1 && (mtot < 505. || mtot > 540.) ) continue;
+					if( njets_kRadionID_and_CSVM >= 2 && (mtot < 495. || mtot > 510.) ) continue;
+				}
+				if( strcmp("regkin", whichJet.c_str()) == 0 )
+				{
+					if( njets_kRadionID_and_CSVM == 1 && (mtot < 440. || mtot > 505.) ) continue;
+					if( njets_kRadionID_and_CSVM >= 2 && (mtot < 490. || mtot > 510.) ) continue;
+				}
+			}
+			// mjj cut does not depends on the mass hypothesis
+			if( mass == 300 || mass == 500)
+			{
 				if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
 				{
 					if( njets_kRadionID_and_CSVM == 1 && (mjj_wokinfit < 85. || mjj_wokinfit > 155. ) ) continue;
@@ -253,55 +276,27 @@ int main(int argc, char *argv[])
 					if( njets_kRadionID_and_CSVM == 1 && (mjj_wokinfit < 85. || mjj_wokinfit > 155. ) ) continue;
 					if( njets_kRadionID_and_CSVM >= 2 && (mjj_wokinfit < 110. || mjj_wokinfit > 145. ) ) continue;
 				}
-			} else if ( mass == 500 ) {
-				if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
-				{
-					if( njets_kRadionID_and_CSVM == 1 && (mjj_wokinfit < 90. || mjj_wokinfit > 155. ) ) continue;
-					if( njets_kRadionID_and_CSVM >= 2 && (mjj_wokinfit < 110. || mjj_wokinfit > 140. ) ) continue;
-				}
-				if( (strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
-				{
-					if( njets_kRadionID_and_CSVM == 1 && (mjj_wokinfit < 95. || mjj_wokinfit > 155. ) ) continue;
-					if( njets_kRadionID_and_CSVM >= 2 && (mjj_wokinfit < 120. || mjj_wokinfit > 145. ) ) continue;
-				}
-			} else if ( mass == 700 ) {
-				if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
-				{
-					if( njets_kRadionID_and_CSVM == 1 && (mjj_wokinfit < 100. || mjj_wokinfit > 155. ) ) continue;
-					if( njets_kRadionID_and_CSVM >= 2 && (mjj_wokinfit < 110. || mjj_wokinfit > 140. ) ) continue;
-				}
-				if( (strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
-				{
-					if( njets_kRadionID_and_CSVM == 1 && (mjj_wokinfit < 115. || mjj_wokinfit > 155. ) ) continue;
-					if( njets_kRadionID_and_CSVM >= 2 && (mjj_wokinfit < 120. || mjj_wokinfit > 145. ) ) continue;
-				}
-			} else if ( mass == 1000 ) {
-				if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
-				{
-					if( njets_kRadionID_and_CSVM == 1 && (mjj_wokinfit < 105. || mjj_wokinfit > 155. ) ) continue;
-					if( njets_kRadionID_and_CSVM >= 2 && (mjj_wokinfit < 110. || mjj_wokinfit > 155. ) ) continue;
-				}
-				if( (strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
-				{
-					if( njets_kRadionID_and_CSVM == 1 && (mjj_wokinfit < 120. || mjj_wokinfit > 170. ) ) continue;
-					if( njets_kRadionID_and_CSVM >= 2 && (mjj_wokinfit < 120. || mjj_wokinfit > 160. ) ) continue;
-				}
+			} else {
+				cout << "WARNING, you are trying to create trees for mgg limits at points that are not 300 or 500... are you sure of what you're doing?" << endl;
 			}
 		}
 
 // FITTING THE MGGJJ SPECTRUM
 		if( strcmp("mggjj", fitStrategy.c_str()) == 0 )
 		{
-			if( mgg < 120. || mgg > 130. ) continue;
+			if( mgg < 115. || mgg > 135. ) continue;
 			if( njets_kRadionID_and_CSVM >= 2 )
 			{
 				if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
-					if( mjj_wokinfit < 95. || mjj_wokinfit > 150. ) continue;
+					if( mjj_wokinfit < 100. || mjj_wokinfit > 145. ) continue;
 				if( (strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
-					if( mjj_wokinfit < 100. || mjj_wokinfit > 160. ) continue;
+					if( mjj_wokinfit < 110. || mjj_wokinfit > 150. ) continue;
 			}
 			if( njets_kRadionID_and_CSVM == 1 ) 
-				if( mjj_wokinfit < 90. || mjj_wokinfit > 170. ) continue;
+				if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
+					if( mjj_wokinfit < 80. || mjj_wokinfit > 165. ) continue;
+				if( (strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
+					if( mjj_wokinfit < 85. || mjj_wokinfit > 170. ) continue;
 		}
 
 // MGG-LIKE SELECTION FOR MAXIME TO PLAY WITH SYSTEMATICS
