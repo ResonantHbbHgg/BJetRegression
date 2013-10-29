@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version="v10"
+version="v11"
 today=`date +"0%Y-%m-%d"`
 
 for data in `echo "data signal"`
