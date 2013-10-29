@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version="v12"
+version="v13"
 today=`date +"0%Y-%m-%d"`
 
 # do mgg trees
@@ -19,10 +19,12 @@ do
 					then
 						intree="Data"
 						removeUndefinedBtagSF=0
+						type_=0
 					elif [[ "${data}" == "signal" ]]
 					then
 						intree="Radion_m${mass}_8TeV_nm"
 						removeUndefinedBtagSF=1
+						type_=-${mass}
 					fi
 					if [[ "${whichJet}"	== "base" ]]
 					then
@@ -45,6 +47,7 @@ do
 -fs ${fitStrategy} \
 -wj ${whichJet} \
 --removeUndefinedBtagSF ${removeUndefinedBtagSF} \
+--type ${type_} \
 | tee ${outfolder}/${today}-${intree}_m${mass}.log
 
 				done # whichJet
@@ -69,10 +72,12 @@ do
 					then
 						intree="Data"
 						removeUndefinedBtagSF=0
+						type_=0
 					elif [[ "${data}" == "signal" ]]
 					then
 						intree="Radion_m${mass}_8TeV_nm"
 						removeUndefinedBtagSF=1
+						type_=0
 					fi
 					if [[ "${whichJet}"	== "base" ]]
 					then
@@ -95,6 +100,7 @@ do
 -fs ${fitStrategy} \
 -wj ${whichJet} \
 --removeUndefinedBtagSF ${removeUndefinedBtagSF} \
+--type ${type_} \
 | tee ${outfolder}/${today}-${intree}_m${mass}.log
 
 				done # whichJet

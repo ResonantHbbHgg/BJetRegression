@@ -36,6 +36,7 @@ int main(int argc, char *argv[])
 	int cutLevel = 0;
 	int mass = 300;
 	int removeUndefinedBtagSF = 0;
+	int type = 0;
 
 	for(int iarg=0 ; iarg < argc ; iarg++)
 	{
@@ -57,6 +58,8 @@ int main(int argc, char *argv[])
 			{ std::stringstream ss ( argv[iarg+1] ); ss >> mass; }
 		if(strcmp("--removeUndefinedBtagSF", argv[iarg]) == 0 && argc >= iarg + 1)
 			{ std::stringstream ss ( argv[iarg+1] ); ss >> removeUndefinedBtagSF; }
+		if(strcmp("--type", argv[iarg]) == 0 && argc >= iarg + 1)
+			{ std::stringstream ss ( argv[iarg+1] ); ss >> type; }
 		if((strcmp("-h", argv[iarg]) == 0) || (strcmp("--help", argv[iarg]) == 0))
 		{
 			cerr << "WARNING: Arguments should be passed ! Default arguments will be used" << endl;
@@ -187,12 +190,18 @@ int main(int argc, char *argv[])
 		intree->GetEntry(ievt);
 
 		if(removeUndefinedBtagSF)
+		{
 			if( jet1_btagSF == -1001 || jet2_btagSF == -1001) 
 			{
 				cerr << "WARNING: undefined btagSF, skipping the event:\tevent= " << event << "\tjet1_btagSF= " << jet1_btagSF << "\tjet2_btagSF= " << jet2_btagSF << "\tjet1_pt= " << jet1_pt << "\tjet2_pt= " << jet2_pt << endl;
 				continue;
 			}
-		evWeight_w_btagSF = evWeight * jet1_btagSF * jet2_btagSF;
+		}
+		if(type < -250)
+			evWeight_w_btagSF = evWeight * jet1_btagSF * jet2_btagSF;
+		else
+			evWeight_w_btagSF = evWeight;
+
 
 		if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("reg", whichJet.c_str()) == 0) )
 			{ mjj_wokinfit = mjj; mtot_wokinfit = mtot; }
