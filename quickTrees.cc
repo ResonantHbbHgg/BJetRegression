@@ -37,6 +37,7 @@ int main(int argc, char *argv[])
 	int mass = 300;
 	int removeUndefinedBtagSF = 0;
 	int type = 0;
+	int mcut = 0; // 0= default 1= non-kin specific 2= v02 limit trees
 
 	for(int iarg=0 ; iarg < argc ; iarg++)
 	{
@@ -60,6 +61,8 @@ int main(int argc, char *argv[])
 			{ std::stringstream ss ( argv[iarg+1] ); ss >> removeUndefinedBtagSF; }
 		if(strcmp("--type", argv[iarg]) == 0 && argc >= iarg + 1)
 			{ std::stringstream ss ( argv[iarg+1] ); ss >> type; }
+		if(strcmp("--mcut", argv[iarg]) == 0 && argc >= iarg + 1)
+			{ std::stringstream ss ( argv[iarg+1] ); ss >> mcut; }
 		if((strcmp("-h", argv[iarg]) == 0) || (strcmp("--help", argv[iarg]) == 0))
 		{
 			cerr << "WARNING: Arguments should be passed ! Default arguments will be used" << endl;
@@ -143,7 +146,7 @@ int main(int argc, char *argv[])
 	}
 	intree->SetBranchAddress("njets_kRadionID_and_CSVM", &njets_kRadionID_and_CSVM);
 	intree->SetBranchAddress("selection_cut_level", &selection_cut_level);
-	intree->SetBranchAddress("weight", &evWeight);
+	intree->SetBranchAddress("evweight", &evWeight);
 	intree->SetBranchAddress("regcosthetastar", &regcosthetastar);
 	intree->SetBranchAddress("minDRgregkinj", &minDRgregkinj);
 	intree->SetBranchAddress("njets_kLooseID", &njets_kLooseID);
@@ -186,6 +189,8 @@ int main(int argc, char *argv[])
 //	cout << "strcmp mggjj= " << (strcmp("mggjj", fitStrategy.c_str()) ) << endl;
 	int n_1btag = 0;
 	int n_2btag = 0;
+	float n_w_1btag = 0.;
+	float n_w_2btag = 0.;
 
 	for(int ievt= 0 ; ievt < (int)intree->GetEntries() ; ievt++)
 	{
@@ -200,7 +205,7 @@ int main(int argc, char *argv[])
 			}
 		}
 		if(type < -250)
-			evWeight_w_btagSF = evWeight * jet1_btagSF * jet2_btagSF;
+			evWeight_w_btagSF = evWeight * jet1_btagSF * jet2_btagSF * 2.; // factor two to account for regression training, only on signal
 		else
 			evWeight_w_btagSF = evWeight;
 
@@ -227,7 +232,7 @@ int main(int argc, char *argv[])
 	}
 
 // FITTING THE MGG SPECTRUM
-		if( strcmp("mgg", fitStrategy.c_str()) == 0 )
+		if( (mcut < 2) && (strcmp("mgg", fitStrategy.c_str()) == 0) )
 		{
 			// mggjj cut does depend on the mass hypothesis
 			if( mass == 300 )
@@ -244,13 +249,25 @@ int main(int argc, char *argv[])
 				}
 				if( strcmp("kin", whichJet.c_str()) == 0 )
 				{
-					if( njets_kRadionID_and_CSVM == 1 && (mtot < 290. || mtot > 315.) ) continue;
-					if( njets_kRadionID_and_CSVM >= 2 && (mtot < 285. || mtot > 315.) ) continue;
+					if( mcut == 0)
+					{
+						if( njets_kRadionID_and_CSVM == 1 && (mtot < 290. || mtot > 315.) ) continue;
+						if( njets_kRadionID_and_CSVM >= 2 && (mtot < 285. || mtot > 315.) ) continue;
+					} else if (mcut == 1) {
+						if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 255. || mtot_wokinfit > 330.) ) continue;
+						if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 250. || mtot_wokinfit > 325.) ) continue;
+					}
 				}
 				if( strcmp("regkin", whichJet.c_str()) == 0 )
 				{
-					if( njets_kRadionID_and_CSVM == 1 && (mtot < 290. || mtot > 315.) ) continue;
-					if( njets_kRadionID_and_CSVM >= 2 && (mtot < 285. || mtot > 315.) ) continue;
+					if( mcut == 0 )
+					{
+						if( njets_kRadionID_and_CSVM == 1 && (mtot < 290. || mtot > 315.) ) continue;
+						if( njets_kRadionID_and_CSVM >= 2 && (mtot < 285. || mtot > 315.) ) continue;
+					} else if (mcut == 1) {
+						if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 250. || mtot_wokinfit > 330.) ) continue;
+						if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 265. || mtot_wokinfit > 330.) ) continue;
+					}
 				}
 			} else if( mass == 500 ) {
 				if( strcmp("", whichJet.c_str()) == 0 )
@@ -291,6 +308,40 @@ int main(int argc, char *argv[])
 				cout << "WARNING, you are trying to create trees for mgg limits at points that are not 300 or 500... are you sure of what you're doing?" << endl;
 			}
 		}
+// FITTING THE MGG SPECTRUM
+		if( (mcut >= 2) && (strcmp("mgg", fitStrategy.c_str()) == 0 ) )
+		{
+			if( njets_kRadionID_and_CSVM >= 2 )
+			{
+				if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
+					if( mjj_wokinfit < 95. || mjj_wokinfit > 175. ) continue;
+				if( (strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
+					if( mjj_wokinfit < 90. || mjj_wokinfit > 150. ) continue;
+			}
+			if( njets_kRadionID_and_CSVM == 1 )
+			{
+				if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
+					if( mjj_wokinfit < 100. || mjj_wokinfit > 160. ) continue;
+				if( (strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
+					if( mjj_wokinfit < 95. || mjj_wokinfit > 140. ) continue;
+			}
+			if( mass == 300 )
+			{
+				if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
+				{
+					if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 255. || mtot_wokinfit > 320.) ) continue;
+					if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 260. || mtot_wokinfit > 335.) ) continue;
+				}
+				if( (strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
+				{
+					if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 260. || mtot_wokinfit > 335.) ) continue;
+					if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 265. || mtot_wokinfit > 345.) ) continue;
+				}
+			}
+			if( mass == 500 && (mtot_wokinfit < 465. || mtot_wokinfit > 535.) ) continue;
+			if( mass == 700 && (mtot_wokinfit < 660. || mtot_wokinfit > 740.) ) continue;
+			if( mass == 1000 && (mtot_wokinfit < 955. || mtot_wokinfit > 1055.) ) continue;
+		}
 
 // FITTING THE MGGJJ SPECTRUM
 		if( strcmp("mggjj", fitStrategy.c_str()) == 0 )
@@ -328,11 +379,12 @@ int main(int argc, char *argv[])
 					if( mjj_wokinfit < 95. || mjj_wokinfit > 140. ) continue;
 			}
 		}
-		if( njets_kRadionID_and_CSVM >= 2 ) {cut_based_ct = 0; n_2btag++; }
-		if( njets_kRadionID_and_CSVM == 1 ) {cut_based_ct = 1; n_1btag++; }
+		if( njets_kRadionID_and_CSVM >= 2 ) {cut_based_ct = 0; n_2btag++; n_w_2btag += evWeight_w_btagSF;}
+		if( njets_kRadionID_and_CSVM == 1 ) {cut_based_ct = 1; n_1btag++; n_w_1btag += evWeight_w_btagSF;}
 		outtree->Fill();
 	}
 	cout << "n_1btag= " << n_1btag << "\tn_2btag= " << n_2btag << endl;
+	cout << "n_w_1btag= " << n_w_1btag << "\tn_w_2btag= " << n_w_2btag << endl;
 
   outfile->cd();
   outtree->Write();
