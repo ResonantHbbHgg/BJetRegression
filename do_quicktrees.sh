@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version="v13five"
+version="v14"
 today=`date +"0%Y-%m-%d"`
 
 # do mgg trees
@@ -37,24 +37,24 @@ do
 					outfile="${today}-${intree}_m${mass}.root"
 					outtree="TCVARS"
 
-for mcut in `echo "0 1 2"`
+for massCutVersion in `echo "0 1 2"`
 do
-					mkdir -p ${outfolder}_mcut${mcut}
+					mkdir -p ${outfolder}_massCutVersion${massCutVersion}
 
 ./quickTrees.exe \
 -i ${infile} \
 -it ${intree} \
--o ${outfolder}_mcut${mcut}/${outfile} \
+-o ${outfolder}_massCutVersion${massCutVersion}/${outfile} \
 -cutLevel ${cutLevel} \
 -m ${mass} \
 -fs ${fitStrategy} \
 -wj ${whichJet} \
 --removeUndefinedBtagSF ${removeUndefinedBtagSF} \
 --type ${type_} \
---mcut ${mcut} \
-| tee ${outfolder}_mcut${mcut}/${today}-${intree}_m${mass}.log
+--massCutVersion ${massCutVersion} \
+| tee ${outfolder}_massCutVersion${massCutVersion}/${today}-${intree}_m${mass}.log
 
-done # mcut
+done # massCutVersion
 
 				done # whichJet
 			done # fitStrategy

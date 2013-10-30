@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
 	int mass = 300;
 	int removeUndefinedBtagSF = 0;
 	int type = 0;
-	int mcut = 0; // 0= default 1= non-kin specific 2= v02 limit trees
+	int massCutVersion = 0; // 0= default 1= non-kin specific 2= v02 limit trees
 
 	for(int iarg=0 ; iarg < argc ; iarg++)
 	{
@@ -61,8 +61,8 @@ int main(int argc, char *argv[])
 			{ std::stringstream ss ( argv[iarg+1] ); ss >> removeUndefinedBtagSF; }
 		if(strcmp("--type", argv[iarg]) == 0 && argc >= iarg + 1)
 			{ std::stringstream ss ( argv[iarg+1] ); ss >> type; }
-		if(strcmp("--mcut", argv[iarg]) == 0 && argc >= iarg + 1)
-			{ std::stringstream ss ( argv[iarg+1] ); ss >> mcut; }
+		if(strcmp("--massCutVersion", argv[iarg]) == 0 && argc >= iarg + 1)
+			{ std::stringstream ss ( argv[iarg+1] ); ss >> massCutVersion; }
 		if((strcmp("-h", argv[iarg]) == 0) || (strcmp("--help", argv[iarg]) == 0))
 		{
 			cerr << "WARNING: Arguments should be passed ! Default arguments will be used" << endl;
@@ -234,7 +234,7 @@ int main(int argc, char *argv[])
 	}
 
 // FITTING THE MGG SPECTRUM
-		if( (mcut < 2) && (strcmp("mgg", fitStrategy.c_str()) == 0) )
+		if( (massCutVersion < 2) && (strcmp("mgg", fitStrategy.c_str()) == 0) )
 		{
 			// mggjj cut does depend on the mass hypothesis
 			if( mass == 300 )
@@ -251,22 +251,22 @@ int main(int argc, char *argv[])
 				}
 				if( strcmp("kin", whichJet.c_str()) == 0 )
 				{
-					if( mcut == 0)
+					if( massCutVersion == 0)
 					{
 						if( njets_kRadionID_and_CSVM == 1 && (mtot < 290. || mtot > 315.) ) continue;
 						if( njets_kRadionID_and_CSVM >= 2 && (mtot < 285. || mtot > 315.) ) continue;
-					} else if (mcut == 1) {
+					} else if (massCutVersion == 1) {
 						if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 255. || mtot_wokinfit > 330.) ) continue;
 						if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 250. || mtot_wokinfit > 325.) ) continue;
 					}
 				}
 				if( strcmp("regkin", whichJet.c_str()) == 0 )
 				{
-					if( mcut == 0 )
+					if( massCutVersion == 0 )
 					{
 						if( njets_kRadionID_and_CSVM == 1 && (mtot < 290. || mtot > 315.) ) continue;
 						if( njets_kRadionID_and_CSVM >= 2 && (mtot < 285. || mtot > 315.) ) continue;
-					} else if (mcut == 1) {
+					} else if (massCutVersion == 1) {
 						if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 250. || mtot_wokinfit > 330.) ) continue;
 						if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 265. || mtot_wokinfit > 330.) ) continue;
 					}
@@ -311,7 +311,7 @@ int main(int argc, char *argv[])
 			}
 		}
 // FITTING THE MGG SPECTRUM
-		if( (mcut >= 2) && (strcmp("mgg", fitStrategy.c_str()) == 0 ) )
+		if( (massCutVersion >= 2) && (strcmp("mgg", fitStrategy.c_str()) == 0 ) )
 		{
 			if( njets_kRadionID_and_CSVM >= 2 )
 			{
