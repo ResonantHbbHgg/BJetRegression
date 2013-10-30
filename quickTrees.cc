@@ -104,7 +104,7 @@ int main(int argc, char *argv[])
 	float jet2_pt, jet2_e, jet2_phi, jet2_eta, jet2_mass, jet2_btagSF;
 	float mjj_wokinfit, mtot_wokinfit;
 	int cut_based_ct, njets_kRadionID_and_CSVM, selection_cut_level;
-	float evWeight, evWeight_w_btagSF;
+	float weight, evWeight, evWeight_w_btagSF;
 	float regcosthetastar, minDRgregkinj;
 	int njets_kLooseID;
 	intree->SetBranchAddress("event", &event);
@@ -147,6 +147,7 @@ int main(int argc, char *argv[])
 	intree->SetBranchAddress("njets_kRadionID_and_CSVM", &njets_kRadionID_and_CSVM);
 	intree->SetBranchAddress("selection_cut_level", &selection_cut_level);
 	intree->SetBranchAddress("evweight", &evWeight);
+	intree->SetBranchAddress("weight", &weight);
 	intree->SetBranchAddress("regcosthetastar", &regcosthetastar);
 	intree->SetBranchAddress("minDRgregkinj", &minDRgregkinj);
 	intree->SetBranchAddress("njets_kLooseID", &njets_kLooseID);
@@ -184,6 +185,7 @@ int main(int argc, char *argv[])
 	outtree->Branch("mtot_wokinfit", &mtot_wokinfit, "mtot_wokinfit/F");
 	outtree->Branch("cut_based_ct", &cut_based_ct, "cut_based_ct/I");
 	outtree->Branch("evWeight", &evWeight_w_btagSF, "evWeight/F");
+	outtree->Branch("weight", &weight, "weight/F");
 
 //	cout << "strcmp mgg= " << (strcmp("mgg", fitStrategy.c_str()) ) << endl;
 //	cout << "strcmp mggjj= " << (strcmp("mggjj", fitStrategy.c_str()) ) << endl;
@@ -205,7 +207,7 @@ int main(int argc, char *argv[])
 			}
 		}
 		if(type < -250)
-			evWeight_w_btagSF = evWeight * jet1_btagSF * jet2_btagSF * 2.; // factor two to account for regression training, only on signal
+			evWeight_w_btagSF = evWeight * jet1_btagSF * jet2_btagSF * 2.; // factor two to account for regression training, to be applied only on signal
 		else
 			evWeight_w_btagSF = evWeight;
 
