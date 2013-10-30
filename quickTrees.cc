@@ -193,6 +193,12 @@ int main(int argc, char *argv[])
 	int n_2btag = 0;
 	float n_w_1btag = 0.;
 	float n_w_2btag = 0.;
+	float nprocessed = 20000.;
+	if(type == -300) nprocessed = 19972.;
+	else if(type == -500) nprocessed = 19970.; 
+	else if(type == -700) nprocessed = 19969.; 
+	else if(type == -1000) nprocessed = 19951.; 
+	else if(type == -1500) nprocessed = 19959.; 
 
 	for(int ievt= 0 ; ievt < (int)intree->GetEntries() ; ievt++)
 	{
@@ -207,7 +213,7 @@ int main(int argc, char *argv[])
 			}
 		}
 		if(type < -250)
-			evWeight_w_btagSF = evWeight * jet1_btagSF * jet2_btagSF * 2.; // factor two to account for regression training, to be applied only on signal
+			evWeight_w_btagSF = evWeight * jet1_btagSF * jet2_btagSF * 2. * 19706. / 1000. / nprocessed; // factor two to account for regression training, to be applied only on signal
 		else
 			evWeight_w_btagSF = evWeight;
 
@@ -284,13 +290,25 @@ int main(int argc, char *argv[])
 				}
 				if( strcmp("kin", whichJet.c_str()) == 0 )
 				{
-					if( njets_kRadionID_and_CSVM == 1 && (mtot < 505. || mtot > 540.) ) continue;
-					if( njets_kRadionID_and_CSVM >= 2 && (mtot < 495. || mtot > 510.) ) continue;
+					if( massCutVersion == 0 )
+					{
+						if( njets_kRadionID_and_CSVM == 1 && (mtot < 505. || mtot > 540.) ) continue;
+						if( njets_kRadionID_and_CSVM >= 2 && (mtot < 495. || mtot > 510.) ) continue;
+					} else if (massCutVersion == 1) {
+						if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 485. || mtot_wokinfit > 535.) ) continue;
+						if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 490. || mtot_wokinfit > 525.) ) continue;
+					}
 				}
 				if( strcmp("regkin", whichJet.c_str()) == 0 )
 				{
-					if( njets_kRadionID_and_CSVM == 1 && (mtot < 440. || mtot > 505.) ) continue;
-					if( njets_kRadionID_and_CSVM >= 2 && (mtot < 490. || mtot > 510.) ) continue;
+					if( massCutVersion == 0 )
+					{
+						if( njets_kRadionID_and_CSVM == 1 && (mtot < 440. || mtot > 505.) ) continue;
+						if( njets_kRadionID_and_CSVM >= 2 && (mtot < 490. || mtot > 510.) ) continue;
+					} else if (massCutVersion == 1) {
+						if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 495. || mtot_wokinfit > 555.) ) continue;
+						if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 485. || mtot_wokinfit > 515.) ) continue;
+					}
 				}
 			}
 			// mjj cut does not depends on the mass hypothesis

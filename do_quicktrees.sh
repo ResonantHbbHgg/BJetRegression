@@ -1,13 +1,13 @@
 #!/bin/bash
 
-version="v14"
+version="v15"
 today=`date +"0%Y-%m-%d"`
 
 # do mgg trees
 for data in `echo "data signal"`
 #for data in `echo "data"`
 do
-	for mass in `echo "300"`
+	for mass in `echo "300 500"`
 	do
 		for cutLevel in `echo "0"`
 		do
@@ -83,7 +83,7 @@ do
 					then
 						intree="Radion_m${mass}_8TeV_nm"
 						removeUndefinedBtagSF=1
-						type_=0
+						type_=-${mass}
 					fi
 					if [[ "${whichJet}"	== "base" ]]
 					then
