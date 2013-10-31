@@ -12,13 +12,17 @@
 	fitStrategy.push_back("regkin");
 	eff_1btag.push_back(0.409865); eff_2btag.push_back(0.581347);
 
-	for (int is = 0 ; is < fitStrategy.size() ; is++)
+
+for (int is = 0 ; is < fitStrategy.size() ; is++)
+{
+	for(float addeff = 0.0; addeff < 0.3 ; addeff += 0.05)
 	{
 		for(int itag = 1 ; itag <= 2 ; itag++)
 		{
 		TFile file(Form("v10bis_%s_mgg_0/02013-10-29-Radion_m500_8TeV_nm_m500.root", fitStrategy[is].c_str()));
 		TH1F *mggjj = (TH1F*)file.Get(Form("mggjj_%ibtag", itag));
 		float effgoal = (itag == 1) ? eff_1btag[is] : eff_2btag[is];
+		effgoal += addeff;
 //		cout << "effgoal= " << effgoal << endl;
 		int nbins = mggjj->GetNbinsX();
 		float ntot= mggjj->Integral(0, nbins+1);
@@ -44,5 +48,6 @@
 		cout << fitStrategy[is] << "\t" << itag << "btag\teffgoal @ 300= " << effgoal << "\teff= " << (float)mggjj->Integral(lowbin, highbin) / (float)mggjj->Integral(0, nbins+1) << "\tlowcut= " << lowcut << "\thighcut= " << highcut << endl; 
 	}
 	}
-
+cout << "###################" << endl;
+}
 }
