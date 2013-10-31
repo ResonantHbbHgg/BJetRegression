@@ -34,6 +34,7 @@ int main(int argc, char *argv[])
 	int numberOfRegressionFiles;
 	int type; // Same conventions as in h2gglobe: <0 = signal ; =0 = data ; >0 = background
 	int SYNC; // mjj and mggjj cuts are different for sync and analysis
+	int SYNC_W_PHIL;
 	int REMOVE_UNDEFINED_BTAGSF;
 	int applyMassCuts;
 	int applyPhotonIDControlSample;
@@ -56,6 +57,7 @@ int main(int argc, char *argv[])
 			("removeUndefinedBtagSF", po::value<int>(&REMOVE_UNDEFINED_BTAGSF)->default_value(0), "remove undefined btagSF values (should be used only for the limit trees)")
 			("applyMassCuts", po::value<int>(&applyMassCuts)->default_value(1), "can switch off mass cuts (e.g. for control plots), prevails other mass cut options if switched off")
 			("applyPhotonIDControlSample", po::value<int>(&applyPhotonIDControlSample)->default_value(0), "Invert photon ID CiC cut to populate selection in gjjj instead of ggjj")
+			("sync_w_phil", po::value<int>(&SYNC_W_PHIL)->default_value(0), "switch on output for dedicated events")
 		;
 		po::variables_map vm;
 		po::store(po::parse_command_line(argc, argv, desc), vm);
@@ -590,7 +592,7 @@ int main(int argc, char *argv[])
 	string jetcut[30];
   int decade = 0;
   int totevents = intree->GetEntries();
-  if(DEBUG) totevents = 100;
+  if(DEBUG) totevents = 10;
   cout << "#entries= " << totevents << endl;
   // loop over events
   for(int ievt=0 ; ievt < totevents ; ievt++)
@@ -606,7 +608,8 @@ int main(int argc, char *argv[])
 		int njets_kRadionID_and_CSVM_ = 0;
     intree->GetEntry(ievt);
 		if(DEBUG) cout << "event= " << event << endl;
-		if( type < -250 && ((int)event % 2 == 0)) continue; // use regression only on odd events
+		if(DEBUG && event != 7755) continue;
+		if( type < -250 && ((int)event % 2 == 0) && !SYNC_W_PHIL) continue; // use regression only on odd events
 	
 		if(DEBUG) cout << "for MC, get the MC truth hjj system" << endl;
 // Compute hjj system
@@ -806,7 +809,7 @@ int main(int argc, char *argv[])
 			jet_nConstituents_ = (float) jet_nConstituents;
 			jet_dPhiMet_fabs = fabs(jet_dPhiMet);
 
-			if(DEBUG) cout << "input= " << jet_pt << "\toutput (BDT_0)= " << readerRegres->EvaluateRegression(Form("BDT_%i", 0))[0] << "\toutput (BDT_1)= " << readerRegres->EvaluateRegression(Form("BDT_%i", 1))[0] << endl;
+			if(DEBUG) cout << "input= " << jet_pt << "\toutput (BDT_0)= " << readerRegres->EvaluateRegression(Form("BDT_%i", 0))[0] * jet_pt << "\toutput (BDT_1)= " << readerRegres->EvaluateRegression(Form("BDT_%i", 1))[0] * jet_pt << endl;
 			if( jet_csvBtag < 0. ) continue;
 			njets[5]++; jetcut[5] = "After jet_csvBtag < 0.";
 			if(DEBUG) cout << "now with the regression" << endl;
@@ -1319,6 +1322,14 @@ int main(int argc, char *argv[])
 			eventcut[ilevel] = Form("2btag category, after mggjj cut (%.1f/%.1f and %.1f/%.1f)", min_mggjj_1btag, max_mggjj_1btag, min_mggjj_2btag, max_mggjj_2btag); ilevel++;
 		}
 
+		if(SYNC_W_PHIL && (event == 1536 || event == 1557 || event == 1560 || event == 7755))
+		{
+			cout << event << endl;
+			if(numberOfRegressionFiles == 0)
+				cout << gg_mass << "	" <<   jj_mass << "	" << ggjj_mass << "	" <<   pho1_pt << "	" <<   pho2_pt << "	" <<   jet1_pt << "	" <<   jet2_pt << "	" << njets_kRadionID_and_CSVM << "	" <<  evweight << "	" <<  pho1_eta << "	" <<  pho1_phi << "	" <<  pho2_eta << "	" <<  pho2_phi << "	" <<  jet1_eta << "	" <<  jet1_phi << "	" <<  jet2_eta << "	" <<  jet2_phi << endl;
+			else
+				cout << gg_mass << "	" <<   regjj_mass << "	" << regggjj_mass << "	" <<   pho1_pt << "	" <<   pho2_pt << "	" <<   regjet1_pt << "	" <<   regjet2_pt << "	" << njets_kRadionID_and_CSVM << "	" <<  evweight << "	" <<  pho1_eta << "	" <<  pho1_phi << "	" <<  pho2_eta << "	" <<  pho2_phi << "	" <<  regjet1_eta << "	" <<  regjet1_phi << "	" <<  regjet2_eta << "	" <<  regjet2_phi << endl;
+		}
 		ilevelmax=ilevel;
 		selection_cut_level = 6;
 		outtree->Fill();
