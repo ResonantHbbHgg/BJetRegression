@@ -16,6 +16,9 @@ all: prepareOpTreeInJetTree_forTraining.exe trainRegression.exe selection.exe qu
 prepareOpTreeInJetTree_forTraining.exe: prepareOpTreeInJetTree_forTraining.cc
 	$(CC) $(CCFLAGS) $(ROOTFLAGS) $(ROOTLIBS) prepareOpTreeInJetTree_forTraining.cc -o prepareOpTreeInJetTree_forTraining.exe
 
+scan_mggjj_forCutDesign.exe: scan_mggjj_forCutDesign.cc
+	$(CC) $(CCFLAGS) $(ROOTFLAGS) $(ROOTLIBS) scan_mggjj_forCutDesign.cc -o scan_mggjj_forCutDesign.exe
+
 prepareCheckOverTraining.exe: prepareCheckOverTraining.cc
 	$(CC) $(TMVA) $(CCFLAGS) $(ROOTFLAGS) $(ROOTLIBS) prepareCheckOverTraining.cc -o prepareCheckOverTraining.exe
 

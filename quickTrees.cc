@@ -38,6 +38,8 @@ int main(int argc, char *argv[])
 	int cutLevel = 0;
 	int mass = 300;
 	int removeUndefinedBtagSF = 0;
+	int type = 0;
+	int massCutVersion = 0; // 0= default 1= non-kin specific 2= v02 limit trees
 
 	for(int iarg=0 ; iarg < argc ; iarg++)
 	{
@@ -59,6 +61,10 @@ int main(int argc, char *argv[])
 			{ std::stringstream ss ( argv[iarg+1] ); ss >> mass; }
 		if(strcmp("--removeUndefinedBtagSF", argv[iarg]) == 0 && argc >= iarg + 1)
 			{ std::stringstream ss ( argv[iarg+1] ); ss >> removeUndefinedBtagSF; }
+		if(strcmp("--type", argv[iarg]) == 0 && argc >= iarg + 1)
+			{ std::stringstream ss ( argv[iarg+1] ); ss >> type; }
+		if(strcmp("--massCutVersion", argv[iarg]) == 0 && argc >= iarg + 1)
+			{ std::stringstream ss ( argv[iarg+1] ); ss >> massCutVersion; }
 		if((strcmp("-h", argv[iarg]) == 0) || (strcmp("--help", argv[iarg]) == 0))
 		{
 			cerr << "WARNING: Arguments should be passed ! Default arguments will be used" << endl;
@@ -100,7 +106,7 @@ int main(int argc, char *argv[])
 	float jet2_pt, jet2_e, jet2_phi, jet2_eta, jet2_mass, jet2_btagSF;
 	float mjj_wokinfit, mtot_wokinfit;
 	int cut_based_ct, njets_kRadionID_and_CSVM, selection_cut_level;
-	float evWeight, evWeight_w_btagSF;
+	float weight, evWeight, evWeight_w_btagSF;
 	float regcosthetastar, minDRgregkinj;
 	int njets_kLooseID;
 	intree->SetBranchAddress("event", &event);
@@ -143,6 +149,7 @@ int main(int argc, char *argv[])
 	intree->SetBranchAddress("njets_kRadionID_and_CSVM", &njets_kRadionID_and_CSVM);
 	intree->SetBranchAddress("selection_cut_level", &selection_cut_level);
 	intree->SetBranchAddress("evweight", &evWeight);
+	intree->SetBranchAddress("weight", &weight);
 	intree->SetBranchAddress("regcosthetastar", &regcosthetastar);
 	intree->SetBranchAddress("minDRgregkinj", &minDRgregkinj);
 	intree->SetBranchAddress("njets_kLooseID", &njets_kLooseID);
@@ -180,19 +187,30 @@ int main(int argc, char *argv[])
 	outtree->Branch("mtot_wokinfit", &mtot_wokinfit, "mtot_wokinfit/F");
 	outtree->Branch("cut_based_ct", &cut_based_ct, "cut_based_ct/I");
 	outtree->Branch("evWeight", &evWeight_w_btagSF, "evWeight/F");
+	outtree->Branch("weight", &weight, "weight/F");
 
 //	cout << "strcmp mgg= " << (strcmp("mgg", fitStrategy.c_str()) ) << endl;
 //	cout << "strcmp mggjj= " << (strcmp("mggjj", fitStrategy.c_str()) ) << endl;
-
-	int ntot = (int)intree->GetEntries();
 	int n_1btag = 0;
 	int n_2btag = 0;
+	float n_w_1btag = 0.;
+	float n_w_2btag = 0.;
+	float nprocessed = 20000.;
+	if(type == -300) nprocessed = 19972.;
+	else if(type == -500) nprocessed = 19970.; 
+	else if(type == -700) nprocessed = 19969.; 
+	else if(type == -1000) nprocessed = 19951.; 
+	else if(type == -1500) nprocessed = 19959.; 
+
+	int ntot = (int)intree->GetEntries();
+	int n_1btag_before_cuts = 0;
+	int n_2btag_before_cuts = 0;
 	int n_1btag_selected = 0;
 	int n_2btag_selected = 0;
 	TH1F mjj_1btag("mjj_1btag", "mjj_1btag", 20, 80., 180.); mjj_1btag.Sumw2();
 	TH1F mjj_2btag("mjj_2btag", "mjj_2btag", 20, 80., 180.); mjj_2btag.Sumw2();
-	TH1F mggjj_1btag("mggjj_1btag", "mggjj_1btag", 24, mass - 60., mass + 60.); mggjj_1btag.Sumw2();
-	TH1F mggjj_2btag("mggjj_2btag", "mggjj_2btag", 24, mass - 60., mass + 60.); mggjj_2btag.Sumw2();
+	TH1F mggjj_1btag("mggjj_1btag", "mggjj_1btag", 32, mass - 60., mass + 100.); mggjj_1btag.Sumw2();
+	TH1F mggjj_2btag("mggjj_2btag", "mggjj_2btag", 32, mass - 60., mass + 100.); mggjj_2btag.Sumw2();
 	
 	
 
@@ -201,18 +219,24 @@ int main(int argc, char *argv[])
 		intree->GetEntry(ievt);
 
 		if(removeUndefinedBtagSF)
+		{
 			if( jet1_btagSF == -1001 || jet2_btagSF == -1001) 
 			{
 				cerr << "WARNING: undefined btagSF, skipping the event:\tevent= " << event << "\tjet1_btagSF= " << jet1_btagSF << "\tjet2_btagSF= " << jet2_btagSF << "\tjet1_pt= " << jet1_pt << "\tjet2_pt= " << jet2_pt << endl;
 				continue;
 			}
-		evWeight_w_btagSF = evWeight * jet1_btagSF * jet2_btagSF;
+		}
+		if(type < -250)
+			evWeight_w_btagSF = evWeight * jet1_btagSF * jet2_btagSF * 2. * 19706. / 1000. / nprocessed; // factor two to account for regression training, to be applied only on signal
+		else
+			evWeight_w_btagSF = evWeight;
+
 
 		if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("reg", whichJet.c_str()) == 0) )
 			{ mjj_wokinfit = mjj; mtot_wokinfit = mtot; }
 
-		if( njets_kRadionID_and_CSVM == 1 ) n_1btag++;
-		if( njets_kRadionID_and_CSVM >= 2 ) n_2btag++;
+		if( njets_kRadionID_and_CSVM == 1 ) n_1btag_before_cuts++;
+		if( njets_kRadionID_and_CSVM >= 2 ) n_2btag_before_cuts++;
 
 
 // EXTRA CUTS
@@ -234,33 +258,80 @@ int main(int argc, char *argv[])
 	}
 
 // FITTING THE MGG SPECTRUM
-		if( strcmp("mgg", fitStrategy.c_str()) == 0 )
+		if( (massCutVersion < 2) && (strcmp("mgg", fitStrategy.c_str()) == 0) )
 		{
 	if( mass == 300 ) {
 			// mggjj cut does depend on the mass hypothesis
-			if( strcmp("", whichJet.c_str()) == 0 )
+			if( mass == 300 )
 			{
-				if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 255. || mtot_wokinfit > 330.) ) continue;
-				if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 250. || mtot_wokinfit > 325.) ) continue;
+				if( strcmp("", whichJet.c_str()) == 0 )
+				{
+					if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 255. || mtot_wokinfit > 330.) ) continue;
+					if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 250. || mtot_wokinfit > 325.) ) continue;
+				}
+				if( strcmp("reg", whichJet.c_str()) == 0 )
+				{
+					if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 250. || mtot_wokinfit > 330.) ) continue;
+					if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 265. || mtot_wokinfit > 330.) ) continue;
+				}
+				if( strcmp("kin", whichJet.c_str()) == 0 )
+				{
+					if( massCutVersion == 0)
+					{
+						if( njets_kRadionID_and_CSVM == 1 && (mtot < 290. || mtot > 315.) ) continue;
+						if( njets_kRadionID_and_CSVM >= 2 && (mtot < 285. || mtot > 315.) ) continue;
+					} else if (massCutVersion == 1) {
+						if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 255. || mtot_wokinfit > 330.) ) continue;
+						if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 250. || mtot_wokinfit > 325.) ) continue;
+					}
+				}
+				if( strcmp("regkin", whichJet.c_str()) == 0 )
+				{
+					if( massCutVersion == 0 )
+					{
+						if( njets_kRadionID_and_CSVM == 1 && (mtot < 290. || mtot > 315.) ) continue;
+						if( njets_kRadionID_and_CSVM >= 2 && (mtot < 285. || mtot > 315.) ) continue;
+					} else if (massCutVersion == 1) {
+						if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 250. || mtot_wokinfit > 330.) ) continue;
+						if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 265. || mtot_wokinfit > 330.) ) continue;
+					}
+				}
+			} else if( mass == 500  && !MGGJJ_CUT) {
+				if( strcmp("", whichJet.c_str()) == 0 )
+				{
+					if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 485. || mtot_wokinfit > 535.) ) continue;
+					if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 490. || mtot_wokinfit > 525.) ) continue;
+				}
+				if( strcmp("reg", whichJet.c_str()) == 0 )
+				{
+					if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 495. || mtot_wokinfit > 555.) ) continue;
+					if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 485. || mtot_wokinfit > 515.) ) continue;
+				}
+				if( strcmp("kin", whichJet.c_str()) == 0 )
+				{
+					if( massCutVersion == 0 )
+					{
+						if( njets_kRadionID_and_CSVM == 1 && (mtot < 505. || mtot > 540.) ) continue;
+						if( njets_kRadionID_and_CSVM >= 2 && (mtot < 495. || mtot > 510.) ) continue;
+					} else if (massCutVersion == 1) {
+						if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 485. || mtot_wokinfit > 535.) ) continue;
+						if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 490. || mtot_wokinfit > 525.) ) continue;
+					}
+				}
+				if( strcmp("regkin", whichJet.c_str()) == 0 )
+				{
+					if( massCutVersion == 0 )
+					{
+						if( njets_kRadionID_and_CSVM == 1 && (mtot < 440. || mtot > 505.) ) continue;
+						if( njets_kRadionID_and_CSVM >= 2 && (mtot < 490. || mtot > 510.) ) continue;
+					} else if (massCutVersion == 1) {
+						if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 495. || mtot_wokinfit > 555.) ) continue;
+						if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 485. || mtot_wokinfit > 515.) ) continue;
+					}
+				}
 			}
-			if( strcmp("reg", whichJet.c_str()) == 0 )
-			{
-				if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 250. || mtot_wokinfit > 330.) ) continue;
-				if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 265. || mtot_wokinfit > 330.) ) continue;
-			}
-			if( strcmp("kin", whichJet.c_str()) == 0 )
-			{
-				if( njets_kRadionID_and_CSVM == 1 && (mtot < 290. || mtot > 315.) ) continue;
-				if( njets_kRadionID_and_CSVM >= 2 && (mtot < 285. || mtot > 315.) ) continue;
-			}
-			if( strcmp("regkin", whichJet.c_str()) == 0 )
-			{
-				if( njets_kRadionID_and_CSVM == 1 && (mtot < 290. || mtot > 315.) ) continue;
-				if( njets_kRadionID_and_CSVM >= 2 && (mtot < 285. || mtot > 315.) ) continue;
-			}
-}
-			// mjj cut depends on the mass hypothesis
-			if( mass == 300 || mass == 500 )
+			// mjj cut does not depends on the mass hypothesis
+			if( mass == 300 || (mass == 500 && !MGGJJ_CUT) )
 			{
 				if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
 				{
@@ -272,56 +343,61 @@ int main(int argc, char *argv[])
 					if( njets_kRadionID_and_CSVM == 1 && (mjj_wokinfit < 85. || mjj_wokinfit > 155. ) ) continue;
 					if( njets_kRadionID_and_CSVM >= 2 && (mjj_wokinfit < 110. || mjj_wokinfit > 145. ) ) continue;
 				}
-/*			} else if ( mass == 500 ) {
+			} else {
+				cout << "WARNING, you are trying to create trees for mgg limits at points that are not 300 or 500... are you sure of what you're doing?" << endl;
+			}
+		}
+// FITTING THE MGG SPECTRUM
+		if( (massCutVersion >= 2) && (strcmp("mgg", fitStrategy.c_str()) == 0 ) )
+		{
+			if( njets_kRadionID_and_CSVM >= 2 )
+			{
+				if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
+					if( mjj_wokinfit < 95. || mjj_wokinfit > 175. ) continue;
+				if( (strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
+					if( mjj_wokinfit < 90. || mjj_wokinfit > 150. ) continue;
+			}
+			if( njets_kRadionID_and_CSVM == 1 )
+			{
+				if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
+					if( mjj_wokinfit < 100. || mjj_wokinfit > 160. ) continue;
+				if( (strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
+					if( mjj_wokinfit < 95. || mjj_wokinfit > 140. ) continue;
+			}
+			if( mass == 300 )
+			{
 				if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
 				{
-					if( njets_kRadionID_and_CSVM == 1 && (mjj_wokinfit < 90. || mjj_wokinfit > 155. ) ) continue;
-					if( njets_kRadionID_and_CSVM >= 2 && (mjj_wokinfit < 110. || mjj_wokinfit > 140. ) ) continue;
+					if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 255. || mtot_wokinfit > 320.) ) continue;
+					if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 260. || mtot_wokinfit > 335.) ) continue;
 				}
 				if( (strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
 				{
-					if( njets_kRadionID_and_CSVM == 1 && (mjj_wokinfit < 95. || mjj_wokinfit > 155. ) ) continue;
-					if( njets_kRadionID_and_CSVM >= 2 && (mjj_wokinfit < 120. || mjj_wokinfit > 145. ) ) continue;
-				}
-*/
-			} else if ( mass == 700 ) {
-				if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
-				{
-					if( njets_kRadionID_and_CSVM == 1 && (mjj_wokinfit < 100. || mjj_wokinfit > 155. ) ) continue;
-					if( njets_kRadionID_and_CSVM >= 2 && (mjj_wokinfit < 110. || mjj_wokinfit > 140. ) ) continue;
-				}
-				if( (strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
-				{
-					if( njets_kRadionID_and_CSVM == 1 && (mjj_wokinfit < 115. || mjj_wokinfit > 155. ) ) continue;
-					if( njets_kRadionID_and_CSVM >= 2 && (mjj_wokinfit < 120. || mjj_wokinfit > 145. ) ) continue;
-				}
-			} else if ( mass == 1000 ) {
-				if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
-				{
-					if( njets_kRadionID_and_CSVM == 1 && (mjj_wokinfit < 105. || mjj_wokinfit > 155. ) ) continue;
-					if( njets_kRadionID_and_CSVM >= 2 && (mjj_wokinfit < 110. || mjj_wokinfit > 155. ) ) continue;
-				}
-				if( (strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
-				{
-					if( njets_kRadionID_and_CSVM == 1 && (mjj_wokinfit < 120. || mjj_wokinfit > 170. ) ) continue;
-					if( njets_kRadionID_and_CSVM >= 2 && (mjj_wokinfit < 120. || mjj_wokinfit > 160. ) ) continue;
+					if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 260. || mtot_wokinfit > 335.) ) continue;
+					if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 265. || mtot_wokinfit > 345.) ) continue;
 				}
 			}
+			if( mass == 500 && (mtot_wokinfit < 465. || mtot_wokinfit > 535.) ) continue;
+			if( mass == 700 && (mtot_wokinfit < 660. || mtot_wokinfit > 740.) ) continue;
+			if( mass == 1000 && (mtot_wokinfit < 955. || mtot_wokinfit > 1055.) ) continue;
 		}
 
 // FITTING THE MGGJJ SPECTRUM
 		if( strcmp("mggjj", fitStrategy.c_str()) == 0 )
 		{
-			if( mgg < 120. || mgg > 130. ) continue;
+			if( mgg < 115. || mgg > 135. ) continue;
 			if( njets_kRadionID_and_CSVM >= 2 )
 			{
 				if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
-					if( mjj_wokinfit < 95. || mjj_wokinfit > 150. ) continue;
+					if( mjj_wokinfit < 100. || mjj_wokinfit > 145. ) continue;
 				if( (strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
-					if( mjj_wokinfit < 100. || mjj_wokinfit > 160. ) continue;
+					if( mjj_wokinfit < 110. || mjj_wokinfit > 150. ) continue;
 			}
 			if( njets_kRadionID_and_CSVM == 1 ) 
-				if( mjj_wokinfit < 90. || mjj_wokinfit > 170. ) continue;
+				if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
+					if( mjj_wokinfit < 80. || mjj_wokinfit > 165. ) continue;
+				if( (strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
+					if( mjj_wokinfit < 85. || mjj_wokinfit > 170. ) continue;
 		}
 
 // MGG-LIKE SELECTION FOR MAXIME TO PLAY WITH SYSTEMATICS
@@ -342,25 +418,29 @@ int main(int argc, char *argv[])
 					if( mjj_wokinfit < 95. || mjj_wokinfit > 140. ) continue;
 			}
 		}
+
+		outtree->Fill();
+	}
 		if( njets_kRadionID_and_CSVM == 1 ) n_1btag_selected++;
 		if( njets_kRadionID_and_CSVM >= 2 ) n_2btag_selected++;
-		if( njets_kRadionID_and_CSVM >= 2 ) cut_based_ct = 0;
-		if( njets_kRadionID_and_CSVM == 1 ) cut_based_ct = 1;
+		if( njets_kRadionID_and_CSVM >= 2 ) {cut_based_ct = 0; n_2btag++; n_w_2btag += evWeight_w_btagSF;}
+		if( njets_kRadionID_and_CSVM == 1 ) {cut_based_ct = 1; n_1btag++; n_w_1btag += evWeight_w_btagSF;}
 		if(MGGJJ_CUT && (njets_kRadionID_and_CSVM == 1) ) mjj_1btag.Fill(mjj_wokinfit, evWeight);
 		if(MGGJJ_CUT && (njets_kRadionID_and_CSVM >= 2) ) mjj_2btag.Fill(mjj_wokinfit, evWeight);
 		if(MGGJJ_CUT && (njets_kRadionID_and_CSVM == 1) ) mggjj_1btag.Fill(mtot, evWeight);
 		if(MGGJJ_CUT && (njets_kRadionID_and_CSVM >= 2) ) mggjj_2btag.Fill(mtot, evWeight);
-
 		outtree->Fill();
 	}
 	if(MGGJJ_CUT) cout << "ntot= " << ntot << endl;
-	if(MGGJJ_CUT) cout << "n_1btag= " << n_1btag << "\tn_1btag_selected= " << n_1btag_selected << "\teff= " << (float)n_1btag_selected / (float)n_1btag << endl;
-	if(MGGJJ_CUT) cout << "n_2btag= " << n_2btag << "\tn_2btag_selected= " << n_2btag_selected << "\teff= " << (float)n_2btag_selected / (float)n_2btag << endl;
+	if(MGGJJ_CUT) cout << "n_1btag_before_cuts= " << n_1btag_before_cuts << "\tn_1btag_selected= " << n_1btag_selected << "\teff= " << (float)n_1btag_selected / (float)n_1btag_before_cuts << endl;
+	if(MGGJJ_CUT) cout << "n_2btag_before_cuts= " << n_2btag_before_cuts << "\tn_2btag_selected= " << n_2btag_selected << "\teff= " << (float)n_2btag_selected / (float)n_2btag_before_cuts << endl;
 
 	if(MGGJJ_CUT) mjj_1btag.Write();
 	if(MGGJJ_CUT) mjj_2btag.Write();
 	if(MGGJJ_CUT) mggjj_1btag.Write();
 	if(MGGJJ_CUT) mggjj_2btag.Write();
+	cout << "n_1btag= " << n_1btag << "\tn_2btag= " << n_2btag << endl;
+	cout << "n_w_1btag= " << n_w_1btag << "\tn_w_2btag= " << n_w_2btag << endl;
 
   outfile->cd();
   outtree->Write();
