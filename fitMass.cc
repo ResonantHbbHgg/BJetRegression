@@ -32,7 +32,7 @@
 // local files
 #include "CMSStyle.C"
 // Verbosity
-#define DEBUG 0
+#define DEBUG 1
 // namespaces
 using namespace std;
 using namespace RooFit;
@@ -45,7 +45,15 @@ int main (int argc, char *argv[])
 {
   // declare arguments
   string inputfile;
+  string inputfile_reg;
   string inputtree;
+	int type;
+	int category;
+	int GAUSS;
+	int CRYSTALBALL;
+	int VOIGT;
+	int SIMVOIGT;
+
 	// print out passed arguments
   copy(argv, argv + argc, ostream_iterator<char*>(cout, " ")); cout << endl;
   // argument parsing
@@ -54,8 +62,15 @@ int main (int argc, char *argv[])
     po::options_description desc("Allowed options");
     desc.add_options()
       ("help,h", "produce help message")
-      ("inputfile,i", po::value<string>(&inputfile)->default_value("root://eoscms//eos/cms/store/cmst3/user/obondu/H2GGLOBE/Radion/trees/radion_tree_v06/Radion_Graviton_nm.root"), "input file")
-      ("inputtree,t", po::value<string>(&inputtree)->default_value("Radion_m300_8TeV_nm"), "input tree")
+      ("inputfile", po::value<string>(&inputfile)->default_value("2013-10-28_selection_noRegression_noMassCut_v01/Radion_m300_8TeV_nm_noRegression_noMassCut_v01.root"), "input file")
+      ("inputfile_reg", po::value<string>(&inputfile_reg)->default_value("2013-10-28_selection_PhilRegr1028_noMassCut_v01/Radion_m300_8TeV_nm_PhilRegr1028_noMassCut_v01.root"), "input file")
+      ("inputtree", po::value<string>(&inputtree)->default_value("Radion_m300_8TeV_nm"), "input tree")
+			("type", po::value<int>(&type)->default_value(-300), "type, same conventions as in h2gglobe: < 0 signal, data = 0, > 0 background")
+			("category", po::value<int>(&category)->default_value(-1), "category, 0: 1+2btag, 1: 1btag, 2: 2btag, -1: all")
+			("gauss", po::value<int>(&GAUSS)->default_value(0), "attempt fit with Gaussian distribution")
+			("crystalball", po::value<int>(&CRYSTALBALL)->default_value(1), "attempt fit with Crystal-Ball distribution")
+			("voigt", po::value<int>(&VOIGT)->default_value(0), "attempt fit with Voigtian distribution")
+			("simvoigt", po::value<int>(&SIMVOIGT)->default_value(0), "attempt fit with simultaneous Voigtian distribution")
     ;
     po::variables_map vm;
     po::store(po::parse_command_line(argc, argv, desc), vm);
@@ -73,7 +88,19 @@ int main (int argc, char *argv[])
   // end of argument parsing
   //################################################
 
-  if(DEBUG) cout << "End of argument parsing" << endl;
+  if(DEBUG)
+	{
+		cout << "End of argument parsing" << endl;
+	  cout << "inputfile= " << inputfile << endl;
+	  cout << "inputfile_reg= " << inputfile_reg << endl;
+	  cout << "inputtree=" << inputtree << endl;
+		cout << "type= " << type << endl;
+		cout << "category= " << category << endl;
+		cout << "GAUSS= " << GAUSS << endl;
+		cout << "CRYSTALBALL= " << CRYSTALBALL << endl;
+		cout << "VOIGT= " << VOIGT << endl;
+		cout << "SIMVOIGT= " << SIMVOIGT << endl;
+	}
 
 	gROOT->Reset();
 	gROOT->ProcessLine(".x setTDRStyle.C");
@@ -81,59 +108,91 @@ int main (int argc, char *argv[])
 	gStyle->SetOptTitle(0);
 	gStyle->SetOptStat(0);
 
+	if(DEBUG) cout << "Setup input files and such" << endl;
 //	TFile *infile = TFile::Open("simple_genjet.root");
 //	TFile *infile = TFile::Open("simple_genjet_globeinputs.root");
-	TFile *infile = TFile::Open("2013-10-28_selection_noRegression_noMassCut_v01/Radion_m300_8TeV_nm_noRegression_noMassCut_v01.root");
+//	TFile *infile = TFile::Open("2013-10-28_selection_noRegression_noMassCut_v01/Radion_m300_8TeV_nm_noRegression_noMassCut_v01.root");
+	TFile *infile = TFile::Open(inputfile.c_str());
 //	TFile *infile = TFile::Open("simple_parton.root");
-	TTree *intree = (TTree*)infile->Get("Radion_m300_8TeV_nm");
+//	TTree *intree = (TTree*)infile->Get("Radion_m300_8TeV_nm");
+	TTree *intree = (TTree*)infile->Get(inputtree.c_str());
 //	TFile *infilereg = TFile::Open("simple_reg_genjet.root");
-	TFile *infilereg = TFile::Open("2013-10-28_selection_PhilRegr1028_noMassCut_v01/Radion_m300_8TeV_nm_PhilRegr1028_noMassCut_v01.root");
+	TFile *infilereg = TFile::Open(inputfile_reg.c_str());
 //	TFile *infilereg = TFile::Open("simple_reg_parton.root");
-	TTree *intreereg = (TTree*)infilereg->Get("Radion_m300_8TeV_nm");
+	TTree *intreereg = (TTree*)infilereg->Get(inputtree.c_str());
 	ofstream outfile_mjj, outfile_mggjj;
-	outfile_mjj.open("performanceSummary_mjj.txt");
-	outfile_mggjj.open("performanceSummary_mggjj.txt");
+	outfile_mjj.open(Form("%s_performanceSummary_mjj.txt", inputtree.c_str()));
+	outfile_mggjj.open(Form("%s_performanceSummary_mggjj.txt", inputtree.c_str()));
 	outfile_mjj << "Category\tMethod\tmu\tsigma\tres\tmu_reg\tsigma_reg\tres_reg\timprovement" << endl;
 	outfile_mggjj << "Category\tMethod\tmu\tsigma\tres\tmu_reg\tsigma_reg\tres_reg\timprovement" << endl;
-	
+
+	if(DEBUG) cout << "Setup RooRealVar" << endl;	
 	// Observables
 	float min_jj = 70.;
 	float max_jj = 250.;
-	float min_ggjj = 200.;
-	float max_ggjj = 400.;
+	float min_ggjj = fabs(type) - 100.;
+	float max_ggjj = fabs(type) + 100.;
+	cout << "min_ggjj= " << min_ggjj << "\tmax_ggjj= " << max_ggjj << endl;
+	float xsec = 1.;
+	if(fabs(type) == 300) xsec = 2. * 1.28e-03;
+	else if(fabs(type) == 500) xsec = 2. * 2.64e-04;
+	else if(fabs(type) == 700) xsec = 2. * 7.76e-05;
+	else if(fabs(type) == 1000) xsec = 2. * 1.70e-05;
+	if(DEBUG) cout << "xsec= " << xsec << endl;
 	RooRealVar jj_mass("jj_mass", "m_{jj}", min_jj, max_jj, "GeV");
 	jj_mass.setBins(45);
-	RooRealVar ggjj_mass("ggjj_mass", "m_{jj#gamma#gamma}", 200., 400., "GeV");
-	ggjj_mass.setBins(50);
+	RooRealVar ggjj_mass("ggjj_mass", "m_{jj#gamma#gamma}", min_ggjj, max_ggjj, "GeV");
+	ggjj_mass.setBins(40);
 	RooRealVar njets_kRadionID_and_CSVM("njets_kRadionID_and_CSVM", "njets_kRadionID_and_CSVM", 0, 10);
+	RooRealVar event("event", "event", 0., 100000.);
+	RooRealVar evweight("evweight", "evweight", 0., 100.);
 	TCanvas *c1 = new TCanvas("c1", "c1", 600, 600);
 
-	bool GAUSS = true;
-	bool CRYSTALBALL = true;
-	bool VOIGT = true;
-	bool SIMVOIGT = false;
+	if(DEBUG) cout << "Setup categories to be processed" << endl;
+	vector<string> categoryCut; categoryCut.clear();
+	vector<string> categoryName; categoryName.clear();
 
-	vector<string> categoryCut;
-	categoryCut.clear();
-	vector<string> categoryName;
-	categoryName.clear();
+	if(category < 0 || category == 0)
+	{
+		categoryCut.push_back(Form("jj_mass > %f && jj_mass < %f && ggjj_mass > %f && ggjj_mass < %f", min_jj, max_jj, min_ggjj, max_ggjj));
+		categoryName.push_back("allcat");
+	}
+	if(category < 0 || category == 1)
+	{
+		categoryCut.push_back(Form("njets_kRadionID_and_CSVM < 1.5 && jj_mass > %f && jj_mass < %f && ggjj_mass > %f && ggjj_mass < %f", min_jj, max_jj, min_ggjj, max_ggjj));
+		categoryName.push_back("1btag");
+	}
+	if(category < 0 || category == 2)
+	{
+		categoryCut.push_back(Form("njets_kRadionID_and_CSVM > 1.5 && jj_mass > %f && jj_mass < %f && ggjj_mass > %f && ggjj_mass < %f", min_jj, max_jj, min_ggjj, max_ggjj));
+		categoryName.push_back("2btag");
+	}
 
-	categoryCut.push_back(Form("jj_mass > %f && jj_mass < %f && ggjj_mass > %f && ggjj_mass < %f", min_jj, max_jj, min_ggjj, max_ggjj));
-	categoryName.push_back("allcat");
-/*	categoryCut.push_back(Form("njets_kRadionID_and_CSVM < 1.5 && jj_mass > %f && jj_mass < %f && ggjj_mass > %f && ggjj_mass < %f", min_jj, max_jj, min_ggjj, max_ggjj));
-	categoryName.push_back("1btag");
-	categoryCut.push_back(Form("njets_kRadionID_and_CSVM > 1.5 && jj_mass > %f && jj_mass < %f && ggjj_mass > %f && ggjj_mass < %f", min_jj, max_jj, min_ggjj, max_ggjj));
-	categoryName.push_back("2btag");
-	*/
+	string global_cut = "";
+	if(type < -250) global_cut = "(event % 2 == 1)"; // safety, should already be applied in the input trees
 
 	for(int icat = 0 ; icat < (int)categoryCut.size() ; icat++)
 	{
 		// datatset definition depend on category
-		RooDataSet full_dataset("radion", "radion", intree, RooArgList(jj_mass, ggjj_mass, njets_kRadionID_and_CSVM));
-		RooDataSet full_datasetreg("radion", "radion", intreereg, RooArgList(jj_mass, ggjj_mass, njets_kRadionID_and_CSVM));
+		if(DEBUG) cout << "Setup unweighted datasets" << endl;
+		RooDataSet full_dataset_unw("radion_dataset_unw", "radion_dataset_unw", intree, RooArgList(jj_mass, ggjj_mass, njets_kRadionID_and_CSVM, event, evweight), global_cut.c_str());
+		RooDataSet full_datasetreg_unw("radion_datasetreg_unw", "radion_datasetreg_unw", intreereg, RooArgList(jj_mass, ggjj_mass, njets_kRadionID_and_CSVM, event, evweight), global_cut.c_str());
+		if(DEBUG) cout << "Setup weight variables" << endl;
+		RooFormulaVar xsec_evweight("xsec_evweight", "xsec_evweight", Form("@0 * %f", xsec), RooArgList(evweight)); 
+		RooRealVar *xsec_evweight_var = (RooRealVar*)full_dataset_unw.addColumn(xsec_evweight);
+		RooRealVar *xsec_evweight_var_reg = (RooRealVar*)full_datasetreg_unw.addColumn(xsec_evweight);
+		if(DEBUG) cout << "Setup weighted datasets" << endl;
+		RooDataSet full_dataset("radion_dataset", "radion_dataset", RooArgList(jj_mass, ggjj_mass, njets_kRadionID_and_CSVM, event, evweight, *xsec_evweight_var), Import(full_dataset_unw), WeightVar(*xsec_evweight_var));
+		RooDataSet full_datasetreg("radion_datasetreg", "radion_datasetreg", RooArgList(jj_mass, ggjj_mass, njets_kRadionID_and_CSVM, event, evweight, *xsec_evweight_var_reg), Import(full_datasetreg_unw), WeightVar(*xsec_evweight_var_reg));
+		// reduced unweighted datasets (to compute rms and stuff)
+		RooDataSet dataset_unw = *((RooDataSet*)full_dataset_unw.reduce(categoryCut[icat].c_str()));	
+		RooDataSet datasetreg_unw = *((RooDataSet*)full_datasetreg_unw.reduce(categoryCut[icat].c_str()));	
+		// reduced weighted datasets (for the actual fit)
 		RooDataSet dataset = *((RooDataSet*)full_dataset.reduce(categoryCut[icat].c_str()));	
 		RooDataSet datasetreg = *((RooDataSet*)full_datasetreg.reduce(categoryCut[icat].c_str()));	
 
+		if(DEBUG) cout << "Compute mean rms and such" << endl;
+/*
 		float mean_jj = dataset.mean(jj_mass);
 		float mean_regjj = datasetreg.mean(jj_mass);
 		float rms_jj = dataset.rmsVar(jj_mass)->getVal();
@@ -143,6 +202,16 @@ int main (int argc, char *argv[])
 		float mean_regggjj = datasetreg.mean(ggjj_mass);
 		float rms_ggjj = dataset.rmsVar(ggjj_mass)->getVal();
 		float rms_regggjj = datasetreg.rmsVar(ggjj_mass)->getVal();
+*/
+		float mean_jj = dataset_unw.mean(jj_mass);
+		float mean_regjj = datasetreg_unw.mean(jj_mass);
+		float rms_jj = dataset_unw.rmsVar(jj_mass)->getVal();
+		float rms_regjj = datasetreg_unw.rmsVar(jj_mass)->getVal();
+	
+		float mean_ggjj = dataset_unw.mean(ggjj_mass);
+		float mean_regggjj = datasetreg_unw.mean(ggjj_mass);
+		float rms_ggjj = dataset_unw.rmsVar(ggjj_mass)->getVal();
+		float rms_regggjj = datasetreg_unw.rmsVar(ggjj_mass)->getVal();
 
 		pair<float, float> ms_jj = make_pair(0., 0.);
 		pair<float, float> ms_regjj = make_pair(0., 0.);
@@ -252,8 +321,16 @@ int main (int argc, char *argv[])
 			// - gauss fit of the peak
 			// - gauss + pol3 fit of the full range
 			// - CB + pol3 fit of the full range
-			
+
+			if(DEBUG)
+			{
+				cout << "mean_jj= " << mean_jj << "\trms_jj= " << rms_jj << endl;
+				cout << "mean_regjj= " << mean_regjj << "\trms_regjj= " << rms_regjj << endl;
+				cout << "mean_ggjj= " << mean_ggjj << "\trms_ggjj= " << rms_ggjj << endl;
+				cout << "mean_regggjj= " << mean_regggjj << "\trms_regggjj= " << rms_regggjj << endl;
+			}			
 			// Define pol3
+			if(DEBUG) cout << "Define pol3" << endl;
 			RooRealVar a0_jj("a0_jj", "a0_jj", 0.5001, 0., 1.);
 			RooRealVar a1_jj("a1_jj", "a1_jj", 0.5001, 0., 1.);
 			RooRealVar a2_jj("a2_jj", "a2_jj", 0.5001, 0., 1.);
@@ -269,6 +346,7 @@ int main (int argc, char *argv[])
 			RooRealVar f0_regjj("f0_regjj", "f0_regjj", 0.2, 0.001, .5);
 		
 			// Define gauss and CB (common parameters)
+			if(DEBUG) cout << "Define Gauss and CB" << endl;
 			RooRealVar mu_CrystalBall_jj("mu_CrystalBall_jj", "#mu", mean_jj, mean_jj-rms_jj, mean_jj+rms_jj, "GeV");
 			RooRealVar sigma_CrystalBall_jj("sigma_CrystalBall_jj", "#sigma", rms_jj, .01*rms_jj, 5*rms_jj, "GeV");
 			RooRealVar alpha_CrystalBall_jj("alpha_CrystalBall_jj", "#alpha", 1., 0., 30., "GeV");
@@ -284,51 +362,63 @@ int main (int argc, char *argv[])
 			RooGaussian gauss_regjj("gauss_regjj", "gauss_regjj", jj_mass, mu_CrystalBall_regjj, sigma_CrystalBall_regjj);
 		
 			// Models definitions
+			if(DEBUG) cout << "Model definitions" << endl;
 			RooAddPdf first_jj("first_jj", "first_jj", pol3_jj, gauss_jj, f0_jj);
 			RooAddPdf model_jj("model_jj", "model_jj", pol3_jj, CrystalBall_jj, f0_jj);
 		
 			RooAddPdf first_regjj("first_regjj", "first_regjj", pol3_regjj, gauss_regjj, f0_regjj);
 			RooAddPdf model_regjj("model_regjj", "model_regjj", pol3_regjj, CrystalBall_regjj, f0_regjj);
-		
+	
+			if(DEBUG) cout << "Define frame" << endl;	
 			RooPlot * jj_frame = jj_mass.frame();
 			// plot data
+			if(DEBUG) cout << "Plot data" << endl;
 			dataset.plotOn(jj_frame, LineColor(kGreen+3), MarkerColor(kGreen+3), XErrorSize(0));
 			datasetreg.plotOn(jj_frame, LineColor(kRed+2), MarkerColor(kRed+2), MarkerStyle(23), XErrorSize(0));
 			// first: gaussian fit
-			gauss_jj.fitTo(dataset, Save(), Range(mean_jj-1.5*rms_jj, mean_jj+1.5*rms_jj));
-			gauss_regjj.fitTo(dataset, Save(), Range(mean_regjj-1.5*rms_regjj, mean_regjj+1.5*rms_regjj));
+			if(DEBUG) cout << "Gaussian fit" << endl;
+			gauss_jj.fitTo(dataset, Save(), Range(mean_jj-1.5*rms_jj, mean_jj+1.5*rms_jj), SumW2Error(kTRUE));
+			gauss_regjj.fitTo(dataset, Save(), Range(mean_regjj-1.5*rms_regjj, mean_regjj+1.5*rms_regjj), SumW2Error(kTRUE));
 			// then, pol3 fit
-			pol3_jj.fitTo(dataset, Save());
-			pol3_regjj.fitTo(dataset, Save());
+			if(DEBUG) cout << "pol3 fit" << endl;
+			pol3_jj.fitTo(dataset, Save(), SumW2Error(kTRUE));
+			pol3_regjj.fitTo(dataset, Save(), SumW2Error(kTRUE));
 			// then pol + gauss fit
-			first_jj.fitTo(dataset, Save());
+			if(DEBUG) cout << "pol+gauss fit" << endl;
+			first_jj.fitTo(dataset, Save(), SumW2Error(kTRUE));
 		//	first_jj.plotOn(jj_frame, LineColor(kBlue), LineWidth(2));
-			first_regjj.fitTo(datasetreg, Save());
+			first_regjj.fitTo(datasetreg, Save(), SumW2Error(kTRUE));
 		//	first_regjj.plotOn(jj_frame, LineColor(kBlue), LineWidth(2));
 			// finally, CB + pol fit
-			RooFitResult *f = model_jj.fitTo(dataset, Save());
-			RooFitResult *freg = model_regjj.fitTo(datasetreg, Save());
+			if(DEBUG) cout << "CB + pol fit" << endl;
+			RooFitResult *f = model_jj.fitTo(dataset, Save(), SumW2Error(kTRUE));
+			RooFitResult *freg = model_regjj.fitTo(datasetreg, Save(), SumW2Error(kTRUE));
+			if(DEBUG) cout << "Plot fit results" << endl;
 			model_jj.plotOn(jj_frame, LineColor(kGreen+3), LineWidth(2));
 			model_regjj.plotOn(jj_frame, LineColor(kRed+2), LineWidth(2));
 			RooArgList p = f->floatParsFinal();
 			RooArgList preg = freg->floatParsFinal();	
 			jj_frame->Draw();
+			if(DEBUG) cout << "Get resolutions" << endl;
 			double res = sigma_CrystalBall_jj.getVal()/mu_CrystalBall_jj.getVal()*100.;
 			double resreg = sigma_CrystalBall_regjj.getVal()/mu_CrystalBall_regjj.getVal()*100.;
 			// printing out plot parameters + creating plots
+			if(DEBUG) cout << "plot parameters" << endl;
 			plotParameters( &p, c1, 0, jj_frame, true, 1, "CrystalBall+Pol3", 98, 99, 2);
 			plotParameters( &preg, c1, 0, jj_frame, true, 3, "test", sigma_CrystalBall_jj.getVal()/mu_CrystalBall_jj.getVal()*100., sigma_CrystalBall_regjj.getVal()/mu_CrystalBall_regjj.getVal()*100., 2);
+			if(DEBUG) cout << "save canvas" << endl;
 			c1->Print(Form("pdf/mjj_CrystalBall_%s.pdf", categoryName[icat].c_str()));
 			c1->Print(Form("root/mjj_CrystalBall_%s.root", categoryName[icat].c_str()));
 			c1->Print(Form("gif/mjj_CrystalBall_%s.gif", categoryName[icat].c_str()));
 			c1->Clear();
+			if(DEBUG) cout << "Save numbers to files" << endl;
 	//		outfile_mjj << "Category\tMethod\tmu\tsigma\tres\tmu_reg\tsigma_reg\tres_reg\timprovement" << endl;
 			outfile_mjj << setprecision (2) << fixed << categoryName[icat] << "\tCrystalBall"
 				<< "\t" << mu_CrystalBall_jj.getVal() << "\t" << sigma_CrystalBall_jj.getVal() << "\t" << sigma_CrystalBall_jj.getVal() / mu_CrystalBall_jj.getVal() * 100.
 				<< "\t" << mu_CrystalBall_regjj.getVal() << "\t" << sigma_CrystalBall_regjj.getVal() << "\t" << sigma_CrystalBall_regjj.getVal() / mu_CrystalBall_regjj.getVal() * 100.
 				<< "\t" << - (resreg - res) / res * 100.
 				<< endl;
-		
+		if(DEBUG) cout << "Now going to mggjj fit" << endl;
 		// M_jjgg
 			// Define pol3
 			RooRealVar a0_ggjj("a0_ggjj", "a0_ggjj", 0.5001, 0., 1.);
@@ -589,7 +679,10 @@ int main (int argc, char *argv[])
 				<< "\t" << - (resreg_ - res_) / res_ * 100.
 				<< endl;
 			} // end of if SIMVOIGT
-		
+
+	if(DEBUG) cout << "Go to next category" << endl;	
+	xsec_evweight_var = 0; 
+	xsec_evweight_var_reg = 0; 
 	}// end of loop over categories
 
 	outfile_mjj.close();
