@@ -121,8 +121,8 @@ int main (int argc, char *argv[])
 //	TFile *infilereg = TFile::Open("simple_reg_parton.root");
 	TTree *intreereg = (TTree*)infilereg->Get(inputtree.c_str());
 	ofstream outfile_mjj, outfile_mggjj;
-	outfile_mjj.open(Form("%s_performanceSummary_mjj.txt", inputtree.c_str()));
-	outfile_mggjj.open(Form("%s_performanceSummary_mggjj.txt", inputtree.c_str()));
+	outfile_mjj.open(Form("Radion_m%i_performanceSummary_mjj.txt", (int)fabs(type)));
+	outfile_mggjj.open(Form("Radion_m%i_performanceSummary_mggjj.txt", (int)fabs(type)));
 	outfile_mjj << "Category\tMethod\tmu\tsigma\tres\tmu_reg\tsigma_reg\tres_reg\timprovement" << endl;
 	outfile_mggjj << "Category\tMethod\tmu\tsigma\tres\tmu_reg\tsigma_reg\tres_reg\timprovement" << endl;
 
@@ -134,18 +134,18 @@ int main (int argc, char *argv[])
 	float max_ggjj = fabs(type) + 100.;
 	cout << "min_ggjj= " << min_ggjj << "\tmax_ggjj= " << max_ggjj << endl;
 	float xsec = 1.;
-	if(fabs(type) == 300) xsec = 2. * 1.28e-03;
-	else if(fabs(type) == 500) xsec = 2. * 2.64e-04;
-	else if(fabs(type) == 700) xsec = 2. * 7.76e-05;
-	else if(fabs(type) == 1000) xsec = 2. * 1.70e-05;
+	if(fabs(type) == 300) xsec = 1.28e-03;
+	else if(fabs(type) == 500) xsec = 2.64e-04;
+	else if(fabs(type) == 700) xsec = 7.76e-05;
+	else if(fabs(type) == 1000) xsec = 1.70e-05;
 	if(DEBUG) cout << "xsec= " << xsec << endl;
-	RooRealVar jj_mass("jj_mass", "m_{jj}", min_jj, max_jj, "GeV");
-	jj_mass.setBins(45);
-	RooRealVar ggjj_mass("ggjj_mass", "m_{jj#gamma#gamma}", min_ggjj, max_ggjj, "GeV");
+	RooRealVar jj_mass("mjj", "m_{jj}", min_jj, max_jj, "GeV");
+	jj_mass.setBins(36);
+	RooRealVar ggjj_mass("mtot", "m_{jj#gamma#gamma}", min_ggjj, max_ggjj, "GeV");
 	ggjj_mass.setBins(40);
-	RooRealVar njets_kRadionID_and_CSVM("njets_kRadionID_and_CSVM", "njets_kRadionID_and_CSVM", 0, 10);
+	RooRealVar cut_based_ct("cut_based_ct", "cut_based_ct", 0, 10);
 	RooRealVar event("event", "event", 0., 100000.);
-	RooRealVar evweight("evweight", "evweight", 0., 100.);
+	RooRealVar evweight("evWeight_wo_btagSF", "evWeight_wo_btagSF", 0., 100.);
 	TCanvas *c1 = new TCanvas("c1", "c1", 600, 600);
 
 	if(DEBUG) cout << "Setup categories to be processed" << endl;
@@ -154,17 +154,17 @@ int main (int argc, char *argv[])
 
 	if(category < 0 || category == 0)
 	{
-		categoryCut.push_back(Form("jj_mass > %f && jj_mass < %f && ggjj_mass > %f && ggjj_mass < %f", min_jj, max_jj, min_ggjj, max_ggjj));
+		categoryCut.push_back(Form("mjj > %f && mjj < %f && mtot > %f && mtot < %f", min_jj, max_jj, min_ggjj, max_ggjj));
 		categoryName.push_back("allcat");
 	}
 	if(category < 0 || category == 1)
 	{
-		categoryCut.push_back(Form("njets_kRadionID_and_CSVM < 1.5 && jj_mass > %f && jj_mass < %f && ggjj_mass > %f && ggjj_mass < %f", min_jj, max_jj, min_ggjj, max_ggjj));
+		categoryCut.push_back(Form("cut_based_ct > 0.5 && mjj > %f && mjj < %f && mtot > %f && mtot < %f", min_jj, max_jj, min_ggjj, max_ggjj));
 		categoryName.push_back("1btag");
 	}
 	if(category < 0 || category == 2)
 	{
-		categoryCut.push_back(Form("njets_kRadionID_and_CSVM > 1.5 && jj_mass > %f && jj_mass < %f && ggjj_mass > %f && ggjj_mass < %f", min_jj, max_jj, min_ggjj, max_ggjj));
+		categoryCut.push_back(Form("cut_based_ct < 0.5 && mjj > %f && mjj < %f && mtot > %f && mtot < %f", min_jj, max_jj, min_ggjj, max_ggjj));
 		categoryName.push_back("2btag");
 	}
 
@@ -175,15 +175,15 @@ int main (int argc, char *argv[])
 	{
 		// datatset definition depend on category
 		if(DEBUG) cout << "Setup unweighted datasets" << endl;
-		RooDataSet full_dataset_unw("radion_dataset_unw", "radion_dataset_unw", intree, RooArgList(jj_mass, ggjj_mass, njets_kRadionID_and_CSVM, event, evweight), global_cut.c_str());
-		RooDataSet full_datasetreg_unw("radion_datasetreg_unw", "radion_datasetreg_unw", intreereg, RooArgList(jj_mass, ggjj_mass, njets_kRadionID_and_CSVM, event, evweight), global_cut.c_str());
+		RooDataSet full_dataset_unw("radion_dataset_unw", "radion_dataset_unw", intree, RooArgList(jj_mass, ggjj_mass, cut_based_ct, event, evweight), global_cut.c_str());
+		RooDataSet full_datasetreg_unw("radion_datasetreg_unw", "radion_datasetreg_unw", intreereg, RooArgList(jj_mass, ggjj_mass, cut_based_ct, event, evweight), global_cut.c_str());
 		if(DEBUG) cout << "Setup weight variables" << endl;
 		RooFormulaVar xsec_evweight("xsec_evweight", "xsec_evweight", Form("@0 * %f", xsec), RooArgList(evweight)); 
 		RooRealVar *xsec_evweight_var = (RooRealVar*)full_dataset_unw.addColumn(xsec_evweight);
 		RooRealVar *xsec_evweight_var_reg = (RooRealVar*)full_datasetreg_unw.addColumn(xsec_evweight);
 		if(DEBUG) cout << "Setup weighted datasets" << endl;
-		RooDataSet full_dataset("radion_dataset", "radion_dataset", RooArgList(jj_mass, ggjj_mass, njets_kRadionID_and_CSVM, event, evweight, *xsec_evweight_var), Import(full_dataset_unw), WeightVar(*xsec_evweight_var));
-		RooDataSet full_datasetreg("radion_datasetreg", "radion_datasetreg", RooArgList(jj_mass, ggjj_mass, njets_kRadionID_and_CSVM, event, evweight, *xsec_evweight_var_reg), Import(full_datasetreg_unw), WeightVar(*xsec_evweight_var_reg));
+		RooDataSet full_dataset("radion_dataset", "radion_dataset", RooArgList(jj_mass, ggjj_mass, cut_based_ct, event, evweight, *xsec_evweight_var), Import(full_dataset_unw), WeightVar(*xsec_evweight_var));
+		RooDataSet full_datasetreg("radion_datasetreg", "radion_datasetreg", RooArgList(jj_mass, ggjj_mass, cut_based_ct, event, evweight, *xsec_evweight_var_reg), Import(full_datasetreg_unw), WeightVar(*xsec_evweight_var_reg));
 		// reduced unweighted datasets (to compute rms and stuff)
 		RooDataSet dataset_unw = *((RooDataSet*)full_dataset_unw.reduce(categoryCut[icat].c_str()));	
 		RooDataSet datasetreg_unw = *((RooDataSet*)full_datasetreg_unw.reduce(categoryCut[icat].c_str()));	
@@ -218,10 +218,10 @@ int main (int argc, char *argv[])
 		pair<float, float> ms_ggjj = make_pair(0., 0.);
 		pair<float, float> ms_regggjj = make_pair(0., 0.);
 
-		ms_jj = sigmaEff(intree, "jj_mass", categoryCut[icat]);
-		ms_regjj = sigmaEff(intreereg, "jj_mass", categoryCut[icat]);
-		ms_ggjj = sigmaEff(intree, "ggjj_mass", categoryCut[icat]);
-		ms_regggjj = sigmaEff(intreereg, "ggjj_mass", categoryCut[icat]);
+		ms_jj = sigmaEff(intree, "mjj", categoryCut[icat]);
+		ms_regjj = sigmaEff(intreereg, "mjj", categoryCut[icat]);
+		ms_ggjj = sigmaEff(intree, "mtot", categoryCut[icat]);
+		ms_regggjj = sigmaEff(intreereg, "mtot", categoryCut[icat]);
 
 		cout << "ncor: " << "\tmean= " << ms_jj.first << "\tsigma= " << ms_jj.second << "\tres= " << ms_jj.second / ms_jj.first * 100. << endl;
 		cout << "cor: " << "\tmean= " << ms_regjj.first << "\tsigma= " << ms_regjj.second << "\tres= " << ms_regjj.second / ms_regjj.first * 100. << endl;
@@ -275,9 +275,9 @@ int main (int argc, char *argv[])
 			float resreg = sigma_gaussreg.getVal() / mu_gaussreg.getVal() * 100.;
 			plotParameters( &p, c1, 0, jj_frame, true, 1, "Gaussian", 98, 99, 2);
 			plotParameters( &preg, c1, 0, jj_frame, true, 3, "test", res, resreg, 2);
-			c1->Print(Form("pdf/mjj_gauss_%s.pdf", categoryName[icat].c_str()));
-			c1->Print(Form("root/mjj_gauss_%s.root", categoryName[icat].c_str()));
-			c1->Print(Form("gif/mjj_gauss_%s.gif", categoryName[icat].c_str()));
+			c1->Print(Form("pdf/Radion_m%i_mjj_gauss_%s.pdf", (int)fabs(type), categoryName[icat].c_str()));
+			c1->Print(Form("root/Radion_m%i_mjj_gauss_%s.root", (int)fabs(type), categoryName[icat].c_str()));
+			c1->Print(Form("gif/Radion_m%i_mjj_gauss_%s.gif", (int)fabs(type), categoryName[icat].c_str()));
 			c1->Clear();
 //		outfile_mjj << "Category\tMethod\tmu\tsigma\tres\tmu_reg\tsigma_reg\tres_reg\timprovement" << endl;
 			outfile_mjj << setprecision (2) << fixed << categoryName[icat] << "\tGauss"
@@ -300,9 +300,9 @@ int main (int argc, char *argv[])
 			float resreg_ = sigma_gauss_reg.getVal() / mu_gauss_reg.getVal() * 100.;
 			plotParameters( &p_, c1, 0, ggjj_frame, true, 1, "Gaussian", 98, 99, 2);
 			plotParameters( &preg_, c1, 0, ggjj_frame, true, 3, "test", res_, resreg_, 2);
-			c1->Print(Form("pdf/mggjj_gauss_%s.pdf", categoryName[icat].c_str()));
-			c1->Print(Form("root/mggjj_gauss_%s.root", categoryName[icat].c_str()));
-			c1->Print(Form("gif/mggjj_gauss_%s.gif", categoryName[icat].c_str()));
+			c1->Print(Form("pdf/Radion_m%i_mggjj_gauss_%s.pdf", (int)fabs(type), categoryName[icat].c_str()));
+			c1->Print(Form("root/Radion_m%i_mggjj_gauss_%s.root", (int)fabs(type), categoryName[icat].c_str()));
+			c1->Print(Form("gif/Radion_m%i_mggjj_gauss_%s.gif", (int)fabs(type), categoryName[icat].c_str()));
 			c1->Clear();
 		
 			cout << "res= " << res << "\tresreg= " << resreg << "\timprov= " << fabs(res-resreg)/res*100. << endl;
@@ -407,9 +407,9 @@ int main (int argc, char *argv[])
 			plotParameters( &p, c1, 0, jj_frame, true, 1, "CrystalBall+Pol3", 98, 99, 2);
 			plotParameters( &preg, c1, 0, jj_frame, true, 3, "test", sigma_CrystalBall_jj.getVal()/mu_CrystalBall_jj.getVal()*100., sigma_CrystalBall_regjj.getVal()/mu_CrystalBall_regjj.getVal()*100., 2);
 			if(DEBUG) cout << "save canvas" << endl;
-			c1->Print(Form("pdf/mjj_CrystalBall_%s.pdf", categoryName[icat].c_str()));
-			c1->Print(Form("root/mjj_CrystalBall_%s.root", categoryName[icat].c_str()));
-			c1->Print(Form("gif/mjj_CrystalBall_%s.gif", categoryName[icat].c_str()));
+			c1->Print(Form("pdf/Radion_m%i_mjj_CrystalBall_%s.pdf", (int)fabs(type), categoryName[icat].c_str()));
+			c1->Print(Form("root/Radion_m%i_mjj_CrystalBall_%s.root", (int)fabs(type), categoryName[icat].c_str()));
+			c1->Print(Form("gif/Radion_m%i_mjj_CrystalBall_%s.gif", (int)fabs(type), categoryName[icat].c_str()));
 			c1->Clear();
 			if(DEBUG) cout << "Save numbers to files" << endl;
 	//		outfile_mjj << "Category\tMethod\tmu\tsigma\tres\tmu_reg\tsigma_reg\tres_reg\timprovement" << endl;
@@ -483,9 +483,9 @@ int main (int argc, char *argv[])
 			// printing out plot parameters + creating plots
 			plotParameters( &pggjj, c1, 0, ggjj_frame, true, 1, "CrystalBall+Pol3", 98, 99, 2);
 			plotParameters( &pregggjj, c1, 0, ggjj_frame, true, 3, "test", sigma_CrystalBall_ggjj.getVal()/mu_CrystalBall_ggjj.getVal()*100., sigma_CrystalBall_regggjj.getVal()/mu_CrystalBall_regggjj.getVal()*100., 2);
-			c1->Print(Form("pdf/mggjj_CrystalBall_%s.pdf", categoryName[icat].c_str()));
-			c1->Print(Form("root/mggjj_CrystalBall_%s.root", categoryName[icat].c_str()));
-			c1->Print(Form("gif/mggjj_CrystalBall_%s.gif", categoryName[icat].c_str()));
+			c1->Print(Form("pdf/Radion_m%i_mggjj_CrystalBall_%s.pdf", (int)fabs(type), categoryName[icat].c_str()));
+			c1->Print(Form("root/Radion_m%i_mggjj_CrystalBall_%s.root", (int)fabs(type), categoryName[icat].c_str()));
+			c1->Print(Form("gif/Radion_m%i_mggjj_CrystalBall_%s.gif", (int)fabs(type), categoryName[icat].c_str()));
 			c1->Clear();
 			double res_ = sigma_CrystalBall_ggjj.getVal()/mu_CrystalBall_ggjj.getVal()*100.;
 			double resreg_ = sigma_CrystalBall_regggjj.getVal()/mu_CrystalBall_regggjj.getVal()*100.;
@@ -531,9 +531,9 @@ int main (int argc, char *argv[])
 		  float resreg=  fvreg / mu_voigtreg.getVal() * 100. / (2. * sqrt(2. * log(2.)));
 			plotParameters( &p, c1, 0, jj_frame, true, 1, "Voigtian", 98, 99, 2);
 			plotParameters( &preg, c1, 0, jj_frame, true, 4, "test", res, resreg, 2);
-			c1->Print(Form("pdf/mjj_voigt_%s.pdf", categoryName[icat].c_str()));
-			c1->Print(Form("root/mjj_voigt_%s.root", categoryName[icat].c_str()));
-			c1->Print(Form("gif/mjj_voigt_%s.gif", categoryName[icat].c_str()));
+			c1->Print(Form("pdf/Radion_m%i_mjj_voigt_%s.pdf", (int)fabs(type), categoryName[icat].c_str()));
+			c1->Print(Form("root/Radion_m%i_mjj_voigt_%s.root", (int)fabs(type), categoryName[icat].c_str()));
+			c1->Print(Form("gif/Radion_m%i_mjj_voigt_%s.gif", (int)fabs(type), categoryName[icat].c_str()));
 			c1->Clear();
 			//		outfile_mjj << "Category\tMethod\tmu\tsigma\tres\tmu_reg\tsigma_reg\tres_reg\timprovement" << endl;
 			outfile_mjj << setprecision (2) << fixed << categoryName[icat] << "\tVoigt"
@@ -572,9 +572,9 @@ int main (int argc, char *argv[])
 			float resreg_=  fvreg_ / mu_voigt_reg.getVal() * 100. / (2. * sqrt(2. * log(2.)));
 			plotParameters( &p_, c1, 0, ggjj_frame, true, 1, "Voigtian", 98, 99, 2);
 			plotParameters( &preg_, c1, 0, ggjj_frame, true, 4, "test", res_, resreg_, 2);
-			c1->Print(Form("pdf/mggjj_voigt_%s.pdf", categoryName[icat].c_str()));
-			c1->Print(Form("root/mggjj_voigt_%s.root", categoryName[icat].c_str()));
-			c1->Print(Form("gif/mggjj_voigt_%s.gif", categoryName[icat].c_str()));
+			c1->Print(Form("pdf/Radion_m%i_mggjj_voigt_%s.pdf", (int)fabs(type), categoryName[icat].c_str()));
+			c1->Print(Form("root/Radion_m%i_mggjj_voigt_%s.root", (int)fabs(type), categoryName[icat].c_str()));
+			c1->Print(Form("gif/Radion_m%i_mggjj_voigt_%s.gif", (int)fabs(type), categoryName[icat].c_str()));
 			c1->Clear();
 			outfile_mggjj << setprecision (2) << fixed << categoryName[icat] << "\tVoigt"
 				<< "\t" << mu_voigt_.getVal() << "\t" << fv_ << "\t" << res_
@@ -628,9 +628,9 @@ int main (int argc, char *argv[])
 		  float res=  fv / mu_voigt.getVal() * 100. / (2. * sqrt(2. * log(2.)));
 		  float resreg=  fvreg / mu_voigtreg.getVal() * 100. / (2. * sqrt(2. * log(2.)));
 			plotParameters( &p, c1, 0, jj_frame, false, 1, "Simultaneous Voigtian fit", res, resreg, 2);
-			c1->Print(Form("pdf/mjj_simvoigt_%s.pdf", categoryName[icat].c_str()));
-			c1->Print(Form("root/mjj_simvoigt_%s.root", categoryName[icat].c_str()));
-			c1->Print(Form("gif/mjj_simvoigt_%s.gif", categoryName[icat].c_str()));
+			c1->Print(Form("pdf/Radion_m%i_mjj_simvoigt_%s.pdf", (int)fabs(type), categoryName[icat].c_str()));
+			c1->Print(Form("root/Radion_m%i_mjj_simvoigt_%s.root", (int)fabs(type), categoryName[icat].c_str()));
+			c1->Print(Form("gif/Radion_m%i_mjj_simvoigt_%s.gif", (int)fabs(type), categoryName[icat].c_str()));
 			c1->Clear();
 			outfile_mjj << setprecision (2) << fixed << categoryName[icat] << "\tSimVoigt"
 				<< "\t" << mu_voigt.getVal() << "\t" << fv << "\t" << res
@@ -669,9 +669,9 @@ int main (int argc, char *argv[])
 		  float res_=  fv_ / mu_voigt_.getVal() * 100. / (2. * sqrt(2. * log(2.)));
 		  float resreg_=  fv_reg / mu_voigt_reg.getVal() * 100. / (2. * sqrt(2. * log(2.)));
 			plotParameters( &p_, c1, 0, ggjj_frame, false, 1, "Simultaneous Voigtian fit", res_, resreg_, 2);
-			c1->Print(Form("pdf/mggjj_simvoigt_%s.pdf", categoryName[icat].c_str()));
-			c1->Print(Form("root/mggjj_simvoigt_%s.root", categoryName[icat].c_str()));
-			c1->Print(Form("gif/mggjj_simvoigt_%s.gif", categoryName[icat].c_str()));
+			c1->Print(Form("pdf/Radion_m%i_mggjj_simvoigt_%s.pdf", (int)fabs(type), categoryName[icat].c_str()));
+			c1->Print(Form("root/Radion_m%i_mggjj_simvoigt_%s.root", (int)fabs(type), categoryName[icat].c_str()));
+			c1->Print(Form("gif/Radion_m%i_mggjj_simvoigt_%s.gif", (int)fabs(type), categoryName[icat].c_str()));
 			c1->Clear();
 			outfile_mggjj << setprecision (2) << fixed << categoryName[icat] << "\tSimVoigt"
 				<< "\t" << mu_voigt_.getVal() << "\t" << fv_ << "\t" << res_
@@ -708,7 +708,7 @@ void plotParameters(RooArgList *r2_cat0_param, TCanvas *c, int canvasDivision, R
 	mvaStream << setprecision (3) << fixed << mvaInf << " #leq mva < " << mvaSup;
 	string mvaString = mvaStream.str();
 //  latexLabel.DrawLatex(0.18, 0.96, Form("CMS Private 2011, #sqrt{s} = 7 TeV, Simulation: %s, %s", isThereSeveralFits ? "signal":"background", mvaString.c_str()));
-  latexLabel.DrawLatex(0.18, 0.96, "CMS Private 2013, #sqrt{s} = 8 TeV");
+  latexLabel.DrawLatex(0.28, 0.96, "CMS Private 2013, #sqrt{s} = 8 TeV");
 //  latexLabel.DrawLatex(0.45, 0.91, "#sqrt{s} = 7 TeV");
 //  latexLabel.DrawLatex(0.67, 0.91, isThereSeveralFits ? "Simulation: signal" : "Simulation: background");
   latexLabel.SetTextSize(0.03);
