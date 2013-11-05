@@ -280,34 +280,58 @@ int main(int argc, char *argv[])
 			} else if( mass == 500 ) {
 				if( strcmp("", whichJet.c_str()) == 0 )
 				{
-					if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 485. || mtot_wokinfit > 535.) ) continue;
-					if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 490. || mtot_wokinfit > 525.) ) continue;
+// old cuts (Oct 29)
+//					if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 485. || mtot_wokinfit > 535.) ) continue;
+//					if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 490. || mtot_wokinfit > 525.) ) continue;
+// new cuts (Nov 4)
+					if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 440. || mtot_wokinfit > 545.) ) continue;
+					if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 435. || mtot_wokinfit > 540.) ) continue;
 				}
 				if( strcmp("reg", whichJet.c_str()) == 0 )
 				{
-					if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 495. || mtot_wokinfit > 555.) ) continue;
-					if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 485. || mtot_wokinfit > 515.) ) continue;
+// old cuts (Oct 29)
+//					if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 495. || mtot_wokinfit > 555.) ) continue;
+//					if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 485. || mtot_wokinfit > 515.) ) continue;
+// new cuts (Nov 4)
+					if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 445. || mtot_wokinfit > 545.) ) continue;
+					if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 460. || mtot_wokinfit > 545.) ) continue;
 				}
 				if( strcmp("kin", whichJet.c_str()) == 0 )
 				{
 					if( massCutVersion == 0 )
 					{
-						if( njets_kRadionID_and_CSVM == 1 && (mtot < 505. || mtot > 540.) ) continue;
-						if( njets_kRadionID_and_CSVM >= 2 && (mtot < 495. || mtot > 510.) ) continue;
+// old cuts (Oct 29)
+//						if( njets_kRadionID_and_CSVM == 1 && (mtot < 505. || mtot > 540.) ) continue;
+//						if( njets_kRadionID_and_CSVM >= 2 && (mtot < 495. || mtot > 510.) ) continue;
+// new cuts (Nov 4)
+						if( njets_kRadionID_and_CSVM == 1 && (mtot < 480. || mtot > 535.) ) continue;
+						if( njets_kRadionID_and_CSVM >= 2 && (mtot < 475. || mtot > 530.) ) continue;
 					} else if (massCutVersion == 1) {
-						if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 485. || mtot_wokinfit > 535.) ) continue;
-						if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 490. || mtot_wokinfit > 525.) ) continue;
+// old cuts (Oct 29)
+//						if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 485. || mtot_wokinfit > 535.) ) continue;
+//						if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 490. || mtot_wokinfit > 525.) ) continue;
+// new cuts (Nov 4)
+						if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 440. || mtot_wokinfit > 545.) ) continue;
+						if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 435. || mtot_wokinfit > 540.) ) continue;
 					}
 				}
 				if( strcmp("regkin", whichJet.c_str()) == 0 )
 				{
 					if( massCutVersion == 0 )
 					{
-						if( njets_kRadionID_and_CSVM == 1 && (mtot < 440. || mtot > 505.) ) continue;
-						if( njets_kRadionID_and_CSVM >= 2 && (mtot < 490. || mtot > 510.) ) continue;
+// old cuts (Oct 29)
+//						if( njets_kRadionID_and_CSVM == 1 && (mtot < 440. || mtot > 505.) ) continue;
+//						if( njets_kRadionID_and_CSVM >= 2 && (mtot < 490. || mtot > 510.) ) continue;
+// new cuts (Nov 4)
+						if( njets_kRadionID_and_CSVM == 1 && (mtot < 480. || mtot > 540.) ) continue;
+						if( njets_kRadionID_and_CSVM >= 2 && (mtot < 475. || mtot > 535.) ) continue;
 					} else if (massCutVersion == 1) {
-						if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 495. || mtot_wokinfit > 555.) ) continue;
-						if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 485. || mtot_wokinfit > 515.) ) continue;
+// old cuts (Oct 29)
+//						if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 495. || mtot_wokinfit > 555.) ) continue;
+//						if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 485. || mtot_wokinfit > 515.) ) continue;
+// new cuts (Nov 4)
+						if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 445. || mtot_wokinfit > 545.) ) continue;
+						if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 460. || mtot_wokinfit > 545.) ) continue;
 					}
 				}
 			}
