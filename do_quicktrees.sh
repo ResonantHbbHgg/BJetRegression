@@ -2,6 +2,7 @@
 
 version="v16"
 today=`date +"0%Y-%m-%d"`
+set -x
 
 # do mgg trees
 for data in `echo "data signal"`
