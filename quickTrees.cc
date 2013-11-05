@@ -8,10 +8,12 @@
 #include "TSystem.h"
 #include <TFile.h>
 #include <TTree.h>
+#include <TH1F.h>
 // RooFit headers
 // local files
 // Verbosity
 #define DEBUG 0
+#define MGGJJ_CUT 1
 // namespaces
 using namespace std;
 
@@ -193,6 +195,24 @@ int main(int argc, char *argv[])
 	int n_2btag = 0;
 	float n_w_1btag = 0.;
 	float n_w_2btag = 0.;
+	float nprocessed = 20000.;
+	if(type == -300) nprocessed = 19972.;
+	else if(type == -500) nprocessed = 19970.; 
+	else if(type == -700) nprocessed = 19969.; 
+	else if(type == -1000) nprocessed = 19951.; 
+	else if(type == -1500) nprocessed = 19959.; 
+
+	int ntot = (int)intree->GetEntries();
+	int n_1btag_before_cuts = 0;
+	int n_2btag_before_cuts = 0;
+	int n_1btag_selected = 0;
+	int n_2btag_selected = 0;
+	TH1F mjj_1btag("mjj_1btag", "mjj_1btag", 20, 80., 180.); mjj_1btag.Sumw2();
+	TH1F mjj_2btag("mjj_2btag", "mjj_2btag", 20, 80., 180.); mjj_2btag.Sumw2();
+	TH1F mggjj_1btag("mggjj_1btag", "mggjj_1btag", 32, mass - 60., mass + 100.); mggjj_1btag.Sumw2();
+	TH1F mggjj_2btag("mggjj_2btag", "mggjj_2btag", 32, mass - 60., mass + 100.); mggjj_2btag.Sumw2();
+	
+	
 
 	for(int ievt= 0 ; ievt < (int)intree->GetEntries() ; ievt++)
 	{
@@ -207,14 +227,18 @@ int main(int argc, char *argv[])
 			}
 		}
 		if(type < -250)
-			evWeight_w_btagSF = evWeight * jet1_btagSF * jet2_btagSF * 2.; // factor two to account for regression training, to be applied only on signal
+			evWeight_w_btagSF = evWeight * jet1_btagSF * jet2_btagSF * 2. * 19706. / 1000. / nprocessed; // factor two to account for regression training, to be applied only on signal
 		else
 			evWeight_w_btagSF = evWeight;
 
 
 		if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("reg", whichJet.c_str()) == 0) )
 			{ mjj_wokinfit = mjj; mtot_wokinfit = mtot; }
-		
+
+		if( njets_kRadionID_and_CSVM == 1 ) n_1btag_before_cuts++;
+		if( njets_kRadionID_and_CSVM >= 2 ) n_2btag_before_cuts++;
+
+
 // EXTRA CUTS
 //		if( selection_cut_level < cutLevel ) continue; // hard-coded in the trees, out of date wrt to the rest of the cuts
 	if( cutLevel > 0)
@@ -236,6 +260,7 @@ int main(int argc, char *argv[])
 // FITTING THE MGG SPECTRUM
 		if( (massCutVersion < 2) && (strcmp("mgg", fitStrategy.c_str()) == 0) )
 		{
+	if( mass == 300 ) {
 			// mggjj cut does depend on the mass hypothesis
 			if( mass == 300 )
 			{
@@ -271,7 +296,7 @@ int main(int argc, char *argv[])
 						if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 265. || mtot_wokinfit > 330.) ) continue;
 					}
 				}
-			} else if( mass == 500 ) {
+			} else if( mass == 500  && !MGGJJ_CUT) {
 				if( strcmp("", whichJet.c_str()) == 0 )
 				{
 					if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 485. || mtot_wokinfit > 535.) ) continue;
@@ -284,17 +309,29 @@ int main(int argc, char *argv[])
 				}
 				if( strcmp("kin", whichJet.c_str()) == 0 )
 				{
-					if( njets_kRadionID_and_CSVM == 1 && (mtot < 505. || mtot > 540.) ) continue;
-					if( njets_kRadionID_and_CSVM >= 2 && (mtot < 495. || mtot > 510.) ) continue;
+					if( massCutVersion == 0 )
+					{
+						if( njets_kRadionID_and_CSVM == 1 && (mtot < 505. || mtot > 540.) ) continue;
+						if( njets_kRadionID_and_CSVM >= 2 && (mtot < 495. || mtot > 510.) ) continue;
+					} else if (massCutVersion == 1) {
+						if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 485. || mtot_wokinfit > 535.) ) continue;
+						if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 490. || mtot_wokinfit > 525.) ) continue;
+					}
 				}
 				if( strcmp("regkin", whichJet.c_str()) == 0 )
 				{
-					if( njets_kRadionID_and_CSVM == 1 && (mtot < 440. || mtot > 505.) ) continue;
-					if( njets_kRadionID_and_CSVM >= 2 && (mtot < 490. || mtot > 510.) ) continue;
+					if( massCutVersion == 0 )
+					{
+						if( njets_kRadionID_and_CSVM == 1 && (mtot < 440. || mtot > 505.) ) continue;
+						if( njets_kRadionID_and_CSVM >= 2 && (mtot < 490. || mtot > 510.) ) continue;
+					} else if (massCutVersion == 1) {
+						if( njets_kRadionID_and_CSVM == 1 && (mtot_wokinfit < 495. || mtot_wokinfit > 555.) ) continue;
+						if( njets_kRadionID_and_CSVM >= 2 && (mtot_wokinfit < 485. || mtot_wokinfit > 515.) ) continue;
+					}
 				}
 			}
 			// mjj cut does not depends on the mass hypothesis
-			if( mass == 300 || mass == 500)
+			if( mass == 300 || (mass == 500 && !MGGJJ_CUT) )
 			{
 				if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
 				{
@@ -381,10 +418,27 @@ int main(int argc, char *argv[])
 					if( mjj_wokinfit < 95. || mjj_wokinfit > 140. ) continue;
 			}
 		}
-		if( njets_kRadionID_and_CSVM >= 2 ) {cut_based_ct = 0; n_2btag++; n_w_2btag += evWeight_w_btagSF;}
-		if( njets_kRadionID_and_CSVM == 1 ) {cut_based_ct = 1; n_1btag++; n_w_1btag += evWeight_w_btagSF;}
+
 		outtree->Fill();
 	}
+		if( njets_kRadionID_and_CSVM == 1 ) n_1btag_selected++;
+		if( njets_kRadionID_and_CSVM >= 2 ) n_2btag_selected++;
+		if( njets_kRadionID_and_CSVM >= 2 ) {cut_based_ct = 0; n_2btag++; n_w_2btag += evWeight_w_btagSF;}
+		if( njets_kRadionID_and_CSVM == 1 ) {cut_based_ct = 1; n_1btag++; n_w_1btag += evWeight_w_btagSF;}
+		if(MGGJJ_CUT && (njets_kRadionID_and_CSVM == 1) ) mjj_1btag.Fill(mjj_wokinfit, evWeight);
+		if(MGGJJ_CUT && (njets_kRadionID_and_CSVM >= 2) ) mjj_2btag.Fill(mjj_wokinfit, evWeight);
+		if(MGGJJ_CUT && (njets_kRadionID_and_CSVM == 1) ) mggjj_1btag.Fill(mtot, evWeight);
+		if(MGGJJ_CUT && (njets_kRadionID_and_CSVM >= 2) ) mggjj_2btag.Fill(mtot, evWeight);
+		outtree->Fill();
+	}
+	if(MGGJJ_CUT) cout << "ntot= " << ntot << endl;
+	if(MGGJJ_CUT) cout << "n_1btag_before_cuts= " << n_1btag_before_cuts << "\tn_1btag_selected= " << n_1btag_selected << "\teff= " << (float)n_1btag_selected / (float)n_1btag_before_cuts << endl;
+	if(MGGJJ_CUT) cout << "n_2btag_before_cuts= " << n_2btag_before_cuts << "\tn_2btag_selected= " << n_2btag_selected << "\teff= " << (float)n_2btag_selected / (float)n_2btag_before_cuts << endl;
+
+	if(MGGJJ_CUT) mjj_1btag.Write();
+	if(MGGJJ_CUT) mjj_2btag.Write();
+	if(MGGJJ_CUT) mggjj_1btag.Write();
+	if(MGGJJ_CUT) mggjj_2btag.Write();
 	cout << "n_1btag= " << n_1btag << "\tn_2btag= " << n_2btag << endl;
 	cout << "n_w_1btag= " << n_w_1btag << "\tn_w_2btag= " << n_w_2btag << endl;
 
