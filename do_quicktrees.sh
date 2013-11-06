@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version="v16"
+version="v18"
 today=`date +"0%Y-%m-%d"`
 set -x
 
