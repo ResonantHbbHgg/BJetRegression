@@ -400,7 +400,7 @@ int main(int argc, char *argv[])
 // FITTING THE MGGJJ SPECTRUM
 		if( strcmp("mggjj", fitStrategy.c_str()) == 0 )
 		{
-			if( mgg < 115. || mgg > 135. ) continue;
+			if( mgg < 120. || mgg > 130. ) continue;
 			if( njets_kRadionID_and_CSVM >= 2 )
 			{
 				if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
