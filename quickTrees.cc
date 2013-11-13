@@ -210,7 +210,7 @@ int main(int argc, char *argv[])
 		{
 			if( jet1_btagSF == -1001 || jet2_btagSF == -1001) 
 			{
-				cerr << "WARNING: undefined btagSF, skipping the event:\tevent= " << event << "\tjet1_btagSF= " << jet1_btagSF << "\tjet2_btagSF= " << jet2_btagSF << "\tjet1_pt= " << jet1_pt << "\tjet2_pt= " << jet2_pt << endl;
+				cout << "WARNING: undefined btagSF, skipping the event:\tevent= " << event << "\tjet1_btagSF= " << jet1_btagSF << "\tjet2_btagSF= " << jet2_btagSF << "\tjet1_pt= " << jet1_pt << "\tjet2_pt= " << jet2_pt << endl;
 				continue;
 			}
 		}
