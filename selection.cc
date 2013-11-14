@@ -150,6 +150,7 @@ int main(int argc, char *argv[])
 
 	if(DEBUG) cout << "Setup tree outputs" << endl;
 // setup tree outputs
+	float vtx_z;
 	float pho1_pt, pho1_e, pho1_phi, pho1_eta, pho1_mass, pho1_r9;
 	float pho2_pt, pho2_e, pho2_phi, pho2_eta, pho2_mass, pho2_r9;
 	float jet1_pt, jet1_e, jet1_phi, jet1_eta, jet1_mass, jet1_csvBtag, jet1_btagSF;
@@ -211,6 +212,7 @@ int main(int argc, char *argv[])
 	intree->SetBranchAddress("weight", &ev_weight);
 	intree->SetBranchAddress("evweight", &ev_evweight);
 	intree->SetBranchAddress("pu_weight", &ev_pu_weight);
+	intree->SetBranchAddress("vtx_z", &vtx_z);
 
 	if( type < -250 )
 	{
@@ -354,6 +356,7 @@ int main(int argc, char *argv[])
 	outtree->Branch("category", &category, "category/I");
 	outtree->Branch("selection_cut_level", &selection_cut_level, "selection_cut_level/I");
 	outtree->Branch("event", &event, "event/F");
+	outtree->Branch("vtx_z", &vtx_z, "vtx_z/F");
 	outtree->Branch("weight", &weight, "weight/F");
 	outtree->Branch("evweight", &evweight, "evweight/F");
 	outtree->Branch("pu_weight", &pu_weight, "pu_weight/F");
@@ -1326,9 +1329,9 @@ int main(int argc, char *argv[])
 		{
 			cout << event << endl;
 			if(numberOfRegressionFiles == 0)
-				cout << gg_mass << "	" <<   jj_mass << "	" << ggjj_mass << "	" <<   pho1_pt << "	" <<   pho2_pt << "	" <<   jet1_pt << "	" <<   jet2_pt << "	" << njets_kRadionID_and_CSVM << "	" <<  evweight << "	" <<  pho1_eta << "	" <<  pho1_phi << "	" <<  pho2_eta << "	" <<  pho2_phi << "	" <<  jet1_eta << "	" <<  jet1_phi << "	" <<  jet2_eta << "	" <<  jet2_phi << endl;
+				cout << gg_mass << "\t" <<   jj_mass << "\t" << ggjj_mass << "\t" <<   pho1_pt << "\t" <<   pho2_pt << "\t" <<   jet1_pt << "\t" <<   jet2_pt << "\t" << njets_kRadionID_and_CSVM << "\t" <<  evweight << "\t" <<  pho1_eta << "\t" <<  pho1_phi << "\t" <<  pho2_eta << "\t" <<  pho2_phi << "\t" <<  jet1_eta << "\t" <<  jet1_phi << "\t" <<  jet2_eta << "\t" <<  jet2_phi << "\t" << vtx_z << "\t" << pho1_e << "\t" << pho2_e << endl;
 			else
-				cout << gg_mass << "	" <<   regjj_mass << "	" << regggjj_mass << "	" <<   pho1_pt << "	" <<   pho2_pt << "	" <<   regjet1_pt << "	" <<   regjet2_pt << "	" << njets_kRadionID_and_CSVM << "	" <<  evweight << "	" <<  pho1_eta << "	" <<  pho1_phi << "	" <<  pho2_eta << "	" <<  pho2_phi << "	" <<  regjet1_eta << "	" <<  regjet1_phi << "	" <<  regjet2_eta << "	" <<  regjet2_phi << endl;
+				cout << gg_mass << "\t" <<   regjj_mass << "\t" << regggjj_mass << "\t" <<   pho1_pt << "\t" <<   pho2_pt << "\t" <<   regjet1_pt << "\t" <<   regjet2_pt << "\t" << njets_kRadionID_and_CSVM << "\t" <<  evweight << "\t" <<  pho1_eta << "\t" <<  pho1_phi << "\t" <<  pho2_eta << "\t" <<  pho2_phi << "\t" <<  regjet1_eta << "\t" <<  regjet1_phi << "\t" <<  regjet2_eta << "\t" <<  regjet2_phi << "\t" << vtx_z << "\t" << pho1_e << "\t" << pho2_e << endl;
 		}
 		ilevelmax=ilevel;
 		selection_cut_level = 6;
