@@ -641,7 +641,8 @@ int main(int argc, char *argv[])
 		if( ph1_pt < (float)(40.*PhotonsMass)/(float)120. ) continue;
 		nevents[ilevel]++; eventcut[ilevel] = "After floating pt cut for photon 1 (40*mgg/120 GeV)";
 		nevents_w[ilevel] += evweight; ilevel++;
-		if( ph2_pt < 25. ) continue;
+//		if( ph2_pt < 25. ) continue;
+		if( ph2_pt < (float)(30.*PhotonsMass)/(float)120. ) continue; // switching to running pt cut per Hgg recommendations (Nov. 2013)
 		nevents[ilevel]++; eventcut[ilevel] = "After fixed pt cut for photon 2 (25 GeV)";
 		nevents_w[ilevel] += evweight; ilevel++;
 		nevents_sync[1]++;
