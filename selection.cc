@@ -19,7 +19,7 @@
 // Analysis headers
 #include "../KinematicFit/DiJetKinFitter.h"
 // Verbosity
-#define DEBUG 0
+#define DEBUG 1
 // namespaces
 using namespace std;
 namespace po = boost::program_options;
@@ -35,6 +35,7 @@ int main(int argc, char *argv[])
 	int type; // Same conventions as in h2gglobe: <0 = signal ; =0 = data ; >0 = background
 	int SYNC; // mjj and mggjj cuts are different for sync and analysis
 	int SYNC_W_PHIL;
+	int FULL_DUMP;
 	int REMOVE_UNDEFINED_BTAGSF;
 	int applyMassCuts;
 	int applyPhotonIDControlSample;
@@ -58,6 +59,7 @@ int main(int argc, char *argv[])
 			("applyMassCuts", po::value<int>(&applyMassCuts)->default_value(1), "can switch off mass cuts (e.g. for control plots), prevails other mass cut options if switched off")
 			("applyPhotonIDControlSample", po::value<int>(&applyPhotonIDControlSample)->default_value(0), "Invert photon ID CiC cut to populate selection in gjjj instead of ggjj")
 			("sync_w_phil", po::value<int>(&SYNC_W_PHIL)->default_value(0), "switch on output for dedicated events")
+			("full_dump", po::value<int>(&FULL_DUMP)->default_value(0), "switch on creation of the event dump")
 		;
 		po::variables_map vm;
 		po::store(po::parse_command_line(argc, argv, desc), vm);
@@ -92,8 +94,9 @@ int main(int argc, char *argv[])
 	TTree *intree = (TTree*)infile->Get(inputtree.c_str());
 	TFile *outfile = new TFile(outputfile.c_str(), "RECREATE");
 	TTree *outtree = new TTree(outputtree.c_str(), Form("%s reduced", outputtree.c_str()));
-	ofstream synchrofile;
+	ofstream synchrofile, full_dump;
 	if(SYNC) synchrofile.open("synchronisation.txt");
+	if(FULL_DUMP) full_dump.open(Form("h2gglobe_%s.txt", inputtree.c_str()));
 
 	if(DEBUG) cout << "Setup tree inputs" << endl;
 	// setup tree inputs
@@ -122,7 +125,8 @@ int main(int argc, char *argv[])
 	float met_corr_pfmet, met_corr_phi_pfmet, met_corr_eta_pfmet, met_corr_e_pfmet;
 	float pu_n, nvtx, rho;
 	float weight, evweight, pu_weight;
-	float event;
+	float run, lumis, event;
+	float ph1_SCEta, ph2_SCEta;
 	float ev_weight, ev_evweight, ev_pu_weight;
 // object variables
 	float ph1_eta, ph2_eta, ph1_pt, ph2_pt, PhotonsMass, ph1_phi, ph2_phi, ph1_e, ph2_e, ph1_r9, ph2_r9;
@@ -208,7 +212,11 @@ int main(int argc, char *argv[])
 	intree->SetBranchAddress("pu_n", &pu_n);
 	intree->SetBranchAddress("nvtx", &nvtx);
 	intree->SetBranchAddress("rho", &rho);
+	intree->SetBranchAddress("run", &run);
+	intree->SetBranchAddress("lumis", &lumis);
 	intree->SetBranchAddress("event", &event);
+	intree->SetBranchAddress("ph1_SCEta", &ph1_SCEta);
+	intree->SetBranchAddress("ph2_SCEta", &ph2_SCEta);
 	intree->SetBranchAddress("weight", &ev_weight);
 	intree->SetBranchAddress("evweight", &ev_evweight);
 	intree->SetBranchAddress("pu_weight", &ev_pu_weight);
@@ -595,23 +603,23 @@ int main(int argc, char *argv[])
 	string jetcut[30];
   int decade = 0;
   int totevents = intree->GetEntries();
-  if(DEBUG) totevents = 10;
+//  if(DEBUG) totevents = 10;
   cout << "#entries= " << totevents << endl;
   // loop over events
   for(int ievt=0 ; ievt < totevents ; ievt++)
   {
 		int ilevel = 0;
-		if(DEBUG) cout << "#####\tievt= " << ievt << endl;
+//		if(DEBUG) cout << "#####\tievt= " << ievt << endl;
     double progress = 10.0*ievt/(1.0*totevents);
     int k = TMath::FloorNint(progress);
-    if (k > decade) cout<<10*k<<" %"<<endl;
+    if (k > decade && !DEBUG) cout<<10*k<<" %"<<endl;
     decade = k;
 
 		int njets_kRadionID_ = 0;
 		int njets_kRadionID_and_CSVM_ = 0;
     intree->GetEntry(ievt);
-		if(DEBUG) cout << "event= " << event << endl;
-		if(DEBUG && event != 7755) continue;
+		if(DEBUG && !(event == 6976 || event == 8042 || event == 14339 || event == 2227 || event == 4921 || event == 7665 || event == 7687 || event == 11246 || event == 15140 || event == 685) ) continue;
+		if(DEBUG) cout << "#####\tievt= " << ievt << "\trun= " << run << "\tlumi= " << lumis << "\tevent= " << event << endl;
 		if( type < -250 && ((int)event % 2 == 0) && !SYNC_W_PHIL) continue; // use regression only on odd events
 	
 		if(DEBUG) cout << "for MC, get the MC truth hjj system" << endl;
@@ -638,10 +646,12 @@ int main(int argc, char *argv[])
 		nevents[ilevel]++; eventcut[ilevel] = "Before photon ID";
 		nevents_w[ilevel] += evweight; ilevel++;
 		nevents_sync[0]++;
+		if(DEBUG) cout << "ph1_pt= " << ph1_pt << "\t(float)(40.*PhotonsMass)/(float)120.= " << (float)(40.*PhotonsMass)/(float)120. << endl;
 		if( ph1_pt < (float)(40.*PhotonsMass)/(float)120. ) continue;
 		nevents[ilevel]++; eventcut[ilevel] = "After floating pt cut for photon 1 (40*mgg/120 GeV)";
 		nevents_w[ilevel] += evweight; ilevel++;
 //		if( ph2_pt < 25. ) continue;
+		if(DEBUG) cout << "ph2_pt= " << ph2_pt << "\t(float)(30.*PhotonsMass)/(float)120.= " << (float)(30.*PhotonsMass)/(float)120. << endl;
 		if( ph2_pt < (float)(30.*PhotonsMass)/(float)120. ) continue; // switching to running pt cut per Hgg recommendations (Nov. 2013)
 		nevents[ilevel]++; eventcut[ilevel] = "After fixed pt cut for photon 2 (25 GeV)";
 		nevents_w[ilevel] += evweight; ilevel++;
@@ -661,6 +671,7 @@ int main(int argc, char *argv[])
 		nevents[ilevel]++; eventcut[ilevel] = "After cic cut on both photons";
 		nevents_w[ilevel] += evweight; ilevel++;
 		nevents_sync[2]++;
+		if(DEBUG) cout << "PhotonsMass= " << PhotonsMass << endl;
 		if( (PhotonsMass < 100.) || (PhotonsMass > 180.) ) continue;
 		nevents[ilevel]++; eventcut[ilevel] = "After 100 < mgg < 180";
 		nevents_w[ilevel] += evweight; ilevel++;
@@ -668,6 +679,7 @@ int main(int argc, char *argv[])
 		HT_gg = ph1_pt + ph2_pt;
 
 		// take only the subset of events where at least two jets remains
+		if(DEBUG) cout << "njets_passing_kLooseID= " << njets_passing_kLooseID << endl;
 		if( njets_passing_kLooseID < 2 ) continue;
 		nevents[ilevel]++; eventcut[ilevel] = "After njet >= 2";
 		nevents_w[ilevel] += evweight; ilevel++;
@@ -691,6 +703,7 @@ int main(int argc, char *argv[])
 				if(j4_csvBtag > csv_cut)
 					nbjet_tmp++; 
 		}
+		if(DEBUG) cout << "nbjet_tmp= " << nbjet_tmp << endl;
 		if( nbjet_tmp < 1 ) continue;
 		nevents[ilevel]++; eventcut[ilevel] = "After nbjet >= 1";
 		nevents_w[ilevel] += evweight; ilevel++;
@@ -813,8 +826,8 @@ int main(int argc, char *argv[])
 			jet_nConstituents_ = (float) jet_nConstituents;
 			jet_dPhiMet_fabs = fabs(jet_dPhiMet);
 
-			if(DEBUG) cout << "input= " << jet_pt << "\toutput (BDT_0)= " << readerRegres->EvaluateRegression(Form("BDT_%i", 0))[0] * jet_pt << "\toutput (BDT_1)= " << readerRegres->EvaluateRegression(Form("BDT_%i", 1))[0] * jet_pt << endl;
-			if( jet_csvBtag < 0. ) continue;
+			if(DEBUG && numberOfRegressionFiles != 0) cout << "input= " << jet_pt << "\toutput (BDT_0)= " << readerRegres->EvaluateRegression(Form("BDT_%i", 0))[0] * jet_pt << "\toutput (BDT_1)= " << readerRegres->EvaluateRegression(Form("BDT_%i", 1))[0] * jet_pt << endl;
+//			if( jet_csvBtag < 0. ) continue;
 			njets[5]++; jetcut[5] = "After jet_csvBtag < 0.";
 			if(DEBUG) cout << "now with the regression" << endl;
 			if(numberOfRegressionFiles == 0)
@@ -1334,6 +1347,8 @@ int main(int argc, char *argv[])
 			else
 				cout << gg_mass << "\t" <<   regjj_mass << "\t" << regggjj_mass << "\t" <<   pho1_pt << "\t" <<   pho2_pt << "\t" <<   regjet1_pt << "\t" <<   regjet2_pt << "\t" << njets_kRadionID_and_CSVM << "\t" <<  evweight << "\t" <<  pho1_eta << "\t" <<  pho1_phi << "\t" <<  pho2_eta << "\t" <<  pho2_phi << "\t" <<  regjet1_eta << "\t" <<  regjet1_phi << "\t" <<  regjet2_eta << "\t" <<  regjet2_phi << "\t" << vtx_z << "\t" << pho1_e << "\t" << pho2_e << endl;
 		}
+		if( FULL_DUMP )
+			full_dump << "run:" << run << "\tlumi:" << lumis << "\tevent:" << event << "\tmGG:" << gg_mass << "\tmJJ:" << jj_mass << "\tsceta_1:" << 1.0 /*ph1_SCEta*/ << "\tsceta_2:" << 1.0 /*ph2_SCEta*/ << "\tevcat:" << category << "\tdiphoBDT:" << 1.0 << endl;
 		ilevelmax=ilevel;
 		selection_cut_level = 6;
 		outtree->Fill();
@@ -1349,6 +1364,7 @@ int main(int argc, char *argv[])
 			cout << nevents_sync[i] << endl;
 
 	if(SYNC) synchrofile.close();
+	if(FULL_DUMP) full_dump.close();
   outfile->cd();
   outtree->Write();
   outfile->Close();
