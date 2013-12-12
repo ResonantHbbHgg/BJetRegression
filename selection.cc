@@ -19,7 +19,7 @@
 // Analysis headers
 #include "../KinematicFit/DiJetKinFitter.h"
 // Verbosity
-#define DEBUG 1
+#define DEBUG 0
 // namespaces
 using namespace std;
 namespace po = boost::program_options;
@@ -30,6 +30,7 @@ int main(int argc, char *argv[])
  	string inputfile;
 	string inputtree;
 	string outputfile;
+	string outputtree;
 	string regressionFolder;
 	int numberOfRegressionFiles;
 	int type; // Same conventions as in h2gglobe: <0 = signal ; =0 = data ; >0 = background
@@ -50,6 +51,7 @@ int main(int argc, char *argv[])
 			("help,h", "produce help message")
 			("inputfile,i", po::value<string>(&inputfile)->default_value("root://eoscms//eos/cms/store/cmst3/user/obondu/H2GGLOBE/Radion/trees/radion_tree_v06/Radion_Graviton_nm.root"), "input file")
 			("inputtree,t", po::value<string>(&inputtree)->default_value("Radion_m300_8TeV_nm"), "input tree")
+			("outputtree", po::value<string>(&outputtree)->default_value(inputtree), "output tree")
 			("outputfile,o", po::value<string>(&outputfile)->default_value("selected.root"), "output file")
 			("regressionFolder", po::value<string>(&regressionFolder)->default_value("/afs/cern.ch/user/h/hebda/public/"), "regression folder")
 			("numberOfRegressionFiles,r", po::value<int>(&numberOfRegressionFiles)->default_value(2), "number of regression files")
@@ -77,7 +79,7 @@ int main(int argc, char *argv[])
 	// end of argument parsing
   //################################################
 
-	string outputtree = inputtree;
+//	string outputtree = inputtree;
 
 	if(DEBUG) cout << "End of argument parsing" << endl;
 
@@ -129,8 +131,10 @@ int main(int argc, char *argv[])
 	float ph1_SCEta, ph2_SCEta;
 	float ev_weight, ev_evweight, ev_pu_weight;
 // object variables
-	float ph1_eta, ph2_eta, ph1_pt, ph2_pt, PhotonsMass, ph1_phi, ph2_phi, ph1_e, ph2_e, ph1_r9, ph2_r9;
-	int ph1_ciclevel, ph2_ciclevel;
+	float ph1_eta, ph2_eta, ph1_pt, ph2_pt, PhotonsMass, ph1_phi, ph2_phi, ph1_e, ph2_e, ph1_r9, ph2_r9, ph1_sieie, ph2_sieie, ph1_hoe, ph2_hoe;
+	float ph1_pfchargedisogood03, ph1_ecaliso, ph1_pfchargedisobad04, ph1_ecalisobad, ph1_badvtx_Et;
+	float ph2_pfchargedisogood03, ph2_ecaliso, ph2_pfchargedisobad04, ph2_ecalisobad, ph2_badvtx_Et;
+	int ph1_ciclevel, ph2_ciclevel, ph1_isEB, ph2_isEB;
 
 	float j1_e, j1_pt, j1_phi, j1_eta, j1_beta, j1_betaStar, j1_betaStarClassic, j1_dR2Mean, j1_csvBtag, j1_csvMvaBtag, j1_jetProbBtag, j1_tcheBtag, j1_secVtxPt, j1_secVtx3dL, j1_emfrac, j1_hadfrac, j1_axis1, j1_axis2, j1_pull, j1_radionMatched, j1_btagSF;
 	int j1_ntk, j1_nNeutrals, j1_nCharged;
@@ -155,20 +159,23 @@ int main(int argc, char *argv[])
 	if(DEBUG) cout << "Setup tree outputs" << endl;
 // setup tree outputs
 	float vtx_z;
-	float pho1_pt, pho1_e, pho1_phi, pho1_eta, pho1_mass, pho1_r9;
-	float pho2_pt, pho2_e, pho2_phi, pho2_eta, pho2_mass, pho2_r9;
-	float jet1_pt, jet1_e, jet1_phi, jet1_eta, jet1_mass, jet1_csvBtag, jet1_btagSF;
-	float jet2_pt, jet2_e, jet2_phi, jet2_eta, jet2_mass, jet2_csvBtag, jet2_btagSF;
+	float pho1_pt, pho1_e, pho1_phi, pho1_eta, pho1_mass, pho1_r9, pho1_sieie, pho1_hoe;
+	float pho2_pt, pho2_e, pho2_phi, pho2_eta, pho2_mass, pho2_r9, pho2_sieie, pho2_hoe;
+	int pho1_isEB, pho2_isEB;
+	float pho1_pfchargedisogood03, pho1_ecaliso, pho1_pfchargedisobad04, pho1_ecalisobad, pho1_badvtx_Et, pho1_PFisoA, pho1_PFisoB, pho1_PFisoC;
+	float pho2_pfchargedisogood03, pho2_ecaliso, pho2_pfchargedisobad04, pho2_ecalisobad, pho2_badvtx_Et, pho2_PFisoA, pho2_PFisoB, pho2_PFisoC;
+	float jet1_pt, jet1_e, jet1_phi, jet1_eta, jet1_mass, jet1_csvBtag, jet1_btagSF, jet1_betaStarClassic, jet1_dR2Mean;
+	float jet2_pt, jet2_e, jet2_phi, jet2_eta, jet2_mass, jet2_csvBtag, jet2_btagSF, jet2_betaStarClassic, jet2_dR2Mean;
 	float regjet1_emfrac, regjet1_hadfrac, regjet1_secVtxPt, regjet1_secVtx3dL, regjet1_dPhiMet;
 	int regjet1_nConstituents;
 	float regjet2_emfrac, regjet2_hadfrac, regjet2_secVtxPt, regjet2_secVtx3dL, regjet2_dPhiMet;
 	int regjet2_nConstituents;
-	float regjet1_pt, regjet1_e, regjet1_phi, regjet1_eta, regjet1_mass, regjet1_csvBtag, regjet1_btagSF;
-	float regjet2_pt, regjet2_e, regjet2_phi, regjet2_eta, regjet2_mass, regjet2_csvBtag, regjet2_btagSF;
-	float regkinjet1_pt, regkinjet1_e, regkinjet1_phi, regkinjet1_eta, regkinjet1_mass, regkinjet1_csvBtag, regkinjet1_btagSF;
-	float regkinjet2_pt, regkinjet2_e, regkinjet2_phi, regkinjet2_eta, regkinjet2_mass, regkinjet2_csvBtag, regkinjet2_btagSF;
-	float kinjet1_pt, kinjet1_e, kinjet1_phi, kinjet1_eta, kinjet1_mass, kinjet1_csvBtag, kinjet1_btagSF;
-	float kinjet2_pt, kinjet2_e, kinjet2_phi, kinjet2_eta, kinjet2_mass, kinjet2_csvBtag, kinjet2_btagSF;
+	float regjet1_pt, regjet1_e, regjet1_phi, regjet1_eta, regjet1_mass, regjet1_csvBtag, regjet1_btagSF, regjet1_betaStarClassic, regjet1_dR2Mean;
+	float regjet2_pt, regjet2_e, regjet2_phi, regjet2_eta, regjet2_mass, regjet2_csvBtag, regjet2_btagSF, regjet2_betaStarClassic, regjet2_dR2Mean;
+	float regkinjet1_pt, regkinjet1_e, regkinjet1_phi, regkinjet1_eta, regkinjet1_mass, regkinjet1_csvBtag, regkinjet1_btagSF, regkinjet1_betaStarClassic, regkinjet1_dR2Mean;
+	float regkinjet2_pt, regkinjet2_e, regkinjet2_phi, regkinjet2_eta, regkinjet2_mass, regkinjet2_csvBtag, regkinjet2_btagSF, regkinjet2_betaStarClassic, regkinjet2_dR2Mean;
+	float kinjet1_pt, kinjet1_e, kinjet1_phi, kinjet1_eta, kinjet1_mass, kinjet1_csvBtag, kinjet1_btagSF, kinjet1_betaStarClassic, kinjet1_dR2Mean;
+	float kinjet2_pt, kinjet2_e, kinjet2_phi, kinjet2_eta, kinjet2_mass, kinjet2_csvBtag, kinjet2_btagSF, kinjet2_betaStarClassic, kinjet2_dR2Mean;
 	float jj_pt, jj_e, jj_phi, jj_eta, jj_mass, jj_DR, jj_btagSF;
 	float regjj_pt, regjj_e, regjj_phi, regjj_eta, regjj_mass, regjj_btagSF;
 	float regkinjj_pt, regkinjj_e, regkinjj_phi, regkinjj_eta, regkinjj_mass, regkinjj_btagSF;
@@ -185,13 +192,13 @@ int main(int argc, char *argv[])
 	float HT_gg;
 
 	int njets_passing_kLooseID;
-	intree->SetBranchAddress("njets_passing_kLooseID", &njets_passing_kLooseID);
 	int njets_passing_kLooseID_and_CSVM;
-	intree->SetBranchAddress("njets_passing_kLooseID_and_CSVM", &njets_passing_kLooseID_and_CSVM);
 	int njets_kLooseID, njets_kRadionID;
 	int njets_kLooseID_and_CSVM, njets_kRadionID_and_CSVM;
 
 	if(DEBUG) cout << "SetBranchAddresses" << endl;
+	intree->SetBranchAddress("njets_passing_kLooseID", &njets_passing_kLooseID);
+	intree->SetBranchAddress("njets_passing_kLooseID_and_CSVM", &njets_passing_kLooseID_and_CSVM);
 	intree->SetBranchAddress("ph1_eta", &ph1_eta);
 	intree->SetBranchAddress("ph2_eta", &ph2_eta);
 	intree->SetBranchAddress("ph1_pt", &ph1_pt);
@@ -202,6 +209,22 @@ int main(int argc, char *argv[])
 	intree->SetBranchAddress("ph2_e", &ph2_e);
 	intree->SetBranchAddress("ph1_r9", &ph1_r9);
 	intree->SetBranchAddress("ph2_r9", &ph2_r9);
+	intree->SetBranchAddress("ph1_sieie", &ph1_sieie);
+	intree->SetBranchAddress("ph2_sieie", &ph2_sieie);
+	intree->SetBranchAddress("ph1_hoe", &ph1_hoe);
+	intree->SetBranchAddress("ph2_hoe", &ph2_hoe);
+	intree->SetBranchAddress("ph1_isEB", &ph1_isEB);
+	intree->SetBranchAddress("ph2_isEB", &ph2_isEB);
+	intree->SetBranchAddress("ph1_pfchargedisogood03", &ph1_pfchargedisogood03);
+	intree->SetBranchAddress("ph2_pfchargedisogood03", &ph2_pfchargedisogood03);
+	intree->SetBranchAddress("ph1_ecaliso", &ph1_ecaliso);
+	intree->SetBranchAddress("ph2_ecaliso", &ph2_ecaliso);
+	intree->SetBranchAddress("ph1_pfchargedisobad04", &ph1_pfchargedisobad04);
+	intree->SetBranchAddress("ph2_pfchargedisobad04", &ph2_pfchargedisobad04);
+	intree->SetBranchAddress("ph1_ecalisobad", &ph1_ecalisobad);
+	intree->SetBranchAddress("ph2_ecalisobad", &ph2_ecalisobad);
+	intree->SetBranchAddress("ph1_badvtx_Et", &ph1_badvtx_Et);
+	intree->SetBranchAddress("ph2_badvtx_Et", &ph2_badvtx_Et);
 	intree->SetBranchAddress("PhotonsMass", &PhotonsMass);
 	intree->SetBranchAddress("ph1_ciclevel", &ph1_ciclevel);
 	intree->SetBranchAddress("ph2_ciclevel", &ph2_ciclevel);
@@ -380,12 +403,35 @@ int main(int argc, char *argv[])
 	outtree->Branch("pho1_eta", &pho1_eta, "pho1_eta/F");
 	outtree->Branch("pho1_mass", &pho1_mass, "pho1_mass/F");
 	outtree->Branch("pho1_r9", &pho1_r9, "pho1_r9/F");
+	outtree->Branch("pho1_sieie", &pho1_sieie, "pho1_sieie/F");
+	outtree->Branch("pho1_hoe", &pho1_hoe, "pho1_hoe/F");
+	outtree->Branch("pho1_isEB", &pho1_isEB, "pho1_isEB/I");
+	outtree->Branch("pho1_pfchargedisogood03", &pho1_pfchargedisogood03, "pho1_pfchargedisogood03/F");
+	outtree->Branch("pho1_ecaliso", &pho1_ecaliso, "pho1_ecaliso/F");
+	outtree->Branch("pho1_pfchargedisobad04", &pho1_pfchargedisobad04, "pho1_pfchargedisobad04/F");
+	outtree->Branch("pho1_ecalisobad", &pho1_ecalisobad, "pho1_ecalisobad/F");
+	outtree->Branch("pho1_badvtx_Et", &pho1_badvtx_Et, "pho1_badvtx_Et/F");
+	outtree->Branch("pho1_PFisoA", &pho1_PFisoA, "pho1_PFisoA/F");
+	outtree->Branch("pho1_PFisoB", &pho1_PFisoB, "pho1_PFisoB/F");
+	outtree->Branch("pho1_PFisoC", &pho1_PFisoC, "pho1_PFisoC/F");
 	outtree->Branch("pho2_pt", &pho2_pt, "pho2_pt/F");
 	outtree->Branch("pho2_e", &pho2_e, "pho2_e/F");
 	outtree->Branch("pho2_phi", &pho2_phi, "pho2_phi/F");
 	outtree->Branch("pho2_eta", &pho2_eta, "pho2_eta/F");
 	outtree->Branch("pho2_mass", &pho2_mass, "pho2_mass/F");
 	outtree->Branch("pho2_r9", &pho2_r9, "pho2_r9/F");
+	outtree->Branch("pho2_sieie", &pho2_sieie, "pho2_sieie/F");
+	outtree->Branch("pho2_hoe", &pho2_hoe, "pho2_hoe/F");
+	outtree->Branch("pho2_isEB", &pho2_isEB, "pho2_isEB/I");
+	outtree->Branch("pho2_pfchargedisogood03", &pho2_pfchargedisogood03, "pho2_pfchargedisogood03/F");
+	outtree->Branch("pho2_ecaliso", &pho2_ecaliso, "pho2_ecaliso/F");
+	outtree->Branch("pho2_pfchargedisobad04", &pho2_pfchargedisobad04, "pho2_pfchargedisobad04/F");
+	outtree->Branch("pho2_ecalisobad", &pho2_ecalisobad, "pho2_ecalisobad/F");
+	outtree->Branch("pho2_badvtx_Et", &pho2_badvtx_Et, "pho2_badvtx_Et/F");
+	outtree->Branch("pho2_PFisoA", &pho2_PFisoA, "pho2_PFisoA/F");
+	outtree->Branch("pho2_PFisoB", &pho2_PFisoB, "pho2_PFisoB/F");
+	outtree->Branch("pho2_PFisoC", &pho2_PFisoC, "pho2_PFisoC/F");
+	outtree->Branch("jet1_pt", &jet1_pt, "jet1_pt/F");
 	outtree->Branch("jet1_pt", &jet1_pt, "jet1_pt/F");
 	outtree->Branch("jet1_e", &jet1_e, "jet1_e/F");
 	outtree->Branch("jet1_phi", &jet1_phi, "jet1_phi/F");
@@ -393,6 +439,8 @@ int main(int argc, char *argv[])
 	outtree->Branch("jet1_mass", &jet1_mass, "jet1_mass/F");
 	outtree->Branch("jet1_csvBtag", &jet1_csvBtag, "jet1_csvBtag/F");
 	outtree->Branch("jet1_btagSF", &jet1_btagSF, "jet1_btagSF/F");
+	outtree->Branch("jet1_betaStarClassic", &jet1_betaStarClassic, "jet1_betaStarClassic/F");
+	outtree->Branch("jet1_dR2Mean", &jet1_dR2Mean, "jet1_dR2Mean/F");
 	outtree->Branch("jet2_pt", &jet2_pt, "jet2_pt/F");
 	outtree->Branch("jet2_e", &jet2_e, "jet2_e/F");
 	outtree->Branch("jet2_phi", &jet2_phi, "jet2_phi/F");
@@ -400,6 +448,8 @@ int main(int argc, char *argv[])
 	outtree->Branch("jet2_mass", &jet2_mass, "jet2_mass/F");
 	outtree->Branch("jet2_csvBtag", &jet2_csvBtag, "jet2_csvBtag/F");
 	outtree->Branch("jet2_btagSF", &jet2_btagSF, "jet2_btagSF/F");
+	outtree->Branch("jet2_betaStarClassic", &jet2_betaStarClassic, "jet2_betaStarClassic/F");
+	outtree->Branch("jet2_dR2Mean", &jet2_dR2Mean, "jet2_dR2Mean/F");
 // storing inputs of the regression for comparison
 	outtree->Branch("regjet1_emfrac", &regjet1_emfrac, "regjet1_emfrac/F");
 	outtree->Branch("regjet1_hadfrac", &regjet1_hadfrac, "regjet1_hadfrac/F");
@@ -421,6 +471,8 @@ int main(int argc, char *argv[])
 	outtree->Branch("regjet1_mass", &regjet1_mass, "regjet1_mass/F");
 	outtree->Branch("regjet1_csvBtag", &regjet1_csvBtag, "regjet1_csvBtag/F");
 	outtree->Branch("regjet1_btagSF", &regjet1_btagSF, "regjet1_btagSF/F");
+	outtree->Branch("regjet1_betaStarClassic", &regjet1_betaStarClassic, "regjet1_betaStarClassic/F");
+	outtree->Branch("regjet1_dR2Mean", &regjet1_dR2Mean, "regjet1_dR2Mean/F");
 	outtree->Branch("regjet2_pt", &regjet2_pt, "regjet2_pt/F");
 	outtree->Branch("regjet2_e", &regjet2_e, "regjet2_e/F");
 	outtree->Branch("regjet2_phi", &regjet2_phi, "regjet2_phi/F");
@@ -428,6 +480,8 @@ int main(int argc, char *argv[])
 	outtree->Branch("regjet2_mass", &regjet2_mass, "regjet2_mass/F");
 	outtree->Branch("regjet2_csvBtag", &regjet2_csvBtag, "regjet2_csvBtag/F");
 	outtree->Branch("regjet2_btagSF", &regjet2_btagSF, "regjet2_btagSF/F");
+	outtree->Branch("regjet2_betaStarClassic", &regjet2_betaStarClassic, "regjet2_betaStarClassic/F");
+	outtree->Branch("regjet2_dR2Mean", &regjet2_dR2Mean, "regjet2_dR2Mean/F");
 	outtree->Branch("regkinjet1_pt", &regkinjet1_pt, "regkinjet1_pt/F");
 	outtree->Branch("regkinjet1_e", &regkinjet1_e, "regkinjet1_e/F");
 	outtree->Branch("regkinjet1_phi", &regkinjet1_phi, "regkinjet1_phi/F");
@@ -435,6 +489,8 @@ int main(int argc, char *argv[])
 	outtree->Branch("regkinjet1_mass", &regkinjet1_mass, "regkinjet1_mass/F");
 	outtree->Branch("regkinjet1_csvBtag", &regkinjet1_csvBtag, "regkinjet1_csvBtag/F");
 	outtree->Branch("regkinjet1_btagSF", &regkinjet1_btagSF, "regkinjet1_btagSF/F");
+	outtree->Branch("regkinjet1_betaStarClassic", &regkinjet1_betaStarClassic, "regkinjet1_betaStarClassic/F");
+	outtree->Branch("regkinjet1_dR2Mean", &regkinjet1_dR2Mean, "regkinjet1_dR2Mean/F");
 	outtree->Branch("regkinjet2_pt", &regkinjet2_pt, "regkinjet2_pt/F");
 	outtree->Branch("regkinjet2_e", &regkinjet2_e, "regkinjet2_e/F");
 	outtree->Branch("regkinjet2_phi", &regkinjet2_phi, "regkinjet2_phi/F");
@@ -442,6 +498,8 @@ int main(int argc, char *argv[])
 	outtree->Branch("regkinjet2_mass", &regkinjet2_mass, "regkinjet2_mass/F");
 	outtree->Branch("regkinjet2_csvBtag", &regkinjet2_csvBtag, "regkinjet2_csvBtag/F");
 	outtree->Branch("regkinjet2_btagSF", &regkinjet2_btagSF, "regkinjet2_btagSF/F");
+	outtree->Branch("regkinjet2_betaStarClassic", &regkinjet2_betaStarClassic, "regkinjet2_betaStarClassic/F");
+	outtree->Branch("regkinjet2_dR2Mean", &regkinjet2_dR2Mean, "regkinjet2_dR2Mean/F");
 	outtree->Branch("kinjet1_pt", &kinjet1_pt, "kinjet1_pt/F");
 	outtree->Branch("kinjet1_e", &kinjet1_e, "kinjet1_e/F");
 	outtree->Branch("kinjet1_phi", &kinjet1_phi, "kinjet1_phi/F");
@@ -449,6 +507,8 @@ int main(int argc, char *argv[])
 	outtree->Branch("kinjet1_mass", &kinjet1_mass, "kinjet1_mass/F");
 	outtree->Branch("kinjet1_csvBtag", &kinjet1_csvBtag, "kinjet1_csvBtag/F");
 	outtree->Branch("kinjet1_btagSF", &kinjet1_btagSF, "kinjet1_btagSF/F");
+	outtree->Branch("kinjet1_betaStarClassic", &kinjet1_betaStarClassic, "kinjet1_betaStarClassic/F");
+	outtree->Branch("kinjet1_dR2Mean", &kinjet1_dR2Mean, "kinjet1_dR2Mean/F");
 	outtree->Branch("kinjet2_pt", &kinjet2_pt, "kinjet2_pt/F");
 	outtree->Branch("kinjet2_e", &kinjet2_e, "kinjet2_e/F");
 	outtree->Branch("kinjet2_phi", &kinjet2_phi, "kinjet2_phi/F");
@@ -456,6 +516,8 @@ int main(int argc, char *argv[])
 	outtree->Branch("kinjet2_mass", &kinjet2_mass, "kinjet2_mass/F");
 	outtree->Branch("kinjet2_csvBtag", &kinjet2_csvBtag, "kinjet2_csvBtag/F");
 	outtree->Branch("kinjet2_btagSF", &kinjet2_btagSF, "kinjet2_btagSF/F");
+	outtree->Branch("kinjet2_betaStarClassic", &kinjet2_betaStarClassic, "kinjet2_betaStarClassic/F");
+	outtree->Branch("kinjet2_dR2Mean", &kinjet2_dR2Mean, "kinjet2_dR2Mean/F");
 	outtree->Branch("jj_pt", &jj_pt, "jj_pt/F");
 	outtree->Branch("jj_e", &jj_e, "jj_e/F");
 	outtree->Branch("jj_phi", &jj_phi, "jj_phi/F");
@@ -714,6 +776,8 @@ int main(int argc, char *argv[])
 		TLorentzVector jet;
 		vector<float> jetPt;
 		vector<float> jetbtagSF;
+		vector<float> jetbetaStarClassic;
+		vector<float> jetdR2Mean;
 		vector<float> jetE;
 		vector<float> jetEta;
 		vector<float> jetPhi;
@@ -751,6 +815,8 @@ int main(int argc, char *argv[])
 				jet_emfrac = j1_emfrac;
 				jet_hadfrac = j1_hadfrac;
 				jet_btagSF = j1_btagSF;
+				jet_betaStarClassic = j1_betaStarClassic;
+				jet_dR2Mean = j1_dR2Mean;
 				jet_nNeutrals = j1_nNeutrals;
 				jet_nCharged = j1_nCharged;
 				jet_nConstituents = jet_nNeutrals + jet_nCharged;
@@ -773,6 +839,8 @@ int main(int argc, char *argv[])
 				jet_emfrac = j2_emfrac;
 				jet_hadfrac = j2_hadfrac;
 				jet_btagSF = j2_btagSF;
+				jet_betaStarClassic = j2_betaStarClassic;
+				jet_dR2Mean = j2_dR2Mean;
 				jet_nNeutrals = j2_nNeutrals;
 				jet_nCharged = j2_nCharged;
 				jet_nConstituents = jet_nNeutrals + jet_nCharged;
@@ -795,6 +863,8 @@ int main(int argc, char *argv[])
 				jet_emfrac = j3_emfrac;
 				jet_hadfrac = j3_hadfrac;
 				jet_btagSF = j3_btagSF;
+				jet_betaStarClassic = j3_betaStarClassic;
+				jet_dR2Mean = j3_dR2Mean;
 				jet_nNeutrals = j3_nNeutrals;
 				jet_nCharged = j3_nCharged;
 				jet_nConstituents = jet_nNeutrals + jet_nCharged;
@@ -817,6 +887,8 @@ int main(int argc, char *argv[])
 				jet_emfrac = j4_emfrac;
 				jet_hadfrac = j4_hadfrac;
 				jet_btagSF = j4_btagSF;
+				jet_betaStarClassic = j4_betaStarClassic;
+				jet_dR2Mean = j4_dR2Mean;
 				jet_nNeutrals = j4_nNeutrals;
 				jet_nCharged = j4_nCharged;
 				jet_nConstituents = jet_nNeutrals + jet_nCharged;
@@ -853,6 +925,8 @@ int main(int argc, char *argv[])
 			// ** store 4-momentum + csv output for combinatorics **
 			jetPt.push_back(jet_pt);
 			jetbtagSF.push_back(jet_btagSF);
+			jetdR2Mean.push_back(jet_dR2Mean);
+			jetbetaStarClassic.push_back(jet_betaStarClassic);
 			jetE.push_back(jet_e);
 			jetEta.push_back(jet_eta);
 			jetPhi.push_back(jet_phi);
@@ -1069,12 +1143,34 @@ int main(int argc, char *argv[])
 		pho1_eta = pho1.Eta();
 		pho1_mass = pho1.M();
 		pho1_r9 = ph1_r9;
+		pho1_sieie = ph1_sieie;
+		pho1_hoe = ph1_hoe;
+		pho1_isEB = ph1_isEB;
+		pho1_pfchargedisogood03 = ph1_pfchargedisogood03;
+		pho1_ecaliso = ph1_ecaliso;
+		pho1_pfchargedisobad04 = ph1_pfchargedisobad04;
+		pho1_ecalisobad = ph1_ecalisobad;
+		pho1_badvtx_Et = ph1_badvtx_Et;
+		pho1_PFisoA = (ph1_pfchargedisogood03 + ph1_ecaliso + 2.5 - rho * 0.09) * 50. / ph1_pt;
+		pho1_PFisoB = (ph1_pfchargedisobad04 + ph1_ecalisobad + 2.5 - rho * 0.23) * 50. / ph1_badvtx_Et;
+		pho1_PFisoC = ph1_pfchargedisogood03 * 50. / ph1_pt;
 		pho2_pt = pho2.Pt();
 		pho2_e = pho2.E();
 		pho2_phi = pho2.Phi();
 		pho2_eta = pho2.Eta();
 		pho2_mass = pho2.M();
 		pho2_r9 = ph2_r9;
+		pho2_sieie = ph2_sieie;
+		pho2_hoe = ph2_hoe;
+		pho2_isEB = ph2_isEB;
+		pho2_pfchargedisogood03 = ph2_pfchargedisogood03;
+		pho2_ecaliso = ph2_ecaliso;
+		pho2_pfchargedisobad04 = ph2_pfchargedisobad04;
+		pho2_ecalisobad = ph2_ecalisobad;
+		pho2_badvtx_Et = ph2_badvtx_Et;
+		pho2_PFisoA = (ph2_pfchargedisogood03 + ph2_ecaliso + 2.5 - rho * 0.09) * 50. / ph2_pt;
+		pho2_PFisoB = (ph2_pfchargedisobad04 + ph2_ecalisobad + 2.5 - rho * 0.23) * 50. / ph2_badvtx_Et;
+		pho2_PFisoC = ph2_pfchargedisogood03 * 50. / ph2_pt;
 		jet1_pt = jet1.Pt();
 		jet1_e = jet1.E();
 		jet1_phi = jet1.Phi();
@@ -1082,6 +1178,8 @@ int main(int argc, char *argv[])
 		jet1_mass = jet1.M();
 		jet1_csvBtag = jetCSV[ij1];
 		jet1_btagSF = jetbtagSF[ij1];
+		jet1_betaStarClassic = jetbetaStarClassic[ij1];
+		jet1_dR2Mean = jetdR2Mean[ij1];
 		jet2_pt = jet2.Pt();
 		jet2_e = jet2.E();
 		jet2_phi = jet2.Phi();
@@ -1089,6 +1187,8 @@ int main(int argc, char *argv[])
 		jet2_mass = jet2.M();
 		jet2_csvBtag = jetCSV[ij2];
 		jet2_btagSF = jetbtagSF[ij2];
+		jet2_betaStarClassic = jetbetaStarClassic[ij2];
+		jet2_dR2Mean = jetdR2Mean[ij2];
 		regjet1_pt = regjet1.Pt();
 		regjet1_e = regjet1.E();
 		regjet1_phi = regjet1.Phi();
@@ -1096,6 +1196,8 @@ int main(int argc, char *argv[])
 		regjet1_mass = regjet1.M();
 		regjet1_csvBtag = jetCSV[ij1Reg];
 		regjet1_btagSF = jetbtagSF[ij1Reg];
+		regjet1_betaStarClassic = jetbetaStarClassic[ij1Reg];
+		regjet1_dR2Mean = jetdR2Mean[ij1Reg];
 		regjet2_pt = regjet2.Pt();
 		regjet2_e = regjet2.E();
 		regjet2_phi = regjet2.Phi();
@@ -1103,6 +1205,8 @@ int main(int argc, char *argv[])
 		regjet2_mass = regjet2.M();
 		regjet2_csvBtag = jetCSV[ij2Reg];
 		regjet2_btagSF = jetbtagSF[ij2Reg];
+		regjet2_betaStarClassic = jetbetaStarClassic[ij2Reg];
+		regjet2_dR2Mean = jetdR2Mean[ij2Reg];
 		regjet1_emfrac = jetEmfrac[ij1Reg];
 		regjet1_hadfrac = jetHadfrac[ij1Reg];
 		regjet1_secVtxPt = jetSecVtxPt[ij1Reg];
@@ -1122,6 +1226,8 @@ int main(int argc, char *argv[])
 		regkinjet1_mass = regkinjet1.M();
 		regkinjet1_csvBtag = jetCSV[ij1RegKin];
 		regkinjet1_btagSF = jetbtagSF[ij1RegKin];
+		regkinjet1_betaStarClassic = jetbetaStarClassic[ij1RegKin];
+		regkinjet1_dR2Mean = jetdR2Mean[ij1RegKin];
 		regkinjet2_pt = regkinjet2.Pt();
 		regkinjet2_e = regkinjet2.E();
 		regkinjet2_phi = regkinjet2.Phi();
@@ -1129,6 +1235,8 @@ int main(int argc, char *argv[])
 		regkinjet2_mass = regkinjet2.M();
 		regkinjet2_csvBtag = jetCSV[ij2RegKin];
 		regkinjet2_btagSF = jetbtagSF[ij2RegKin];
+		regkinjet2_betaStarClassic = jetbetaStarClassic[ij2RegKin];
+		regkinjet2_dR2Mean = jetdR2Mean[ij2RegKin];
 		kinjet1_pt = kinjet1.Pt();
 		kinjet1_e = kinjet1.E();
 		kinjet1_phi = kinjet1.Phi();
@@ -1136,6 +1244,8 @@ int main(int argc, char *argv[])
 		kinjet1_mass = kinjet1.M();
 		kinjet1_csvBtag = jetCSV[ij1];
 		kinjet1_btagSF = jetbtagSF[ij1];
+		kinjet1_betaStarClassic = jetbetaStarClassic[ij1];
+		kinjet1_dR2Mean = jetdR2Mean[ij1];
 		kinjet2_pt = kinjet2.Pt();
 		kinjet2_e = kinjet2.E();
 		kinjet2_phi = kinjet2.Phi();
@@ -1143,6 +1253,8 @@ int main(int argc, char *argv[])
 		kinjet2_mass = kinjet2.M();
 		kinjet2_csvBtag = jetCSV[ij2];
 		kinjet2_btagSF = jetbtagSF[ij2];
+		kinjet2_betaStarClassic = jetbetaStarClassic[ij2];
+		kinjet2_dR2Mean = jetdR2Mean[ij2];
 		jj_pt = jj.Pt();
 		jj_e = jj.E();
 		jj_phi = jj.Phi();
