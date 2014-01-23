@@ -19,7 +19,7 @@
 // Analysis headers
 #include "../KinematicFit/DiJetKinFitter.h"
 // Verbosity
-#define DEBUG 0
+#define DEBUG 1
 // namespaces
 using namespace std;
 namespace po = boost::program_options;
@@ -132,8 +132,8 @@ int main(int argc, char *argv[])
 	float ev_weight, ev_evweight, ev_pu_weight;
 // object variables
 	float ph1_eta, ph2_eta, ph1_pt, ph2_pt, PhotonsMass, ph1_phi, ph2_phi, ph1_e, ph2_e, ph1_r9, ph2_r9, ph1_sieie, ph2_sieie, ph1_hoe, ph2_hoe;
-	float ph1_pfchargedisogood03, ph1_ecaliso, ph1_pfchargedisobad04, ph1_ecalisobad, ph1_badvtx_Et;
-	float ph2_pfchargedisogood03, ph2_ecaliso, ph2_pfchargedisobad04, ph2_ecalisobad, ph2_badvtx_Et;
+	float ph1_pfchargedisogood03, ph1_ecaliso, ph1_pfchargedisobad04, ph1_ecalisobad, ph1_badvtx_Et, ph1_isconv;
+	float ph2_pfchargedisogood03, ph2_ecaliso, ph2_pfchargedisobad04, ph2_ecalisobad, ph2_badvtx_Et, ph2_isconv;
 	int ph1_ciclevel, ph2_ciclevel, ph1_isEB, ph2_isEB;
 
 	float j1_e, j1_pt, j1_phi, j1_eta, j1_beta, j1_betaStar, j1_betaStarClassic, j1_dR2Mean, j1_csvBtag, j1_csvMvaBtag, j1_jetProbBtag, j1_tcheBtag, j1_secVtxPt, j1_secVtx3dL, j1_emfrac, j1_hadfrac, j1_axis1, j1_axis2, j1_pull, j1_radionMatched, j1_btagSF;
@@ -162,8 +162,8 @@ int main(int argc, char *argv[])
 	float pho1_pt, pho1_e, pho1_phi, pho1_eta, pho1_mass, pho1_r9, pho1_sieie, pho1_hoe;
 	float pho2_pt, pho2_e, pho2_phi, pho2_eta, pho2_mass, pho2_r9, pho2_sieie, pho2_hoe;
 	int pho1_isEB, pho2_isEB;
-	float pho1_pfchargedisogood03, pho1_ecaliso, pho1_pfchargedisobad04, pho1_ecalisobad, pho1_badvtx_Et, pho1_PFisoA, pho1_PFisoB, pho1_PFisoC;
-	float pho2_pfchargedisogood03, pho2_ecaliso, pho2_pfchargedisobad04, pho2_ecalisobad, pho2_badvtx_Et, pho2_PFisoA, pho2_PFisoB, pho2_PFisoC;
+	float pho1_pfchargedisogood03, pho1_ecaliso, pho1_pfchargedisobad04, pho1_ecalisobad, pho1_badvtx_Et, pho1_PFisoA, pho1_PFisoB, pho1_PFisoC, pho1_isconv;
+	float pho2_pfchargedisogood03, pho2_ecaliso, pho2_pfchargedisobad04, pho2_ecalisobad, pho2_badvtx_Et, pho2_PFisoA, pho2_PFisoB, pho2_PFisoC, pho2_isconv;
 	float jet1_pt, jet1_e, jet1_phi, jet1_eta, jet1_mass, jet1_csvBtag, jet1_btagSF, jet1_betaStarClassic, jet1_dR2Mean;
 	float jet2_pt, jet2_e, jet2_phi, jet2_eta, jet2_mass, jet2_csvBtag, jet2_btagSF, jet2_betaStarClassic, jet2_dR2Mean;
 	float regjet1_emfrac, regjet1_hadfrac, regjet1_secVtxPt, regjet1_secVtx3dL, regjet1_dPhiMet;
@@ -225,6 +225,8 @@ int main(int argc, char *argv[])
 	intree->SetBranchAddress("ph2_ecalisobad", &ph2_ecalisobad);
 	intree->SetBranchAddress("ph1_badvtx_Et", &ph1_badvtx_Et);
 	intree->SetBranchAddress("ph2_badvtx_Et", &ph2_badvtx_Et);
+	intree->SetBranchAddress("ph1_isconv", &ph1_isconv);
+	intree->SetBranchAddress("ph2_isconv", &ph2_isconv);
 	intree->SetBranchAddress("PhotonsMass", &PhotonsMass);
 	intree->SetBranchAddress("ph1_ciclevel", &ph1_ciclevel);
 	intree->SetBranchAddress("ph2_ciclevel", &ph2_ciclevel);
@@ -411,6 +413,7 @@ int main(int argc, char *argv[])
 	outtree->Branch("pho1_pfchargedisobad04", &pho1_pfchargedisobad04, "pho1_pfchargedisobad04/F");
 	outtree->Branch("pho1_ecalisobad", &pho1_ecalisobad, "pho1_ecalisobad/F");
 	outtree->Branch("pho1_badvtx_Et", &pho1_badvtx_Et, "pho1_badvtx_Et/F");
+	outtree->Branch("pho1_isconv", &pho1_isconv, "pho1_isconv/F");
 	outtree->Branch("pho1_PFisoA", &pho1_PFisoA, "pho1_PFisoA/F");
 	outtree->Branch("pho1_PFisoB", &pho1_PFisoB, "pho1_PFisoB/F");
 	outtree->Branch("pho1_PFisoC", &pho1_PFisoC, "pho1_PFisoC/F");
@@ -428,6 +431,7 @@ int main(int argc, char *argv[])
 	outtree->Branch("pho2_pfchargedisobad04", &pho2_pfchargedisobad04, "pho2_pfchargedisobad04/F");
 	outtree->Branch("pho2_ecalisobad", &pho2_ecalisobad, "pho2_ecalisobad/F");
 	outtree->Branch("pho2_badvtx_Et", &pho2_badvtx_Et, "pho2_badvtx_Et/F");
+	outtree->Branch("pho2_isconv", &pho2_isconv, "pho2_isconv/F");
 	outtree->Branch("pho2_PFisoA", &pho2_PFisoA, "pho2_PFisoA/F");
 	outtree->Branch("pho2_PFisoB", &pho2_PFisoB, "pho2_PFisoB/F");
 	outtree->Branch("pho2_PFisoC", &pho2_PFisoC, "pho2_PFisoC/F");
@@ -680,7 +684,7 @@ int main(int argc, char *argv[])
 		int njets_kRadionID_ = 0;
 		int njets_kRadionID_and_CSVM_ = 0;
     intree->GetEntry(ievt);
-		if(DEBUG && !(event == 6976 || event == 8042 || event == 14339 || event == 2227 || event == 4921 || event == 7665 || event == 7687 || event == 11246 || event == 15140 || event == 685) ) continue;
+		if(DEBUG && !(/*event == 6976 ||*/ event == 8042 || event == 14339 /*|| event == 2227 || event == 4921 || event == 7665 || event == 7687 || event == 11246 || event == 15140 || event == 685*/) ) continue;
 		if(DEBUG) cout << "#####\tievt= " << ievt << "\trun= " << run << "\tlumi= " << lumis << "\tevent= " << event << endl;
 		if( type < -250 && ((int)event % 2 == 0) && !SYNC_W_PHIL) continue; // use regression only on odd events
 	
@@ -708,6 +712,28 @@ int main(int argc, char *argv[])
 		nevents[ilevel]++; eventcut[ilevel] = "Before photon ID";
 		nevents_w[ilevel] += evweight; ilevel++;
 		nevents_sync[0]++;
+		float ph1_PFisoA = (ph1_pfchargedisogood03 + ph1_ecaliso + 2.5 - rho * 0.09) * 50. / ph1_pt;
+		float ph1_PFisoB = (ph1_pfchargedisobad04 + ph1_ecalisobad + 2.5 - rho * 0.23) * 50. / ph1_badvtx_Et;
+		float ph1_PFisoC = ph1_pfchargedisogood03 * 50. / ph1_pt;
+		float ph2_PFisoA = (ph2_pfchargedisogood03 + ph2_ecaliso + 2.5 - rho * 0.09) * 50. / ph2_pt;
+		float ph2_PFisoB = (ph2_pfchargedisobad04 + ph2_ecalisobad + 2.5 - rho * 0.23) * 50. / ph2_badvtx_Et;
+		float ph2_PFisoC = ph2_pfchargedisogood03 * 50. / ph2_pt;
+
+		if(DEBUG) cout << "ph1_pt= " << ph1_pt << "\tph1_eta= " << ph1_eta << "\tph1_phi= " << ph1_phi << "\tph1_r9= " << ph1_r9 << "\tph1_SCEta= " << ph1_SCEta << endl;
+		if(DEBUG) cout << "ph2_pt= " << ph2_pt << "\tph2_eta= " << ph2_eta << "\tph2_phi= " << ph2_phi << "\tph2_r9= " << ph2_r9 << "\tph2_SCEta= " << ph2_SCEta << endl;
+		if(DEBUG) cout << "ph1_pfchargedisogood03= " << ph1_pfchargedisogood03 << "\tph1_ecaliso= " << ph1_ecaliso << "\trho= " << rho << "\tph1_pt= " << ph1_pt << endl;
+		if(DEBUG) cout << "ph1_pfchargedisobad04= " << ph1_pfchargedisobad04 << "\tph1_ecalisobad= " << ph1_ecalisobad << "\trho= " << rho << "\tph1_badvtx_Et= " << ph1_badvtx_Et << endl;
+		if(DEBUG) cout << "ph1_pfchargedisogood03= " << ph1_pfchargedisogood03 << "\tph1_pt= " << ph1_pt << endl;
+		if(DEBUG) cout << "ph2_pfchargedisogood03= " << ph2_pfchargedisogood03 << "\tph2_ecaliso= " << ph2_ecaliso << "\trho= " << rho << "\tph2_pt= " << ph2_pt << endl;
+		if(DEBUG) cout << "ph2_pfchargedisobad04= " << ph2_pfchargedisobad04 << "\tph2_ecalisobad= " << ph2_ecalisobad << "\trho= " << rho << "\tph2_badvtx_Et= " << ph2_badvtx_Et << endl;
+		if(DEBUG) cout << "ph2_pfchargedisogood03= " << ph2_pfchargedisogood03 << "\tph2_pt= " << ph2_pt << endl;
+		if(DEBUG) cout << "ph1_PFisoA= " << ph1_PFisoA << "\tph1_PFisoB= " << ph1_PFisoB << "\tph1_PFisoC= " << ph1_PFisoC << "\tph1_sieie= " << ph1_sieie << "\tph1_hoe= " << ph1_hoe << "\tph1_isconv= " << ph1_isconv << endl;
+		if(DEBUG) cout << "ph2_PFisoA= " << ph2_PFisoA << "\tph2_PFisoB= " << ph2_PFisoB << "\tph2_PFisoC= " << ph2_PFisoC << "\tph2_sieie= " << ph2_sieie << "\tph2_hoe= " << ph2_hoe << "\tph2_isconv= " << ph2_isconv << endl;
+		if(DEBUG) cout << "j1_pt= " << j1_pt << "\tj1_csvBtag= " << j1_csvBtag << "\tj1_csvMvaBtag= " << j1_csvMvaBtag << endl;
+		if(DEBUG) cout << "j2_pt= " << j2_pt << "\tj2_csvBtag= " << j2_csvBtag << "\tj2_csvMvaBtag= " << j2_csvMvaBtag << endl;
+		if(DEBUG) cout << "j3_pt= " << j3_pt << "\tj3_csvBtag= " << j3_csvBtag << "\tj3_csvMvaBtag= " << j3_csvMvaBtag << endl;
+		if(DEBUG) cout << "j4_pt= " << j4_pt << "\tj4_csvBtag= " << j4_csvBtag << "\tj4_csvMvaBtag= " << j4_csvMvaBtag << endl;
+
 		if(DEBUG) cout << "ph1_pt= " << ph1_pt << "\t(float)(40.*PhotonsMass)/(float)120.= " << (float)(40.*PhotonsMass)/(float)120. << endl;
 		if( ph1_pt < (float)(40.*PhotonsMass)/(float)120. ) continue;
 		nevents[ilevel]++; eventcut[ilevel] = "After floating pt cut for photon 1 (40*mgg/120 GeV)";
