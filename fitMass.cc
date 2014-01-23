@@ -48,13 +48,17 @@ int main ()
 	gStyle->SetOptStat(0);
 
 //	TFile *infile = TFile::Open("simple_genjet.root");
-	TFile *infile = TFile::Open("simple_genjet_globeinputs.root");
 //	TFile *infile = TFile::Open("simple_parton.root");
-	TTree *intree = (TTree*)infile->Get("Radion_m300_8TeV_nm");
 //	TFile *infilereg = TFile::Open("simple_reg_genjet.root");
-	TFile *infilereg = TFile::Open("simple_reg_genjet_globeinputs.root");
 //	TFile *infilereg = TFile::Open("simple_reg_parton.root");
-	TTree *intreereg = (TTree*)infilereg->Get("Radion_m300_8TeV_nm");
+//	TFile *infile = TFile::Open("simple_genjet_globeinputs.root");
+//	TTree *intree = (TTree*)infile->Get("Radion_m300_8TeV_nm");
+//	TFile *infilereg = TFile::Open("simple_reg_genjet_globeinputs.root");
+//	TTree *intreereg = (TTree*)infilereg->Get("Radion_m300_8TeV_nm");
+	TFile *infile = TFile::Open("2013-12-12_selection_noRegression_noMassCut_v02/Radion_m300_8TeV_noRegression_noMassCut_v02.root");
+	TTree *intree = (TTree*)infile->Get("Radion_m300_8TeV");
+	TFile *infilereg = TFile::Open("2013-12-12_selection_noRegression_noMassCut_v02/Radion_m350_8TeV_noRegression_noMassCut_v02.root");
+	TTree *intreereg = (TTree*)infilereg->Get("Radion_m350_8TeV");
 	ofstream outfile_mjj, outfile_mggjj;
 	outfile_mjj.open("performanceSummary_mjj.txt");
 	outfile_mggjj.open("performanceSummary_mggjj.txt");
@@ -73,9 +77,9 @@ int main ()
 	RooRealVar njets_kRadionID_and_CSVM("njets_kRadionID_and_CSVM", "njets_kRadionID_and_CSVM", 0, 10);
 	TCanvas *c1 = new TCanvas("c1", "c1", 600, 600);
 
-	bool GAUSS = true;
+	bool GAUSS = false;
 	bool CRYSTALBALL = true;
-	bool VOIGT = true;
+	bool VOIGT = false;
 	bool SIMVOIGT = false;
 
 	vector<string> categoryCut;
