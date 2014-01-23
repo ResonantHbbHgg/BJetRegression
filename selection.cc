@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
 		po::options_description desc("Allowed options");
 		desc.add_options()
 			("help,h", "produce help message")
-			("inputfile,i", po::value<string>(&inputfile)->default_value("root://eoscms//eos/cms/store/cmst3/user/obondu/H2GGLOBE/Radion/trees/radion_tree_v06/Radion_Graviton_nm.root"), "input file")
+			("inputfile,i", po::value<string>(&inputfile)->default_value("root://eoscms//eos/cms/store/cmst3/user/obondu/H2GGLOBE/Radion/trees/radion_tree_v08/Radion_nm.root"), "input file")
 			("inputtree,t", po::value<string>(&inputtree)->default_value("Radion_m300_8TeV_nm"), "input tree")
 			("outputtree", po::value<string>(&outputtree)->default_value(inputtree), "output tree")
 			("outputfile,o", po::value<string>(&outputfile)->default_value("selected.root"), "output file")
@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
 			("numberOfRegressionFiles,r", po::value<int>(&numberOfRegressionFiles)->default_value(2), "number of regression files")
 			("type", po::value<int>(&type)->default_value(0), "same conventions as in h2gglobe: <0 = signal ; =0 = data ; >0 = background")
 			("sync", po::value<int>(&SYNC)->default_value(0), "mjj and mggjj cuts are overwritten if sync is switched on")
-			("removeUndefinedBtagSF", po::value<int>(&REMOVE_UNDEFINED_BTAGSF)->default_value(0), "remove undefined btagSF values (should be used only for the limit trees)")
+			("removeUndefinedBtagSF", po::value<int>(&REMOVE_UNDEFINED_BTAGSF)->default_value(0), "remove undefined btagSF_M values (should be used only for the limit trees)")
 			("applyMassCuts", po::value<int>(&applyMassCuts)->default_value(1), "can switch off mass cuts (e.g. for control plots), prevails other mass cut options if switched off")
 			("applyPhotonIDControlSample", po::value<int>(&applyPhotonIDControlSample)->default_value(0), "Invert photon ID CiC cut to populate selection in gjjj instead of ggjj")
 			("sync_w_phil", po::value<int>(&SYNC_W_PHIL)->default_value(0), "switch on output for dedicated events")
@@ -140,7 +140,7 @@ int main(int argc, char *argv[])
 	int nevents[30] = {0};
 	int ilevelmax=0;
 	float nevents_w[30] = {0.};
-	float nevents_w_btagSF[30] = {0.};
+	float nevents_w_btagSF_M[30] = {0.};
 	int nevents_sync[30] = {0};
 	int nevents1btag[30] = {0};
 	int nevents2btag[30] = {0};
@@ -256,7 +256,7 @@ int main(int argc, char *argv[])
 		int nbjet_tmp = 0;
 //		float csv_cut = 0.244; // CSVL
 		float csv_cut = 0.679; // CSVM
-		for( int ijet = 0 ; ijet < min(t.njets_passing_kLooseID, 4); ijet ++ )
+		for( int ijet = 0 ; ijet < min(t.njets_passing_kLooseID, 15); ijet ++ )
 		{
 			if( ijet == 0 )
 				if(t.j1_csvBtag > csv_cut)
@@ -270,6 +270,39 @@ int main(int argc, char *argv[])
 			if( ijet == 3 )
 				if(t.j4_csvBtag > csv_cut)
 					nbjet_tmp++; 
+			if( ijet == 4 )
+				if(t.j5_csvBtag > csv_cut)
+					nbjet_tmp++; 
+			if( ijet == 5 )
+				if(t.j6_csvBtag > csv_cut)
+					nbjet_tmp++; 
+			if( ijet == 6 )
+				if(t.j7_csvBtag > csv_cut)
+					nbjet_tmp++; 
+			if( ijet == 7 )
+				if(t.j8_csvBtag > csv_cut)
+					nbjet_tmp++; 
+			if( ijet == 8 )
+				if(t.j9_csvBtag > csv_cut)
+					nbjet_tmp++; 
+			if( ijet == 9 )
+				if(t.j10_csvBtag > csv_cut)
+					nbjet_tmp++; 
+			if( ijet == 10 )
+				if(t.j11_csvBtag > csv_cut)
+					nbjet_tmp++; 
+			if( ijet == 11 )
+				if(t.j12_csvBtag > csv_cut)
+					nbjet_tmp++; 
+			if( ijet == 12 )
+				if(t.j13_csvBtag > csv_cut)
+					nbjet_tmp++; 
+			if( ijet == 13 )
+				if(t.j14_csvBtag > csv_cut)
+					nbjet_tmp++; 
+			if( ijet == 14 )
+				if(t.j15_csvBtag > csv_cut)
+					nbjet_tmp++; 
 		}
 		if(DEBUG) cout << "nbjet_tmp= " << nbjet_tmp << endl;
 		if( nbjet_tmp < 1 ) continue;
@@ -279,128 +312,18 @@ int main(int argc, char *argv[])
 		if( nbjet_tmp == 1) nevents1btag[10]++; 
 		else nevents2btag[10]++;
 
-		TLorentzVector jet;
-		vector<float> jetPt;
-		vector<float> jetbtagSF;
-		vector<float> jetbetaStarClassic;
-		vector<float> jetdR2Mean;
-		vector<float> jetE;
-		vector<float> jetEta;
-		vector<float> jetPhi;
-		vector<float> jetCSV;
-		vector<float> jetRegPt;
-		vector<float> jetRegKinPt;
-// regression inputs
-		vector<float> jetEmfrac;
-		vector<float> jetHadfrac;
-		vector<float> jetSecVtxPt;
-		vector<float> jetSecVtx3dL;
-		vector<float> jetDPhiMet;
-		vector<int> jetNConstituents;
+		jet_variables J;
+		initialize_jet_variables( &J );
 
 		TLorentzVector met;
 		met.SetPtEtaPhiE(t.met_corr_pfmet, t.met_corr_eta_pfmet, t.met_corr_phi_pfmet, t.met_corr_e_pfmet);
 
 		// loop over jets, store jet info + info on closest genjet / parton (no selection applied)
 		if(DEBUG) cout << "t.njets_passing_kLooseID= " << t.njets_passing_kLooseID << endl;
-		for( int ijet = 0 ; ijet < min(t.njets_passing_kLooseID, 4); ijet ++ )
+		for( int ijet = 0 ; ijet < min(t.njets_passing_kLooseID, 15); ijet ++ )
 		{
 			njets[0]++; jetcut[0] = "Before JetID";
-			if( ijet == 0 )
-			{
-				t.jet_e = t.j1_e;
-				t.jet_pt = t.j1_pt;
-				t.jet_phi = t.j1_phi;
-				t.jet_eta = t.j1_eta;
-				t.jet_betaStarClassic = t.j1_betaStarClassic;
-				t.jet_dR2Mean = t.j1_dR2Mean;
-				t.jet_csvBtag = t.j1_csvBtag;
-				t.jet_radionMatched = t.j1_radionMatched;
-				t.jet_secVtxPt = t.j1_secVtxPt;
-				t.jet_secVtx3dL = t.j1_secVtx3dL;
-				t.jet_emfrac = t.j1_emfrac;
-				t.jet_hadfrac = t.j1_hadfrac;
-				t.jet_btagSF = t.j1_btagSF;
-				t.jet_betaStarClassic = t.j1_betaStarClassic;
-				t.jet_dR2Mean = t.j1_dR2Mean;
-				t.jet_nNeutrals = t.j1_nNeutrals;
-				t.jet_nCharged = t.j1_nCharged;
-				t.jet_nConstituents = t.jet_nNeutrals + t.jet_nCharged;
-				jet.SetPtEtaPhiE(t.j1_pt, t.j1_eta, t.j1_phi, t.j1_e);
-				t.jet_dPhiMet = jet.DeltaPhi(met);
-			} // end if jet == 0
-
-			if( ijet == 1 )
-			{
-				t.jet_e = t.j2_e;
-				t.jet_pt = t.j2_pt;
-				t.jet_phi = t.j2_phi;
-				t.jet_eta = t.j2_eta;
-				t.jet_betaStarClassic = t.j2_betaStarClassic;
-				t.jet_dR2Mean = t.j2_dR2Mean;
-				t.jet_csvBtag = t.j2_csvBtag;
-				t.jet_radionMatched = t.j2_radionMatched;
-				t.jet_secVtxPt = t.j2_secVtxPt;
-				t.jet_secVtx3dL = t.j2_secVtx3dL;
-				t.jet_emfrac = t.j2_emfrac;
-				t.jet_hadfrac = t.j2_hadfrac;
-				t.jet_btagSF = t.j2_btagSF;
-				t.jet_betaStarClassic = t.j2_betaStarClassic;
-				t.jet_dR2Mean = t.j2_dR2Mean;
-				t.jet_nNeutrals = t.j2_nNeutrals;
-				t.jet_nCharged = t.j2_nCharged;
-				t.jet_nConstituents = t.jet_nNeutrals + t.jet_nCharged;
-				jet.SetPtEtaPhiE(t.j2_pt, t.j2_eta, t.j2_phi, t.j2_e);
-				t.jet_dPhiMet = jet.DeltaPhi(met);
-			} // end if jet == 1
-
-			if( ijet == 2 )
-			{
-				t.jet_e = t.j3_e;
-				t.jet_pt = t.j3_pt;
-				t.jet_phi = t.j3_phi;
-				t.jet_eta = t.j3_eta;
-				t.jet_betaStarClassic = t.j3_betaStarClassic;
-				t.jet_dR2Mean = t.j3_dR2Mean;
-				t.jet_csvBtag = t.j3_csvBtag;
-				t.jet_radionMatched = t.j3_radionMatched;
-				t.jet_secVtxPt = t.j3_secVtxPt;
-				t.jet_secVtx3dL = t.j3_secVtx3dL;
-				t.jet_emfrac = t.j3_emfrac;
-				t.jet_hadfrac = t.j3_hadfrac;
-				t.jet_btagSF = t.j3_btagSF;
-				t.jet_betaStarClassic = t.j3_betaStarClassic;
-				t.jet_dR2Mean = t.j3_dR2Mean;
-				t.jet_nNeutrals = t.j3_nNeutrals;
-				t.jet_nCharged = t.j3_nCharged;
-				t.jet_nConstituents = t.jet_nNeutrals + t.jet_nCharged;
-				jet.SetPtEtaPhiE(t.j3_pt, t.j3_eta, t.j3_phi, t.j3_e);
-				t.jet_dPhiMet = jet.DeltaPhi(met);
-			} // end if jet == 2
-
-			if( ijet == 3 )
-			{
-				t.jet_e = t.j4_e;
-				t.jet_pt = t.j4_pt;
-				t.jet_phi = t.j4_phi;
-				t.jet_eta = t.j4_eta;
-				t.jet_betaStarClassic = t.j4_betaStarClassic;
-				t.jet_dR2Mean = t.j4_dR2Mean;
-				t.jet_csvBtag = t.j4_csvBtag;
-				t.jet_radionMatched = t.j4_radionMatched;
-				t.jet_secVtxPt = t.j4_secVtxPt;
-				t.jet_secVtx3dL = t.j4_secVtx3dL;
-				t.jet_emfrac = t.j4_emfrac;
-				t.jet_hadfrac = t.j4_hadfrac;
-				t.jet_btagSF = t.j4_btagSF;
-				t.jet_betaStarClassic = t.j4_betaStarClassic;
-				t.jet_dR2Mean = t.j4_dR2Mean;
-				t.jet_nNeutrals = t.j4_nNeutrals;
-				t.jet_nCharged = t.j4_nCharged;
-				t.jet_nConstituents = t.jet_nNeutrals + t.jet_nCharged;
-				jet.SetPtEtaPhiE(t.j4_pt, t.j4_eta, t.j4_phi, t.j4_e);
-				t.jet_dPhiMet = jet.DeltaPhi(met);
-			} // end if jet == 3
+			fill_jet_variables( &t, ijet, met);
 			t.jet_nConstituents_ = (float) t.jet_nConstituents;
 			t.jet_dPhiMet_fabs = fabs(t.jet_dPhiMet);
 
@@ -429,39 +352,39 @@ int main(int argc, char *argv[])
 			if(DEBUG) cout << "Jet is passing selection cuts" << endl;
 			// ** call regression to correct the pt **
 			// ** store 4-momentum + csv output for combinatorics **
-			jetPt.push_back(t.jet_pt);
-			jetbtagSF.push_back(t.jet_btagSF);
-			jetdR2Mean.push_back(t.jet_dR2Mean);
-			jetbetaStarClassic.push_back(t.jet_betaStarClassic);
-			jetE.push_back(t.jet_e);
-			jetEta.push_back(t.jet_eta);
-			jetPhi.push_back(t.jet_phi);
-			jetCSV.push_back(t.jet_csvBtag);
-			jetRegPt.push_back(t.jet_regPt);
-			jetRegKinPt.push_back(t.jet_regkinPt);
-			jetEmfrac.push_back(t.jet_emfrac);
-			jetHadfrac.push_back(t.jet_hadfrac);
-			jetSecVtxPt.push_back(t.jet_secVtxPt);
-			jetSecVtx3dL.push_back(t.jet_secVtx3dL);
-			jetDPhiMet.push_back(t.jet_dPhiMet);
-			jetNConstituents.push_back(t.jet_nConstituents);
+			J.jetPt.push_back(t.jet_pt);
+			J.jetbtagSF_M.push_back(t.jet_btagSF_M);
+			J.jetdR2Mean.push_back(t.jet_dR2Mean);
+			J.jetbetaStarClassic.push_back(t.jet_betaStarClassic);
+			J.jetE.push_back(t.jet_e);
+			J.jetEta.push_back(t.jet_eta);
+			J.jetPhi.push_back(t.jet_phi);
+			J.jetCSV.push_back(t.jet_csvBtag);
+			J.jetRegPt.push_back(t.jet_regPt);
+			J.jetRegKinPt.push_back(t.jet_regkinPt);
+			J.jetEmfrac.push_back(t.jet_emfrac);
+			J.jetHadfrac.push_back(t.jet_hadfrac);
+			J.jetSecVtxPt.push_back(t.jet_secVtxPt);
+			J.jetSecVtx3dL.push_back(t.jet_secVtx3dL);
+			J.jetDPhiMet.push_back(t.jet_dPhiMet);
+			J.jetNConstituents.push_back(t.jet_nConstituents);
 
 
 			njets_kRadionID_++;
 			if(t.jet_csvBtag > csv_cut) njets_kRadionID_and_CSVM_++;
 		} // end of loop over jets
 		
-		if(DEBUG) cout << "jetPt.size()= " << jetPt.size() << endl;
+		if(DEBUG) cout << "J.jetPt.size()= " << J.jetPt.size() << endl;
 		// jet combinatorics
-		if( jetPt.size() < 2 ) continue;
+		if( J.jetPt.size() < 2 ) continue;
 		nevents[ilevel]++; eventcut[ilevel] = "After njet >=2 passing the jet selection";
 		nevents_w[ilevel] += t.evweight; ilevel++;
 		nevents_sync[6]++;
 
 		vector<int> btaggedJet;
-		for( unsigned int ijet = 0 ; ijet < jetPt.size() ; ijet++ )
+		for( unsigned int ijet = 0 ; ijet < J.jetPt.size() ; ijet++ )
 		{
-			if( jetCSV[ijet] > csv_cut )
+			if( J.jetCSV[ijet] > csv_cut )
 				btaggedJet.push_back(ijet);
 		}
 
@@ -481,7 +404,7 @@ int main(int argc, char *argv[])
 		if(DEBUG) cout << "btaggedJet.size()= " << btaggedJet.size() << endl;
 		if(DEBUG)
 			for(int ijet_=0; ijet_ < (int)btaggedJet.size() ; ijet_++)
-				cout << "jetPt[btaggedJet[" << ijet_ << "]]= " << jetPt[btaggedJet[ijet_]] << endl;
+				cout << "J.jetPt[btaggedJet[" << ijet_ << "]]= " << J.jetPt[btaggedJet[ijet_]] << endl;
 		// if exactly one btag, pick it up, then find the other jet that gives max ptjj
 		if( btaggedJet.size() == 1 )
 		{
@@ -490,24 +413,24 @@ int main(int argc, char *argv[])
 			unsigned int ij = btaggedJet[0];
 			if(DEBUG) cout << "btaggedJet[0]= " << btaggedJet[0] << endl;
 			TLorentzVector j, jreg, jregkin;
-			j.SetPtEtaPhiE(jetPt[ij], jetEta[ij], jetPhi[ij], jetE[ij]);
-			jreg = ((float)jetRegPt[ij]/(float)jetPt[ij]) * j;
-			jregkin = ((float)jetRegKinPt[ij]/(float)jetPt[ij]) * j;
+			j.SetPtEtaPhiE(J.jetPt[ij], J.jetEta[ij], J.jetPhi[ij], J.jetE[ij]);
+			jreg = ((float)J.jetRegPt[ij]/(float)J.jetPt[ij]) * j;
+			jregkin = ((float)J.jetRegKinPt[ij]/(float)J.jetPt[ij]) * j;
 			int imaxptjj;
 			int imaxptjjReg;
 			int imaxptjjRegKin;
 			float maxptjj = -99.;
 			float maxptjjReg = -99.;
 			float maxptjjRegKin = -99.;
-			for(unsigned int ijet = 0 ; ijet < jetPt.size() ; ijet++)
+			for(unsigned int ijet = 0 ; ijet < J.jetPt.size() ; ijet++)
 			{
 				if( ijet == ij ) continue;
 				TLorentzVector tmp_j;
 				TLorentzVector tmp_jReg;
 				TLorentzVector tmp_jRegKin;
-				tmp_j.SetPtEtaPhiE(jetPt[ijet], jetEta[ijet], jetPhi[ijet], jetE[ijet]);
-				tmp_jReg = ((float)jetRegPt[ijet]/(float)jetPt[ijet]) * tmp_j;
-				tmp_jRegKin = ((float)jetRegKinPt[ijet]/(float)jetPt[ijet]) * tmp_j;
+				tmp_j.SetPtEtaPhiE(J.jetPt[ijet], J.jetEta[ijet], J.jetPhi[ijet], J.jetE[ijet]);
+				tmp_jReg = ((float)J.jetRegPt[ijet]/(float)J.jetPt[ijet]) * tmp_j;
+				tmp_jRegKin = ((float)J.jetRegKinPt[ijet]/(float)J.jetPt[ijet]) * tmp_j;
 				TLorentzVector jj = j + tmp_j;
 				TLorentzVector jjReg = jreg + tmp_jReg;
 				TLorentzVector jjRegKin = jregkin + tmp_jRegKin;
@@ -552,24 +475,24 @@ int main(int argc, char *argv[])
 			for( unsigned int i = 0 ; i < btaggedJet.size() - 1 ; i++ )
 			{
 				ij = btaggedJet[i];
-				if(DEBUG) cout << "btaggedJet[" << i << "]= " << ij << "\tjetPt[" << ij << "]= " << jetPt[ij] << endl;
+				if(DEBUG) cout << "btaggedJet[" << i << "]= " << ij << "\tjetPt[" << ij << "]= " << J.jetPt[ij] << endl;
 				TLorentzVector j, jreg, jregkin;
-				j.SetPtEtaPhiE(jetPt[ij], jetEta[ij], jetPhi[ij], jetE[ij]);
-				jreg = ((float)jetRegPt[ij]/(float)jetPt[ij]) * j;
-				jregkin = ((float)jetRegKinPt[ij]/(float)jetPt[ij]) * j;
+				j.SetPtEtaPhiE(J.jetPt[ij], J.jetEta[ij], J.jetPhi[ij], J.jetE[ij]);
+				jreg = ((float)J.jetRegPt[ij]/(float)J.jetPt[ij]) * j;
+				jregkin = ((float)J.jetRegKinPt[ij]/(float)J.jetPt[ij]) * j;
 				for(unsigned int k = i+1 ; k < btaggedJet.size() ; k++)
 				{
 					int ijet = btaggedJet[k];
 					TLorentzVector tmp_j;
 					TLorentzVector tmp_jReg;
 					TLorentzVector tmp_jRegKin;
-					tmp_j.SetPtEtaPhiE(jetPt[ijet], jetEta[ijet], jetPhi[ijet], jetE[ijet]);
-					tmp_jReg = ((float)jetRegPt[ijet]/(float)jetPt[ijet]) * tmp_j;
-					tmp_jRegKin = ((float)jetRegKinPt[ijet]/(float)jetPt[ijet]) * tmp_j;
+					tmp_j.SetPtEtaPhiE(J.jetPt[ijet], J.jetEta[ijet], J.jetPhi[ijet], J.jetE[ijet]);
+					tmp_jReg = ((float)J.jetRegPt[ijet]/(float)J.jetPt[ijet]) * tmp_j;
+					tmp_jRegKin = ((float)J.jetRegKinPt[ijet]/(float)J.jetPt[ijet]) * tmp_j;
 					TLorentzVector jj = j + tmp_j;
 					TLorentzVector jjReg = jreg + tmp_jReg;
 					TLorentzVector jjRegKin = jregkin + tmp_jRegKin;
-					if(DEBUG) cout << "btaggedJet[" << k << "]= " << btaggedJet[k] << "\tjetPt[" << ijet << "]= " << jetPt[ijet] << "\tjj.Pt()= " << jj.Pt() << "\t(maxptjj= " << maxptjj << ")" << endl;
+					if(DEBUG) cout << "btaggedJet[" << k << "]= " << btaggedJet[k] << "\tjetPt[" << ijet << "]= " << J.jetPt[ijet] << "\tjj.Pt()= " << jj.Pt() << "\t(maxptjj= " << maxptjj << ")" << endl;
 					if( jj.Pt() > maxptjj )
 					{
 						maxptjj = jj.Pt();
@@ -610,12 +533,12 @@ int main(int argc, char *argv[])
 		TLorentzVector kinjet2;
 		pho1.SetPtEtaPhiE(t.ph1_pt, t.ph1_eta, t.ph1_phi, t.ph1_e);
 		pho2.SetPtEtaPhiE(t.ph2_pt, t.ph2_eta, t.ph2_phi, t.ph2_e);
-		jet1.SetPtEtaPhiE(jetPt[ij1], jetEta[ij1], jetPhi[ij1], jetE[ij1]);
-		jet2.SetPtEtaPhiE(jetPt[ij2], jetEta[ij2], jetPhi[ij2], jetE[ij2]);
-		regjet1.SetPtEtaPhiE(jetPt[ij1Reg], jetEta[ij1Reg], jetPhi[ij1Reg], jetE[ij1Reg]);
-		regjet2.SetPtEtaPhiE(jetPt[ij2Reg], jetEta[ij2Reg], jetPhi[ij2Reg], jetE[ij2Reg]);
-		regjet1 = ((float)jetRegPt[ij1Reg]/(float)jetPt[ij1Reg]) * regjet1;
-		regjet2 = ((float)jetRegPt[ij2Reg]/(float)jetPt[ij2Reg]) * regjet2;
+		jet1.SetPtEtaPhiE(J.jetPt[ij1], J.jetEta[ij1], J.jetPhi[ij1], J.jetE[ij1]);
+		jet2.SetPtEtaPhiE(J.jetPt[ij2], J.jetEta[ij2], J.jetPhi[ij2], J.jetE[ij2]);
+		regjet1.SetPtEtaPhiE(J.jetPt[ij1Reg], J.jetEta[ij1Reg], J.jetPhi[ij1Reg], J.jetE[ij1Reg]);
+		regjet2.SetPtEtaPhiE(J.jetPt[ij2Reg], J.jetEta[ij2Reg], J.jetPhi[ij2Reg], J.jetE[ij2Reg]);
+		regjet1 = ((float)J.jetRegPt[ij1Reg]/(float)J.jetPt[ij1Reg]) * regjet1;
+		regjet2 = ((float)J.jetRegPt[ij2Reg]/(float)J.jetPt[ij2Reg]) * regjet2;
 		regkinjet1 = regjet1;
 		regkinjet2 = regjet2;
 		float Hmass = 125.;
@@ -682,112 +605,112 @@ int main(int argc, char *argv[])
 		t.jet1_phi = jet1.Phi();
 		t.jet1_eta = jet1.Eta();
 		t.jet1_mass = jet1.M();
-		t.jet1_csvBtag = jetCSV[ij1];
-		t.jet1_btagSF = jetbtagSF[ij1];
-		t.jet1_betaStarClassic = jetbetaStarClassic[ij1];
-		t.jet1_dR2Mean = jetdR2Mean[ij1];
+		t.jet1_csvBtag = J.jetCSV[ij1];
+		t.jet1_btagSF_M = J.jetbtagSF_M[ij1];
+		t.jet1_betaStarClassic = J.jetbetaStarClassic[ij1];
+		t.jet1_dR2Mean = J.jetdR2Mean[ij1];
 		t.jet2_pt = jet2.Pt();
 		t.jet2_e = jet2.E();
 		t.jet2_phi = jet2.Phi();
 		t.jet2_eta = jet2.Eta();
 		t.jet2_mass = jet2.M();
-		t.jet2_csvBtag = jetCSV[ij2];
-		t.jet2_btagSF = jetbtagSF[ij2];
-		t.jet2_betaStarClassic = jetbetaStarClassic[ij2];
-		t.jet2_dR2Mean = jetdR2Mean[ij2];
+		t.jet2_csvBtag = J.jetCSV[ij2];
+		t.jet2_btagSF_M = J.jetbtagSF_M[ij2];
+		t.jet2_betaStarClassic = J.jetbetaStarClassic[ij2];
+		t.jet2_dR2Mean = J.jetdR2Mean[ij2];
 		t.regjet1_pt = regjet1.Pt();
 		t.regjet1_e = regjet1.E();
 		t.regjet1_phi = regjet1.Phi();
 		t.regjet1_eta = regjet1.Eta();
 		t.regjet1_mass = regjet1.M();
-		t.regjet1_csvBtag = jetCSV[ij1Reg];
-		t.regjet1_btagSF = jetbtagSF[ij1Reg];
-		t.regjet1_betaStarClassic = jetbetaStarClassic[ij1Reg];
-		t.regjet1_dR2Mean = jetdR2Mean[ij1Reg];
+		t.regjet1_csvBtag = J.jetCSV[ij1Reg];
+		t.regjet1_btagSF_M = J.jetbtagSF_M[ij1Reg];
+		t.regjet1_betaStarClassic = J.jetbetaStarClassic[ij1Reg];
+		t.regjet1_dR2Mean = J.jetdR2Mean[ij1Reg];
 		t.regjet2_pt = regjet2.Pt();
 		t.regjet2_e = regjet2.E();
 		t.regjet2_phi = regjet2.Phi();
 		t.regjet2_eta = regjet2.Eta();
 		t.regjet2_mass = regjet2.M();
-		t.regjet2_csvBtag = jetCSV[ij2Reg];
-		t.regjet2_btagSF = jetbtagSF[ij2Reg];
-		t.regjet2_betaStarClassic = jetbetaStarClassic[ij2Reg];
-		t.regjet2_dR2Mean = jetdR2Mean[ij2Reg];
-		t.regjet1_emfrac = jetEmfrac[ij1Reg];
-		t.regjet1_hadfrac = jetHadfrac[ij1Reg];
-		t.regjet1_secVtxPt = jetSecVtxPt[ij1Reg];
-		t.regjet1_secVtx3dL = jetSecVtx3dL[ij1Reg];
-		t.regjet1_dPhiMet = jetDPhiMet[ij1Reg];
-		t.regjet1_nConstituents = jetNConstituents[ij1Reg];
-		t.regjet2_emfrac = jetEmfrac[ij2Reg];
-		t.regjet2_hadfrac = jetHadfrac[ij2Reg];
-		t.regjet2_secVtxPt = jetSecVtxPt[ij2Reg];
-		t.regjet2_secVtx3dL = jetSecVtx3dL[ij2Reg];
-		t.regjet2_dPhiMet = jetDPhiMet[ij2Reg];
-		t.regjet2_nConstituents = jetNConstituents[ij2Reg];
+		t.regjet2_csvBtag = J.jetCSV[ij2Reg];
+		t.regjet2_btagSF_M = J.jetbtagSF_M[ij2Reg];
+		t.regjet2_betaStarClassic = J.jetbetaStarClassic[ij2Reg];
+		t.regjet2_dR2Mean = J.jetdR2Mean[ij2Reg];
+		t.regjet1_emfrac = J.jetEmfrac[ij1Reg];
+		t.regjet1_hadfrac = J.jetHadfrac[ij1Reg];
+		t.regjet1_secVtxPt = J.jetSecVtxPt[ij1Reg];
+		t.regjet1_secVtx3dL = J.jetSecVtx3dL[ij1Reg];
+		t.regjet1_dPhiMet = J.jetDPhiMet[ij1Reg];
+		t.regjet1_nConstituents = J.jetNConstituents[ij1Reg];
+		t.regjet2_emfrac = J.jetEmfrac[ij2Reg];
+		t.regjet2_hadfrac = J.jetHadfrac[ij2Reg];
+		t.regjet2_secVtxPt = J.jetSecVtxPt[ij2Reg];
+		t.regjet2_secVtx3dL = J.jetSecVtx3dL[ij2Reg];
+		t.regjet2_dPhiMet = J.jetDPhiMet[ij2Reg];
+		t.regjet2_nConstituents = J.jetNConstituents[ij2Reg];
 		t.regkinjet1_pt = regkinjet1.Pt();
 		t.regkinjet1_e = regkinjet1.E();
 		t.regkinjet1_phi = regkinjet1.Phi();
 		t.regkinjet1_eta = regkinjet1.Eta();
 		t.regkinjet1_mass = regkinjet1.M();
-		t.regkinjet1_csvBtag = jetCSV[ij1RegKin];
-		t.regkinjet1_btagSF = jetbtagSF[ij1RegKin];
-		t.regkinjet1_betaStarClassic = jetbetaStarClassic[ij1RegKin];
-		t.regkinjet1_dR2Mean = jetdR2Mean[ij1RegKin];
+		t.regkinjet1_csvBtag = J.jetCSV[ij1RegKin];
+		t.regkinjet1_btagSF_M = J.jetbtagSF_M[ij1RegKin];
+		t.regkinjet1_betaStarClassic = J.jetbetaStarClassic[ij1RegKin];
+		t.regkinjet1_dR2Mean = J.jetdR2Mean[ij1RegKin];
 		t.regkinjet2_pt = regkinjet2.Pt();
 		t.regkinjet2_e = regkinjet2.E();
 		t.regkinjet2_phi = regkinjet2.Phi();
 		t.regkinjet2_eta = regkinjet2.Eta();
 		t.regkinjet2_mass = regkinjet2.M();
-		t.regkinjet2_csvBtag = jetCSV[ij2RegKin];
-		t.regkinjet2_btagSF = jetbtagSF[ij2RegKin];
-		t.regkinjet2_betaStarClassic = jetbetaStarClassic[ij2RegKin];
-		t.regkinjet2_dR2Mean = jetdR2Mean[ij2RegKin];
+		t.regkinjet2_csvBtag = J.jetCSV[ij2RegKin];
+		t.regkinjet2_btagSF_M = J.jetbtagSF_M[ij2RegKin];
+		t.regkinjet2_betaStarClassic = J.jetbetaStarClassic[ij2RegKin];
+		t.regkinjet2_dR2Mean = J.jetdR2Mean[ij2RegKin];
 		t.kinjet1_pt = kinjet1.Pt();
 		t.kinjet1_e = kinjet1.E();
 		t.kinjet1_phi = kinjet1.Phi();
 		t.kinjet1_eta = kinjet1.Eta();
 		t.kinjet1_mass = kinjet1.M();
-		t.kinjet1_csvBtag = jetCSV[ij1];
-		t.kinjet1_btagSF = jetbtagSF[ij1];
-		t.kinjet1_betaStarClassic = jetbetaStarClassic[ij1];
-		t.kinjet1_dR2Mean = jetdR2Mean[ij1];
+		t.kinjet1_csvBtag = J.jetCSV[ij1];
+		t.kinjet1_btagSF_M = J.jetbtagSF_M[ij1];
+		t.kinjet1_betaStarClassic = J.jetbetaStarClassic[ij1];
+		t.kinjet1_dR2Mean = J.jetdR2Mean[ij1];
 		t.kinjet2_pt = kinjet2.Pt();
 		t.kinjet2_e = kinjet2.E();
 		t.kinjet2_phi = kinjet2.Phi();
 		t.kinjet2_eta = kinjet2.Eta();
 		t.kinjet2_mass = kinjet2.M();
-		t.kinjet2_csvBtag = jetCSV[ij2];
-		t.kinjet2_btagSF = jetbtagSF[ij2];
-		t.kinjet2_betaStarClassic = jetbetaStarClassic[ij2];
-		t.kinjet2_dR2Mean = jetdR2Mean[ij2];
+		t.kinjet2_csvBtag = J.jetCSV[ij2];
+		t.kinjet2_btagSF_M = J.jetbtagSF_M[ij2];
+		t.kinjet2_betaStarClassic = J.jetbetaStarClassic[ij2];
+		t.kinjet2_dR2Mean = J.jetdR2Mean[ij2];
 		t.jj_pt = jj.Pt();
 		t.jj_e = jj.E();
 		t.jj_phi = jj.Phi();
 		t.jj_eta = jj.Eta();
 		t.jj_mass = jj.M();
-		t.jj_btagSF = t.jet1_btagSF * t.jet2_btagSF;
+		t.jj_btagSF_M = t.jet1_btagSF_M * t.jet2_btagSF_M;
 		t.jj_DR = jet1.DeltaR(jet2);
 		t.regjj_pt = regjj.Pt();
 		t.regjj_e = regjj.E();
 		t.regjj_phi = regjj.Phi();
 		t.regjj_eta = regjj.Eta();
 		t.regjj_mass = regjj.M();
-		t.regjj_btagSF = t.regjet1_btagSF * t.regjet2_btagSF;
+		t.regjj_btagSF_M = t.regjet1_btagSF_M * t.regjet2_btagSF_M;
 		t.regjj_DR = regjet1.DeltaR(regjet2);
 		t.regkinjj_pt = regkinjj.Pt();
 		t.regkinjj_e = regkinjj.E();
 		t.regkinjj_phi = regkinjj.Phi();
 		t.regkinjj_eta = regkinjj.Eta();
 		t.regkinjj_mass = regkinjj.M();
-		t.regkinjj_btagSF = t.regkinjet1_btagSF * t.regkinjet2_btagSF;
+		t.regkinjj_btagSF_M = t.regkinjet1_btagSF_M * t.regkinjet2_btagSF_M;
 		t.regkinjj_DR = regkinjet1.DeltaR(regkinjet2);
 		t.kinjj_pt = kinjj.Pt();
 		t.kinjj_e = kinjj.E();
 		t.kinjj_phi = kinjj.Phi();
 		t.kinjj_eta = kinjj.Eta();
 		t.kinjj_mass = kinjj.M();
-		t.kinjj_btagSF = t.kinjet1_btagSF * t.kinjet2_btagSF;
+		t.kinjj_btagSF_M = t.kinjet1_btagSF_M * t.kinjet2_btagSF_M;
 		t.kinjj_DR = kinjet1.DeltaR(kinjet2);
 		t.gg_pt = gg.Pt();
 		t.gg_e = gg.E();
@@ -853,12 +776,12 @@ int main(int argc, char *argv[])
 		t.minDRgkinj = min(t.minDRgkinj, (float)pho2.DeltaR(kinjet1));
 		t.minDRgkinj = min(t.minDRgkinj, (float)pho2.DeltaR(kinjet2));
 
-		if(REMOVE_UNDEFINED_BTAGSF && (t.regjet1_btagSF == -1001 || t.regjet2_btagSF == -1001))
+		if(REMOVE_UNDEFINED_BTAGSF && (t.regjet1_btagSF_M == -1001 || t.regjet2_btagSF_M == -1001))
 		{
-			cout << "WARNING: undefined btagSF, skipping the t.event:\tevent= " << t.event << "\tregjet1_btagSF= " << t.regjet1_btagSF << "\tregjet2_btagSF= " << t.regjet2_btagSF << "\tregjet1_pt= " << t.regjet1_pt << "\tregjet2_pt= " << t.regjet2_pt << endl;
+			cout << "WARNING: undefined btagSF_M, skipping the t.event:\tevent= " << t.event << "\tregjet1_btagSF_M= " << t.regjet1_btagSF_M << "\tregjet2_btagSF_M= " << t.regjet2_btagSF_M << "\tregjet1_pt= " << t.regjet1_pt << "\tregjet2_pt= " << t.regjet2_pt << endl;
 			continue;
-			nevents[ilevel]++; eventcut[ilevel] = "After removing undefined btagSF";
-			nevents_w[ilevel] += t.evweight; nevents_w_btagSF[ilevel] += t.evweight * t.regjj_btagSF; ilevel++;
+			nevents[ilevel]++; eventcut[ilevel] = "After removing undefined btagSF_M";
+			nevents_w[ilevel] += t.evweight; nevents_w_btagSF_M[ilevel] += t.evweight * t.regjj_btagSF_M; ilevel++;
 		}
 
 // categorisation
@@ -977,7 +900,7 @@ int main(int argc, char *argv[])
 	if(DEBUG) cout << "ilevelmax= " << ilevelmax << endl;
 
 	for(int i=0 ; i < ilevelmax ; i++)
-    cout << "#nevents[" << i << "]= " << nevents[i] << "\t#nevents_w[" << i << "]= " << nevents_w[i] << /*"\t#nevents_w_btagSF[" << i << "]= " << nevents_w_btagSF[i] << */"\teventcut[" << i << "]= " << eventcut[i] /*<< "\t\t( 1btag= " << nevents1btag[i] << " , 2btag= " << nevents2btag[i] << " ) "*/ << endl;
+    cout << "#nevents[" << i << "]= " << nevents[i] << "\t#nevents_w[" << i << "]= " << nevents_w[i] << /*"\t#nevents_w_btagSF_M[" << i << "]= " << nevents_w_btagSF_M[i] << */"\teventcut[" << i << "]= " << eventcut[i] /*<< "\t\t( 1btag= " << nevents1btag[i] << " , 2btag= " << nevents2btag[i] << " ) "*/ << endl;
 
 	if(SYNC)
 		for(int i=0 ; i < 14 ; i++)
