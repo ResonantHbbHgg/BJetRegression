@@ -217,12 +217,12 @@ int main(int argc, char *argv[])
 		if(type < -250)
 		{
 			if(njets_kRadionID_and_CSVM >= 2)
-				evWeight_w_btagSF = evWeight * jet1_btagSF * jet2_btagSF * 2. * 19706. / 1000. / nprocessed; // factor two to account for regression training, to be applied only on signal
+				evWeight_w_btagSF = evWeight * jet1_btagSF * jet2_btagSF * 2. ; // factor two to account for regression training, to be applied only on signal
 			else
 				if( jet1_csvBtag > 0.679 )
-					evWeight_w_btagSF = evWeight * jet1_btagSF * (1.-.65*jet2_btagSF)/(1.-.65) * 2. * 19706. / 1000. / nprocessed;
+					evWeight_w_btagSF = evWeight * jet1_btagSF * (1.-.65*jet2_btagSF)/(1.-.65) * 2. ;
 				else
-					evWeight_w_btagSF = evWeight * jet2_btagSF * (1.-.65*jet1_btagSF)/(1.-.65) * 2. * 19706. / 1000. / nprocessed;
+					evWeight_w_btagSF = evWeight * jet2_btagSF * (1.-.65*jet1_btagSF)/(1.-.65) * 2. ;
 		}
 		else
 			evWeight_w_btagSF = evWeight;
