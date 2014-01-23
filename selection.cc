@@ -354,6 +354,11 @@ int main(int argc, char *argv[])
 			// ** store 4-momentum + csv output for combinatorics **
 			J.jetPt.push_back(t.jet_pt);
 			J.jetbtagSF_M.push_back(t.jet_btagSF_M);
+			J.jetflavour.push_back(t.jet_flavour);
+			J.jetbtagSFErrorUp_M.push_back(t.jet_btagSFErrorUp_M);
+			J.jetbtagSFErrorDown_M.push_back(t.jet_btagSFErrorDown_M);
+			J.jetbtagEff_M.push_back(t.jet_btagEff_M);
+			J.jetbtagEffError_M.push_back(t.jet_btagEffError_M);
 			J.jetdR2Mean.push_back(t.jet_dR2Mean);
 			J.jetbetaStarClassic.push_back(t.jet_betaStarClassic);
 			J.jetE.push_back(t.jet_e);
@@ -607,6 +612,11 @@ int main(int argc, char *argv[])
 		t.jet1_mass = jet1.M();
 		t.jet1_csvBtag = J.jetCSV[ij1];
 		t.jet1_btagSF_M = J.jetbtagSF_M[ij1];
+		t.jet1_flavour = J.jetflavour[ij1];
+		t.jet1_btagSFErrorUp_M = J.jetbtagSFErrorUp_M[ij1];
+		t.jet1_btagSFErrorDown_M = J.jetbtagSFErrorDown_M[ij1];
+		t.jet1_btagEff_M = J.jetbtagEff_M[ij1];
+		t.jet1_btagEffError_M = J.jetbtagEffError_M[ij1];
 		t.jet1_betaStarClassic = J.jetbetaStarClassic[ij1];
 		t.jet1_dR2Mean = J.jetdR2Mean[ij1];
 		t.jet2_pt = jet2.Pt();
@@ -616,6 +626,11 @@ int main(int argc, char *argv[])
 		t.jet2_mass = jet2.M();
 		t.jet2_csvBtag = J.jetCSV[ij2];
 		t.jet2_btagSF_M = J.jetbtagSF_M[ij2];
+		t.jet2_flavour = J.jetflavour[ij2];
+		t.jet2_btagSFErrorUp_M = J.jetbtagSFErrorUp_M[ij2];
+		t.jet2_btagSFErrorDown_M = J.jetbtagSFErrorDown_M[ij2];
+		t.jet2_btagEff_M = J.jetbtagEff_M[ij2];
+		t.jet2_btagEffError_M = J.jetbtagEffError_M[ij2];
 		t.jet2_betaStarClassic = J.jetbetaStarClassic[ij2];
 		t.jet2_dR2Mean = J.jetdR2Mean[ij2];
 		t.regjet1_pt = regjet1.Pt();
@@ -625,6 +640,11 @@ int main(int argc, char *argv[])
 		t.regjet1_mass = regjet1.M();
 		t.regjet1_csvBtag = J.jetCSV[ij1Reg];
 		t.regjet1_btagSF_M = J.jetbtagSF_M[ij1Reg];
+		t.regjet1_flavour = J.jetflavour[ij1Reg];
+		t.regjet1_btagSFErrorUp_M = J.jetbtagSFErrorUp_M[ij1Reg];
+		t.regjet1_btagSFErrorDown_M = J.jetbtagSFErrorDown_M[ij1Reg];
+		t.regjet1_btagEff_M = J.jetbtagEff_M[ij1Reg];
+		t.regjet1_btagEffError_M = J.jetbtagEffError_M[ij1Reg];
 		t.regjet1_betaStarClassic = J.jetbetaStarClassic[ij1Reg];
 		t.regjet1_dR2Mean = J.jetdR2Mean[ij1Reg];
 		t.regjet2_pt = regjet2.Pt();
@@ -634,6 +654,11 @@ int main(int argc, char *argv[])
 		t.regjet2_mass = regjet2.M();
 		t.regjet2_csvBtag = J.jetCSV[ij2Reg];
 		t.regjet2_btagSF_M = J.jetbtagSF_M[ij2Reg];
+		t.regjet2_flavour = J.jetflavour[ij2Reg];
+		t.regjet2_btagSFErrorUp_M = J.jetbtagSFErrorUp_M[ij2Reg];
+		t.regjet2_btagSFErrorDown_M = J.jetbtagSFErrorDown_M[ij2Reg];
+		t.regjet2_btagEff_M = J.jetbtagEff_M[ij2Reg];
+		t.regjet2_btagEffError_M = J.jetbtagEffError_M[ij2Reg];
 		t.regjet2_betaStarClassic = J.jetbetaStarClassic[ij2Reg];
 		t.regjet2_dR2Mean = J.jetdR2Mean[ij2Reg];
 		t.regjet1_emfrac = J.jetEmfrac[ij1Reg];
@@ -655,6 +680,11 @@ int main(int argc, char *argv[])
 		t.regkinjet1_mass = regkinjet1.M();
 		t.regkinjet1_csvBtag = J.jetCSV[ij1RegKin];
 		t.regkinjet1_btagSF_M = J.jetbtagSF_M[ij1RegKin];
+		t.regkinjet1_flavour = J.jetflavour[ij1RegKin];
+		t.regkinjet1_btagSFErrorUp_M = J.jetbtagSFErrorUp_M[ij1RegKin];
+		t.regkinjet1_btagSFErrorDown_M = J.jetbtagSFErrorDown_M[ij1RegKin];
+		t.regkinjet1_btagEff_M = J.jetbtagEff_M[ij1RegKin];
+		t.regkinjet1_btagEffError_M = J.jetbtagEffError_M[ij1RegKin];
 		t.regkinjet1_betaStarClassic = J.jetbetaStarClassic[ij1RegKin];
 		t.regkinjet1_dR2Mean = J.jetdR2Mean[ij1RegKin];
 		t.regkinjet2_pt = regkinjet2.Pt();
@@ -664,6 +694,11 @@ int main(int argc, char *argv[])
 		t.regkinjet2_mass = regkinjet2.M();
 		t.regkinjet2_csvBtag = J.jetCSV[ij2RegKin];
 		t.regkinjet2_btagSF_M = J.jetbtagSF_M[ij2RegKin];
+		t.regkinjet2_flavour = J.jetflavour[ij2RegKin];
+		t.regkinjet2_btagSFErrorUp_M = J.jetbtagSFErrorUp_M[ij2RegKin];
+		t.regkinjet2_btagSFErrorDown_M = J.jetbtagSFErrorDown_M[ij2RegKin];
+		t.regkinjet2_btagEff_M = J.jetbtagEff_M[ij2RegKin];
+		t.regkinjet2_btagEffError_M = J.jetbtagEffError_M[ij2RegKin];
 		t.regkinjet2_betaStarClassic = J.jetbetaStarClassic[ij2RegKin];
 		t.regkinjet2_dR2Mean = J.jetdR2Mean[ij2RegKin];
 		t.kinjet1_pt = kinjet1.Pt();
@@ -673,6 +708,11 @@ int main(int argc, char *argv[])
 		t.kinjet1_mass = kinjet1.M();
 		t.kinjet1_csvBtag = J.jetCSV[ij1];
 		t.kinjet1_btagSF_M = J.jetbtagSF_M[ij1];
+		t.kinjet1_flavour = J.jetflavour[ij1];
+		t.kinjet1_btagSFErrorUp_M = J.jetbtagSFErrorUp_M[ij1];
+		t.kinjet1_btagSFErrorDown_M = J.jetbtagSFErrorDown_M[ij1];
+		t.kinjet1_btagEff_M = J.jetbtagEff_M[ij1];
+		t.kinjet1_btagEffError_M = J.jetbtagEffError_M[ij1];
 		t.kinjet1_betaStarClassic = J.jetbetaStarClassic[ij1];
 		t.kinjet1_dR2Mean = J.jetdR2Mean[ij1];
 		t.kinjet2_pt = kinjet2.Pt();
@@ -682,6 +722,11 @@ int main(int argc, char *argv[])
 		t.kinjet2_mass = kinjet2.M();
 		t.kinjet2_csvBtag = J.jetCSV[ij2];
 		t.kinjet2_btagSF_M = J.jetbtagSF_M[ij2];
+		t.kinjet2_flavour = J.jetflavour[ij2];
+		t.kinjet2_btagSFErrorUp_M = J.jetbtagSFErrorUp_M[ij2];
+		t.kinjet2_btagSFErrorDown_M = J.jetbtagSFErrorDown_M[ij2];
+		t.kinjet2_btagEff_M = J.jetbtagEff_M[ij2];
+		t.kinjet2_btagEffError_M = J.jetbtagEffError_M[ij2];
 		t.kinjet2_betaStarClassic = J.jetbetaStarClassic[ij2];
 		t.kinjet2_dR2Mean = J.jetdR2Mean[ij2];
 		t.jj_pt = jj.Pt();

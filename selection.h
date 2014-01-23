@@ -25,54 +25,54 @@ struct tree_variables
 	float ph2_pfchargedisogood03, ph2_ecaliso, ph2_pfchargedisobad04, ph2_ecalisobad, ph2_badvtx_Et, ph2_isconv;
 	int ph1_ciclevel, ph2_ciclevel, ph1_isEB, ph2_isEB;
 
-	float j1_e, j1_pt, j1_phi, j1_eta, j1_beta, j1_betaStar, j1_betaStarClassic, j1_dR2Mean, j1_csvBtag, j1_csvMvaBtag, j1_jetProbBtag, j1_tcheBtag, j1_secVtxPt, j1_secVtx3dL, j1_emfrac, j1_hadfrac, j1_axis1, j1_axis2, j1_pull, j1_btagSF_M;
-	int j1_ntk, j1_nNeutrals, j1_nCharged;
+	float j1_e, j1_pt, j1_phi, j1_eta, j1_beta, j1_betaStar, j1_betaStarClassic, j1_dR2Mean, j1_csvBtag, j1_csvMvaBtag, j1_jetProbBtag, j1_tcheBtag, j1_secVtxPt, j1_secVtx3dL, j1_emfrac, j1_hadfrac, j1_axis1, j1_axis2, j1_pull, j1_btagSF_M, j1_btagEff_M, j1_btagSFErrorUp_M, j1_btagSFErrorDown_M, j1_btagEffError_M;
+	int j1_ntk, j1_nNeutrals, j1_nCharged, j1_flavour;
 
-	float j2_e, j2_pt, j2_phi, j2_eta, j2_beta, j2_betaStar, j2_betaStarClassic, j2_dR2Mean, j2_csvBtag, j2_csvMvaBtag, j2_jetProbBtag, j2_tcheBtag, j2_secVtxPt, j2_secVtx3dL, j2_emfrac, j2_hadfrac, j2_axis1, j2_axis2, j2_pull, j2_btagSF_M;
-	int j2_ntk, j2_nNeutrals, j2_nCharged;
+	float j2_e, j2_pt, j2_phi, j2_eta, j2_beta, j2_betaStar, j2_betaStarClassic, j2_dR2Mean, j2_csvBtag, j2_csvMvaBtag, j2_jetProbBtag, j2_tcheBtag, j2_secVtxPt, j2_secVtx3dL, j2_emfrac, j2_hadfrac, j2_axis1, j2_axis2, j2_pull, j2_btagSF_M, j2_btagEff_M, j2_btagSFErrorUp_M, j2_btagSFErrorDown_M, j2_btagEffError_M;
+	int j2_ntk, j2_nNeutrals, j2_nCharged, j2_flavour;
 
-	float j3_e, j3_pt, j3_phi, j3_eta, j3_beta, j3_betaStar, j3_betaStarClassic, j3_dR2Mean, j3_csvBtag, j3_csvMvaBtag, j3_jetProbBtag, j3_tcheBtag, j3_secVtxPt, j3_secVtx3dL, j3_emfrac, j3_hadfrac, j3_axis1, j3_axis2, j3_pull, j3_btagSF_M;
-	int j3_ntk, j3_nNeutrals, j3_nCharged;
+	float j3_e, j3_pt, j3_phi, j3_eta, j3_beta, j3_betaStar, j3_betaStarClassic, j3_dR2Mean, j3_csvBtag, j3_csvMvaBtag, j3_jetProbBtag, j3_tcheBtag, j3_secVtxPt, j3_secVtx3dL, j3_emfrac, j3_hadfrac, j3_axis1, j3_axis2, j3_pull, j3_btagSF_M, j3_btagEff_M, j3_btagSFErrorUp_M, j3_btagSFErrorDown_M, j3_btagEffError_M;
+	int j3_ntk, j3_nNeutrals, j3_nCharged, j3_flavour;
 
-	float j4_e, j4_pt, j4_phi, j4_eta, j4_beta, j4_betaStar, j4_betaStarClassic, j4_dR2Mean, j4_csvBtag, j4_csvMvaBtag, j4_jetProbBtag, j4_tcheBtag, j4_secVtxPt, j4_secVtx3dL, j4_emfrac, j4_hadfrac, j4_axis1, j4_axis2, j4_pull, j4_btagSF_M;
-	int j4_ntk, j4_nNeutrals, j4_nCharged;
+	float j4_e, j4_pt, j4_phi, j4_eta, j4_beta, j4_betaStar, j4_betaStarClassic, j4_dR2Mean, j4_csvBtag, j4_csvMvaBtag, j4_jetProbBtag, j4_tcheBtag, j4_secVtxPt, j4_secVtx3dL, j4_emfrac, j4_hadfrac, j4_axis1, j4_axis2, j4_pull, j4_btagSF_M, j4_btagEff_M, j4_btagSFErrorUp_M, j4_btagSFErrorDown_M, j4_btagEffError_M;
+	int j4_ntk, j4_nNeutrals, j4_nCharged, j4_flavour;
 
-	float j5_e, j5_pt, j5_phi, j5_eta, j5_beta, j5_betaStar, j5_betaStarClassic, j5_dR2Mean, j5_csvBtag, j5_csvMvaBtag, j5_jetProbBtag, j5_tcheBtag, j5_secVtxPt, j5_secVtx3dL, j5_emfrac, j5_hadfrac, j5_axis1, j5_axis2, j5_pull, j5_btagSF_M;
-	int j5_ntk, j5_nNeutrals, j5_nCharged;
+	float j5_e, j5_pt, j5_phi, j5_eta, j5_beta, j5_betaStar, j5_betaStarClassic, j5_dR2Mean, j5_csvBtag, j5_csvMvaBtag, j5_jetProbBtag, j5_tcheBtag, j5_secVtxPt, j5_secVtx3dL, j5_emfrac, j5_hadfrac, j5_axis1, j5_axis2, j5_pull, j5_btagSF_M, j5_btagEff_M, j5_btagSFErrorUp_M, j5_btagSFErrorDown_M, j5_btagEffError_M;
+	int j5_ntk, j5_nNeutrals, j5_nCharged, j5_flavour;
 
-	float j6_e, j6_pt, j6_phi, j6_eta, j6_beta, j6_betaStar, j6_betaStarClassic, j6_dR2Mean, j6_csvBtag, j6_csvMvaBtag, j6_jetProbBtag, j6_tcheBtag, j6_secVtxPt, j6_secVtx3dL, j6_emfrac, j6_hadfrac, j6_axis1, j6_axis2, j6_pull, j6_btagSF_M;
-	int j6_ntk, j6_nNeutrals, j6_nCharged;
+	float j6_e, j6_pt, j6_phi, j6_eta, j6_beta, j6_betaStar, j6_betaStarClassic, j6_dR2Mean, j6_csvBtag, j6_csvMvaBtag, j6_jetProbBtag, j6_tcheBtag, j6_secVtxPt, j6_secVtx3dL, j6_emfrac, j6_hadfrac, j6_axis1, j6_axis2, j6_pull, j6_btagSF_M, j6_btagEff_M, j6_btagSFErrorUp_M, j6_btagSFErrorDown_M, j6_btagEffError_M;
+	int j6_ntk, j6_nNeutrals, j6_nCharged, j6_flavour;
 
-	float j7_e, j7_pt, j7_phi, j7_eta, j7_beta, j7_betaStar, j7_betaStarClassic, j7_dR2Mean, j7_csvBtag, j7_csvMvaBtag, j7_jetProbBtag, j7_tcheBtag, j7_secVtxPt, j7_secVtx3dL, j7_emfrac, j7_hadfrac, j7_axis1, j7_axis2, j7_pull, j7_btagSF_M;
-	int j7_ntk, j7_nNeutrals, j7_nCharged;
+	float j7_e, j7_pt, j7_phi, j7_eta, j7_beta, j7_betaStar, j7_betaStarClassic, j7_dR2Mean, j7_csvBtag, j7_csvMvaBtag, j7_jetProbBtag, j7_tcheBtag, j7_secVtxPt, j7_secVtx3dL, j7_emfrac, j7_hadfrac, j7_axis1, j7_axis2, j7_pull, j7_btagSF_M, j7_btagEff_M, j7_btagSFErrorUp_M, j7_btagSFErrorDown_M, j7_btagEffError_M;
+	int j7_ntk, j7_nNeutrals, j7_nCharged, j7_flavour;
 
-	float j8_e, j8_pt, j8_phi, j8_eta, j8_beta, j8_betaStar, j8_betaStarClassic, j8_dR2Mean, j8_csvBtag, j8_csvMvaBtag, j8_jetProbBtag, j8_tcheBtag, j8_secVtxPt, j8_secVtx3dL, j8_emfrac, j8_hadfrac, j8_axis1, j8_axis2, j8_pull, j8_btagSF_M;
-	int j8_ntk, j8_nNeutrals, j8_nCharged;
+	float j8_e, j8_pt, j8_phi, j8_eta, j8_beta, j8_betaStar, j8_betaStarClassic, j8_dR2Mean, j8_csvBtag, j8_csvMvaBtag, j8_jetProbBtag, j8_tcheBtag, j8_secVtxPt, j8_secVtx3dL, j8_emfrac, j8_hadfrac, j8_axis1, j8_axis2, j8_pull, j8_btagSF_M, j8_btagEff_M, j8_btagSFErrorUp_M, j8_btagSFErrorDown_M, j8_btagEffError_M;
+	int j8_ntk, j8_nNeutrals, j8_nCharged, j8_flavour;
 
-	float j9_e, j9_pt, j9_phi, j9_eta, j9_beta, j9_betaStar, j9_betaStarClassic, j9_dR2Mean, j9_csvBtag, j9_csvMvaBtag, j9_jetProbBtag, j9_tcheBtag, j9_secVtxPt, j9_secVtx3dL, j9_emfrac, j9_hadfrac, j9_axis1, j9_axis2, j9_pull, j9_btagSF_M;
-	int j9_ntk, j9_nNeutrals, j9_nCharged;
+	float j9_e, j9_pt, j9_phi, j9_eta, j9_beta, j9_betaStar, j9_betaStarClassic, j9_dR2Mean, j9_csvBtag, j9_csvMvaBtag, j9_jetProbBtag, j9_tcheBtag, j9_secVtxPt, j9_secVtx3dL, j9_emfrac, j9_hadfrac, j9_axis1, j9_axis2, j9_pull, j9_btagSF_M, j9_btagEff_M, j9_btagSFErrorUp_M, j9_btagSFErrorDown_M, j9_btagEffError_M;
+	int j9_ntk, j9_nNeutrals, j9_nCharged, j9_flavour;
 
-	float j10_e, j10_pt, j10_phi, j10_eta, j10_beta, j10_betaStar, j10_betaStarClassic, j10_dR2Mean, j10_csvBtag, j10_csvMvaBtag, j10_jetProbBtag, j10_tcheBtag, j10_secVtxPt, j10_secVtx3dL, j10_emfrac, j10_hadfrac, j10_axis1, j10_axis2, j10_pull, j10_btagSF_M;
-	int j10_ntk, j10_nNeutrals, j10_nCharged;
+	float j10_e, j10_pt, j10_phi, j10_eta, j10_beta, j10_betaStar, j10_betaStarClassic, j10_dR2Mean, j10_csvBtag, j10_csvMvaBtag, j10_jetProbBtag, j10_tcheBtag, j10_secVtxPt, j10_secVtx3dL, j10_emfrac, j10_hadfrac, j10_axis1, j10_axis2, j10_pull, j10_btagSF_M, j10_btagEff_M, j10_btagSFErrorUp_M, j10_btagSFErrorDown_M, j10_btagEffError_M;
+	int j10_ntk, j10_nNeutrals, j10_nCharged, j10_flavour;
 
-	float j11_e, j11_pt, j11_phi, j11_eta, j11_beta, j11_betaStar, j11_betaStarClassic, j11_dR2Mean, j11_csvBtag, j11_csvMvaBtag, j11_jetProbBtag, j11_tcheBtag, j11_secVtxPt, j11_secVtx3dL, j11_emfrac, j11_hadfrac, j11_axis1, j11_axis2, j11_pull, j11_btagSF_M;
-	int j11_ntk, j11_nNeutrals, j11_nCharged;
+	float j11_e, j11_pt, j11_phi, j11_eta, j11_beta, j11_betaStar, j11_betaStarClassic, j11_dR2Mean, j11_csvBtag, j11_csvMvaBtag, j11_jetProbBtag, j11_tcheBtag, j11_secVtxPt, j11_secVtx3dL, j11_emfrac, j11_hadfrac, j11_axis1, j11_axis2, j11_pull, j11_btagSF_M, j11_btagEff_M, j11_btagSFErrorUp_M, j11_btagSFErrorDown_M, j11_btagEffError_M;
+	int j11_ntk, j11_nNeutrals, j11_nCharged, j11_flavour;
 
-	float j12_e, j12_pt, j12_phi, j12_eta, j12_beta, j12_betaStar, j12_betaStarClassic, j12_dR2Mean, j12_csvBtag, j12_csvMvaBtag, j12_jetProbBtag, j12_tcheBtag, j12_secVtxPt, j12_secVtx3dL, j12_emfrac, j12_hadfrac, j12_axis1, j12_axis2, j12_pull, j12_btagSF_M;
-	int j12_ntk, j12_nNeutrals, j12_nCharged;
+	float j12_e, j12_pt, j12_phi, j12_eta, j12_beta, j12_betaStar, j12_betaStarClassic, j12_dR2Mean, j12_csvBtag, j12_csvMvaBtag, j12_jetProbBtag, j12_tcheBtag, j12_secVtxPt, j12_secVtx3dL, j12_emfrac, j12_hadfrac, j12_axis1, j12_axis2, j12_pull, j12_btagSF_M, j12_btagEff_M, j12_btagSFErrorUp_M, j12_btagSFErrorDown_M, j12_btagEffError_M;
+	int j12_ntk, j12_nNeutrals, j12_nCharged, j12_flavour;
 
-	float j13_e, j13_pt, j13_phi, j13_eta, j13_beta, j13_betaStar, j13_betaStarClassic, j13_dR2Mean, j13_csvBtag, j13_csvMvaBtag, j13_jetProbBtag, j13_tcheBtag, j13_secVtxPt, j13_secVtx3dL, j13_emfrac, j13_hadfrac, j13_axis1, j13_axis2, j13_pull, j13_btagSF_M;
-	int j13_ntk, j13_nNeutrals, j13_nCharged;
+	float j13_e, j13_pt, j13_phi, j13_eta, j13_beta, j13_betaStar, j13_betaStarClassic, j13_dR2Mean, j13_csvBtag, j13_csvMvaBtag, j13_jetProbBtag, j13_tcheBtag, j13_secVtxPt, j13_secVtx3dL, j13_emfrac, j13_hadfrac, j13_axis1, j13_axis2, j13_pull, j13_btagSF_M, j13_btagEff_M, j13_btagSFErrorUp_M, j13_btagSFErrorDown_M, j13_btagEffError_M;
+	int j13_ntk, j13_nNeutrals, j13_nCharged, j13_flavour;
 
-	float j14_e, j14_pt, j14_phi, j14_eta, j14_beta, j14_betaStar, j14_betaStarClassic, j14_dR2Mean, j14_csvBtag, j14_csvMvaBtag, j14_jetProbBtag, j14_tcheBtag, j14_secVtxPt, j14_secVtx3dL, j14_emfrac, j14_hadfrac, j14_axis1, j14_axis2, j14_pull, j14_btagSF_M;
-	int j14_ntk, j14_nNeutrals, j14_nCharged;
+	float j14_e, j14_pt, j14_phi, j14_eta, j14_beta, j14_betaStar, j14_betaStarClassic, j14_dR2Mean, j14_csvBtag, j14_csvMvaBtag, j14_jetProbBtag, j14_tcheBtag, j14_secVtxPt, j14_secVtx3dL, j14_emfrac, j14_hadfrac, j14_axis1, j14_axis2, j14_pull, j14_btagSF_M, j14_btagEff_M, j14_btagSFErrorUp_M, j14_btagSFErrorDown_M, j14_btagEffError_M;
+	int j14_ntk, j14_nNeutrals, j14_nCharged, j14_flavour;
 
-	float j15_e, j15_pt, j15_phi, j15_eta, j15_beta, j15_betaStar, j15_betaStarClassic, j15_dR2Mean, j15_csvBtag, j15_csvMvaBtag, j15_jetProbBtag, j15_tcheBtag, j15_secVtxPt, j15_secVtx3dL, j15_emfrac, j15_hadfrac, j15_axis1, j15_axis2, j15_pull, j15_btagSF_M;
-	int j15_ntk, j15_nNeutrals, j15_nCharged;
+	float j15_e, j15_pt, j15_phi, j15_eta, j15_beta, j15_betaStar, j15_betaStarClassic, j15_dR2Mean, j15_csvBtag, j15_csvMvaBtag, j15_jetProbBtag, j15_tcheBtag, j15_secVtxPt, j15_secVtx3dL, j15_emfrac, j15_hadfrac, j15_axis1, j15_axis2, j15_pull, j15_btagSF_M, j15_btagEff_M, j15_btagSFErrorUp_M, j15_btagSFErrorDown_M, j15_btagEffError_M;
+	int j15_ntk, j15_nNeutrals, j15_nCharged, j15_flavour;
 
 	float jet_e, jet_pt, jet_phi, jet_eta;
 	float jet_betaStarClassic, jet_dR2Mean, jet_csvBtag;
-	float jet_secVtxPt, jet_secVtx3dL, jet_emfrac, jet_hadfrac, jet_btagSF_M;
+	float jet_secVtxPt, jet_secVtx3dL, jet_emfrac, jet_hadfrac, jet_btagSF_M, jet_flavour, jet_btagEff_M, jet_btagSFErrorUp_M, jet_btagSFErrorDown_M, jet_btagEffError_M;
 	int jet_nNeutrals, jet_nCharged, jet_nConstituents;
 	float jet_nConstituents_;
 	float jet_dPhiMet_fabs;
@@ -85,18 +85,30 @@ struct tree_variables
 	int pho1_isEB, pho2_isEB;
 	float pho1_pfchargedisogood03, pho1_ecaliso, pho1_pfchargedisobad04, pho1_ecalisobad, pho1_badvtx_Et, pho1_PFisoA, pho1_PFisoB, pho1_PFisoC, pho1_isconv;
 	float pho2_pfchargedisogood03, pho2_ecaliso, pho2_pfchargedisobad04, pho2_ecalisobad, pho2_badvtx_Et, pho2_PFisoA, pho2_PFisoB, pho2_PFisoC, pho2_isconv;
-	float jet1_pt, jet1_e, jet1_phi, jet1_eta, jet1_mass, jet1_csvBtag, jet1_btagSF_M, jet1_betaStarClassic, jet1_dR2Mean;
-	float jet2_pt, jet2_e, jet2_phi, jet2_eta, jet2_mass, jet2_csvBtag, jet2_btagSF_M, jet2_betaStarClassic, jet2_dR2Mean;
+	float jet1_pt, jet1_e, jet1_phi, jet1_eta, jet1_mass, jet1_csvBtag, jet1_btagSF_M, jet1_btagEff_M, jet1_btagSFErrorUp_M, jet1_btagSFErrorDown_M, jet1_btagEffError_M, jet1_betaStarClassic, jet1_dR2Mean;
+	float jet2_pt, jet2_e, jet2_phi, jet2_eta, jet2_mass, jet2_csvBtag, jet2_btagSF_M, jet2_btagEff_M, jet2_btagSFErrorUp_M, jet2_btagSFErrorDown_M, jet2_btagEffError_M, jet2_betaStarClassic, jet2_dR2Mean;
+	int jet1_flavour;
+	int jet2_flavour;
+
 	float regjet1_emfrac, regjet1_hadfrac, regjet1_secVtxPt, regjet1_secVtx3dL, regjet1_dPhiMet;
 	int regjet1_nConstituents;
 	float regjet2_emfrac, regjet2_hadfrac, regjet2_secVtxPt, regjet2_secVtx3dL, regjet2_dPhiMet;
 	int regjet2_nConstituents;
-	float regjet1_pt, regjet1_e, regjet1_phi, regjet1_eta, regjet1_mass, regjet1_csvBtag, regjet1_btagSF_M, regjet1_betaStarClassic, regjet1_dR2Mean;
-	float regjet2_pt, regjet2_e, regjet2_phi, regjet2_eta, regjet2_mass, regjet2_csvBtag, regjet2_btagSF_M, regjet2_betaStarClassic, regjet2_dR2Mean;
-	float regkinjet1_pt, regkinjet1_e, regkinjet1_phi, regkinjet1_eta, regkinjet1_mass, regkinjet1_csvBtag, regkinjet1_btagSF_M, regkinjet1_betaStarClassic, regkinjet1_dR2Mean;
-	float regkinjet2_pt, regkinjet2_e, regkinjet2_phi, regkinjet2_eta, regkinjet2_mass, regkinjet2_csvBtag, regkinjet2_btagSF_M, regkinjet2_betaStarClassic, regkinjet2_dR2Mean;
-	float kinjet1_pt, kinjet1_e, kinjet1_phi, kinjet1_eta, kinjet1_mass, kinjet1_csvBtag, kinjet1_btagSF_M, kinjet1_betaStarClassic, kinjet1_dR2Mean;
-	float kinjet2_pt, kinjet2_e, kinjet2_phi, kinjet2_eta, kinjet2_mass, kinjet2_csvBtag, kinjet2_btagSF_M, kinjet2_betaStarClassic, kinjet2_dR2Mean;
+	float regjet1_pt, regjet1_e, regjet1_phi, regjet1_eta, regjet1_mass, regjet1_csvBtag, regjet1_btagSF_M, regjet1_btagEff_M, regjet1_btagSFErrorUp_M, regjet1_btagSFErrorDown_M, regjet1_btagEffError_M, regjet1_betaStarClassic, regjet1_dR2Mean;
+	float regjet2_pt, regjet2_e, regjet2_phi, regjet2_eta, regjet2_mass, regjet2_csvBtag, regjet2_btagSF_M, regjet2_btagEff_M, regjet2_btagSFErrorUp_M, regjet2_btagSFErrorDown_M, regjet2_btagEffError_M, regjet2_betaStarClassic, regjet2_dR2Mean;
+	int regjet1_flavour;
+	int regjet2_flavour;
+
+	float regkinjet1_pt, regkinjet1_e, regkinjet1_phi, regkinjet1_eta, regkinjet1_mass, regkinjet1_csvBtag, regkinjet1_btagSF_M, regkinjet1_btagEff_M, regkinjet1_btagSFErrorUp_M, regkinjet1_btagSFErrorDown_M, regkinjet1_btagEffError_M, regkinjet1_betaStarClassic, regkinjet1_dR2Mean;
+	float regkinjet2_pt, regkinjet2_e, regkinjet2_phi, regkinjet2_eta, regkinjet2_mass, regkinjet2_csvBtag, regkinjet2_btagSF_M, regkinjet2_btagEff_M, regkinjet2_btagSFErrorUp_M, regkinjet2_btagSFErrorDown_M, regkinjet2_btagEffError_M, regkinjet2_betaStarClassic, regkinjet2_dR2Mean;
+	int regkinjet1_flavour;
+	int regkinjet2_flavour;
+
+	float kinjet1_pt, kinjet1_e, kinjet1_phi, kinjet1_eta, kinjet1_mass, kinjet1_csvBtag, kinjet1_btagSF_M, kinjet1_btagEff_M, kinjet1_btagSFErrorUp_M, kinjet1_btagSFErrorDown_M, kinjet1_btagEffError_M, kinjet1_betaStarClassic, kinjet1_dR2Mean;
+	float kinjet2_pt, kinjet2_e, kinjet2_phi, kinjet2_eta, kinjet2_mass, kinjet2_csvBtag, kinjet2_btagSF_M, kinjet2_btagEff_M, kinjet2_btagSFErrorUp_M, kinjet2_btagSFErrorDown_M, kinjet2_btagEffError_M, kinjet2_betaStarClassic, kinjet2_dR2Mean;
+	int kinjet1_flavour;
+	int kinjet2_flavour;
+
 	float jj_pt, jj_e, jj_phi, jj_eta, jj_mass, jj_DR, jj_btagSF_M;
 	float regjj_pt, regjj_e, regjj_phi, regjj_eta, regjj_mass, regjj_btagSF_M;
 	float regkinjj_pt, regkinjj_e, regkinjj_phi, regkinjj_eta, regkinjj_mass, regkinjj_btagSF_M;
@@ -244,6 +256,11 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
 	intree->SetBranchAddress("j1_emfrac", &t->j1_emfrac);
 	intree->SetBranchAddress("j1_hadfrac", &t->j1_hadfrac);
 	intree->SetBranchAddress("j1_btagSF_M", &t->j1_btagSF_M);
+	intree->SetBranchAddress("j1_flavour", &t->j1_flavour);
+	intree->SetBranchAddress("j1_btagSFErrorUp_M", &t->j1_btagSFErrorUp_M);
+	intree->SetBranchAddress("j1_btagSFErrorDown_M", &t->j1_btagSFErrorDown_M);
+	intree->SetBranchAddress("j1_btagEff_M", &t->j1_btagEff_M);
+	intree->SetBranchAddress("j1_btagEffError_M", &t->j1_btagEffError_M);
 	intree->SetBranchAddress("j1_ntk", &t->j1_ntk);
 	intree->SetBranchAddress("j1_nNeutrals", &t->j1_nNeutrals);
 	intree->SetBranchAddress("j1_nCharged", &t->j1_nCharged);
@@ -268,6 +285,11 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
 	intree->SetBranchAddress("j2_emfrac", &t->j2_emfrac);
 	intree->SetBranchAddress("j2_hadfrac", &t->j2_hadfrac);
 	intree->SetBranchAddress("j2_btagSF_M", &t->j2_btagSF_M);
+	intree->SetBranchAddress("j2_flavour", &t->j2_flavour);
+	intree->SetBranchAddress("j2_btagSFErrorUp_M", &t->j2_btagSFErrorUp_M);
+	intree->SetBranchAddress("j2_btagSFErrorDown_M", &t->j2_btagSFErrorDown_M);
+	intree->SetBranchAddress("j2_btagEff_M", &t->j2_btagEff_M);
+	intree->SetBranchAddress("j2_btagEffError_M", &t->j2_btagEffError_M);
 	intree->SetBranchAddress("j2_ntk", &t->j2_ntk);
 	intree->SetBranchAddress("j2_nNeutrals", &t->j2_nNeutrals);
 	intree->SetBranchAddress("j2_nCharged", &t->j2_nCharged);
@@ -292,6 +314,11 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
 	intree->SetBranchAddress("j3_emfrac", &t->j3_emfrac);
 	intree->SetBranchAddress("j3_hadfrac", &t->j3_hadfrac);
 	intree->SetBranchAddress("j3_btagSF_M", &t->j3_btagSF_M);
+	intree->SetBranchAddress("j3_flavour", &t->j3_flavour);
+	intree->SetBranchAddress("j3_btagSFErrorUp_M", &t->j3_btagSFErrorUp_M);
+	intree->SetBranchAddress("j3_btagSFErrorDown_M", &t->j3_btagSFErrorDown_M);
+	intree->SetBranchAddress("j3_btagEff_M", &t->j3_btagEff_M);
+	intree->SetBranchAddress("j3_btagEffError_M", &t->j3_btagEffError_M);
 	intree->SetBranchAddress("j3_ntk", &t->j3_ntk);
 	intree->SetBranchAddress("j3_nNeutrals", &t->j3_nNeutrals);
 	intree->SetBranchAddress("j3_nCharged", &t->j3_nCharged);
@@ -316,6 +343,11 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
 	intree->SetBranchAddress("j4_emfrac", &t->j4_emfrac);
 	intree->SetBranchAddress("j4_hadfrac", &t->j4_hadfrac);
 	intree->SetBranchAddress("j4_btagSF_M", &t->j4_btagSF_M);
+	intree->SetBranchAddress("j4_flavour", &t->j4_flavour);
+	intree->SetBranchAddress("j4_btagSFErrorUp_M", &t->j4_btagSFErrorUp_M);
+	intree->SetBranchAddress("j4_btagSFErrorDown_M", &t->j4_btagSFErrorDown_M);
+	intree->SetBranchAddress("j4_btagEff_M", &t->j4_btagEff_M);
+	intree->SetBranchAddress("j4_btagEffError_M", &t->j4_btagEffError_M);
 	intree->SetBranchAddress("j4_ntk", &t->j4_ntk);
 	intree->SetBranchAddress("j4_nNeutrals", &t->j4_nNeutrals);
 	intree->SetBranchAddress("j4_nCharged", &t->j4_nCharged);
@@ -340,6 +372,11 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
 	intree->SetBranchAddress("j5_emfrac", &t->j5_emfrac);
 	intree->SetBranchAddress("j5_hadfrac", &t->j5_hadfrac);
 	intree->SetBranchAddress("j5_btagSF_M", &t->j5_btagSF_M);
+	intree->SetBranchAddress("j5_flavour", &t->j5_flavour);
+	intree->SetBranchAddress("j5_btagSFErrorUp_M", &t->j5_btagSFErrorUp_M);
+	intree->SetBranchAddress("j5_btagSFErrorDown_M", &t->j5_btagSFErrorDown_M);
+	intree->SetBranchAddress("j5_btagEff_M", &t->j5_btagEff_M);
+	intree->SetBranchAddress("j5_btagEffError_M", &t->j5_btagEffError_M);
 	intree->SetBranchAddress("j5_ntk", &t->j5_ntk);
 	intree->SetBranchAddress("j5_nNeutrals", &t->j5_nNeutrals);
 	intree->SetBranchAddress("j5_nCharged", &t->j5_nCharged);
@@ -364,6 +401,11 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
 	intree->SetBranchAddress("j6_emfrac", &t->j6_emfrac);
 	intree->SetBranchAddress("j6_hadfrac", &t->j6_hadfrac);
 	intree->SetBranchAddress("j6_btagSF_M", &t->j6_btagSF_M);
+	intree->SetBranchAddress("j6_flavour", &t->j6_flavour);
+	intree->SetBranchAddress("j6_btagSFErrorUp_M", &t->j6_btagSFErrorUp_M);
+	intree->SetBranchAddress("j6_btagSFErrorDown_M", &t->j6_btagSFErrorDown_M);
+	intree->SetBranchAddress("j6_btagEff_M", &t->j6_btagEff_M);
+	intree->SetBranchAddress("j6_btagEffError_M", &t->j6_btagEffError_M);
 	intree->SetBranchAddress("j6_ntk", &t->j6_ntk);
 	intree->SetBranchAddress("j6_nNeutrals", &t->j6_nNeutrals);
 	intree->SetBranchAddress("j6_nCharged", &t->j6_nCharged);
@@ -388,6 +430,11 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
 	intree->SetBranchAddress("j7_emfrac", &t->j7_emfrac);
 	intree->SetBranchAddress("j7_hadfrac", &t->j7_hadfrac);
 	intree->SetBranchAddress("j7_btagSF_M", &t->j7_btagSF_M);
+	intree->SetBranchAddress("j7_flavour", &t->j7_flavour);
+	intree->SetBranchAddress("j7_btagSFErrorUp_M", &t->j7_btagSFErrorUp_M);
+	intree->SetBranchAddress("j7_btagSFErrorDown_M", &t->j7_btagSFErrorDown_M);
+	intree->SetBranchAddress("j7_btagEff_M", &t->j7_btagEff_M);
+	intree->SetBranchAddress("j7_btagEffError_M", &t->j7_btagEffError_M);
 	intree->SetBranchAddress("j7_ntk", &t->j7_ntk);
 	intree->SetBranchAddress("j7_nNeutrals", &t->j7_nNeutrals);
 	intree->SetBranchAddress("j7_nCharged", &t->j7_nCharged);
@@ -412,6 +459,11 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
 	intree->SetBranchAddress("j8_emfrac", &t->j8_emfrac);
 	intree->SetBranchAddress("j8_hadfrac", &t->j8_hadfrac);
 	intree->SetBranchAddress("j8_btagSF_M", &t->j8_btagSF_M);
+	intree->SetBranchAddress("j8_flavour", &t->j8_flavour);
+	intree->SetBranchAddress("j8_btagSFErrorUp_M", &t->j8_btagSFErrorUp_M);
+	intree->SetBranchAddress("j8_btagSFErrorDown_M", &t->j8_btagSFErrorDown_M);
+	intree->SetBranchAddress("j8_btagEff_M", &t->j8_btagEff_M);
+	intree->SetBranchAddress("j8_btagEffError_M", &t->j8_btagEffError_M);
 	intree->SetBranchAddress("j8_ntk", &t->j8_ntk);
 	intree->SetBranchAddress("j8_nNeutrals", &t->j8_nNeutrals);
 	intree->SetBranchAddress("j8_nCharged", &t->j8_nCharged);
@@ -436,6 +488,11 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
 	intree->SetBranchAddress("j9_emfrac", &t->j9_emfrac);
 	intree->SetBranchAddress("j9_hadfrac", &t->j9_hadfrac);
 	intree->SetBranchAddress("j9_btagSF_M", &t->j9_btagSF_M);
+	intree->SetBranchAddress("j9_flavour", &t->j9_flavour);
+	intree->SetBranchAddress("j9_btagSFErrorUp_M", &t->j9_btagSFErrorUp_M);
+	intree->SetBranchAddress("j9_btagSFErrorDown_M", &t->j9_btagSFErrorDown_M);
+	intree->SetBranchAddress("j9_btagEff_M", &t->j9_btagEff_M);
+	intree->SetBranchAddress("j9_btagEffError_M", &t->j9_btagEffError_M);
 	intree->SetBranchAddress("j9_ntk", &t->j9_ntk);
 	intree->SetBranchAddress("j9_nNeutrals", &t->j9_nNeutrals);
 	intree->SetBranchAddress("j9_nCharged", &t->j9_nCharged);
@@ -460,6 +517,11 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
 	intree->SetBranchAddress("j10_emfrac", &t->j10_emfrac);
 	intree->SetBranchAddress("j10_hadfrac", &t->j10_hadfrac);
 	intree->SetBranchAddress("j10_btagSF_M", &t->j10_btagSF_M);
+	intree->SetBranchAddress("j10_flavour", &t->j10_flavour);
+	intree->SetBranchAddress("j10_btagSFErrorUp_M", &t->j10_btagSFErrorUp_M);
+	intree->SetBranchAddress("j10_btagSFErrorDown_M", &t->j10_btagSFErrorDown_M);
+	intree->SetBranchAddress("j10_btagEff_M", &t->j10_btagEff_M);
+	intree->SetBranchAddress("j10_btagEffError_M", &t->j10_btagEffError_M);
 	intree->SetBranchAddress("j10_ntk", &t->j10_ntk);
 	intree->SetBranchAddress("j10_nNeutrals", &t->j10_nNeutrals);
 	intree->SetBranchAddress("j10_nCharged", &t->j10_nCharged);
@@ -484,6 +546,11 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
 	intree->SetBranchAddress("j11_emfrac", &t->j11_emfrac);
 	intree->SetBranchAddress("j11_hadfrac", &t->j11_hadfrac);
 	intree->SetBranchAddress("j11_btagSF_M", &t->j11_btagSF_M);
+	intree->SetBranchAddress("j11_flavour", &t->j11_flavour);
+	intree->SetBranchAddress("j11_btagSFErrorUp_M", &t->j11_btagSFErrorUp_M);
+	intree->SetBranchAddress("j11_btagSFErrorDown_M", &t->j11_btagSFErrorDown_M);
+	intree->SetBranchAddress("j11_btagEff_M", &t->j11_btagEff_M);
+	intree->SetBranchAddress("j11_btagEffError_M", &t->j11_btagEffError_M);
 	intree->SetBranchAddress("j11_ntk", &t->j11_ntk);
 	intree->SetBranchAddress("j11_nNeutrals", &t->j11_nNeutrals);
 	intree->SetBranchAddress("j11_nCharged", &t->j11_nCharged);
@@ -508,6 +575,11 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
 	intree->SetBranchAddress("j12_emfrac", &t->j12_emfrac);
 	intree->SetBranchAddress("j12_hadfrac", &t->j12_hadfrac);
 	intree->SetBranchAddress("j12_btagSF_M", &t->j12_btagSF_M);
+	intree->SetBranchAddress("j12_flavour", &t->j12_flavour);
+	intree->SetBranchAddress("j12_btagSFErrorUp_M", &t->j12_btagSFErrorUp_M);
+	intree->SetBranchAddress("j12_btagSFErrorDown_M", &t->j12_btagSFErrorDown_M);
+	intree->SetBranchAddress("j12_btagEff_M", &t->j12_btagEff_M);
+	intree->SetBranchAddress("j12_btagEffError_M", &t->j12_btagEffError_M);
 	intree->SetBranchAddress("j12_ntk", &t->j12_ntk);
 	intree->SetBranchAddress("j12_nNeutrals", &t->j12_nNeutrals);
 	intree->SetBranchAddress("j12_nCharged", &t->j12_nCharged);
@@ -532,6 +604,11 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
 	intree->SetBranchAddress("j13_emfrac", &t->j13_emfrac);
 	intree->SetBranchAddress("j13_hadfrac", &t->j13_hadfrac);
 	intree->SetBranchAddress("j13_btagSF_M", &t->j13_btagSF_M);
+	intree->SetBranchAddress("j13_flavour", &t->j13_flavour);
+	intree->SetBranchAddress("j13_btagSFErrorUp_M", &t->j13_btagSFErrorUp_M);
+	intree->SetBranchAddress("j13_btagSFErrorDown_M", &t->j13_btagSFErrorDown_M);
+	intree->SetBranchAddress("j13_btagEff_M", &t->j13_btagEff_M);
+	intree->SetBranchAddress("j13_btagEffError_M", &t->j13_btagEffError_M);
 	intree->SetBranchAddress("j13_ntk", &t->j13_ntk);
 	intree->SetBranchAddress("j13_nNeutrals", &t->j13_nNeutrals);
 	intree->SetBranchAddress("j13_nCharged", &t->j13_nCharged);
@@ -556,6 +633,11 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
 	intree->SetBranchAddress("j14_emfrac", &t->j14_emfrac);
 	intree->SetBranchAddress("j14_hadfrac", &t->j14_hadfrac);
 	intree->SetBranchAddress("j14_btagSF_M", &t->j14_btagSF_M);
+	intree->SetBranchAddress("j14_flavour", &t->j14_flavour);
+	intree->SetBranchAddress("j14_btagSFErrorUp_M", &t->j14_btagSFErrorUp_M);
+	intree->SetBranchAddress("j14_btagSFErrorDown_M", &t->j14_btagSFErrorDown_M);
+	intree->SetBranchAddress("j14_btagEff_M", &t->j14_btagEff_M);
+	intree->SetBranchAddress("j14_btagEffError_M", &t->j14_btagEffError_M);
 	intree->SetBranchAddress("j14_ntk", &t->j14_ntk);
 	intree->SetBranchAddress("j14_nNeutrals", &t->j14_nNeutrals);
 	intree->SetBranchAddress("j14_nCharged", &t->j14_nCharged);
@@ -580,6 +662,11 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
 	intree->SetBranchAddress("j15_emfrac", &t->j15_emfrac);
 	intree->SetBranchAddress("j15_hadfrac", &t->j15_hadfrac);
 	intree->SetBranchAddress("j15_btagSF_M", &t->j15_btagSF_M);
+	intree->SetBranchAddress("j15_flavour", &t->j15_flavour);
+	intree->SetBranchAddress("j15_btagSFErrorUp_M", &t->j15_btagSFErrorUp_M);
+	intree->SetBranchAddress("j15_btagSFErrorDown_M", &t->j15_btagSFErrorDown_M);
+	intree->SetBranchAddress("j15_btagEff_M", &t->j15_btagEff_M);
+	intree->SetBranchAddress("j15_btagEffError_M", &t->j15_btagEffError_M);
 	intree->SetBranchAddress("j15_ntk", &t->j15_ntk);
 	intree->SetBranchAddress("j15_nNeutrals", &t->j15_nNeutrals);
 	intree->SetBranchAddress("j15_nCharged", &t->j15_nCharged);
@@ -648,7 +735,12 @@ void setup_outtree(TTree* outtree, tree_variables *t)
 	outtree->Branch("jet1_eta", &t->jet1_eta, "jet1_eta/F");
 	outtree->Branch("jet1_mass", &t->jet1_mass, "jet1_mass/F");
 	outtree->Branch("jet1_csvBtag", &t->jet1_csvBtag, "jet1_csvBtag/F");
+	outtree->Branch("jet1_flavour", &t->jet1_flavour, "jet1_flavour/I");
 	outtree->Branch("jet1_btagSF_M", &t->jet1_btagSF_M, "jet1_btagSF_M/F");
+	outtree->Branch("jet1_btagSFErrorUp_M", &t->jet1_btagSFErrorUp_M, "jet1_btagSFErrorUp_M/F");
+	outtree->Branch("jet1_btagSFErrorDown_M", &t->jet1_btagSFErrorDown_M, "jet1_btagSFErrorDown_M/F");
+	outtree->Branch("jet1_btagEff_M", &t->jet1_btagEff_M, "jet1_btagEff_M/F");
+	outtree->Branch("jet1_btagEffError_M", &t->jet1_btagEffError_M, "jet1_btagEffError_M/F");
 	outtree->Branch("jet1_betaStarClassic", &t->jet1_betaStarClassic, "jet1_betaStarClassic/F");
 	outtree->Branch("jet1_dR2Mean", &t->jet1_dR2Mean, "jet1_dR2Mean/F");
 	outtree->Branch("jet2_pt", &t->jet2_pt, "jet2_pt/F");
@@ -657,7 +749,12 @@ void setup_outtree(TTree* outtree, tree_variables *t)
 	outtree->Branch("jet2_eta", &t->jet2_eta, "jet2_eta/F");
 	outtree->Branch("jet2_mass", &t->jet2_mass, "jet2_mass/F");
 	outtree->Branch("jet2_csvBtag", &t->jet2_csvBtag, "jet2_csvBtag/F");
+	outtree->Branch("jet2_flavour", &t->jet2_flavour, "jet2_flavour/I");
 	outtree->Branch("jet2_btagSF_M", &t->jet2_btagSF_M, "jet2_btagSF_M/F");
+	outtree->Branch("jet2_btagSFErrorUp_M", &t->jet2_btagSFErrorUp_M, "jet2_btagSFErrorUp_M/F");
+	outtree->Branch("jet2_btagSFErrorDown_M", &t->jet2_btagSFErrorDown_M, "jet2_btagSFErrorDown_M/F");
+	outtree->Branch("jet2_btagEff_M", &t->jet2_btagEff_M, "jet2_btagEff_M/F");
+	outtree->Branch("jet2_btagEffError_M", &t->jet2_btagEffError_M, "jet2_btagEffError_M/F");
 	outtree->Branch("jet2_betaStarClassic", &t->jet2_betaStarClassic, "jet2_betaStarClassic/F");
 	outtree->Branch("jet2_dR2Mean", &t->jet2_dR2Mean, "jet2_dR2Mean/F");
 // storing inputs of the regression for comparison
@@ -680,7 +777,12 @@ void setup_outtree(TTree* outtree, tree_variables *t)
 	outtree->Branch("regjet1_eta", &t->regjet1_eta, "regjet1_eta/F");
 	outtree->Branch("regjet1_mass", &t->regjet1_mass, "regjet1_mass/F");
 	outtree->Branch("regjet1_csvBtag", &t->regjet1_csvBtag, "regjet1_csvBtag/F");
+	outtree->Branch("regjet1_flavour", &t->regjet1_flavour, "regjet1_flavour/I");
 	outtree->Branch("regjet1_btagSF_M", &t->regjet1_btagSF_M, "regjet1_btagSF_M/F");
+	outtree->Branch("regjet1_btagSFErrorUp_M", &t->regjet1_btagSFErrorUp_M, "regjet1_btagSFErrorUp_M/F");
+	outtree->Branch("regjet1_btagSFErrorDown_M", &t->regjet1_btagSFErrorDown_M, "regjet1_btagSFErrorDown_M/F");
+	outtree->Branch("regjet1_btagEff_M", &t->regjet1_btagEff_M, "regjet1_btagEff_M/F");
+	outtree->Branch("regjet1_btagEffError_M", &t->regjet1_btagEffError_M, "regjet1_btagEffError_M/F");
 	outtree->Branch("regjet1_betaStarClassic", &t->regjet1_betaStarClassic, "regjet1_betaStarClassic/F");
 	outtree->Branch("regjet1_dR2Mean", &t->regjet1_dR2Mean, "regjet1_dR2Mean/F");
 	outtree->Branch("regjet2_pt", &t->regjet2_pt, "regjet2_pt/F");
@@ -689,7 +791,12 @@ void setup_outtree(TTree* outtree, tree_variables *t)
 	outtree->Branch("regjet2_eta", &t->regjet2_eta, "regjet2_eta/F");
 	outtree->Branch("regjet2_mass", &t->regjet2_mass, "regjet2_mass/F");
 	outtree->Branch("regjet2_csvBtag", &t->regjet2_csvBtag, "regjet2_csvBtag/F");
+	outtree->Branch("regjet2_flavour", &t->regjet2_flavour, "regjet2_flavour/I");
 	outtree->Branch("regjet2_btagSF_M", &t->regjet2_btagSF_M, "regjet2_btagSF_M/F");
+	outtree->Branch("regjet2_btagSFErrorUp_M", &t->regjet2_btagSFErrorUp_M, "regjet2_btagSFErrorUp_M/F");
+	outtree->Branch("regjet2_btagSFErrorDown_M", &t->regjet2_btagSFErrorDown_M, "regjet2_btagSFErrorDown_M/F");
+	outtree->Branch("regjet2_btagEff_M", &t->regjet2_btagEff_M, "regjet2_btagEff_M/F");
+	outtree->Branch("regjet2_btagEffError_M", &t->regjet2_btagEffError_M, "regjet2_btagEffError_M/F");
 	outtree->Branch("regjet2_betaStarClassic", &t->regjet2_betaStarClassic, "regjet2_betaStarClassic/F");
 	outtree->Branch("regjet2_dR2Mean", &t->regjet2_dR2Mean, "regjet2_dR2Mean/F");
 	outtree->Branch("regkinjet1_pt", &t->regkinjet1_pt, "regkinjet1_pt/F");
@@ -698,7 +805,12 @@ void setup_outtree(TTree* outtree, tree_variables *t)
 	outtree->Branch("regkinjet1_eta", &t->regkinjet1_eta, "regkinjet1_eta/F");
 	outtree->Branch("regkinjet1_mass", &t->regkinjet1_mass, "regkinjet1_mass/F");
 	outtree->Branch("regkinjet1_csvBtag", &t->regkinjet1_csvBtag, "regkinjet1_csvBtag/F");
+	outtree->Branch("regkinjet1_flavour", &t->regkinjet1_flavour, "regkinjet1_flavour/I");
 	outtree->Branch("regkinjet1_btagSF_M", &t->regkinjet1_btagSF_M, "regkinjet1_btagSF_M/F");
+	outtree->Branch("regkinjet1_btagSFErrorUp_M", &t->regkinjet1_btagSFErrorUp_M, "regkinjet1_btagSFErrorUp_M/F");
+	outtree->Branch("regkinjet1_btagSFErrorDown_M", &t->regkinjet1_btagSFErrorDown_M, "regkinjet1_btagSFErrorDown_M/F");
+	outtree->Branch("regkinjet1_btagEff_M", &t->regkinjet1_btagEff_M, "regkinjet1_btagEff_M/F");
+	outtree->Branch("regkinjet1_btagEffError_M", &t->regkinjet1_btagEffError_M, "regkinjet1_btagEffError_M/F");
 	outtree->Branch("regkinjet1_betaStarClassic", &t->regkinjet1_betaStarClassic, "regkinjet1_betaStarClassic/F");
 	outtree->Branch("regkinjet1_dR2Mean", &t->regkinjet1_dR2Mean, "regkinjet1_dR2Mean/F");
 	outtree->Branch("regkinjet2_pt", &t->regkinjet2_pt, "regkinjet2_pt/F");
@@ -707,7 +819,12 @@ void setup_outtree(TTree* outtree, tree_variables *t)
 	outtree->Branch("regkinjet2_eta", &t->regkinjet2_eta, "regkinjet2_eta/F");
 	outtree->Branch("regkinjet2_mass", &t->regkinjet2_mass, "regkinjet2_mass/F");
 	outtree->Branch("regkinjet2_csvBtag", &t->regkinjet2_csvBtag, "regkinjet2_csvBtag/F");
+	outtree->Branch("regkinjet2_flavour", &t->regkinjet2_flavour, "regkinjet2_flavour/I");
 	outtree->Branch("regkinjet2_btagSF_M", &t->regkinjet2_btagSF_M, "regkinjet2_btagSF_M/F");
+	outtree->Branch("regkinjet2_btagSFErrorUp_M", &t->regkinjet2_btagSFErrorUp_M, "regkinjet2_btagSFErrorUp_M/F");
+	outtree->Branch("regkinjet2_btagSFErrorDown_M", &t->regkinjet2_btagSFErrorDown_M, "regkinjet2_btagSFErrorDown_M/F");
+	outtree->Branch("regkinjet2_btagEffError_M", &t->regkinjet2_btagEffError_M, "regkinjet2_btagEffError_M/F");
+	outtree->Branch("regkinjet2_btagEff_M", &t->regkinjet2_btagEff_M, "regkinjet2_btagEff_M/F");
 	outtree->Branch("regkinjet2_betaStarClassic", &t->regkinjet2_betaStarClassic, "regkinjet2_betaStarClassic/F");
 	outtree->Branch("regkinjet2_dR2Mean", &t->regkinjet2_dR2Mean, "regkinjet2_dR2Mean/F");
 	outtree->Branch("kinjet1_pt", &t->kinjet1_pt, "kinjet1_pt/F");
@@ -716,7 +833,12 @@ void setup_outtree(TTree* outtree, tree_variables *t)
 	outtree->Branch("kinjet1_eta", &t->kinjet1_eta, "kinjet1_eta/F");
 	outtree->Branch("kinjet1_mass", &t->kinjet1_mass, "kinjet1_mass/F");
 	outtree->Branch("kinjet1_csvBtag", &t->kinjet1_csvBtag, "kinjet1_csvBtag/F");
+	outtree->Branch("kinjet1_flavour", &t->kinjet1_flavour, "kinjet1_flavour/I");
 	outtree->Branch("kinjet1_btagSF_M", &t->kinjet1_btagSF_M, "kinjet1_btagSF_M/F");
+	outtree->Branch("kinjet1_btagSFErrorUp_M", &t->kinjet1_btagSFErrorUp_M, "kinjet1_btagSFErrorUp_M/F");
+	outtree->Branch("kinjet1_btagSFErrorDown_M", &t->kinjet1_btagSFErrorDown_M, "kinjet1_btagSFErrorDown_M/F");
+	outtree->Branch("kinjet1_btagEffError_M", &t->kinjet1_btagEffError_M, "kinjet1_btagEffError_M/F");
+	outtree->Branch("kinjet1_btagEff_M", &t->kinjet1_btagEff_M, "kinjet1_btagEff_M/F");
 	outtree->Branch("kinjet1_betaStarClassic", &t->kinjet1_betaStarClassic, "kinjet1_betaStarClassic/F");
 	outtree->Branch("kinjet1_dR2Mean", &t->kinjet1_dR2Mean, "kinjet1_dR2Mean/F");
 	outtree->Branch("kinjet2_pt", &t->kinjet2_pt, "kinjet2_pt/F");
@@ -725,7 +847,12 @@ void setup_outtree(TTree* outtree, tree_variables *t)
 	outtree->Branch("kinjet2_eta", &t->kinjet2_eta, "kinjet2_eta/F");
 	outtree->Branch("kinjet2_mass", &t->kinjet2_mass, "kinjet2_mass/F");
 	outtree->Branch("kinjet2_csvBtag", &t->kinjet2_csvBtag, "kinjet2_csvBtag/F");
+	outtree->Branch("kinjet2_flavour", &t->kinjet2_flavour, "kinjet2_flavour/I");
 	outtree->Branch("kinjet2_btagSF_M", &t->kinjet2_btagSF_M, "kinjet2_btagSF_M/F");
+	outtree->Branch("kinjet2_btagSFErrorUp_M", &t->kinjet2_btagSFErrorUp_M, "kinjet2_btagSFErrorUp_M/F");
+	outtree->Branch("kinjet2_btagSFErrorDown_M", &t->kinjet2_btagSFErrorDown_M, "kinjet2_btagSFErrorDown_M/F");
+	outtree->Branch("kinjet2_btagEffError_M", &t->kinjet2_btagEffError_M, "kinjet2_btagEffError_M/F");
+	outtree->Branch("kinjet2_btagEff_M", &t->kinjet2_btagEff_M, "kinjet2_btagEff_M/F");
 	outtree->Branch("kinjet2_betaStarClassic", &t->kinjet2_betaStarClassic, "kinjet2_betaStarClassic/F");
 	outtree->Branch("kinjet2_dR2Mean", &t->kinjet2_dR2Mean, "kinjet2_dR2Mean/F");
 	outtree->Branch("jj_pt", &t->jj_pt, "jj_pt/F");
@@ -843,6 +970,11 @@ struct jet_variables
 {
 		std::vector<float> jetPt;
 		std::vector<float> jetbtagSF_M;
+		std::vector<int> jetflavour;
+		std::vector<float> jetbtagSFErrorUp_M;
+		std::vector<float> jetbtagSFErrorDown_M;
+		std::vector<float> jetbtagEff_M;
+		std::vector<float> jetbtagEffError_M;
 		std::vector<float> jetbetaStarClassic;
 		std::vector<float> jetdR2Mean;
 		std::vector<float> jetE;
@@ -865,6 +997,11 @@ void initialize_jet_variables( jet_variables * J )
 {
 		J->jetPt.clear();
 		J->jetbtagSF_M.clear();
+		J->jetflavour.clear();
+		J->jetbtagSFErrorUp_M.clear();
+		J->jetbtagSFErrorDown_M.clear();
+		J->jetbtagEff_M.clear();
+		J->jetbtagEffError_M.clear();
 		J->jetbetaStarClassic.clear();
 		J->jetdR2Mean.clear();
 		J->jetE.clear();
@@ -902,6 +1039,11 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met)
 				t->jet_emfrac = t->j1_emfrac;
 				t->jet_hadfrac = t->j1_hadfrac;
 				t->jet_btagSF_M = t->j1_btagSF_M;
+				t->jet_flavour = t->j1_flavour;
+				t->jet_btagSFErrorUp_M = t->j1_btagSFErrorUp_M;
+				t->jet_btagSFErrorDown_M = t->j1_btagSFErrorDown_M;
+				t->jet_btagEff_M = t->j1_btagEff_M;
+				t->jet_btagEffError_M = t->j1_btagEffError_M;
 				t->jet_betaStarClassic = t->j1_betaStarClassic;
 				t->jet_dR2Mean = t->j1_dR2Mean;
 				t->jet_nNeutrals = t->j1_nNeutrals;
@@ -925,6 +1067,11 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met)
 				t->jet_emfrac = t->j2_emfrac;
 				t->jet_hadfrac = t->j2_hadfrac;
 				t->jet_btagSF_M = t->j2_btagSF_M;
+				t->jet_flavour = t->j2_flavour;
+				t->jet_btagSFErrorUp_M = t->j2_btagSFErrorUp_M;
+				t->jet_btagSFErrorDown_M = t->j2_btagSFErrorDown_M;
+				t->jet_btagEff_M = t->j2_btagEff_M;
+				t->jet_btagEffError_M = t->j2_btagEffError_M;
 				t->jet_betaStarClassic = t->j2_betaStarClassic;
 				t->jet_dR2Mean = t->j2_dR2Mean;
 				t->jet_nNeutrals = t->j2_nNeutrals;
@@ -948,6 +1095,11 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met)
 				t->jet_emfrac = t->j3_emfrac;
 				t->jet_hadfrac = t->j3_hadfrac;
 				t->jet_btagSF_M = t->j3_btagSF_M;
+				t->jet_flavour = t->j3_flavour;
+				t->jet_btagSFErrorUp_M = t->j3_btagSFErrorUp_M;
+				t->jet_btagSFErrorDown_M = t->j3_btagSFErrorDown_M;
+				t->jet_btagEff_M = t->j3_btagEff_M;
+				t->jet_btagEffError_M = t->j3_btagEffError_M;
 				t->jet_betaStarClassic = t->j3_betaStarClassic;
 				t->jet_dR2Mean = t->j3_dR2Mean;
 				t->jet_nNeutrals = t->j3_nNeutrals;
@@ -971,6 +1123,11 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met)
 				t->jet_emfrac = t->j4_emfrac;
 				t->jet_hadfrac = t->j4_hadfrac;
 				t->jet_btagSF_M = t->j4_btagSF_M;
+				t->jet_flavour = t->j4_flavour;
+				t->jet_btagSFErrorUp_M = t->j4_btagSFErrorUp_M;
+				t->jet_btagSFErrorDown_M = t->j4_btagSFErrorDown_M;
+				t->jet_btagEff_M = t->j4_btagEff_M;
+				t->jet_btagEffError_M = t->j4_btagEffError_M;
 				t->jet_betaStarClassic = t->j4_betaStarClassic;
 				t->jet_dR2Mean = t->j4_dR2Mean;
 				t->jet_nNeutrals = t->j4_nNeutrals;
@@ -994,6 +1151,11 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met)
 				t->jet_emfrac = t->j5_emfrac;
 				t->jet_hadfrac = t->j5_hadfrac;
 				t->jet_btagSF_M = t->j5_btagSF_M;
+				t->jet_flavour = t->j5_flavour;
+				t->jet_btagSFErrorUp_M = t->j5_btagSFErrorUp_M;
+				t->jet_btagSFErrorDown_M = t->j5_btagSFErrorDown_M;
+				t->jet_btagEff_M = t->j5_btagEff_M;
+				t->jet_btagEffError_M = t->j5_btagEffError_M;
 				t->jet_betaStarClassic = t->j5_betaStarClassic;
 				t->jet_dR2Mean = t->j5_dR2Mean;
 				t->jet_nNeutrals = t->j5_nNeutrals;
@@ -1017,6 +1179,11 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met)
 				t->jet_emfrac = t->j6_emfrac;
 				t->jet_hadfrac = t->j6_hadfrac;
 				t->jet_btagSF_M = t->j6_btagSF_M;
+				t->jet_flavour = t->j6_flavour;
+				t->jet_btagSFErrorUp_M = t->j6_btagSFErrorUp_M;
+				t->jet_btagSFErrorDown_M = t->j6_btagSFErrorDown_M;
+				t->jet_btagEff_M = t->j6_btagEff_M;
+				t->jet_btagEffError_M = t->j6_btagEffError_M;
 				t->jet_betaStarClassic = t->j6_betaStarClassic;
 				t->jet_dR2Mean = t->j6_dR2Mean;
 				t->jet_nNeutrals = t->j6_nNeutrals;
@@ -1040,6 +1207,11 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met)
 				t->jet_emfrac = t->j7_emfrac;
 				t->jet_hadfrac = t->j7_hadfrac;
 				t->jet_btagSF_M = t->j7_btagSF_M;
+				t->jet_flavour = t->j7_flavour;
+				t->jet_btagSFErrorUp_M = t->j7_btagSFErrorUp_M;
+				t->jet_btagSFErrorDown_M = t->j7_btagSFErrorDown_M;
+				t->jet_btagEff_M = t->j7_btagEff_M;
+				t->jet_btagEffError_M = t->j7_btagEffError_M;
 				t->jet_betaStarClassic = t->j7_betaStarClassic;
 				t->jet_dR2Mean = t->j7_dR2Mean;
 				t->jet_nNeutrals = t->j7_nNeutrals;
@@ -1063,6 +1235,11 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met)
 				t->jet_emfrac = t->j8_emfrac;
 				t->jet_hadfrac = t->j8_hadfrac;
 				t->jet_btagSF_M = t->j8_btagSF_M;
+				t->jet_flavour = t->j8_flavour;
+				t->jet_btagSFErrorUp_M = t->j8_btagSFErrorUp_M;
+				t->jet_btagSFErrorDown_M = t->j8_btagSFErrorDown_M;
+				t->jet_btagEff_M = t->j8_btagEff_M;
+				t->jet_btagEffError_M = t->j8_btagEffError_M;
 				t->jet_betaStarClassic = t->j8_betaStarClassic;
 				t->jet_dR2Mean = t->j8_dR2Mean;
 				t->jet_nNeutrals = t->j8_nNeutrals;
@@ -1086,6 +1263,11 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met)
 				t->jet_emfrac = t->j9_emfrac;
 				t->jet_hadfrac = t->j9_hadfrac;
 				t->jet_btagSF_M = t->j9_btagSF_M;
+				t->jet_flavour = t->j9_flavour;
+				t->jet_btagSFErrorUp_M = t->j9_btagSFErrorUp_M;
+				t->jet_btagSFErrorDown_M = t->j9_btagSFErrorDown_M;
+				t->jet_btagEff_M = t->j9_btagEff_M;
+				t->jet_btagEffError_M = t->j9_btagEffError_M;
 				t->jet_betaStarClassic = t->j9_betaStarClassic;
 				t->jet_dR2Mean = t->j9_dR2Mean;
 				t->jet_nNeutrals = t->j9_nNeutrals;
@@ -1109,6 +1291,11 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met)
 				t->jet_emfrac = t->j10_emfrac;
 				t->jet_hadfrac = t->j10_hadfrac;
 				t->jet_btagSF_M = t->j10_btagSF_M;
+				t->jet_flavour = t->j10_flavour;
+				t->jet_btagSFErrorUp_M = t->j10_btagSFErrorUp_M;
+				t->jet_btagSFErrorDown_M = t->j10_btagSFErrorDown_M;
+				t->jet_btagEff_M = t->j10_btagEff_M;
+				t->jet_btagEffError_M = t->j10_btagEffError_M;
 				t->jet_betaStarClassic = t->j10_betaStarClassic;
 				t->jet_dR2Mean = t->j10_dR2Mean;
 				t->jet_nNeutrals = t->j10_nNeutrals;
@@ -1132,6 +1319,11 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met)
 				t->jet_emfrac = t->j11_emfrac;
 				t->jet_hadfrac = t->j11_hadfrac;
 				t->jet_btagSF_M = t->j11_btagSF_M;
+				t->jet_flavour = t->j11_flavour;
+				t->jet_btagSFErrorUp_M = t->j11_btagSFErrorUp_M;
+				t->jet_btagSFErrorDown_M = t->j11_btagSFErrorDown_M;
+				t->jet_btagEff_M = t->j11_btagEff_M;
+				t->jet_btagEffError_M = t->j11_btagEffError_M;
 				t->jet_betaStarClassic = t->j11_betaStarClassic;
 				t->jet_dR2Mean = t->j11_dR2Mean;
 				t->jet_nNeutrals = t->j11_nNeutrals;
@@ -1155,6 +1347,11 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met)
 				t->jet_emfrac = t->j12_emfrac;
 				t->jet_hadfrac = t->j12_hadfrac;
 				t->jet_btagSF_M = t->j12_btagSF_M;
+				t->jet_flavour = t->j12_flavour;
+				t->jet_btagSFErrorUp_M = t->j12_btagSFErrorUp_M;
+				t->jet_btagSFErrorDown_M = t->j12_btagSFErrorDown_M;
+				t->jet_btagEff_M = t->j12_btagEff_M;
+				t->jet_btagEffError_M = t->j12_btagEffError_M;
 				t->jet_betaStarClassic = t->j12_betaStarClassic;
 				t->jet_dR2Mean = t->j12_dR2Mean;
 				t->jet_nNeutrals = t->j12_nNeutrals;
@@ -1178,6 +1375,11 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met)
 				t->jet_emfrac = t->j13_emfrac;
 				t->jet_hadfrac = t->j13_hadfrac;
 				t->jet_btagSF_M = t->j13_btagSF_M;
+				t->jet_flavour = t->j13_flavour;
+				t->jet_btagSFErrorUp_M = t->j13_btagSFErrorUp_M;
+				t->jet_btagSFErrorDown_M = t->j13_btagSFErrorDown_M;
+				t->jet_btagEff_M = t->j13_btagEff_M;
+				t->jet_btagEffError_M = t->j13_btagEffError_M;
 				t->jet_betaStarClassic = t->j13_betaStarClassic;
 				t->jet_dR2Mean = t->j13_dR2Mean;
 				t->jet_nNeutrals = t->j13_nNeutrals;
@@ -1201,6 +1403,11 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met)
 				t->jet_emfrac = t->j14_emfrac;
 				t->jet_hadfrac = t->j14_hadfrac;
 				t->jet_btagSF_M = t->j14_btagSF_M;
+				t->jet_flavour = t->j14_flavour;
+				t->jet_btagSFErrorUp_M = t->j14_btagSFErrorUp_M;
+				t->jet_btagSFErrorDown_M = t->j14_btagSFErrorDown_M;
+				t->jet_btagEff_M = t->j14_btagEff_M;
+				t->jet_btagEffError_M = t->j14_btagEffError_M;
 				t->jet_betaStarClassic = t->j14_betaStarClassic;
 				t->jet_dR2Mean = t->j14_dR2Mean;
 				t->jet_nNeutrals = t->j14_nNeutrals;
@@ -1224,6 +1431,11 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met)
 				t->jet_emfrac = t->j15_emfrac;
 				t->jet_hadfrac = t->j15_hadfrac;
 				t->jet_btagSF_M = t->j15_btagSF_M;
+				t->jet_flavour = t->j15_flavour;
+				t->jet_btagSFErrorUp_M = t->j15_btagSFErrorUp_M;
+				t->jet_btagSFErrorDown_M = t->j15_btagSFErrorDown_M;
+				t->jet_btagEff_M = t->j15_btagEff_M;
+				t->jet_btagEffError_M = t->j15_btagEffError_M;
 				t->jet_betaStarClassic = t->j15_betaStarClassic;
 				t->jet_dR2Mean = t->j15_dR2Mean;
 				t->jet_nNeutrals = t->j15_nNeutrals;
