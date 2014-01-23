@@ -40,7 +40,7 @@ DiJetKinFitter.o: ../KinematicFit/DiJetKinFitter.cc
 TAbsFitConstraint.o: ../KinematicFit/TAbsFitConstraint.cc
 	$(CC) $(CCFLAGS) $(ROOTFLAGS) -c ../KinematicFit/TAbsFitConstraint.cc -o TAbsFitConstraint.o
 
-selection.o: selection.cc
+selection.o: selection.cc selection.h
 	$(CC) $(TMVA) $(CCFLAGS) $(ROOTFLAGS) $(BOOSTFLAGS) -c selection.cc -o selection.o
 
 selection.exe: selection.o DiJetKinFitter.o TKinFitter.o TFitParticleEtEtaPhi.o TAbsFitParticle.o TFitConstraintM.o TAbsFitConstraint.o
