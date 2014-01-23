@@ -19,7 +19,7 @@
 // Analysis headers
 #include "../KinematicFit/DiJetKinFitter.h"
 // Verbosity
-#define DEBUG 1
+#define DEBUG 0
 // namespaces
 using namespace std;
 namespace po = boost::program_options;
@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
 			("numberOfRegressionFiles,r", po::value<int>(&numberOfRegressionFiles)->default_value(2), "number of regression files")
 			("type", po::value<int>(&type)->default_value(0), "same conventions as in h2gglobe: <0 = signal ; =0 = data ; >0 = background")
 			("sync", po::value<int>(&SYNC)->default_value(0), "mjj and mggjj cuts are overwritten if sync is switched on")
-			("removeUndefinedBtagSF", po::value<int>(&REMOVE_UNDEFINED_BTAGSF)->default_value(0), "remove undefined btagSF values (should be used only for the limit trees)")
+			("removeUndefinedBtagSF", po::value<int>(&REMOVE_UNDEFINED_BTAGSF)->default_value(0), "remove undefined btagSF_M values (should be used only for the limit trees)")
 			("applyMassCuts", po::value<int>(&applyMassCuts)->default_value(1), "can switch off mass cuts (e.g. for control plots), prevails other mass cut options if switched off")
 			("applyPhotonIDControlSample", po::value<int>(&applyPhotonIDControlSample)->default_value(0), "Invert photon ID CiC cut to populate selection in gjjj instead of ggjj")
 			("sync_w_phil", po::value<int>(&SYNC_W_PHIL)->default_value(0), "switch on output for dedicated events")
@@ -136,21 +136,21 @@ int main(int argc, char *argv[])
 	float ph2_pfchargedisogood03, ph2_ecaliso, ph2_pfchargedisobad04, ph2_ecalisobad, ph2_badvtx_Et, ph2_isconv;
 	int ph1_ciclevel, ph2_ciclevel, ph1_isEB, ph2_isEB;
 
-	float j1_e, j1_pt, j1_phi, j1_eta, j1_beta, j1_betaStar, j1_betaStarClassic, j1_dR2Mean, j1_csvBtag, j1_csvMvaBtag, j1_jetProbBtag, j1_tcheBtag, j1_secVtxPt, j1_secVtx3dL, j1_emfrac, j1_hadfrac, j1_axis1, j1_axis2, j1_pull, j1_radionMatched, j1_btagSF;
+	float j1_e, j1_pt, j1_phi, j1_eta, j1_beta, j1_betaStar, j1_betaStarClassic, j1_dR2Mean, j1_csvBtag, j1_csvMvaBtag, j1_jetProbBtag, j1_tcheBtag, j1_secVtxPt, j1_secVtx3dL, j1_emfrac, j1_hadfrac, j1_axis1, j1_axis2, j1_pull, j1_radionMatched, j1_btagSF_M;
 	int j1_ntk, j1_nNeutrals, j1_nCharged;
 
-	float j2_e, j2_pt, j2_phi, j2_eta, j2_beta, j2_betaStar, j2_betaStarClassic, j2_dR2Mean, j2_csvBtag, j2_csvMvaBtag, j2_jetProbBtag, j2_tcheBtag, j2_secVtxPt, j2_secVtx3dL, j2_emfrac, j2_hadfrac, j2_axis1, j2_axis2, j2_pull, j2_radionMatched, j2_btagSF;
+	float j2_e, j2_pt, j2_phi, j2_eta, j2_beta, j2_betaStar, j2_betaStarClassic, j2_dR2Mean, j2_csvBtag, j2_csvMvaBtag, j2_jetProbBtag, j2_tcheBtag, j2_secVtxPt, j2_secVtx3dL, j2_emfrac, j2_hadfrac, j2_axis1, j2_axis2, j2_pull, j2_radionMatched, j2_btagSF_M;
 	int j2_ntk, j2_nNeutrals, j2_nCharged;
 
-	float j3_e, j3_pt, j3_phi, j3_eta, j3_beta, j3_betaStar, j3_betaStarClassic, j3_dR2Mean, j3_csvBtag, j3_csvMvaBtag, j3_jetProbBtag, j3_tcheBtag, j3_secVtxPt, j3_secVtx3dL, j3_emfrac, j3_hadfrac, j3_axis1, j3_axis2, j3_pull, j3_radionMatched, j3_btagSF;
+	float j3_e, j3_pt, j3_phi, j3_eta, j3_beta, j3_betaStar, j3_betaStarClassic, j3_dR2Mean, j3_csvBtag, j3_csvMvaBtag, j3_jetProbBtag, j3_tcheBtag, j3_secVtxPt, j3_secVtx3dL, j3_emfrac, j3_hadfrac, j3_axis1, j3_axis2, j3_pull, j3_radionMatched, j3_btagSF_M;
 	int j3_ntk, j3_nNeutrals, j3_nCharged;
 
-	float j4_e, j4_pt, j4_phi, j4_eta, j4_beta, j4_betaStar, j4_betaStarClassic, j4_dR2Mean, j4_csvBtag, j4_csvMvaBtag, j4_jetProbBtag, j4_tcheBtag, j4_secVtxPt, j4_secVtx3dL, j4_emfrac, j4_hadfrac, j4_axis1, j4_axis2, j4_pull, j4_radionMatched, j4_btagSF;
+	float j4_e, j4_pt, j4_phi, j4_eta, j4_beta, j4_betaStar, j4_betaStarClassic, j4_dR2Mean, j4_csvBtag, j4_csvMvaBtag, j4_jetProbBtag, j4_tcheBtag, j4_secVtxPt, j4_secVtx3dL, j4_emfrac, j4_hadfrac, j4_axis1, j4_axis2, j4_pull, j4_radionMatched, j4_btagSF_M;
 	int j4_ntk, j4_nNeutrals, j4_nCharged;
 
 	float jet_e, jet_pt, jet_phi, jet_eta;
 	float jet_betaStarClassic, jet_dR2Mean, jet_csvBtag;
-	float jet_secVtxPt, jet_secVtx3dL, jet_emfrac, jet_hadfrac, jet_btagSF;
+	float jet_secVtxPt, jet_secVtx3dL, jet_emfrac, jet_hadfrac, jet_btagSF_M;
 	int jet_nNeutrals, jet_nCharged, jet_nConstituents;
 	float jet_nConstituents_;
 	float jet_dPhiMet_fabs;
@@ -164,22 +164,22 @@ int main(int argc, char *argv[])
 	int pho1_isEB, pho2_isEB;
 	float pho1_pfchargedisogood03, pho1_ecaliso, pho1_pfchargedisobad04, pho1_ecalisobad, pho1_badvtx_Et, pho1_PFisoA, pho1_PFisoB, pho1_PFisoC, pho1_isconv;
 	float pho2_pfchargedisogood03, pho2_ecaliso, pho2_pfchargedisobad04, pho2_ecalisobad, pho2_badvtx_Et, pho2_PFisoA, pho2_PFisoB, pho2_PFisoC, pho2_isconv;
-	float jet1_pt, jet1_e, jet1_phi, jet1_eta, jet1_mass, jet1_csvBtag, jet1_btagSF, jet1_betaStarClassic, jet1_dR2Mean;
-	float jet2_pt, jet2_e, jet2_phi, jet2_eta, jet2_mass, jet2_csvBtag, jet2_btagSF, jet2_betaStarClassic, jet2_dR2Mean;
+	float jet1_pt, jet1_e, jet1_phi, jet1_eta, jet1_mass, jet1_csvBtag, jet1_btagSF_M, jet1_betaStarClassic, jet1_dR2Mean;
+	float jet2_pt, jet2_e, jet2_phi, jet2_eta, jet2_mass, jet2_csvBtag, jet2_btagSF_M, jet2_betaStarClassic, jet2_dR2Mean;
 	float regjet1_emfrac, regjet1_hadfrac, regjet1_secVtxPt, regjet1_secVtx3dL, regjet1_dPhiMet;
 	int regjet1_nConstituents;
 	float regjet2_emfrac, regjet2_hadfrac, regjet2_secVtxPt, regjet2_secVtx3dL, regjet2_dPhiMet;
 	int regjet2_nConstituents;
-	float regjet1_pt, regjet1_e, regjet1_phi, regjet1_eta, regjet1_mass, regjet1_csvBtag, regjet1_btagSF, regjet1_betaStarClassic, regjet1_dR2Mean;
-	float regjet2_pt, regjet2_e, regjet2_phi, regjet2_eta, regjet2_mass, regjet2_csvBtag, regjet2_btagSF, regjet2_betaStarClassic, regjet2_dR2Mean;
-	float regkinjet1_pt, regkinjet1_e, regkinjet1_phi, regkinjet1_eta, regkinjet1_mass, regkinjet1_csvBtag, regkinjet1_btagSF, regkinjet1_betaStarClassic, regkinjet1_dR2Mean;
-	float regkinjet2_pt, regkinjet2_e, regkinjet2_phi, regkinjet2_eta, regkinjet2_mass, regkinjet2_csvBtag, regkinjet2_btagSF, regkinjet2_betaStarClassic, regkinjet2_dR2Mean;
-	float kinjet1_pt, kinjet1_e, kinjet1_phi, kinjet1_eta, kinjet1_mass, kinjet1_csvBtag, kinjet1_btagSF, kinjet1_betaStarClassic, kinjet1_dR2Mean;
-	float kinjet2_pt, kinjet2_e, kinjet2_phi, kinjet2_eta, kinjet2_mass, kinjet2_csvBtag, kinjet2_btagSF, kinjet2_betaStarClassic, kinjet2_dR2Mean;
-	float jj_pt, jj_e, jj_phi, jj_eta, jj_mass, jj_DR, jj_btagSF;
-	float regjj_pt, regjj_e, regjj_phi, regjj_eta, regjj_mass, regjj_btagSF;
-	float regkinjj_pt, regkinjj_e, regkinjj_phi, regkinjj_eta, regkinjj_mass, regkinjj_btagSF;
-	float kinjj_pt, kinjj_e, kinjj_phi, kinjj_eta, kinjj_mass, kinjj_btagSF;
+	float regjet1_pt, regjet1_e, regjet1_phi, regjet1_eta, regjet1_mass, regjet1_csvBtag, regjet1_btagSF_M, regjet1_betaStarClassic, regjet1_dR2Mean;
+	float regjet2_pt, regjet2_e, regjet2_phi, regjet2_eta, regjet2_mass, regjet2_csvBtag, regjet2_btagSF_M, regjet2_betaStarClassic, regjet2_dR2Mean;
+	float regkinjet1_pt, regkinjet1_e, regkinjet1_phi, regkinjet1_eta, regkinjet1_mass, regkinjet1_csvBtag, regkinjet1_btagSF_M, regkinjet1_betaStarClassic, regkinjet1_dR2Mean;
+	float regkinjet2_pt, regkinjet2_e, regkinjet2_phi, regkinjet2_eta, regkinjet2_mass, regkinjet2_csvBtag, regkinjet2_btagSF_M, regkinjet2_betaStarClassic, regkinjet2_dR2Mean;
+	float kinjet1_pt, kinjet1_e, kinjet1_phi, kinjet1_eta, kinjet1_mass, kinjet1_csvBtag, kinjet1_btagSF_M, kinjet1_betaStarClassic, kinjet1_dR2Mean;
+	float kinjet2_pt, kinjet2_e, kinjet2_phi, kinjet2_eta, kinjet2_mass, kinjet2_csvBtag, kinjet2_btagSF_M, kinjet2_betaStarClassic, kinjet2_dR2Mean;
+	float jj_pt, jj_e, jj_phi, jj_eta, jj_mass, jj_DR, jj_btagSF_M;
+	float regjj_pt, regjj_e, regjj_phi, regjj_eta, regjj_mass, regjj_btagSF_M;
+	float regkinjj_pt, regkinjj_e, regkinjj_phi, regkinjj_eta, regkinjj_mass, regkinjj_btagSF_M;
+	float kinjj_pt, kinjj_e, kinjj_phi, kinjj_eta, kinjj_mass, kinjj_btagSF_M;
 	float gg_pt, gg_e, gg_phi, gg_eta, gg_mass;
 	float ggjj_pt, ggjj_e, ggjj_phi, ggjj_eta, ggjj_mass, regjj_DR, regkinjj_DR, kinjj_DR;
 	float regggjj_pt, regggjj_e, regggjj_phi, regggjj_eta, regggjj_mass;
@@ -303,7 +303,7 @@ int main(int argc, char *argv[])
 	intree->SetBranchAddress("j1_secVtx3dL", &j1_secVtx3dL);
 	intree->SetBranchAddress("j1_emfrac", &j1_emfrac);
 	intree->SetBranchAddress("j1_hadfrac", &j1_hadfrac);
-	intree->SetBranchAddress("j1_btagSF", &j1_btagSF);
+	intree->SetBranchAddress("j1_btagSF_M", &j1_btagSF_M);
 	intree->SetBranchAddress("j1_ntk", &j1_ntk);
 	intree->SetBranchAddress("j1_nNeutrals", &j1_nNeutrals);
 	intree->SetBranchAddress("j1_nCharged", &j1_nCharged);
@@ -328,7 +328,7 @@ int main(int argc, char *argv[])
 	intree->SetBranchAddress("j2_secVtx3dL", &j2_secVtx3dL);
 	intree->SetBranchAddress("j2_emfrac", &j2_emfrac);
 	intree->SetBranchAddress("j2_hadfrac", &j2_hadfrac);
-	intree->SetBranchAddress("j2_btagSF", &j2_btagSF);
+	intree->SetBranchAddress("j2_btagSF_M", &j2_btagSF_M);
 	intree->SetBranchAddress("j2_ntk", &j2_ntk);
 	intree->SetBranchAddress("j2_nNeutrals", &j2_nNeutrals);
 	intree->SetBranchAddress("j2_nCharged", &j2_nCharged);
@@ -353,7 +353,7 @@ int main(int argc, char *argv[])
 	intree->SetBranchAddress("j3_secVtx3dL", &j3_secVtx3dL);
 	intree->SetBranchAddress("j3_emfrac", &j3_emfrac);
 	intree->SetBranchAddress("j3_hadfrac", &j3_hadfrac);
-	intree->SetBranchAddress("j3_btagSF", &j3_btagSF);
+	intree->SetBranchAddress("j3_btagSF_M", &j3_btagSF_M);
 	intree->SetBranchAddress("j3_ntk", &j3_ntk);
 	intree->SetBranchAddress("j3_nNeutrals", &j3_nNeutrals);
 	intree->SetBranchAddress("j3_nCharged", &j3_nCharged);
@@ -378,7 +378,7 @@ int main(int argc, char *argv[])
 	intree->SetBranchAddress("j4_secVtx3dL", &j4_secVtx3dL);
 	intree->SetBranchAddress("j4_emfrac", &j4_emfrac);
 	intree->SetBranchAddress("j4_hadfrac", &j4_hadfrac);
-	intree->SetBranchAddress("j4_btagSF", &j4_btagSF);
+	intree->SetBranchAddress("j4_btagSF_M", &j4_btagSF_M);
 	intree->SetBranchAddress("j4_ntk", &j4_ntk);
 	intree->SetBranchAddress("j4_nNeutrals", &j4_nNeutrals);
 	intree->SetBranchAddress("j4_nCharged", &j4_nCharged);
@@ -442,7 +442,7 @@ int main(int argc, char *argv[])
 	outtree->Branch("jet1_eta", &jet1_eta, "jet1_eta/F");
 	outtree->Branch("jet1_mass", &jet1_mass, "jet1_mass/F");
 	outtree->Branch("jet1_csvBtag", &jet1_csvBtag, "jet1_csvBtag/F");
-	outtree->Branch("jet1_btagSF", &jet1_btagSF, "jet1_btagSF/F");
+	outtree->Branch("jet1_btagSF_M", &jet1_btagSF_M, "jet1_btagSF_M/F");
 	outtree->Branch("jet1_betaStarClassic", &jet1_betaStarClassic, "jet1_betaStarClassic/F");
 	outtree->Branch("jet1_dR2Mean", &jet1_dR2Mean, "jet1_dR2Mean/F");
 	outtree->Branch("jet2_pt", &jet2_pt, "jet2_pt/F");
@@ -451,7 +451,7 @@ int main(int argc, char *argv[])
 	outtree->Branch("jet2_eta", &jet2_eta, "jet2_eta/F");
 	outtree->Branch("jet2_mass", &jet2_mass, "jet2_mass/F");
 	outtree->Branch("jet2_csvBtag", &jet2_csvBtag, "jet2_csvBtag/F");
-	outtree->Branch("jet2_btagSF", &jet2_btagSF, "jet2_btagSF/F");
+	outtree->Branch("jet2_btagSF_M", &jet2_btagSF_M, "jet2_btagSF_M/F");
 	outtree->Branch("jet2_betaStarClassic", &jet2_betaStarClassic, "jet2_betaStarClassic/F");
 	outtree->Branch("jet2_dR2Mean", &jet2_dR2Mean, "jet2_dR2Mean/F");
 // storing inputs of the regression for comparison
@@ -474,7 +474,7 @@ int main(int argc, char *argv[])
 	outtree->Branch("regjet1_eta", &regjet1_eta, "regjet1_eta/F");
 	outtree->Branch("regjet1_mass", &regjet1_mass, "regjet1_mass/F");
 	outtree->Branch("regjet1_csvBtag", &regjet1_csvBtag, "regjet1_csvBtag/F");
-	outtree->Branch("regjet1_btagSF", &regjet1_btagSF, "regjet1_btagSF/F");
+	outtree->Branch("regjet1_btagSF_M", &regjet1_btagSF_M, "regjet1_btagSF_M/F");
 	outtree->Branch("regjet1_betaStarClassic", &regjet1_betaStarClassic, "regjet1_betaStarClassic/F");
 	outtree->Branch("regjet1_dR2Mean", &regjet1_dR2Mean, "regjet1_dR2Mean/F");
 	outtree->Branch("regjet2_pt", &regjet2_pt, "regjet2_pt/F");
@@ -483,7 +483,7 @@ int main(int argc, char *argv[])
 	outtree->Branch("regjet2_eta", &regjet2_eta, "regjet2_eta/F");
 	outtree->Branch("regjet2_mass", &regjet2_mass, "regjet2_mass/F");
 	outtree->Branch("regjet2_csvBtag", &regjet2_csvBtag, "regjet2_csvBtag/F");
-	outtree->Branch("regjet2_btagSF", &regjet2_btagSF, "regjet2_btagSF/F");
+	outtree->Branch("regjet2_btagSF_M", &regjet2_btagSF_M, "regjet2_btagSF_M/F");
 	outtree->Branch("regjet2_betaStarClassic", &regjet2_betaStarClassic, "regjet2_betaStarClassic/F");
 	outtree->Branch("regjet2_dR2Mean", &regjet2_dR2Mean, "regjet2_dR2Mean/F");
 	outtree->Branch("regkinjet1_pt", &regkinjet1_pt, "regkinjet1_pt/F");
@@ -492,7 +492,7 @@ int main(int argc, char *argv[])
 	outtree->Branch("regkinjet1_eta", &regkinjet1_eta, "regkinjet1_eta/F");
 	outtree->Branch("regkinjet1_mass", &regkinjet1_mass, "regkinjet1_mass/F");
 	outtree->Branch("regkinjet1_csvBtag", &regkinjet1_csvBtag, "regkinjet1_csvBtag/F");
-	outtree->Branch("regkinjet1_btagSF", &regkinjet1_btagSF, "regkinjet1_btagSF/F");
+	outtree->Branch("regkinjet1_btagSF_M", &regkinjet1_btagSF_M, "regkinjet1_btagSF_M/F");
 	outtree->Branch("regkinjet1_betaStarClassic", &regkinjet1_betaStarClassic, "regkinjet1_betaStarClassic/F");
 	outtree->Branch("regkinjet1_dR2Mean", &regkinjet1_dR2Mean, "regkinjet1_dR2Mean/F");
 	outtree->Branch("regkinjet2_pt", &regkinjet2_pt, "regkinjet2_pt/F");
@@ -501,7 +501,7 @@ int main(int argc, char *argv[])
 	outtree->Branch("regkinjet2_eta", &regkinjet2_eta, "regkinjet2_eta/F");
 	outtree->Branch("regkinjet2_mass", &regkinjet2_mass, "regkinjet2_mass/F");
 	outtree->Branch("regkinjet2_csvBtag", &regkinjet2_csvBtag, "regkinjet2_csvBtag/F");
-	outtree->Branch("regkinjet2_btagSF", &regkinjet2_btagSF, "regkinjet2_btagSF/F");
+	outtree->Branch("regkinjet2_btagSF_M", &regkinjet2_btagSF_M, "regkinjet2_btagSF_M/F");
 	outtree->Branch("regkinjet2_betaStarClassic", &regkinjet2_betaStarClassic, "regkinjet2_betaStarClassic/F");
 	outtree->Branch("regkinjet2_dR2Mean", &regkinjet2_dR2Mean, "regkinjet2_dR2Mean/F");
 	outtree->Branch("kinjet1_pt", &kinjet1_pt, "kinjet1_pt/F");
@@ -510,7 +510,7 @@ int main(int argc, char *argv[])
 	outtree->Branch("kinjet1_eta", &kinjet1_eta, "kinjet1_eta/F");
 	outtree->Branch("kinjet1_mass", &kinjet1_mass, "kinjet1_mass/F");
 	outtree->Branch("kinjet1_csvBtag", &kinjet1_csvBtag, "kinjet1_csvBtag/F");
-	outtree->Branch("kinjet1_btagSF", &kinjet1_btagSF, "kinjet1_btagSF/F");
+	outtree->Branch("kinjet1_btagSF_M", &kinjet1_btagSF_M, "kinjet1_btagSF_M/F");
 	outtree->Branch("kinjet1_betaStarClassic", &kinjet1_betaStarClassic, "kinjet1_betaStarClassic/F");
 	outtree->Branch("kinjet1_dR2Mean", &kinjet1_dR2Mean, "kinjet1_dR2Mean/F");
 	outtree->Branch("kinjet2_pt", &kinjet2_pt, "kinjet2_pt/F");
@@ -519,7 +519,7 @@ int main(int argc, char *argv[])
 	outtree->Branch("kinjet2_eta", &kinjet2_eta, "kinjet2_eta/F");
 	outtree->Branch("kinjet2_mass", &kinjet2_mass, "kinjet2_mass/F");
 	outtree->Branch("kinjet2_csvBtag", &kinjet2_csvBtag, "kinjet2_csvBtag/F");
-	outtree->Branch("kinjet2_btagSF", &kinjet2_btagSF, "kinjet2_btagSF/F");
+	outtree->Branch("kinjet2_btagSF_M", &kinjet2_btagSF_M, "kinjet2_btagSF_M/F");
 	outtree->Branch("kinjet2_betaStarClassic", &kinjet2_betaStarClassic, "kinjet2_betaStarClassic/F");
 	outtree->Branch("kinjet2_dR2Mean", &kinjet2_dR2Mean, "kinjet2_dR2Mean/F");
 	outtree->Branch("jj_pt", &jj_pt, "jj_pt/F");
@@ -527,28 +527,28 @@ int main(int argc, char *argv[])
 	outtree->Branch("jj_phi", &jj_phi, "jj_phi/F");
 	outtree->Branch("jj_eta", &jj_eta, "jj_eta/F");
 	outtree->Branch("jj_mass", &jj_mass, "jj_mass/F");
-	outtree->Branch("jj_btagSF", &jj_btagSF, "jj_btagSF/F");
+	outtree->Branch("jj_btagSF_M", &jj_btagSF_M, "jj_btagSF_M/F");
 	outtree->Branch("jj_DR", &jj_DR, "jj_DR/F");
 	outtree->Branch("regjj_pt", &regjj_pt, "regjj_pt/F");
 	outtree->Branch("regjj_e", &regjj_e, "regjj_e/F");
 	outtree->Branch("regjj_phi", &regjj_phi, "regjj_phi/F");
 	outtree->Branch("regjj_eta", &regjj_eta, "regjj_eta/F");
 	outtree->Branch("regjj_mass", &regjj_mass, "regjj_mass/F");
-	outtree->Branch("regjj_btagSF", &regjj_btagSF, "regjj_btagSF/F");
+	outtree->Branch("regjj_btagSF_M", &regjj_btagSF_M, "regjj_btagSF_M/F");
 	outtree->Branch("regjj_DR", &regjj_DR, "regjj_DR/F");
 	outtree->Branch("regkinjj_pt", &regkinjj_pt, "regkinjj_pt/F");
 	outtree->Branch("regkinjj_e", &regkinjj_e, "regkinjj_e/F");
 	outtree->Branch("regkinjj_phi", &regkinjj_phi, "regkinjj_phi/F");
 	outtree->Branch("regkinjj_eta", &regkinjj_eta, "regkinjj_eta/F");
 	outtree->Branch("regkinjj_mass", &regkinjj_mass, "regkinjj_mass/F");
-	outtree->Branch("regkinjj_btagSF", &regkinjj_btagSF, "regkinjj_btagSF/F");
+	outtree->Branch("regkinjj_btagSF_M", &regkinjj_btagSF_M, "regkinjj_btagSF_M/F");
 	outtree->Branch("regkinjj_DR", &regkinjj_DR, "regkinjj_DR/F");
 	outtree->Branch("kinjj_pt", &kinjj_pt, "kinjj_pt/F");
 	outtree->Branch("kinjj_e", &kinjj_e, "kinjj_e/F");
 	outtree->Branch("kinjj_phi", &kinjj_phi, "kinjj_phi/F");
 	outtree->Branch("kinjj_eta", &kinjj_eta, "kinjj_eta/F");
 	outtree->Branch("kinjj_mass", &kinjj_mass, "kinjj_mass/F");
-	outtree->Branch("kinjj_btagSF", &kinjj_btagSF, "kinjj_btagSF/F");
+	outtree->Branch("kinjj_btagSF_M", &kinjj_btagSF_M, "kinjj_btagSF_M/F");
 	outtree->Branch("kinjj_DR", &kinjj_DR, "kinjj_DR/F");
 	outtree->Branch("gg_pt", &gg_pt, "gg_pt/F");
 	outtree->Branch("gg_e", &gg_e, "gg_e/F");
@@ -660,7 +660,7 @@ int main(int argc, char *argv[])
 	int nevents[30] = {0};
 	int ilevelmax=0;
 	float nevents_w[30] = {0.};
-	float nevents_w_btagSF[30] = {0.};
+	float nevents_w_btagSF_M[30] = {0.};
 	int nevents_sync[30] = {0};
 	int nevents1btag[30] = {0};
 	int nevents2btag[30] = {0};
@@ -801,7 +801,7 @@ int main(int argc, char *argv[])
 
 		TLorentzVector jet;
 		vector<float> jetPt;
-		vector<float> jetbtagSF;
+		vector<float> jetbtagSF_M;
 		vector<float> jetbetaStarClassic;
 		vector<float> jetdR2Mean;
 		vector<float> jetE;
@@ -840,7 +840,7 @@ int main(int argc, char *argv[])
 				jet_secVtx3dL = j1_secVtx3dL;
 				jet_emfrac = j1_emfrac;
 				jet_hadfrac = j1_hadfrac;
-				jet_btagSF = j1_btagSF;
+				jet_btagSF_M = j1_btagSF_M;
 				jet_betaStarClassic = j1_betaStarClassic;
 				jet_dR2Mean = j1_dR2Mean;
 				jet_nNeutrals = j1_nNeutrals;
@@ -864,7 +864,7 @@ int main(int argc, char *argv[])
 				jet_secVtx3dL = j2_secVtx3dL;
 				jet_emfrac = j2_emfrac;
 				jet_hadfrac = j2_hadfrac;
-				jet_btagSF = j2_btagSF;
+				jet_btagSF_M = j2_btagSF_M;
 				jet_betaStarClassic = j2_betaStarClassic;
 				jet_dR2Mean = j2_dR2Mean;
 				jet_nNeutrals = j2_nNeutrals;
@@ -888,7 +888,7 @@ int main(int argc, char *argv[])
 				jet_secVtx3dL = j3_secVtx3dL;
 				jet_emfrac = j3_emfrac;
 				jet_hadfrac = j3_hadfrac;
-				jet_btagSF = j3_btagSF;
+				jet_btagSF_M = j3_btagSF_M;
 				jet_betaStarClassic = j3_betaStarClassic;
 				jet_dR2Mean = j3_dR2Mean;
 				jet_nNeutrals = j3_nNeutrals;
@@ -912,7 +912,7 @@ int main(int argc, char *argv[])
 				jet_secVtx3dL = j4_secVtx3dL;
 				jet_emfrac = j4_emfrac;
 				jet_hadfrac = j4_hadfrac;
-				jet_btagSF = j4_btagSF;
+				jet_btagSF_M = j4_btagSF_M;
 				jet_betaStarClassic = j4_betaStarClassic;
 				jet_dR2Mean = j4_dR2Mean;
 				jet_nNeutrals = j4_nNeutrals;
@@ -950,7 +950,7 @@ int main(int argc, char *argv[])
 			// ** call regression to correct the pt **
 			// ** store 4-momentum + csv output for combinatorics **
 			jetPt.push_back(jet_pt);
-			jetbtagSF.push_back(jet_btagSF);
+			jetbtagSF_M.push_back(jet_btagSF_M);
 			jetdR2Mean.push_back(jet_dR2Mean);
 			jetbetaStarClassic.push_back(jet_betaStarClassic);
 			jetE.push_back(jet_e);
@@ -1203,7 +1203,7 @@ int main(int argc, char *argv[])
 		jet1_eta = jet1.Eta();
 		jet1_mass = jet1.M();
 		jet1_csvBtag = jetCSV[ij1];
-		jet1_btagSF = jetbtagSF[ij1];
+		jet1_btagSF_M = jetbtagSF_M[ij1];
 		jet1_betaStarClassic = jetbetaStarClassic[ij1];
 		jet1_dR2Mean = jetdR2Mean[ij1];
 		jet2_pt = jet2.Pt();
@@ -1212,7 +1212,7 @@ int main(int argc, char *argv[])
 		jet2_eta = jet2.Eta();
 		jet2_mass = jet2.M();
 		jet2_csvBtag = jetCSV[ij2];
-		jet2_btagSF = jetbtagSF[ij2];
+		jet2_btagSF_M = jetbtagSF_M[ij2];
 		jet2_betaStarClassic = jetbetaStarClassic[ij2];
 		jet2_dR2Mean = jetdR2Mean[ij2];
 		regjet1_pt = regjet1.Pt();
@@ -1221,7 +1221,7 @@ int main(int argc, char *argv[])
 		regjet1_eta = regjet1.Eta();
 		regjet1_mass = regjet1.M();
 		regjet1_csvBtag = jetCSV[ij1Reg];
-		regjet1_btagSF = jetbtagSF[ij1Reg];
+		regjet1_btagSF_M = jetbtagSF_M[ij1Reg];
 		regjet1_betaStarClassic = jetbetaStarClassic[ij1Reg];
 		regjet1_dR2Mean = jetdR2Mean[ij1Reg];
 		regjet2_pt = regjet2.Pt();
@@ -1230,7 +1230,7 @@ int main(int argc, char *argv[])
 		regjet2_eta = regjet2.Eta();
 		regjet2_mass = regjet2.M();
 		regjet2_csvBtag = jetCSV[ij2Reg];
-		regjet2_btagSF = jetbtagSF[ij2Reg];
+		regjet2_btagSF_M = jetbtagSF_M[ij2Reg];
 		regjet2_betaStarClassic = jetbetaStarClassic[ij2Reg];
 		regjet2_dR2Mean = jetdR2Mean[ij2Reg];
 		regjet1_emfrac = jetEmfrac[ij1Reg];
@@ -1251,7 +1251,7 @@ int main(int argc, char *argv[])
 		regkinjet1_eta = regkinjet1.Eta();
 		regkinjet1_mass = regkinjet1.M();
 		regkinjet1_csvBtag = jetCSV[ij1RegKin];
-		regkinjet1_btagSF = jetbtagSF[ij1RegKin];
+		regkinjet1_btagSF_M = jetbtagSF_M[ij1RegKin];
 		regkinjet1_betaStarClassic = jetbetaStarClassic[ij1RegKin];
 		regkinjet1_dR2Mean = jetdR2Mean[ij1RegKin];
 		regkinjet2_pt = regkinjet2.Pt();
@@ -1260,7 +1260,7 @@ int main(int argc, char *argv[])
 		regkinjet2_eta = regkinjet2.Eta();
 		regkinjet2_mass = regkinjet2.M();
 		regkinjet2_csvBtag = jetCSV[ij2RegKin];
-		regkinjet2_btagSF = jetbtagSF[ij2RegKin];
+		regkinjet2_btagSF_M = jetbtagSF_M[ij2RegKin];
 		regkinjet2_betaStarClassic = jetbetaStarClassic[ij2RegKin];
 		regkinjet2_dR2Mean = jetdR2Mean[ij2RegKin];
 		kinjet1_pt = kinjet1.Pt();
@@ -1269,7 +1269,7 @@ int main(int argc, char *argv[])
 		kinjet1_eta = kinjet1.Eta();
 		kinjet1_mass = kinjet1.M();
 		kinjet1_csvBtag = jetCSV[ij1];
-		kinjet1_btagSF = jetbtagSF[ij1];
+		kinjet1_btagSF_M = jetbtagSF_M[ij1];
 		kinjet1_betaStarClassic = jetbetaStarClassic[ij1];
 		kinjet1_dR2Mean = jetdR2Mean[ij1];
 		kinjet2_pt = kinjet2.Pt();
@@ -1278,7 +1278,7 @@ int main(int argc, char *argv[])
 		kinjet2_eta = kinjet2.Eta();
 		kinjet2_mass = kinjet2.M();
 		kinjet2_csvBtag = jetCSV[ij2];
-		kinjet2_btagSF = jetbtagSF[ij2];
+		kinjet2_btagSF_M = jetbtagSF_M[ij2];
 		kinjet2_betaStarClassic = jetbetaStarClassic[ij2];
 		kinjet2_dR2Mean = jetdR2Mean[ij2];
 		jj_pt = jj.Pt();
@@ -1286,28 +1286,28 @@ int main(int argc, char *argv[])
 		jj_phi = jj.Phi();
 		jj_eta = jj.Eta();
 		jj_mass = jj.M();
-		jj_btagSF = jet1_btagSF * jet2_btagSF;
+		jj_btagSF_M = jet1_btagSF_M * jet2_btagSF_M;
 		jj_DR = jet1.DeltaR(jet2);
 		regjj_pt = regjj.Pt();
 		regjj_e = regjj.E();
 		regjj_phi = regjj.Phi();
 		regjj_eta = regjj.Eta();
 		regjj_mass = regjj.M();
-		regjj_btagSF = regjet1_btagSF * regjet2_btagSF;
+		regjj_btagSF_M = regjet1_btagSF_M * regjet2_btagSF_M;
 		regjj_DR = regjet1.DeltaR(regjet2);
 		regkinjj_pt = regkinjj.Pt();
 		regkinjj_e = regkinjj.E();
 		regkinjj_phi = regkinjj.Phi();
 		regkinjj_eta = regkinjj.Eta();
 		regkinjj_mass = regkinjj.M();
-		regkinjj_btagSF = regkinjet1_btagSF * regkinjet2_btagSF;
+		regkinjj_btagSF_M = regkinjet1_btagSF_M * regkinjet2_btagSF_M;
 		regkinjj_DR = regkinjet1.DeltaR(regkinjet2);
 		kinjj_pt = kinjj.Pt();
 		kinjj_e = kinjj.E();
 		kinjj_phi = kinjj.Phi();
 		kinjj_eta = kinjj.Eta();
 		kinjj_mass = kinjj.M();
-		kinjj_btagSF = kinjet1_btagSF * kinjet2_btagSF;
+		kinjj_btagSF_M = kinjet1_btagSF_M * kinjet2_btagSF_M;
 		kinjj_DR = kinjet1.DeltaR(kinjet2);
 		gg_pt = gg.Pt();
 		gg_e = gg.E();
@@ -1373,12 +1373,12 @@ int main(int argc, char *argv[])
 		minDRgkinj = min(minDRgkinj, (float)pho2.DeltaR(kinjet1));
 		minDRgkinj = min(minDRgkinj, (float)pho2.DeltaR(kinjet2));
 
-		if(REMOVE_UNDEFINED_BTAGSF && (regjet1_btagSF == -1001 || regjet2_btagSF == -1001))
+		if(REMOVE_UNDEFINED_BTAGSF && (regjet1_btagSF_M == -1001 || regjet2_btagSF_M == -1001))
 		{
-			cout << "WARNING: undefined btagSF, skipping the event:\tevent= " << event << "\tregjet1_btagSF= " << regjet1_btagSF << "\tregjet2_btagSF= " << regjet2_btagSF << "\tregjet1_pt= " << regjet1_pt << "\tregjet2_pt= " << regjet2_pt << endl;
+			cout << "WARNING: undefined btagSF_M, skipping the event:\tevent= " << event << "\tregjet1_btagSF_M= " << regjet1_btagSF_M << "\tregjet2_btagSF_M= " << regjet2_btagSF_M << "\tregjet1_pt= " << regjet1_pt << "\tregjet2_pt= " << regjet2_pt << endl;
 			continue;
-			nevents[ilevel]++; eventcut[ilevel] = "After removing undefined btagSF";
-			nevents_w[ilevel] += evweight; nevents_w_btagSF[ilevel] += evweight * regjj_btagSF; ilevel++;
+			nevents[ilevel]++; eventcut[ilevel] = "After removing undefined btagSF_M";
+			nevents_w[ilevel] += evweight; nevents_w_btagSF_M[ilevel] += evweight * regjj_btagSF_M; ilevel++;
 		}
 
 // categorisation
@@ -1495,7 +1495,7 @@ int main(int argc, char *argv[])
 
 
 	for(int i=0 ; i < ilevelmax ; i++)
-    cout << "#nevents[" << i << "]= " << nevents[i] << "\t#nevents_w[" << i << "]= " << nevents_w[i] << /*"\t#nevents_w_btagSF[" << i << "]= " << nevents_w_btagSF[i] << */"\teventcut[" << i << "]= " << eventcut[i] /*<< "\t\t( 1btag= " << nevents1btag[i] << " , 2btag= " << nevents2btag[i] << " ) "*/ << endl;
+    cout << "#nevents[" << i << "]= " << nevents[i] << "\t#nevents_w[" << i << "]= " << nevents_w[i] << /*"\t#nevents_w_btagSF_M[" << i << "]= " << nevents_w_btagSF_M[i] << */"\teventcut[" << i << "]= " << eventcut[i] /*<< "\t\t( 1btag= " << nevents1btag[i] << " , 2btag= " << nevents2btag[i] << " ) "*/ << endl;
 
 	if(SYNC)
 		for(int i=0 ; i < 14 ; i++)
