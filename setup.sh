@@ -12,7 +12,7 @@ then
 fi
 
 # MAKE SURE BTAGSF UTILITIES ARE HERE
-if [[ ! -d ../h2gglobe/BTagUtils.cc ]]
+if [[ ! -e ../h2gglobe/BTagUtils.cc ]]
 then
 	echo "WARNING: NO BTagUtils.cc CAN BE SEEN, YOU SHOULD NOT BE ABLE TO RUN LIKE THIS...."
 fi
