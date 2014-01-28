@@ -49,11 +49,11 @@ selection.exe: selection.o DiJetKinFitter.o TKinFitter.o TFitParticleEtEtaPhi.o 
 BTagUtils.o: ../h2gglobe/BTagUtils.cc ../h2gglobe/BTagUtils.h
 	$(CC) $(CCFLAGS) $(ROOTFLAGS) -c ../h2gglobe/BTagUtils.cc -o BTagUtils.o
 
-quickTrees.o: quickTrees.cc
-	$(CC) $(CCFLAGS) $(ROOTFLAGS) -c quickTrees.cc -o quickTrees.o
+quickTrees.o: quickTrees.cc quickTrees.h
+	$(CC) $(CCFLAGS) $(ROOTFLAGS) $(BOOSTFLAGS) -c quickTrees.cc -o quickTrees.o
 
 quickTrees.exe: quickTrees.o BTagUtils.o
-	$(CC) $(ROOTLIBS) quickTrees.o BTagUtils.o -o quickTrees.exe
+	$(CC) $(ROOTLIBS) $(BOOSTLIBS) quickTrees.o BTagUtils.o -o quickTrees.exe
 
 fitMass.exe: fitMass.cc
 	$(CC) $(CCFLAGS) $(ROOTFLAGS) $(ROOTLIBS) $(ROOFITLIBS) fitMass.cc -o fitMass.exe
