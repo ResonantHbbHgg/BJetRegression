@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
 			("cutLevel", po::value<int>(&cutLevel)->default_value(0), "switch to apply extra cuts in addition to the baseline ones")
 			("mass", po::value<int>(&mass)->default_value(300), "mass hypothesis (for mass cut switches)")
 			("removeUndefinedBtagSF", po::value<int>(&removeUndefinedBtagSF)->default_value(0), "remove undefined btagSF_M values (should be used only for the limit trees)")
-			("massCutVersion", po::value<int>(&massCutVersion)->default_value(0), "0= default 1= non-kin specific 2= v02 limit trees (not sure if this is outdated or not)")
+			("massCutVersion", po::value<int>(&massCutVersion)->default_value(3), "0= default 1= non-kin specific 2= v02 limit trees 3= preapproval values")
 		;
 		po::variables_map vm;
 		po::store(po::parse_command_line(argc, argv, desc), vm);
@@ -85,6 +85,12 @@ int main(int argc, char *argv[])
 	cout << "fitStrategy= " << fitStrategy << endl;
 	cout << "mass= " << mass << endl;
 
+	if( ((strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0)) && (massCutVersion == 3) )
+	{
+		cout << "ERROR: Regression is not supposed to be used for preapproval-like mass cuts" << endl;
+		return 1;
+	}
+
 	TFile *infile = TFile::Open(inputfile.c_str());
 	TTree *intree = (TTree*)infile->Get(inputtree.c_str());
 	TFile *outfile = new TFile(outputfile.c_str(), "RECREATE");
@@ -95,8 +101,6 @@ int main(int argc, char *argv[])
 	setup_outtree(outtree, &t);	
 
 
-//	cout << "strcmp t.mgg= " << (strcmp("t.mgg", fitStrategy.c_str()) ) << endl;
-//	cout << "strcmp mggjj= " << (strcmp("mggjj", fitStrategy.c_str()) ) << endl;
 	int n_1btag = 0;
 	int n_2btag = 0;
 	float n_w_1btag = 0.;
@@ -104,14 +108,6 @@ int main(int argc, char *argv[])
 	float theBtagEvWeight = -1001.;
 	float theBtagEvErrUp = -1001.;
 	float theBtagEvErrDown = -1001.;
-/*
-	float nprocessed = 20000.;
-	if(type == -300) nprocessed = 19972.;
-	else if(type == -500) nprocessed = 19970.; 
-	else if(type == -700) nprocessed = 19969.; 
-	else if(type == -1000) nprocessed = 19951.; 
-	else if(type == -1500) nprocessed = 19959.; 
-*/
 
 	for(int ievt= 0 ; ievt < (int)intree->GetEntries() ; ievt++)
 	{
@@ -148,7 +144,6 @@ int main(int argc, char *argv[])
 			{ t.mjj_wokinfit = t.mjj; t.mtot_wokinfit = t.mtot; }
 		
 // EXTRA CUTS
-//		if( t.selection_cut_level < cutLevel ) continue; // hard-coded in the trees, out of date wrt to the rest of the cuts
 	if( cutLevel > 0)
 	{
 		if(fabs(t.regcosthetastar) >= .9) continue;
@@ -166,169 +161,192 @@ int main(int argc, char *argv[])
 	}
 
 // FITTING THE MGG SPECTRUM
-		if( (massCutVersion < 2) && (strcmp("t.mgg", fitStrategy.c_str()) == 0) )
+		if( strcmp("mgg", fitStrategy.c_str()) == 0 )
 		{
-			// mggjj cut does depend on the mass hypothesis
-			if( mass == 300 )
+			if( massCutVersion < 2 )
 			{
-				if( strcmp("", whichJet.c_str()) == 0 )
+				// mggjj cut does depend on the mass hypothesis
+				if( mass == 300 )
 				{
-					if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot_wokinfit < 255. || t.mtot_wokinfit > 330.) ) continue;
-					if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot_wokinfit < 250. || t.mtot_wokinfit > 325.) ) continue;
-				}
-				if( strcmp("reg", whichJet.c_str()) == 0 )
-				{
-					if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot_wokinfit < 250. || t.mtot_wokinfit > 330.) ) continue;
-					if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot_wokinfit < 265. || t.mtot_wokinfit > 330.) ) continue;
-				}
-				if( strcmp("kin", whichJet.c_str()) == 0 )
-				{
-					if( massCutVersion == 0)
+					if( strcmp("", whichJet.c_str()) == 0 )
 					{
-						if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot < 290. || t.mtot > 315.) ) continue;
-						if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot < 285. || t.mtot > 315.) ) continue;
-					} else if (massCutVersion == 1) {
 						if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot_wokinfit < 255. || t.mtot_wokinfit > 330.) ) continue;
 						if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot_wokinfit < 250. || t.mtot_wokinfit > 325.) ) continue;
 					}
-				}
-				if( strcmp("regkin", whichJet.c_str()) == 0 )
-				{
-					if( massCutVersion == 0 )
+					if( strcmp("reg", whichJet.c_str()) == 0 )
 					{
-						if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot < 290. || t.mtot > 315.) ) continue;
-						if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot < 285. || t.mtot > 315.) ) continue;
-					} else if (massCutVersion == 1) {
 						if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot_wokinfit < 250. || t.mtot_wokinfit > 330.) ) continue;
 						if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot_wokinfit < 265. || t.mtot_wokinfit > 330.) ) continue;
 					}
-				}
-			} else if( mass == 500 ) {
-				if( strcmp("", whichJet.c_str()) == 0 )
-				{
-// old cuts (Oct 29)
-//					if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot_wokinfit < 485. || t.mtot_wokinfit > 535.) ) continue;
-//					if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot_wokinfit < 490. || t.mtot_wokinfit > 525.) ) continue;
-// new cuts (Nov 4)
-					if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot_wokinfit < 440. || t.mtot_wokinfit > 545.) ) continue;
-					if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot_wokinfit < 435. || t.mtot_wokinfit > 540.) ) continue;
-				}
-				if( strcmp("reg", whichJet.c_str()) == 0 )
-				{
-// old cuts (Oct 29)
-//					if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot_wokinfit < 495. || t.mtot_wokinfit > 555.) ) continue;
-//					if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot_wokinfit < 485. || t.mtot_wokinfit > 515.) ) continue;
-// new cuts (Nov 4)
-					if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot_wokinfit < 445. || t.mtot_wokinfit > 545.) ) continue;
-					if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot_wokinfit < 460. || t.mtot_wokinfit > 545.) ) continue;
-				}
-				if( strcmp("kin", whichJet.c_str()) == 0 )
-				{
-					if( massCutVersion == 0 )
+					if( strcmp("kin", whichJet.c_str()) == 0 )
 					{
-// old cuts (Oct 29)
-//						if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot < 505. || t.mtot > 540.) ) continue;
-//						if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot < 495. || t.mtot > 510.) ) continue;
-// new cuts (Nov 4)
-						if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot < 480. || t.mtot > 535.) ) continue;
-						if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot < 475. || t.mtot > 530.) ) continue;
-					} else if (massCutVersion == 1) {
-// old cuts (Oct 29)
-//						if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot_wokinfit < 485. || t.mtot_wokinfit > 535.) ) continue;
-//						if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot_wokinfit < 490. || t.mtot_wokinfit > 525.) ) continue;
-// new cuts (Nov 4)
+						if( massCutVersion == 0)
+						{
+							if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot < 290. || t.mtot > 315.) ) continue;
+							if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot < 285. || t.mtot > 315.) ) continue;
+						} else if (massCutVersion == 1) {
+							if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot_wokinfit < 255. || t.mtot_wokinfit > 330.) ) continue;
+							if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot_wokinfit < 250. || t.mtot_wokinfit > 325.) ) continue;
+						}
+					}
+					if( strcmp("regkin", whichJet.c_str()) == 0 )
+					{
+						if( massCutVersion == 0 )
+						{
+							if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot < 290. || t.mtot > 315.) ) continue;
+							if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot < 285. || t.mtot > 315.) ) continue;
+						} else if (massCutVersion == 1) {
+							if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot_wokinfit < 250. || t.mtot_wokinfit > 330.) ) continue;
+							if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot_wokinfit < 265. || t.mtot_wokinfit > 330.) ) continue;
+						}
+					}
+				} else if( mass == 500 ) {
+					if( strcmp("", whichJet.c_str()) == 0 )
+					{
+	// old cuts (Oct 29)
+	//					if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot_wokinfit < 485. || t.mtot_wokinfit > 535.) ) continue;
+	//					if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot_wokinfit < 490. || t.mtot_wokinfit > 525.) ) continue;
+	// new cuts (Nov 4)
 						if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot_wokinfit < 440. || t.mtot_wokinfit > 545.) ) continue;
 						if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot_wokinfit < 435. || t.mtot_wokinfit > 540.) ) continue;
 					}
-				}
-				if( strcmp("regkin", whichJet.c_str()) == 0 )
-				{
-					if( massCutVersion == 0 )
+					if( strcmp("reg", whichJet.c_str()) == 0 )
 					{
-// old cuts (Oct 29)
-//						if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot < 440. || t.mtot > 505.) ) continue;
-//						if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot < 490. || t.mtot > 510.) ) continue;
-// new cuts (Nov 4)
-						if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot < 480. || t.mtot > 540.) ) continue;
-						if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot < 475. || t.mtot > 535.) ) continue;
-					} else if (massCutVersion == 1) {
-// old cuts (Oct 29)
-//						if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot_wokinfit < 495. || t.mtot_wokinfit > 555.) ) continue;
-//						if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot_wokinfit < 485. || t.mtot_wokinfit > 515.) ) continue;
-// new cuts (Nov 4)
+	// old cuts (Oct 29)
+	//					if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot_wokinfit < 495. || t.mtot_wokinfit > 555.) ) continue;
+	//					if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot_wokinfit < 485. || t.mtot_wokinfit > 515.) ) continue;
+	// new cuts (Nov 4)
 						if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot_wokinfit < 445. || t.mtot_wokinfit > 545.) ) continue;
 						if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot_wokinfit < 460. || t.mtot_wokinfit > 545.) ) continue;
 					}
+					if( strcmp("kin", whichJet.c_str()) == 0 )
+					{
+						if( massCutVersion == 0 )
+						{
+	// old cuts (Oct 29)
+	//						if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot < 505. || t.mtot > 540.) ) continue;
+	//						if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot < 495. || t.mtot > 510.) ) continue;
+	// new cuts (Nov 4)
+							if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot < 480. || t.mtot > 535.) ) continue;
+							if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot < 475. || t.mtot > 530.) ) continue;
+						} else if (massCutVersion == 1) {
+	// old cuts (Oct 29)
+	//						if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot_wokinfit < 485. || t.mtot_wokinfit > 535.) ) continue;
+	//						if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot_wokinfit < 490. || t.mtot_wokinfit > 525.) ) continue;
+	// new cuts (Nov 4)
+							if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot_wokinfit < 440. || t.mtot_wokinfit > 545.) ) continue;
+							if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot_wokinfit < 435. || t.mtot_wokinfit > 540.) ) continue;
+						}
+					}
+					if( strcmp("regkin", whichJet.c_str()) == 0 )
+					{
+						if( massCutVersion == 0 )
+						{
+	// old cuts (Oct 29)
+	//						if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot < 440. || t.mtot > 505.) ) continue;
+	//						if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot < 490. || t.mtot > 510.) ) continue;
+	// new cuts (Nov 4)
+							if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot < 480. || t.mtot > 540.) ) continue;
+							if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot < 475. || t.mtot > 535.) ) continue;
+						} else if (massCutVersion == 1) {
+	// old cuts (Oct 29)
+	//						if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot_wokinfit < 495. || t.mtot_wokinfit > 555.) ) continue;
+	//						if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot_wokinfit < 485. || t.mtot_wokinfit > 515.) ) continue;
+	// new cuts (Nov 4)
+							if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot_wokinfit < 445. || t.mtot_wokinfit > 545.) ) continue;
+							if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot_wokinfit < 460. || t.mtot_wokinfit > 545.) ) continue;
+						}
+					}
 				}
-			}
-			// t.mjj cut does not depends on the mass hypothesis
-			if( mass == 300 || mass == 500)
-			{
-				if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
+				// t.mjj cut does not depends on the mass hypothesis
+				if( mass == 300 || mass == 500)
 				{
-					if( t.njets_kRadionID_and_CSVM == 1 && (t.mjj_wokinfit < 85. || t.mjj_wokinfit > 155. ) ) continue;
-					if( t.njets_kRadionID_and_CSVM >= 2 && (t.mjj_wokinfit < 110. || t.mjj_wokinfit > 145. ) ) continue;
+					if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
+					{
+						if( t.njets_kRadionID_and_CSVM == 1 && (t.mjj_wokinfit < 85. || t.mjj_wokinfit > 155. ) ) continue;
+						if( t.njets_kRadionID_and_CSVM >= 2 && (t.mjj_wokinfit < 110. || t.mjj_wokinfit > 145. ) ) continue;
+					}
+					if( (strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
+					{
+						if( t.njets_kRadionID_and_CSVM == 1 && (t.mjj_wokinfit < 85. || t.mjj_wokinfit > 155. ) ) continue;
+						if( t.njets_kRadionID_and_CSVM >= 2 && (t.mjj_wokinfit < 110. || t.mjj_wokinfit > 145. ) ) continue;
+					}
+				} else {
+					cout << "WARNING, you are trying to create trees for t.mgg limits at points that are not 300 or 500... are you sure of what you're doing?" << endl;
 				}
-				if( (strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
+			}
+			else
+			if( massCutVersion == 2 )
+			{// FITTING THE MGG SPECTRUM: newer version
+				if( t.njets_kRadionID_and_CSVM >= 2 )
 				{
-					if( t.njets_kRadionID_and_CSVM == 1 && (t.mjj_wokinfit < 85. || t.mjj_wokinfit > 155. ) ) continue;
-					if( t.njets_kRadionID_and_CSVM >= 2 && (t.mjj_wokinfit < 110. || t.mjj_wokinfit > 145. ) ) continue;
+					if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
+						if( t.mjj_wokinfit < 95. || t.mjj_wokinfit > 175. ) continue;
+					if( (strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
+						if( t.mjj_wokinfit < 90. || t.mjj_wokinfit > 150. ) continue;
 				}
-			} else {
-				cout << "WARNING, you are trying to create trees for t.mgg limits at points that are not 300 or 500... are you sure of what you're doing?" << endl;
-			}
-		}
-// FITTING THE MGG SPECTRUM
-		if( (massCutVersion >= 2) && (strcmp("t.mgg", fitStrategy.c_str()) == 0 ) )
-		{
-			if( t.njets_kRadionID_and_CSVM >= 2 )
-			{
-				if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
-					if( t.mjj_wokinfit < 95. || t.mjj_wokinfit > 175. ) continue;
-				if( (strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
-					if( t.mjj_wokinfit < 90. || t.mjj_wokinfit > 150. ) continue;
-			}
-			if( t.njets_kRadionID_and_CSVM == 1 )
-			{
-				if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
-					if( t.mjj_wokinfit < 100. || t.mjj_wokinfit > 160. ) continue;
-				if( (strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
-					if( t.mjj_wokinfit < 95. || t.mjj_wokinfit > 140. ) continue;
-			}
-			if( mass == 300 )
-			{
-				if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
+				if( t.njets_kRadionID_and_CSVM == 1 )
 				{
-					if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot_wokinfit < 255. || t.mtot_wokinfit > 320.) ) continue;
-					if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot_wokinfit < 260. || t.mtot_wokinfit > 335.) ) continue;
+					if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
+						if( t.mjj_wokinfit < 100. || t.mjj_wokinfit > 160. ) continue;
+					if( (strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
+						if( t.mjj_wokinfit < 95. || t.mjj_wokinfit > 140. ) continue;
 				}
-				if( (strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
+				if( mass == 300 )
 				{
-					if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot_wokinfit < 260. || t.mtot_wokinfit > 335.) ) continue;
-					if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot_wokinfit < 265. || t.mtot_wokinfit > 345.) ) continue;
+					if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
+					{
+						if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot_wokinfit < 255. || t.mtot_wokinfit > 320.) ) continue;
+						if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot_wokinfit < 260. || t.mtot_wokinfit > 335.) ) continue;
+					}
+					if( (strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
+					{
+						if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot_wokinfit < 260. || t.mtot_wokinfit > 335.) ) continue;
+						if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot_wokinfit < 265. || t.mtot_wokinfit > 345.) ) continue;
+					}
 				}
+				if( mass == 500 && (t.mtot_wokinfit < 465. || t.mtot_wokinfit > 535.) ) continue;
+				if( mass == 700 && (t.mtot_wokinfit < 660. || t.mtot_wokinfit > 740.) ) continue;
+				if( mass == 1000 && (t.mtot_wokinfit < 955. || t.mtot_wokinfit > 1055.) ) continue;
 			}
-			if( mass == 500 && (t.mtot_wokinfit < 465. || t.mtot_wokinfit > 535.) ) continue;
-			if( mass == 700 && (t.mtot_wokinfit < 660. || t.mtot_wokinfit > 740.) ) continue;
-			if( mass == 1000 && (t.mtot_wokinfit < 955. || t.mtot_wokinfit > 1055.) ) continue;
-		}
+			else 
+			if( massCutVersion == 3 )
+			{// FITTING THE MGG SPECTRUM: newer version: preapproval values (18 dec. 2013)
+				if( t.mjj_wokinfit < 85. || t.mjj_wokinfit > 155. ) continue;
+				if( mass == 260 && (t.mtot_wokinfit < 225. || t.mtot_wokinfit > 280.) ) continue;
+				if( mass == 270 && (t.mtot_wokinfit < 225. || t.mtot_wokinfit > 295.) ) continue;
+				if( mass == 300 && (t.mtot_wokinfit < 255. || t.mtot_wokinfit > 330.) ) continue;
+				if( mass == 350 && (t.mtot_wokinfit < 310. || t.mtot_wokinfit > 395.) ) continue;
+				if( mass == 400 && (t.mtot_wokinfit < 370. || t.mtot_wokinfit > 440.) ) continue;
+				if( mass == 450 && (t.mtot_wokinfit < 410. || t.mtot_wokinfit > 495.) ) continue;
+				if( mass == 500 && (t.mtot_wokinfit < 445. || t.mtot_wokinfit > 535.) ) continue;
+			}
+		} // END OF FIT MGG SPECTRUM
 
 // FITTING THE MGGJJ SPECTRUM
 		if( strcmp("mggjj", fitStrategy.c_str()) == 0 )
 		{
-			if( t.mgg < 120. || t.mgg > 130. ) continue;
-			if( t.njets_kRadionID_and_CSVM >= 2 )
-			{
-				if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
-					if( t.mjj_wokinfit < 100. || t.mjj_wokinfit > 145. ) continue;
-				if( (strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
-					if( t.mjj_wokinfit < 110. || t.mjj_wokinfit > 150. ) continue;
+			if( massCutVersion < 2)
+			{// cuts before preapproval
+				if( t.mgg < 120. || t.mgg > 130. ) continue;
+				if( t.njets_kRadionID_and_CSVM >= 2 )
+				{
+					if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
+						if( t.mjj_wokinfit < 100. || t.mjj_wokinfit > 145. ) continue;
+					if( (strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
+						if( t.mjj_wokinfit < 110. || t.mjj_wokinfit > 150. ) continue;
+				}
+				if( t.njets_kRadionID_and_CSVM == 1 ) 
+					if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
+						if( t.mjj_wokinfit < 80. || t.mjj_wokinfit > 165. ) continue;
+					if( (strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
+						if( t.mjj_wokinfit < 85. || t.mjj_wokinfit > 170. ) continue;
 			}
-			if( t.njets_kRadionID_and_CSVM == 1 ) 
-				if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
-					if( t.mjj_wokinfit < 80. || t.mjj_wokinfit > 165. ) continue;
-				if( (strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
-					if( t.mjj_wokinfit < 85. || t.mjj_wokinfit > 170. ) continue;
+			if( massCutVersion == 3)
+			{ // Cuts for preapproval (18 dec. 2013)
+				if( t.mgg < 120. || t.mgg > 130. ) continue;
+				if( t.mjj_wokinfit < 90. || t.mjj_wokinfit > 165. ) continue;
+			}
 		}
 
 // MGG-LIKE SELECTION FOR MAXIME TO PLAY WITH SYSTEMATICS
