@@ -46,8 +46,14 @@ selection.o: selection.cc selection.h
 selection.exe: selection.o DiJetKinFitter.o TKinFitter.o TFitParticleEtEtaPhi.o TAbsFitParticle.o TFitConstraintM.o TAbsFitConstraint.o
 	$(CC) $(TMVA)  $(ROOTLIBS) $(BOOSTLIBS) selection.o DiJetKinFitter.o TKinFitter.o TFitParticleEtEtaPhi.o TAbsFitParticle.o TFitConstraintM.o TAbsFitConstraint.o -o selection.exe
 
-quickTrees.exe: quickTrees.cc
-	$(CC) $(CCFLAGS) $(ROOTFLAGS) $(ROOTLIBS) quickTrees.cc -o quickTrees.exe
+BTagUtils.o: ../h2gglobe/BTagUtils.cc ../h2gglobe/BTagUtils.h
+	$(CC) $(CCFLAGS) $(ROOTFLAGS) -c ../h2gglobe/BTagUtils.cc -o BTagUtils.o
+
+quickTrees.o: quickTrees.cc
+	$(CC) $(CCFLAGS) $(ROOTFLAGS) -c quickTrees.cc -o quickTrees.o
+
+quickTrees.exe: quickTrees.o BTagUtils.o
+	$(CC) $(ROOTLIBS) quickTrees.o BTagUtils.o -o quickTrees.exe
 
 fitMass.exe: fitMass.cc
 	$(CC) $(CCFLAGS) $(ROOTFLAGS) $(ROOTLIBS) $(ROOFITLIBS) fitMass.cc -o fitMass.exe

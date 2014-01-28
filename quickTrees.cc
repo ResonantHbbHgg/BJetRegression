@@ -10,6 +10,7 @@
 #include <TTree.h>
 // RooFit headers
 // local files
+#include "../h2gglobe/BTagUtils.h"
 // Verbosity
 #define DEBUG 0
 // namespaces
@@ -100,8 +101,10 @@ int main(int argc, char *argv[])
 	float pho1_pt, pho1_e, pho1_phi, pho1_eta, pho1_mass;
 	float pho2_pt, pho2_e, pho2_phi, pho2_eta, pho2_mass;
 	float pho1_r9, pho2_r9;
-	float jet1_pt, jet1_e, jet1_phi, jet1_eta, jet1_mass, jet1_btagSF, jet1_csvBtag;
-	float jet2_pt, jet2_e, jet2_phi, jet2_eta, jet2_mass, jet2_btagSF, jet2_csvBtag;
+	float jet1_pt, jet1_e, jet1_phi, jet1_eta, jet1_mass, jet1_btagSF_M, jet1_btagEff_M, jet1_btagSFErrorUp_M, jet1_btagSFErrorDown_M, jet1_btagEffError_M, jet1_csvBtag;
+	float jet2_pt, jet2_e, jet2_phi, jet2_eta, jet2_mass, jet2_btagSF_M, jet2_btagEff_M, jet2_btagSFErrorUp_M, jet2_btagSFErrorDown_M, jet2_btagEffError_M, jet2_csvBtag;
+	int jet1_flavour;
+	int jet2_flavour;
 	float mjj_wokinfit, mtot_wokinfit;
 	int cut_based_ct, njets_kRadionID_and_CSVM, selection_cut_level;
 	float weight, evWeight, evWeight_w_btagSF;
@@ -127,14 +130,24 @@ int main(int argc, char *argv[])
 	intree->SetBranchAddress(Form("%sjet1_eta", whichJet.c_str()), &jet1_eta);
 	intree->SetBranchAddress(Form("%sjet1_mass", whichJet.c_str()), &jet1_mass);
 	intree->SetBranchAddress(Form("%sjet1_csvBtag", whichJet.c_str()), &jet1_csvBtag);
-	intree->SetBranchAddress(Form("%sjet1_btagSF", whichJet.c_str()), &jet1_btagSF);
+	intree->SetBranchAddress(Form("%sjet1_btagSF_M", whichJet.c_str()), &jet1_btagSF_M);
+	intree->SetBranchAddress(Form("%sjet1_btagSFErrorUp_M", whichJet.c_str()), &jet1_btagSFErrorUp_M);
+	intree->SetBranchAddress(Form("%sjet1_btagSFErrorDown_M", whichJet.c_str()), &jet1_btagSFErrorDown_M);
+	intree->SetBranchAddress(Form("%sjet1_btagEff_M", whichJet.c_str()), &jet1_btagEff_M);
+	intree->SetBranchAddress(Form("%sjet1_btagEffError_M", whichJet.c_str()), &jet1_btagEffError_M);
+	intree->SetBranchAddress(Form("%sjet1_flavour", whichJet.c_str()), &jet1_flavour);
 	intree->SetBranchAddress(Form("%sjet2_pt", whichJet.c_str()), &jet2_pt);
 	intree->SetBranchAddress(Form("%sjet2_e", whichJet.c_str()), &jet2_e);
 	intree->SetBranchAddress(Form("%sjet2_phi", whichJet.c_str()), &jet2_phi);
 	intree->SetBranchAddress(Form("%sjet2_eta", whichJet.c_str()), &jet2_eta);
 	intree->SetBranchAddress(Form("%sjet2_mass", whichJet.c_str()), &jet2_mass);
 	intree->SetBranchAddress(Form("%sjet2_csvBtag", whichJet.c_str()), &jet2_csvBtag);
-	intree->SetBranchAddress(Form("%sjet2_btagSF", whichJet.c_str()), &jet2_btagSF);
+	intree->SetBranchAddress(Form("%sjet2_btagSF_M", whichJet.c_str()), &jet2_btagSF_M);
+	intree->SetBranchAddress(Form("%sjet2_btagSFErrorUp_M", whichJet.c_str()), &jet2_btagSFErrorUp_M);
+	intree->SetBranchAddress(Form("%sjet2_btagSFErrorDown_M", whichJet.c_str()), &jet2_btagSFErrorDown_M);
+	intree->SetBranchAddress(Form("%sjet2_btagEff_M", whichJet.c_str()), &jet2_btagEff_M);
+	intree->SetBranchAddress(Form("%sjet2_btagEffError_M", whichJet.c_str()), &jet2_btagEffError_M);
+	intree->SetBranchAddress(Form("%sjet2_flavour", whichJet.c_str()), &jet2_flavour);
 	intree->SetBranchAddress(Form("%sjj_mass", whichJet.c_str()), &mjj);
 	intree->SetBranchAddress(Form("%sggjj_mass", whichJet.c_str()), &mtot);
 // Prepare mjj and mggjj variables "without kin fit" on which to cut
@@ -173,13 +186,23 @@ int main(int argc, char *argv[])
 	outtree->Branch("jet1_phi", &jet1_phi, "jet1_phi/F");
 	outtree->Branch("jet1_eta", &jet1_eta, "jet1_eta/F");
 	outtree->Branch("jet1_mass", &jet1_mass, "jet1_mass/F");
-	outtree->Branch("jet1_btagSF", &jet1_btagSF, "jet1_btagSF/F");
+	outtree->Branch("jet1_btagSF_M", &jet1_btagSF_M, "jet1_btagSF_M/F");
+	outtree->Branch("jet1_btagSFErrorUp_M", &jet1_btagSFErrorUp_M, "jet1_btagSFErrorUp_M/F");
+	outtree->Branch("jet1_btagSFErrorDown_M", &jet1_btagSFErrorDown_M, "jet1_btagSFErrorDown_M/F");
+	outtree->Branch("jet1_btagEff_M", &jet1_btagEff_M, "jet1_btagEff_M/F");
+	outtree->Branch("jet1_btagEffError_M", &jet1_btagEffError_M, "jet1_btagEffError_M/F");
+	outtree->Branch("jet1_flavour", &jet1_flavour, "jet1_flavour/I");
 	outtree->Branch("jet2_pt", &jet2_pt, "jet2_pt/F");
 	outtree->Branch("jet2_e", &jet2_e, "jet2_e/F");
 	outtree->Branch("jet2_phi", &jet2_phi, "jet2_phi/F");
 	outtree->Branch("jet2_eta", &jet2_eta, "jet2_eta/F");
 	outtree->Branch("jet2_mass", &jet2_mass, "jet2_mass/F");
-	outtree->Branch("jet2_btagSF", &jet2_btagSF, "jet2_btagSF/F");
+	outtree->Branch("jet2_btagSF_M", &jet2_btagSF_M, "jet2_btagSF_M/F");
+	outtree->Branch("jet2_btagSFErrorUp_M", &jet2_btagSFErrorUp_M, "jet2_btagSFErrorUp_M/F");
+	outtree->Branch("jet2_btagSFErrorDown_M", &jet2_btagSFErrorDown_M, "jet2_btagSFErrorDown_M/F");
+	outtree->Branch("jet2_btagEff_M", &jet2_btagEff_M, "jet2_btagEff_M/F");
+	outtree->Branch("jet2_btagEffError_M", &jet2_btagEffError_M, "jet2_btagEffError_M/F");
+	outtree->Branch("jet2_flavour", &jet2_flavour, "jet2_flavour/I");
 	outtree->Branch("mgg", &mgg, "mgg/F");
 	outtree->Branch("mjj", &mjj, "mjj/F");
 	outtree->Branch("mtot", &mtot, "mtot/F");
@@ -195,12 +218,17 @@ int main(int argc, char *argv[])
 	int n_2btag = 0;
 	float n_w_1btag = 0.;
 	float n_w_2btag = 0.;
+	float theBtagEvWeight = -1001.;
+	float theBtagEvErrUp = -1001.;
+	float theBtagEvErrDown = -1001.;
+/*
 	float nprocessed = 20000.;
 	if(type == -300) nprocessed = 19972.;
 	else if(type == -500) nprocessed = 19970.; 
 	else if(type == -700) nprocessed = 19969.; 
 	else if(type == -1000) nprocessed = 19951.; 
 	else if(type == -1500) nprocessed = 19959.; 
+*/
 
 	for(int ievt= 0 ; ievt < (int)intree->GetEntries() ; ievt++)
 	{
@@ -208,24 +236,29 @@ int main(int argc, char *argv[])
 
 		if(removeUndefinedBtagSF)
 		{
-			if( jet1_btagSF == -1001 || jet2_btagSF == -1001) 
+			if( jet1_btagSF_M == -1001 || jet2_btagSF_M == -1001) 
 			{
-				cout << "WARNING: undefined btagSF, skipping the event:\tevent= " << event << "\tjet1_btagSF= " << jet1_btagSF << "\tjet2_btagSF= " << jet2_btagSF << "\tjet1_pt= " << jet1_pt << "\tjet2_pt= " << jet2_pt << endl;
+				cout << "WARNING: undefined btagSF_M, skipping the event:\tevent= " << event << "\tjet1_btagSF_M= " << jet1_btagSF_M << "\tjet2_btagSF_M= " << jet2_btagSF_M << "\tjet1_pt= " << jet1_pt << "\tjet2_pt= " << jet2_pt << endl;
 				continue;
 			}
 		}
 		if(type < -250)
 		{
 			if(njets_kRadionID_and_CSVM >= 2)
-				evWeight_w_btagSF = evWeight * jet1_btagSF * jet2_btagSF * 2. * 19706. / 1000. / nprocessed; // factor two to account for regression training, to be applied only on signal
+				evWeight_w_btagSF = evWeight * jet1_btagSF_M * jet2_btagSF_M * 2. ; // factor two to account for regression training, to be applied only on signal
 			else
 				if( jet1_csvBtag > 0.679 )
-					evWeight_w_btagSF = evWeight * jet1_btagSF * (1.-.65*jet2_btagSF)/(1.-.65) * 2. * 19706. / 1000. / nprocessed;
+					evWeight_w_btagSF = evWeight * jet1_btagSF_M * (1.-.65*jet2_btagSF_M)/(1.-.65) * 2. ;
 				else
-					evWeight_w_btagSF = evWeight * jet2_btagSF * (1.-.65*jet1_btagSF)/(1.-.65) * 2. * 19706. / 1000. / nprocessed;
+					evWeight_w_btagSF = evWeight * jet2_btagSF_M * (1.-.65*jet1_btagSF_M)/(1.-.65) * 2. ;
 		}
 		else
 			evWeight_w_btagSF = evWeight;
+
+//		cout << "eventWeight_2jets= " << eventWeight_2jets("medium", jet1_btagSF_M, jet2_btagSF_M, jet1_btagEff_M, jet2_btagEff_M, jet1_csvBtag, jet2_csvBtag) << endl;
+		theBtagEvWeight = eventWeight_2jets("medium", jet1_btagSF_M, jet2_btagSF_M, jet1_btagEff_M, jet2_btagEff_M, jet1_csvBtag, jet2_csvBtag);
+		theBtagEvErrUp = eventWeight_error_2jets("medium", jet1_btagSF_M, jet1_btagSFErrorUp_M, jet2_btagSF_M, jet2_btagSFErrorUp_M, jet1_btagEff_M, jet1_btagEffError_M, jet2_btagEff_M, jet2_btagEffError_M, jet1_flavour, jet2_flavour, jet1_csvBtag, jet2_csvBtag);
+		theBtagEvErrDown = eventWeight_error_2jets("medium", jet1_btagSF_M, jet1_btagSFErrorDown_M, jet2_btagSF_M, jet2_btagSFErrorDown_M, jet1_btagEff_M, jet1_btagEffError_M, jet2_btagEff_M, jet2_btagEffError_M, jet1_flavour, jet2_flavour, jet1_csvBtag, jet2_csvBtag);
 
 
 		if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("reg", whichJet.c_str()) == 0) )
