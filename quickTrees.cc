@@ -3,6 +3,7 @@
 #include <sstream>
 #include <string>
 #include <cmath>
+#include <boost/program_options.hpp>
 // ROOT headers
 #include "TROOT.h"
 #include "TSystem.h"
@@ -15,19 +16,11 @@
 #define DEBUG 0
 // namespaces
 using namespace std;
+namespace po = boost::program_options;
 
 int main(int argc, char *argv[])
 {
-	cout << "argc= " << argc << endl;
-	for(int iarg = 0 ; iarg < argc; iarg++)
-		cout << "argv[" << iarg << "]= " << argv[iarg] << endl;
-
-	if( argc == 1 )
-	{
-		cerr << "WARNING: Arguments should be passed ! Default arguments will be used" << endl;
-		cerr << "WARNING: Syntax is " << argv[0] << " -i (inputfile) -it (inputtree) -o (outputfile) -ot (outputtree) -wj (whichJet) -cutLevel (cutLevel) -fs (fitStrategy) -m (mass)" << endl;
-	}
-	
+	// declare arguments
 	string inputfile = "Data_m300_StandardFullSelection_v2.root";
 	string inputtree = "Data";
 	string outputfile = "Data_m300_test_minimal.root";
@@ -40,45 +33,45 @@ int main(int argc, char *argv[])
 	int type = 0;
 	int massCutVersion = 0; // 0= default 1= non-kin specific 2= v02 limit trees
 
-	for(int iarg=0 ; iarg < argc ; iarg++)
+	// print out passed arguments
+	copy(argv, argv + argc, ostream_iterator<char*>(cout, " ")); cout << endl;
+	// argument parsing itself
+	try
 	{
-		if(strcmp("-i", argv[iarg]) == 0 && argc >= iarg + 1)
-			inputfile = argv[iarg+1];
-		if(strcmp("-it", argv[iarg]) == 0 && argc >= iarg + 1)
-			inputtree = argv[iarg+1];
-		if(strcmp("-o", argv[iarg]) == 0 && argc >= iarg + 1)
-			outputfile = argv[iarg+1];
-		if(strcmp("-ot", argv[iarg]) == 0 && argc >= iarg + 1)
-			outputtree = argv[iarg+1];
-		if(strcmp("-wj", argv[iarg]) == 0 && argc >= iarg + 1)
-			whichJet = argv[iarg+1];
-		if(strcmp("-fs", argv[iarg]) == 0 && argc >= iarg + 1)
-			fitStrategy = argv[iarg+1];
-		if(strcmp("-cutLevel", argv[iarg]) == 0 && argc >= iarg + 1)
-			{ std::stringstream ss ( argv[iarg+1] ); ss >> cutLevel; }
-		if(strcmp("-m", argv[iarg]) == 0 && argc >= iarg + 1)
-			{ std::stringstream ss ( argv[iarg+1] ); ss >> mass; }
-		if(strcmp("--removeUndefinedBtagSF", argv[iarg]) == 0 && argc >= iarg + 1)
-			{ std::stringstream ss ( argv[iarg+1] ); ss >> removeUndefinedBtagSF; }
-		if(strcmp("--type", argv[iarg]) == 0 && argc >= iarg + 1)
-			{ std::stringstream ss ( argv[iarg+1] ); ss >> type; }
-		if(strcmp("--massCutVersion", argv[iarg]) == 0 && argc >= iarg + 1)
-			{ std::stringstream ss ( argv[iarg+1] ); ss >> massCutVersion; }
-		if((strcmp("-h", argv[iarg]) == 0) || (strcmp("--help", argv[iarg]) == 0))
-		{
-			cerr << "WARNING: Arguments should be passed ! Default arguments will be used" << endl;
-			cerr << "WARNING: Syntax is " << argv[0] << " -i (inputfile) -it (inputtree) -o (outputfile) -ot (outputtree) -wj (whichJet) -cutLevel (cutLevel) -fs (fitStrategy) -m (mass)" << endl;
-			cerr << "inputfile= " << inputfile << endl;
-			cerr << "inputtree= " << inputtree << endl;
-			cerr << "outputfile= " << outputfile << endl;
-			cerr << "outputtree= " << outputtree << endl;
-			cerr << "whichJet= " << whichJet << endl;
-			cerr << "cutLevel= " << cutLevel << endl;
-			cerr << "fitStrategy= " << fitStrategy << endl;
-			cerr << "mass= " << mass << endl;
-			return 2;
+		po::options_description desc("Allowed options");
+		desc.add_options()
+			("help,h", "produce help message")
+			("inputfile,i", po::value<string>(&inputfile)->default_value("selected.root"), "input file")
+			("inputtree,t", po::value<string>(&inputtree)->default_value("Radion_m300_8TeV_nm"), "input tree")
+			("outputtree", po::value<string>(&outputtree)->default_value("TCVARS"), "output tree")
+			("outputfile,o", po::value<string>(&outputfile)->default_value("minimum.root"), "output file")
+			("type", po::value<int>(&type)->default_value(0), "same conventions as in h2gglobe: <0 = signal ; =0 = data ; >0 = background")
+			("whichJet", po::value<string>(&whichJet)->default_value(""), "which jet to use, base, kin, regkin, reg")
+			("fitStrategy", po::value<string>(&fitStrategy)->default_value("mgg"), "fit strategy to use, default is mgg fit")
+			("cutLevel", po::value<int>(&cutLevel)->default_value(0), "switch to apply extra cuts in addition to the baseline ones")
+			("mass", po::value<int>(&mass)->default_value(300), "mass hypothesis (for mass cut switches)")
+			("removeUndefinedBtagSF", po::value<int>(&removeUndefinedBtagSF)->default_value(0), "remove undefined btagSF_M values (should be used only for the limit trees)")
+			("massCutVersion", po::value<int>(&massCutVersion)->default_value(0), "0= default 1= non-kin specific 2= v02 limit trees (not sure if this is outdated or not)")
+		;
+		po::variables_map vm;
+		po::store(po::parse_command_line(argc, argv, desc), vm);
+		po::notify(vm);
+		if (vm.count("help")) {
+			cout << desc << "\n";
+			return 1;
 		}
+	} catch(exception& e) {
+		cerr << "error: " << e.what() << "\n";
+		return 1;
+	} catch(...) {
+		cerr << "Exception of unknown type!\n";
 	}
+	// end of argument parsing
+  //################################################
+
+//	string outputtree = inputtree;
+
+	if(DEBUG) cout << "End of argument parsing" << endl;
 
 	if(strcmp(whichJet.c_str(), "base") == 0) whichJet="";
 
