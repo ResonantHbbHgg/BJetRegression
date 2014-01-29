@@ -58,6 +58,9 @@ quickTrees.exe: quickTrees.o BTagUtils.o
 fitMass.exe: fitMass.cc
 	$(CC) $(CCFLAGS) $(ROOTFLAGS) $(ROOTLIBS) $(ROOFITLIBS) fitMass.cc -o fitMass.exe
 
+compare_limitTrees.exe: compare_limitTrees.cc
+	$(CC) $(CCFLAGS) $(ROOTFLAGS) $(ROOTLIBS) compare_limitTrees.cc -o compare_limitTrees.exe
+
 undoVarTRansformNorm.exe: undoVarTRansformNorm.cc
 	$(CC) $(CCFLAGS) $(ROOTFLAGS) $(ROOTLIBS) undoVarTRansformNorm.cc -o undoVarTRansformNorm.exe
 

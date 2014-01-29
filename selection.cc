@@ -166,7 +166,7 @@ int main(int argc, char *argv[])
     intree->GetEntry(ievt);
 		if(DEBUG && SYNC_W_PHIL && !(/*t.event == 6976 ||*/ t.event == 8042 || t.event == 14339 /*|| t.event == 2227 || t.event == 4921 || t.event == 7665 || t.event == 7687 || t.event == 11246 || t.event == 15140 || t.event == 685*/) ) continue;
 		if(DEBUG) cout << "#####\tievt= " << ievt << "\trun= " << t.run << "\tlumi= " << t.lumis << "\tevent= " << t.event << endl;
-		if( type < -250 && ((int)t.event % 2 == 0) && !SYNC_W_PHIL) continue; // use regression only on odd events
+		if( numberOfRegressionFiles != 0 && type < -250 && ((int)t.event % 2 == 0) && !SYNC_W_PHIL) continue; // use regression only on odd events
 	
 		if(DEBUG) cout << "for MC, get the MC truth hjj system" << endl;
 // Compute hjj system
@@ -258,52 +258,54 @@ int main(int argc, char *argv[])
 		float csv_cut = 0.679; // CSVM
 		for( int ijet = 0 ; ijet < min(t.njets_passing_kLooseID, 15); ijet ++ )
 		{
-			if( ijet == 0 )
+			if( ijet == 0 ){
 				if(t.j1_csvBtag > csv_cut)
 					nbjet_tmp++; 
-			if( ijet == 1 )
+			} else if( ijet == 1 ){
 				if(t.j2_csvBtag > csv_cut)
 					nbjet_tmp++; 
-			if( ijet == 2 )
+			} else if( ijet == 2 ){
 				if(t.j3_csvBtag > csv_cut)
 					nbjet_tmp++; 
-			if( ijet == 3 )
+			} else if( ijet == 3 ){
 				if(t.j4_csvBtag > csv_cut)
 					nbjet_tmp++; 
-			if( ijet == 4 )
+			} else if( ijet == 4 ){
 				if(t.j5_csvBtag > csv_cut)
 					nbjet_tmp++; 
-			if( ijet == 5 )
+			} else if( ijet == 5 ){
 				if(t.j6_csvBtag > csv_cut)
 					nbjet_tmp++; 
-			if( ijet == 6 )
+			} else if( ijet == 6 ){
 				if(t.j7_csvBtag > csv_cut)
 					nbjet_tmp++; 
-			if( ijet == 7 )
+			} else if( ijet == 7 ){
 				if(t.j8_csvBtag > csv_cut)
 					nbjet_tmp++; 
-			if( ijet == 8 )
+			} else if( ijet == 8 ){
 				if(t.j9_csvBtag > csv_cut)
 					nbjet_tmp++; 
-			if( ijet == 9 )
+			} else if( ijet == 9 ){
 				if(t.j10_csvBtag > csv_cut)
 					nbjet_tmp++; 
-			if( ijet == 10 )
+			} else if( ijet == 10 ){
 				if(t.j11_csvBtag > csv_cut)
 					nbjet_tmp++; 
-			if( ijet == 11 )
+			} else if( ijet == 11 ){
 				if(t.j12_csvBtag > csv_cut)
 					nbjet_tmp++; 
-			if( ijet == 12 )
+			} else if( ijet == 12 ){
 				if(t.j13_csvBtag > csv_cut)
 					nbjet_tmp++; 
-			if( ijet == 13 )
+			} else if( ijet == 13 ){
 				if(t.j14_csvBtag > csv_cut)
 					nbjet_tmp++; 
-			if( ijet == 14 )
+			} else if( ijet == 14 ){
 				if(t.j15_csvBtag > csv_cut)
-					nbjet_tmp++; 
+					nbjet_tmp++;
+			}
 		}
+		if( DEBUG && t.njets_passing_kLooseID > 4 ) cout << "t.njets_passing_kLooseID= " << t.njets_passing_kLooseID << "\tnbjet_tmp= " << nbjet_tmp << endl;
 		if(DEBUG) cout << "nbjet_tmp= " << nbjet_tmp << endl;
 		if( nbjet_tmp < 1 ) continue;
 		nevents[ilevel]++; eventcut[ilevel] = "After nbjet >= 1";
@@ -329,7 +331,7 @@ int main(int argc, char *argv[])
 
 			if(DEBUG && numberOfRegressionFiles != 0) cout << "input= " << t.jet_pt << "\toutput (BDT_0)= " << readerRegres->EvaluateRegression(Form("BDT_%i", 0))[0] * t.jet_pt << "\toutput (BDT_1)= " << readerRegres->EvaluateRegression(Form("BDT_%i", 1))[0] * t.jet_pt << endl;
 //			if( t.jet_csvBtag < 0. ) continue;
-			njets[5]++; jetcut[5] = "After t.jet_csvBtag < 0.";
+//			njets[5]++; jetcut[5] = "After t.jet_csvBtag < 0.";
 			if(DEBUG) cout << "now with the regression" << endl;
 			if(numberOfRegressionFiles == 0)
 				t.jet_regPt = t.jet_pt; // no regression applied
@@ -413,7 +415,7 @@ int main(int argc, char *argv[])
 		// if exactly one btag, pick it up, then find the other jet that gives max ptjj
 		if( btaggedJet.size() == 1 )
 		{
-			if(DEBUG) cout << "Entering jet combinatorics: 1btag t.category" << endl;
+			if(DEBUG) cout << "Entering jet combinatorics: 1btag category" << endl;
 			t.category = 1;
 			unsigned int ij = btaggedJet[0];
 			if(DEBUG) cout << "btaggedJet[0]= " << btaggedJet[0] << endl;
@@ -466,7 +468,7 @@ int main(int argc, char *argv[])
 		if( btaggedJet.size() > 1 )
 		{
 			t.category = 2;
-			if(DEBUG) cout << "Entering jet combinatorics: 2btag t.category" << endl;
+			if(DEBUG) cout << "Entering jet combinatorics: 2btag category" << endl;
 			int ij;
 			int imaxptjj;
 			int imaxptjjReg;
@@ -838,14 +840,14 @@ int main(int argc, char *argv[])
 			nevents[ilevel]++;
 			nevents_w[ilevel] += t.evweight;
 			nevents_sync[8]++;
-			eventcut[ilevel] = "1btag t.category"; ilevel++; ilevel++;
+			eventcut[ilevel] = "1btag category"; ilevel++; ilevel++;
 		} else if( t.njets_kRadionID_and_CSVM >=2) {
 			ilevel++;
 			t.category = 2;
 			nevents[ilevel]++;
 			nevents_w[ilevel] += t.evweight;
 			nevents_sync[9]++;
-			eventcut[ilevel] = "2btag t.category"; ilevel++;
+			eventcut[ilevel] = "2btag category"; ilevel++;
 		}
 
 
@@ -869,14 +871,14 @@ int main(int argc, char *argv[])
 			nevents[ilevel]++;
 			nevents_w[ilevel] += t.evweight;
 			nevents_sync[10]++;
-			eventcut[ilevel] = Form("1btag t.category, after mjj cut (%.1f/%.1f and %.1f/%.1f)",min_mjj_1btag, max_mjj_1btag, min_mjj_2btag, max_mjj_2btag); ilevel++; ilevel++;
+			eventcut[ilevel] = Form("1btag category, after mjj cut (%.1f/%.1f and %.1f/%.1f)",min_mjj_1btag, max_mjj_1btag, min_mjj_2btag, max_mjj_2btag); ilevel++; ilevel++;
 		} else if( t.njets_kRadionID_and_CSVM >=2) {
 			ilevel++;
 			t.category = 2;
 			nevents[ilevel]++;
 			nevents_w[ilevel] += t.evweight;
 			nevents_sync[11]++;
-			eventcut[ilevel] = Form("2btag t.category, after mjj cut (%.1f/%.1f and %.1f/%.1f)",min_mjj_1btag, max_mjj_1btag, min_mjj_2btag, max_mjj_2btag); ilevel++;
+			eventcut[ilevel] = Form("2btag category, after mjj cut (%.1f/%.1f and %.1f/%.1f)",min_mjj_1btag, max_mjj_1btag, min_mjj_2btag, max_mjj_2btag); ilevel++;
 		}
 
 // kin fit
@@ -887,13 +889,13 @@ int main(int argc, char *argv[])
 			t.category = 1;
 			nevents[ilevel]++;
 			nevents_w[ilevel] += t.evweight;
-			eventcut[ilevel] = "1btag t.category, after kin fit"; ilevel++; ilevel++;
+			eventcut[ilevel] = "1btag category, after kin fit"; ilevel++; ilevel++;
 		} else if( t.njets_kRadionID_and_CSVM >=2) {
 			ilevel++;
 			t.category = 2;
 			nevents[ilevel]++;
 			nevents_w[ilevel] += t.evweight;
-			eventcut[ilevel] = "2btag t.category, after kin fit"; ilevel++;
+			eventcut[ilevel] = "2btag category, after kin fit"; ilevel++;
 		}
 
 // mggjj cut (260/335 and 255/320)
@@ -915,14 +917,14 @@ int main(int argc, char *argv[])
 			nevents[ilevel]++;
 			nevents_w[ilevel] += t.evweight;
 			nevents_sync[12]++;
-			eventcut[ilevel] = Form("1btag t.category, after mggjj cut (%.1f/%.1f and %.1f/%.1f)", min_mggjj_1btag, max_mggjj_1btag, min_mggjj_2btag, max_mggjj_2btag); ilevel++; ilevel++;
+			eventcut[ilevel] = Form("1btag category, after mggjj cut (%.1f/%.1f and %.1f/%.1f)", min_mggjj_1btag, max_mggjj_1btag, min_mggjj_2btag, max_mggjj_2btag); ilevel++; ilevel++;
 		} else if( t.njets_kRadionID_and_CSVM >=2) {
 			ilevel++;
 			t.category = 2;
 			nevents[ilevel]++;
 			nevents_w[ilevel] += t.evweight;
 			nevents_sync[13]++;
-			eventcut[ilevel] = Form("2btag t.category, after mggjj cut (%.1f/%.1f and %.1f/%.1f)", min_mggjj_1btag, max_mggjj_1btag, min_mggjj_2btag, max_mggjj_2btag); ilevel++;
+			eventcut[ilevel] = Form("2btag category, after mggjj cut (%.1f/%.1f and %.1f/%.1f)", min_mggjj_1btag, max_mggjj_1btag, min_mggjj_2btag, max_mggjj_2btag); ilevel++;
 		}
 
 		if(SYNC_W_PHIL && (t.event == 1536 || t.event == 1557 || t.event == 1560 || t.event == 7755))

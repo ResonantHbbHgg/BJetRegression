@@ -105,9 +105,6 @@ int main(int argc, char *argv[])
 	int n_2btag = 0;
 	float n_w_1btag = 0.;
 	float n_w_2btag = 0.;
-	float theBtagEvWeight = -1001.;
-	float theBtagEvErrUp = -1001.;
-	float theBtagEvErrDown = -1001.;
 
 	for(int ievt= 0 ; ievt < (int)intree->GetEntries() ; ievt++)
 	{
@@ -121,23 +118,16 @@ int main(int argc, char *argv[])
 				continue;
 			}
 		}
-		if(type < -250)
-		{
-			if(t.njets_kRadionID_and_CSVM >= 2)
-				t.evWeight_w_btagSF = t.evWeight * t.jet1_btagSF_M * t.jet2_btagSF_M * 2. ; // factor two to account for regression training, to be applied only on signal
-			else
-				if( t.jet1_csvBtag > 0.679 )
-					t.evWeight_w_btagSF = t.evWeight * t.jet1_btagSF_M * (1.-.65*t.jet2_btagSF_M)/(1.-.65) * 2. ;
-				else
-					t.evWeight_w_btagSF = t.evWeight * t.jet2_btagSF_M * (1.-.65*t.jet1_btagSF_M)/(1.-.65) * 2. ;
-		}
-		else
-			t.evWeight_w_btagSF = t.evWeight;
 
-//		cout << "eventWeight_2jets= " << eventWeight_2jets("medium", t.jet1_btagSF_M, t.jet2_btagSF_M, t.jet1_btagEff_M, t.jet2_btagEff_M, t.jet1_csvBtag, t.jet2_csvBtag) << endl;
-		theBtagEvWeight = eventWeight_2jets("medium", t.jet1_btagSF_M, t.jet2_btagSF_M, t.jet1_btagEff_M, t.jet2_btagEff_M, t.jet1_csvBtag, t.jet2_csvBtag);
-		theBtagEvErrUp = eventWeight_error_2jets("medium", t.jet1_btagSF_M, t.jet1_btagSFErrorUp_M, t.jet2_btagSF_M, t.jet2_btagSFErrorUp_M, t.jet1_btagEff_M, t.jet1_btagEffError_M, t.jet2_btagEff_M, t.jet2_btagEffError_M, t.jet1_flavour, t.jet2_flavour, t.jet1_csvBtag, t.jet2_csvBtag);
-		theBtagEvErrDown = eventWeight_error_2jets("medium", t.jet1_btagSF_M, t.jet1_btagSFErrorDown_M, t.jet2_btagSF_M, t.jet2_btagSFErrorDown_M, t.jet1_btagEff_M, t.jet1_btagEffError_M, t.jet2_btagEff_M, t.jet2_btagEffError_M, t.jet1_flavour, t.jet2_flavour, t.jet1_csvBtag, t.jet2_csvBtag);
+	t.evWeight_w_btagSF = t.evWeight;
+
+	if( type < -250 )
+	{
+		t.weightBtagSF = eventWeight_2jets("medium", t.jet1_btagSF_M, t.jet2_btagSF_M, t.jet1_btagEff_M, t.jet2_btagEff_M, t.jet1_csvBtag, t.jet2_csvBtag);
+		t.weightBtagSFerrUp = eventWeight_error_2jets("medium", t.jet1_btagSF_M, t.jet1_btagSFErrorUp_M, t.jet2_btagSF_M, t.jet2_btagSFErrorUp_M, t.jet1_btagEff_M, t.jet1_btagEffError_M, t.jet2_btagEff_M, t.jet2_btagEffError_M, t.jet1_flavour, t.jet2_flavour, t.jet1_csvBtag, t.jet2_csvBtag);
+		t.weightBtagSFerrDown = eventWeight_error_2jets("medium", t.jet1_btagSF_M, t.jet1_btagSFErrorDown_M, t.jet2_btagSF_M, t.jet2_btagSFErrorDown_M, t.jet1_btagEff_M, t.jet1_btagEffError_M, t.jet2_btagEff_M, t.jet2_btagEffError_M, t.jet1_flavour, t.jet2_flavour, t.jet1_csvBtag, t.jet2_csvBtag);
+		t.evWeight_w_btagSF *= t.weightBtagSF;
+	}
 
 
 		if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("reg", whichJet.c_str()) == 0) )
