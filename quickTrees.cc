@@ -132,6 +132,8 @@ int main(int argc, char *argv[])
 		t.evWeight_w_btagSF *= t.weightBtagSF;
 	}
 
+	t.evWeight_w_btagSF *= 1000.; // For increased numerical precision for limit settings, not related to actual physics
+
 
 		if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("reg", whichJet.c_str()) == 0) )
 			{ t.mjj_wokinfit = t.mjj; t.mtot_wokinfit = t.mtot; }
