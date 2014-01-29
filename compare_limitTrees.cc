@@ -39,14 +39,37 @@ float getMean(TTree *t, string var, string cut)
 
 float getRMS(TTree *t, string var, string cut)
 {
+	c1.Clear();
 	t->Draw(Form("%s>>htemp",var.c_str()), cut.c_str());
-	return ((TH1F*)gDirectory->Get("htemp"))->GetRMS();
+	float rms = ((TH1F*)gDirectory->Get("htemp"))->GetRMS();
+	((TH1F*)gDirectory->Get("htemp"))->Delete();
+	return rms;
 }
 
 int main()
 {
-	string file1 = "/afs/cern.ch/user/c/crovelli/public/4Alexandra/trees/v22/finalizedTrees_Radion_V07__fitToGG__noKinFit/Radion_m300.root";
-	string file2 = "/afs/cern.ch/work/o/obondu/Higgs/CMSSW_6_1_1_radion_v2/src/BJetRegression/minimum_test.root"; 
+// Radion m300 mgg
+//	string file1 = "/afs/cern.ch/user/c/crovelli/public/4Alexandra/trees/v22/finalizedTrees_Radion_V07__fitToGG__noKinFit/Radion_m300.root";
+//	string file2 = "/afs/cern.ch/work/o/obondu/Higgs/CMSSW_6_1_1_radion_v2/src/BJetRegression/minimum_test.root"; 
+// Data m300 mgg
+//	string file1 = "/afs/cern.ch/user/c/crovelli/public/4Alexandra/trees/v22/finalizedTrees_Radion_V07__fitToGG__noKinFit/data__selez300.root";
+//	string file2 = "/afs/cern.ch/work/o/obondu/Higgs/CMSSW_6_1_1_radion_v2/src/BJetRegression/minimum_test_data.root"; 
+
+// Radion m650 mggjj
+//	string file1 = "/afs/cern.ch/user/c/crovelli/public/4Alexandra/trees/v22/finalizedTrees_Radion_V07__fitToGGJJ__withKinFit/Radion_m650.root";
+//	string file2 = "/afs/cern.ch/work/o/obondu/Higgs/CMSSW_6_1_1_radion_v2/src/BJetRegression/minimum_test_650.root";
+// Data m650 mggjj
+//	string file1 = "/afs/cern.ch/user/c/crovelli/public/4Alexandra/trees/v22/finalizedTrees_Radion_V07__fitToGGJJ__withKinFit/data.root";
+//	string file1 = "/afs/cern.ch/work/o/obondu/Higgs/CMSSW_6_1_1_radion_v2/src/BJetRegression/minimum_test_PLOUF_data.root";
+//	string file2 = "/afs/cern.ch/work/o/obondu/Higgs/CMSSW_6_1_1_radion_v2/src/BJetRegression/minimum_test_650_data.root";
+
+// Radion m650 mggjj wokinfit
+//	string file1 = "/afs/cern.ch/user/c/crovelli/public/4Alexandra/trees/v22/finalizedTrees_Radion_V07__fitToGGJJ__noKinFit/Radion_m650.root";
+//	string file2 = "/afs/cern.ch/work/o/obondu/Higgs/CMSSW_6_1_1_radion_v2/src/BJetRegression/minimum_test_650_wokinfit.root";
+// Data m650 mggjj
+	string file1 = "/afs/cern.ch/user/c/crovelli/public/4Alexandra/trees/v22/finalizedTrees_Radion_V07__fitToGGJJ__noKinFit/data.root";
+	string file2 = "/afs/cern.ch/work/o/obondu/Higgs/CMSSW_6_1_1_radion_v2/src/BJetRegression/minimum_test_650_data_wokinfit.root";
+
 	string label1 = "Chiara";
 	string label2 = "Olivier";
 	TFile *f1 = TFile::Open(file1.c_str());
@@ -71,8 +94,8 @@ int main()
 	{
 		cout << "##### ##### MEAN " << name[icat] << " ##### #####" << endl;
 		display("mgg", getMean(t1, "mgg", cut[icat]), getMean(t2, "mgg", cut[icat]));
-		display("mjj", getMean(t1, "mgg", cut[icat]), getMean(t2, "mgg", cut[icat]));
 		display("mjj", getMean(t1, "mjj", cut[icat]), getMean(t2, "mjj", cut[icat]));
+		display("mjj_wkinfit", getMean(t1, "mjj_wkinfit", cut[icat]), getMean(t2, "mjj_wkinfit", cut[icat]));
 		display("mtot", getMean(t1, "mtot", cut[icat]), getMean(t2, "mtot", cut[icat]));
 		display("mtot_wokinfit", getMean(t1, "mtot_wokinfit", cut[icat]), getMean(t2, "mtot_wokinfit", cut[icat]));
 		display("cut_based_ct", getMean(t1, "cut_based_ct", cut[icat]), getMean(t2, "cut_based_ct", cut[icat]));
@@ -82,8 +105,8 @@ int main()
 		display("weightBtagSFerrDown", getMean(t1, "weightBtagSFerrDown", cut[icat]), getMean(t2, "weightBtagSFerrDown", cut[icat]));
 		cout << "##### ##### RMS " << name[icat] << " ##### #####" << endl;
 		display("mgg", getRMS(t1, "mgg", cut[icat]), getRMS(t2, "mgg", cut[icat]));
-		display("mjj", getRMS(t1, "mgg", cut[icat]), getRMS(t2, "mgg", cut[icat]));
 		display("mjj", getRMS(t1, "mjj", cut[icat]), getRMS(t2, "mjj", cut[icat]));
+		display("mjj_wkinfit", getRMS(t1, "mjj_wkinfit", cut[icat]), getRMS(t2, "mjj_wkinfit", cut[icat]));
 		display("mtot", getRMS(t1, "mtot", cut[icat]), getRMS(t2, "mtot", cut[icat]));
 		display("mtot_wokinfit", getRMS(t1, "mtot_wokinfit", cut[icat]), getRMS(t2, "mtot_wokinfit", cut[icat]));
 		display("cut_based_ct", getRMS(t1, "cut_based_ct", cut[icat]), getRMS(t2, "cut_based_ct", cut[icat]));

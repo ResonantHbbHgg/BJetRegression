@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
 			("outputfile,o", po::value<string>(&outputfile)->default_value("minimum.root"), "output file")
 			("type", po::value<int>(&type)->default_value(0), "same conventions as in h2gglobe: <0 = signal ; =0 = data ; >0 = background")
 			("whichJet", po::value<string>(&whichJet)->default_value(""), "which jet to use, base, kin, regkin, reg")
-			("fitStrategy", po::value<string>(&fitStrategy)->default_value("mgg"), "fit strategy to use, default is mgg fit")
+			("fitStrategy", po::value<string>(&fitStrategy)->default_value("mgg"), "fit strategy to use, mgg or mggjj")
 			("cutLevel", po::value<int>(&cutLevel)->default_value(0), "switch to apply extra cuts in addition to the baseline ones")
 			("mass", po::value<int>(&mass)->default_value(300), "mass hypothesis (for mass cut switches)")
 			("removeUndefinedBtagSF", po::value<int>(&removeUndefinedBtagSF)->default_value(0), "remove undefined btagSF_M values (should be used only for the limit trees)")
@@ -120,6 +120,9 @@ int main(int argc, char *argv[])
 		}
 
 	t.evWeight_w_btagSF = t.evWeight;
+	t.weightBtagSF = -1000;
+	t.weightBtagSFerrUp = -1000;
+	t.weightBtagSFerrDown = -1000;
 
 	if( type < -250 )
 	{
@@ -359,6 +362,12 @@ int main(int argc, char *argv[])
 		}
 		if( t.njets_kRadionID_and_CSVM >= 2 ) {t.cut_based_ct = 0; n_2btag++; n_w_2btag += t.evWeight_w_btagSF;}
 		if( t.njets_kRadionID_and_CSVM == 1 ) {t.cut_based_ct = 1; n_1btag++; n_w_1btag += t.evWeight_w_btagSF;}
+
+		// to be in sync with Chiara: if kin fit applied store mjj in mjj_wkinfit and no kin fit in mjj
+		t.mjj_wkinfit = t.mjj;
+		if( (strcmp("kin", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
+			t.mjj = t.mjj_wokinfit;
+
 		outtree->Fill();
 	}
 	cout << "n_1btag= " << n_1btag << "\tn_2btag= " << n_2btag << endl;

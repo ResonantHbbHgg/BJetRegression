@@ -9,7 +9,7 @@ struct tree_variables
 	float jet2_pt, jet2_e, jet2_phi, jet2_eta, jet2_mass, jet2_btagSF_M, jet2_btagEff_M, jet2_btagSFErrorUp_M, jet2_btagSFErrorDown_M, jet2_btagEffError_M, jet2_csvBtag;
 	int jet1_flavour;
 	int jet2_flavour;
-	float mjj_wokinfit, mtot_wokinfit;
+	float mjj_wokinfit, mtot_wokinfit, mjj_wkinfit;
 	int cut_based_ct, njets_kRadionID_and_CSVM, selection_cut_level;
 	float weight, evWeight, evWeight_w_btagSF;
 	float regcosthetastar, minDRgregkinj;
@@ -119,6 +119,7 @@ void setup_outtree(TTree *outtree, tree_variables *t)
 	outtree->Branch("mgg", &t->mgg, "mgg/F");
 	outtree->Branch("mjj", &t->mjj, "mjj/F");
 	outtree->Branch("mtot", &t->mtot, "mtot/F");
+	outtree->Branch("mjj_wkinfit", &t->mjj_wkinfit, "mjj_wkinfit/F");
 	outtree->Branch("mjj_wokinfit", &t->mjj_wokinfit, "mjj_wokinfit/F");
 	outtree->Branch("mtot_wokinfit", &t->mtot_wokinfit, "mtot_wokinfit/F");
 	outtree->Branch("cut_based_ct", &t->cut_based_ct, "cut_based_ct/I");
