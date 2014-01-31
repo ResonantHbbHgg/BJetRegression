@@ -24,6 +24,9 @@ struct tree_variables
 	float ph1_pfchargedisogood03, ph1_ecaliso, ph1_pfchargedisobad04, ph1_ecalisobad, ph1_badvtx_Et, ph1_isconv;
 	float ph2_pfchargedisogood03, ph2_ecaliso, ph2_pfchargedisobad04, ph2_ecalisobad, ph2_badvtx_Et, ph2_isconv;
 	int ph1_ciclevel, ph2_ciclevel, ph1_isEB, ph2_isEB;
+	// Photon Energy Scale & Photon Energy Resolution
+	float ph1_pesD_e, ph2_pesD_e, ph1_pesU_e, ph2_pesU_e;
+	float ph1_perD_e, ph2_perD_e, ph1_perU_e, ph2_perU_e;
 
 	float j1_e, j1_pt, j1_phi, j1_eta, j1_beta, j1_betaStar, j1_betaStarClassic, j1_dR2Mean, j1_csvBtag, j1_csvMvaBtag, j1_jetProbBtag, j1_tcheBtag, j1_secVtxPt, j1_secVtx3dL, j1_emfrac, j1_hadfrac, j1_axis1, j1_axis2, j1_pull, j1_btagSF_M, j1_btagEff_M, j1_btagSFErrorUp_M, j1_btagSFErrorDown_M, j1_btagEffError_M;
 	int j1_ntk, j1_nNeutrals, j1_nCharged, j1_flavour;
@@ -123,6 +126,14 @@ struct tree_variables
 	float costhetastar, regcosthetastar, regkincosthetastar, kincosthetastar;
 	float minDRgj, minDRgregj, minDRgregkinj, minDRgkinj;
 	float HT_gg;
+	// Photon Energy Scale & Photon Energy Resolution
+	float gg_mass_pesD, gg_mass_pesU, gg_mass_perD, gg_mass_perU;
+	float ggjj_mass_pesD, ggjj_mass_pesU, ggjj_mass_perD, ggjj_mass_perU;
+	float regggjj_mass_pesD, regggjj_mass_pesU, regggjj_mass_perD, regggjj_mass_perU;
+	float regkinggjj_mass_pesD, regkinggjj_mass_pesU, regkinggjj_mass_perD, regkinggjj_mass_perU;
+	float kinggjj_mass_pesD, kinggjj_mass_pesU, kinggjj_mass_perD, kinggjj_mass_perU;
+
+
 
 	int njets_passing_kLooseID;
 	int njets_passing_kLooseID_and_CSVM;
@@ -183,6 +194,14 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
 	intree->SetBranchAddress("PhotonsMass", &t->PhotonsMass);
 	intree->SetBranchAddress("ph1_ciclevel", &t->ph1_ciclevel);
 	intree->SetBranchAddress("ph2_ciclevel", &t->ph2_ciclevel);
+	intree->SetBranchAddress("ph1_pesD_e", &t->ph1_pesD_e);
+	intree->SetBranchAddress("ph2_pesD_e", &t->ph2_pesD_e);
+	intree->SetBranchAddress("ph1_pesU_e", &t->ph1_pesU_e);
+	intree->SetBranchAddress("ph2_pesU_e", &t->ph2_pesU_e);
+	intree->SetBranchAddress("ph1_perD_e", &t->ph1_perD_e);
+	intree->SetBranchAddress("ph2_perD_e", &t->ph2_perD_e);
+	intree->SetBranchAddress("ph1_perU_e", &t->ph1_perU_e);
+	intree->SetBranchAddress("ph2_perU_e", &t->ph2_perU_e);
 	intree->SetBranchAddress("met_corr_pfmet", &t->met_corr_pfmet);
 	intree->SetBranchAddress("met_corr_phi_pfmet", &t->met_corr_phi_pfmet);
 	intree->SetBranchAddress("met_corr_eta_pfmet", &t->met_corr_eta_pfmet);
@@ -728,6 +747,14 @@ void setup_outtree(TTree* outtree, tree_variables *t)
 	outtree->Branch("pho2_PFisoA", &t->pho2_PFisoA, "pho2_PFisoA/F");
 	outtree->Branch("pho2_PFisoB", &t->pho2_PFisoB, "pho2_PFisoB/F");
 	outtree->Branch("pho2_PFisoC", &t->pho2_PFisoC, "pho2_PFisoC/F");
+	outtree->Branch("pho1_pesD_e", &t->ph1_pesD_e, "pho1_pesD_e/F");
+	outtree->Branch("pho2_pesD_e", &t->ph2_pesD_e, "pho2_pesD_e/F");
+	outtree->Branch("pho1_pesU_e", &t->ph1_pesU_e, "pho1_pesU_e/F");
+	outtree->Branch("pho2_pesU_e", &t->ph2_pesU_e, "pho2_pesU_e/F");
+	outtree->Branch("pho1_perD_e", &t->ph1_perD_e, "pho1_perD_e/F");
+	outtree->Branch("pho2_perD_e", &t->ph2_perD_e, "pho2_perD_e/F");
+	outtree->Branch("pho1_perU_e", &t->ph1_perU_e, "pho1_perU_e/F");
+	outtree->Branch("pho2_perU_e", &t->ph2_perU_e, "pho2_perU_e/F");
 	outtree->Branch("jet1_pt", &t->jet1_pt, "jet1_pt/F");
 	outtree->Branch("jet1_pt", &t->jet1_pt, "jet1_pt/F");
 	outtree->Branch("jet1_e", &t->jet1_e, "jet1_e/F");
@@ -962,7 +989,28 @@ void setup_outtree(TTree* outtree, tree_variables *t)
 	outtree->Branch("gr_j2_p4_eta", &t->gr_j2_p4_eta, "gr_j2_p4_eta/F");
 	outtree->Branch("gr_j2_p4_phi", &t->gr_j2_p4_phi, "gr_j2_p4_phi/F");
 	outtree->Branch("gr_j2_p4_mass", &t->gr_j2_p4_mass, "gr_j2_p4_mass/F");
-
+	// Photon Energy Scale & Photon Energy Resolution
+	outtree->Branch("gg_mass_pesD", &t->gg_mass_pesD, "gg_mass_pesD/F");
+	outtree->Branch("gg_mass_pesU", &t->gg_mass_pesU, "gg_mass_pesU/F");
+	outtree->Branch("gg_mass_perD", &t->gg_mass_perD, "gg_mass_perD/F");
+	outtree->Branch("gg_mass_perU", &t->gg_mass_perU, "gg_mass_perU/F");
+	outtree->Branch("ggjj_mass_pesD", &t->ggjj_mass_pesD, "ggjj_mass_pesD/F");
+	outtree->Branch("ggjj_mass_pesU", &t->ggjj_mass_pesU, "ggjj_mass_pesU/F");
+	outtree->Branch("ggjj_mass_perD", &t->ggjj_mass_perD, "ggjj_mass_perD/F");
+	outtree->Branch("ggjj_mass_perU", &t->ggjj_mass_perU, "ggjj_mass_perU/F");
+	outtree->Branch("regggjj_mass_pesD", &t->regggjj_mass_pesD, "regggjj_mass_pesD/F");
+	outtree->Branch("regggjj_mass_pesU", &t->regggjj_mass_pesU, "regggjj_mass_pesU/F");
+	outtree->Branch("regggjj_mass_perD", &t->regggjj_mass_perD, "regggjj_mass_perD/F");
+	outtree->Branch("regggjj_mass_perU", &t->regggjj_mass_perU, "regggjj_mass_perU/F");
+	outtree->Branch("regkinggjj_mass_pesD", &t->regkinggjj_mass_pesD, "regkinggjj_mass_pesD/F");
+	outtree->Branch("regkinggjj_mass_pesU", &t->regkinggjj_mass_pesU, "regkinggjj_mass_pesU/F");
+	outtree->Branch("regkinggjj_mass_perD", &t->regkinggjj_mass_perD, "regkinggjj_mass_perD/F");
+	outtree->Branch("regkinggjj_mass_perU", &t->regkinggjj_mass_perU, "regkinggjj_mass_perU/F");
+	outtree->Branch("kinggjj_mass_pesD", &t->kinggjj_mass_pesD, "kinggjj_mass_pesD/F");
+	outtree->Branch("kinggjj_mass_pesU", &t->kinggjj_mass_pesU, "kinggjj_mass_pesU/F");
+	outtree->Branch("kinggjj_mass_perD", &t->kinggjj_mass_perD, "kinggjj_mass_perD/F");
+	outtree->Branch("kinggjj_mass_perU", &t->kinggjj_mass_perU, "kinggjj_mass_perU/F");
+	
 	return;
 }
 

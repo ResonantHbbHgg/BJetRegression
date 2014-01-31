@@ -538,8 +538,19 @@ int main(int argc, char *argv[])
 		TLorentzVector regkinjet2;
 		TLorentzVector kinjet1;
 		TLorentzVector kinjet2;
+		TLorentzVector pho1_pesD, pho2_pesD, pho1_pesU, pho2_pesU;
+		TLorentzVector pho1_perD, pho2_perD, pho1_perU, pho2_perU;
 		pho1.SetPtEtaPhiE(t.ph1_pt, t.ph1_eta, t.ph1_phi, t.ph1_e);
 		pho2.SetPtEtaPhiE(t.ph2_pt, t.ph2_eta, t.ph2_phi, t.ph2_e);
+		pho1_pesD = pho1; pho1_pesD *= t.ph1_pesD_e / t.ph1_e;
+		pho2_pesD = pho2; pho2_pesD *= t.ph2_pesD_e / t.ph2_e;
+		pho1_pesU = pho1; pho1_pesU *= t.ph1_pesU_e / t.ph1_e;
+		pho2_pesU = pho2; pho2_pesU *= t.ph2_pesU_e / t.ph2_e;
+		pho1_perD = pho1; pho1_perD *= t.ph1_perD_e / t.ph1_e;
+		pho2_perD = pho2; pho2_perD *= t.ph2_perD_e / t.ph2_e;
+		pho1_perU = pho1; pho1_perU *= t.ph1_perU_e / t.ph1_e;
+		pho2_perU = pho2; pho2_perU *= t.ph2_perU_e / t.ph2_e;
+
 		jet1.SetPtEtaPhiE(J.jetPt[ij1], J.jetEta[ij1], J.jetPhi[ij1], J.jetE[ij1]);
 		jet2.SetPtEtaPhiE(J.jetPt[ij2], J.jetEta[ij2], J.jetPhi[ij2], J.jetE[ij2]);
 		regjet1.SetPtEtaPhiE(J.jetPt[ij1Reg], J.jetEta[ij1Reg], J.jetPhi[ij1Reg], J.jetE[ij1Reg]);
@@ -568,6 +579,28 @@ int main(int argc, char *argv[])
 		TLorentzVector regggjj = regjj + gg;
 		TLorentzVector regkinggjj = regkinjj + gg;
 		TLorentzVector kinggjj = kinjj + gg;
+		// Photon Energy Scale & Photon Energy Resolution
+		TLorentzVector gg_pesD = pho1_pesD + pho2_pesD;
+		TLorentzVector gg_pesU = pho1_pesU + pho2_pesU;
+		TLorentzVector gg_perD = pho1_perD + pho2_perD;
+		TLorentzVector gg_perU = pho1_perU + pho2_perU;
+		TLorentzVector ggjj_pesD = jj + gg_pesD;
+		TLorentzVector regggjj_pesD = regjj + gg_pesD;
+		TLorentzVector regkinggjj_pesD = regkinjj + gg_pesD;
+		TLorentzVector kinggjj_pesD = kinjj + gg_pesD;
+		TLorentzVector ggjj_pesU = jj + gg_pesU;
+		TLorentzVector regggjj_pesU = regjj + gg_pesU;
+		TLorentzVector regkinggjj_pesU = regkinjj + gg_pesU;
+		TLorentzVector kinggjj_pesU = kinjj + gg_pesU;
+		TLorentzVector ggjj_perD = jj + gg_perD;
+		TLorentzVector regggjj_perD = regjj + gg_perD;
+		TLorentzVector regkinggjj_perD = regkinjj + gg_perD;
+		TLorentzVector kinggjj_perD = kinjj + gg_perD;
+		TLorentzVector ggjj_perU = jj + gg_perU;
+		TLorentzVector regggjj_perU = regjj + gg_perU;
+		TLorentzVector regkinggjj_perU = regkinjj + gg_perU;
+		TLorentzVector kinggjj_perU = kinjj + gg_perU;
+
 
 		t.selection_cut_level = 0;
 		t.weight = t.ev_weight;
@@ -788,6 +821,27 @@ int main(int argc, char *argv[])
 		t.njets_kLooseID_and_CSVM = t.njets_passing_kLooseID_and_CSVM;
 		t.njets_kRadionID = njets_kRadionID_;
 		t.njets_kRadionID_and_CSVM = njets_kRadionID_and_CSVM_;
+		// Photon Energy Scale & Photon Energy Resolution
+		t.gg_mass_pesD = gg_pesD.M();
+		t.gg_mass_pesU = gg_pesU.M();
+		t.gg_mass_perD = gg_perD.M();
+		t.gg_mass_perU = gg_perU.M();
+		t.ggjj_mass_pesD = ggjj_pesD.M();
+		t.ggjj_mass_pesU = ggjj_pesU.M();
+		t.ggjj_mass_perD = ggjj_perD.M();
+		t.ggjj_mass_perU = ggjj_perU.M();
+		t.regggjj_mass_pesD = regggjj_pesD.M();
+		t.regggjj_mass_pesU = regggjj_pesU.M();
+		t.regggjj_mass_perD = regggjj_perD.M();
+		t.regggjj_mass_perU = regggjj_perU.M();
+		t.regkinggjj_mass_pesD = regkinggjj_pesD.M();
+		t.regkinggjj_mass_pesU = regkinggjj_pesU.M();
+		t.regkinggjj_mass_perD = regkinggjj_perD.M();
+		t.regkinggjj_mass_perU = regkinggjj_perU.M();
+		t.kinggjj_mass_pesD = kinggjj_pesD.M();
+		t.kinggjj_mass_pesU = kinggjj_pesU.M();
+		t.kinggjj_mass_perD = kinggjj_perD.M();
+		t.kinggjj_mass_perU = kinggjj_perU.M();
 // t.costhetastar
 		TLorentzVector Hgg_Rstar(gg);
 		TLorentzVector regHgg_Rstar(gg);
