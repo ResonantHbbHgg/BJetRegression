@@ -80,6 +80,103 @@ struct tree_variables
 	float jet_nConstituents_;
 	float jet_dPhiMet_fabs;
 	float jet_dPhiMet, jet_regPt, jet_regkinPt;
+	// Jet Energy Correction and Jet Energy Resolution
+	float jet_jecD_e, jet_jecD_pt, jet_jecD_phi, jet_jecD_eta;
+	float jet_jecU_e, jet_jecU_pt, jet_jecU_phi, jet_jecU_eta;
+	float jet_jerD_e, jet_jerD_pt, jet_jerD_phi, jet_jerD_eta;
+	float jet_jerC_e, jet_jerC_pt, jet_jerC_phi, jet_jerC_eta;
+	float jet_jerU_e, jet_jerU_pt, jet_jerU_phi, jet_jerU_eta;
+
+	float j1_jecD_e, j1_jecD_pt, j1_jecD_phi, j1_jecD_eta;
+	float j1_jecU_e, j1_jecU_pt, j1_jecU_phi, j1_jecU_eta;
+	float j1_jerD_e, j1_jerD_pt, j1_jerD_phi, j1_jerD_eta;
+	float j1_jerC_e, j1_jerC_pt, j1_jerC_phi, j1_jerC_eta;
+	float j1_jerU_e, j1_jerU_pt, j1_jerU_phi, j1_jerU_eta;
+
+	float j2_jecD_e, j2_jecD_pt, j2_jecD_phi, j2_jecD_eta;
+	float j2_jecU_e, j2_jecU_pt, j2_jecU_phi, j2_jecU_eta;
+	float j2_jerD_e, j2_jerD_pt, j2_jerD_phi, j2_jerD_eta;
+	float j2_jerC_e, j2_jerC_pt, j2_jerC_phi, j2_jerC_eta;
+	float j2_jerU_e, j2_jerU_pt, j2_jerU_phi, j2_jerU_eta;
+
+	float j3_jecD_e, j3_jecD_pt, j3_jecD_phi, j3_jecD_eta;
+	float j3_jecU_e, j3_jecU_pt, j3_jecU_phi, j3_jecU_eta;
+	float j3_jerD_e, j3_jerD_pt, j3_jerD_phi, j3_jerD_eta;
+	float j3_jerC_e, j3_jerC_pt, j3_jerC_phi, j3_jerC_eta;
+	float j3_jerU_e, j3_jerU_pt, j3_jerU_phi, j3_jerU_eta;
+
+	float j4_jecD_e, j4_jecD_pt, j4_jecD_phi, j4_jecD_eta;
+	float j4_jecU_e, j4_jecU_pt, j4_jecU_phi, j4_jecU_eta;
+	float j4_jerD_e, j4_jerD_pt, j4_jerD_phi, j4_jerD_eta;
+	float j4_jerC_e, j4_jerC_pt, j4_jerC_phi, j4_jerC_eta;
+	float j4_jerU_e, j4_jerU_pt, j4_jerU_phi, j4_jerU_eta;
+
+	float j5_jecD_e, j5_jecD_pt, j5_jecD_phi, j5_jecD_eta;
+	float j5_jecU_e, j5_jecU_pt, j5_jecU_phi, j5_jecU_eta;
+	float j5_jerD_e, j5_jerD_pt, j5_jerD_phi, j5_jerD_eta;
+	float j5_jerC_e, j5_jerC_pt, j5_jerC_phi, j5_jerC_eta;
+	float j5_jerU_e, j5_jerU_pt, j5_jerU_phi, j5_jerU_eta;
+
+	float j6_jecD_e, j6_jecD_pt, j6_jecD_phi, j6_jecD_eta;
+	float j6_jecU_e, j6_jecU_pt, j6_jecU_phi, j6_jecU_eta;
+	float j6_jerD_e, j6_jerD_pt, j6_jerD_phi, j6_jerD_eta;
+	float j6_jerC_e, j6_jerC_pt, j6_jerC_phi, j6_jerC_eta;
+	float j6_jerU_e, j6_jerU_pt, j6_jerU_phi, j6_jerU_eta;
+
+	float j7_jecD_e, j7_jecD_pt, j7_jecD_phi, j7_jecD_eta;
+	float j7_jecU_e, j7_jecU_pt, j7_jecU_phi, j7_jecU_eta;
+	float j7_jerD_e, j7_jerD_pt, j7_jerD_phi, j7_jerD_eta;
+	float j7_jerC_e, j7_jerC_pt, j7_jerC_phi, j7_jerC_eta;
+	float j7_jerU_e, j7_jerU_pt, j7_jerU_phi, j7_jerU_eta;
+
+	float j8_jecD_e, j8_jecD_pt, j8_jecD_phi, j8_jecD_eta;
+	float j8_jecU_e, j8_jecU_pt, j8_jecU_phi, j8_jecU_eta;
+	float j8_jerD_e, j8_jerD_pt, j8_jerD_phi, j8_jerD_eta;
+	float j8_jerC_e, j8_jerC_pt, j8_jerC_phi, j8_jerC_eta;
+	float j8_jerU_e, j8_jerU_pt, j8_jerU_phi, j8_jerU_eta;
+
+	float j9_jecD_e, j9_jecD_pt, j9_jecD_phi, j9_jecD_eta;
+	float j9_jecU_e, j9_jecU_pt, j9_jecU_phi, j9_jecU_eta;
+	float j9_jerD_e, j9_jerD_pt, j9_jerD_phi, j9_jerD_eta;
+	float j9_jerC_e, j9_jerC_pt, j9_jerC_phi, j9_jerC_eta;
+	float j9_jerU_e, j9_jerU_pt, j9_jerU_phi, j9_jerU_eta;
+
+	float j10_jecD_e, j10_jecD_pt, j10_jecD_phi, j10_jecD_eta;
+	float j10_jecU_e, j10_jecU_pt, j10_jecU_phi, j10_jecU_eta;
+	float j10_jerD_e, j10_jerD_pt, j10_jerD_phi, j10_jerD_eta;
+	float j10_jerC_e, j10_jerC_pt, j10_jerC_phi, j10_jerC_eta;
+	float j10_jerU_e, j10_jerU_pt, j10_jerU_phi, j10_jerU_eta;
+
+	float j11_jecD_e, j11_jecD_pt, j11_jecD_phi, j11_jecD_eta;
+	float j11_jecU_e, j11_jecU_pt, j11_jecU_phi, j11_jecU_eta;
+	float j11_jerD_e, j11_jerD_pt, j11_jerD_phi, j11_jerD_eta;
+	float j11_jerC_e, j11_jerC_pt, j11_jerC_phi, j11_jerC_eta;
+	float j11_jerU_e, j11_jerU_pt, j11_jerU_phi, j11_jerU_eta;
+
+	float j12_jecD_e, j12_jecD_pt, j12_jecD_phi, j12_jecD_eta;
+	float j12_jecU_e, j12_jecU_pt, j12_jecU_phi, j12_jecU_eta;
+	float j12_jerD_e, j12_jerD_pt, j12_jerD_phi, j12_jerD_eta;
+	float j12_jerC_e, j12_jerC_pt, j12_jerC_phi, j12_jerC_eta;
+	float j12_jerU_e, j12_jerU_pt, j12_jerU_phi, j12_jerU_eta;
+
+	float j13_jecD_e, j13_jecD_pt, j13_jecD_phi, j13_jecD_eta;
+	float j13_jecU_e, j13_jecU_pt, j13_jecU_phi, j13_jecU_eta;
+	float j13_jerD_e, j13_jerD_pt, j13_jerD_phi, j13_jerD_eta;
+	float j13_jerC_e, j13_jerC_pt, j13_jerC_phi, j13_jerC_eta;
+	float j13_jerU_e, j13_jerU_pt, j13_jerU_phi, j13_jerU_eta;
+
+	float j14_jecD_e, j14_jecD_pt, j14_jecD_phi, j14_jecD_eta;
+	float j14_jecU_e, j14_jecU_pt, j14_jecU_phi, j14_jecU_eta;
+	float j14_jerD_e, j14_jerD_pt, j14_jerD_phi, j14_jerD_eta;
+	float j14_jerC_e, j14_jerC_pt, j14_jerC_phi, j14_jerC_eta;
+	float j14_jerU_e, j14_jerU_pt, j14_jerU_phi, j14_jerU_eta;
+
+	float j15_jecD_e, j15_jecD_pt, j15_jecD_phi, j15_jecD_eta;
+	float j15_jecU_e, j15_jecU_pt, j15_jecU_phi, j15_jecU_eta;
+	float j15_jerD_e, j15_jerD_pt, j15_jerD_phi, j15_jerD_eta;
+	float j15_jerC_e, j15_jerC_pt, j15_jerC_phi, j15_jerC_eta;
+	float j15_jerU_e, j15_jerU_pt, j15_jerU_phi, j15_jerU_eta;
+
 
 // setup tree outputs
 	float vtx_z;
@@ -129,10 +226,14 @@ struct tree_variables
 	// Photon Energy Scale & Photon Energy Resolution
 	float gg_mass_pesD, gg_mass_pesU, gg_mass_perD, gg_mass_perU;
 	float ggjj_mass_pesD, ggjj_mass_pesU, ggjj_mass_perD, ggjj_mass_perU;
+	float kinggjj_mass_pesD, kinggjj_mass_pesU, kinggjj_mass_perD, kinggjj_mass_perU;
 	float regggjj_mass_pesD, regggjj_mass_pesU, regggjj_mass_perD, regggjj_mass_perU;
 	float regkinggjj_mass_pesD, regkinggjj_mass_pesU, regkinggjj_mass_perD, regkinggjj_mass_perU;
-	float kinggjj_mass_pesD, kinggjj_mass_pesU, kinggjj_mass_perD, kinggjj_mass_perU;
-
+	// Jet Energy Correction and Jet Energy Resolution
+	float jj_mass_jecD, jj_mass_jecU, jj_mass_jerD, jj_mass_jerC, jj_mass_jerU;
+	float kinjj_mass_jecD, kinjj_mass_jecU, kinjj_mass_jerD, kinjj_mass_jerC, kinjj_mass_jerU;
+	float ggjj_mass_jecD, ggjj_mass_jecU, ggjj_mass_jerD, ggjj_mass_jerC, ggjj_mass_jerU;
+	float kinggjj_mass_jecD, kinggjj_mass_jecU, kinggjj_mass_jerD, kinggjj_mass_jerC, kinggjj_mass_jerU;
 
 
 	int njets_passing_kLooseID;
@@ -693,6 +794,323 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
 	intree->SetBranchAddress("j15_axis2", &t->j15_axis2);
 	intree->SetBranchAddress("j15_pull", &t->j15_pull);
 
+	// Jet Energy Correction and Jet Energy Resolution
+	intree->SetBranchAddress("j1_jecD_e", &t->j1_jecD_e);
+	intree->SetBranchAddress("j1_jecD_pt", &t->j1_jecD_pt);
+	intree->SetBranchAddress("j1_jecD_phi", &t->j1_jecD_phi);
+	intree->SetBranchAddress("j1_jecD_eta", &t->j1_jecD_eta);
+	intree->SetBranchAddress("j1_jecU_e", &t->j1_jecU_e);
+	intree->SetBranchAddress("j1_jecU_pt", &t->j1_jecU_pt);
+	intree->SetBranchAddress("j1_jecU_phi", &t->j1_jecU_phi);
+	intree->SetBranchAddress("j1_jecU_eta", &t->j1_jecU_eta);
+	intree->SetBranchAddress("j1_jerD_e", &t->j1_jerD_e);
+	intree->SetBranchAddress("j1_jerD_pt", &t->j1_jerD_pt);
+	intree->SetBranchAddress("j1_jerD_phi", &t->j1_jerD_phi);
+	intree->SetBranchAddress("j1_jerD_eta", &t->j1_jerD_eta);
+	intree->SetBranchAddress("j1_jerC_e", &t->j1_jerC_e);
+	intree->SetBranchAddress("j1_jerC_pt", &t->j1_jerC_pt);
+	intree->SetBranchAddress("j1_jerC_phi", &t->j1_jerC_phi);
+	intree->SetBranchAddress("j1_jerC_eta", &t->j1_jerC_eta);
+	intree->SetBranchAddress("j1_jerU_e", &t->j1_jerU_e);
+	intree->SetBranchAddress("j1_jerU_pt", &t->j1_jerU_pt);
+	intree->SetBranchAddress("j1_jerU_phi", &t->j1_jerU_phi);
+	intree->SetBranchAddress("j1_jerU_eta", &t->j1_jerU_eta);
+
+	intree->SetBranchAddress("j2_jecD_e", &t->j2_jecD_e);
+	intree->SetBranchAddress("j2_jecD_pt", &t->j2_jecD_pt);
+	intree->SetBranchAddress("j2_jecD_phi", &t->j2_jecD_phi);
+	intree->SetBranchAddress("j2_jecD_eta", &t->j2_jecD_eta);
+	intree->SetBranchAddress("j2_jecU_e", &t->j2_jecU_e);
+	intree->SetBranchAddress("j2_jecU_pt", &t->j2_jecU_pt);
+	intree->SetBranchAddress("j2_jecU_phi", &t->j2_jecU_phi);
+	intree->SetBranchAddress("j2_jecU_eta", &t->j2_jecU_eta);
+	intree->SetBranchAddress("j2_jerD_e", &t->j2_jerD_e);
+	intree->SetBranchAddress("j2_jerD_pt", &t->j2_jerD_pt);
+	intree->SetBranchAddress("j2_jerD_phi", &t->j2_jerD_phi);
+	intree->SetBranchAddress("j2_jerD_eta", &t->j2_jerD_eta);
+	intree->SetBranchAddress("j2_jerC_e", &t->j2_jerC_e);
+	intree->SetBranchAddress("j2_jerC_pt", &t->j2_jerC_pt);
+	intree->SetBranchAddress("j2_jerC_phi", &t->j2_jerC_phi);
+	intree->SetBranchAddress("j2_jerC_eta", &t->j2_jerC_eta);
+	intree->SetBranchAddress("j2_jerU_e", &t->j2_jerU_e);
+	intree->SetBranchAddress("j2_jerU_pt", &t->j2_jerU_pt);
+	intree->SetBranchAddress("j2_jerU_phi", &t->j2_jerU_phi);
+	intree->SetBranchAddress("j2_jerU_eta", &t->j2_jerU_eta);
+
+	intree->SetBranchAddress("j3_jecD_e", &t->j3_jecD_e);
+	intree->SetBranchAddress("j3_jecD_pt", &t->j3_jecD_pt);
+	intree->SetBranchAddress("j3_jecD_phi", &t->j3_jecD_phi);
+	intree->SetBranchAddress("j3_jecD_eta", &t->j3_jecD_eta);
+	intree->SetBranchAddress("j3_jecU_e", &t->j3_jecU_e);
+	intree->SetBranchAddress("j3_jecU_pt", &t->j3_jecU_pt);
+	intree->SetBranchAddress("j3_jecU_phi", &t->j3_jecU_phi);
+	intree->SetBranchAddress("j3_jecU_eta", &t->j3_jecU_eta);
+	intree->SetBranchAddress("j3_jerD_e", &t->j3_jerD_e);
+	intree->SetBranchAddress("j3_jerD_pt", &t->j3_jerD_pt);
+	intree->SetBranchAddress("j3_jerD_phi", &t->j3_jerD_phi);
+	intree->SetBranchAddress("j3_jerD_eta", &t->j3_jerD_eta);
+	intree->SetBranchAddress("j3_jerC_e", &t->j3_jerC_e);
+	intree->SetBranchAddress("j3_jerC_pt", &t->j3_jerC_pt);
+	intree->SetBranchAddress("j3_jerC_phi", &t->j3_jerC_phi);
+	intree->SetBranchAddress("j3_jerC_eta", &t->j3_jerC_eta);
+	intree->SetBranchAddress("j3_jerU_e", &t->j3_jerU_e);
+	intree->SetBranchAddress("j3_jerU_pt", &t->j3_jerU_pt);
+	intree->SetBranchAddress("j3_jerU_phi", &t->j3_jerU_phi);
+	intree->SetBranchAddress("j3_jerU_eta", &t->j3_jerU_eta);
+
+	intree->SetBranchAddress("j4_jecD_e", &t->j4_jecD_e);
+	intree->SetBranchAddress("j4_jecD_pt", &t->j4_jecD_pt);
+	intree->SetBranchAddress("j4_jecD_phi", &t->j4_jecD_phi);
+	intree->SetBranchAddress("j4_jecD_eta", &t->j4_jecD_eta);
+	intree->SetBranchAddress("j4_jecU_e", &t->j4_jecU_e);
+	intree->SetBranchAddress("j4_jecU_pt", &t->j4_jecU_pt);
+	intree->SetBranchAddress("j4_jecU_phi", &t->j4_jecU_phi);
+	intree->SetBranchAddress("j4_jecU_eta", &t->j4_jecU_eta);
+	intree->SetBranchAddress("j4_jerD_e", &t->j4_jerD_e);
+	intree->SetBranchAddress("j4_jerD_pt", &t->j4_jerD_pt);
+	intree->SetBranchAddress("j4_jerD_phi", &t->j4_jerD_phi);
+	intree->SetBranchAddress("j4_jerD_eta", &t->j4_jerD_eta);
+	intree->SetBranchAddress("j4_jerC_e", &t->j4_jerC_e);
+	intree->SetBranchAddress("j4_jerC_pt", &t->j4_jerC_pt);
+	intree->SetBranchAddress("j4_jerC_phi", &t->j4_jerC_phi);
+	intree->SetBranchAddress("j4_jerC_eta", &t->j4_jerC_eta);
+	intree->SetBranchAddress("j4_jerU_e", &t->j4_jerU_e);
+	intree->SetBranchAddress("j4_jerU_pt", &t->j4_jerU_pt);
+	intree->SetBranchAddress("j4_jerU_phi", &t->j4_jerU_phi);
+	intree->SetBranchAddress("j4_jerU_eta", &t->j4_jerU_eta);
+
+	intree->SetBranchAddress("j5_jecD_e", &t->j5_jecD_e);
+	intree->SetBranchAddress("j5_jecD_pt", &t->j5_jecD_pt);
+	intree->SetBranchAddress("j5_jecD_phi", &t->j5_jecD_phi);
+	intree->SetBranchAddress("j5_jecD_eta", &t->j5_jecD_eta);
+	intree->SetBranchAddress("j5_jecU_e", &t->j5_jecU_e);
+	intree->SetBranchAddress("j5_jecU_pt", &t->j5_jecU_pt);
+	intree->SetBranchAddress("j5_jecU_phi", &t->j5_jecU_phi);
+	intree->SetBranchAddress("j5_jecU_eta", &t->j5_jecU_eta);
+	intree->SetBranchAddress("j5_jerD_e", &t->j5_jerD_e);
+	intree->SetBranchAddress("j5_jerD_pt", &t->j5_jerD_pt);
+	intree->SetBranchAddress("j5_jerD_phi", &t->j5_jerD_phi);
+	intree->SetBranchAddress("j5_jerD_eta", &t->j5_jerD_eta);
+	intree->SetBranchAddress("j5_jerC_e", &t->j5_jerC_e);
+	intree->SetBranchAddress("j5_jerC_pt", &t->j5_jerC_pt);
+	intree->SetBranchAddress("j5_jerC_phi", &t->j5_jerC_phi);
+	intree->SetBranchAddress("j5_jerC_eta", &t->j5_jerC_eta);
+	intree->SetBranchAddress("j5_jerU_e", &t->j5_jerU_e);
+	intree->SetBranchAddress("j5_jerU_pt", &t->j5_jerU_pt);
+	intree->SetBranchAddress("j5_jerU_phi", &t->j5_jerU_phi);
+	intree->SetBranchAddress("j5_jerU_eta", &t->j5_jerU_eta);
+
+	intree->SetBranchAddress("j6_jecD_e", &t->j6_jecD_e);
+	intree->SetBranchAddress("j6_jecD_pt", &t->j6_jecD_pt);
+	intree->SetBranchAddress("j6_jecD_phi", &t->j6_jecD_phi);
+	intree->SetBranchAddress("j6_jecD_eta", &t->j6_jecD_eta);
+	intree->SetBranchAddress("j6_jecU_e", &t->j6_jecU_e);
+	intree->SetBranchAddress("j6_jecU_pt", &t->j6_jecU_pt);
+	intree->SetBranchAddress("j6_jecU_phi", &t->j6_jecU_phi);
+	intree->SetBranchAddress("j6_jecU_eta", &t->j6_jecU_eta);
+	intree->SetBranchAddress("j6_jerD_e", &t->j6_jerD_e);
+	intree->SetBranchAddress("j6_jerD_pt", &t->j6_jerD_pt);
+	intree->SetBranchAddress("j6_jerD_phi", &t->j6_jerD_phi);
+	intree->SetBranchAddress("j6_jerD_eta", &t->j6_jerD_eta);
+	intree->SetBranchAddress("j6_jerC_e", &t->j6_jerC_e);
+	intree->SetBranchAddress("j6_jerC_pt", &t->j6_jerC_pt);
+	intree->SetBranchAddress("j6_jerC_phi", &t->j6_jerC_phi);
+	intree->SetBranchAddress("j6_jerC_eta", &t->j6_jerC_eta);
+	intree->SetBranchAddress("j6_jerU_e", &t->j6_jerU_e);
+	intree->SetBranchAddress("j6_jerU_pt", &t->j6_jerU_pt);
+	intree->SetBranchAddress("j6_jerU_phi", &t->j6_jerU_phi);
+	intree->SetBranchAddress("j6_jerU_eta", &t->j6_jerU_eta);
+
+	intree->SetBranchAddress("j7_jecD_e", &t->j7_jecD_e);
+	intree->SetBranchAddress("j7_jecD_pt", &t->j7_jecD_pt);
+	intree->SetBranchAddress("j7_jecD_phi", &t->j7_jecD_phi);
+	intree->SetBranchAddress("j7_jecD_eta", &t->j7_jecD_eta);
+	intree->SetBranchAddress("j7_jecU_e", &t->j7_jecU_e);
+	intree->SetBranchAddress("j7_jecU_pt", &t->j7_jecU_pt);
+	intree->SetBranchAddress("j7_jecU_phi", &t->j7_jecU_phi);
+	intree->SetBranchAddress("j7_jecU_eta", &t->j7_jecU_eta);
+	intree->SetBranchAddress("j7_jerD_e", &t->j7_jerD_e);
+	intree->SetBranchAddress("j7_jerD_pt", &t->j7_jerD_pt);
+	intree->SetBranchAddress("j7_jerD_phi", &t->j7_jerD_phi);
+	intree->SetBranchAddress("j7_jerD_eta", &t->j7_jerD_eta);
+	intree->SetBranchAddress("j7_jerC_e", &t->j7_jerC_e);
+	intree->SetBranchAddress("j7_jerC_pt", &t->j7_jerC_pt);
+	intree->SetBranchAddress("j7_jerC_phi", &t->j7_jerC_phi);
+	intree->SetBranchAddress("j7_jerC_eta", &t->j7_jerC_eta);
+	intree->SetBranchAddress("j7_jerU_e", &t->j7_jerU_e);
+	intree->SetBranchAddress("j7_jerU_pt", &t->j7_jerU_pt);
+	intree->SetBranchAddress("j7_jerU_phi", &t->j7_jerU_phi);
+	intree->SetBranchAddress("j7_jerU_eta", &t->j7_jerU_eta);
+
+	intree->SetBranchAddress("j8_jecD_e", &t->j8_jecD_e);
+	intree->SetBranchAddress("j8_jecD_pt", &t->j8_jecD_pt);
+	intree->SetBranchAddress("j8_jecD_phi", &t->j8_jecD_phi);
+	intree->SetBranchAddress("j8_jecD_eta", &t->j8_jecD_eta);
+	intree->SetBranchAddress("j8_jecU_e", &t->j8_jecU_e);
+	intree->SetBranchAddress("j8_jecU_pt", &t->j8_jecU_pt);
+	intree->SetBranchAddress("j8_jecU_phi", &t->j8_jecU_phi);
+	intree->SetBranchAddress("j8_jecU_eta", &t->j8_jecU_eta);
+	intree->SetBranchAddress("j8_jerD_e", &t->j8_jerD_e);
+	intree->SetBranchAddress("j8_jerD_pt", &t->j8_jerD_pt);
+	intree->SetBranchAddress("j8_jerD_phi", &t->j8_jerD_phi);
+	intree->SetBranchAddress("j8_jerD_eta", &t->j8_jerD_eta);
+	intree->SetBranchAddress("j8_jerC_e", &t->j8_jerC_e);
+	intree->SetBranchAddress("j8_jerC_pt", &t->j8_jerC_pt);
+	intree->SetBranchAddress("j8_jerC_phi", &t->j8_jerC_phi);
+	intree->SetBranchAddress("j8_jerC_eta", &t->j8_jerC_eta);
+	intree->SetBranchAddress("j8_jerU_e", &t->j8_jerU_e);
+	intree->SetBranchAddress("j8_jerU_pt", &t->j8_jerU_pt);
+	intree->SetBranchAddress("j8_jerU_phi", &t->j8_jerU_phi);
+	intree->SetBranchAddress("j8_jerU_eta", &t->j8_jerU_eta);
+
+	intree->SetBranchAddress("j9_jecD_e", &t->j9_jecD_e);
+	intree->SetBranchAddress("j9_jecD_pt", &t->j9_jecD_pt);
+	intree->SetBranchAddress("j9_jecD_phi", &t->j9_jecD_phi);
+	intree->SetBranchAddress("j9_jecD_eta", &t->j9_jecD_eta);
+	intree->SetBranchAddress("j9_jecU_e", &t->j9_jecU_e);
+	intree->SetBranchAddress("j9_jecU_pt", &t->j9_jecU_pt);
+	intree->SetBranchAddress("j9_jecU_phi", &t->j9_jecU_phi);
+	intree->SetBranchAddress("j9_jecU_eta", &t->j9_jecU_eta);
+	intree->SetBranchAddress("j9_jerD_e", &t->j9_jerD_e);
+	intree->SetBranchAddress("j9_jerD_pt", &t->j9_jerD_pt);
+	intree->SetBranchAddress("j9_jerD_phi", &t->j9_jerD_phi);
+	intree->SetBranchAddress("j9_jerD_eta", &t->j9_jerD_eta);
+	intree->SetBranchAddress("j9_jerC_e", &t->j9_jerC_e);
+	intree->SetBranchAddress("j9_jerC_pt", &t->j9_jerC_pt);
+	intree->SetBranchAddress("j9_jerC_phi", &t->j9_jerC_phi);
+	intree->SetBranchAddress("j9_jerC_eta", &t->j9_jerC_eta);
+	intree->SetBranchAddress("j9_jerU_e", &t->j9_jerU_e);
+	intree->SetBranchAddress("j9_jerU_pt", &t->j9_jerU_pt);
+	intree->SetBranchAddress("j9_jerU_phi", &t->j9_jerU_phi);
+	intree->SetBranchAddress("j9_jerU_eta", &t->j9_jerU_eta);
+
+	intree->SetBranchAddress("j10_jecD_e", &t->j10_jecD_e);
+	intree->SetBranchAddress("j10_jecD_pt", &t->j10_jecD_pt);
+	intree->SetBranchAddress("j10_jecD_phi", &t->j10_jecD_phi);
+	intree->SetBranchAddress("j10_jecD_eta", &t->j10_jecD_eta);
+	intree->SetBranchAddress("j10_jecU_e", &t->j10_jecU_e);
+	intree->SetBranchAddress("j10_jecU_pt", &t->j10_jecU_pt);
+	intree->SetBranchAddress("j10_jecU_phi", &t->j10_jecU_phi);
+	intree->SetBranchAddress("j10_jecU_eta", &t->j10_jecU_eta);
+	intree->SetBranchAddress("j10_jerD_e", &t->j10_jerD_e);
+	intree->SetBranchAddress("j10_jerD_pt", &t->j10_jerD_pt);
+	intree->SetBranchAddress("j10_jerD_phi", &t->j10_jerD_phi);
+	intree->SetBranchAddress("j10_jerD_eta", &t->j10_jerD_eta);
+	intree->SetBranchAddress("j10_jerC_e", &t->j10_jerC_e);
+	intree->SetBranchAddress("j10_jerC_pt", &t->j10_jerC_pt);
+	intree->SetBranchAddress("j10_jerC_phi", &t->j10_jerC_phi);
+	intree->SetBranchAddress("j10_jerC_eta", &t->j10_jerC_eta);
+	intree->SetBranchAddress("j10_jerU_e", &t->j10_jerU_e);
+	intree->SetBranchAddress("j10_jerU_pt", &t->j10_jerU_pt);
+	intree->SetBranchAddress("j10_jerU_phi", &t->j10_jerU_phi);
+	intree->SetBranchAddress("j10_jerU_eta", &t->j10_jerU_eta);
+
+	intree->SetBranchAddress("j11_jecD_e", &t->j11_jecD_e);
+	intree->SetBranchAddress("j11_jecD_pt", &t->j11_jecD_pt);
+	intree->SetBranchAddress("j11_jecD_phi", &t->j11_jecD_phi);
+	intree->SetBranchAddress("j11_jecD_eta", &t->j11_jecD_eta);
+	intree->SetBranchAddress("j11_jecU_e", &t->j11_jecU_e);
+	intree->SetBranchAddress("j11_jecU_pt", &t->j11_jecU_pt);
+	intree->SetBranchAddress("j11_jecU_phi", &t->j11_jecU_phi);
+	intree->SetBranchAddress("j11_jecU_eta", &t->j11_jecU_eta);
+	intree->SetBranchAddress("j11_jerD_e", &t->j11_jerD_e);
+	intree->SetBranchAddress("j11_jerD_pt", &t->j11_jerD_pt);
+	intree->SetBranchAddress("j11_jerD_phi", &t->j11_jerD_phi);
+	intree->SetBranchAddress("j11_jerD_eta", &t->j11_jerD_eta);
+	intree->SetBranchAddress("j11_jerC_e", &t->j11_jerC_e);
+	intree->SetBranchAddress("j11_jerC_pt", &t->j11_jerC_pt);
+	intree->SetBranchAddress("j11_jerC_phi", &t->j11_jerC_phi);
+	intree->SetBranchAddress("j11_jerC_eta", &t->j11_jerC_eta);
+	intree->SetBranchAddress("j11_jerU_e", &t->j11_jerU_e);
+	intree->SetBranchAddress("j11_jerU_pt", &t->j11_jerU_pt);
+	intree->SetBranchAddress("j11_jerU_phi", &t->j11_jerU_phi);
+	intree->SetBranchAddress("j11_jerU_eta", &t->j11_jerU_eta);
+
+	intree->SetBranchAddress("j12_jecD_e", &t->j12_jecD_e);
+	intree->SetBranchAddress("j12_jecD_pt", &t->j12_jecD_pt);
+	intree->SetBranchAddress("j12_jecD_phi", &t->j12_jecD_phi);
+	intree->SetBranchAddress("j12_jecD_eta", &t->j12_jecD_eta);
+	intree->SetBranchAddress("j12_jecU_e", &t->j12_jecU_e);
+	intree->SetBranchAddress("j12_jecU_pt", &t->j12_jecU_pt);
+	intree->SetBranchAddress("j12_jecU_phi", &t->j12_jecU_phi);
+	intree->SetBranchAddress("j12_jecU_eta", &t->j12_jecU_eta);
+	intree->SetBranchAddress("j12_jerD_e", &t->j12_jerD_e);
+	intree->SetBranchAddress("j12_jerD_pt", &t->j12_jerD_pt);
+	intree->SetBranchAddress("j12_jerD_phi", &t->j12_jerD_phi);
+	intree->SetBranchAddress("j12_jerD_eta", &t->j12_jerD_eta);
+	intree->SetBranchAddress("j12_jerC_e", &t->j12_jerC_e);
+	intree->SetBranchAddress("j12_jerC_pt", &t->j12_jerC_pt);
+	intree->SetBranchAddress("j12_jerC_phi", &t->j12_jerC_phi);
+	intree->SetBranchAddress("j12_jerC_eta", &t->j12_jerC_eta);
+	intree->SetBranchAddress("j12_jerU_e", &t->j12_jerU_e);
+	intree->SetBranchAddress("j12_jerU_pt", &t->j12_jerU_pt);
+	intree->SetBranchAddress("j12_jerU_phi", &t->j12_jerU_phi);
+	intree->SetBranchAddress("j12_jerU_eta", &t->j12_jerU_eta);
+
+	intree->SetBranchAddress("j13_jecD_e", &t->j13_jecD_e);
+	intree->SetBranchAddress("j13_jecD_pt", &t->j13_jecD_pt);
+	intree->SetBranchAddress("j13_jecD_phi", &t->j13_jecD_phi);
+	intree->SetBranchAddress("j13_jecD_eta", &t->j13_jecD_eta);
+	intree->SetBranchAddress("j13_jecU_e", &t->j13_jecU_e);
+	intree->SetBranchAddress("j13_jecU_pt", &t->j13_jecU_pt);
+	intree->SetBranchAddress("j13_jecU_phi", &t->j13_jecU_phi);
+	intree->SetBranchAddress("j13_jecU_eta", &t->j13_jecU_eta);
+	intree->SetBranchAddress("j13_jerD_e", &t->j13_jerD_e);
+	intree->SetBranchAddress("j13_jerD_pt", &t->j13_jerD_pt);
+	intree->SetBranchAddress("j13_jerD_phi", &t->j13_jerD_phi);
+	intree->SetBranchAddress("j13_jerD_eta", &t->j13_jerD_eta);
+	intree->SetBranchAddress("j13_jerC_e", &t->j13_jerC_e);
+	intree->SetBranchAddress("j13_jerC_pt", &t->j13_jerC_pt);
+	intree->SetBranchAddress("j13_jerC_phi", &t->j13_jerC_phi);
+	intree->SetBranchAddress("j13_jerC_eta", &t->j13_jerC_eta);
+	intree->SetBranchAddress("j13_jerU_e", &t->j13_jerU_e);
+	intree->SetBranchAddress("j13_jerU_pt", &t->j13_jerU_pt);
+	intree->SetBranchAddress("j13_jerU_phi", &t->j13_jerU_phi);
+	intree->SetBranchAddress("j13_jerU_eta", &t->j13_jerU_eta);
+
+	intree->SetBranchAddress("j14_jecD_e", &t->j14_jecD_e);
+	intree->SetBranchAddress("j14_jecD_pt", &t->j14_jecD_pt);
+	intree->SetBranchAddress("j14_jecD_phi", &t->j14_jecD_phi);
+	intree->SetBranchAddress("j14_jecD_eta", &t->j14_jecD_eta);
+	intree->SetBranchAddress("j14_jecU_e", &t->j14_jecU_e);
+	intree->SetBranchAddress("j14_jecU_pt", &t->j14_jecU_pt);
+	intree->SetBranchAddress("j14_jecU_phi", &t->j14_jecU_phi);
+	intree->SetBranchAddress("j14_jecU_eta", &t->j14_jecU_eta);
+	intree->SetBranchAddress("j14_jerD_e", &t->j14_jerD_e);
+	intree->SetBranchAddress("j14_jerD_pt", &t->j14_jerD_pt);
+	intree->SetBranchAddress("j14_jerD_phi", &t->j14_jerD_phi);
+	intree->SetBranchAddress("j14_jerD_eta", &t->j14_jerD_eta);
+	intree->SetBranchAddress("j14_jerC_e", &t->j14_jerC_e);
+	intree->SetBranchAddress("j14_jerC_pt", &t->j14_jerC_pt);
+	intree->SetBranchAddress("j14_jerC_phi", &t->j14_jerC_phi);
+	intree->SetBranchAddress("j14_jerC_eta", &t->j14_jerC_eta);
+	intree->SetBranchAddress("j14_jerU_e", &t->j14_jerU_e);
+	intree->SetBranchAddress("j14_jerU_pt", &t->j14_jerU_pt);
+	intree->SetBranchAddress("j14_jerU_phi", &t->j14_jerU_phi);
+	intree->SetBranchAddress("j14_jerU_eta", &t->j14_jerU_eta);
+
+	intree->SetBranchAddress("j15_jecD_e", &t->j15_jecD_e);
+	intree->SetBranchAddress("j15_jecD_pt", &t->j15_jecD_pt);
+	intree->SetBranchAddress("j15_jecD_phi", &t->j15_jecD_phi);
+	intree->SetBranchAddress("j15_jecD_eta", &t->j15_jecD_eta);
+	intree->SetBranchAddress("j15_jecU_e", &t->j15_jecU_e);
+	intree->SetBranchAddress("j15_jecU_pt", &t->j15_jecU_pt);
+	intree->SetBranchAddress("j15_jecU_phi", &t->j15_jecU_phi);
+	intree->SetBranchAddress("j15_jecU_eta", &t->j15_jecU_eta);
+	intree->SetBranchAddress("j15_jerD_e", &t->j15_jerD_e);
+	intree->SetBranchAddress("j15_jerD_pt", &t->j15_jerD_pt);
+	intree->SetBranchAddress("j15_jerD_phi", &t->j15_jerD_phi);
+	intree->SetBranchAddress("j15_jerD_eta", &t->j15_jerD_eta);
+	intree->SetBranchAddress("j15_jerC_e", &t->j15_jerC_e);
+	intree->SetBranchAddress("j15_jerC_pt", &t->j15_jerC_pt);
+	intree->SetBranchAddress("j15_jerC_phi", &t->j15_jerC_phi);
+	intree->SetBranchAddress("j15_jerC_eta", &t->j15_jerC_eta);
+	intree->SetBranchAddress("j15_jerU_e", &t->j15_jerU_e);
+	intree->SetBranchAddress("j15_jerU_pt", &t->j15_jerU_pt);
+	intree->SetBranchAddress("j15_jerU_phi", &t->j15_jerU_phi);
+	intree->SetBranchAddress("j15_jerU_eta", &t->j15_jerU_eta);
+
+
 	return;
 }
 
@@ -994,10 +1412,6 @@ void setup_outtree(TTree* outtree, tree_variables *t)
 	outtree->Branch("gg_mass_pesU", &t->gg_mass_pesU, "gg_mass_pesU/F");
 	outtree->Branch("gg_mass_perD", &t->gg_mass_perD, "gg_mass_perD/F");
 	outtree->Branch("gg_mass_perU", &t->gg_mass_perU, "gg_mass_perU/F");
-	outtree->Branch("ggjj_mass_pesD", &t->ggjj_mass_pesD, "ggjj_mass_pesD/F");
-	outtree->Branch("ggjj_mass_pesU", &t->ggjj_mass_pesU, "ggjj_mass_pesU/F");
-	outtree->Branch("ggjj_mass_perD", &t->ggjj_mass_perD, "ggjj_mass_perD/F");
-	outtree->Branch("ggjj_mass_perU", &t->ggjj_mass_perU, "ggjj_mass_perU/F");
 	outtree->Branch("regggjj_mass_pesD", &t->regggjj_mass_pesD, "regggjj_mass_pesD/F");
 	outtree->Branch("regggjj_mass_pesU", &t->regggjj_mass_pesU, "regggjj_mass_pesU/F");
 	outtree->Branch("regggjj_mass_perD", &t->regggjj_mass_perD, "regggjj_mass_perD/F");
@@ -1006,10 +1420,35 @@ void setup_outtree(TTree* outtree, tree_variables *t)
 	outtree->Branch("regkinggjj_mass_pesU", &t->regkinggjj_mass_pesU, "regkinggjj_mass_pesU/F");
 	outtree->Branch("regkinggjj_mass_perD", &t->regkinggjj_mass_perD, "regkinggjj_mass_perD/F");
 	outtree->Branch("regkinggjj_mass_perU", &t->regkinggjj_mass_perU, "regkinggjj_mass_perU/F");
+	outtree->Branch("ggjj_mass_pesD", &t->ggjj_mass_pesD, "ggjj_mass_pesD/F");
+	outtree->Branch("ggjj_mass_pesU", &t->ggjj_mass_pesU, "ggjj_mass_pesU/F");
+	outtree->Branch("ggjj_mass_perD", &t->ggjj_mass_perD, "ggjj_mass_perD/F");
+	outtree->Branch("ggjj_mass_perU", &t->ggjj_mass_perU, "ggjj_mass_perU/F");
 	outtree->Branch("kinggjj_mass_pesD", &t->kinggjj_mass_pesD, "kinggjj_mass_pesD/F");
 	outtree->Branch("kinggjj_mass_pesU", &t->kinggjj_mass_pesU, "kinggjj_mass_pesU/F");
 	outtree->Branch("kinggjj_mass_perD", &t->kinggjj_mass_perD, "kinggjj_mass_perD/F");
 	outtree->Branch("kinggjj_mass_perU", &t->kinggjj_mass_perU, "kinggjj_mass_perU/F");
+	// Jet Energy Correction and Jet Energy Resolution
+	outtree->Branch("jj_mass_jecD", &t->jj_mass_jecD, "jj_mass_jecD/F");
+	outtree->Branch("jj_mass_jecU", &t->jj_mass_jecU, "jj_mass_jecU/F");
+	outtree->Branch("jj_mass_jerD", &t->jj_mass_jerD, "jj_mass_jerD/F");
+	outtree->Branch("jj_mass_jerC", &t->jj_mass_jerC, "jj_mass_jerC/F");
+	outtree->Branch("jj_mass_jerU", &t->jj_mass_jerU, "jj_mass_jerU/F");
+	outtree->Branch("kinjj_mass_jecD", &t->kinjj_mass_jecD, "kinjj_mass_jecD/F");
+	outtree->Branch("kinjj_mass_jecU", &t->kinjj_mass_jecU, "kinjj_mass_jecU/F");
+	outtree->Branch("kinjj_mass_jerD", &t->kinjj_mass_jerD, "kinjj_mass_jerD/F");
+	outtree->Branch("kinjj_mass_jerC", &t->kinjj_mass_jerC, "kinjj_mass_jerC/F");
+	outtree->Branch("kinjj_mass_jerU", &t->kinjj_mass_jerU, "kinjj_mass_jerU/F");
+	outtree->Branch("ggjj_mass_jecD", &t->ggjj_mass_jecD, "ggjj_mass_jecD/F");
+	outtree->Branch("ggjj_mass_jecU", &t->ggjj_mass_jecU, "ggjj_mass_jecU/F");
+	outtree->Branch("ggjj_mass_jerD", &t->ggjj_mass_jerD, "ggjj_mass_jerD/F");
+	outtree->Branch("ggjj_mass_jerC", &t->ggjj_mass_jerC, "ggjj_mass_jerC/F");
+	outtree->Branch("ggjj_mass_jerU", &t->ggjj_mass_jerU, "ggjj_mass_jerU/F");
+	outtree->Branch("kinggjj_mass_jecD", &t->kinggjj_mass_jecD, "kinggjj_mass_jecD/F");
+	outtree->Branch("kinggjj_mass_jecU", &t->kinggjj_mass_jecU, "kinggjj_mass_jecU/F");
+	outtree->Branch("kinggjj_mass_jerD", &t->kinggjj_mass_jerD, "kinggjj_mass_jerD/F");
+	outtree->Branch("kinggjj_mass_jerC", &t->kinggjj_mass_jerC, "kinggjj_mass_jerC/F");
+	outtree->Branch("kinggjj_mass_jerU", &t->kinggjj_mass_jerU, "kinggjj_mass_jerU/F");
 	
 	return;
 }
@@ -1038,6 +1477,12 @@ struct jet_variables
 		std::vector<float> jetSecVtx3dL;
 		std::vector<float> jetDPhiMet;
 		std::vector<int> jetNConstituents;
+// Jet Energy Correction and Jet Energy Resolution
+		std::vector<float> jetJecD_e, jetJecD_pt, jetJecD_phi, jetJecD_eta;
+		std::vector<float> jetJecU_e, jetJecU_pt, jetJecU_phi, jetJecU_eta;
+		std::vector<float> jetJerD_e, jetJerD_pt, jetJerD_phi, jetJerD_eta;
+		std::vector<float> jetJerC_e, jetJerC_pt, jetJerC_phi, jetJerC_eta;
+		std::vector<float> jetJerU_e, jetJerU_pt, jetJerU_phi, jetJerU_eta;
 };
 
 
@@ -1065,6 +1510,12 @@ void initialize_jet_variables( jet_variables * J )
 		J->jetSecVtx3dL.clear();
 		J->jetDPhiMet.clear();
 		J->jetNConstituents.clear();
+// Jet Energy Correction and Jet Energy Resolution
+		J->jetJecD_e.clear(); J->jetJecD_pt.clear(); J->jetJecD_phi.clear(); J->jetJecD_eta.clear();
+		J->jetJecU_e.clear(); J->jetJecU_pt.clear(); J->jetJecU_phi.clear(); J->jetJecU_eta.clear();
+		J->jetJerD_e.clear(); J->jetJerD_pt.clear(); J->jetJerD_phi.clear(); J->jetJerD_eta.clear();
+		J->jetJerC_e.clear(); J->jetJerC_pt.clear(); J->jetJerC_phi.clear(); J->jetJerC_eta.clear();
+		J->jetJerU_e.clear(); J->jetJerU_pt.clear(); J->jetJerU_phi.clear(); J->jetJerU_eta.clear();
 
 	return ;
 }
@@ -1099,6 +1550,26 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met)
 				t->jet_nConstituents = t->jet_nNeutrals + t->jet_nCharged;
 				jet.SetPtEtaPhiE(t->j1_pt, t->j1_eta, t->j1_phi, t->j1_e);
 				t->jet_dPhiMet = jet.DeltaPhi(met);
+				t->jet_jecD_e = t->j1_jecD_e;
+				t->jet_jecD_pt = t->j1_jecD_pt;
+				t->jet_jecD_phi = t->j1_jecD_phi;
+				t->jet_jecD_eta = t->j1_jecD_eta;
+				t->jet_jecU_e = t->j1_jecU_e;
+				t->jet_jecU_pt = t->j1_jecU_pt;
+				t->jet_jecU_phi = t->j1_jecU_phi;
+				t->jet_jecU_eta = t->j1_jecU_eta;
+				t->jet_jerD_e = t->j1_jerD_e;
+				t->jet_jerD_pt = t->j1_jerD_pt;
+				t->jet_jerD_phi = t->j1_jerD_phi;
+				t->jet_jerD_eta = t->j1_jerD_eta;
+				t->jet_jerC_e = t->j1_jerC_e;
+				t->jet_jerC_pt = t->j1_jerC_pt;
+				t->jet_jerC_phi = t->j1_jerC_phi;
+				t->jet_jerC_eta = t->j1_jerC_eta;
+				t->jet_jerU_e = t->j1_jerU_e;
+				t->jet_jerU_pt = t->j1_jerU_pt;
+				t->jet_jerU_phi = t->j1_jerU_phi;
+				t->jet_jerU_eta = t->j1_jerU_eta;
 			} 
 			else
 			if( ijet == 1 )
@@ -1127,6 +1598,26 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met)
 				t->jet_nConstituents = t->jet_nNeutrals + t->jet_nCharged;
 				jet.SetPtEtaPhiE(t->j2_pt, t->j2_eta, t->j2_phi, t->j2_e);
 				t->jet_dPhiMet = jet.DeltaPhi(met);
+				t->jet_jecD_e = t->j2_jecD_e;
+				t->jet_jecD_pt = t->j2_jecD_pt;
+				t->jet_jecD_phi = t->j2_jecD_phi;
+				t->jet_jecD_eta = t->j2_jecD_eta;
+				t->jet_jecU_e = t->j2_jecU_e;
+				t->jet_jecU_pt = t->j2_jecU_pt;
+				t->jet_jecU_phi = t->j2_jecU_phi;
+				t->jet_jecU_eta = t->j2_jecU_eta;
+				t->jet_jerD_e = t->j2_jerD_e;
+				t->jet_jerD_pt = t->j2_jerD_pt;
+				t->jet_jerD_phi = t->j2_jerD_phi;
+				t->jet_jerD_eta = t->j2_jerD_eta;
+				t->jet_jerC_e = t->j2_jerC_e;
+				t->jet_jerC_pt = t->j2_jerC_pt;
+				t->jet_jerC_phi = t->j2_jerC_phi;
+				t->jet_jerC_eta = t->j2_jerC_eta;
+				t->jet_jerU_e = t->j2_jerU_e;
+				t->jet_jerU_pt = t->j2_jerU_pt;
+				t->jet_jerU_phi = t->j2_jerU_phi;
+				t->jet_jerU_eta = t->j2_jerU_eta;
 			} 
 			else
 			if( ijet == 2 )
@@ -1155,6 +1646,26 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met)
 				t->jet_nConstituents = t->jet_nNeutrals + t->jet_nCharged;
 				jet.SetPtEtaPhiE(t->j3_pt, t->j3_eta, t->j3_phi, t->j3_e);
 				t->jet_dPhiMet = jet.DeltaPhi(met);
+				t->jet_jecD_e = t->j3_jecD_e;
+				t->jet_jecD_pt = t->j3_jecD_pt;
+				t->jet_jecD_phi = t->j3_jecD_phi;
+				t->jet_jecD_eta = t->j3_jecD_eta;
+				t->jet_jecU_e = t->j3_jecU_e;
+				t->jet_jecU_pt = t->j3_jecU_pt;
+				t->jet_jecU_phi = t->j3_jecU_phi;
+				t->jet_jecU_eta = t->j3_jecU_eta;
+				t->jet_jerD_e = t->j3_jerD_e;
+				t->jet_jerD_pt = t->j3_jerD_pt;
+				t->jet_jerD_phi = t->j3_jerD_phi;
+				t->jet_jerD_eta = t->j3_jerD_eta;
+				t->jet_jerC_e = t->j3_jerC_e;
+				t->jet_jerC_pt = t->j3_jerC_pt;
+				t->jet_jerC_phi = t->j3_jerC_phi;
+				t->jet_jerC_eta = t->j3_jerC_eta;
+				t->jet_jerU_e = t->j3_jerU_e;
+				t->jet_jerU_pt = t->j3_jerU_pt;
+				t->jet_jerU_phi = t->j3_jerU_phi;
+				t->jet_jerU_eta = t->j3_jerU_eta;
 			} 
 			else
 			if( ijet == 3 )
@@ -1183,6 +1694,26 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met)
 				t->jet_nConstituents = t->jet_nNeutrals + t->jet_nCharged;
 				jet.SetPtEtaPhiE(t->j4_pt, t->j4_eta, t->j4_phi, t->j4_e);
 				t->jet_dPhiMet = jet.DeltaPhi(met);
+				t->jet_jecD_e = t->j4_jecD_e;
+				t->jet_jecD_pt = t->j4_jecD_pt;
+				t->jet_jecD_phi = t->j4_jecD_phi;
+				t->jet_jecD_eta = t->j4_jecD_eta;
+				t->jet_jecU_e = t->j4_jecU_e;
+				t->jet_jecU_pt = t->j4_jecU_pt;
+				t->jet_jecU_phi = t->j4_jecU_phi;
+				t->jet_jecU_eta = t->j4_jecU_eta;
+				t->jet_jerD_e = t->j4_jerD_e;
+				t->jet_jerD_pt = t->j4_jerD_pt;
+				t->jet_jerD_phi = t->j4_jerD_phi;
+				t->jet_jerD_eta = t->j4_jerD_eta;
+				t->jet_jerC_e = t->j4_jerC_e;
+				t->jet_jerC_pt = t->j4_jerC_pt;
+				t->jet_jerC_phi = t->j4_jerC_phi;
+				t->jet_jerC_eta = t->j4_jerC_eta;
+				t->jet_jerU_e = t->j4_jerU_e;
+				t->jet_jerU_pt = t->j4_jerU_pt;
+				t->jet_jerU_phi = t->j4_jerU_phi;
+				t->jet_jerU_eta = t->j4_jerU_eta;
 			} 
 			else
 			if( ijet == 4 )
@@ -1211,6 +1742,26 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met)
 				t->jet_nConstituents = t->jet_nNeutrals + t->jet_nCharged;
 				jet.SetPtEtaPhiE(t->j5_pt, t->j5_eta, t->j5_phi, t->j5_e);
 				t->jet_dPhiMet = jet.DeltaPhi(met);
+				t->jet_jecD_e = t->j5_jecD_e;
+				t->jet_jecD_pt = t->j5_jecD_pt;
+				t->jet_jecD_phi = t->j5_jecD_phi;
+				t->jet_jecD_eta = t->j5_jecD_eta;
+				t->jet_jecU_e = t->j5_jecU_e;
+				t->jet_jecU_pt = t->j5_jecU_pt;
+				t->jet_jecU_phi = t->j5_jecU_phi;
+				t->jet_jecU_eta = t->j5_jecU_eta;
+				t->jet_jerD_e = t->j5_jerD_e;
+				t->jet_jerD_pt = t->j5_jerD_pt;
+				t->jet_jerD_phi = t->j5_jerD_phi;
+				t->jet_jerD_eta = t->j5_jerD_eta;
+				t->jet_jerC_e = t->j5_jerC_e;
+				t->jet_jerC_pt = t->j5_jerC_pt;
+				t->jet_jerC_phi = t->j5_jerC_phi;
+				t->jet_jerC_eta = t->j5_jerC_eta;
+				t->jet_jerU_e = t->j5_jerU_e;
+				t->jet_jerU_pt = t->j5_jerU_pt;
+				t->jet_jerU_phi = t->j5_jerU_phi;
+				t->jet_jerU_eta = t->j5_jerU_eta;
 			} 
 			else
 			if( ijet == 5 )
@@ -1239,6 +1790,26 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met)
 				t->jet_nConstituents = t->jet_nNeutrals + t->jet_nCharged;
 				jet.SetPtEtaPhiE(t->j6_pt, t->j6_eta, t->j6_phi, t->j6_e);
 				t->jet_dPhiMet = jet.DeltaPhi(met);
+				t->jet_jecD_e = t->j6_jecD_e;
+				t->jet_jecD_pt = t->j6_jecD_pt;
+				t->jet_jecD_phi = t->j6_jecD_phi;
+				t->jet_jecD_eta = t->j6_jecD_eta;
+				t->jet_jecU_e = t->j6_jecU_e;
+				t->jet_jecU_pt = t->j6_jecU_pt;
+				t->jet_jecU_phi = t->j6_jecU_phi;
+				t->jet_jecU_eta = t->j6_jecU_eta;
+				t->jet_jerD_e = t->j6_jerD_e;
+				t->jet_jerD_pt = t->j6_jerD_pt;
+				t->jet_jerD_phi = t->j6_jerD_phi;
+				t->jet_jerD_eta = t->j6_jerD_eta;
+				t->jet_jerC_e = t->j6_jerC_e;
+				t->jet_jerC_pt = t->j6_jerC_pt;
+				t->jet_jerC_phi = t->j6_jerC_phi;
+				t->jet_jerC_eta = t->j6_jerC_eta;
+				t->jet_jerU_e = t->j6_jerU_e;
+				t->jet_jerU_pt = t->j6_jerU_pt;
+				t->jet_jerU_phi = t->j6_jerU_phi;
+				t->jet_jerU_eta = t->j6_jerU_eta;
 			} 
 			else
 			if( ijet == 6 )
@@ -1267,6 +1838,26 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met)
 				t->jet_nConstituents = t->jet_nNeutrals + t->jet_nCharged;
 				jet.SetPtEtaPhiE(t->j7_pt, t->j7_eta, t->j7_phi, t->j7_e);
 				t->jet_dPhiMet = jet.DeltaPhi(met);
+				t->jet_jecD_e = t->j7_jecD_e;
+				t->jet_jecD_pt = t->j7_jecD_pt;
+				t->jet_jecD_phi = t->j7_jecD_phi;
+				t->jet_jecD_eta = t->j7_jecD_eta;
+				t->jet_jecU_e = t->j7_jecU_e;
+				t->jet_jecU_pt = t->j7_jecU_pt;
+				t->jet_jecU_phi = t->j7_jecU_phi;
+				t->jet_jecU_eta = t->j7_jecU_eta;
+				t->jet_jerD_e = t->j7_jerD_e;
+				t->jet_jerD_pt = t->j7_jerD_pt;
+				t->jet_jerD_phi = t->j7_jerD_phi;
+				t->jet_jerD_eta = t->j7_jerD_eta;
+				t->jet_jerC_e = t->j7_jerC_e;
+				t->jet_jerC_pt = t->j7_jerC_pt;
+				t->jet_jerC_phi = t->j7_jerC_phi;
+				t->jet_jerC_eta = t->j7_jerC_eta;
+				t->jet_jerU_e = t->j7_jerU_e;
+				t->jet_jerU_pt = t->j7_jerU_pt;
+				t->jet_jerU_phi = t->j7_jerU_phi;
+				t->jet_jerU_eta = t->j7_jerU_eta;
 			} 
 			else
 			if( ijet == 7 )
@@ -1295,6 +1886,26 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met)
 				t->jet_nConstituents = t->jet_nNeutrals + t->jet_nCharged;
 				jet.SetPtEtaPhiE(t->j8_pt, t->j8_eta, t->j8_phi, t->j8_e);
 				t->jet_dPhiMet = jet.DeltaPhi(met);
+				t->jet_jecD_e = t->j8_jecD_e;
+				t->jet_jecD_pt = t->j8_jecD_pt;
+				t->jet_jecD_phi = t->j8_jecD_phi;
+				t->jet_jecD_eta = t->j8_jecD_eta;
+				t->jet_jecU_e = t->j8_jecU_e;
+				t->jet_jecU_pt = t->j8_jecU_pt;
+				t->jet_jecU_phi = t->j8_jecU_phi;
+				t->jet_jecU_eta = t->j8_jecU_eta;
+				t->jet_jerD_e = t->j8_jerD_e;
+				t->jet_jerD_pt = t->j8_jerD_pt;
+				t->jet_jerD_phi = t->j8_jerD_phi;
+				t->jet_jerD_eta = t->j8_jerD_eta;
+				t->jet_jerC_e = t->j8_jerC_e;
+				t->jet_jerC_pt = t->j8_jerC_pt;
+				t->jet_jerC_phi = t->j8_jerC_phi;
+				t->jet_jerC_eta = t->j8_jerC_eta;
+				t->jet_jerU_e = t->j8_jerU_e;
+				t->jet_jerU_pt = t->j8_jerU_pt;
+				t->jet_jerU_phi = t->j8_jerU_phi;
+				t->jet_jerU_eta = t->j8_jerU_eta;
 			} 
 			else
 			if( ijet == 8 )
@@ -1323,6 +1934,26 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met)
 				t->jet_nConstituents = t->jet_nNeutrals + t->jet_nCharged;
 				jet.SetPtEtaPhiE(t->j9_pt, t->j9_eta, t->j9_phi, t->j9_e);
 				t->jet_dPhiMet = jet.DeltaPhi(met);
+				t->jet_jecD_e = t->j9_jecD_e;
+				t->jet_jecD_pt = t->j9_jecD_pt;
+				t->jet_jecD_phi = t->j9_jecD_phi;
+				t->jet_jecD_eta = t->j9_jecD_eta;
+				t->jet_jecU_e = t->j9_jecU_e;
+				t->jet_jecU_pt = t->j9_jecU_pt;
+				t->jet_jecU_phi = t->j9_jecU_phi;
+				t->jet_jecU_eta = t->j9_jecU_eta;
+				t->jet_jerD_e = t->j9_jerD_e;
+				t->jet_jerD_pt = t->j9_jerD_pt;
+				t->jet_jerD_phi = t->j9_jerD_phi;
+				t->jet_jerD_eta = t->j9_jerD_eta;
+				t->jet_jerC_e = t->j9_jerC_e;
+				t->jet_jerC_pt = t->j9_jerC_pt;
+				t->jet_jerC_phi = t->j9_jerC_phi;
+				t->jet_jerC_eta = t->j9_jerC_eta;
+				t->jet_jerU_e = t->j9_jerU_e;
+				t->jet_jerU_pt = t->j9_jerU_pt;
+				t->jet_jerU_phi = t->j9_jerU_phi;
+				t->jet_jerU_eta = t->j9_jerU_eta;
 			} 
 			else
 			if( ijet == 9 )
@@ -1351,6 +1982,26 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met)
 				t->jet_nConstituents = t->jet_nNeutrals + t->jet_nCharged;
 				jet.SetPtEtaPhiE(t->j10_pt, t->j10_eta, t->j10_phi, t->j10_e);
 				t->jet_dPhiMet = jet.DeltaPhi(met);
+				t->jet_jecD_e = t->j10_jecD_e;
+				t->jet_jecD_pt = t->j10_jecD_pt;
+				t->jet_jecD_phi = t->j10_jecD_phi;
+				t->jet_jecD_eta = t->j10_jecD_eta;
+				t->jet_jecU_e = t->j10_jecU_e;
+				t->jet_jecU_pt = t->j10_jecU_pt;
+				t->jet_jecU_phi = t->j10_jecU_phi;
+				t->jet_jecU_eta = t->j10_jecU_eta;
+				t->jet_jerD_e = t->j10_jerD_e;
+				t->jet_jerD_pt = t->j10_jerD_pt;
+				t->jet_jerD_phi = t->j10_jerD_phi;
+				t->jet_jerD_eta = t->j10_jerD_eta;
+				t->jet_jerC_e = t->j10_jerC_e;
+				t->jet_jerC_pt = t->j10_jerC_pt;
+				t->jet_jerC_phi = t->j10_jerC_phi;
+				t->jet_jerC_eta = t->j10_jerC_eta;
+				t->jet_jerU_e = t->j10_jerU_e;
+				t->jet_jerU_pt = t->j10_jerU_pt;
+				t->jet_jerU_phi = t->j10_jerU_phi;
+				t->jet_jerU_eta = t->j10_jerU_eta;
 			} 
 			else
 			if( ijet == 10 )
@@ -1379,6 +2030,26 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met)
 				t->jet_nConstituents = t->jet_nNeutrals + t->jet_nCharged;
 				jet.SetPtEtaPhiE(t->j11_pt, t->j11_eta, t->j11_phi, t->j11_e);
 				t->jet_dPhiMet = jet.DeltaPhi(met);
+				t->jet_jecD_e = t->j11_jecD_e;
+				t->jet_jecD_pt = t->j11_jecD_pt;
+				t->jet_jecD_phi = t->j11_jecD_phi;
+				t->jet_jecD_eta = t->j11_jecD_eta;
+				t->jet_jecU_e = t->j11_jecU_e;
+				t->jet_jecU_pt = t->j11_jecU_pt;
+				t->jet_jecU_phi = t->j11_jecU_phi;
+				t->jet_jecU_eta = t->j11_jecU_eta;
+				t->jet_jerD_e = t->j11_jerD_e;
+				t->jet_jerD_pt = t->j11_jerD_pt;
+				t->jet_jerD_phi = t->j11_jerD_phi;
+				t->jet_jerD_eta = t->j11_jerD_eta;
+				t->jet_jerC_e = t->j11_jerC_e;
+				t->jet_jerC_pt = t->j11_jerC_pt;
+				t->jet_jerC_phi = t->j11_jerC_phi;
+				t->jet_jerC_eta = t->j11_jerC_eta;
+				t->jet_jerU_e = t->j11_jerU_e;
+				t->jet_jerU_pt = t->j11_jerU_pt;
+				t->jet_jerU_phi = t->j11_jerU_phi;
+				t->jet_jerU_eta = t->j11_jerU_eta;
 			} 
 			else
 			if( ijet == 11 )
@@ -1407,6 +2078,26 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met)
 				t->jet_nConstituents = t->jet_nNeutrals + t->jet_nCharged;
 				jet.SetPtEtaPhiE(t->j12_pt, t->j12_eta, t->j12_phi, t->j12_e);
 				t->jet_dPhiMet = jet.DeltaPhi(met);
+				t->jet_jecD_e = t->j12_jecD_e;
+				t->jet_jecD_pt = t->j12_jecD_pt;
+				t->jet_jecD_phi = t->j12_jecD_phi;
+				t->jet_jecD_eta = t->j12_jecD_eta;
+				t->jet_jecU_e = t->j12_jecU_e;
+				t->jet_jecU_pt = t->j12_jecU_pt;
+				t->jet_jecU_phi = t->j12_jecU_phi;
+				t->jet_jecU_eta = t->j12_jecU_eta;
+				t->jet_jerD_e = t->j12_jerD_e;
+				t->jet_jerD_pt = t->j12_jerD_pt;
+				t->jet_jerD_phi = t->j12_jerD_phi;
+				t->jet_jerD_eta = t->j12_jerD_eta;
+				t->jet_jerC_e = t->j12_jerC_e;
+				t->jet_jerC_pt = t->j12_jerC_pt;
+				t->jet_jerC_phi = t->j12_jerC_phi;
+				t->jet_jerC_eta = t->j12_jerC_eta;
+				t->jet_jerU_e = t->j12_jerU_e;
+				t->jet_jerU_pt = t->j12_jerU_pt;
+				t->jet_jerU_phi = t->j12_jerU_phi;
+				t->jet_jerU_eta = t->j12_jerU_eta;
 			} 
 			else
 			if( ijet == 12 )
@@ -1435,6 +2126,26 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met)
 				t->jet_nConstituents = t->jet_nNeutrals + t->jet_nCharged;
 				jet.SetPtEtaPhiE(t->j13_pt, t->j13_eta, t->j13_phi, t->j13_e);
 				t->jet_dPhiMet = jet.DeltaPhi(met);
+				t->jet_jecD_e = t->j13_jecD_e;
+				t->jet_jecD_pt = t->j13_jecD_pt;
+				t->jet_jecD_phi = t->j13_jecD_phi;
+				t->jet_jecD_eta = t->j13_jecD_eta;
+				t->jet_jecU_e = t->j13_jecU_e;
+				t->jet_jecU_pt = t->j13_jecU_pt;
+				t->jet_jecU_phi = t->j13_jecU_phi;
+				t->jet_jecU_eta = t->j13_jecU_eta;
+				t->jet_jerD_e = t->j13_jerD_e;
+				t->jet_jerD_pt = t->j13_jerD_pt;
+				t->jet_jerD_phi = t->j13_jerD_phi;
+				t->jet_jerD_eta = t->j13_jerD_eta;
+				t->jet_jerC_e = t->j13_jerC_e;
+				t->jet_jerC_pt = t->j13_jerC_pt;
+				t->jet_jerC_phi = t->j13_jerC_phi;
+				t->jet_jerC_eta = t->j13_jerC_eta;
+				t->jet_jerU_e = t->j13_jerU_e;
+				t->jet_jerU_pt = t->j13_jerU_pt;
+				t->jet_jerU_phi = t->j13_jerU_phi;
+				t->jet_jerU_eta = t->j13_jerU_eta;
 			} 
 			else
 			if( ijet == 13 )
@@ -1463,6 +2174,26 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met)
 				t->jet_nConstituents = t->jet_nNeutrals + t->jet_nCharged;
 				jet.SetPtEtaPhiE(t->j14_pt, t->j14_eta, t->j14_phi, t->j14_e);
 				t->jet_dPhiMet = jet.DeltaPhi(met);
+				t->jet_jecD_e = t->j14_jecD_e;
+				t->jet_jecD_pt = t->j14_jecD_pt;
+				t->jet_jecD_phi = t->j14_jecD_phi;
+				t->jet_jecD_eta = t->j14_jecD_eta;
+				t->jet_jecU_e = t->j14_jecU_e;
+				t->jet_jecU_pt = t->j14_jecU_pt;
+				t->jet_jecU_phi = t->j14_jecU_phi;
+				t->jet_jecU_eta = t->j14_jecU_eta;
+				t->jet_jerD_e = t->j14_jerD_e;
+				t->jet_jerD_pt = t->j14_jerD_pt;
+				t->jet_jerD_phi = t->j14_jerD_phi;
+				t->jet_jerD_eta = t->j14_jerD_eta;
+				t->jet_jerC_e = t->j14_jerC_e;
+				t->jet_jerC_pt = t->j14_jerC_pt;
+				t->jet_jerC_phi = t->j14_jerC_phi;
+				t->jet_jerC_eta = t->j14_jerC_eta;
+				t->jet_jerU_e = t->j14_jerU_e;
+				t->jet_jerU_pt = t->j14_jerU_pt;
+				t->jet_jerU_phi = t->j14_jerU_phi;
+				t->jet_jerU_eta = t->j14_jerU_eta;
 			} 
 			else
 			if( ijet == 14 )
@@ -1491,6 +2222,26 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met)
 				t->jet_nConstituents = t->jet_nNeutrals + t->jet_nCharged;
 				jet.SetPtEtaPhiE(t->j15_pt, t->j15_eta, t->j15_phi, t->j15_e);
 				t->jet_dPhiMet = jet.DeltaPhi(met);
+				t->jet_jecD_e = t->j15_jecD_e;
+				t->jet_jecD_pt = t->j15_jecD_pt;
+				t->jet_jecD_phi = t->j15_jecD_phi;
+				t->jet_jecD_eta = t->j15_jecD_eta;
+				t->jet_jecU_e = t->j15_jecU_e;
+				t->jet_jecU_pt = t->j15_jecU_pt;
+				t->jet_jecU_phi = t->j15_jecU_phi;
+				t->jet_jecU_eta = t->j15_jecU_eta;
+				t->jet_jerD_e = t->j15_jerD_e;
+				t->jet_jerD_pt = t->j15_jerD_pt;
+				t->jet_jerD_phi = t->j15_jerD_phi;
+				t->jet_jerD_eta = t->j15_jerD_eta;
+				t->jet_jerC_e = t->j15_jerC_e;
+				t->jet_jerC_pt = t->j15_jerC_pt;
+				t->jet_jerC_phi = t->j15_jerC_phi;
+				t->jet_jerC_eta = t->j15_jerC_eta;
+				t->jet_jerU_e = t->j15_jerU_e;
+				t->jet_jerU_pt = t->j15_jerU_pt;
+				t->jet_jerU_phi = t->j15_jerU_phi;
+				t->jet_jerU_eta = t->j15_jerU_eta;
 			} 
 			return;
 }
