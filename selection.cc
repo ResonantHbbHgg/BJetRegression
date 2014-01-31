@@ -375,6 +375,12 @@ int main(int argc, char *argv[])
 			J.jetSecVtx3dL.push_back(t.jet_secVtx3dL);
 			J.jetDPhiMet.push_back(t.jet_dPhiMet);
 			J.jetNConstituents.push_back(t.jet_nConstituents);
+// Jet Energy Correction and Jet Energy Resolution
+			J.jetJecD_e.push_back(t.jet_jecD_e); J.jetJecD_pt.push_back(t.jet_jecD_pt); J.jetJecD_phi.push_back(t.jet_jecD_phi); J.jetJecD_eta.push_back(t.jet_jecD_eta);
+			J.jetJecU_e.push_back(t.jet_jecU_e); J.jetJecU_pt.push_back(t.jet_jecU_pt); J.jetJecU_phi.push_back(t.jet_jecU_phi); J.jetJecU_eta.push_back(t.jet_jecU_eta);
+			J.jetJerD_e.push_back(t.jet_jerD_e); J.jetJerD_pt.push_back(t.jet_jerD_pt); J.jetJerD_phi.push_back(t.jet_jerD_phi); J.jetJerD_eta.push_back(t.jet_jerD_eta);
+			J.jetJerC_e.push_back(t.jet_jerC_e); J.jetJerC_pt.push_back(t.jet_jerC_pt); J.jetJerC_phi.push_back(t.jet_jerC_phi); J.jetJerC_eta.push_back(t.jet_jerC_eta);
+			J.jetJerU_e.push_back(t.jet_jerU_e); J.jetJerU_pt.push_back(t.jet_jerU_pt); J.jetJerU_phi.push_back(t.jet_jerU_phi); J.jetJerU_eta.push_back(t.jet_jerU_eta);
 
 
 			njets_kRadionID_++;
@@ -540,6 +546,11 @@ int main(int argc, char *argv[])
 		TLorentzVector kinjet2;
 		TLorentzVector pho1_pesD, pho2_pesD, pho1_pesU, pho2_pesU;
 		TLorentzVector pho1_perD, pho2_perD, pho1_perU, pho2_perU;
+		TLorentzVector jet1_jecD, jet1_jecU, jet1_jerD, jet1_jerC, jet1_jerU;
+		TLorentzVector jet2_jecD, jet2_jecU, jet2_jerD, jet2_jerC, jet2_jerU;
+		TLorentzVector kinjet1_jecD, kinjet1_jecU, kinjet1_jerD, kinjet1_jerC, kinjet1_jerU;
+		TLorentzVector kinjet2_jecD, kinjet2_jecU, kinjet2_jerD, kinjet2_jerC, kinjet2_jerU;
+		// FIXME jet systematics for the use of regression still to be implemented
 		pho1.SetPtEtaPhiE(t.ph1_pt, t.ph1_eta, t.ph1_phi, t.ph1_e);
 		pho2.SetPtEtaPhiE(t.ph2_pt, t.ph2_eta, t.ph2_phi, t.ph2_e);
 		pho1_pesD = pho1; pho1_pesD *= t.ph1_pesD_e / t.ph1_e;
@@ -553,6 +564,16 @@ int main(int argc, char *argv[])
 
 		jet1.SetPtEtaPhiE(J.jetPt[ij1], J.jetEta[ij1], J.jetPhi[ij1], J.jetE[ij1]);
 		jet2.SetPtEtaPhiE(J.jetPt[ij2], J.jetEta[ij2], J.jetPhi[ij2], J.jetE[ij2]);
+		jet1_jecD.SetPtEtaPhiE(J.jetJecD_pt[ij1], J.jetJecD_eta[ij1], J.jetJecD_phi[ij1], J.jetJecD_e[ij1]);
+		jet2_jecD.SetPtEtaPhiE(J.jetJecD_pt[ij2], J.jetJecD_eta[ij2], J.jetJecD_phi[ij2], J.jetJecD_e[ij2]);
+		jet1_jecU.SetPtEtaPhiE(J.jetJecU_pt[ij1], J.jetJecU_eta[ij1], J.jetJecU_phi[ij1], J.jetJecU_e[ij1]);
+		jet2_jecU.SetPtEtaPhiE(J.jetJecU_pt[ij2], J.jetJecU_eta[ij2], J.jetJecU_phi[ij2], J.jetJecU_e[ij2]);
+		jet1_jerD.SetPtEtaPhiE(J.jetJerD_pt[ij1], J.jetJerD_eta[ij1], J.jetJerD_phi[ij1], J.jetJerD_e[ij1]);
+		jet2_jerD.SetPtEtaPhiE(J.jetJerD_pt[ij2], J.jetJerD_eta[ij2], J.jetJerD_phi[ij2], J.jetJerD_e[ij2]);
+		jet1_jerC.SetPtEtaPhiE(J.jetJerC_pt[ij1], J.jetJerC_eta[ij1], J.jetJerC_phi[ij1], J.jetJerC_e[ij1]);
+		jet2_jerC.SetPtEtaPhiE(J.jetJerC_pt[ij2], J.jetJerC_eta[ij2], J.jetJerC_phi[ij2], J.jetJerC_e[ij2]);
+		jet1_jerU.SetPtEtaPhiE(J.jetJerU_pt[ij1], J.jetJerU_eta[ij1], J.jetJerU_phi[ij1], J.jetJerU_e[ij1]);
+		jet2_jerU.SetPtEtaPhiE(J.jetJerU_pt[ij2], J.jetJerU_eta[ij2], J.jetJerU_phi[ij2], J.jetJerU_e[ij2]);
 		regjet1.SetPtEtaPhiE(J.jetPt[ij1Reg], J.jetEta[ij1Reg], J.jetPhi[ij1Reg], J.jetE[ij1Reg]);
 		regjet2.SetPtEtaPhiE(J.jetPt[ij2Reg], J.jetEta[ij2Reg], J.jetPhi[ij2Reg], J.jetE[ij2Reg]);
 		regjet1 = ((float)J.jetRegPt[ij1Reg]/(float)J.jetPt[ij1Reg]) * regjet1;
@@ -566,9 +587,26 @@ int main(int argc, char *argv[])
 		regkinjet2 = jets_kinfitH.second;
 		kinjet1 = jet1;
 		kinjet2 = jet2;
+		kinjet1_jecD = jet1_jecD; kinjet1_jecU = jet1_jecU; kinjet1_jerD = jet1_jerD; kinjet1_jerC = jet1_jerC; kinjet1_jerU = jet1_jerU;
+		kinjet2_jecD = jet2_jecD; kinjet2_jecU = jet2_jecU; kinjet2_jerD = jet2_jerD; kinjet2_jerC = jet2_jerC; kinjet2_jerU = jet2_jerU;
 		jets_kinfitH = fitter_jetsH->fit(kinjet1, kinjet2);
 		kinjet1 = jets_kinfitH.first;
 		kinjet2 = jets_kinfitH.second;
+		jets_kinfitH = fitter_jetsH->fit(kinjet1_jecD, kinjet2_jecD);
+		kinjet1_jecD = jets_kinfitH.first;
+		kinjet2_jecD = jets_kinfitH.second;
+		jets_kinfitH = fitter_jetsH->fit(kinjet1_jecU, kinjet2_jecU);
+		kinjet1_jecU = jets_kinfitH.first;
+		kinjet2_jecU = jets_kinfitH.second;
+		jets_kinfitH = fitter_jetsH->fit(kinjet1_jerD, kinjet2_jerD);
+		kinjet1_jerD = jets_kinfitH.first;
+		kinjet2_jerD = jets_kinfitH.second;
+		jets_kinfitH = fitter_jetsH->fit(kinjet1_jerC, kinjet2_jerC);
+		kinjet1_jerC = jets_kinfitH.first;
+		kinjet2_jerC = jets_kinfitH.second;
+		jets_kinfitH = fitter_jetsH->fit(kinjet1_jerU, kinjet2_jerU);
+		kinjet1_jerU = jets_kinfitH.first;
+		kinjet2_jerU = jets_kinfitH.second;
 
 		TLorentzVector jj = jet1 + jet2;
 		TLorentzVector regjj = regjet1 + regjet2;
@@ -600,7 +638,27 @@ int main(int argc, char *argv[])
 		TLorentzVector regggjj_perU = regjj + gg_perU;
 		TLorentzVector regkinggjj_perU = regkinjj + gg_perU;
 		TLorentzVector kinggjj_perU = kinjj + gg_perU;
-
+		// Jet Energy Correction and Jet Energy Resolution
+		TLorentzVector jj_jecD = jet1_jecD + jet2_jecD;
+		TLorentzVector kinjj_jecD = kinjet1_jecD + kinjet2_jecD;
+		TLorentzVector ggjj_jecD = jj_jecD + gg;
+		TLorentzVector kinggjj_jecD = kinjj_jecD + gg;
+		TLorentzVector jj_jecU = jet1_jecU + jet2_jecU;
+		TLorentzVector kinjj_jecU = kinjet1_jecU + kinjet2_jecU;
+		TLorentzVector ggjj_jecU = jj_jecU + gg;
+		TLorentzVector kinggjj_jecU = kinjj_jecU + gg;
+		TLorentzVector jj_jerD = jet1_jerD + jet2_jerD;
+		TLorentzVector kinjj_jerD = kinjet1_jerD + kinjet2_jerD;
+		TLorentzVector ggjj_jerD = jj_jerD + gg;
+		TLorentzVector kinggjj_jerD = kinjj_jerD + gg;
+		TLorentzVector jj_jerC = jet1_jerC + jet2_jerC;
+		TLorentzVector kinjj_jerC = kinjet1_jerC + kinjet2_jerC;
+		TLorentzVector ggjj_jerC = jj_jerC + gg;
+		TLorentzVector kinggjj_jerC = kinjj_jerC + gg;
+		TLorentzVector jj_jerU = jet1_jerU + jet2_jerU;
+		TLorentzVector kinjj_jerU = kinjet1_jerU + kinjet2_jerU;
+		TLorentzVector ggjj_jerU = jj_jerU + gg;
+		TLorentzVector kinggjj_jerU = kinjj_jerU + gg;
 
 		t.selection_cut_level = 0;
 		t.weight = t.ev_weight;
@@ -842,6 +900,27 @@ int main(int argc, char *argv[])
 		t.kinggjj_mass_pesU = kinggjj_pesU.M();
 		t.kinggjj_mass_perD = kinggjj_perD.M();
 		t.kinggjj_mass_perU = kinggjj_perU.M();
+		// Jet Energy Correction and Jet Energy Resolution
+		t.jj_mass_jecD = jj_jecD.M();
+		t.kinjj_mass_jecD = kinjj_jecD.M();
+		t.ggjj_mass_jecD = ggjj_jecD.M();
+		t.kinggjj_mass_jecD = kinggjj_jecD.M();
+		t.jj_mass_jecU = jj_jecU.M();
+		t.kinjj_mass_jecU = kinjj_jecU.M();
+		t.ggjj_mass_jecU = ggjj_jecU.M();
+		t.kinggjj_mass_jecU = kinggjj_jecU.M();
+		t.jj_mass_jerD = jj_jerD.M();
+		t.kinjj_mass_jerD = kinjj_jerD.M();
+		t.ggjj_mass_jerD = ggjj_jerD.M();
+		t.kinggjj_mass_jerD = kinggjj_jerD.M();
+		t.jj_mass_jerC = jj_jerC.M();
+		t.kinjj_mass_jerC = kinjj_jerC.M();
+		t.ggjj_mass_jerC = ggjj_jerC.M();
+		t.kinggjj_mass_jerC = kinggjj_jerC.M();
+		t.jj_mass_jerU = jj_jerU.M();
+		t.kinjj_mass_jerU = kinjj_jerU.M();
+		t.ggjj_mass_jerU = ggjj_jerU.M();
+		t.kinggjj_mass_jerU = kinggjj_jerU.M();
 // t.costhetastar
 		TLorentzVector Hgg_Rstar(gg);
 		TLorentzVector regHgg_Rstar(gg);
