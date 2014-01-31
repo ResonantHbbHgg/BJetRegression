@@ -29,3 +29,4 @@ test*
 *.diff
 dump*
 plots_*
+*.eo
