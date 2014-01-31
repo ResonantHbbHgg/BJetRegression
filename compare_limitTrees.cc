@@ -50,25 +50,31 @@ int main()
 {
 // Radion m300 mgg
 //	string file1 = "/afs/cern.ch/user/c/crovelli/public/4Alexandra/trees/v22/finalizedTrees_Radion_V07__fitToGG__noKinFit/Radion_m300.root";
+//	string file2 = "/afs/cern.ch/work/o/obondu/Higgs/CMSSW_6_1_1_radion_v2/src/BJetRegression/v22_fitToMgg_noKinFit/Radion_m300_8TeV_m300.root";
 //	string file2 = "/afs/cern.ch/work/o/obondu/Higgs/CMSSW_6_1_1_radion_v2/src/BJetRegression/minimum_test.root"; 
 // Data m300 mgg
 //	string file1 = "/afs/cern.ch/user/c/crovelli/public/4Alexandra/trees/v22/finalizedTrees_Radion_V07__fitToGG__noKinFit/data__selez300.root";
 //	string file2 = "/afs/cern.ch/work/o/obondu/Higgs/CMSSW_6_1_1_radion_v2/src/BJetRegression/minimum_test_data.root"; 
+//	string file2 = "/afs/cern.ch/work/o/obondu/Higgs/CMSSW_6_1_1_radion_v2/src/BJetRegression/v22_fitToMgg_noKinFit/Data_m300.root";
 
 // Radion m650 mggjj
 //	string file1 = "/afs/cern.ch/user/c/crovelli/public/4Alexandra/trees/v22/finalizedTrees_Radion_V07__fitToGGJJ__withKinFit/Radion_m650.root";
 //	string file2 = "/afs/cern.ch/work/o/obondu/Higgs/CMSSW_6_1_1_radion_v2/src/BJetRegression/minimum_test_650.root";
+//	string file2 = "/afs/cern.ch/work/o/obondu/Higgs/CMSSW_6_1_1_radion_v2/src/BJetRegression/v22_fitToMggjj_withKinFit/Radion_m650_8TeV_m650.root";
 // Data m650 mggjj
 //	string file1 = "/afs/cern.ch/user/c/crovelli/public/4Alexandra/trees/v22/finalizedTrees_Radion_V07__fitToGGJJ__withKinFit/data.root";
 //	string file1 = "/afs/cern.ch/work/o/obondu/Higgs/CMSSW_6_1_1_radion_v2/src/BJetRegression/minimum_test_PLOUF_data.root";
+//	string file2 = "/afs/cern.ch/work/o/obondu/Higgs/CMSSW_6_1_1_radion_v2/src/BJetRegression/v22_fitToMggjj_withKinFit/Data_m650.root";
 //	string file2 = "/afs/cern.ch/work/o/obondu/Higgs/CMSSW_6_1_1_radion_v2/src/BJetRegression/minimum_test_650_data.root";
 
 // Radion m650 mggjj wokinfit
 //	string file1 = "/afs/cern.ch/user/c/crovelli/public/4Alexandra/trees/v22/finalizedTrees_Radion_V07__fitToGGJJ__noKinFit/Radion_m650.root";
+//	string file2 = "/afs/cern.ch/work/o/obondu/Higgs/CMSSW_6_1_1_radion_v2/src/BJetRegression/v22_fitToMggjj_noKinFit/Radion_m650_8TeV_m650.root";
 //	string file2 = "/afs/cern.ch/work/o/obondu/Higgs/CMSSW_6_1_1_radion_v2/src/BJetRegression/minimum_test_650_wokinfit.root";
 // Data m650 mggjj
 	string file1 = "/afs/cern.ch/user/c/crovelli/public/4Alexandra/trees/v22/finalizedTrees_Radion_V07__fitToGGJJ__noKinFit/data.root";
-	string file2 = "/afs/cern.ch/work/o/obondu/Higgs/CMSSW_6_1_1_radion_v2/src/BJetRegression/minimum_test_650_data_wokinfit.root";
+	string file2 = "/afs/cern.ch/work/o/obondu/Higgs/CMSSW_6_1_1_radion_v2/src/BJetRegression/v22_fitToMggjj_noKinFit/Data_m650.root";
+//	string file2 = "/afs/cern.ch/work/o/obondu/Higgs/CMSSW_6_1_1_radion_v2/src/BJetRegression/minimum_test_650_data_wokinfit.root";
 
 	string label1 = "Chiara";
 	string label2 = "Olivier";

@@ -1,117 +1,131 @@
 #!/bin/bash
 
-version="v18"
+version="v22"
 today=`date +"0%Y-%m-%d"`
-set -x
+#set -x
 
-# do mgg trees
-for data in `echo "data signal"`
-#for data in `echo "data"`
+i=-1
+
+
+##### PREPARE MGGJJ-FIT TREES
+kinfitlabel[0]="noKinFit"
+kinfitlabel[1]="withKinFit"
+kinfitjet[0]="base"
+kinfitjet[1]="kin"
+for ikin in `seq 0 1`
 do
-	for mass in `echo "300 500"`
+	outfolder="${version}_fitToMggjj_${kinfitlabel[${ikin}]}"
+	mkdir -p ${outfolder}
+	for sample in `echo "Radion Graviton Data"`
 	do
-		for cutLevel in `echo "0"`
+		for mass in `echo "500 550 600 650 700 800 900 1000"`
 		do
-			for fitStrategy in `echo "mgg"`
-			do
-				for whichJet in `echo "base reg kin regkin"`	
-				do
-
-					if [[ "${data}" == "data" ]]
-					then
-						intree="Data"
-						removeUndefinedBtagSF=0
-						type_=0
-					elif [[ "${data}" == "signal" ]]
-					then
-						intree="Radion_m${mass}_8TeV_nm"
-						removeUndefinedBtagSF=1
-						type_=-${mass}
-					fi
-					if [[ "${whichJet}"	== "base" ]]
-					then
-						infile="2013-10-28_selection_noRegression_noMassCut_v01/${intree}_noRegression_noMassCut_v01.root"
-					else
-						infile="2013-10-28_selection_PhilRegr1028_noMassCut_v01/${intree}_PhilRegr1028_noMassCut_v01.root"
-					fi
-					outfolder="${version}_${whichJet}_${fitStrategy}_${cutLevel}"
-					outfile="${today}-${intree}_m${mass}.root"
-					outtree="TCVARS"
-
-for massCutVersion in `echo "0 1 2"`
+			intree=${sample}
+			itype="1"
+			removeUndefinedBtagSF=0
+			if [ "${sample}" == "Radion" ]
+			then
+				intree="${sample}_m${mass}_8TeV"
+				itype="-${mass}"
+				removeUndefinedBtagSF=1
+			elif [ "${sample}" == "Graviton" ]
+			then
+				if [ "${mass}" == "500" ] || [ "${mass}" == "700" ] || [ "${mass}" == "1000" ]
+				then
+					intree="${sample}_m${mass}_8TeV"
+					itype="-${mass}"
+					removeUndefinedBtagSF=1
+				else
+					continue
+				fi
+			elif [ "${sample}" == "Data" ]
+			then
+				itype="0"
+			fi
+			i=$((${i} + 1))
+			line[${i}]=""
+			line[${i}]="${line[${i}]} --inputfile 2014-01-31_selection_noRegression_noMassCut_v03/${intree}_noRegression_noMassCut_v03.root"
+			line[${i}]="${line[${i}]} --inputtree ${intree}"
+			line[${i}]="${line[${i}]} --outputtree TCVARS"
+			line[${i}]="${line[${i}]} --outputfile ${outfolder}/${intree}_m${mass}.root"
+			line[${i}]="${line[${i}]} --type ${itype}"
+			line[${i}]="${line[${i}]} --whichJet ${kinfitjet[${ikin}]}"
+			line[${i}]="${line[${i}]} --fitStrategy mggjj"
+			line[${i}]="${line[${i}]} --cutLevel 0"
+			line[${i}]="${line[${i}]} --removeUndefinedBtagSF ${removeUndefinedBtagSF}"
+			line[${i}]="${line[${i}]} --massCutVersion 3"
+			log[${i}]="${outfolder}/${intree}_m${mass}.eo"
+		#	echo -e "i= ${i}\tline= ${line[${i}]}"
+		done
+	done
+done
+	
+##### PREPARE MGG-FIT TREES
+outfolder="${version}_fitToMgg_noKinFit"
+mkdir -p ${outfolder}
+for sample in `echo "Radion Graviton MSSM ggh_m125_powheg_8TeV vbf_m125_8TeV wzh_m125_8TeV_wh wzh_m125_8TeV_zh tth_m125_8TeV Data"`
 do
-					mkdir -p ${outfolder}_massCutVersion${massCutVersion}
-
-./quickTrees.exe \
--i ${infile} \
--it ${intree} \
--o ${outfolder}_massCutVersion${massCutVersion}/${outfile} \
--cutLevel ${cutLevel} \
--m ${mass} \
--fs ${fitStrategy} \
--wj ${whichJet} \
---removeUndefinedBtagSF ${removeUndefinedBtagSF} \
---type ${type_} \
---massCutVersion ${massCutVersion} \
-| tee ${outfolder}_massCutVersion${massCutVersion}/${today}-${intree}_m${mass}.log
-
-done # massCutVersion
-
-				done # whichJet
-			done # fitStrategy
-		done # cutLevel
-	done # mass
-done # data# do mgg trees
-
-
-for data in `echo "data signal"`
-do
-	for mass in `echo "300 500 700 1000"`
+	for mass in `echo "260 270 300 350 400 450 500"`
 	do
-		for cutLevel in `echo "0"`
-		do
-			for fitStrategy in `echo "mggjj"`
-			do
-				for whichJet in `echo "base reg kin regkin"`	
-				do
+		intree=${sample}
+		itype="1"
+		removeUndefinedBtagSF=0
+		if [ "${sample}" == "Radion" ] 
+		then
+			if [ "${mass}" == "260" ]
+			then
+				continue
+			else
+				intree="${sample}_m${mass}_8TeV"
+				itype="-${mass}"
+				removeUndefinedBtagSF=1
+			fi
+		elif [ "${sample}" == "Graviton" ]
+		then
+			if [ "${mass}" == "260" ] || [ "${mass}" == "270" ] || [ "${mass}" == "350" ] || [ "${mass}" == "400" ] || [ "${mass}" == "450" ]
+			then
+				continue
+			else
+				intree="${sample}_m${mass}_8TeV"
+				itype="-${mass}"
+				removeUndefinedBtagSF=1
+			fi
+		elif [ "${sample}" == "MSSM" ]
+		then
+			if [ "${mass}" == "270" ] || [ "${mass}" == "400" ] || [ "${mass}" == "450" ] || [ "${mass}" == "500" ]
+			then
+				continue
+			else
+				intree="${sample}_m${mass}_8TeV"
+				itype="-${mass}"
+				removeUndefinedBtagSF=1
+			fi
+		elif [ "${sample}" == "Data" ]
+		then
+			itype="0"
+		fi
+		i=$((${i} + 1))
+		line[${i}]=""
+		line[${i}]="${line[${i}]} --inputfile 2014-01-31_selection_noRegression_noMassCut_v03/${intree}_noRegression_noMassCut_v03.root"
+		line[${i}]="${line[${i}]} --inputtree ${intree}"
+		line[${i}]="${line[${i}]} --outputtree TCVARS"
+		line[${i}]="${line[${i}]} --outputfile ${outfolder}/${intree}_m${mass}.root"
+		line[${i}]="${line[${i}]} --type ${itype}"
+		line[${i}]="${line[${i}]} --whichJet base"
+		line[${i}]="${line[${i}]} --fitStrategy mgg"
+		line[${i}]="${line[${i}]} --cutLevel 0"
+		line[${i}]="${line[${i}]} --mass ${mass}"
+		line[${i}]="${line[${i}]} --removeUndefinedBtagSF ${removeUndefinedBtagSF}"
+		line[${i}]="${line[${i}]} --massCutVersion 3"
+		log[${i}]="${outfolder}/${intree}_m${mass}.eo"
+	#	echo -e "i= ${i}\tline= ${line[${i}]}"
+	done
+done
 
-					if [[ "${data}" == "data" ]]
-					then
-						intree="Data"
-						removeUndefinedBtagSF=0
-						type_=0
-					elif [[ "${data}" == "signal" ]]
-					then
-						intree="Radion_m${mass}_8TeV_nm"
-						removeUndefinedBtagSF=1
-						type_=-${mass}
-					fi
-					if [[ "${whichJet}"	== "base" ]]
-					then
-						infile="2013-10-28_selection_noRegression_noMassCut_v01/${intree}_noRegression_noMassCut_v01.root"
-					else
-						infile="2013-10-28_selection_PhilRegr1028_noMassCut_v01/${intree}_PhilRegr1028_noMassCut_v01.root"
-					fi
-					outfolder="${version}_${whichJet}_${fitStrategy}_${cutLevel}"
-					mkdir -p ${outfolder}
-					outfile="${today}-${intree}_m${mass}.root"
-					outtree="TCVARS"
-
-
-./quickTrees.exe \
--i ${infile} \
--it ${intree} \
--o ${outfolder}/${outfile} \
--cutLevel ${cutLevel} \
--m ${mass} \
--fs ${fitStrategy} \
--wj ${whichJet} \
---removeUndefinedBtagSF ${removeUndefinedBtagSF} \
---type ${type_} \
-| tee ${outfolder}/${today}-${intree}_m${mass}.log
-
-				done # whichJet
-			done # fitStrategy
-		done # cutLevel
-	done # mass
-done # data
+#### PRODUCE EVERYTHING	
+itot=${i}
+for iline in `seq 0 ${itot}`
+do
+	echo -e "iline= ${iline} / ${itot}\t\t${line[${iline}]}"
+	./quickTrees.exe ${line[${iline}]} &> ${log[${iline}]}
+done

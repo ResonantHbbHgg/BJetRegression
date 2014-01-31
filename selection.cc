@@ -330,7 +330,7 @@ int main(int argc, char *argv[])
 			t.jet_dPhiMet_fabs = fabs(t.jet_dPhiMet);
 
 			if(DEBUG && numberOfRegressionFiles != 0) cout << "input= " << t.jet_pt << "\toutput (BDT_0)= " << readerRegres->EvaluateRegression(Form("BDT_%i", 0))[0] * t.jet_pt << "\toutput (BDT_1)= " << readerRegres->EvaluateRegression(Form("BDT_%i", 1))[0] * t.jet_pt << endl;
-//			if( t.jet_csvBtag < 0. ) continue;
+			if( REMOVE_UNDEFINED_BTAGSF && t.jet_flavour == 0. ) continue;
 //			njets[5]++; jetcut[5] = "After t.jet_csvBtag < 0.";
 			if(DEBUG) cout << "now with the regression" << endl;
 			if(numberOfRegressionFiles == 0)
