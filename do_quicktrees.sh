@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version="v22"
+version="v23"
 today=`date +"0%Y-%m-%d"`
 #set -x
 
@@ -27,14 +27,14 @@ do
 			then
 				intree="${sample}_m${mass}_8TeV"
 				itype="-${mass}"
-				removeUndefinedBtagSF=1
+				removeUndefinedBtagSF=0
 			elif [ "${sample}" == "Graviton" ]
 			then
 				if [ "${mass}" == "500" ] || [ "${mass}" == "700" ] || [ "${mass}" == "1000" ]
 				then
 					intree="${sample}_m${mass}_8TeV"
 					itype="-${mass}"
-					removeUndefinedBtagSF=1
+					removeUndefinedBtagSF=0
 				else
 					continue
 				fi
@@ -78,7 +78,7 @@ do
 			else
 				intree="${sample}_m${mass}_8TeV"
 				itype="-${mass}"
-				removeUndefinedBtagSF=1
+				removeUndefinedBtagSF=0
 			fi
 		elif [ "${sample}" == "Graviton" ]
 		then
@@ -88,7 +88,7 @@ do
 			else
 				intree="${sample}_m${mass}_8TeV"
 				itype="-${mass}"
-				removeUndefinedBtagSF=1
+				removeUndefinedBtagSF=0
 			fi
 		elif [ "${sample}" == "MSSM" ]
 		then
@@ -98,7 +98,7 @@ do
 			else
 				intree="${sample}_m${mass}_8TeV"
 				itype="-${mass}"
-				removeUndefinedBtagSF=1
+				removeUndefinedBtagSF=0
 			fi
 		elif [ "${sample}" == "Data" ]
 		then
