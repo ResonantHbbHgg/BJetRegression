@@ -10,7 +10,7 @@ i=-1
 
 ##### DATA
 i=$((${i} + 1))
-infile[${i}]="radion_tree_v08b/Data_Full2012.root"
+infile[${i}]="radion_tree_v08/Data_Full2012.root"
 tree[${i}]="Data"
 outtree[${i}]="Data"
 typ[${i}]="0"
