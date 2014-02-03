@@ -120,6 +120,7 @@ int main(int argc, char *argv[])
 		}
 
 	t.evWeight_w_btagSF = t.evWeight;
+	t.weight = t.evWeight;
 	t.weightBtagSF = -1000;
 	t.weightBtagSFerrUp = -1000;
 	t.weightBtagSFerrDown = -1000;
@@ -132,6 +133,7 @@ int main(int argc, char *argv[])
 		t.evWeight_w_btagSF *= t.weightBtagSF;
 	}
 
+	if( type == -260 ) t.evWeight_w_btagSF *= 1.2822; // m260 is generated with pythia, while the rest is generated with madgraph. This factor is here to compensate the efficiency difference between the two
 	if( type != 0 ) t.evWeight_w_btagSF /= 1000.; // For increased numerical precision for limit settings, not related to actual physics
 
 

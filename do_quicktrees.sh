@@ -18,7 +18,7 @@ do
 	mkdir -p ${outfolder}
 	for sample in `echo "Radion Graviton Data"`
 	do
-		for mass in `echo "400 450 500 550 600 650 700 800 900 1000"`
+		for mass in `echo "400 450 500 550 600 650 700 800 900 1000 1100"`
 		do
 			intree=${sample}
 			itype="1"
