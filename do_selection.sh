@@ -291,6 +291,12 @@ tree[${i}]="TTGJets_8TeV"
 outtree[${i}]="TTGJets_8TeV"
 typ[${i}]="1"
 
+i=$((${i} + 1))
+infile[${i}]="radion_tree_v08b/Backgrounds.root"
+tree[${i}]="ZGToLLG_8TeV"
+outtree[${i}]="ZGToLLG_8TeV"
+typ[${i}]="1"
+
 
 itot=${i}
 masscutsuffix[0]="noMassCut"
