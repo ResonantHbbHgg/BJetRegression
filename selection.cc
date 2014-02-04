@@ -618,26 +618,71 @@ int main(int argc, char *argv[])
 		TLorentzVector regkinggjj = regkinjj + gg;
 		TLorentzVector kinggjj = kinjj + gg;
 		// Photon Energy Scale & Photon Energy Resolution
+		TLorentzVector gg_pesD1 = pho1_pesD + pho2;
+		TLorentzVector gg_pesD2 = pho1 + pho2_pesD;
 		TLorentzVector gg_pesD = pho1_pesD + pho2_pesD;
+		TLorentzVector gg_pesU1 = pho1_pesU + pho2;
+		TLorentzVector gg_pesU2 = pho1 + pho2_pesU;
 		TLorentzVector gg_pesU = pho1_pesU + pho2_pesU;
+		TLorentzVector gg_perD1 = pho1_perD + pho2;
+		TLorentzVector gg_perD2 = pho1 + pho2_perD;
 		TLorentzVector gg_perD = pho1_perD + pho2_perD;
+		TLorentzVector gg_perU1 = pho1_perU + pho2;
+		TLorentzVector gg_perU2 = pho1 + pho2_perU;
 		TLorentzVector gg_perU = pho1_perU + pho2_perU;
+
+		TLorentzVector ggjj_pesD1 = jj + gg_pesD1;
+		TLorentzVector ggjj_pesD2 = jj + gg_pesD2;
 		TLorentzVector ggjj_pesD = jj + gg_pesD;
-		TLorentzVector regggjj_pesD = regjj + gg_pesD;
-		TLorentzVector regkinggjj_pesD = regkinjj + gg_pesD;
-		TLorentzVector kinggjj_pesD = kinjj + gg_pesD;
+		TLorentzVector ggjj_pesU1 = jj + gg_pesU1;
+		TLorentzVector ggjj_pesU2 = jj + gg_pesU2;
 		TLorentzVector ggjj_pesU = jj + gg_pesU;
-		TLorentzVector regggjj_pesU = regjj + gg_pesU;
-		TLorentzVector regkinggjj_pesU = regkinjj + gg_pesU;
-		TLorentzVector kinggjj_pesU = kinjj + gg_pesU;
+		TLorentzVector ggjj_perD1 = jj + gg_perD1;
+		TLorentzVector ggjj_perD2 = jj + gg_perD2;
 		TLorentzVector ggjj_perD = jj + gg_perD;
-		TLorentzVector regggjj_perD = regjj + gg_perD;
-		TLorentzVector regkinggjj_perD = regkinjj + gg_perD;
-		TLorentzVector kinggjj_perD = kinjj + gg_perD;
+		TLorentzVector ggjj_perU1 = jj + gg_perU1;
+		TLorentzVector ggjj_perU2 = jj + gg_perU2;
 		TLorentzVector ggjj_perU = jj + gg_perU;
+
+		TLorentzVector regggjj_pesD1 = regjj + gg_pesD1;
+		TLorentzVector regggjj_pesD2 = regjj + gg_pesD2;
+		TLorentzVector regggjj_pesD = regjj + gg_pesD;
+		TLorentzVector regggjj_pesU1 = regjj + gg_pesU1;
+		TLorentzVector regggjj_pesU2 = regjj + gg_pesU2;
+		TLorentzVector regggjj_pesU = regjj + gg_pesU;
+		TLorentzVector regggjj_perD1 = regjj + gg_perD1;
+		TLorentzVector regggjj_perD2 = regjj + gg_perD2;
+		TLorentzVector regggjj_perD = regjj + gg_perD;
+		TLorentzVector regggjj_perU1 = regjj + gg_perU1;
+		TLorentzVector regggjj_perU2 = regjj + gg_perU2;
 		TLorentzVector regggjj_perU = regjj + gg_perU;
+
+		TLorentzVector regkinggjj_pesD1 = regkinjj + gg_pesD1;
+		TLorentzVector regkinggjj_pesD2 = regkinjj + gg_pesD2;
+		TLorentzVector regkinggjj_pesD = regkinjj + gg_pesD;
+		TLorentzVector regkinggjj_pesU1 = regkinjj + gg_pesU1;
+		TLorentzVector regkinggjj_pesU2 = regkinjj + gg_pesU2;
+		TLorentzVector regkinggjj_pesU = regkinjj + gg_pesU;
+		TLorentzVector regkinggjj_perD1 = regkinjj + gg_perD1;
+		TLorentzVector regkinggjj_perD2 = regkinjj + gg_perD2;
+		TLorentzVector regkinggjj_perD = regkinjj + gg_perD;
+		TLorentzVector regkinggjj_perU1 = regkinjj + gg_perU1;
+		TLorentzVector regkinggjj_perU2 = regkinjj + gg_perU2;
 		TLorentzVector regkinggjj_perU = regkinjj + gg_perU;
+
+		TLorentzVector kinggjj_pesD1 = kinjj + gg_pesD1;
+		TLorentzVector kinggjj_pesD2 = kinjj + gg_pesD2;
+		TLorentzVector kinggjj_pesD = kinjj + gg_pesD;
+		TLorentzVector kinggjj_pesU1 = kinjj + gg_pesU1;
+		TLorentzVector kinggjj_pesU2 = kinjj + gg_pesU2;
+		TLorentzVector kinggjj_pesU = kinjj + gg_pesU;
+		TLorentzVector kinggjj_perD1 = kinjj + gg_perD1;
+		TLorentzVector kinggjj_perD2 = kinjj + gg_perD2;
+		TLorentzVector kinggjj_perD = kinjj + gg_perD;
+		TLorentzVector kinggjj_perU1 = kinjj + gg_perU1;
+		TLorentzVector kinggjj_perU2 = kinjj + gg_perU2;
 		TLorentzVector kinggjj_perU = kinjj + gg_perU;
+
 		// Jet Energy Correction and Jet Energy Resolution
 		TLorentzVector jj_jecD = jet1_jecD + jet2_jecD;
 		TLorentzVector kinjj_jecD = kinjet1_jecD + kinjet2_jecD;
@@ -880,26 +925,71 @@ int main(int argc, char *argv[])
 		t.njets_kRadionID = njets_kRadionID_;
 		t.njets_kRadionID_and_CSVM = njets_kRadionID_and_CSVM_;
 		// Photon Energy Scale & Photon Energy Resolution
+		t.gg_mass_pesD1 = gg_pesD1.M();
+		t.gg_mass_pesD2 = gg_pesD2.M();
 		t.gg_mass_pesD = gg_pesD.M();
+		t.gg_mass_pesU1 = gg_pesU1.M();
+		t.gg_mass_pesU2 = gg_pesU2.M();
 		t.gg_mass_pesU = gg_pesU.M();
+		t.gg_mass_perD1 = gg_perD1.M();
+		t.gg_mass_perD2 = gg_perD2.M();
 		t.gg_mass_perD = gg_perD.M();
+		t.gg_mass_perU1 = gg_perU1.M();
+		t.gg_mass_perU2 = gg_perU2.M();
 		t.gg_mass_perU = gg_perU.M();
+
+		t.ggjj_mass_pesD1 = ggjj_pesD1.M();
+		t.ggjj_mass_pesD2 = ggjj_pesD2.M();
 		t.ggjj_mass_pesD = ggjj_pesD.M();
+		t.ggjj_mass_pesU1 = ggjj_pesU1.M();
+		t.ggjj_mass_pesU2 = ggjj_pesU2.M();
 		t.ggjj_mass_pesU = ggjj_pesU.M();
+		t.ggjj_mass_perD1 = ggjj_perD1.M();
+		t.ggjj_mass_perD2 = ggjj_perD2.M();
 		t.ggjj_mass_perD = ggjj_perD.M();
+		t.ggjj_mass_perU1 = ggjj_perU1.M();
+		t.ggjj_mass_perU2 = ggjj_perU2.M();
 		t.ggjj_mass_perU = ggjj_perU.M();
+
+		t.regggjj_mass_pesD1 = regggjj_pesD1.M();
+		t.regggjj_mass_pesD2 = regggjj_pesD2.M();
 		t.regggjj_mass_pesD = regggjj_pesD.M();
+		t.regggjj_mass_pesU1 = regggjj_pesU1.M();
+		t.regggjj_mass_pesU2 = regggjj_pesU2.M();
 		t.regggjj_mass_pesU = regggjj_pesU.M();
+		t.regggjj_mass_perD1 = regggjj_perD1.M();
+		t.regggjj_mass_perD2 = regggjj_perD2.M();
 		t.regggjj_mass_perD = regggjj_perD.M();
+		t.regggjj_mass_perU1 = regggjj_perU1.M();
+		t.regggjj_mass_perU2 = regggjj_perU2.M();
 		t.regggjj_mass_perU = regggjj_perU.M();
+
+		t.regkinggjj_mass_pesD1 = regkinggjj_pesD1.M();
+		t.regkinggjj_mass_pesD2 = regkinggjj_pesD2.M();
 		t.regkinggjj_mass_pesD = regkinggjj_pesD.M();
+		t.regkinggjj_mass_pesU1 = regkinggjj_pesU1.M();
+		t.regkinggjj_mass_pesU2 = regkinggjj_pesU2.M();
 		t.regkinggjj_mass_pesU = regkinggjj_pesU.M();
+		t.regkinggjj_mass_perD1 = regkinggjj_perD1.M();
+		t.regkinggjj_mass_perD2 = regkinggjj_perD2.M();
 		t.regkinggjj_mass_perD = regkinggjj_perD.M();
+		t.regkinggjj_mass_perU1 = regkinggjj_perU1.M();
+		t.regkinggjj_mass_perU2 = regkinggjj_perU2.M();
 		t.regkinggjj_mass_perU = regkinggjj_perU.M();
+
+		t.kinggjj_mass_pesD1 = kinggjj_pesD1.M();
+		t.kinggjj_mass_pesD2 = kinggjj_pesD2.M();
 		t.kinggjj_mass_pesD = kinggjj_pesD.M();
+		t.kinggjj_mass_pesU1 = kinggjj_pesU1.M();
+		t.kinggjj_mass_pesU2 = kinggjj_pesU2.M();
 		t.kinggjj_mass_pesU = kinggjj_pesU.M();
+		t.kinggjj_mass_perD1 = kinggjj_perD1.M();
+		t.kinggjj_mass_perD2 = kinggjj_perD2.M();
 		t.kinggjj_mass_perD = kinggjj_perD.M();
+		t.kinggjj_mass_perU1 = kinggjj_perU1.M();
+		t.kinggjj_mass_perU2 = kinggjj_perU2.M();
 		t.kinggjj_mass_perU = kinggjj_perU.M();
+
 		// Jet Energy Correction and Jet Energy Resolution
 		t.jj_mass_jecD = jj_jecD.M();
 		t.kinjj_mass_jecD = kinjj_jecD.M();
