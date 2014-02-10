@@ -1,8 +1,11 @@
 #!/bin/bash
 
-version="v27"
+version="v28"
 today=`date +"0%Y-%m-%d"`
 #set -x
+
+inputfolder="v08"
+inputversion="2014-02-05_selection_noRegression_noMassCut_${inputfolder}/"
 
 i=-1
 
@@ -44,7 +47,7 @@ do
 			fi
 			i=$((${i} + 1))
 			line[${i}]=""
-			line[${i}]="${line[${i}]} --inputfile 2014-01-31_selection_noRegression_noMassCut_v06/${intree}_noRegression_noMassCut_v06.root"
+			line[${i}]="${line[${i}]} --inputfile ${inputfolder}/${intree}_noRegression_noMassCut_${inputversion}.root"
 			line[${i}]="${line[${i}]} --inputtree ${intree}"
 			line[${i}]="${line[${i}]} --outputtree TCVARS"
 			line[${i}]="${line[${i}]} --outputfile ${outfolder}/${intree}_m${mass}.root"
@@ -106,7 +109,7 @@ do
 		fi
 		i=$((${i} + 1))
 		line[${i}]=""
-		line[${i}]="${line[${i}]} --inputfile 2014-01-31_selection_noRegression_noMassCut_v06/${intree}_noRegression_noMassCut_v06.root"
+		line[${i}]="${line[${i}]} --inputfile ${inputfolder}/${intree}_noRegression_noMassCut_${inputversion}.root"
 		line[${i}]="${line[${i}]} --inputtree ${intree}"
 		line[${i}]="${line[${i}]} --outputtree TCVARS"
 		line[${i}]="${line[${i}]} --outputfile ${outfolder}/${intree}_m${mass}.root"
