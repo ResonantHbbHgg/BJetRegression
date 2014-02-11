@@ -2316,13 +2316,13 @@ float getPESUncertainty(bool isEB, float sceta, float r9)
 
 float getPERUncertainty(bool isEB, float sceta, float r9, float sigmaEoE, TRandom3 *r)
 { // numbers (in %) are taken from AN 2013/253 v7 (Hgg Moriond Legacy 2014)
-	if( isEB && (fabs(sceta) < 1.) && (r9 < .94) ) return r->Gaus(1, sigmaEoE * sqrt(2 * 0.05 * 0.01));
-	else if( isEB && (fabs(sceta) < 1.) && (r9 > .94) ) return r->Gaus(1, sigmaEoE * sqrt(2 * 0.05 * 0.01));
-	else if( isEB && (fabs(sceta) > 1.) && (r9 < .94) ) return r->Gaus(1, sigmaEoE * sqrt(2 * 0.09 * 0.01));
-	else if( isEB && (fabs(sceta) > 1.) && (r9 > .94) ) return r->Gaus(1, sigmaEoE * sqrt(2 * 0.10 * 0.01));
-	else if( !isEB && (fabs(sceta) < 2.) && (r9 < .94) ) return r->Gaus(1, sigmaEoE * sqrt(2 * 0.09 * 0.01));
-	else if( !isEB && (fabs(sceta) < 2.) && (r9 > .94) ) return r->Gaus(1, sigmaEoE * sqrt(2 * 0.07 * 0.01));
-	else if( !isEB && (fabs(sceta) > 2.) && (r9 < .94) ) return r->Gaus(1, sigmaEoE * sqrt(2 * 0.06 * 0.01));
-	else if( !isEB && (fabs(sceta) > 2.) && (r9 > .94) ) return r->Gaus(1, sigmaEoE * sqrt(2 * 0.03 * 0.01));
+	if( isEB && (fabs(sceta) < 1.) && (r9 < .94) ) return r->Gaus(0, sigmaEoE * sqrt(2 * 0.05 * 0.01));
+	else if( isEB && (fabs(sceta) < 1.) && (r9 > .94) ) return r->Gaus(0, sigmaEoE * sqrt(2 * 0.05 * 0.01));
+	else if( isEB && (fabs(sceta) > 1.) && (r9 < .94) ) return r->Gaus(0, sigmaEoE * sqrt(2 * 0.09 * 0.01));
+	else if( isEB && (fabs(sceta) > 1.) && (r9 > .94) ) return r->Gaus(0, sigmaEoE * sqrt(2 * 0.10 * 0.01));
+	else if( !isEB && (fabs(sceta) < 2.) && (r9 < .94) ) return r->Gaus(0, sigmaEoE * sqrt(2 * 0.09 * 0.01));
+	else if( !isEB && (fabs(sceta) < 2.) && (r9 > .94) ) return r->Gaus(0, sigmaEoE * sqrt(2 * 0.07 * 0.01));
+	else if( !isEB && (fabs(sceta) > 2.) && (r9 < .94) ) return r->Gaus(0, sigmaEoE * sqrt(2 * 0.06 * 0.01));
+	else if( !isEB && (fabs(sceta) > 2.) && (r9 > .94) ) return r->Gaus(0, sigmaEoE * sqrt(2 * 0.03 * 0.01));
 	else return 1.0;
 }
