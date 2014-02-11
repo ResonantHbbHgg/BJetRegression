@@ -1,7 +1,7 @@
 #!/bin/bash
 
 today=`date +"%Y-%m-%d"`
-version="v08"
+version="v09"
 
 eosprefix="root://eoscms//eos/cms"
 eospath="/store/cmst3/user/obondu/H2GGLOBE/Radion/trees/"

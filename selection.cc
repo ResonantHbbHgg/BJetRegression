@@ -16,6 +16,7 @@
 #include <TFile.h>
 #include <TTree.h>
 #include <TLorentzVector.h>
+#include <TRandom3.h>
 // Analysis headers
 #include "../KinematicFit/DiJetKinFitter.h"
 #include "selection.h"
@@ -109,6 +110,9 @@ int main(int argc, char *argv[])
 	if(DEBUG) cout << "SetBranchAddresses" << endl;
 	setup_intree(intree, &t, type);
 	setup_outtree(outtree, &t);
+
+	if(DEBUG) cout << "Setup TRandom3 generator" << endl;
+	TRandom3 *r3 = new TRandom3();
 
 	if(DEBUG) cout << "Prepare for regression" << endl;
 // prepare for regression
@@ -553,14 +557,24 @@ int main(int argc, char *argv[])
 		// FIXME jet systematics for the use of regression still to be implemented
 		pho1.SetPtEtaPhiE(t.ph1_pt, t.ph1_eta, t.ph1_phi, t.ph1_e);
 		pho2.SetPtEtaPhiE(t.ph2_pt, t.ph2_eta, t.ph2_phi, t.ph2_e);
-		pho1_pesD = pho1; pho1_pesD *= t.ph1_pesD_e / t.ph1_e;
+// the following is the correct thing to call for the day the h2gglobe numbers are to be trusted
+/*		pho1_pesD = pho1; pho1_pesD *= t.ph1_pesD_e / t.ph1_e;
 		pho2_pesD = pho2; pho2_pesD *= t.ph2_pesD_e / t.ph2_e;
 		pho1_pesU = pho1; pho1_pesU *= t.ph1_pesU_e / t.ph1_e;
 		pho2_pesU = pho2; pho2_pesU *= t.ph2_pesU_e / t.ph2_e;
 		pho1_perD = pho1; pho1_perD *= t.ph1_perD_e / t.ph1_e;
 		pho2_perD = pho2; pho2_perD *= t.ph2_perD_e / t.ph2_e;
 		pho1_perU = pho1; pho1_perU *= t.ph1_perU_e / t.ph1_e;
-		pho2_perU = pho2; pho2_perU *= t.ph2_perU_e / t.ph2_e;
+		pho2_perU = pho2; pho2_perU *= t.ph2_perU_e / t.ph2_e;*/
+// hand-made hard-coded implementation
+		pho1_pesD = pho1; pho1_pesD *= (1. - getPESUncertainty(t.ph1_isEB, t.ph1_SCEta, t.ph1_r9));
+		pho2_pesD = pho2; pho2_pesD *= (1. - getPESUncertainty(t.ph2_isEB, t.ph2_SCEta, t.ph2_r9));
+		pho1_pesU = pho1; pho1_pesU *= (1. + getPESUncertainty(t.ph1_isEB, t.ph1_SCEta, t.ph1_r9));
+		pho2_pesU = pho2; pho2_pesU *= (1. + getPESUncertainty(t.ph2_isEB, t.ph2_SCEta, t.ph2_r9));
+		pho1_perD = pho1; pho1_perD *= (1. - getPERUncertainty(t.ph1_isEB, t.ph1_SCEta, t.ph1_r9, t.ph1_sigmaEoE, r3));
+		pho2_perD = pho2; pho2_perD *= (1. - getPERUncertainty(t.ph2_isEB, t.ph2_SCEta, t.ph2_r9, t.ph2_sigmaEoE, r3));
+		pho1_perU = pho1; pho1_perU *= (1. + getPERUncertainty(t.ph1_isEB, t.ph1_SCEta, t.ph1_r9, t.ph1_sigmaEoE, r3));
+		pho2_perU = pho2; pho2_perU *= (1. + getPERUncertainty(t.ph2_isEB, t.ph2_SCEta, t.ph2_r9, t.ph2_sigmaEoE, r3));
 
 		jet1.SetPtEtaPhiE(J.jetPt[ij1], J.jetEta[ij1], J.jetPhi[ij1], J.jetE[ij1]);
 		jet2.SetPtEtaPhiE(J.jetPt[ij2], J.jetEta[ij2], J.jetPhi[ij2], J.jetE[ij2]);

@@ -25,6 +25,7 @@ struct tree_variables
 	float ph2_pfchargedisogood03, ph2_ecaliso, ph2_pfchargedisobad04, ph2_ecalisobad, ph2_badvtx_Et, ph2_isconv;
 	int ph1_ciclevel, ph2_ciclevel, ph1_isEB, ph2_isEB;
 	// Photon Energy Scale & Photon Energy Resolution
+	float ph1_sigmaEoE, ph2_sigmaEoE;
 	float ph1_pesD_e, ph2_pesD_e, ph1_pesU_e, ph2_pesU_e;
 	float ph1_perD_e, ph2_perD_e, ph1_perU_e, ph2_perU_e;
 
@@ -305,6 +306,8 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
 	intree->SetBranchAddress("PhotonsMass", &t->PhotonsMass);
 	intree->SetBranchAddress("ph1_ciclevel", &t->ph1_ciclevel);
 	intree->SetBranchAddress("ph2_ciclevel", &t->ph2_ciclevel);
+	intree->SetBranchAddress("ph1_sigmaEoE", &t->ph1_sigmaEoE);
+	intree->SetBranchAddress("ph2_sigmaEoE", &t->ph2_sigmaEoE);
 	intree->SetBranchAddress("ph1_pesD_e", &t->ph1_pesD_e);
 	intree->SetBranchAddress("ph2_pesD_e", &t->ph2_pesD_e);
 	intree->SetBranchAddress("ph1_pesU_e", &t->ph1_pesU_e);
@@ -1175,6 +1178,8 @@ void setup_outtree(TTree* outtree, tree_variables *t)
 	outtree->Branch("pho2_PFisoA", &t->pho2_PFisoA, "pho2_PFisoA/F");
 	outtree->Branch("pho2_PFisoB", &t->pho2_PFisoB, "pho2_PFisoB/F");
 	outtree->Branch("pho2_PFisoC", &t->pho2_PFisoC, "pho2_PFisoC/F");
+	outtree->Branch("pho1_sigmaEoE", &t->ph1_sigmaEoE, "pho1_sigmaEoE/F");
+	outtree->Branch("pho2_sigmaEoE", &t->ph1_sigmaEoE, "pho2_sigmaEoE/F");
 	outtree->Branch("pho1_pesD_e", &t->ph1_pesD_e, "pho1_pesD_e/F");
 	outtree->Branch("pho2_pesD_e", &t->ph2_pesD_e, "pho2_pesD_e/F");
 	outtree->Branch("pho1_pesU_e", &t->ph1_pesU_e, "pho1_pesU_e/F");
@@ -2294,4 +2299,30 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met)
 				t->jet_jerU_eta = t->j15_jerU_eta;
 			} 
 			return;
+}
+
+float getPESUncertainty(bool isEB, float sceta, float r9)
+{ // numbers (in %) are taken from AN 2013/253 v7 (Hgg Moriond Legacy 2014)
+	if( isEB && (fabs(sceta) < 1.) && (r9 < .94) ) return 0.05 * 0.01;
+	else if( isEB && (fabs(sceta) < 1.) && (r9 > .94) ) return 0.05 * 0.01;
+	else if( isEB && (fabs(sceta) > 1.) && (r9 < .94) ) return 0.05 * 0.01;
+	else if( isEB && (fabs(sceta) > 1.) && (r9 > .94) ) return 0.10 * 0.01;
+	else if( !isEB && (fabs(sceta) < 2.) && (r9 < .94) ) return 0.10 * 0.01;
+	else if( !isEB && (fabs(sceta) < 2.) && (r9 > .94) ) return 0.10 * 0.01;
+	else if( !isEB && (fabs(sceta) > 2.) && (r9 < .94) ) return 0.10 * 0.01;
+	else if( !isEB && (fabs(sceta) > 2.) && (r9 > .94) ) return 0.05 * 0.01;
+	else return 1.0;
+}
+
+float getPERUncertainty(bool isEB, float sceta, float r9, float sigmaEoE, TRandom3 *r)
+{ // numbers (in %) are taken from AN 2013/253 v7 (Hgg Moriond Legacy 2014)
+	if( isEB && (fabs(sceta) < 1.) && (r9 < .94) ) return r->Gaus(1, sigmaEoE * sqrt(2 * 0.05 * 0.01));
+	else if( isEB && (fabs(sceta) < 1.) && (r9 > .94) ) return r->Gaus(1, sigmaEoE * sqrt(2 * 0.05 * 0.01));
+	else if( isEB && (fabs(sceta) > 1.) && (r9 < .94) ) return r->Gaus(1, sigmaEoE * sqrt(2 * 0.09 * 0.01));
+	else if( isEB && (fabs(sceta) > 1.) && (r9 > .94) ) return r->Gaus(1, sigmaEoE * sqrt(2 * 0.10 * 0.01));
+	else if( !isEB && (fabs(sceta) < 2.) && (r9 < .94) ) return r->Gaus(1, sigmaEoE * sqrt(2 * 0.09 * 0.01));
+	else if( !isEB && (fabs(sceta) < 2.) && (r9 > .94) ) return r->Gaus(1, sigmaEoE * sqrt(2 * 0.07 * 0.01));
+	else if( !isEB && (fabs(sceta) > 2.) && (r9 < .94) ) return r->Gaus(1, sigmaEoE * sqrt(2 * 0.06 * 0.01));
+	else if( !isEB && (fabs(sceta) > 2.) && (r9 > .94) ) return r->Gaus(1, sigmaEoE * sqrt(2 * 0.03 * 0.01));
+	else return 1.0;
 }
