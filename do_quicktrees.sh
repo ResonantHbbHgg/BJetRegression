@@ -4,8 +4,8 @@ version="v28"
 today=`date +"0%Y-%m-%d"`
 #set -x
 
-inputfolder="v08"
-inputversion="2014-02-05_selection_noRegression_noMassCut_${inputfolder}/"
+inputversion="v08"
+inputfolder="2014-02-05_selection_noRegression_noMassCut_${inputversion}/"
 
 i=-1
 
