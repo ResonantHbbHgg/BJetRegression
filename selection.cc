@@ -18,6 +18,7 @@
 #include <TLorentzVector.h>
 #include <TRandom3.h>
 // Analysis headers
+#include "../h2gglobe/BTagUtils.h"
 #include "../KinematicFit/DiJetKinFitter.h"
 #include "selection.h"
 // Verbosity
@@ -723,6 +724,13 @@ int main(int argc, char *argv[])
 		t.weight = t.ev_weight;
 		t.evweight = t.ev_evweight;
 		t.pu_weight = t.ev_pu_weight;
+		// adding this for correct yields out of the control plots:
+		t.evweight_w_btagSF = t.evweight;
+		if( type == -260 ) t.evweight_w_btagSF *= 1.2822;
+		if( type  < -250 ) t.evweight_w_btagSF *= eventWeight_2jets("medium", J.jetbtagSF_M[ij1], J.jetbtagSF_M[ij2], J.jetbtagEff_M[ij1], J.jetbtagEff_M[ij2], J.jetCSV[ij1], J.jetCSV[ij2]);
+		t.evweight_w_btagSF_reg = t.evweight;
+		if( type == -260 ) t.evweight_w_btagSF_reg *= 1.2822;
+		if( type  < -250 ) t.evweight_w_btagSF_reg *= eventWeight_2jets("medium", J.jetbtagSF_M[ij1Reg], J.jetbtagSF_M[ij2Reg], J.jetbtagEff_M[ij1Reg], J.jetbtagEff_M[ij2Reg], J.jetCSV[ij1Reg], J.jetCSV[ij2Reg]);
 		t.pho1_pt = pho1.Pt();
 		t.pho1_e = pho1.E();
 		t.pho1_phi = pho1.Phi();

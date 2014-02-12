@@ -43,8 +43,8 @@ TAbsFitConstraint.o: ../KinematicFit/TAbsFitConstraint.cc
 selection.o: selection.cc selection.h
 	$(CC) $(TMVA) $(CCFLAGS) $(ROOTFLAGS) $(BOOSTFLAGS) -c selection.cc -o selection.o
 
-selection.exe: selection.o DiJetKinFitter.o TKinFitter.o TFitParticleEtEtaPhi.o TAbsFitParticle.o TFitConstraintM.o TAbsFitConstraint.o
-	$(CC) $(TMVA)  $(ROOTLIBS) $(BOOSTLIBS) selection.o DiJetKinFitter.o TKinFitter.o TFitParticleEtEtaPhi.o TAbsFitParticle.o TFitConstraintM.o TAbsFitConstraint.o -o selection.exe
+selection.exe: selection.o DiJetKinFitter.o TKinFitter.o TFitParticleEtEtaPhi.o TAbsFitParticle.o TFitConstraintM.o TAbsFitConstraint.o BTagUtils.o
+	$(CC) $(TMVA)  $(ROOTLIBS) $(BOOSTLIBS) selection.o DiJetKinFitter.o TKinFitter.o TFitParticleEtEtaPhi.o TAbsFitParticle.o TFitConstraintM.o TAbsFitConstraint.o BTagUtils.o -o selection.exe
 
 BTagUtils.o: ../h2gglobe/BTagUtils.cc ../h2gglobe/BTagUtils.h
 	$(CC) $(CCFLAGS) $(ROOTFLAGS) -c ../h2gglobe/BTagUtils.cc -o BTagUtils.o

@@ -19,6 +19,7 @@ struct tree_variables
 	float run, lumis, event;
 	float ph1_SCEta, ph2_SCEta;
 	float ev_weight, ev_evweight, ev_pu_weight;
+	float evweight_w_btagSF, evweight_w_btagSF_reg;
 // object variables
 	float ph1_eta, ph2_eta, ph1_pt, ph2_pt, PhotonsMass, ph1_phi, ph2_phi, ph1_e, ph2_e, ph1_r9, ph2_r9, ph1_sieie, ph2_sieie, ph1_hoe, ph2_hoe;
 	float ph1_pfchargedisogood03, ph1_ecaliso, ph1_pfchargedisobad04, ph1_ecalisobad, ph1_badvtx_Et, ph1_isconv;
@@ -1135,6 +1136,8 @@ void setup_outtree(TTree* outtree, tree_variables *t)
 	outtree->Branch("vtx_z", &t->vtx_z, "vtx_z/F");
 	outtree->Branch("weight", &t->weight, "weight/F");
 	outtree->Branch("evweight", &t->evweight, "evweight/F");
+	outtree->Branch("evweight_w_btagSF", &t->evweight_w_btagSF, "evweight_w_btagSF/F");
+	outtree->Branch("evweight_w_btagSF_reg", &t->evweight_w_btagSF_reg, "evweight_w_btagSF_reg/F");
 	outtree->Branch("pu_weight", &t->pu_weight, "pu_weight/F");
 	outtree->Branch("nvtx", &t->nvtx, "nvtx/F");
 	outtree->Branch("rho", &t->rho, "rho/F");
