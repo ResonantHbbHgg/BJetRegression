@@ -2304,28 +2304,53 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met)
 			return;
 }
 
-float getPESUncertainty(bool isEB, float sceta, float r9)
-{ // numbers (in %) are taken from AN 2013/253 v7 (Hgg Moriond Legacy 2014)
-	if( isEB && (fabs(sceta) < 1.) && (r9 < .94) ) return 0.05 * 0.01;
-	else if( isEB && (fabs(sceta) < 1.) && (r9 > .94) ) return 0.05 * 0.01;
-	else if( isEB && (fabs(sceta) > 1.) && (r9 < .94) ) return 0.05 * 0.01;
-	else if( isEB && (fabs(sceta) > 1.) && (r9 > .94) ) return 0.10 * 0.01;
-	else if( !isEB && (fabs(sceta) < 2.) && (r9 < .94) ) return 0.10 * 0.01;
-	else if( !isEB && (fabs(sceta) < 2.) && (r9 > .94) ) return 0.10 * 0.01;
-	else if( !isEB && (fabs(sceta) > 2.) && (r9 < .94) ) return 0.10 * 0.01;
-	else if( !isEB && (fabs(sceta) > 2.) && (r9 > .94) ) return 0.05 * 0.01;
-	else return 1.0;
+float getPESUncertainty(bool isEB, float sceta, float r9, float pt)
+{
+	// numbers (in %) are taken from AN 2013/253 v7 (Hgg Moriond Legacy 2014)
+//	if( isEB && (fabs(sceta) < 1.) && (r9 < .94) ) return 0.05 * 0.01;
+//	else if( isEB && (fabs(sceta) < 1.) && (r9 > .94) ) return 0.05 * 0.01;
+//	else if( isEB && (fabs(sceta) > 1.) && (r9 < .94) ) return 0.05 * 0.01;
+//	else if( isEB && (fabs(sceta) > 1.) && (r9 > .94) ) return 0.10 * 0.01;
+//	else if( !isEB && (fabs(sceta) < 2.) && (r9 < .94) ) return 0.10 * 0.01;
+//	else if( !isEB && (fabs(sceta) < 2.) && (r9 > .94) ) return 0.10 * 0.01;
+//	else if( !isEB && (fabs(sceta) > 2.) && (r9 < .94) ) return 0.10 * 0.01;
+//	else if( !isEB && (fabs(sceta) > 2.) && (r9 > .94) ) return 0.05 * 0.01;
+	// numbers (in %) are taken from CMS-PAS-HIG-13-001 (Hgg Moriond 2013: http://cds.cern.ch/record/1530524/files/HIG-13-001-pas.pdf)
+	if( pt < 100. )
+	{
+		if( isEB && (fabs(sceta) < 1.) && (r9 < .94) ) return 0.20 * 0.01;
+		else if( isEB && (fabs(sceta) < 1.) && (r9 > .94) ) return 0.20 * 0.01;
+		else if( isEB && (fabs(sceta) > 1.) && (r9 < .94) ) return 0.51 * 0.01;
+		else if( isEB && (fabs(sceta) > 1.) && (r9 > .94) ) return 0.71 * 0.01;
+		else if( !isEB && (fabs(sceta) < 2.) && (r9 < .94) ) return 0.18 * 0.01;
+		else if( !isEB && (fabs(sceta) < 2.) && (r9 > .94) ) return 0.88 * 0.01;
+		else if( !isEB && (fabs(sceta) > 2.) && (r9 < .94) ) return 0.12 * 0.01;
+		else if( !isEB && (fabs(sceta) > 2.) && (r9 > .94) ) return 0.12 * 0.01;
+		else return 1.0;
+	} else { // Assign 1% on PES if photon pt > 100 GeV
+		return 1. * 0.01;
+	}
 }
 
 float getPERUncertainty(bool isEB, float sceta, float r9, float sigmaEoE, TRandom3 *r)
-{ // numbers (in %) are taken from AN 2013/253 v7 (Hgg Moriond Legacy 2014)
-	if( isEB && (fabs(sceta) < 1.) && (r9 < .94) ) return r->Gaus(0, sigmaEoE * sqrt( pow(1.+(0.05 * 0.01)/sigmaEoE,2) - 1.));
-	else if( isEB && (fabs(sceta) < 1.) && (r9 > .94) ) return r->Gaus(0, sigmaEoE * sqrt( pow(1.+(0.05 * 0.01)/sigmaEoE,2) - 1.));
-	else if( isEB && (fabs(sceta) > 1.) && (r9 < .94) ) return r->Gaus(0, sigmaEoE * sqrt( pow(1.+(0.09 * 0.01)/sigmaEoE,2) - 1.));
-	else if( isEB && (fabs(sceta) > 1.) && (r9 > .94) ) return r->Gaus(0, sigmaEoE * sqrt( pow(1.+(0.10 * 0.01)/sigmaEoE,2) - 1.));
-	else if( !isEB && (fabs(sceta) < 2.) && (r9 < .94) ) return r->Gaus(0, sigmaEoE * sqrt( pow(1.+(0.09 * 0.01)/sigmaEoE,2) - 1.));
-	else if( !isEB && (fabs(sceta) < 2.) && (r9 > .94) ) return r->Gaus(0, sigmaEoE * sqrt( pow(1.+(0.07 * 0.01)/sigmaEoE,2) - 1.));
-	else if( !isEB && (fabs(sceta) > 2.) && (r9 < .94) ) return r->Gaus(0, sigmaEoE * sqrt( pow(1.+(0.06 * 0.01)/sigmaEoE,2) - 1.));
-	else if( !isEB && (fabs(sceta) > 2.) && (r9 > .94) ) return r->Gaus(0, sigmaEoE * sqrt( pow(1.+(0.03 * 0.01)/sigmaEoE,2) - 1.));
+{
+	// numbers (in %) are taken from AN 2013/253 v7 (Hgg Moriond Legacy 2014)
+//	if( isEB && (fabs(sceta) < 1.) && (r9 < .94) ) return r->Gaus(0, sigmaEoE * sqrt( pow(1.+(0.05 * 0.01)/sigmaEoE,2) - 1.));
+//	else if( isEB && (fabs(sceta) < 1.) && (r9 > .94) ) return r->Gaus(0, sigmaEoE * sqrt( pow(1.+(0.05 * 0.01)/sigmaEoE,2) - 1.));
+//	else if( isEB && (fabs(sceta) > 1.) && (r9 < .94) ) return r->Gaus(0, sigmaEoE * sqrt( pow(1.+(0.09 * 0.01)/sigmaEoE,2) - 1.));
+//	else if( isEB && (fabs(sceta) > 1.) && (r9 > .94) ) return r->Gaus(0, sigmaEoE * sqrt( pow(1.+(0.10 * 0.01)/sigmaEoE,2) - 1.));
+//	else if( !isEB && (fabs(sceta) < 2.) && (r9 < .94) ) return r->Gaus(0, sigmaEoE * sqrt( pow(1.+(0.09 * 0.01)/sigmaEoE,2) - 1.));
+//	else if( !isEB && (fabs(sceta) < 2.) && (r9 > .94) ) return r->Gaus(0, sigmaEoE * sqrt( pow(1.+(0.07 * 0.01)/sigmaEoE,2) - 1.));
+//	else if( !isEB && (fabs(sceta) > 2.) && (r9 < .94) ) return r->Gaus(0, sigmaEoE * sqrt( pow(1.+(0.06 * 0.01)/sigmaEoE,2) - 1.));
+//	else if( !isEB && (fabs(sceta) > 2.) && (r9 > .94) ) return r->Gaus(0, sigmaEoE * sqrt( pow(1.+(0.03 * 0.01)/sigmaEoE,2) - 1.));
+	// numbers (in %) are taken from CMS-PAS-HIG-13-001 (Hgg Moriond 2013: http://cds.cern.ch/record/1530524/files/HIG-13-001-pas.pdf)
+	if( isEB && (fabs(sceta) < 1.) && (r9 < .94) ) return r->Gaus(0, sigmaEoE * sqrt( pow(1.+(0.25 * 0.01)/sigmaEoE,2) - 1.));
+	else if( isEB && (fabs(sceta) < 1.) && (r9 > .94) ) return r->Gaus(0, sigmaEoE * sqrt( pow(1.+(0.23 * 0.01)/sigmaEoE,2) - 1.));
+	else if( isEB && (fabs(sceta) > 1.) && (r9 < .94) ) return r->Gaus(0, sigmaEoE * sqrt( pow(1.+(0.60 * 0.01)/sigmaEoE,2) - 1.));
+	else if( isEB && (fabs(sceta) > 1.) && (r9 > .94) ) return r->Gaus(0, sigmaEoE * sqrt( pow(1.+(0.72 * 0.01)/sigmaEoE,2) - 1.));
+	else if( !isEB && (fabs(sceta) < 2.) && (r9 < .94) ) return r->Gaus(0, sigmaEoE * sqrt( pow(1.+(0.33 * 0.01)/sigmaEoE,2) - 1.));
+	else if( !isEB && (fabs(sceta) < 2.) && (r9 > .94) ) return r->Gaus(0, sigmaEoE * sqrt( pow(1.+(0.93 * 0.01)/sigmaEoE,2) - 1.));
+	else if( !isEB && (fabs(sceta) > 2.) && (r9 < .94) ) return r->Gaus(0, sigmaEoE * sqrt( pow(1.+(0.54 * 0.01)/sigmaEoE,2) - 1.));
+	else if( !isEB && (fabs(sceta) > 2.) && (r9 > .94) ) return r->Gaus(0, sigmaEoE * sqrt( pow(1.+(0.36 * 0.01)/sigmaEoE,2) - 1.));
 	else return 1.0;
 }

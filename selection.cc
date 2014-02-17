@@ -568,10 +568,10 @@ int main(int argc, char *argv[])
 		pho1_perU = pho1; pho1_perU *= t.ph1_perU_e / t.ph1_e;
 		pho2_perU = pho2; pho2_perU *= t.ph2_perU_e / t.ph2_e;*/
 // hand-made hard-coded implementation
-		pho1_pesD = pho1; pho1_pesD *= (1. - getPESUncertainty(t.ph1_isEB, t.ph1_SCEta, t.ph1_r9));
-		pho2_pesD = pho2; pho2_pesD *= (1. - getPESUncertainty(t.ph2_isEB, t.ph2_SCEta, t.ph2_r9));
-		pho1_pesU = pho1; pho1_pesU *= (1. + getPESUncertainty(t.ph1_isEB, t.ph1_SCEta, t.ph1_r9));
-		pho2_pesU = pho2; pho2_pesU *= (1. + getPESUncertainty(t.ph2_isEB, t.ph2_SCEta, t.ph2_r9));
+		pho1_pesD = pho1; pho1_pesD *= (1. - getPESUncertainty(t.ph1_isEB, t.ph1_SCEta, t.ph1_r9, t.ph1_pt));
+		pho2_pesD = pho2; pho2_pesD *= (1. - getPESUncertainty(t.ph2_isEB, t.ph2_SCEta, t.ph2_r9, t.ph2_pt));
+		pho1_pesU = pho1; pho1_pesU *= (1. + getPESUncertainty(t.ph1_isEB, t.ph1_SCEta, t.ph1_r9, t.ph1_pt));
+		pho2_pesU = pho2; pho2_pesU *= (1. + getPESUncertainty(t.ph2_isEB, t.ph2_SCEta, t.ph2_r9, t.ph2_pt));
 		pho1_perD = pho1; pho1_perD *= (1. - getPERUncertainty(t.ph1_isEB, t.ph1_SCEta, t.ph1_r9, t.ph1_sigmaEoE, r3));
 		pho2_perD = pho2; pho2_perD *= (1. - getPERUncertainty(t.ph2_isEB, t.ph2_SCEta, t.ph2_r9, t.ph2_sigmaEoE, r3));
 		pho1_perU = pho1; pho1_perU *= (1. + getPERUncertainty(t.ph1_isEB, t.ph1_SCEta, t.ph1_r9, t.ph1_sigmaEoE, r3));
