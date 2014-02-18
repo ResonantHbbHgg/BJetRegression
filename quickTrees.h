@@ -99,6 +99,7 @@ void setup_outtree(TTree *outtree, tree_variables *t)
 	outtree->Branch("jet1_phi", &t->jet1_phi, "jet1_phi/F");
 	outtree->Branch("jet1_eta", &t->jet1_eta, "jet1_eta/F");
 	outtree->Branch("jet1_mass", &t->jet1_mass, "jet1_mass/F");
+	outtree->Branch("jet1_csvBtag", &t->jet1_csvBtag, "jet1_csvBtag/F");
 	outtree->Branch("jet1_btagSF_M", &t->jet1_btagSF_M, "jet1_btagSF_M/F");
 	outtree->Branch("jet1_btagSFErrorUp_M", &t->jet1_btagSFErrorUp_M, "jet1_btagSFErrorUp_M/F");
 	outtree->Branch("jet1_btagSFErrorDown_M", &t->jet1_btagSFErrorDown_M, "jet1_btagSFErrorDown_M/F");
@@ -110,6 +111,7 @@ void setup_outtree(TTree *outtree, tree_variables *t)
 	outtree->Branch("jet2_phi", &t->jet2_phi, "jet2_phi/F");
 	outtree->Branch("jet2_eta", &t->jet2_eta, "jet2_eta/F");
 	outtree->Branch("jet2_mass", &t->jet2_mass, "jet2_mass/F");
+	outtree->Branch("jet2_csvBtag", &t->jet2_csvBtag, "jet2_csvBtag/F");
 	outtree->Branch("jet2_btagSF_M", &t->jet2_btagSF_M, "jet2_btagSF_M/F");
 	outtree->Branch("jet2_btagSFErrorUp_M", &t->jet2_btagSFErrorUp_M, "jet2_btagSFErrorUp_M/F");
 	outtree->Branch("jet2_btagSFErrorDown_M", &t->jet2_btagSFErrorDown_M, "jet2_btagSFErrorDown_M/F");
