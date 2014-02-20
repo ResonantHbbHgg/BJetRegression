@@ -9,6 +9,7 @@
 #include "TSystem.h"
 #include <TFile.h>
 #include <TTree.h>
+#include <TH2F.h>
 // RooFit headers
 // local analysis headers
 #include "../h2gglobe/BTagUtils.h"
@@ -33,6 +34,8 @@ int main(int argc, char *argv[])
 	int removeUndefinedBtagSF;
 	int type;
 	int massCutVersion;
+	int applyPhotonIDControlSample;
+	string controlSampleWeights;
 
 	// print out passed arguments
 	copy(argv, argv + argc, ostream_iterator<char*>(cout, " ")); cout << endl;
@@ -53,6 +56,8 @@ int main(int argc, char *argv[])
 			("mass", po::value<int>(&mass)->default_value(300), "mass hypothesis (for mass cut switches)")
 			("removeUndefinedBtagSF", po::value<int>(&removeUndefinedBtagSF)->default_value(0), "remove undefined btagSF_M values (should be used only for the limit trees)")
 			("massCutVersion", po::value<int>(&massCutVersion)->default_value(3), "0= default 1= non-kin specific 2= v02 limit trees 3= preapproval values")
+			("applyPhotonIDControlSample", po::value<int>(&applyPhotonIDControlSample)->default_value(0), "Invert photon ID CiC cut to populate selection in gjjj instead of ggjj")
+			("controlSampleWeights", po::value<string>(&controlSampleWeights)->default_value("scales_2D_pt_data_4GeVbinning.root"), "file containing the weights for creating the control sample")
 		;
 		po::variables_map vm;
 		po::store(po::parse_command_line(argc, argv, desc), vm);
@@ -90,11 +95,20 @@ int main(int argc, char *argv[])
 		cout << "ERROR: Regression is not supposed to be used for preapproval-like mass cuts" << endl;
 		return 1;
 	}
+	if( applyPhotonIDControlSample != 0 && type != 0 )
+	{
+		cout << "ERROR: you are trying to apply the control sample weights to something that is not data" << endl;
+		return 1;
+	}
 
 	TFile *infile = TFile::Open(inputfile.c_str());
 	TTree *intree = (TTree*)infile->Get(inputtree.c_str());
 	TFile *outfile = new TFile(outputfile.c_str(), "RECREATE");
 	TTree *outtree = new TTree(outputtree.c_str(), Form("%s minimal", outputtree.c_str()));
+
+	TFile *csWeightFile = TFile::Open(controlSampleWeights.c_str());
+//	TH2F *h2D_pt_data = new TH2F("h2D_pt_data", "h2D_pt_data", 35,20.,160.,35,20.,160.);
+	TH2F *h2D_pt_data = (TH2F*)csWeightFile->Get("h2D_pt_data");
 
 	tree_variables t;
 	setup_intree(intree, &t, whichJet);
@@ -135,6 +149,8 @@ int main(int argc, char *argv[])
 
 	if( type == -260 ) t.evWeight_w_btagSF *= 1.2822; // m260 is generated with pythia, while the rest is generated with madgraph. This factor is here to compensate the efficiency difference between the two
 	if( type <= -250 ) t.evWeight_w_btagSF /= 1000.; // For increased numerical precision for limit settings, not related to actual physics
+
+	if( type == 0 && applyPhotonIDControlSample != 0) t.evWeight_w_btagSF *= h2D_pt_data->GetBinContent(h2D_pt_data->FindBin(t.pho2_pt, t.pho1_pt));
 
 
 		if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("reg", whichJet.c_str()) == 0) )
