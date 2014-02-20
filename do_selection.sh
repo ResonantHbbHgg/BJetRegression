@@ -31,7 +31,7 @@ typ[${i}]="-400"
 
 i=$((${i} + 1))
 infile[${i}]="radion_tree_v08c/RadionToHH_2Gamma_2b_0btag.root"
-tree[${i}]="Radion_m1100_8TeV_nm"
+tree[${i}]="Radion_m1100_8TeV"
 outtree[${i}]="Radion_m1100_8TeV"
 typ[${i}]="-1100"
 

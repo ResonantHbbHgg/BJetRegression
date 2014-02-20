@@ -317,6 +317,8 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
 	intree->SetBranchAddress("ph2_perD_e", &t->ph2_perD_e);
 	intree->SetBranchAddress("ph1_perU_e", &t->ph1_perU_e);
 	intree->SetBranchAddress("ph2_perU_e", &t->ph2_perU_e);
+	intree->SetBranchAddress("ph1_SCEta", &t->ph1_SCEta);
+	intree->SetBranchAddress("ph2_SCEta", &t->ph2_SCEta);
 	intree->SetBranchAddress("met_corr_pfmet", &t->met_corr_pfmet);
 	intree->SetBranchAddress("met_corr_phi_pfmet", &t->met_corr_phi_pfmet);
 	intree->SetBranchAddress("met_corr_eta_pfmet", &t->met_corr_eta_pfmet);
@@ -327,8 +329,6 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
 	intree->SetBranchAddress("run", &t->run);
 	intree->SetBranchAddress("lumis", &t->lumis);
 	intree->SetBranchAddress("event", &t->event);
-	intree->SetBranchAddress("ph1_SCEta", &t->ph1_SCEta);
-	intree->SetBranchAddress("ph2_SCEta", &t->ph2_SCEta);
 	intree->SetBranchAddress("weight", &t->ev_weight);
 	intree->SetBranchAddress("evweight", &t->ev_evweight);
 	intree->SetBranchAddress("pu_weight", &t->ev_pu_weight);
