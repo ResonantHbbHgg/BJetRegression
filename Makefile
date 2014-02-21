@@ -55,6 +55,12 @@ quickTrees.o: quickTrees.cc quickTrees.h
 quickTrees.exe: quickTrees.o BTagUtils.o
 	$(CC) $(ROOTLIBS) $(BOOSTLIBS) quickTrees.o BTagUtils.o -o quickTrees.exe
 
+obtainWeights.o: obtainWeights.cc
+	$(CC) $(CCFLAGS) $(ROOTFLAGS) $(BOOSTFLAGS) -c obtainWeights.cc -o obtainWeights.o
+
+obtainWeights.exe: obtainWeights.o
+	$(CC) $(ROOTLIBS) $(BOOSTLIBS) obtainWeights.o -o obtainWeights.exe
+
 fitMass.exe: fitMass.cc
 	$(CC) $(CCFLAGS) $(ROOTFLAGS) $(ROOTLIBS) $(ROOFITLIBS) fitMass.cc -o fitMass.exe
 
