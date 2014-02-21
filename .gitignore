@@ -2,6 +2,7 @@
 *.[oa]
 *.exe
 *dSYM
+*.pyc
 
 # ROOT
 *.root
@@ -20,13 +21,15 @@ fitMgg.C
 quickPlot.C
 
 # plots & logs
-*.pdf
 2013*
+*.pdf
 *.gif
+*.ps
+*.eps
 *txt
 *log
+*eo
 test*
-*.diff
 dump*
+*.diff
 plots_*
-*.eo

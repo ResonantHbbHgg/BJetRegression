@@ -61,8 +61,11 @@ obtainWeights.o: obtainWeights.cc
 obtainWeights.exe: obtainWeights.o
 	$(CC) $(ROOTLIBS) $(BOOSTLIBS) obtainWeights.o -o obtainWeights.exe
 
-fitMass.exe: fitMass.cc
-	$(CC) $(CCFLAGS) $(ROOTFLAGS) $(ROOTLIBS) $(ROOFITLIBS) fitMass.cc -o fitMass.exe
+fitMass.o: fitMass.cc
+	$(CC) $(CCFLAGS) $(ROOTFLAGS) $(BOOSTFLAGS) -c fitMass.cc -o fitMass.o
+
+fitMass.exe: fitMass.o
+	$(CC) $(ROOTLIBS) $(ROOFITLIBS) $(BOOSTLIBS) fitMass.o -o fitMass.exe
 
 compare_limitTrees.exe: compare_limitTrees.cc
 	$(CC) $(CCFLAGS) $(ROOTFLAGS) $(ROOTLIBS) compare_limitTrees.cc -o compare_limitTrees.exe
