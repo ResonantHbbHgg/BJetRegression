@@ -212,6 +212,15 @@ tree[${i}]="tth_m125_8TeV"
 outtree[${i}]="tth_m125_8TeV"
 typ[${i}]="-1"
 
+
+###### SM di-Higgs
+i=$((${i} + 1))
+infile[${i}]="radion_tree_v08c/ggHH.root"
+tree[${i}]="ggHH_8TeV"
+outtree[${i}]="ggHH_8TeV"
+typ[${i}]="-2"
+
+
 ###### Diphoton backgrounds
 i=$((${i} + 1))
 infile[${i}]="radion_tree_v08c/Backgrounds.root"
