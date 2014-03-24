@@ -1,11 +1,11 @@
 #!/bin/bash
 
-version="v29_test"
+version="v29_noMtotCut"
 today=`date +"0%Y-%m-%d"`
 #set -x
 
 inputversion="v10"
-inputfolder="2014-02-17_selection_noRegression_noMassCut_${inputversion}/"
+inputfolder="2014-03-24_selection_noRegression_noMassCut_${inputversion}/"
 
 i=-1
 
@@ -80,7 +80,7 @@ done
 ##### PREPARE MGG-FIT TREES
 outfolder="${version}_fitToMgg_noKinFit"
 mkdir -p ${outfolder}
-for sample in `echo "Radion Graviton MSSM ggh_m125_powheg_8TeV vbf_m125_8TeV wzh_m125_8TeV_wh wzh_m125_8TeV_zh tth_m125_8TeV Data DataCS"`
+for sample in `echo "Radion Graviton MSSM ggh_m125_powheg_8TeV vbf_m125_8TeV wzh_m125_8TeV_wh wzh_m125_8TeV_zh tth_m125_8TeV Data DataCS ggHH_8TeV"`
 do
 	for mass in `echo "260 270 300 350 400 450 500"`
 	do
@@ -90,6 +90,7 @@ do
 		removeUndefinedBtagSF=0
 		applyPhotonIDControlSample=0
 		suffix=""
+        extraline=""
 		if [ "${sample}" == "Radion" ] 
 		then
 			if [ "${mass}" == "260" ]
@@ -132,6 +133,10 @@ do
 			applyPhotonIDControlSample=1
 			intree="Data"
 			suffix="controlSample_"
+        elif [ "${sample}" == "ggHH_8TeV" ]
+        then
+            itype="-2"
+            extraline="--applyMtotCut 0"
 		fi
 		i=$((${i} + 1))
 		line[${i}]=""
@@ -148,6 +153,7 @@ do
 		line[${i}]="${line[${i}]} --massCutVersion 3"
 		line[${i}]="${line[${i}]} --applyPhotonIDControlSample ${applyPhotonIDControlSample}"
 		line[${i}]="${line[${i}]} --controlSampleWeights ${controlSampleWeights}"
+        line[${i}]="${line[${i}]} ${extraline}"
 		log[${i}]="${outfolder}/${outtree}_m${mass}.eo"
 	#	echo -e "i= ${i}\tline= ${line[${i}]}"
 	done
