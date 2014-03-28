@@ -5,7 +5,8 @@ today=`date +"0%Y-%m-%d"`
 #set -x
 
 inputversion="v10"
-inputfolder="2014-03-24_selection_noRegression_noMassCut_${inputversion}/"
+#inputfolder="2014-03-24_selection_noRegression_noMassCut_${inputversion}/"
+inputfolder="2014-02-17_selection_noRegression_noMassCut_${inputversion}/"
 
 i=-1
 
@@ -127,6 +128,7 @@ do
 		elif [ "${sample}" == "Data" ]
 		then
 			itype="0"
+#            extraline="--applyMtotCut 0"
 		elif [ "${sample}" == "DataCS" ]
 		then
 			itype="0"
