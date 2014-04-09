@@ -1132,6 +1132,8 @@ void setup_outtree(TTree* outtree, tree_variables *t)
 {
 	outtree->Branch("category", &t->category, "category/I");
 	outtree->Branch("selection_cut_level", &t->selection_cut_level, "selection_cut_level/I");
+	outtree->Branch("run", &t->run, "run/F");
+	outtree->Branch("lumis", &t->lumis, "lumis/F");
 	outtree->Branch("event", &t->event, "event/F");
 	outtree->Branch("vtx_z", &t->vtx_z, "vtx_z/F");
 	outtree->Branch("weight", &t->weight, "weight/F");

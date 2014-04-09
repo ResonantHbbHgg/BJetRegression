@@ -1,6 +1,6 @@
 struct tree_variables
 {
-	float event;
+	float run, lumis, event;
 	float mgg, mjj, mtot;
 	float pho1_pt, pho1_e, pho1_phi, pho1_eta, pho1_mass;
 	float pho2_pt, pho2_e, pho2_phi, pho2_eta, pho2_mass;
@@ -20,6 +20,8 @@ struct tree_variables
 
 void setup_intree(TTree *intree, tree_variables *t, std::string whichJet)
 {
+	intree->SetBranchAddress("run", &t->run);
+	intree->SetBranchAddress("lumis", &t->lumis);
 	intree->SetBranchAddress("event", &t->event);
 	intree->SetBranchAddress("gg_mass", &t->mgg);
 	intree->SetBranchAddress("pho1_pt", &t->pho1_pt);
@@ -81,6 +83,8 @@ void setup_intree(TTree *intree, tree_variables *t, std::string whichJet)
 
 void setup_outtree(TTree *outtree, tree_variables *t)
 {
+	outtree->Branch("run", &t->run, "run/F");
+	outtree->Branch("lumis", &t->lumis, "lumis/F");
 	outtree->Branch("event", &t->event, "event/F");
 	outtree->Branch("pho1_pt", &t->pho1_pt, "pho1_pt/F");
 	outtree->Branch("pho1_e", &t->pho1_e, "pho1_e/F");
