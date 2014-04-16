@@ -24,6 +24,7 @@ quickPlot.C
 2013*
 *.pdf
 *.gif
+*.png
 *.ps
 *.eps
 *txt
