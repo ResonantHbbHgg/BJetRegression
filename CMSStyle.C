@@ -9,7 +9,7 @@
  
 
 
-void CMSstyle(){
+void CMSStyle(){
   // use the 'plain' style for plots (white backgrounds, etc)
   //  cout << "...using style 'Plain'" << endl;
   gROOT->SetStyle("Plain");
