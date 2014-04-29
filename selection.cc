@@ -43,6 +43,7 @@ int main(int argc, char *argv[])
 	int REMOVE_UNDEFINED_BTAGSF;
 	int applyMassCuts;
 	int applyPhotonIDControlSample;
+    int printCutFlow;
 
 	// print out passed arguments
 	copy(argv, argv + argc, ostream_iterator<char*>(cout, " ")); cout << endl;
@@ -65,6 +66,7 @@ int main(int argc, char *argv[])
 			("applyPhotonIDControlSample", po::value<int>(&applyPhotonIDControlSample)->default_value(0), "Invert photon ID CiC cut to populate selection in gjjj instead of ggjj")
 			("sync_w_phil", po::value<int>(&SYNC_W_PHIL)->default_value(0), "switch on output for dedicated events")
 			("full_dump", po::value<int>(&FULL_DUMP)->default_value(0), "switch on creation of the t.event dump")
+			("printCutFlow", po::value<int>(&printCutFlow)->default_value(0), "print cut flow")
 		;
 		po::variables_map vm;
 		po::store(po::parse_command_line(argc, argv, desc), vm);
@@ -99,9 +101,10 @@ int main(int argc, char *argv[])
 	TTree *intree = (TTree*)infile->Get(inputtree.c_str());
 	TFile *outfile = new TFile(outputfile.c_str(), "RECREATE");
 	TTree *outtree = new TTree(outputtree.c_str(), Form("%s reduced", outputtree.c_str()));
-	ofstream synchrofile, full_dump;
+	ofstream synchrofile, full_dump, cutFlowFile;
 	if(SYNC) synchrofile.open("synchronisation.txt");
 	if(FULL_DUMP) full_dump.open(Form("h2gglobe_%s.txt", inputtree.c_str()));
+    if(printCutFlow) cutFlowFile.open(Form("cutFlow_%s.dat", inputtree.c_str()));
 
 	if(DEBUG) cout << "Setup tree inputs" << endl;
 	if(DEBUG) cout << "Setup tree outputs" << endl;
@@ -152,6 +155,11 @@ int main(int argc, char *argv[])
 	string eventcut[30];
 	int njets[30] = {0};
 	string jetcut[30];
+
+    string flow[30];
+    int cutFlow[30] = {0};
+    int iflow;
+
   int decade = 0;
   int totevents = intree->GetEntries();
   if(DEBUG) totevents = 1;
@@ -192,6 +200,8 @@ int main(int argc, char *argv[])
 			t.gr_hjj_p4_mass = 0.;
 		}
 
+        iflow = 0;
+        flow[iflow] = "Before photon ID"; cutFlow[iflow]++; iflow++;
 		if(DEBUG) cout << "Apply photon ID cuts" << endl;
 		// Apply photon ID cuts
 		nevents[ilevel]++; eventcut[ilevel] = "Before photon ID";
@@ -229,6 +239,8 @@ int main(int argc, char *argv[])
 		nevents[ilevel]++; eventcut[ilevel] = "After fixed pt cut for photon 2 (25 GeV)";
 		nevents_w[ilevel] += t.evweight; ilevel++;
 		nevents_sync[1]++;
+        flow[iflow] = "After photon pt cuts"; cutFlow[iflow]++; iflow++;
+
 		if(DEBUG) cout << "t.ph1_ciclevel= " << t.ph1_ciclevel << "\tph2_ciclevel= " << t.ph2_ciclevel << endl;
 		if( (!applyPhotonIDControlSample) && ((t.ph1_ciclevel < 4) || (t.ph2_ciclevel < 4)) ) continue;
 		else if (applyPhotonIDControlSample)
@@ -241,11 +253,13 @@ int main(int argc, char *argv[])
 			if(ph1_Lid && ph2_Lid) continue; // reject jj
 			if( !( (ph1_id && ph2_Lid) || (ph2_id && ph1_Lid)) ) continue; // reject if different from gj or jg
 		}
+        flow[iflow] = "After photon cic ID"; cutFlow[iflow]++; iflow++;
 		nevents[ilevel]++; eventcut[ilevel] = "After cic cut on both photons";
 		nevents_w[ilevel] += t.evweight; ilevel++;
 		nevents_sync[2]++;
 		if(DEBUG) cout << "t.PhotonsMass= " << t.PhotonsMass << endl;
 		if( (t.PhotonsMass < 100.) || (t.PhotonsMass > 180.) ) continue;
+        flow[iflow] = "After diphoton mass cut"; cutFlow[iflow]++; iflow++;
 		nevents[ilevel]++; eventcut[ilevel] = "After 100 < mgg < 180";
 		nevents_w[ilevel] += t.evweight; ilevel++;
 		nevents_sync[3]++;
@@ -254,6 +268,7 @@ int main(int argc, char *argv[])
 		// take only the subset of events where at least two jets remains
 		if(DEBUG) cout << "t.njets_passing_kLooseID= " << t.njets_passing_kLooseID << endl;
 		if( t.njets_passing_kLooseID < 2 ) continue;
+        flow[iflow] = "After requirement at least two jets in the tree"; cutFlow[iflow]++; iflow++;
 		nevents[ilevel]++; eventcut[ilevel] = "After njet >= 2";
 		nevents_w[ilevel] += t.evweight; ilevel++;
 		nevents_sync[4]++;
@@ -313,6 +328,7 @@ int main(int argc, char *argv[])
 		if( DEBUG && t.njets_passing_kLooseID > 4 ) cout << "t.njets_passing_kLooseID= " << t.njets_passing_kLooseID << "\tnbjet_tmp= " << nbjet_tmp << endl;
 		if(DEBUG) cout << "nbjet_tmp= " << nbjet_tmp << endl;
 		if( nbjet_tmp < 1 ) continue;
+        flow[iflow] = "After at least one CSVM jet"; cutFlow[iflow]++; iflow++;
 		nevents[ilevel]++; eventcut[ilevel] = "After nbjet >= 1";
 		nevents_w[ilevel] += t.evweight; ilevel++;
 		nevents_sync[5]++;
@@ -396,6 +412,7 @@ int main(int argc, char *argv[])
 		// jet combinatorics
 		if( J.jetPt.size() < 2 ) continue;
 		nevents[ilevel]++; eventcut[ilevel] = "After njet >=2 passing the jet selection";
+        flow[iflow] = "After at least two jets passing the jet selection"; cutFlow[iflow]++; iflow++;
 		nevents_w[ilevel] += t.evweight; ilevel++;
 		nevents_sync[6]++;
 
@@ -408,6 +425,7 @@ int main(int argc, char *argv[])
 
 		if( btaggedJet.size() < 1 ) continue;
 		nevents[ilevel]++; eventcut[ilevel] = "After nbjet >=1 passing the jet selection";
+        flow[iflow] = "After at least one CSVM jet passing the jet selection"; cutFlow[iflow]++; iflow++;
 		nevents_w[ilevel] += t.evweight; ilevel++;
 		nevents_sync[7]++;
 		if( btaggedJet.size() == 1) nevents1btag[12]++; 
@@ -1186,6 +1204,8 @@ int main(int argc, char *argv[])
 		t.selection_cut_level = 6;
 		outtree->Fill();
 
+        flow[iflow] = "After all the cuts"; cutFlow[iflow]++; iflow++;
+
 	} // end of loop over events
 
 	if(DEBUG) cout << "end of loop" << endl;
@@ -1198,8 +1218,14 @@ int main(int argc, char *argv[])
 		for(int i=0 ; i < 14 ; i++)
 			cout << nevents_sync[i] << endl;
 
+    if(printCutFlow)
+        for(int i= 0 ; i < 9 ; i++)
+            cutFlowFile << i << "\t" << cutFlow[i] << "\t" << flow[i] << endl;
+
 	if(SYNC) synchrofile.close();
 	if(FULL_DUMP) full_dump.close();
+    if(printCutFlow) cutFlowFile.close();
+
   outfile->cd();
   outtree->Write();
   outfile->Close();
