@@ -300,18 +300,28 @@ if args.part == 999:
     offset["_wh"] = -123
     offset["_zh"] = -122
     offset["tth"] = -121
+    sigma_wh = 0.7046
+    sigma_zh = 0.4153
+    w = {}
+    w["ggh"] = 1.
+    w["vbf"] = 1.
+    w["_wh"] = sigma_wh / (sigma_wh + sigma_zh)
+    w["_zh"] = sigma_zh / (sigma_wh + sigma_zh)
+    w["tth"] = 1.
     for key in flow_hgg:
         if "M300" not in key:
             continue
         off = 0
+        wgt = 1.
         for koff in offset:
             if koff in key:
                 off = int(offset[koff])
+                wgt = w[koff]
         mass = int(key.split("_")[1].split("m")[1])
         print key, off, flow_hgg[key]
         for igraph in range(7):
             x_hgg[igraph].append(mass + off )
-            eff = float(flow_hgg[key][igraph]) / float(flow_hgg[key][0]) * 100.
+            eff = float(flow_hgg[key][igraph]) / float( flow_hgg[key][0] * wgt ) * 100.
             y_hgg[igraph].append( eff )
             n_hgg[igraph] += 1
     for key in flow_low:
