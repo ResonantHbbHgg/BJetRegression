@@ -16,70 +16,71 @@ c1 = TCanvas()
 afs_plottree = "/afs/cern.ch/work/o/obondu/public/forRadion/plotTrees/v10/"
 eos_tree = "root://eoscms//eos/cms/store/cmst3/user/obondu/H2GGLOBE/Radion/trees/radion_redu_11_tree_08"
 
+##### samples.append([ name, dirpath, subdir, file, tree, color, style, label ])
 samples = []
-# samples.append([ name, dirpath, subdir, file, tree, color, style, label ])
 samples.append(["Radion_m300", afs_plottree, "2014-02-17_selection_noRegression_noMassCut_v10", "Radion_m300_8TeV_noRegression_noMassCut_v10.root", "Radion_m300_8TeV", ROOT.kBlue, 0, "m_{X} = 300 GeV"])
-samples.append(["Radion_m300", "/afs/cern.ch/work/f/fbojarsk/CMSSW_6_1_1/src/BJetRegression/", "2014-05-09_selection_noRegression_noMassCut_v10bis_effStudies", "Radion_m300_8TeV_noRegression_noMassCut_v10bis_effStudies.root", "Radion_m300_8TeV", ROOT.kRed, 0, "m_{X} = 300 GeV sans cut"])
+#samples.append(["Radion_m300", "/afs/cern.ch/work/f/fbojarsk/CMSSW_6_1_1/src/BJetRegression/", "2014-05-09_selection_noRegression_noMassCut_v10bis_effStudies", "Radion_m300_8TeV_noRegression_noMassCut_v10bis_effStudies.root", "Radion_m300_8TeV", ROOT.kRed, 0, "m_{X} = 300 GeV sans cut"])
 
+#####plots.append([ name2, variable, cut, norm, binning, title, additional_info, cutline, cutline2 ])
 plots = []
-plots.append(["pho1_pt", "pho1_pt", "", 1., "(100, 0, 500)", "p_{T}^{#gamma1} (GeV)", ""])
-plots.append(["pho2_pt", "pho2_pt", "", 1., "(100, 0, 500)", "p_{T}^{#gamma2} (GeV)", ""])
-plots.append(["jet1_pt", "jet1_pt", "", 1., "(100, 0, 500)", "p_{T}^{jet1} (GeV)", ""])
-plots.append(["jet2_pt", "jet2_pt", "", 1., "(100, 0, 500)", "p_{T}^{jet1} (GeV)", ""])
-plots.append(["pho1_eta", "pho1_eta", "", 1., "(100, -5, 5)", "eta^{#gamma1}", ""])
-plots.append(["pho2_eta", "pho2_eta", "", 1., "(100, -5, 5)", "eta^{#gamma2}", ""])
-plots.append(["jet1_eta", "jet1_eta", "", 1., "(100, -5, 5)", "eta^{jet1}", ""])
-plots.append(["jet2_eta", "jet2_eta", "", 1., "(100, -5, 5)", "eta^{jet1}", ""])
-plots.append(["pho1_phi", "pho1_phi", "", 1., "(100, -5, 5)", "phi^{#gamma1}", ""])
-plots.append(["pho2_phi", "pho2_phi", "", 1., "(100, -5, 5)", "phi^{#gamma2}", ""])
-plots.append(["jet1_phi", "jet1_phi", "", 1., "(100, -5, 5)", "phi^{jet1}", ""])
-plots.append(["jet2_phi", "jet2_phi", "", 1., "(100, -5, 5)", "phi^{jet2}", ""])
-plots.append(["jj_phi", "jj_phi", "", 1., "(100, -5, 5)", "phi^{jj}", ""])
-plots.append(["jj_eta", "jj_eta", "", 1., "(100, -5, 5)", "eta^{jj}", ""])
-plots.append(["gg_phi", "gg_phi", "", 1., "(100, -5, 5)", "phi^{#gamma#gamma}", ""])
-plots.append(["gg_eta", "gg_eta", "", 1., "(100, -5, 5)", "eta^{#gamma#gamma}", ""])
-plots.append(["jj_pt", "jj_pt", "", 1., "(500, 0, 500)", "p_{T}^{jj} (GeV)", ""])
-plots.append(["gg_pt", "gg_pt", "", 1., "(500, 0, 500)", "p_{T}^{#gamma#gamma} (GeV)", ""])
-plots.append(["pho1_mass", "pho1_mass", "", 1., "(100, -1, 1)", "mass^{#gamma1} (GeV)", ""])
-plots.append(["pho2_mass", "pho2_mass", "", 1., "(100, -1, 1)", "mass^{#gamma2} (GeV)", ""])
-plots.append(["jet1_mass", "jet1_mass", "", 1., "(100, 0, 100)", "mass^{jet1} (GeV)", ""])
-plots.append(["jet2_mass", "jet2_mass", "", 1., "(100, 0, 100)", "mass^{jet2} (GeV)", ""])
-plots.append(["jj_mass", "jj_mass", "", 1., "(500, 0, 500)", "mass^{jj} (GeV)", ""])
-plots.append(["gg_mass", "gg_mass", "", 1., "(100, 0, 200)", "mass^{#gamma#gamma} (GeV)", ""])
-plots.append(["pho1_e", "pho1_e", "", 1., "(500, 0, 500)", "e^{#gamma1} (GeV)", ""])
-plots.append(["pho2_e", "pho2_e", "", 1., "(500, 0, 500)", "e^{#gamma2} (GeV)", ""])
-plots.append(["jet1_e", "jet1_e", "", 1., "(500, 0, 500)", "e^{jet1} (GeV)", ""])
-plots.append(["jet2_e", "jet2_e", "", 1., "(500, 0, 500)", "e^{jet2} (GeV)", ""])
-plots.append(["jj_e", "jj_e", "", 1., "(500, 0, 500)", "e^{jj} (GeV)", ""])
-plots.append(["gg_e", "gg_e", "", 1., "(500, 0, 500)", "e^{#gamma#gamma} (GeV)", ""])
-plots.append(["pho1_r9", "pho1_r9", "", 1., "(100, 0, 5)", "r9^{#gamma1}", ""])
-plots.append(["pho2_r9", "pho2_r9", "", 1., "(100, 0, 5)", "r9^{#gamma2}", ""])
-plots.append(["ggjj_pt", "ggjj_pt", "", 1., "(500, 0, 500)", "p_{T}^{#gamma#gammajj} (GeV)", ""])
-plots.append(["ggjj_e", "ggjj_e", "", 1., "(1000, 0, 1000)", "e^{#gamma#gammajj} (GeV)", ""])
-plots.append(["ggjj_mass", "ggjj_mass", "", 1., "(200, 0, 00)", "mass^{#gamma#gammajj} (GeV)", ""])
-plots.append(["ggjj_phi", "ggjj_phi", "", 1., "(100, -5, 5)", "phi^{#gamma#gammajj}", ""])
-plots.append(["ggjj_eta", "ggjj_eta", "", 1., "(100, -10, 10)", "eta^{#gamma#gammajj}", ""])
-plots.append(["pho1_sieie", "pho1_sieie", "", 1., "(100, -0.5, 0.5)", "sieie^{#gamma1}", ""])
-plots.append(["pho2_sieie", "pho2_sieie", "", 1., "(100, -0.5, 0.5)", "sieie^{#gamma2}", ""])
-plots.append(["jet1_betaStarClassic", "jet1_betaStarClassic", "", 1., "(20, 0, 1)", "betaStarClassic^{jet1}", ""])
-plots.append(["jet2_betaStarClassic", "jet2_betaStarClassic", "", 1., "(20, 0, 1)", "betaStarClassic^{jet2}", ""])
-plots.append(["jet1_dR2Mean", "jet1_dR2Mean", "", 1., "(80,0, 0.2)", "dR2Mean^{jet1}", ""])
-plots.append(["jet2_dR2Mean", "jet2_dR2Mean", "", 1., "(80,0, 0.2)", "dR2Mean^{jet2}", ""])
-plots.append(["pho1_hoe", "pho1_hoe", "", 1., "(100,0, .05)", "hoe^{#gamma1}", ""])
-plots.append(["pho2_hoe", "pho2_hoe", "", 1., "(100,0, .05)", "hoe^{#gamma2}", ""])
-plots.append(["pho1_PFisoA", "pho1_PFisoA", "", 1., "(100,0, 10)", "PFisoA^{#gamma1}", ""])
-plots.append(["pho1_PFisoB", "pho1_PFisoB", "", 1., "(150,-5, 10)", "PFisoB^{#gamma1}", ""])
-plots.append(["pho2_PFisoA", "pho2_PFisoA", "", 1., "(100,0, 10)", "PFisoA^{#gamma2}", ""])
-plots.append(["pho2_PFisoB", "pho2_PFisoB", "", 1., "(150,-5, 10)", "PFisoB^{#gamma2}", ""])
-plots.append(["pho1_isconv", "pho1_isconv", "", 1., "(100,0, 1)", "isconv^{#gamma1}", ""])
-plots.append(["pho2_isconv", "pho2_isconv", "", 1., "(100,0, 1)", "isconv^{#gamma2}", ""])
-plots.append(["jet1_csvBtag", "jet1_csvBtag", "", 1., "(100, 0, 1)", "csvBtag^{jet1}", ""])
-plots.append(["jet2_csvBtag", "jet2_csvBtag", "", 1., "(100, 0, 1)", "csvBtag^{jet2}", ""])
+plots.append(["pho1_pt", "pho1_pt", "", 1., "(100, 0, 500)", "p_{T}^{#gamma1} (GeV)", "", 33.3, ""])
+plots.append(["pho2_pt", "pho2_pt", "", 1., "(100, 0, 500)", "p_{T}^{#gamma2} (GeV)", "", 25., ""])
+plots.append(["jet1_pt", "jet1_pt", "", 1., "(100, 0, 500)", "p_{T}^{jet1} (GeV)", "", 25., ""])
+plots.append(["jet2_pt", "jet2_pt", "", 1., "(100, 0, 500)", "p_{T}^{jet1} (GeV)", "", 25., ""])
+plots.append(["pho1_eta", "pho1_eta", "", 1., "(100, -5, 5)", "eta^{#gamma1}", "", 2.5, -2.5])
+plots.append(["pho2_eta", "pho2_eta", "", 1., "(100, -5, 5)", "eta^{#gamma2}", "", 2.5, -2.5])
+plots.append(["jet1_eta", "jet1_eta", "", 1., "(100, -5, 5)", "eta^{jet1}", "", "", ""])
+plots.append(["jet2_eta", "jet2_eta", "", 1., "(100, -5, 5)", "eta^{jet1}", "", "", ""])
+plots.append(["pho1_phi", "pho1_phi", "", 1., "(100, -5, 5)", "phi^{#gamma1}", "", "", ""])
+plots.append(["pho2_phi", "pho2_phi", "", 1., "(100, -5, 5)", "phi^{#gamma2}", "", "", ""])
+plots.append(["jet1_phi", "jet1_phi", "", 1., "(100, -5, 5)", "phi^{jet1}", "", "", ""])
+plots.append(["jet2_phi", "jet2_phi", "", 1., "(100, -5, 5)", "phi^{jet2}", "", "", ""])
+plots.append(["jj_phi", "jj_phi", "", 1., "(100, -5, 5)", "phi^{jj}", "", "", ""])
+plots.append(["jj_eta", "jj_eta", "", 1., "(100, -5, 5)", "eta^{jj}", "", "", ""])
+plots.append(["gg_phi", "gg_phi", "", 1., "(100, -5, 5)", "phi^{#gamma#gamma}", "", "", ""])
+plots.append(["gg_eta", "gg_eta", "", 1., "(100, -5, 5)", "eta^{#gamma#gamma}", "", "", ""])
+plots.append(["jj_pt", "jj_pt", "", 1., "(500, 0, 500)", "p_{T}^{jj} (GeV)", "", "", ""])
+plots.append(["gg_pt", "gg_pt", "", 1., "(500, 0, 500)", "p_{T}^{#gamma#gamma} (GeV)", "", "", ""])
+plots.append(["pho1_mass", "pho1_mass", "", 1., "(100, -1, 1)", "mass^{#gamma1} (GeV)", "", "", ""])
+plots.append(["pho2_mass", "pho2_mass", "", 1., "(100, -1, 1)", "mass^{#gamma2} (GeV)", "", "", ""])
+plots.append(["jet1_mass", "jet1_mass", "", 1., "(100, 0, 100)", "mass^{jet1} (GeV)", "", "", ""])
+plots.append(["jet2_mass", "jet2_mass", "", 1., "(100, 0, 100)", "mass^{jet2} (GeV)", "", "", ""])
+plots.append(["jj_mass", "jj_mass", "", 1., "(500, 0, 500)", "mass^{jj} (GeV)", "", "", ""])
+plots.append(["gg_mass", "gg_mass", "", 1., "(100, 0, 200)", "mass^{#gamma#gamma} (GeV)", "", 100., 180.])
+plots.append(["pho1_e", "pho1_e", "", 1., "(500, 0, 500)", "e^{#gamma1} (GeV)", "", "", ""])
+plots.append(["pho2_e", "pho2_e", "", 1., "(500, 0, 500)", "e^{#gamma2} (GeV)", "", "", ""])
+plots.append(["jet1_e", "jet1_e", "", 1., "(500, 0, 500)", "e^{jet1} (GeV)", "", "", ""])
+plots.append(["jet2_e", "jet2_e", "", 1., "(500, 0, 500)", "e^{jet2} (GeV)", "", "", ""])
+plots.append(["jj_e", "jj_e", "", 1., "(500, 0, 500)", "e^{jj} (GeV)", "", "", ""])
+plots.append(["gg_e", "gg_e", "", 1., "(500, 0, 500)", "e^{#gamma#gamma} (GeV)", "", "", ""])
+plots.append(["pho1_r9", "pho1_r9", "", 1., "(100, 0, 5)", "r9^{#gamma1}", "", "", ""])
+plots.append(["pho2_r9", "pho2_r9", "", 1., "(100, 0, 5)", "r9^{#gamma2}", "", "", ""])
+plots.append(["ggjj_pt", "ggjj_pt", "", 1., "(500, 0, 500)", "p_{T}^{#gamma#gammajj} (GeV)", "", "", ""])
+plots.append(["ggjj_e", "ggjj_e", "", 1., "(1000, 0, 1000)", "e^{#gamma#gammajj} (GeV)", "", "", ""])
+plots.append(["ggjj_mass", "ggjj_mass", "", 1., "(200, 0, 00)", "mass^{#gamma#gammajj} (GeV)", "", "", ""])
+plots.append(["ggjj_phi", "ggjj_phi", "", 1., "(100, -5, 5)", "phi^{#gamma#gammajj}", "", "", ""])
+plots.append(["ggjj_eta", "ggjj_eta", "", 1., "(100, -10, 10)", "eta^{#gamma#gammajj}", "", "", ""])
+plots.append(["pho1_sieie", "pho1_sieie", "", 1., "(100, -0.5, 0.5)", "sieie^{#gamma1}", "", "", ""])
+plots.append(["pho2_sieie", "pho2_sieie", "", 1., "(100, -0.5, 0.5)", "sieie^{#gamma2}", "", "", ""])
+plots.append(["jet1_betaStarClassic", "jet1_betaStarClassic", "", 1., "(20, 0, 1)", "betaStarClassic^{jet1}", "", "", ""])
+plots.append(["jet2_betaStarClassic", "jet2_betaStarClassic", "", 1., "(20, 0, 1)", "betaStarClassic^{jet2}", "", "", ""])
+plots.append(["jet1_dR2Mean", "jet1_dR2Mean", "", 1., "(80,0, 0.2)", "dR2Mean^{jet1}", "", "", ""])
+plots.append(["jet2_dR2Mean", "jet2_dR2Mean", "", 1., "(80,0, 0.2)", "dR2Mean^{jet2}", "", "", ""])
+plots.append(["pho1_hoe", "pho1_hoe", "", 1., "(100,0, .05)", "hoe^{#gamma1}", "", "", ""])
+plots.append(["pho2_hoe", "pho2_hoe", "", 1., "(100,0, .05)", "hoe^{#gamma2}", "", "", ""])
+plots.append(["pho1_PFisoA", "pho1_PFisoA", "", 1., "(100,0, 10)", "PFisoA^{#gamma1}", "", "", ""])
+plots.append(["pho1_PFisoB", "pho1_PFisoB", "", 1., "(150,-5, 10)", "PFisoB^{#gamma1}", "", "", ""])
+plots.append(["pho2_PFisoA", "pho2_PFisoA", "", 1., "(100,0, 10)", "PFisoA^{#gamma2}", "", "", ""])
+plots.append(["pho2_PFisoB", "pho2_PFisoB", "", 1., "(150,-5, 10)", "PFisoB^{#gamma2}", "", "", ""])
+plots.append(["pho1_isconv", "pho1_isconv", "", 1., "(100,0, 1)", "isconv^{#gamma1}", "", "", ""])
+plots.append(["pho2_isconv", "pho2_isconv", "", 1., "(100,0, 1)", "isconv^{#gamma2}", "", "", ""])
+plots.append(["jet1_csvBtag", "jet1_csvBtag", "", 1., "(100, 0, 1)", "csvBtag^{jet1}", "", "", ""])
+plots.append(["jet2_csvBtag", "jet2_csvBtag", "", 1., "(100, 0, 1)", "csvBtag^{jet2}", "", "", ""])
 
 
 
 
-for name2, variable, cut, norm, binning, title, additional_info in plots:
+for name2, variable, cut, norm, binning, title, additional_info, cutline, cutline2 in plots:
     c1 = TCanvas()
     legend = TLegend(0.45, 0.82, 0.90, 0.93, "")
     legend.SetTextSize(0.025)
@@ -108,9 +109,9 @@ for name2, variable, cut, norm, binning, title, additional_info in plots:
         chain.Draw(variable + ">>h_tmp" + binning, sample_cut, option)
         # Cosmetics
         h = ROOT.gDirectory.Get("h_tmp")
-        h.SetName(name + str(ifile))
+        h.SetName(name + "_" + name2 + "_" + str(ifile))
         if ifile == 0:
-            firsthistname = name + str(ifile)
+            firsthistname = name + "_" + name2 + "_" + str(ifile)
         h.SetLineWidth(3)
         h.SetLineColor(color)
         h.SetFillColor(color)
@@ -127,7 +128,6 @@ for name2, variable, cut, norm, binning, title, additional_info in plots:
         del chain, h
 
 
-    
 
     ymin_lin = ymin / 10.
     yrange_lin = ymax - ymin_lin
@@ -143,71 +143,24 @@ for name2, variable, cut, norm, binning, title, additional_info in plots:
     latexLabel.DrawLatex(.20, .85, additional_info)
     ROOT.gPad.RedrawAxis()
     legend.Draw()
+    c1.Update()
 
-    if name2 == "jet1_pt":
-        line = TLine(25, ymin, 25, ymax)
-        line.SetLineStyle(2)
-        line.Draw("SAME")
-
-    if name2 == "jet2_pt":
-        line = TLine(25, ymin, 25, ymax)
-        line.SetLineStyle(2)
-        line.Draw("SAME") 
-
-    if name2 == "pho1_pt":
-        line = TLine(33.3, ymin, 33.3, ymax)
-        line.SetLineStyle(2)
-        line.Draw("SAME")
-
-    if name2 == "pho2_pt":
-        line = TLine(25, ymin, 25, ymax)
-        line.SetLineStyle(2)
-        line.Draw("SAME")
-
-    if name2 == "jet1_eta":
-        line = TLine(2.5, ymin, 2.5, ymax)
-        line.SetLineStyle(2)
-        line.Draw("SAME")
-        line2 = TLine(-2.5, ymin, -2.5, ymax)
-        line2.SetLineStyle(2)
-        line2.Draw("same")
-
-
-    if name2 == "jet2_eta":
-        line = TLine(2.5, ymin, 2.5, ymax)
-        line.SetLineStyle(2)
-        line.Draw("SAME")
-        line2 = TLine(-2.5, ymin, -2.5, ymax)
-        line2.SetLineStyle(2)
-        line2.Draw("same")
-
-    if name2 == "pho1_eta":
-        line = TLine(2.5, ymin, 2.5, ymax)
-        line.SetLineStyle(2)
-        line.Draw("SAME")
-        line2 = TLine(-2.5, ymin, -2.5, ymax)
-        line2.SetLineStyle(2)
-        line2.Draw("same")
- 
-    if name2 == "pho2_eta":
-        line = TLine(2.5, ymin, 2.5, ymax)
-        line.SetLineStyle(2)
-        line.Draw("SAME")
-        line2 = TLine(-2.5, ymin, -2.5, ymax)
-        line2.SetLineStyle(2)
-        line2.Draw("same")
-
-    if name2 == "gg_mass":
-        line = TLine(100, ymin,100, ymax)
-        line.SetLineStyle(2)
-        line.Draw("SAME")
-        line2 = TLine(180, ymin, 180, ymax)
-        line2.SetLineStyle(2)
-        line2.Draw("same")
+    line = TLine()
+    line.SetLineStyle(2)
+    line.SetLineWidth(2)
+    line2 = TLine()
+    line2.SetLineStyle(2)
+    line2.SetLineWidth(2)
 
     h = ROOT.gDirectory.Get(firsthistname)
     h.SetMaximum(ymax_lin)
     h.SetMinimum(ymin_lin)
+    if cutline != "":
+        line.SetX1(cutline); line.SetY1(ymin_lin); line.SetX2(cutline); line.SetY2(ymax)
+        line.Draw("same")
+    if cutline2 != "":
+        line2.SetX1(cutline2); line2.SetY1(ymin_lin); line2.SetX2(cutline2); line2.SetY2(ymax)
+        line2.Draw("same")
     c1.Update()
     c1.Print("pdf/" + name2 + ".pdf")
     c1.Print("gif/" + name2 + ".gif")
@@ -218,6 +171,12 @@ for name2, variable, cut, norm, binning, title, additional_info in plots:
     h.SetMaximum(ymax_log)
     h.SetMinimum(ymin_log)
     h.GetYaxis().SetRangeUser(ymin_log, ymax_log)
+    if cutline != "":
+        line.SetX1(cutline); line.SetY1(ymin_log); line.SetX2(cutline); line.SetY2(ymax)
+        line.Draw("same")
+    if cutline2 != "":
+        line2.SetX1(cutline2); line2.SetY1(ymin_log); line2.SetX2(cutline2); line2.SetY2(ymax)
+        line2.Draw("same")
     c1.Update()
     c1.Print("pdf/" + name2 + "_log.pdf")
     c1.Print("gif/" + name2 + "_log.gif")
