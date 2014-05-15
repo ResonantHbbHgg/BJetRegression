@@ -368,10 +368,10 @@ int main(int argc, char *argv[])
 			njets[1]++; jetcut[1] = "After jet pt > 25";
 			if( fabs(t.jet_eta) > 2.5 ) continue;
 			njets[2]++; jetcut[2] = "After jet |eta| < 2.5";
-			if( t.jet_betaStarClassic > 0.2 * log( t.nvtx - 0.64) ) continue;
-			njets[3]++; jetcut[3] = "After t.jet_betaStarClassic > 0.2 * log( t.nvtx - 0.64)";
-			if( t.jet_dR2Mean > 0.06 ) continue;
-			njets[4]++; jetcut[4] = "After t.jet_dR2Mean > 0.06";
+//			if( t.jet_betaStarClassic > 0.2 * log( t.nvtx - 0.64) ) continue;
+//			njets[3]++; jetcut[3] = "After t.jet_betaStarClassic > 0.2 * log( t.nvtx - 0.64)";
+//			if( t.jet_dR2Mean > 0.06 ) continue;
+//			njets[4]++; jetcut[4] = "After t.jet_dR2Mean > 0.06";
 			if(DEBUG) cout << "Jet is passing selection cuts" << endl;
 			// ** call regression to correct the pt **
 			// ** store 4-momentum + csv output for combinatorics **
@@ -738,6 +738,12 @@ int main(int argc, char *argv[])
 		TLorentzVector ggjj_jerU = jj_jerU + gg;
 		TLorentzVector kinggjj_jerU = kinjj_jerU + gg;
 
+      //Match DeltaR jet/b
+        TLorentzVector gr_b1;
+        gr_b1.SetPtEtaPhiM (t.gr_b1_p4_pt, t.gr_b1_p4_eta, t.gr_b1_p4_phi, t.gr_b1_p4_mass);
+        TLorentzVector gr_b2;
+        gr_b2.SetPtEtaPhiM (t.gr_b2_p4_pt, t.gr_b2_p4_eta, t.gr_b2_p4_phi, t.gr_b2_p4_mass);
+
 		t.selection_cut_level = 0;
 		t.weight = t.ev_weight;
 		t.evweight = t.ev_evweight;
@@ -1051,7 +1057,23 @@ int main(int argc, char *argv[])
 		t.kinjj_mass_jerU = kinjj_jerU.M();
 		t.ggjj_mass_jerU = ggjj_jerU.M();
 		t.kinggjj_mass_jerU = kinggjj_jerU.M();
-// t.costhetastar
+
+        //Matching DeltaR jet/b
+        t.gr_b1_DeltaR_jet1=gr_b1.DeltaR(jet1);
+        t.gr_b1_DeltaR_jet2=gr_b1.DeltaR(jet2);
+        t.gr_b2_DeltaR_jet1=gr_b2.DeltaR(jet1);
+        t.gr_b2_DeltaR_jet2=gr_b2.DeltaR(jet2);
+
+        if (gr_b1.DeltaR(jet1) < gr_b2.DeltaR(jet1))
+        {
+        t.gr_b_DeltaR_min_jet1 = gr_b1.DeltaR(jet1);
+        t.gr_b_DeltaR_min_jet2 = gr_b2.DeltaR(jet2);
+        } else
+        {t.gr_b_DeltaR_min_jet1 = gr_b2.DeltaR(jet1);
+        t.gr_b_DeltaR_min_jet2 = gr_b1.DeltaR(jet2);
+        }
+
+        // t.costhetastar
 		TLorentzVector Hgg_Rstar(gg);
 		TLorentzVector regHgg_Rstar(gg);
 		TLorentzVector regkinHgg_Rstar(gg);

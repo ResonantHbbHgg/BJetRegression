@@ -246,7 +246,8 @@ struct tree_variables
 	float kinjj_mass_jecD, kinjj_mass_jecU, kinjj_mass_jerD, kinjj_mass_jerC, kinjj_mass_jerU;
 	float ggjj_mass_jecD, ggjj_mass_jecU, ggjj_mass_jerD, ggjj_mass_jerC, ggjj_mass_jerU;
 	float kinggjj_mass_jecD, kinggjj_mass_jecU, kinggjj_mass_jerD, kinggjj_mass_jerC, kinggjj_mass_jerU;
-
+    //Matching DeltaR jet/b
+    float gr_b1_DeltaR_jet1, gr_b1_DeltaR_jet2, gr_b2_DeltaR_jet1, gr_b2_DeltaR_jet2, gr_b_DeltaR_min_jet1, gr_b_DeltaR_min_jet2;
 
 	int njets_passing_kLooseID;
 	int njets_passing_kLooseID_and_CSVM;
@@ -1193,6 +1194,8 @@ void setup_outtree(TTree* outtree, tree_variables *t)
 	outtree->Branch("pho2_perD_e", &t->ph2_perD_e, "pho2_perD_e/F");
 	outtree->Branch("pho1_perU_e", &t->ph1_perU_e, "pho1_perU_e/F");
 	outtree->Branch("pho2_perU_e", &t->ph2_perU_e, "pho2_perU_e/F");
+    outtree->Branch("ph1_ciclevel", &t->ph1_ciclevel, "ph1_ciclevel/I");   
+    outtree->Branch("ph2_ciclevel", &t->ph2_ciclevel, "ph2_ciclevel/I");
 	outtree->Branch("jet1_pt", &t->jet1_pt, "jet1_pt/F");
 	outtree->Branch("jet1_pt", &t->jet1_pt, "jet1_pt/F");
 	outtree->Branch("jet1_e", &t->jet1_e, "jet1_e/F");
@@ -1488,6 +1491,8 @@ void setup_outtree(TTree* outtree, tree_variables *t)
 	outtree->Branch("kinggjj_mass_pesU", &t->kinggjj_mass_pesU, "kinggjj_mass_pesU/F");
 	outtree->Branch("kinggjj_mass_perD", &t->kinggjj_mass_perD, "kinggjj_mass_perD/F");
 	outtree->Branch("kinggjj_mass_perU", &t->kinggjj_mass_perU, "kinggjj_mass_perU/F");
+
+    
 	// Jet Energy Correction and Jet Energy Resolution
 	outtree->Branch("jj_mass_jecD", &t->jj_mass_jecD, "jj_mass_jecD/F");
 	outtree->Branch("jj_mass_jecU", &t->jj_mass_jecU, "jj_mass_jecU/F");
@@ -1510,6 +1515,13 @@ void setup_outtree(TTree* outtree, tree_variables *t)
 	outtree->Branch("kinggjj_mass_jerC", &t->kinggjj_mass_jerC, "kinggjj_mass_jerC/F");
 	outtree->Branch("kinggjj_mass_jerU", &t->kinggjj_mass_jerU, "kinggjj_mass_jerU/F");
 	
+    //Matching DeltaR jet/b
+    outtree->Branch("gr_b1_DeltaR_jet1", &t->gr_b1_DeltaR_jet1, "gr_b1_DeltaR_jet1/F");
+    outtree->Branch("gr_b1_DeltaR_jet2", &t->gr_b1_DeltaR_jet2, "gr_b1_DeltaR_jet2/F");
+    outtree->Branch("gr_b2_DeltaR_jet1", &t->gr_b2_DeltaR_jet1, "gr_b2_DeltaR_jet1/F");
+    outtree->Branch("gr_b2_DeltaR_jet2", &t->gr_b2_DeltaR_jet2, "gr_b2_DeltaR_jet2/F");
+    outtree->Branch("gr_b_DeltaR_min_jet1", &t->gr_b_DeltaR_min_jet1, "gr_b_DeltaR_min_jet1/F");
+    outtree->Branch("gr_b_DeltaR_min_jet2", &t->gr_b_DeltaR_min_jet2, "gr_b_DeltaR_min_jet2/F");    
 	return;
 }
 
