@@ -86,7 +86,7 @@ plots.append(["pho2_PFisoC", "pho2_PFisoC", "","ph2_ciclevel >= 4", 2., "evweigh
 #plots.append(["gr_b_DeltaR_min_jet1_cat0", "gr_b_DeltaR_min_jet1", "njets_kRadionID_and_CSVM >= 2", "gr_b_DeltaR_min_jet1 < 0.4", 2., "evweight", "(50, 0, 15)", "gr_b_DeltaR_min_jet1_cat0", "", "", ""])
 #plots.append(["gr_b_DeltaR_min_jet2_cat0", "gr_b_DeltaR_min_jet2", "njets_kRadionID_and_CSVM >= 2", "gr_b_DeltaR_min_jet2 < 0.4", 2., "evweight", "(50, 0, 15)", "gr_b_DeltaR_min_jet2_cat0", "", "", ""])
 #plots.append(["DeltaR_pho1_jet_min", "DeltaR_pho1_jet_min", "", "", 2., "evweight", "(50, 0, 5)", "DeltaR_pho1_jet_min", "", "", ""])
-plots.append(["DeltaR_pho2_jet_min", "DeltaR_pho2_jet_min", "", "ph2_ciclevel >= 4", 2., "evweight", "(40, 0 , 4)", "DeltaR_pho2_jet_min", "", "", ""])
+plots.append(["DeltaR_pho2_jet_min", "DeltaR_pho2_jet_min", "", "ph2_ciclevel >= 4", 2., "evweight", "(40, 0 , 4)", "min #Delta R(#gamma_{2}, jet)", "", "", ""])
 plots.append(["DeltaR_pho1_pho2", "DeltaR_pho1_pho2", "", "ph2_ciclevel >= 4", 2., "evweight", "(20, 0 , 5)", "DeltaR_pho1_pho2", "", "", ""])
 
 
@@ -224,7 +224,7 @@ for name2, variable, cut, critere_eff,  norm, Scale_Factor, binning, title, addi
     latexLabel.DrawLatex(.25, .96, "CMS Internal     L = 19.7 fb^{-1}     #sqrt{s} = 8 TeV")
     latexLabel.DrawLatex(.20, .85, additional_info)
     ROOT.gPad.RedrawAxis()
-#    legend.Draw()
+    legend.Draw()
     c1.Update()
 
     line = TLine()
