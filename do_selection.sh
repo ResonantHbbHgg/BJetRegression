@@ -1,7 +1,7 @@
 #!/bin/bash
 
 today=`date +"%Y-%m-%d"`
-version="v10_cutflow"
+version="v10bis_effStudies"
 
 eosprefix="root://eoscms//eos/cms"
 eospath="/store/cmst3/user/obondu/H2GGLOBE/Radion/trees/"
@@ -18,113 +18,113 @@ i=-1
 ##### SIGNAL
 ### LONG SAMPLE LIST
 i=$((${i} + 1))
-infile[${i}]="radion_redu_11_tree_08/RadionToHH_2Gamma_2b.root"
+infile[${i}]="radion_redu_11_tree_08b/Radion_nm_lowMass.root"
 tree[${i}]="Radion_m270_8TeV"
 outtree[${i}]="Radion_m270_8TeV"
 typ[${i}]="-270"
 
 i=$((${i} + 1))
-infile[${i}]="radion_redu_11_tree_08/Radion_nm.root"
+infile[${i}]="radion_redu_11_tree_08b/Radion_nm_300.root"
 tree[${i}]="Radion_m300_8TeV_nm"
 outtree[${i}]="Radion_m300_8TeV"
 typ[${i}]="-300"
 
 i=$((${i} + 1))
-infile[${i}]="radion_redu_11_tree_08/RadionToHH_2Gamma_2b.root"
+infile[${i}]="radion_redu_11_tree_08b/Radion_nm_lowMass.root"
 tree[${i}]="Radion_m350_8TeV"
 outtree[${i}]="Radion_m350_8TeV"
 typ[${i}]="-350"
 
 i=$((${i} + 1))
-infile[${i}]="radion_redu_11_tree_08/RadionToHH_2Gamma_2b.root"
+infile[${i}]="radion_redu_11_tree_08b/Radion_nm_lowMass.root"
 tree[${i}]="Radion_m400_8TeV"
 outtree[${i}]="Radion_m400_8TeV"
 typ[${i}]="-400"
 
-i=$((${i} + 1))
-infile[${i}]="radion_redu_11_tree_08/RadionToHH_2Gamma_2b.root"
-tree[${i}]="Radion_m450_8TeV"
-outtree[${i}]="Radion_m450_8TeV"
-typ[${i}]="-450"
-
-i=$((${i} + 1))
-infile[${i}]="radion_redu_11_tree_08/Radion_nm.root"
-tree[${i}]="Radion_m500_8TeV_nm"
-outtree[${i}]="Radion_m500_8TeV"
-typ[${i}]="-500"
-
-i=$((${i} + 1))
-infile[${i}]="radion_redu_11_tree_08/RadionToHH_2Gamma_2b.root"
-tree[${i}]="Radion_m550_8TeV"
-outtree[${i}]="Radion_m550_8TeV"
-typ[${i}]="-550"
-
-i=$((${i} + 1))
-infile[${i}]="radion_redu_11_tree_08/RadionToHH_2Gamma_2b.root"
-tree[${i}]="Radion_m600_8TeV"
-outtree[${i}]="Radion_m600_8TeV"
-typ[${i}]="-600"
-
-i=$((${i} + 1))
-infile[${i}]="radion_redu_11_tree_08/RadionToHH_2Gamma_2b.root"
-tree[${i}]="Radion_m650_8TeV"
-outtree[${i}]="Radion_m650_8TeV"
-typ[${i}]="-650"
-
-i=$((${i} + 1))
-infile[${i}]="radion_redu_11_tree_08/Radion_nm.root"
-tree[${i}]="Radion_m700_8TeV_nm"
-outtree[${i}]="Radion_m700_8TeV"
-typ[${i}]="-700"
-
-i=$((${i} + 1))
-infile[${i}]="radion_redu_11_tree_08/RadionToHH_2Gamma_2b.root"
-tree[${i}]="Radion_m800_8TeV"
-outtree[${i}]="Radion_m800_8TeV"
-typ[${i}]="-800"
-
-i=$((${i} + 1))
-infile[${i}]="radion_redu_11_tree_08/RadionToHH_2Gamma_2b.root"
-tree[${i}]="Radion_m900_8TeV"
-outtree[${i}]="Radion_m900_8TeV"
-typ[${i}]="-900"
-
-i=$((${i} + 1))
-infile[${i}]="radion_redu_11_tree_08/Radion_nm.root"
-tree[${i}]="Radion_m1000_8TeV_nm"
-outtree[${i}]="Radion_m1000_8TeV"
-typ[${i}]="-1000"
-
-i=$((${i} + 1))
-infile[${i}]="radion_redu_11_tree_08/RadionToHH_2Gamma_2b.root"
-tree[${i}]="Radion_m1100_8TeV"
-outtree[${i}]="Radion_m1100_8TeV"
-typ[${i}]="-1100"
-
-i=$((${i} + 1))
-infile[${i}]="radion_redu_11_tree_08/RadionToHH_2Gamma_2b.root"
-tree[${i}]="Radion_m1200_8TeV"
-outtree[${i}]="Radion_m1200_8TeV"
-typ[${i}]="-1200"
-
-i=$((${i} + 1))
-infile[${i}]="radion_redu_11_tree_08/RadionToHH_2Gamma_2b.root"
-tree[${i}]="Radion_m1300_8TeV"
-outtree[${i}]="Radion_m1300_8TeV"
-typ[${i}]="-1300"
-
-i=$((${i} + 1))
-infile[${i}]="radion_redu_11_tree_08/RadionToHH_2Gamma_2b.root"
-tree[${i}]="Radion_m1400_8TeV"
-outtree[${i}]="Radion_m1400_8TeV"
-typ[${i}]="-1400"
-
-i=$((${i} + 1))
-infile[${i}]="radion_redu_11_tree_08/Radion_nm.root"
-tree[${i}]="Radion_m1500_8TeV_nm"
-outtree[${i}]="Radion_m1500_8TeV"
-typ[${i}]="-1500"
-
+#i=$((${i} + 1))
+#infile[${i}]="radion_redu_11_tree_08/RadionToHH_2Gamma_2b.root"
+#tree[${i}]="Radion_m450_8TeV"
+#outtree[${i}]="Radion_m450_8TeV"
+#typ[${i}]="-450"
+#
+#i=$((${i} + 1))
+#infile[${i}]="radion_redu_11_tree_08/Radion_nm.root"
+#tree[${i}]="Radion_m500_8TeV_nm"
+#outtree[${i}]="Radion_m500_8TeV"
+#typ[${i}]="-500"
+#
+#i=$((${i} + 1))
+#infile[${i}]="radion_redu_11_tree_08/RadionToHH_2Gamma_2b.root"
+#tree[${i}]="Radion_m550_8TeV"
+#outtree[${i}]="Radion_m550_8TeV"
+#typ[${i}]="-550"
+#
+#i=$((${i} + 1))
+#infile[${i}]="radion_redu_11_tree_08/RadionToHH_2Gamma_2b.root"
+#tree[${i}]="Radion_m600_8TeV"
+#outtree[${i}]="Radion_m600_8TeV"
+#typ[${i}]="-600"
+#
+#i=$((${i} + 1))
+#infile[${i}]="radion_redu_11_tree_08/RadionToHH_2Gamma_2b.root"
+#tree[${i}]="Radion_m650_8TeV"
+#outtree[${i}]="Radion_m650_8TeV"
+#typ[${i}]="-650"
+#
+#i=$((${i} + 1))
+#infile[${i}]="radion_redu_11_tree_08/Radion_nm.root"
+#tree[${i}]="Radion_m700_8TeV_nm"
+#outtree[${i}]="Radion_m700_8TeV"
+#typ[${i}]="-700"
+#
+#i=$((${i} + 1))
+#infile[${i}]="radion_redu_11_tree_08/RadionToHH_2Gamma_2b.root"
+#tree[${i}]="Radion_m800_8TeV"
+#outtree[${i}]="Radion_m800_8TeV"
+#typ[${i}]="-800"
+#
+#i=$((${i} + 1))
+#infile[${i}]="radion_redu_11_tree_08/RadionToHH_2Gamma_2b.root"
+#tree[${i}]="Radion_m900_8TeV"
+#outtree[${i}]="Radion_m900_8TeV"
+#typ[${i}]="-900"
+#
+#i=$((${i} + 1))
+#infile[${i}]="radion_redu_11_tree_08/Radion_nm.root"
+#tree[${i}]="Radion_m1000_8TeV_nm"
+#outtree[${i}]="Radion_m1000_8TeV"
+#typ[${i}]="-1000"
+#
+#i=$((${i} + 1))
+#infile[${i}]="radion_redu_11_tree_08/RadionToHH_2Gamma_2b.root"
+#tree[${i}]="Radion_m1100_8TeV"
+#outtree[${i}]="Radion_m1100_8TeV"
+#typ[${i}]="-1100"
+#
+#i=$((${i} + 1))
+#infile[${i}]="radion_redu_11_tree_08/RadionToHH_2Gamma_2b.root"
+#tree[${i}]="Radion_m1200_8TeV"
+#outtree[${i}]="Radion_m1200_8TeV"
+#typ[${i}]="-1200"
+#
+#i=$((${i} + 1))
+#infile[${i}]="radion_redu_11_tree_08/RadionToHH_2Gamma_2b.root"
+#tree[${i}]="Radion_m1300_8TeV"
+#outtree[${i}]="Radion_m1300_8TeV"
+#typ[${i}]="-1300"
+#
+#i=$((${i} + 1))
+#infile[${i}]="radion_redu_11_tree_08/RadionToHH_2Gamma_2b.root"
+#tree[${i}]="Radion_m1400_8TeV"
+#outtree[${i}]="Radion_m1400_8TeV"
+#typ[${i}]="-1400"
+#
+#i=$((${i} + 1))
+#infile[${i}]="radion_redu_11_tree_08/Radion_nm.root"
+#tree[${i}]="Radion_m1500_8TeV_nm"
+#outtree[${i}]="Radion_m1500_8TeV"
+#typ[${i}]="-1500"
+#
 ### MSSM samples
 #i=$((${i} + 1))
 #infile[${i}]="radion_redu_11_tree_08/MSSM_Higgs_RD.root"
@@ -182,37 +182,37 @@ typ[${i}]="-1500"
 #outtree[${i}]="ggh_m125_minlo_8TeV"
 #typ[${i}]="-1"
 #
-i=$((${i} + 1))
-infile[${i}]="radion_redu_11_tree_08/SMHiggs.root"
-tree[${i}]="ggh_m125_powheg_8TeV"
-outtree[${i}]="ggh_m125_powheg_8TeV"
-typ[${i}]="-1"
-
-i=$((${i} + 1))
-infile[${i}]="radion_redu_11_tree_08/SMHiggs.root"
-tree[${i}]="vbf_m125_8TeV"
-outtree[${i}]="vbf_m125_8TeV"
-typ[${i}]="-1"
-
-i=$((${i} + 1))
-infile[${i}]="radion_redu_11_tree_08/SMHiggs.root"
-tree[${i}]="wzh_m125_8TeV_wh"
-outtree[${i}]="wzh_m125_8TeV_wh"
-typ[${i}]="-1"
-
-i=$((${i} + 1))
-infile[${i}]="radion_redu_11_tree_08/SMHiggs.root"
-tree[${i}]="wzh_m125_8TeV_zh"
-outtree[${i}]="wzh_m125_8TeV_zh"
-typ[${i}]="-1"
-
-i=$((${i} + 1))
-infile[${i}]="radion_redu_11_tree_08/SMHiggs.root"
-tree[${i}]="tth_m125_8TeV"
-outtree[${i}]="tth_m125_8TeV"
-typ[${i}]="-1"
-
-
+#i=$((${i} + 1))
+#infile[${i}]="radion_redu_11_tree_08/SMHiggs.root"
+#tree[${i}]="ggh_m125_powheg_8TeV"
+#outtree[${i}]="ggh_m125_powheg_8TeV"
+#typ[${i}]="-1"
+#
+#i=$((${i} + 1))
+#infile[${i}]="radion_redu_11_tree_08/SMHiggs.root"
+#tree[${i}]="vbf_m125_8TeV"
+#outtree[${i}]="vbf_m125_8TeV"
+#typ[${i}]="-1"
+#
+#i=$((${i} + 1))
+#infile[${i}]="radion_redu_11_tree_08/SMHiggs.root"
+#tree[${i}]="wzh_m125_8TeV_wh"
+#outtree[${i}]="wzh_m125_8TeV_wh"
+#typ[${i}]="-1"
+#
+#i=$((${i} + 1))
+#infile[${i}]="radion_redu_11_tree_08/SMHiggs.root"
+#tree[${i}]="wzh_m125_8TeV_zh"
+#outtree[${i}]="wzh_m125_8TeV_zh"
+#typ[${i}]="-1"
+#
+#i=$((${i} + 1))
+#infile[${i}]="radion_redu_11_tree_08/SMHiggs.root"
+#tree[${i}]="tth_m125_8TeV"
+#outtree[${i}]="tth_m125_8TeV"
+#typ[${i}]="-1"
+#
+#
 ###### SM di-Higgs
 #i=$((${i} + 1))
 #infile[${i}]="radion_redu_11_tree_08/ggHH.root"
@@ -316,7 +316,7 @@ imasscut=0
 
 for ireg in `echo "0"`
 do
-	folder="${today}_selection_${regsuffix[${ireg}]}_${masscutsuffix[${imasscut}]}_${version}"
+	folder="${today}_selection_${regsuffix[${ireg}]}_${masscutsuffix[${imasscut}]}_${version}_cut_CIC_0_0"
 	mkdir -p ${folder}
 	for isample in `seq 0 ${itot}`
 	do

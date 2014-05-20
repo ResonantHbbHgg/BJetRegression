@@ -248,6 +248,10 @@ struct tree_variables
 	float kinggjj_mass_jecD, kinggjj_mass_jecU, kinggjj_mass_jerD, kinggjj_mass_jerC, kinggjj_mass_jerU;
     //Matching DeltaR jet/b
     float gr_b1_DeltaR_jet1, gr_b1_DeltaR_jet2, gr_b2_DeltaR_jet1, gr_b2_DeltaR_jet2, gr_b_DeltaR_min_jet1, gr_b_DeltaR_min_jet2;
+    //DeltaR pho/jet
+    float DeltaR_pho1_jet_min, DeltaR_jet1_pho1, DeltaR_jet1_pho2, DeltaR_jet2_pho1, DeltaR_jet2_pho2, DeltaR_pho2_jet_min;
+    //DeltaR Pho/rg_pho
+    float DeltaR_gr_pho1_pho1, DeltaR_gr_pho1_pho2, DeltaR_gr_pho2_pho1, DeltaR_gr_pho2_pho2, DeltaR_gr_pho1_gr_pho2, DeltaR_pho1_pho2, DeltaR_gr_pho_pho1_min, DeltaR_gr_pho_pho2_min, DeltaR_pho1_pho2; 
 
 	int njets_passing_kLooseID;
 	int njets_passing_kLooseID_and_CSVM;
@@ -1521,7 +1525,27 @@ void setup_outtree(TTree* outtree, tree_variables *t)
     outtree->Branch("gr_b2_DeltaR_jet1", &t->gr_b2_DeltaR_jet1, "gr_b2_DeltaR_jet1/F");
     outtree->Branch("gr_b2_DeltaR_jet2", &t->gr_b2_DeltaR_jet2, "gr_b2_DeltaR_jet2/F");
     outtree->Branch("gr_b_DeltaR_min_jet1", &t->gr_b_DeltaR_min_jet1, "gr_b_DeltaR_min_jet1/F");
-    outtree->Branch("gr_b_DeltaR_min_jet2", &t->gr_b_DeltaR_min_jet2, "gr_b_DeltaR_min_jet2/F");    
+    outtree->Branch("gr_b_DeltaR_min_jet2", &t->gr_b_DeltaR_min_jet2, "gr_b_DeltaR_min_jet2/F");   
+
+    //DeltaR pho/jet
+    outtree->Branch("DeltaR_jet1_pho1", &t->DeltaR_jet1_pho1, "DeltaR_jet1_pho1/F");
+    outtree->Branch("DeltaR_jet1_pho2", &t->DeltaR_jet1_pho2, "DeltaR_jet1_pho2/F");
+    outtree->Branch("DeltaR_jet2_pho1", &t->DeltaR_jet2_pho1, "DeltaR_jet2_pho1/F");
+    outtree->Branch("DeltaR_jet2_pho2", &t->DeltaR_jet2_pho2, "DeltaR_jet2_pho2/F");
+    outtree->Branch("DeltaR_pho1_jet_min", &t->DeltaR_pho1_jet_min, "DeltaR_pho1_jet_min/F");
+    outtree->Branch("DeltaR_pho2_jet_min", &t->DeltaR_pho2_jet_min, "DeltaR_pho2_jet_min/F");
+
+    //DeltaR pho/rg_pho
+    outtree->Branch("DeltaR_gr_pho1_pho1", &t->DeltaR_gr_pho1_pho1, "DeltaR_gr_pho1_pho1/F");
+    outtree->Branch("DeltaR_gr_pho1_pho2", &t->DeltaR_gr_pho1_pho2, "DeltaR_gr_pho1_pho2/F");
+    outtree->Branch("DeltaR_gr_pho2_pho1", &t->DeltaR_gr_pho2_pho1, "DeltaR_gr_pho2_pho1/F");
+    outtree->Branch("DeltaR_gr_pho2_pho2", &t->DeltaR_gr_pho2_pho2, "DeltaR_gr_pho2_pho2/F");
+    outtree->Branch("DeltaR_gr_pho1_gr_pho2", &t->DeltaR_gr_pho1_gr_pho2, "DeltaR_gr_pho1_gr_pho2/F");
+    outtree->Branch("DeltaR_pho1_pho2", &t->DeltaR_pho1_pho2, "DeltaR_pho1_pho2/F");
+    outtree->Branch("DeltaR_gr_pho_pho1_min", &t->DeltaR_gr_pho_pho1_min, "DeltaR_gr_pho_pho1_min");
+    outtree->Branch("DeltaR_gr_pho_pho2_min", &t->DeltaR_gr_pho_pho2_min, "DeltaR_gr_pho_pho2_min/F");
+    outtree->Branch("DeltaR_pho1_pho2", &t->DeltaR_pho1_pho2, "DeltaR_pho1_pho2/F");
+
 	return;
 }
 

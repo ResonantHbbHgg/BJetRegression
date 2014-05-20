@@ -242,7 +242,7 @@ int main(int argc, char *argv[])
         flow[iflow] = "After photon pt cuts"; cutFlow[iflow]++; iflow++;
 
 		if(DEBUG) cout << "t.ph1_ciclevel= " << t.ph1_ciclevel << "\tph2_ciclevel= " << t.ph2_ciclevel << endl;
-		if( (!applyPhotonIDControlSample) && ((t.ph1_ciclevel < 4) || (t.ph2_ciclevel < 4)) ) continue;
+		if( (!applyPhotonIDControlSample) && ((t.ph1_ciclevel < 0) || (t.ph2_ciclevel < 0)) ) continue;
 		else if (applyPhotonIDControlSample)
 		{
 			bool ph1_id = (t.ph1_ciclevel >= 3);
@@ -744,6 +744,12 @@ int main(int argc, char *argv[])
         TLorentzVector gr_b2;
         gr_b2.SetPtEtaPhiM (t.gr_b2_p4_pt, t.gr_b2_p4_eta, t.gr_b2_p4_phi, t.gr_b2_p4_mass);
 
+      //Match DeltaR pho_rg/pho
+        TLorentzVector gr_pho1;
+        gr_pho1.SetPtEtaPhiM(t.gr_g1_p4_pt, t.gr_g1_p4_eta, t.gr_g1_p4_phi, t.gr_g1_p4_mass); 
+        TLorentzVector gr_pho2;
+        gr_pho2.SetPtEtaPhiM(t.gr_g2_p4_pt, t.gr_g2_p4_eta, t.gr_g2_p4_phi, t.gr_g2_p4_mass);
+
 		t.selection_cut_level = 0;
 		t.weight = t.ev_weight;
 		t.evweight = t.ev_evweight;
@@ -1062,7 +1068,7 @@ int main(int argc, char *argv[])
         t.gr_b1_DeltaR_jet1=gr_b1.DeltaR(jet1);
         t.gr_b1_DeltaR_jet2=gr_b1.DeltaR(jet2);
         t.gr_b2_DeltaR_jet1=gr_b2.DeltaR(jet1);
-        t.gr_b2_DeltaR_jet2=gr_b2.DeltaR(jet2);
+        t.gr_b2_DeltaR_jet2=gr_b2.DeltaR(jet2);       
 
         if (gr_b1.DeltaR(jet1) < gr_b2.DeltaR(jet1))
         {
@@ -1071,6 +1077,33 @@ int main(int argc, char *argv[])
         } else
         {t.gr_b_DeltaR_min_jet1 = gr_b2.DeltaR(jet1);
         t.gr_b_DeltaR_min_jet2 = gr_b1.DeltaR(jet2);
+        }
+
+        //DeltaR pho/jet
+        t.DeltaR_jet1_pho1=jet1.DeltaR(pho1);
+        t.DeltaR_jet1_pho2=jet1.DeltaR(pho2);
+        t.DeltaR_jet2_pho1=jet2.DeltaR(pho1);
+        t.DeltaR_jet2_pho2=jet2.DeltaR(pho2);
+        t.DeltaR_pho1_jet_min= min ( jet1.DeltaR(pho1) , jet2.DeltaR(pho1));
+        t.DeltaR_pho2_jet_min= min ( jet1.DeltaR(pho2) , jet2.DeltaR(pho2));
+        t.DeltaR_pho1_pho2 = pho1.DeltaR(pho2);
+
+        //Matching DeltaR pho_rg/pho
+        t.DeltaR_gr_pho1_pho1=gr_pho1.DeltaR(pho1);
+        t.DeltaR_gr_pho1_pho2=gr_pho1.DeltaR(pho2);
+        t.DeltaR_gr_pho2_pho1=gr_pho2.DeltaR(pho1);
+        t.DeltaR_gr_pho2_pho2=gr_pho2.DeltaR(pho2);
+        t.DeltaR_gr_pho1_gr_pho2=gr_pho1.DeltaR(gr_pho2);
+        t.DeltaR_pho1_pho2=pho1.DeltaR(pho2);
+
+        if (gr_pho1.DeltaR(pho1)<gr_pho2.DeltaR(pho1))
+        {
+        t.DeltaR_gr_pho_pho1_min = gr_pho1.DeltaR(pho1);
+        t.DeltaR_gr_pho_pho2_min = gr_pho2.DeltaR(pho2);
+        } else
+        {
+        t.DeltaR_gr_pho_pho1_min = gr_pho2.DeltaR(pho1);
+        t.DeltaR_gr_pho_pho2_min = gr_pho1.DeltaR(pho2);
         }
 
         // t.costhetastar
