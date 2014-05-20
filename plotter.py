@@ -224,7 +224,7 @@ for name2, variable, cut, critere_eff,  norm, Scale_Factor, binning, title, addi
     latexLabel.DrawLatex(.25, .96, "CMS Internal     L = 19.7 fb^{-1}     #sqrt{s} = 8 TeV")
     latexLabel.DrawLatex(.20, .85, additional_info)
     ROOT.gPad.RedrawAxis()
-    legend.Draw()
+    #legend.Draw()
     c1.Update()
 
     line = TLine()
