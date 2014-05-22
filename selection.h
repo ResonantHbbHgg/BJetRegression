@@ -16,7 +16,7 @@ struct tree_variables
 	float met_corr_pfmet, met_corr_phi_pfmet, met_corr_eta_pfmet, met_corr_e_pfmet;
 	float pu_n, nvtx, rho;
 	float weight, evweight, pu_weight;
-	float run, lumis, event;
+	int run, lumis, event;
 	float ph1_SCEta, ph2_SCEta;
 	float ev_weight, ev_evweight, ev_pu_weight;
 	float evweight_w_btagSF, evweight_w_btagSF_reg;
@@ -1132,9 +1132,9 @@ void setup_outtree(TTree* outtree, tree_variables *t)
 {
 	outtree->Branch("category", &t->category, "category/I");
 	outtree->Branch("selection_cut_level", &t->selection_cut_level, "selection_cut_level/I");
-	outtree->Branch("run", &t->run, "run/F");
-	outtree->Branch("lumis", &t->lumis, "lumis/F");
-	outtree->Branch("event", &t->event, "event/F");
+	outtree->Branch("run", &t->run, "run/I");
+	outtree->Branch("lumis", &t->lumis, "lumis/I");
+	outtree->Branch("event", &t->event, "event/I");
 	outtree->Branch("vtx_z", &t->vtx_z, "vtx_z/F");
 	outtree->Branch("weight", &t->weight, "weight/F");
 	outtree->Branch("evweight", &t->evweight, "evweight/F");
