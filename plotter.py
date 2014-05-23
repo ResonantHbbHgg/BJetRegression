@@ -6,7 +6,7 @@ from os import path
 from math import log10, pow
 # ROOT setup
 import ROOT
-from ROOT import TFile, TTree, TLine, TChain, TCanvas, TH1D, TLatex, TLegend, TLorentzVector
+from ROOT import TFile, TTree, TLine, TChain, TCanvas, TH1D, TLatex, TLegend, TLorentzVector, TStyle, gStyle
 import math as m
 ROOT.gROOT.Reset()
 ROOT.gROOT.SetBatch()
@@ -23,7 +23,8 @@ samples = []
 # samples.append([ name, dirpath, subdir, file, tree, color, style, label , sigma , N])
 
 #samples.append(["Radion_m300", afs_plottree, "2014-02-17_selection_noRegression_noMassCut_v10", "Radion_m300_8TeV_noRegression_noMassCut_v10.root", "Radion_m300_8TeV", ROOT.kBlue, 0, "m_{X} = 300 GeV" , 13.55e-3, 19999])
-samples.append(["Radion_m270", "/afs/cern.ch/work/f/fbojarsk/CMSSW_6_1_1/src/BJetRegression/", "2014-05-20_selection_noRegression_noMassCut_v10bis_effStudies_cut_CIC_0_0", "Radion_m270_8TeV_noRegression_noMassCut_v10bis_effStudies.root", "Radion_m270_8TeV", ROOT.kBlack, 0, "m_{X} = 270 GeV", 13.55e-3, 19999])
+samples.append(["Radion_m270", "/afs/cern.ch/work/f/fbojarsk/CMSSW_6_1_1/src/BJetRegression/", "2014-05-19_selection_noRegression_noMassCut_v10bis_effStudies_cut_CIC_0_0", "Radion_m270_8TeV_noRegression_noMassCut_v10bis_effStudies.root", "Radion_m270_8TeV", ROOT.kBlack, 0, "m_{X} = 270 GeV", 13.55e-3, 19999])
+#samples.append(["Radion_m270", "/afs/cern.ch/work/f/fbojarsk/CMSSW_6_1_1/src/BJetRegression/", "2014-05-13_selection_noRegression_noMassCut_v10bis_effStudies_no_cut_betastar_&_dr2mean", "Radion_m270_8TeV_noRegression_noMassCut_v10bis_effStudies.root", "Radion_m270_8TeV", ROOT.kRed, 0, "without cut", 13.55e-3, 19999])
 
 #####plots.append([ name2, variable, cut, norm, Scale Factor, binning, title, additional_info, cutline, cutline2 ])
 plots = []
@@ -68,21 +69,23 @@ plots = []
 #plots.append(["pho2_sieie", "pho2_sieie", "","ph2_ciclevel >= 4", 2., "", "(20, 0.005, 0.015)", "sieie^{#gamma2}", "", "", ""])
 #plots.append(["jet1_betaStarClassic", "jet1_betaStarClassic", "","", 1., "", "(20, 0, 1)", "betaStarClassic^{jet1}", "", "", ""])
 #plots.append(["jet2_betaStarClassic", "jet2_betaStarClassic", "","", 1., "", "(20, 0, 1)", "betaStarClassic^{jet2}", "", "", ""])
-#plots.append(["jet1_dR2Mean", "jet1_dR2Mean", "","", 1., "", "(80,0, 0.2)", "dR2Mean^{jet1}", "", "", ""])
+#plots.append(["jet1_dR2Mean", "jet1_dR2Mean", "njets_kRadionID_and_CSVM == 1","", 1., "", "(80,0, 0.2)", "dR2Mean^{jet1}", "", "", ""])
 #plots.append(["jet2_dR2Mean", "jet2_dR2Mean", "", "",1., "", "(80,0, 0.2)", "dR2Mean^{jet2}", "", "", ""])
 #plots.append(["pho1_hoe", "pho1_hoe", "","", 1., "", "(100,0, .05)", "hoe^{#gamma1}", "", "", ""])
 #plots.append(["pho2_hoe", "pho2_hoe", "","ph2_ciclevel >= 4", 2., "", "(100,0, .05)", "hoe^{#gamma2}", "", "", ""])
-#plots.append(["pho1_PFisoA", "pho1_PFisoA", "","", 1., "", "(100,0, 10)", "PFisoA^{#gamma1}", "", "", ""])
-#plots.append(["pho1_PFisoB", "pho1_PFisoB", "","", 1., "", "(150,-5, 10)", "PFisoB^{#gamma1}", "", "", ""])
-plots.append(["pho2_PFisoA_barrel_lowr9", "pho2_PFisoA", "(fabs(pho2_eta) < 1.44442) * (pho2_r9 < 0.94) ","ph2_ciclevel >= 4", 2., "", "(20,0, 20)", "PFisoA^{#gamma2}", "barrel_lowr9", 4.7, ""])
-plots.append(["pho2_PFisoA_barrel_highr9", "pho2_PFisoA", "(fabs(pho2_eta) < 1.44442) * (pho2_r9 > 0.94) ","ph2_ciclevel >= 4", 2., "", "(20,0, 20)", "PFisoA^{#gamma2}", "barrel_highr9", 6, ""])
-plots.append(["pho2_PFisoA_endcap_lowr9", "pho2_PFisoA", "(fabs(pho2_eta) > 1.5) * (pho2_r9 < 0.94) ","ph2_ciclevel >= 4", 2., "", "(20,0, 20)", "PFisoA^{#gamma2}", "endcap_lowr9", 3.6, ""])
-plots.append(["pho2_PFisoA_endcap_highr9", "pho2_PFisoA", "(fabs(pho2_eta) > 1.5) * (pho2_r9 > 0.94) ","ph2_ciclevel >= 4", 2., "", "(20,0, 20)", "PFisoA^{#gamma2}", "ndcap_highr9", 5.6, ""])
 
-plots.append(["pho2_PFisoB_barrel_lowr9", "pho2_PFisoB", "(fabs(pho2_eta) < 1.5) * (pho2_r9 < 0.94) ","ph2_ciclevel >= 4", 2., "", "(20,-4, 16)", "PFisoA^{#gamma2}", "barrel_lowr9", 6.5, ""])
-plots.append(["pho2_PFisoB_barrel_highr9", "pho2_PFisoB", "(fabs(pho2_eta) < 1.5) * (pho2_r9 > 0.94) ","ph2_ciclevel >= 4", 2., "", "(20,-4, 16)", "PFisoA^{#gamma2}", "barrel_highr9", 10, ""])
-plots.append(["pho2_PFisoB_endcap_lowr9", "pho2_PFisoB", "(fabs(pho2_eta) > 1.5) * (pho2_r9 < 0.94) ","ph2_ciclevel >= 4", 2., "", "(20,-4, 16)", "PFisoA^{#gamma2}", "endcap_lowr9", 4.4, ""])
-plots.append(["pho2_PFisoB_endcap_highr9", "pho2_PFisoB", "(fabs(pho2_eta) > 1.5) * (pho2_r9 > 0.94) ","ph2_ciclevel >= 4", 2., "", "(20,-4, 16)", "PFisoA^{#gamma2}", "endcap_highr9", 5.6, ""])
+#plots.append(["pho2_PFisoA_cut_CIC_1", "pho1_PFisoA", "","ph2_ciclevel >= 1", 2., "", "(20,0, 20)", "PFisoA^{#gamma1}", "", "", ""])
+#plots.append(["pho2_PFisoB_cut_CIC_1", "pho1_PFisoB", "","ph2_ciclevel >= 1", 2., "", "(20,-4, 16)", "PFisoB^{#gamma1}", "", "", ""])
+
+plots.append(["pho2_PFisoA_barrel_lowr9_cut_CIC_1", "pho2_PFisoA", "(pho2_isEB == 1) * (pho2_r9 < 0.94) ","ph2_ciclevel >= 1", 2., "", "(20,0, 20)", "PFisoA^{#gamma2}", "barrel_lowr9_cut_CIC_1", 4.7, ""])
+plots.append(["pho2_PFisoA_barrel_highr9_cut_CIC_1", "pho2_PFisoA", "(pho2_isEB == 1) * (pho2_r9 > 0.94) ","ph2_ciclevel >= 1", 2., "", "(20,0, 20)", "PFisoA^{#gamma2}", "barrel_highr9_cut_CIC_1", 6, ""])
+plots.append(["pho2_PFisoA_endcap_lowr9_cut_CIC_1", "pho2_PFisoA", "(pho2_isEB == 0) * (pho2_r9 < 0.94) ","ph2_ciclevel >= 1", 2., "", "(20,0, 20)", "PFisoA^{#gamma2}", "endcap_lowr9_cut_CIC_1", 3.6, ""])
+plots.append(["pho2_PFisoA_endcap_highr9_cut_CIC_1", "pho2_PFisoA", "(pho2_isEB == 0) * (pho2_r9 > 0.94) ","ph2_ciclevel >= 1", 2., "", "(20,0, 20)", "PFisoA^{#gamma2}", "ndcap_highr9_cut_CIC_1", 5.6, ""])
+
+plots.append(["pho2_PFisoB_barrel_lowr9_cut_CIC_1", "pho2_PFisoB", "(pho2_isEB == 1) * (pho2_r9 < 0.94) ","ph2_ciclevel >= 1", 2., "", "(20,-4, 16)", "PFisoA^{#gamma2}", "barrel_lowr9_cut_CIC_1", 6.5, ""])
+plots.append(["pho2_PFisoB_barrel_highr9_cut_CIC_1", "pho2_PFisoB", "(pho2_isEB == 1) * (pho2_r9 > 0.94) ","ph2_ciclevel >= 1", 2., "", "(20,-4, 16)", "PFisoA^{#gamma2}", "barrel_highr9_cut_CIC_1", 10, ""])
+plots.append(["pho2_PFisoB_endcap_lowr9_cut_CIC_1", "pho2_PFisoB", "(pho2_isEB == 0) * (pho2_r9 < 0.94) ","ph2_ciclevel >= 1", 2., "", "(20,-4, 16)", "PFisoA^{#gamma2}", "endcap_lowr9_cut_CIC_1", 4.4, ""])
+plots.append(["pho2_PFisoB_endcap_highr9_cut_CIC_1", "pho2_PFisoB", "(pho2_isEB == 0) * (pho2_r9 > 0.94) ","ph2_ciclevel >= 1", 2., "", "(20,-4, 16)", "PFisoA^{#gamma2}", "endcap_highr9_cut_CIC_1", 5.6, ""])
 
 #plots.append(["toto", "pho2_PFisoB : pho2_PFisoB", "(fabs(pho2_eta) > 1.5) * (pho2_r9 > 0.94) ","ph2_ciclevel >= 4", 2., "", "(20,-4, 16, 20,-4, 16)", "PFisoA^{#gamma2}", "endcap_highr9", 5.6, ""])
 
@@ -91,13 +94,18 @@ plots.append(["pho2_PFisoB_endcap_highr9", "pho2_PFisoB", "(fabs(pho2_eta) > 1.5
 #plots.append(["pho2_isconv", "pho2_isconv", "","ph2_ciclevel >= 4", 2., "evweight", "(50,0, 1)", "isconv^{#gamma2}", "", "", ""])
 #plots.append(["jet1_csvBtag", "jet1_csvBtag", "", "", 1., "", "(50, 0.5, 1)", "csvBtag^{jet1}", "", "", ""])
 #plots.append(["jet2_csvBtag", "jet2_csvBtag", "", "", 1., "", "(50, 0.5, 1)", "csvBtag^{jet2}", "", "", ""])
-#plots.append(["gr_b_DeltaR_min_jet1_cat1", "gr_b_DeltaR_min_jet1", "njets_kRadionID_and_CSVM == 1", "gr_b_DeltaR_min_jet1 < 0.4", 2., "evweight", "(50, 0, 15)", "gr_b_DeltaR_min_jet1_cat1", "", "", ""])
-#plots.append(["gr_b_DeltaR_min_jet2_cat1", "gr_b_DeltaR_min_jet2", "njets_kRadionID_and_CSVM == 1", "gr_b_DeltaR_min_jet2 < 0.4", 2., "evweight", "(50, 0, 15)", "gr_b_DeltaR_min_jet2_cat1", "", "", ""])
-#plots.append(["gr_b_DeltaR_min_jet1_cat0", "gr_b_DeltaR_min_jet1", "njets_kRadionID_and_CSVM >= 2", "gr_b_DeltaR_min_jet1 < 0.4", 2., "evweight", "(50, 0, 15)", "gr_b_DeltaR_min_jet1_cat0", "", "", ""])
-#plots.append(["gr_b_DeltaR_min_jet2_cat0", "gr_b_DeltaR_min_jet2", "njets_kRadionID_and_CSVM >= 2", "gr_b_DeltaR_min_jet2 < 0.4", 2., "evweight", "(50, 0, 15)", "gr_b_DeltaR_min_jet2_cat0", "", "", ""])
+
+#plots.append(["gr_b_DeltaR_min_jet1_cat1", "gr_b_DeltaR_min_jet1", "njets_kRadionID_and_CSVM == 1", "", 2., "evweight", "(50, 0, 1)", "DeltaR(jet1,bquark)", "one btagged jet", 0.4, ""])
+#plots.append(["gr_b_DeltaR_min_jet2_cat1", "gr_b_DeltaR_min_jet2", "njets_kRadionID_and_CSVM == 1", "", 2., "evweight", "(50, 0, 1)", "DeltaR(jet2,bquark)", "one btagged jet", 0.4, ""])
+#plots.append(["gr_b_DeltaR_min_jet1_cat0", "gr_b_DeltaR_min_jet1", "njets_kRadionID_and_CSVM >= 2", "", 2., "evweight", "(50, 0, 1)", "DeltaR(jet1,bquark)", "two btagged jet", 0.4, ""])
+#plots.append(["gr_b_DeltaR_min_jet2_cat0", "gr_b_DeltaR_min_jet2", "njets_kRadionID_and_CSVM >= 2", "", 2., "evweight", "(50, 0, 1)", "DeltaR(jet2,bquark)", "two btagged jet", 0.4, ""])
+
 #plots.append(["DeltaR_pho1_jet_min", "DeltaR_pho1_jet_min", "", "", 2., "evweight", "(50, 0, 5)", "DeltaR_pho1_jet_min", "", "", ""])
 #plots.append(["DeltaR_pho2_jet_min", "DeltaR_pho2_jet_min", "", "ph2_ciclevel >= 4", 2., "evweight", "(40, 0 , 4)", "DeltaR_pho2_jet_min", "", "", ""])
 #plots.append(["DeltaR_pho1_pho2", "DeltaR_pho1_pho2", "", "ph2_ciclevel >= 4", 2., "evweight", "(20, 0 , 5)", "DeltaR_pho1_pho2", "", "", ""])
+
+#plots.append(["aaaaa_test_2D", "pho2_PFisoA : pho2_PFisoB", "", "", 2., "evweight", "(100, -5, 20, 100, -5, 20)", "pho1_PFisoA", "", 33.3, ""])
+
 
 
 
@@ -113,6 +121,13 @@ for name2, variable, cut, critere_eff,  norm, Scale_Factor, binning, title, addi
     if len(samples) > 1:
         legend.SetNColumns(2)
     xnbin, xlow, xhigh = map(float, binning.strip().strip("()").split(","))
+
+    ynbin = 0
+    try :
+        xnbin, xlow, xhigh = map(float, binning.strip().strip("()").split(","))
+    except :
+        xnbin, xlow, xhigh, ynbin, ylow, yhigh = map(float, binning.strip().strip("()").split(","))
+
     ymax = -1
     ymin = 10000000
     firsthistname = ""
@@ -130,6 +145,9 @@ for name2, variable, cut, critere_eff,  norm, Scale_Factor, binning, title, addi
             sample_cut = "(" + sample_cut + ") * ((" + str(sigma) + " * " + str(intL) + ")/" + str(N) + ")"
         
         option = ""
+        if ynbin != 0:
+            gStyle.SetPalette(1)
+            option = "COLZ"
 
 
         if Scale_Factor != "":        
@@ -185,9 +203,34 @@ for name2, variable, cut, critere_eff,  norm, Scale_Factor, binning, title, addi
         ntot=chain.GetEntries(sample_cut)
         nselected=chain.GetEntries("(" + sample_cut  + ") * (" + critere_eff + ")")
         eff = nselected / float(ntot)
-        error = m.sqrt(eff*(1-eff)/ntot)
-        print ntot, nselected, eff
-       
+#        error = m.sqrt(eff*(1-eff)/ntot)
+
+# calcul correlation entre variable
+
+#        chain.Draw(variable + ">>h_tmp3" + binning, sample_cut, "entrylist")
+#        h3 = ROOT.gDirectory.Get("h_tmp3")
+
+
+        
+
+#        corr_A_B=0.
+#        mean_A=0.
+#        mean_A_A=0.
+#        mean_B=0.
+#        mean_B_B=0.
+#        for ievt in xrange(chain.GetEntries()):
+#            chain.GetEntry(ievt)
+#            if (chain.njets_kRadionID_and_CSVM >= 2):
+#               mean_A += chain.jet1_betaStarClassic / ntot
+#                mean_A_A += chain.jet1_betaStarClassic * chain.jet1_betaStarClassic / ntot
+#                mean_B += chain.jet1_dR2Mean / ntot
+#                mean_B_B += chain.jet1_dR2Mean * chain.jet1_dR2Mean / ntot
+#                corr_A_B += (chain.jet1_betaStarClassic * chain.jet1_dR2Mean) / ntot
+#        sigma_A = m.sqrt(mean_A_A - mean_A * mean_A) 
+#        sigma_B = m.sqrt(mean_B_B - mean_B * mean_B)
+#        sigma_A_B = (corr_A_B - (mean_A * mean_B)) / ( sigma_A * sigma_B) 
+#        print sigma_A_B
+
 #        pho = 0
 #        if variable == "DeltaR_gr_pho_pho1_min":
 #            pho = 1
@@ -233,7 +276,7 @@ for name2, variable, cut, critere_eff,  norm, Scale_Factor, binning, title, addi
     latexLabel = TLatex()
     latexLabel.SetTextSize(.03)
     latexLabel.SetNDC()
-    latexLabel.DrawLatex(.25, .96, "CMS Internal     L = 19.7 fb^{-1}     #sqrt{s} = 8 TeV    " + additional_info)
+    latexLabel.DrawLatex(.15, .96, "CMS Internal     L = 19.7 fb^{-1}     #sqrt{s} = 8 TeV    " + additional_info)
     latexLabel.DrawLatex(.2, .9, "n event = %s" %ntot)
     latexLabel.DrawLatex(.2, .85, "efficiency = %s " %round(eff, 2))
     ROOT.gPad.RedrawAxis()
