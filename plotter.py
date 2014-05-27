@@ -96,7 +96,7 @@ plots.append(["pho2_PFisoB_endcap_highr9_cut_CIC_1", "pho2_PFisoB", "(pho2_isEB 
 #plots.append(["jet2_csvBtag", "jet2_csvBtag", "", "", 1., "", "(50, 0.5, 1)", "csvBtag^{jet2}", "", "", ""])
 
 #plots.append(["gr_b_DeltaR_min_jet1_cat1", "gr_b_DeltaR_min_jet1", "njets_kRadionID_and_CSVM == 1", "", 2., "evweight", "(50, 0, 1)", "DeltaR(jet1,bquark)", "one btagged jet", 0.4, ""])
-#plots.append(["gr_b_DeltaR_min_jet2_cat1", "gr_b_DeltaR_min_jet2", "njets_kRadionID_and_CSVM == 1", "", 2., "evweight", "(50, 0, 1)", "DeltaR(jet2,bquark)", "one btagged jet", 0.4, ""])
+plots.append(["DeltaR_b_jet2_cat1", "gr_b_DeltaR_min_jet2", "njets_kRadionID_and_CSVM == 1", "", 2., "evweight", "(50, 0, 1)", "DeltaR(jet2,bquark)", "one btagged jet", 0.4, ""])
 #plots.append(["gr_b_DeltaR_min_jet1_cat0", "gr_b_DeltaR_min_jet1", "njets_kRadionID_and_CSVM >= 2", "", 2., "evweight", "(50, 0, 1)", "DeltaR(jet1,bquark)", "two btagged jet", 0.4, ""])
 #plots.append(["gr_b_DeltaR_min_jet2_cat0", "gr_b_DeltaR_min_jet2", "njets_kRadionID_and_CSVM >= 2", "", 2., "evweight", "(50, 0, 1)", "DeltaR(jet2,bquark)", "two btagged jet", 0.4, ""])
 
