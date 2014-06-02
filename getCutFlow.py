@@ -462,7 +462,7 @@ if args.part == 999:
     latexLabel.SetTextFont(63)
     latexLabel.SetTextSize(18) # in pixel
     latexLabel.SetNDC()
-    latexLabel.DrawLatex(0.25, 0.96, "CMS Preliminary   #sqrt{s} = 8 TeV   L = 19.7 fb^{-1}")
+    latexLabel.DrawLatex(0.25, 0.96, "CMS work in progress   #sqrt{s} = 8 TeV   L = 19.7 fb^{-1}")
     latexLabel.SetTextAngle(45)
     c1.Print("flow.pdf")
     c1.Print("flow.png")
