@@ -44,6 +44,7 @@ int main(int argc, char *argv[])
 	int applyMassCuts;
 	int applyPhotonIDControlSample;
     int printCutFlow;
+    int keep0btag;
 
 	// print out passed arguments
 	copy(argv, argv + argc, ostream_iterator<char*>(cout, " ")); cout << endl;
@@ -67,6 +68,7 @@ int main(int argc, char *argv[])
 			("sync_w_phil", po::value<int>(&SYNC_W_PHIL)->default_value(0), "switch on output for dedicated events")
 			("full_dump", po::value<int>(&FULL_DUMP)->default_value(0), "switch on creation of the t.event dump")
 			("printCutFlow", po::value<int>(&printCutFlow)->default_value(0), "print cut flow")
+			("keep0btag", po::value<int>(&keep0btag)->default_value(0), "keep 0btag category")
 		;
 		po::variables_map vm;
 		po::store(po::parse_command_line(argc, argv, desc), vm);
@@ -328,7 +330,7 @@ int main(int argc, char *argv[])
 		}
 		if( DEBUG && t.njets_passing_kLooseID > 4 ) cout << "t.njets_passing_kLooseID= " << t.njets_passing_kLooseID << "\tnbjet_tmp= " << nbjet_tmp << endl;
 		if(DEBUG) cout << "nbjet_tmp= " << nbjet_tmp << endl;
-//		if( nbjet_tmp < 1 ) continue;
+		if( (!keep0btag) && nbjet_tmp < 1 ) continue;
         flow[iflow] = "After at least one CSVM jet"; cutFlow[iflow]++; iflow++;
 		nevents[ilevel]++; eventcut[ilevel] = "After nbjet >= 1";
 		nevents_w[ilevel] += t.evweight; ilevel++;
@@ -424,7 +426,7 @@ int main(int argc, char *argv[])
 				btaggedJet.push_back(ijet);
 		}
 
-//		if( btaggedJet.size() < 1 ) continue;
+		if( (!keep0btag) && btaggedJet.size() < 1 ) continue;
 		nevents[ilevel]++; eventcut[ilevel] = "After nbjet >=1 passing the jet selection";
         flow[iflow] = "After at least one CSVM jet passing the jet selection"; cutFlow[iflow]++; iflow++;
 		nevents_w[ilevel] += t.evweight; ilevel++;
