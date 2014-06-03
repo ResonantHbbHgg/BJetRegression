@@ -1,14 +1,14 @@
 #!/bin/bash
 
-version="v29_withRunLumiEvent"
+version="v30"
 today=`date +"0%Y-%m-%d"`
 #set -x
 
 #inputversion="v10"
 #inputfolder="2014-03-24_selection_noRegression_noMassCut_${inputversion}/"
 #inputfolder="2014-02-17_selection_noRegression_noMassCut_${inputversion}/"
-inputversion="v10_withRunLumiEvent"
-inputfolder="2014-04-09_selection_noRegression_noMassCut_${inputversion}/"
+inputversion="v11"
+inputfolder="2014-06-03_selection_noRegression_noMassCut_${inputversion}/"
 
 i=-1
 
@@ -23,7 +23,7 @@ for ikin in `seq 0 1`
 do
 	outfolder="${version}_fitToMggjj_${kinfitlabel[${ikin}]}"
 	mkdir -p ${outfolder}
-	for sample in `echo "Radion Graviton Data DataCS"`
+	for sample in `echo "Radion Graviton Data DataCS diphojet_sherpa_8TeV"`
 	do
 		for mass in `echo "400 450 500 550 600 650 700 800 900 1000 1100"`
 		do
@@ -83,7 +83,7 @@ done
 ##### PREPARE MGG-FIT TREES
 outfolder="${version}_fitToMgg_noKinFit"
 mkdir -p ${outfolder}
-for sample in `echo "Radion Graviton MSSM ggh_m125_powheg_8TeV vbf_m125_8TeV wzh_m125_8TeV_wh wzh_m125_8TeV_zh tth_m125_8TeV Data DataCS ggHH_8TeV"`
+for sample in `echo "Radion Graviton MSSM ggh_m125_powheg_8TeV vbf_m125_8TeV wzh_m125_8TeV_wh wzh_m125_8TeV_zh tth_m125_8TeV bbh_m125_8TeV Data DataCS diphojet_sherpa_8TeV ggHH_8TeV"`
 do
 	for mass in `echo "260 270 300 350 400 450 500"`
 	do
