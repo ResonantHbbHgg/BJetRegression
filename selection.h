@@ -334,7 +334,7 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
 	intree->SetBranchAddress("pu_weight", &t->ev_pu_weight);
 	intree->SetBranchAddress("vtx_z", &t->vtx_z);
 
-	if( type < -250 )
+	if( type < 0 )
 	{
 		intree->SetBranchAddress("gr_radion_p4_pt", &t->gr_radion_p4_pt);
 		intree->SetBranchAddress("gr_radion_p4_eta", &t->gr_radion_p4_eta);
