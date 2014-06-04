@@ -393,7 +393,7 @@ do
             file="${outtree[${isample}]}_${regsuffix[${ireg}]}_${masscutsuffix[${imasscut}]}_controlSample_${version}"
         fi
 		removeZeroFlavour=0
-		if [ "${typ[${isample}]}" -lt "-250" ]
+		if [ "${typ[${isample}]}" != "0" ]
 		then 
 			removeZeroFlavour=1
 		fi
