@@ -34,3 +34,4 @@ test*
 dump*
 *.diff
 plots_*
+cutFlow*
