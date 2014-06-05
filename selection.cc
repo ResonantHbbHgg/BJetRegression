@@ -371,9 +371,9 @@ int main(int argc, char *argv[])
 			njets[1]++; jetcut[1] = "After jet pt > 25";
 			if( fabs(t.jet_eta) > 2.5 ) continue;
 			njets[2]++; jetcut[2] = "After jet |eta| < 2.5";
-			if( t.jet_betaStarClassic > 0.2 * log( t.nvtx - 0.64) ) continue;
+//			if( t.jet_betaStarClassic > 0.2 * log( t.nvtx - 0.64) ) continue;
 			njets[3]++; jetcut[3] = "After t.jet_betaStarClassic > 0.2 * log( t.nvtx - 0.64)";
-			if( t.jet_dR2Mean > 0.06 ) continue;
+//			if( t.jet_dR2Mean > 0.06 ) continue;
 			njets[4]++; jetcut[4] = "After t.jet_dR2Mean > 0.06";
 			if(DEBUG) cout << "Jet is passing selection cuts" << endl;
 			// ** call regression to correct the pt **
