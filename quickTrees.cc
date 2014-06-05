@@ -117,8 +117,10 @@ int main(int argc, char *argv[])
 	setup_outtree(outtree, &t);	
 
 
+	int n_0btag = 0;
 	int n_1btag = 0;
 	int n_2btag = 0;
+	float n_w_0btag = 0.;
 	float n_w_1btag = 0.;
 	float n_w_2btag = 0.;
 
@@ -141,7 +143,7 @@ int main(int argc, char *argv[])
 	t.weightBtagSFerrUp = -1000;
 	t.weightBtagSFerrDown = -1000;
 
-	if( type < -250 )
+	if( type != 0 )
 	{
 		t.weightBtagSF = eventWeight_2jets("medium", t.jet1_btagSF_M, t.jet2_btagSF_M, t.jet1_btagEff_M, t.jet2_btagEff_M, t.jet1_csvBtag, t.jet2_csvBtag);
 		t.weightBtagSFerrUp = eventWeight_error_2jets("medium", t.jet1_btagSF_M, t.jet1_btagSFErrorUp_M, t.jet2_btagSF_M, t.jet2_btagSFErrorUp_M, t.jet1_btagEff_M, t.jet1_btagEffError_M, t.jet2_btagEff_M, t.jet2_btagEffError_M, t.jet1_flavour, t.jet2_flavour, t.jet1_csvBtag, t.jet2_csvBtag);
@@ -386,6 +388,7 @@ int main(int argc, char *argv[])
 		}
 		if( t.njets_kRadionID_and_CSVM >= 2 ) {t.cut_based_ct = 0; n_2btag++; n_w_2btag += t.evWeight_w_btagSF;}
 		if( t.njets_kRadionID_and_CSVM == 1 ) {t.cut_based_ct = 1; n_1btag++; n_w_1btag += t.evWeight_w_btagSF;}
+		if( t.njets_kRadionID_and_CSVM == 0 ) {t.cut_based_ct = 2; n_0btag++; n_w_0btag += t.evWeight_w_btagSF;}
 
 		// to be in sync with Chiara: if kin fit applied store mjj in mjj_wkinfit and no kin fit in mjj
 		t.mjj_wkinfit = t.mjj;
@@ -394,8 +397,8 @@ int main(int argc, char *argv[])
 
 		outtree->Fill();
 	}
-	cout << "n_1btag= " << n_1btag << "\tn_2btag= " << n_2btag << endl;
-	cout << "n_w_1btag= " << n_w_1btag << "\tn_w_2btag= " << n_w_2btag << endl;
+	cout << "n_0btag= " << n_0btag << "\tn_1btag= " << n_1btag << "\tn_2btag= " << n_2btag << endl;
+	cout << "n_w_0btag= " << n_w_0btag << "\tn_w_1btag= " << n_w_1btag << "\tn_w_2btag= " << n_w_2btag << endl;
 
   outfile->cd();
   outtree->Write();

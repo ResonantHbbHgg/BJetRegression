@@ -16,7 +16,7 @@ struct tree_variables
 	float met_corr_pfmet, met_corr_phi_pfmet, met_corr_eta_pfmet, met_corr_e_pfmet;
 	float pu_n, nvtx, rho;
 	float weight, evweight, pu_weight;
-	float run, lumis, event;
+	int run, lumis, event;
 	float ph1_SCEta, ph2_SCEta;
 	float ev_weight, ev_evweight, ev_pu_weight;
 	float evweight_w_btagSF, evweight_w_btagSF_reg;
@@ -322,6 +322,8 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
 	intree->SetBranchAddress("ph2_perD_e", &t->ph2_perD_e);
 	intree->SetBranchAddress("ph1_perU_e", &t->ph1_perU_e);
 	intree->SetBranchAddress("ph2_perU_e", &t->ph2_perU_e);
+	intree->SetBranchAddress("ph1_SCEta", &t->ph1_SCEta);
+	intree->SetBranchAddress("ph2_SCEta", &t->ph2_SCEta);
 	intree->SetBranchAddress("met_corr_pfmet", &t->met_corr_pfmet);
 	intree->SetBranchAddress("met_corr_phi_pfmet", &t->met_corr_phi_pfmet);
 	intree->SetBranchAddress("met_corr_eta_pfmet", &t->met_corr_eta_pfmet);
@@ -332,14 +334,12 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
 	intree->SetBranchAddress("run", &t->run);
 	intree->SetBranchAddress("lumis", &t->lumis);
 	intree->SetBranchAddress("event", &t->event);
-	intree->SetBranchAddress("ph1_SCEta", &t->ph1_SCEta);
-	intree->SetBranchAddress("ph2_SCEta", &t->ph2_SCEta);
 	intree->SetBranchAddress("weight", &t->ev_weight);
 	intree->SetBranchAddress("evweight", &t->ev_evweight);
 	intree->SetBranchAddress("pu_weight", &t->ev_pu_weight);
 	intree->SetBranchAddress("vtx_z", &t->vtx_z);
 
-	if( type < -250 )
+	if( type < 0 )
 	{
 		intree->SetBranchAddress("gr_radion_p4_pt", &t->gr_radion_p4_pt);
 		intree->SetBranchAddress("gr_radion_p4_eta", &t->gr_radion_p4_eta);
@@ -1137,9 +1137,9 @@ void setup_outtree(TTree* outtree, tree_variables *t)
 {
 	outtree->Branch("category", &t->category, "category/I");
 	outtree->Branch("selection_cut_level", &t->selection_cut_level, "selection_cut_level/I");
-	outtree->Branch("run", &t->run, "run/F");
-	outtree->Branch("lumis", &t->lumis, "lumis/F");
-	outtree->Branch("event", &t->event, "event/F");
+	outtree->Branch("run", &t->run, "run/I");
+	outtree->Branch("lumis", &t->lumis, "lumis/I");
+	outtree->Branch("event", &t->event, "event/I");
 	outtree->Branch("vtx_z", &t->vtx_z, "vtx_z/F");
 	outtree->Branch("weight", &t->weight, "weight/F");
 	outtree->Branch("evweight", &t->evweight, "evweight/F");

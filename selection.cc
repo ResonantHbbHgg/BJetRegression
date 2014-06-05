@@ -44,6 +44,7 @@ int main(int argc, char *argv[])
 	int applyMassCuts;
 	int applyPhotonIDControlSample;
     int printCutFlow;
+    int keep0btag;
 
 	// print out passed arguments
 	copy(argv, argv + argc, ostream_iterator<char*>(cout, " ")); cout << endl;
@@ -67,6 +68,7 @@ int main(int argc, char *argv[])
 			("sync_w_phil", po::value<int>(&SYNC_W_PHIL)->default_value(0), "switch on output for dedicated events")
 			("full_dump", po::value<int>(&FULL_DUMP)->default_value(0), "switch on creation of the t.event dump")
 			("printCutFlow", po::value<int>(&printCutFlow)->default_value(0), "print cut flow")
+			("keep0btag", po::value<int>(&keep0btag)->default_value(0), "keep 0btag category")
 		;
 		po::variables_map vm;
 		po::store(po::parse_command_line(argc, argv, desc), vm);
@@ -111,8 +113,9 @@ int main(int argc, char *argv[])
 	tree_variables t;
 	initialize_variables(&t);
 
-	if(DEBUG) cout << "SetBranchAddresses" << endl;
+	if(DEBUG) cout << "SetBranchAddresses (inputtree)" << endl;
 	setup_intree(intree, &t, type);
+	if(DEBUG) cout << "Branch (outtree)" << endl;
 	setup_outtree(outtree, &t);
 
 	if(DEBUG) cout << "Setup TRandom3 generator" << endl;
@@ -327,7 +330,7 @@ int main(int argc, char *argv[])
 		}
 		if( DEBUG && t.njets_passing_kLooseID > 4 ) cout << "t.njets_passing_kLooseID= " << t.njets_passing_kLooseID << "\tnbjet_tmp= " << nbjet_tmp << endl;
 		if(DEBUG) cout << "nbjet_tmp= " << nbjet_tmp << endl;
-		if( nbjet_tmp < 1 ) continue;
+		if( (!keep0btag) && nbjet_tmp < 1 ) continue;
         flow[iflow] = "After at least one CSVM jet"; cutFlow[iflow]++; iflow++;
 		nevents[ilevel]++; eventcut[ilevel] = "After nbjet >= 1";
 		nevents_w[ilevel] += t.evweight; ilevel++;
@@ -423,7 +426,7 @@ int main(int argc, char *argv[])
 				btaggedJet.push_back(ijet);
 		}
 
-		if( btaggedJet.size() < 1 ) continue;
+		if( (!keep0btag) && btaggedJet.size() < 1 ) continue;
 		nevents[ilevel]++; eventcut[ilevel] = "After nbjet >=1 passing the jet selection";
         flow[iflow] = "After at least one CSVM jet passing the jet selection"; cutFlow[iflow]++; iflow++;
 		nevents_w[ilevel] += t.evweight; ilevel++;
@@ -441,7 +444,58 @@ int main(int argc, char *argv[])
 		if(DEBUG)
 			for(int ijet_=0; ijet_ < (int)btaggedJet.size() ; ijet_++)
 				cout << "J.jetPt[btaggedJet[" << ijet_ << "]]= " << J.jetPt[btaggedJet[ijet_]] << endl;
-		// if exactly one btag, pick it up, then find the other jet that gives max ptjj
+		// if exactly 0 btag, find the jet pair that gives max ptjj
+		if( btaggedJet.size() == 0 )
+		{
+			if(DEBUG) cout << "Entering jet combinatorics: 0btag category" << endl;
+			t.category = 0;
+			unsigned int ij = 0;
+//			if(DEBUG) cout << "btaggedJet[0]= " << btaggedJet[0] << endl;
+			TLorentzVector j, jreg, jregkin;
+			j.SetPtEtaPhiE(J.jetPt[ij], J.jetEta[ij], J.jetPhi[ij], J.jetE[ij]);
+			jreg = ((float)J.jetRegPt[ij]/(float)J.jetPt[ij]) * j;
+			jregkin = ((float)J.jetRegKinPt[ij]/(float)J.jetPt[ij]) * j;
+			int imaxptjj;
+			int imaxptjjReg;
+			int imaxptjjRegKin;
+			float maxptjj = -99.;
+			float maxptjjReg = -99.;
+			float maxptjjRegKin = -99.;
+			for(unsigned int ijet = 0 ; ijet < J.jetPt.size() ; ijet++)
+			{
+				if( ijet == ij ) continue;
+				TLorentzVector tmp_j;
+				TLorentzVector tmp_jReg;
+				TLorentzVector tmp_jRegKin;
+				tmp_j.SetPtEtaPhiE(J.jetPt[ijet], J.jetEta[ijet], J.jetPhi[ijet], J.jetE[ijet]);
+				tmp_jReg = ((float)J.jetRegPt[ijet]/(float)J.jetPt[ijet]) * tmp_j;
+				tmp_jRegKin = ((float)J.jetRegKinPt[ijet]/(float)J.jetPt[ijet]) * tmp_j;
+				TLorentzVector jj = j + tmp_j;
+				TLorentzVector jjReg = jreg + tmp_jReg;
+				TLorentzVector jjRegKin = jregkin + tmp_jRegKin;
+				if( jj.Pt() > maxptjj )
+				{
+					maxptjj = jj.Pt();
+					imaxptjj = ijet;
+				}
+				if( jjReg.Pt() > maxptjjReg )
+				{
+					maxptjjReg = jjReg.Pt();
+					imaxptjjReg = ijet; 
+				}
+				if( jjRegKin.Pt() > maxptjjRegKin )
+				{
+					maxptjjRegKin = jjRegKin.Pt();
+					imaxptjjRegKin = ijet; 
+				}
+			}
+			ij1 = ij;
+			ij2 = imaxptjj;
+			ij1Reg = ij;
+			ij2Reg = imaxptjjReg;
+			ij1RegKin = ij;
+			ij2RegKin = imaxptjjRegKin;
+		}
 		if( btaggedJet.size() == 1 )
 		{
 			if(DEBUG) cout << "Entering jet combinatorics: 1btag category" << endl;
@@ -745,10 +799,10 @@ int main(int argc, char *argv[])
 		// adding this for correct yields out of the control plots:
 		t.evweight_w_btagSF = t.evweight;
 		if( type == -260 ) t.evweight_w_btagSF *= 1.2822;
-		if( type  < -250 ) t.evweight_w_btagSF *= eventWeight_2jets("medium", J.jetbtagSF_M[ij1], J.jetbtagSF_M[ij2], J.jetbtagEff_M[ij1], J.jetbtagEff_M[ij2], J.jetCSV[ij1], J.jetCSV[ij2]);
+		if( type  !=   0 ) t.evweight_w_btagSF *= eventWeight_2jets("medium", J.jetbtagSF_M[ij1], J.jetbtagSF_M[ij2], J.jetbtagEff_M[ij1], J.jetbtagEff_M[ij2], J.jetCSV[ij1], J.jetCSV[ij2]);
 		t.evweight_w_btagSF_reg = t.evweight;
 		if( type == -260 ) t.evweight_w_btagSF_reg *= 1.2822;
-		if( type  < -250 ) t.evweight_w_btagSF_reg *= eventWeight_2jets("medium", J.jetbtagSF_M[ij1Reg], J.jetbtagSF_M[ij2Reg], J.jetbtagEff_M[ij1Reg], J.jetbtagEff_M[ij2Reg], J.jetCSV[ij1Reg], J.jetCSV[ij2Reg]);
+		if( type !=    0 ) t.evweight_w_btagSF_reg *= eventWeight_2jets("medium", J.jetbtagSF_M[ij1Reg], J.jetbtagSF_M[ij2Reg], J.jetbtagEff_M[ij1Reg], J.jetbtagEff_M[ij2Reg], J.jetCSV[ij1Reg], J.jetCSV[ij2Reg]);
 		t.pho1_pt = pho1.Pt();
 		t.pho1_e = pho1.E();
 		t.pho1_phi = pho1.Phi();
@@ -1169,7 +1223,14 @@ int main(int argc, char *argv[])
 // categorisation
 		t.selection_cut_level = 0;
 		if(SYNC) synchrofile << t.jet1_pt << "\t" << t.jet2_pt << "\t" << t.jj_mass << "\t" << t.ggjj_mass << endl;
-		if(t.njets_kRadionID_and_CSVM == 1)
+		if(t.njets_kRadionID_and_CSVM == 0)
+		{
+			t.category = 0;
+			nevents[ilevel]++;
+			nevents_w[ilevel] += t.evweight;
+			nevents_sync[8]++;
+			eventcut[ilevel] = "0btag category"; ilevel++; ilevel++;
+		} else if(t.njets_kRadionID_and_CSVM == 1)
 		{
 			t.category = 1;
 			nevents[ilevel]++;
@@ -1200,7 +1261,14 @@ int main(int argc, char *argv[])
 			outtree->Fill();
 			continue;
 		}
-		if(t.njets_kRadionID_and_CSVM == 1)
+		if(t.njets_kRadionID_and_CSVM == 0)
+		{
+			t.category = 0;
+			nevents[ilevel]++;
+			nevents_w[ilevel] += t.evweight;
+			nevents_sync[10]++;
+			eventcut[ilevel] = Form("0btag category, after mjj cut (%.1f/%.1f and %.1f/%.1f)",min_mjj_1btag, max_mjj_1btag, min_mjj_2btag, max_mjj_2btag); ilevel++; ilevel++;
+		}	else if(t.njets_kRadionID_and_CSVM == 1)
 		{
 			t.category = 1;
 			nevents[ilevel]++;
@@ -1219,7 +1287,13 @@ int main(int argc, char *argv[])
 // kin fit
 // MOVED UPSTREAM, SHOULD BE TRANSPARENT
 	
-		if(t.njets_kRadionID_and_CSVM == 1)
+		if(t.njets_kRadionID_and_CSVM == 0)
+		{
+			t.category = 0;
+			nevents[ilevel]++;
+			nevents_w[ilevel] += t.evweight;
+			eventcut[ilevel] = "0btag category, after kin fit"; ilevel++; ilevel++;
+		} else if(t.njets_kRadionID_and_CSVM == 1)
 		{
 			t.category = 1;
 			nevents[ilevel]++;
@@ -1246,7 +1320,14 @@ int main(int argc, char *argv[])
 			outtree->Fill();
 			continue;
 		}
-		if(t.njets_kRadionID_and_CSVM == 1)
+		if(t.njets_kRadionID_and_CSVM == 0)
+		{
+			t.category = 0;
+			nevents[ilevel]++;
+			nevents_w[ilevel] += t.evweight;
+			nevents_sync[12]++;
+			eventcut[ilevel] = Form("0btag category, after mggjj cut (%.1f/%.1f and %.1f/%.1f)", min_mggjj_1btag, max_mggjj_1btag, min_mggjj_2btag, max_mggjj_2btag); ilevel++; ilevel++;
+		} else if(t.njets_kRadionID_and_CSVM == 1)
 		{
 			t.category = 1;
 			nevents[ilevel]++;
