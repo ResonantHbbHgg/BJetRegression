@@ -251,7 +251,7 @@ struct tree_variables
     //DeltaR pho/jet
     float DeltaR_pho1_jet_min, DeltaR_jet1_pho1, DeltaR_jet1_pho2, DeltaR_jet2_pho1, DeltaR_jet2_pho2, DeltaR_pho2_jet_min;
     //DeltaR Pho/rg_pho
-    float DeltaR_gr_pho1_pho1, DeltaR_gr_pho1_pho2, DeltaR_gr_pho2_pho1, DeltaR_gr_pho2_pho2, DeltaR_gr_pho1_gr_pho2, DeltaR_pho1_pho2, DeltaR_gr_pho_pho1_min, DeltaR_gr_pho_pho2_min, DeltaR_pho1_pho2; 
+    float DeltaR_gr_pho1_pho1, DeltaR_gr_pho1_pho2, DeltaR_gr_pho2_pho1, DeltaR_gr_pho2_pho2, DeltaR_gr_pho1_gr_pho2, DeltaR_pho1_pho2, DeltaR_gr_pho_pho1_min, DeltaR_gr_pho_pho2_min; 
 
 	int njets_passing_kLooseID;
 	int njets_passing_kLooseID_and_CSVM;
@@ -1544,7 +1544,6 @@ void setup_outtree(TTree* outtree, tree_variables *t)
     outtree->Branch("DeltaR_pho1_pho2", &t->DeltaR_pho1_pho2, "DeltaR_pho1_pho2/F");
     outtree->Branch("DeltaR_gr_pho_pho1_min", &t->DeltaR_gr_pho_pho1_min, "DeltaR_gr_pho_pho1_min");
     outtree->Branch("DeltaR_gr_pho_pho2_min", &t->DeltaR_gr_pho_pho2_min, "DeltaR_gr_pho_pho2_min/F");
-    outtree->Branch("DeltaR_pho1_pho2", &t->DeltaR_pho1_pho2, "DeltaR_pho1_pho2/F");
 
 	return;
 }

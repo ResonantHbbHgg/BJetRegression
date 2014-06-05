@@ -23,10 +23,10 @@ samples = []
 # samples.append([ name, dirpath, subdir, file, tree, color, style, label , sigma , N])
 
 #samples.append(["Radion_m300", afs_plottree, "2014-02-17_selection_noRegression_noMassCut_v10", "Radion_m300_8TeV_noRegression_noMassCut_v10.root", "Radion_m300_8TeV", ROOT.kBlue, 0, "m_{X} = 300 GeV" , 13.55e-3, 19999])
-samples.append(["Radion_m270", "/afs/cern.ch/work/f/fbojarsk/CMSSW_6_1_1/src/BJetRegression/", "2014-05-19_selection_noRegression_noMassCut_v10bis_effStudies_cut_CIC_0_0", "Radion_m270_8TeV_noRegression_noMassCut_v10bis_effStudies.root", "Radion_m270_8TeV", ROOT.kBlack, 0, "m_{X} = 270 GeV", 13.55e-3, 19999])
-#samples.append(["Radion_m270", "/afs/cern.ch/work/f/fbojarsk/CMSSW_6_1_1/src/BJetRegression/", "2014-05-13_selection_noRegression_noMassCut_v10bis_effStudies_no_cut_betastar_&_dr2mean", "Radion_m270_8TeV_noRegression_noMassCut_v10bis_effStudies.root", "Radion_m270_8TeV", ROOT.kRed, 0, "without cut", 13.55e-3, 19999])
+samples.append(["pouet", "/afs/cern.ch/work/f/fbojarsk/CMSSW_6_1_1/src/BJetRegression/", "v29_withRunLumiEvent_RMS_BetaStar_fitToMgg_noKinFit", "diphojet_sherpa_8TeV_m400.root", "TCVARS", ROOT.kRed, 0, "Sherpa", 13.55e-3, 19999])
+samples.append(["pouet", "/afs/cern.ch/work/f/fbojarsk/CMSSW_6_1_1/src/BJetRegression/", "v29_withRunLumiEvent_RMS_BetaStar_fitToMgg_noKinFit", "Data_m400.root", "TCVARS", ROOT.kBlack, 20, "Data", 13.55e-3, 19999])
 
-#####plots.append([ name2, variable, cut, norm, Scale Factor, binning, title, additional_info, cutline, cutline2 ])
+#####plots.append([ name2, variable, cut,critere_eff, norm, Scale Factor, binning, title, additional_info, cutline, cutline2 ])
 plots = []
 #plots.append(["pho1_pt", "pho1_pt", "", "ph1_ciclevel >= 4", 2., "evweight", "(50, 40, 120)", "p_{T}^{#gamma1} (GeV)", "", 33.3, ""])
 #plots.append(["pho2_pt", "pho2_pt", "", "ph2_ciclevel >= 4", 2., "evweight", "(25, 20, 120)", "p_{T}^{#gamma2} (GeV)", "", 25., ""])
@@ -76,17 +76,17 @@ plots = []
 
 #plots.append(["pho2_PFisoA_cut_CIC_1", "pho1_PFisoA", "","ph2_ciclevel >= 1", 2., "", "(20,0, 20)", "PFisoA^{#gamma1}", "", "", ""])
 #plots.append(["pho2_PFisoB_cut_CIC_1", "pho1_PFisoB", "","ph2_ciclevel >= 1", 2., "", "(20,-4, 16)", "PFisoB^{#gamma1}", "", "", ""])
-
-plots.append(["pho2_PFisoA_barrel_lowr9_cut_CIC_1", "pho2_PFisoA", "(pho2_isEB == 1) * (pho2_r9 < 0.94) ","ph2_ciclevel >= 1", 2., "", "(20,0, 20)", "PFisoA^{#gamma2}", "barrel_lowr9_cut_CIC_1", 4.7, ""])
-plots.append(["pho2_PFisoA_barrel_highr9_cut_CIC_1", "pho2_PFisoA", "(pho2_isEB == 1) * (pho2_r9 > 0.94) ","ph2_ciclevel >= 1", 2., "", "(20,0, 20)", "PFisoA^{#gamma2}", "barrel_highr9_cut_CIC_1", 6, ""])
-plots.append(["pho2_PFisoA_endcap_lowr9_cut_CIC_1", "pho2_PFisoA", "(pho2_isEB == 0) * (pho2_r9 < 0.94) ","ph2_ciclevel >= 1", 2., "", "(20,0, 20)", "PFisoA^{#gamma2}", "endcap_lowr9_cut_CIC_1", 3.6, ""])
-plots.append(["pho2_PFisoA_endcap_highr9_cut_CIC_1", "pho2_PFisoA", "(pho2_isEB == 0) * (pho2_r9 > 0.94) ","ph2_ciclevel >= 1", 2., "", "(20,0, 20)", "PFisoA^{#gamma2}", "ndcap_highr9_cut_CIC_1", 5.6, ""])
-
-plots.append(["pho2_PFisoB_barrel_lowr9_cut_CIC_1", "pho2_PFisoB", "(pho2_isEB == 1) * (pho2_r9 < 0.94) ","ph2_ciclevel >= 1", 2., "", "(20,-4, 16)", "PFisoA^{#gamma2}", "barrel_lowr9_cut_CIC_1", 6.5, ""])
-plots.append(["pho2_PFisoB_barrel_highr9_cut_CIC_1", "pho2_PFisoB", "(pho2_isEB == 1) * (pho2_r9 > 0.94) ","ph2_ciclevel >= 1", 2., "", "(20,-4, 16)", "PFisoA^{#gamma2}", "barrel_highr9_cut_CIC_1", 10, ""])
-plots.append(["pho2_PFisoB_endcap_lowr9_cut_CIC_1", "pho2_PFisoB", "(pho2_isEB == 0) * (pho2_r9 < 0.94) ","ph2_ciclevel >= 1", 2., "", "(20,-4, 16)", "PFisoA^{#gamma2}", "endcap_lowr9_cut_CIC_1", 4.4, ""])
-plots.append(["pho2_PFisoB_endcap_highr9_cut_CIC_1", "pho2_PFisoB", "(pho2_isEB == 0) * (pho2_r9 > 0.94) ","ph2_ciclevel >= 1", 2., "", "(20,-4, 16)", "PFisoA^{#gamma2}", "endcap_highr9_cut_CIC_1", 5.6, ""])
-
+#
+#plots.append(["pho2_PFisoA_barrel_lowr9_cut_CIC_1", "pho2_PFisoA", "(pho2_isEB == 1) * (pho2_r9 < 0.94) ","ph2_ciclevel >= 1", 2., "", "(20,0, 20)", "PFisoA^{#gamma2}", "barrel_lowr9_cut_CIC_1", 4.7, ""])
+#plots.append(["pho2_PFisoA_barrel_highr9_cut_CIC_1", "pho2_PFisoA", "(pho2_isEB == 1) * (pho2_r9 > 0.94) ","ph2_ciclevel >= 1", 2., "", "(20,0, 20)", "PFisoA^{#gamma2}", "barrel_highr9_cut_CIC_1", 6, ""])
+#plots.append(["pho2_PFisoA_endcap_lowr9_cut_CIC_1", "pho2_PFisoA", "(pho2_isEB == 0) * (pho2_r9 < 0.94) ","ph2_ciclevel >= 1", 2., "", "(20,0, 20)", "PFisoA^{#gamma2}", "endcap_lowr9_cut_CIC_1", 3.6, ""])
+#plots.append(["pho2_PFisoA_endcap_highr9_cut_CIC_1", "pho2_PFisoA", "(pho2_isEB == 0) * (pho2_r9 > 0.94) ","ph2_ciclevel >= 1", 2., "", "(20,0, 20)", "PFisoA^{#gamma2}", "ndcap_highr9_cut_CIC_1", 5.6, ""])
+#
+#plots.append(["pho2_PFisoB_barrel_lowr9_cut_CIC_1", "pho2_PFisoB", "(pho2_isEB == 1) * (pho2_r9 < 0.94) ","ph2_ciclevel >= 1", 2., "", "(20,-4, 16)", "PFisoA^{#gamma2}", "barrel_lowr9_cut_CIC_1", 6.5, ""])
+#plots.append(["pho2_PFisoB_barrel_highr9_cut_CIC_1", "pho2_PFisoB", "(pho2_isEB == 1) * (pho2_r9 > 0.94) ","ph2_ciclevel >= 1", 2., "", "(20,-4, 16)", "PFisoA^{#gamma2}", "barrel_highr9_cut_CIC_1", 10, ""])
+#plots.append(["pho2_PFisoB_endcap_lowr9_cut_CIC_1", "pho2_PFisoB", "(pho2_isEB == 0) * (pho2_r9 < 0.94) ","ph2_ciclevel >= 1", 2., "", "(20,-4, 16)", "PFisoA^{#gamma2}", "endcap_lowr9_cut_CIC_1", 4.4, ""])
+#plots.append(["pho2_PFisoB_endcap_highr9_cut_CIC_1", "pho2_PFisoB", "(pho2_isEB == 0) * (pho2_r9 > 0.94) ","ph2_ciclevel >= 1", 2., "", "(20,-4, 16)", "PFisoA^{#gamma2}", "endcap_highr9_cut_CIC_1", 5.6, ""])
+#
 #plots.append(["toto", "pho2_PFisoB : pho2_PFisoB", "(fabs(pho2_eta) > 1.5) * (pho2_r9 > 0.94) ","ph2_ciclevel >= 4", 2., "", "(20,-4, 16, 20,-4, 16)", "PFisoA^{#gamma2}", "endcap_highr9", 5.6, ""])
 
 #plots.append(["pho2_PFisoC", "pho2_PFisoC", "","ph2_ciclevel >= 4", 2., "", "(24,0, 6)", "PFisoC^{#gamma2}", "", "", ""])
@@ -96,7 +96,7 @@ plots.append(["pho2_PFisoB_endcap_highr9_cut_CIC_1", "pho2_PFisoB", "(pho2_isEB 
 #plots.append(["jet2_csvBtag", "jet2_csvBtag", "", "", 1., "", "(50, 0.5, 1)", "csvBtag^{jet2}", "", "", ""])
 
 #plots.append(["gr_b_DeltaR_min_jet1_cat1", "gr_b_DeltaR_min_jet1", "njets_kRadionID_and_CSVM == 1", "", 2., "evweight", "(50, 0, 1)", "DeltaR(jet1,bquark)", "one btagged jet", 0.4, ""])
-plots.append(["DeltaR_b_jet2_cat1", "gr_b_DeltaR_min_jet2", "njets_kRadionID_and_CSVM == 1", "", 2., "evweight", "(50, 0, 1)", "DeltaR(jet2,bquark)", "one btagged jet", 0.4, ""])
+#plots.append(["DeltaR_b_jet2_cat1", "gr_b_DeltaR_min_jet2", "njets_kRadionID_and_CSVM == 1", "", 2., "evweight", "(50, 0, 1)", "DeltaR(jet2,bquark)", "one btagged jet", 0.4, ""])
 #plots.append(["gr_b_DeltaR_min_jet1_cat0", "gr_b_DeltaR_min_jet1", "njets_kRadionID_and_CSVM >= 2", "", 2., "evweight", "(50, 0, 1)", "DeltaR(jet1,bquark)", "two btagged jet", 0.4, ""])
 #plots.append(["gr_b_DeltaR_min_jet2_cat0", "gr_b_DeltaR_min_jet2", "njets_kRadionID_and_CSVM >= 2", "", 2., "evweight", "(50, 0, 1)", "DeltaR(jet2,bquark)", "two btagged jet", 0.4, ""])
 
@@ -105,10 +105,17 @@ plots.append(["DeltaR_b_jet2_cat1", "gr_b_DeltaR_min_jet2", "njets_kRadionID_and
 #plots.append(["DeltaR_pho1_pho2", "DeltaR_pho1_pho2", "", "ph2_ciclevel >= 4", 2., "evweight", "(20, 0 , 5)", "DeltaR_pho1_pho2", "", "", ""])
 
 #plots.append(["aaaaa_test_2D", "pho2_PFisoA : pho2_PFisoB", "", "", 2., "evweight", "(100, -5, 20, 100, -5, 20)", "pho1_PFisoA", "", 33.3, ""])
+plots.append(["mtot_cat0", "mtot", "(cut_based_ct == 0)", "", "", "evWeight", "(25, 350, 450)", "mtot (GeV)", "", "", ""])
+plots.append(["mtot_cat1", "mtot", "(cut_based_ct == 1)", "", "", "evWeight", "(25, 350, 450)", "mtot (GeV)", "", "", ""])
+plots.append(["mtot", "mtot", "", "", "", "evWeight", "(25, 350, 450)", "mtot (GeV)", "", "", ""])
 
+plots.append(["mjj_cat0", "mjj", "(cut_based_ct == 0)", "", "", "evWeight", "(20, 80, 160)", "mjj (GeV)", "", "", ""])
+plots.append(["mjj_cat1", "mjj", "(cut_based_ct == 1)", "", "", "evWeight", "(20, 80, 160)", "mjj (GeV)", "", "", ""])
+plots.append(["mjj", "mjj", "", "", "", "evWeight", "(20, 80, 160)", "mjj (GeV)", "", "", ""])
 
-
-
+plots.append(["mgg_cat0", "mgg", "(cut_based_ct == 0)", "", "", "evWeight", "(25, 90, 190)", "mgg (GeV)", "", "", ""])
+plots.append(["mgg_cat1", "mgg", "(cut_based_ct == 1)", "", "", "evWeight", "(25, 90, 190)", "mgg (GeV)", "", "", ""])
+plots.append(["mgg", "mgg", "", "", "", "evWeight", "(25, 90, 190)", "mgg (GeV)", "", "", ""])
 Eff = []
 
 for name2, variable, cut, critere_eff,  norm, Scale_Factor, binning, title, additional_info, cutline, cutline2 in plots:
@@ -139,6 +146,7 @@ for name2, variable, cut, critere_eff,  norm, Scale_Factor, binning, title, addi
         chain = TChain(tree)
         chain.Add( path.join(dirpath, subdir, file) )
         sample_cut = cut
+        print sample_cut
         if norm == 1.:
             sample_cut = "(" + sample_cut + ")/" + str( chain.GetEntries() )
         elif norm== 2.:
@@ -152,6 +160,7 @@ for name2, variable, cut, critere_eff,  norm, Scale_Factor, binning, title, addi
 
         if Scale_Factor != "":        
             sample_cut += "* (" + Scale_Factor + ")"   
+        print sample_cut
 
         latexLabel = TLatex()
         latexLabel.SetTextSize(.03)
@@ -169,17 +178,35 @@ for name2, variable, cut, critere_eff,  norm, Scale_Factor, binning, title, addi
         
 
         # Cosmetics
-        h_ntot = ROOT.gDirectory.Get("h_tmp_ntot")
-        chain.Draw(variable + ">>h_tmp" + binning, sample_cut + "/" + str(h_ntot.GetMaximum()), option) # 
-        h = ROOT.gDirectory.Get("h_tmp")
-        h.SetName(name + "_" + name2 + "_" + str(ifile))
-        if ifile == 0:
-            firsthistname = name + "_" + name2 + "_" + str(ifile)
-        h.SetLineWidth(3)
-        h.SetLineColor(color)
-        h.SetFillColor(color)
-        h.SetFillStyle(style)
-        h.GetXaxis().SetTitle( title )
+        if "Data" in label:
+            h_ntot = ROOT.gDirectory.Get("h_tmp_ntot")
+            chain.Draw(variable + ">>h_tmp" + binning, sample_cut , "goff") # + "/" + str(h_ntot.GetMaximum())
+            h = ROOT.gDirectory.Get("h_tmp")
+            h.SetName(name + "_" + name2 + "_" + str(ifile))
+            if ifile == 0:
+                    firsthistname = name + "_" + name2 + "_" + str(ifile)
+            h.SetLineWidth(1)
+            h.SetLineColor(color)
+            h.SetFillColor(color)
+            h.SetFillStyle(style)
+            h.GetXaxis().SetTitle( title )
+            h.SetMarkerColor(ROOT.kBlack)
+            h.SetMarkerSize(3)
+            h.SetMarkerStyle(2)
+            h.Draw("E1same")
+        else:
+            h_ntot = ROOT.gDirectory.Get("h_tmp_ntot")
+            chain.Draw(variable + ">>h_tmp" + binning, sample_cut , option) # + "/" + str(h_ntot.GetMaximum())
+            h = ROOT.gDirectory.Get("h_tmp")
+            h.SetName(name + "_" + name2 + "_" + str(ifile))
+            if ifile == 0:
+                    firsthistname = name + "_" + name2 + "_" + str(ifile)
+            h.SetLineWidth(1)
+            h.SetLineColor(color)
+            h.SetFillColor(color)
+            h.SetFillStyle(style)
+            h.GetXaxis().SetTitle( title )
+
         unit = ""
         if title.find("(") != -1:
             unit = title[title.find("(")+1:title.find(")")]
@@ -192,26 +219,23 @@ for name2, variable, cut, critere_eff,  norm, Scale_Factor, binning, title, addi
         ymin = min(ymin, h.GetMinimum(0.0))
 
 #calcul ntot, nselect pour calcul efficacite
-        if critere_eff == "":
-            critere_eff = "1"
-        chain.Draw(variable + ">>h_tmp2" + binning, sample_cut + "*(" + critere_eff  + ")" , "goff")
-        h2 = ROOT.gDirectory.Get("h_tmp2")
-        h2.Divide(h_ntot) 
-        h2.SetLineColor(4)
-        h2.Draw("same")   
-        
-        ntot=chain.GetEntries(sample_cut)
-        nselected=chain.GetEntries("(" + sample_cut  + ") * (" + critere_eff + ")")
-        eff = nselected / float(ntot)
+#        if critere_eff == "":
+#            critere_eff = "1"
+#        chain.Draw(variable + ">>h_tmp2" + binning, sample_cut + "*(" + critere_eff  + ")" , "goff")
+#        h2 = ROOT.gDirectory.Get("h_tmp2")
+#        h2.Divide(h_ntot) 
+#        h2.SetLineColor(4)
+#        h2.Draw("same")   
+#        
+#        ntot=chain.GetEntries(sample_cut)
+#        nselected=chain.GetEntries("(" + sample_cut  + ") * (" + critere_eff + ")")
+#        eff = nselected / float(ntot)
 #        error = m.sqrt(eff*(1-eff)/ntot)
 
 # calcul correlation entre variable
 
 #        chain.Draw(variable + ">>h_tmp3" + binning, sample_cut, "entrylist")
 #        h3 = ROOT.gDirectory.Get("h_tmp3")
-
-
-        
 
 #        corr_A_B=0.
 #        mean_A=0.
@@ -277,18 +301,18 @@ for name2, variable, cut, critere_eff,  norm, Scale_Factor, binning, title, addi
     latexLabel.SetTextSize(.03)
     latexLabel.SetNDC()
     latexLabel.DrawLatex(.15, .96, "CMS Internal     L = 19.7 fb^{-1}     #sqrt{s} = 8 TeV    " + additional_info)
-    latexLabel.DrawLatex(.2, .9, "n event = %s" %ntot)
-    latexLabel.DrawLatex(.2, .85, "efficiency = %s " %round(eff, 2))
+#    latexLabel.DrawLatex(.2, .9, "n event = %s" %ntot)
+#    latexLabel.DrawLatex(.2, .85, "efficiency = %s " %round(eff, 2))
     ROOT.gPad.RedrawAxis()
     legend.Draw()
     c1.Update()
 
     line = TLine()
     line.SetLineStyle(2)
-    line.SetLineWidth(2)
+    line.SetLineWidth(1)
     line2 = TLine()
     line2.SetLineStyle(2)
-    line2.SetLineWidth(2)
+    line2.SetLineWidth(1)
 
     h = ROOT.gDirectory.Get(firsthistname)
     h.SetMaximum(ymax_lin)
