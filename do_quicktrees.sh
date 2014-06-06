@@ -1,14 +1,11 @@
 #!/bin/bash
 
-version="v31"
+version="v32"
 today=`date +"0%Y-%m-%d"`
 #set -x
 
-#inputversion="v10"
-#inputfolder="2014-03-24_selection_noRegression_noMassCut_${inputversion}/"
-#inputfolder="2014-02-17_selection_noRegression_noMassCut_${inputversion}/"
-inputversion="v12"
-inputfolder="2014-06-04_selection_noRegression_noMassCut_${inputversion}/"
+inputversion="v13"
+inputfolder="2014-06-05_selection_noRegression_noMassCut_${inputversion}/"
 
 i=-1
 
