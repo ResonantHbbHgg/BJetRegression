@@ -412,6 +412,8 @@ do
 --keep0btag ${keep0btag} \
 2> ${folder}/${file}.eo | tee ${folder}/${file}.eo | egrep '%|entries'
 
+    mv cutFlow_${tree[${isample}]}.dat ${folder}/
+
 	done # isample
 done #ireg
 
