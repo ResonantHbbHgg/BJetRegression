@@ -375,8 +375,15 @@ int main(int argc, char *argv[])
 			njets[3]++; jetcut[3] = "After t.jet_betaStarClassic > 0.2 * log( t.nvtx - 0.64)";
 //			if( t.jet_dR2Mean > 0.06 ) continue;
 			njets[4]++; jetcut[4] = "After t.jet_dR2Mean > 0.06";
-			if(DEBUG) cout << "Jet is passing selection cuts" << endl;
 			// ** call regression to correct the pt **
+            TLorentzVector tmp_jet, pho1, pho2;
+            tmp_jet.SetPtEtaPhiE(t.jet_pt, t.jet_eta, t.jet_phi, t.jet_e);
+		    pho1.SetPtEtaPhiE(t.ph1_pt, t.ph1_eta, t.ph1_phi, t.ph1_e);
+    		pho2.SetPtEtaPhiE(t.ph2_pt, t.ph2_eta, t.ph2_phi, t.ph2_e);
+            if( (tmp_jet.DeltaR(pho1) < .5) || (tmp_jet.DeltaR(pho2) < .5) ) continue;
+            njets[5]++; jetcut[5] = "After minDR(g,j) > .5";
+			if(DEBUG) cout << "Jet is passing selection cuts" << endl;
+
 			// ** store 4-momentum + csv output for combinatorics **
 			J.jetPt.push_back(t.jet_pt);
 			J.jetbtagSF_M.push_back(t.jet_btagSF_M);
