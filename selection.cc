@@ -16,6 +16,7 @@
 #include <TFile.h>
 #include <TTree.h>
 #include <TLorentzVector.h>
+#include <TVector3.h>
 #include <TRandom3.h>
 // Analysis headers
 #include "../h2gglobe/BTagUtils.h"
@@ -1125,6 +1126,10 @@ int main(int argc, char *argv[])
 		t.regcosthetastar = regHgg_Rstar.CosTheta();
 		t.regkincosthetastar = regkinHgg_Rstar.CosTheta();
 		t.kincosthetastar = kinHgg_Rstar.CosTheta();
+		t.costhetastar_CS = getCosThetaStar_CS(gg, jj);
+		t.regcosthetastar_CS = getCosThetaStar_CS(gg, regjj);
+		t.regkincosthetastar_CS = getCosThetaStar_CS(gg, regkinjj);
+		t.kincosthetastar_CS = getCosThetaStar_CS(gg, kinjj);
 // min DR(g, j)
 		t.minDRgj = 999999.0;
 		t.minDRgregj = 999999.0;

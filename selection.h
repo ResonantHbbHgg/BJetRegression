@@ -223,6 +223,7 @@ struct tree_variables
 	int selection_cut_level;
 	int category;
 	float costhetastar, regcosthetastar, regkincosthetastar, kincosthetastar;
+	float costhetastar_CS, regcosthetastar_CS, regkincosthetastar_CS, kincosthetastar_CS;
 	float minDRgj, minDRgregj, minDRgregkinj, minDRgkinj;
 	float HT_gg;
 	// Photon Energy Scale & Photon Energy Resolution
@@ -1381,6 +1382,10 @@ void setup_outtree(TTree* outtree, tree_variables *t)
 	outtree->Branch("regcosthetastar", &t->regcosthetastar, "regcosthetastar/F");
 	outtree->Branch("regkincosthetastar", &t->regkincosthetastar, "regkincosthetastar/F");
 	outtree->Branch("kincosthetastar", &t->kincosthetastar, "kincosthetastar/F");
+	outtree->Branch("costhetastar_CS", &t->costhetastar_CS, "costhetastar_CS/F");
+	outtree->Branch("regcosthetastar_CS", &t->regcosthetastar_CS, "regcosthetastar_CS/F");
+	outtree->Branch("regkincosthetastar_CS", &t->regkincosthetastar_CS, "regkincosthetastar_CS/F");
+	outtree->Branch("kincosthetastar_CS", &t->kincosthetastar_CS, "kincosthetastar_CS/F");
 	outtree->Branch("minDRgj", &t->minDRgj, "minDRgj/F");
 	outtree->Branch("minDRgregj", &t->minDRgregj, "minDRgregj/F");
 	outtree->Branch("minDRgregkinj", &t->minDRgregkinj, "minDRgregkinj/F");
@@ -2355,4 +2360,25 @@ float getPERUncertainty(bool isEB, float sceta, float r9, float sigmaEoE, TRando
 	else if( !isEB && (fabs(sceta) > 2.) && (r9 < .94) ) return r->Gaus(0, sigmaEoE * sqrt( pow(1.+(0.54 * 0.01)/sigmaEoE,2) - 1.));
 	else if( !isEB && (fabs(sceta) > 2.) && (r9 > .94) ) return r->Gaus(0, sigmaEoE * sqrt( pow(1.+(0.36 * 0.01)/sigmaEoE,2) - 1.));
 	else return 1.0;
+}
+
+
+float getCosThetaStar_CS(TLorentzVector h1, TLorentzVector h2, float ebeam = 4000)
+{// cos theta star angle in the Collins Soper frame
+    TLorentzVector p1, p2;
+    p1.SetPxPyPzE(0, 0,  ebeam, ebeam);
+    p2.SetPxPyPzE(0, 0, -ebeam, ebeam);
+
+    TLorentzVector hh;
+    hh = h1 + h2;
+
+    TVector3 boost = - hh.BoostVector();
+    p1.Boost(boost);
+    p2.Boost(boost);
+    h1.Boost(boost);
+
+    TVector3 CSaxis = p1.Vect().Unit() - p2.Vect().Unit();
+    CSaxis.Unit();
+
+    return fabs(cos(   CSaxis.Angle( h1.Vect().Unit() )    ));
 }
