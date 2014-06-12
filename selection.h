@@ -226,6 +226,8 @@ struct tree_variables
 	float costhetastar_CS, regcosthetastar_CS, regkincosthetastar_CS, kincosthetastar_CS;
 	float minDRgj, minDRgregj, minDRgregkinj, minDRgkinj;
 	float HT_gg;
+    float dEta_gg_jj, dEta_gg_regjj, dEta_gg_regkinjj, dEta_gg_kinjj;
+    float dPhi_gg_jj, dPhi_gg_regjj, dPhi_gg_regkinjj, dPhi_gg_kinjj;
 	// Photon Energy Scale & Photon Energy Resolution
 	float gg_mass_pesD1, gg_mass_pesU1, gg_mass_perD1, gg_mass_perU1;
 	float gg_mass_pesD2, gg_mass_pesU2, gg_mass_perD2, gg_mass_perU2;
@@ -1391,6 +1393,14 @@ void setup_outtree(TTree* outtree, tree_variables *t)
 	outtree->Branch("minDRgregkinj", &t->minDRgregkinj, "minDRgregkinj/F");
 	outtree->Branch("minDRgkinj", &t->minDRgkinj, "minDRgkinj/F");
 	outtree->Branch("HT_gg", &t->HT_gg, "HT_gg/F");
+	outtree->Branch("dEta_gg_jj", &t->dEta_gg_jj, "dEta_gg_jj/F");
+	outtree->Branch("dEta_gg_regjj", &t->dEta_gg_regjj, "dEta_gg_regjj/F");
+	outtree->Branch("dEta_gg_regkinjj", &t->dEta_gg_regkinjj, "dEta_gg_regkinjj/F");
+	outtree->Branch("dEta_gg_kinjj", &t->dEta_gg_kinjj, "dEta_gg_kinjj/F");
+	outtree->Branch("dPhi_gg_jj", &t->dPhi_gg_jj, "dPhi_gg_jj/F");
+	outtree->Branch("dPhi_gg_regjj", &t->dPhi_gg_regjj, "dPhi_gg_regjj/F");
+	outtree->Branch("dPhi_gg_regkinjj", &t->dPhi_gg_regkinjj, "dPhi_gg_regkinjj/F");
+	outtree->Branch("dPhi_gg_kinjj", &t->dPhi_gg_kinjj, "dPhi_gg_kinjj/F");
 // gen level info
 	outtree->Branch("gr_radion_p4_pt", &t->gr_radion_p4_pt, "gr_radion_p4_pt/F");
 	outtree->Branch("gr_radion_p4_eta", &t->gr_radion_p4_eta, "gr_radion_p4_eta/F");

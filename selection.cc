@@ -1130,6 +1130,14 @@ int main(int argc, char *argv[])
 		t.regcosthetastar_CS = getCosThetaStar_CS(gg, regjj);
 		t.regkincosthetastar_CS = getCosThetaStar_CS(gg, regkinjj);
 		t.kincosthetastar_CS = getCosThetaStar_CS(gg, kinjj);
+        t.dEta_gg_jj = gg.Eta() - jj.Eta();
+        t.dEta_gg_regjj = gg.Eta() - regjj.Eta();
+        t.dEta_gg_regkinjj = gg.Eta() - regkinjj.Eta();
+        t.dEta_gg_kinjj = gg.Eta() - kinjj.Eta();
+        t.dPhi_gg_jj = gg.DeltaPhi( jj );
+        t.dPhi_gg_regjj = gg.DeltaPhi( regjj );
+        t.dPhi_gg_regkinjj = gg.DeltaPhi( regkinjj );
+        t.dPhi_gg_kinjj = gg.DeltaPhi( kinjj );
 // min DR(g, j)
 		t.minDRgj = 999999.0;
 		t.minDRgregj = 999999.0;
