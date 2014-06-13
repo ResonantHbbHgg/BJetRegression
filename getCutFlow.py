@@ -6,6 +6,8 @@ from os import path, listdir
 # Argument parser setup
 parser = argparse.ArgumentParser()
 parser.add_argument("--part", help="1= prod and reduced level, 2= object selection, 3= mass windows, 999= get everything together", nargs='?', const=2, type=int, default=2)
+parser.add_argument("--selectionVersion", help="selection version", nargs='?', const="v14", type=str, default="v14")
+parser.add_argument("--selectionFolder", help="selection version", nargs='?', const="2014-06-12_selection_noRegression_noMassCut_v14", type=str, default="2014-06-12_selection_noRegression_noMassCut_v14")
 args = parser.parse_args()
 # ROOT setup
 import ROOT
@@ -171,7 +173,7 @@ if args.part == 1:
 if args.part == 2:
     print "part 2: object selection"
     nflow = {}
-    cutFlowDir = "cutFlow/"
+    cutFlowDir = args.selectionFolder
     cutFlowFiles = [ x for x in listdir(cutFlowDir) if path.isfile(path.join(cutFlowDir,x)) and "cutFlow" in x and ".dat" in x and "part" not in x]
     for file in cutFlowFiles:
         sample = file.replace(".dat", "").replace("cutFlow_", "")
@@ -192,8 +194,8 @@ if args.part == 3:
     mggjj_cut[300] = [255, 330]
     mggjj_cut[350] = [310, 395]
     mggjj_cut[400] = [370, 440]
-    cutFlowDir = "cutFlow/"
-    selectedFolder = "2014-06-05_selection_noRegression_noMassCut_v13"
+    cutFlowDir = args.selectionFolder
+    selectedFolder = args.selectionFolder
     cutFlowFiles = [ x for x in listdir(cutFlowDir) if path.isfile(path.join(cutFlowDir,x)) and "cutFlow_" in x and ".dat" in x and "part" not in x]
     for file in cutFlowFiles:
         sample = file.replace(".dat", "").replace("cutFlow_", "")
@@ -207,7 +209,7 @@ if args.part == 3:
         except ValueError:
             mass = 125
         chain = TChain(sample)
-        files = path.join(selectedFolder, sample + "_noRegression_noMassCut_v13.root")
+        files = path.join(selectedFolder, sample + "_noRegression_noMassCut_" + args.selectionVersion + ".root")
         chain.Add(files)
 # FIXME
         if not "Radion" in sample:
@@ -231,7 +233,7 @@ if args.part == 999:
     was400lowDone = False
     for ifile in range(1,4):
         print ifile
-        file = "cutFlow_part" + str(ifile) + "_v13.dat"
+        file = path.join(args.selectionFolder, "cutFlow_part" + str(ifile) + ".dat")
         with open(file) as data:
             for line in data:
                 if ("Radion" not in line) and ("m125" not in line) and ("ggHH" not in line) or ("minlo" in line):
@@ -325,8 +327,8 @@ if args.part == 999:
     offset["vbf"] = -124
     offset["_wh"] = -123
     offset["_zh"] = -122
-    offset["tth"] = -121
-    offset["bbh"] = -120
+    offset["bbh"] = -121
+    offset["tth"] = -120
     offset["ggHH"] = -119
     sigma_wh = 0.7046
     sigma_zh = 0.4153
@@ -476,7 +478,8 @@ if args.part == 999:
         gr_hgg[igraph].GetXaxis().SetBinLabel(a * (0 + 3) + b, "ZH")
         gr_hgg[igraph].GetXaxis().SetBinLabel(a * (0 + 4) + b, "ttH")
         if not oldPlot:
-            gr_hgg[igraph].GetXaxis().SetBinLabel(a * (0 + 5) + b, "bbH")
+            gr_hgg[igraph].GetXaxis().SetBinLabel(a * (0 + 4) + b, "bbH")
+            gr_hgg[igraph].GetXaxis().SetBinLabel(a * (0 + 5) + b, "ttH")
             gr_hgg[igraph].GetXaxis().SetBinLabel(a * (0 + 6) + b, "ggHH")
         gr_hgg[igraph].GetYaxis().SetTitle("Signal selection efficiency (%)")
         gr_hgg[igraph].GetYaxis().SetTitleOffset(1.04 / canvasSplit * 100.)
