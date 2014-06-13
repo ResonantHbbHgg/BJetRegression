@@ -176,7 +176,6 @@ for name2, variable, plot_cut, norm, binning, title, additional_info, cutline, c
     for key in collections.OrderedDict(sorted(hist_bkg.items())):
         for jkey in collections.OrderedDict(sorted(hist_bkg.items())):
             if jkey <= key: continue
-            print key, jkey
             hist_bkg[key].Add(hist_bkg[jkey])
     # Adjust norm if case happens
     if norm == 1. or norm == 1:
