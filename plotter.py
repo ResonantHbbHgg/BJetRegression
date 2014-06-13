@@ -4,6 +4,7 @@
 # Various python imports
 from os import path
 from math import log10, pow
+import collections
 # ROOT setup
 import ROOT
 from ROOT import TFile, TTree, TLine, TChain, TCanvas, TH1D, TLatex, TLegend, TLorentzVector
@@ -18,11 +19,19 @@ eos_tree = "root://eoscms//eos/cms/store/cmst3/user/obondu/H2GGLOBE/Radion/trees
 
 intL = 19706.
 samples = []
-# samples.append([ name, typ, dirpath, subdir, file, tree, color, style, label , sigma , N])
-samples.append(["Radion_m300", -300, afs_plottree, "", "Radion_m300_8TeV_noRegression_noMassCut_v*.root", "Radion_m300_8TeV", ROOT.kBlue, 0, "m_{X} = 300 GeV" , 13.55e-3, 19999])
-samples.append(["Data", 0, afs_plottree, "", "Data_noRegression_noMassCut_v*.root", "Data", ROOT.kBlack, 0, "Data" , 13.55e-3, 19999])
+# samples.append([ name, typ, dirpath, subdir, file, tree, sample_cut, color, style, label , sigma , N])
+samples.append(["Radion_m300", -300, afs_plottree, "", "Radion_m300_8TeV_noRegression_noMassCut_v*.root", "Radion_m300_8TeV", "", ROOT.kRed, 0, "m_{X} = 300 GeV" , 13.55e-3, 19999])
+samples.append(["Data", 0, afs_plottree, "", "Data_noRegression_noMassCut_v*.root", "Data", "", ROOT.kBlack, 0, "Data", 1., 1001822])
+samples.append(["qcd_40_8TeV_ff", 3, afs_plottree, "", "qcd_40_8TeV_ff_noRegression_noMassCut_v*.root", "qcd_40_8TeV_ff", "(evweight_w_btagSF) * (evweight_w_btagSF < 50)", ROOT.kCyan+2, 3001, "QCD jets" , 1., 14404429])
+samples.append(["qcd_30_8TeV_ff", 3, afs_plottree, "", "qcd_30_8TeV_ff_noRegression_noMassCut_v*.root", "qcd_30_8TeV_ff", "(evweight_w_btagSF) * (evweight_w_btagSF < 50)", ROOT.kCyan+2, 3001, "QCD jets" , 1., 14404429])
+samples.append(["qcd_30_8TeV_pf", 2, afs_plottree, "", "qcd_30_8TeV_pf_noRegression_noMassCut_v*.root", "qcd_30_8TeV_pf", "(evweight_w_btagSF) * (evweight_w_btagSF < 50)", ROOT.kBlue-4, 3001, "QCD #gamma + jets" , 1., 14404429])
+samples.append(["qcd_40_8TeV_pf", 2, afs_plottree, "", "qcd_40_8TeV_pf_noRegression_noMassCut_v*.root", "qcd_40_8TeV_pf", "(evweight_w_btagSF) * (evweight_w_btagSF < 50)", ROOT.kBlue-4, 3001, "QCD #gamma + jets" , 1., 14404429])
+samples.append(["gjet_20_8TeV_pf", 2, afs_plottree, "", "gjet_20_8TeV_pf_noRegression_noMassCut_v*.root", "gjet_20_8TeV_pf", "evweight_w_btagSF", ROOT.kBlue-4, 3001, "QCD #gamma + jets" , 1., 14404429])
+samples.append(["gjet_40_8TeV_pf", 2, afs_plottree, "", "gjet_40_8TeV_pf_noRegression_noMassCut_v*.root", "gjet_40_8TeV_pf", "evweight_w_btagSF", ROOT.kBlue-4, 3001, "QCD #gamma + jets" , 1., 14404429])
+samples.append(["diphojet_sherpa_8TeV", 1, afs_plottree, "", "diphojet_sherpa_8TeV_noRegression_noMassCut_v*.root", "diphojet_sherpa_8TeV", "evweight_w_btagSF", ROOT.kGreen+2, 3001, "QCD #gamma#gamma + jets" , 1., 14404429])
 
-#####plots.append([ name2, variable, cut, norm, binning, title, additional_info, cutline, cutline2 ])
+
+#####plots.append([ name2, variable, plot_cut, norm, binning, title, additional_info, cutline, cutline2 ])
 plots = []
 #plots.append(["pho1_pt", "pho1_pt", "", intL, "(100, 0, 500)", "p_{T}^{#gamma1} (GeV)", "", 33.3, ""])
 #plots.append(["pho2_pt", "pho2_pt", "", intL, "(100, 0, 500)", "p_{T}^{#gamma2} (GeV)", "", 25., ""])
@@ -46,8 +55,8 @@ plots = []
 #plots.append(["pho2_mass", "pho2_mass", "", intL, "(100, -1, 1)", "mass^{#gamma2} (GeV)", "", "", ""])
 #plots.append(["jet1_mass", "jet1_mass", "", intL, "(100, 0, 100)", "mass^{jet1} (GeV)", "", "", ""])
 #plots.append(["jet2_mass", "jet2_mass", "", intL, "(100, 0, 100)", "mass^{jet2} (GeV)", "", "", ""])
-#plots.append(["jj_mass", "jj_mass", "", intL, "(500, 0, 500)", "mass^{jj} (GeV)", "", "", ""])
-#plots.append(["gg_mass", "gg_mass", "", intL, "(100, 0, 200)", "mass^{#gamma#gamma} (GeV)", "", 100., 180.])
+plots.append(["jj_mass", "jj_mass", "", intL, "(50, 0, 500)", "mass^{jj} (GeV)", "", "", ""])
+plots.append(["gg_mass", "gg_mass", "", intL, "(40, 100, 180)", "mass^{#gamma#gamma} (GeV)", "", "", ""])
 #plots.append(["pho1_e", "pho1_e", "", intL, "(500, 0, 500)", "e^{#gamma1} (GeV)", "", "", ""])
 #plots.append(["pho2_e", "pho2_e", "", intL, "(500, 0, 500)", "e^{#gamma2} (GeV)", "", "", ""])
 #plots.append(["jet1_e", "jet1_e", "", intL, "(500, 0, 500)", "e^{jet1} (GeV)", "", "", ""])
@@ -58,7 +67,7 @@ plots = []
 #plots.append(["pho2_r9", "pho2_r9", "", intL, "(100, 0, 5)", "r9^{#gamma2}", "", "", ""])
 #plots.append(["ggjj_pt", "ggjj_pt", "", intL, "(500, 0, 500)", "p_{T}^{#gamma#gammajj} (GeV)", "", "", ""])
 #plots.append(["ggjj_e", "ggjj_e", "", intL, "(1000, 0, 1000)", "e^{#gamma#gammajj} (GeV)", "", "", ""])
-plots.append(["ggjj_mass", "ggjj_mass", "", intL, "(50, 0, 1000)", "mass^{#gamma#gammajj} (GeV)", "", "", ""])
+plots.append(["ggjj_mass", "ggjj_mass / 1000.", "", intL, "(50, 0, 1.)", "mass^{#gamma#gammajj} (TeV)", "", "", ""])
 #plots.append(["ggjj_phi", "ggjj_phi", "", intL, "(100, -5, 5)", "phi^{#gamma#gammajj}", "", "", ""])
 #plots.append(["ggjj_eta", "ggjj_eta", "", intL, "(100, -10, 10)", "eta^{#gamma#gammajj}", "", "", ""])
 #plots.append(["pho1_sieie", "pho1_sieie", "", intL, "(100, -0.5, 0.5)", "sieie^{#gamma1}", "", "", ""])
@@ -81,7 +90,7 @@ plots.append(["ggjj_mass", "ggjj_mass", "", intL, "(50, 0, 1000)", "mass^{#gamma
 
 
 
-for name2, variable, cut, norm, binning, title, additional_info, cutline, cutline2 in plots:
+for name2, variable, plot_cut, norm, binning, title, additional_info, cutline, cutline2 in plots:
     c1 = TCanvas()
     legend = TLegend(0.45, 0.82, 0.90, 0.93, "")
     legend.SetTextSize(0.025)
@@ -94,28 +103,41 @@ for name2, variable, cut, norm, binning, title, additional_info, cutline, cutlin
     ymax = -1
     ymin = 10000000
     firsthistname = ""
-    if cut == "": cut = "1"
+    if plot_cut == "": plot_cut = "1"
+    hist_signal = {}
+    hist_data = {}
+    hist_bkg = {}
+    label_signal = {}
+    label_data = {}
+    label_bkg = {}
 
-
-    for ifile, [ name, typ, dirpath, subdir, file, tree, color, style, label , sigma , N] in enumerate(samples):
+    for ifile, [ name, typ, dirpath, subdir, file, tree, sample_cut, color, style, label , sigma , N] in enumerate(samples):
 #        print ifile, file, color, style, label
         chain = TChain(tree)
         chain.Add( path.join(dirpath, subdir, file) )
-        sample_cut = cut
+        total_cut = plot_cut
+        if sample_cut == "": sample_cut = "1"
         if norm == 1.:
-            sample_cut = "(" + sample_cut + ")/" + str( chain.GetEntries() )
+            total_cut = "(" + plot_cut + ")/" + str( chain.GetEntries() )
         else:
-            sample_cut = "(" + sample_cut + ") * (" + str(sigma) + " * " + str(intL) + ")/" + str(N)
+            if typ < 0:
+                total_cut = "(" + plot_cut + ") * (" + str(sigma) + " * " + str(intL) + ")/" + str(N)
+            elif typ == 0:
+                total_cut = "(" + plot_cut + ")"
+            elif typ > 0:
+                total_cut = "(" + plot_cut + ") * (" + sample_cut + ")"
         option = ""
         if ifile != 0:
             option = "same"
-        chain.Draw(variable + ">>h_tmp" + binning, sample_cut, option)
+        if typ == 0:
+            option += "e1"
+        chain.Draw(variable + ">>h_tmp" + binning, total_cut, option)
         # Clsosmetics
         h = ROOT.gDirectory.Get("h_tmp")
         h.SetName(name + "_" + name2 + "_" + str(ifile))
         if ifile == 0:
             firsthistname = name + "_" + name2 + "_" + str(ifile)
-        h.SetLineWidth(3)
+        h.SetLineWidth(2)
         h.SetLineColor(color)
         h.SetFillColor(color)
         h.SetFillStyle(style)
@@ -127,12 +149,31 @@ for name2, variable, cut, norm, binning, title, additional_info, cutline, cutlin
             h.GetYaxis().SetTitle( "Norm. to unity / ( " + str(((xhigh - xlow) / xnbin)) + " " + unit + " )")
         else:
             h.GetYaxis().SetTitle( "# events / ( " + str(((xhigh - xlow) / xnbin)) + " " + unit + " )")
-        legend.AddEntry(h.GetName(), label)
         ymax = max(ymax, h.GetMaximum())
         ymin = min(ymin, h.GetMinimum(0.0))
+        # store histo for redraw in the correct order later
+        if typ > 0:
+            label_bkg[typ] = label
+            if typ not in hist_bkg:
+                hist_bkg[typ] = h
+            else:
+                hist_bkg[typ].Add(h)
+        elif typ == 0:
+            label_data[typ] = label
+            hist_data[typ] = h
+        elif typ < 0:
+            label_signal[typ] = label
+            hist_signal[typ] = h
+        # Sum the backgrounds
+        for key in collections.OrderedDict(sorted(hist_bkg.items())):
+            for jkey in collections.OrderedDict(sorted(hist_bkg.items())):
+                if jkey <= key: continue
+                hist_bkg[key].Add(hist_bkg[jkey])
         del chain, h
 
-
+#        print hist_bkg
+#        print hist_signal
+#        print hist_data
 
     ymin_lin = ymin / 10.
     yrange_lin = ymax - ymin_lin
@@ -141,6 +182,21 @@ for name2, variable, cut, norm, binning, title, additional_info, cutline, cutlin
     ymax_log = pow(10., .25*yrange_log + log10(ymax))
     ymin_log = pow(10., log10(ymin) - .03*yrange_log)
 
+    # redraw in order : background, data, signal, axis
+    for ikey, key in enumerate(collections.OrderedDict(sorted(hist_bkg.items()))):
+        if ikey == 0:
+            hist_bkg[key].Draw("")
+            firsthistname = hist_bkg[key].GetName()
+            legend.AddEntry(hist_bkg[key].GetName(), label_bkg[key], "lf")
+        else:
+            hist_bkg[key].Draw("same")
+            legend.AddEntry(hist_bkg[key].GetName(), label_bkg[key], "lf")
+    for key in hist_data:
+        hist_data[key].Draw("e1same")
+        legend.AddEntry(hist_data[key].GetName(), label_data[key], "lpe")
+    for key in collections.OrderedDict(sorted(hist_signal.items())):
+        hist_signal[key].Draw("same")
+        legend.AddEntry(hist_signal[key].GetName(), label_signal[key], "lf")
     latexLabel = TLatex()
     latexLabel.SetTextSize(.03)
     latexLabel.SetNDC()
