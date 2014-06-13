@@ -2390,5 +2390,5 @@ float getCosThetaStar_CS(TLorentzVector h1, TLorentzVector h2, float ebeam = 400
     TVector3 CSaxis = p1.Vect().Unit() - p2.Vect().Unit();
     CSaxis.Unit();
 
-    return fabs(cos(   CSaxis.Angle( h1.Vect().Unit() )    ));
+    return cos(   CSaxis.Angle( h1.Vect().Unit() )    );
 }
