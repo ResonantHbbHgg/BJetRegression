@@ -1,14 +1,14 @@
 #!/bin/bash
 
-version="v31"
+version="v31_study_ciclevel_4_4"
 today=`date +"0%Y-%m-%d"`
 #set -x
 
 #inputversion="v10"
 #inputfolder="2014-03-24_selection_noRegression_noMassCut_${inputversion}/"
 #inputfolder="2014-02-17_selection_noRegression_noMassCut_${inputversion}/"
-inputversion="v12"
-inputfolder="2014-06-04_selection_noRegression_noMassCut_${inputversion}/"
+inputversion="v12_study_ciclevel_4_4"
+inputfolder="2014-06-06_selection_noRegression_noMassCut_${inputversion}/"
 
 i=-1
 
@@ -83,10 +83,13 @@ controlSampleWeights="scales_2D_pt_data_4GeVbinning.root"
 ##### PREPARE MGG-FIT TREES
 outfolder="${version}_fitToMgg_noKinFit"
 mkdir -p ${outfolder}
-for sample in `echo "Radion Graviton MSSM ggh_m125_powheg_8TeV vbf_m125_8TeV wzh_m125_8TeV_wh wzh_m125_8TeV_zh tth_m125_8TeV bbh_m125_8TeV Data DataCS diphojet_sherpa_8TeV ggHH_8TeV"`
+#for sample in `echo "Radion Graviton MSSM ggh_m125_powheg_8TeV vbf_m125_8TeV wzh_m125_8TeV_wh wzh_m125_8TeV_zh tth_m125_8TeV bbh_m125_8TeV Data DataCS diphojet_sherpa_8TeV ggHH_8TeV"`
+#for sample in `echo "Radion ggh_m125_powheg_8TeV vbf_m125_8TeV  wzh_m125_8TeV_zh tth_m125_8TeV Data diphojet_sherpa_8TeV "`
+for sample in `echo " qcd_30_8TeV_ff qcd_40_8TeV_ff qcd_30_8TeV_pf qcd_40_8TeV_pf gjet_20_8TeV_pf gjet_40_8TeV_pf DYJetsToLL"`
+
 do
 	#for mass in `echo "260 270 300 350 400 450 500"`
-	for mass in `echo " 260 270 300 350 400"`
+	for mass in `echo "  270 300 350 400"`
 	do
 		intree=${sample}
 		outtree=${sample}
