@@ -23,8 +23,23 @@ samples = []
 # samples.append([ name, dirpath, subdir, file, tree, color, style, label , sigma , N])
 
 #samples.append(["Radion_m300", afs_plottree, "2014-02-17_selection_noRegression_noMassCut_v10", "Radion_m300_8TeV_noRegression_noMassCut_v10.root", "Radion_m300_8TeV", ROOT.kBlue, 0, "m_{X} = 300 GeV" , 13.55e-3, 19999])
-samples.append(["pouet", "/afs/cern.ch/work/f/fbojarsk/CMSSW_6_1_1/src/BJetRegression/", "v29_withRunLumiEvent_RMS_BetaStar_fitToMgg_noKinFit", "diphojet_sherpa_8TeV_m400.root", "TCVARS", ROOT.kRed, 0, "Sherpa", 13.55e-3, 19999])
-samples.append(["pouet", "/afs/cern.ch/work/f/fbojarsk/CMSSW_6_1_1/src/BJetRegression/", "v29_withRunLumiEvent_RMS_BetaStar_fitToMgg_noKinFit", "Data_m400.root", "TCVARS", ROOT.kBlack, 20, "Data", 13.55e-3, 19999])
+CIC1 = "0"
+CIC2 = "0"
+MASSE = "400"
+samples.append(["pouet", "/afs/cern.ch/work/f/fbojarsk/CMSSW_6_1_1/src/BJetRegression/", "v31_study_ciclevel_" +  CIC1 +"_" + CIC2 +"_fitToMgg_noKinFit/", "Data_m" + MASSE + ".root", "TCVARS", ROOT.kBlack, 20, "Data", 13.55e-3, 19999])
+
+samples.append(["pouet", "/afs/cern.ch/work/f/fbojarsk/CMSSW_6_1_1/src/BJetRegression/", "v31_study_ciclevel_" +  CIC1 +"_" + CIC2 +"_fitToMgg_noKinFit/", "diphojet_sherpa_8TeV_m" + MASSE + ".root", "TCVARS", ROOT.kRed, 1, "Sherpa", 13.55e-3, 19999])
+
+samples.append(["pouet", "/afs/cern.ch/work/f/fbojarsk/CMSSW_6_1_1/src/BJetRegression/", "v31_study_ciclevel_" +  CIC1 +"_" + CIC2 +"_fitToMgg_noKinFit/", "DYJetsToLL_m" + MASSE +".root", "TCVARS", ROOT.kGreen, 1, "DYJet", 13.55e-3, 19999])
+
+samples.append(["pouet", "/afs/cern.ch/work/f/fbojarsk/CMSSW_6_1_1/src/BJetRegression/", "v31_study_ciclevel_" +  CIC1 +"_" + CIC2 +"_fitToMgg_noKinFit/", "pf_" + MASSE + ".root", "TCVARS", ROOT.kBlue, 1, "pf", 13.55e-3, 19999])
+samples.append(["pouet", "/afs/cern.ch/work/f/fbojarsk/CMSSW_6_1_1/src/BJetRegression/", "v31_study_ciclevel_" +  CIC1 +"_" + CIC2 +"_fitToMgg_noKinFit/", "ff_" + MASSE + ".root", "TCVARS", ROOT.kYellow, 1, "ff", 13.55e-3, 19999])
+
+
+
+#samples.append(["pouet", "/afs/cern.ch/work/f/fbojarsk/CMSSW_6_1_1/src/BJetRegression/", "2014-06-03_selection_noRegression_noMassCut_v10bis_effStudies_RMS_BetaStar", "diphojet_sherpa_8TeV_noRegression_noMassCut_v10bis_effStudies_RMS_BetaStar.root", "diphojet_sherpa_8TeV", ROOT.kBlack, 20, "Sherpa ", 13.55e-3, 19999])
+
+#samples.append(["pouet", "/afs/cern.ch/work/f/fbojarsk/CMSSW_6_1_1/src/BJetRegression/", "2014-06-03_selection_noRegression_noMassCut_v10bis_effStudies_RMS_BetaStar_nocut", "diphojet_sherpa_8TeV_noRegression_noMassCut_v10bis_effStudies_RMS_BetaStar_nocut.root", "diphojet_sherpa_8TeV", ROOT.kRed, 20, "Sherpa_nocut ", 13.55e-3, 19999])
 
 #####plots.append([ name2, variable, cut,critere_eff, norm, Scale Factor, binning, title, additional_info, cutline, cutline2 ])
 plots = []
@@ -105,17 +120,18 @@ plots = []
 #plots.append(["DeltaR_pho1_pho2", "DeltaR_pho1_pho2", "", "ph2_ciclevel >= 4", 2., "evweight", "(20, 0 , 5)", "DeltaR_pho1_pho2", "", "", ""])
 
 #plots.append(["aaaaa_test_2D", "pho2_PFisoA : pho2_PFisoB", "", "", 2., "evweight", "(100, -5, 20, 100, -5, 20)", "pho1_PFisoA", "", 33.3, ""])
-plots.append(["mtot_cat0", "mtot", "(cut_based_ct == 0)", "", "", "evWeight", "(25, 350, 450)", "mtot (GeV)", "", "", ""])
-plots.append(["mtot_cat1", "mtot", "(cut_based_ct == 1)", "", "", "evWeight", "(25, 350, 450)", "mtot (GeV)", "", "", ""])
-plots.append(["mtot", "mtot", "", "", "", "evWeight", "(25, 350, 450)", "mtot (GeV)", "", "", ""])
+plots.append(["mtot_cat0_" + CIC1 +"_"+ CIC2, "mtot", "(cut_based_ct == 0)", "", "", "evWeight", "(25, 350, 450)", "mtot (GeV)", "m= " + MASSE +"GeV", "", ""])
+plots.append(["mtot_cat1_" + CIC1 +"_"+ CIC2, "mtot", "(cut_based_ct == 1)", "", "", "evWeight", "(25, 350, 450)", "mtot (GeV)", "m= " + MASSE +"GeV", "", ""])
+plots.append(["mtot_" + CIC1 +"_"+ CIC2, "mtot", "", "", "", "evWeight", "(25, 350, 450)", "mtot (GeV)", "m= " + MASSE +"GeV", "", ""])
 
-plots.append(["mjj_cat0", "mjj", "(cut_based_ct == 0)", "", "", "evWeight", "(20, 80, 160)", "mjj (GeV)", "", "", ""])
-plots.append(["mjj_cat1", "mjj", "(cut_based_ct == 1)", "", "", "evWeight", "(20, 80, 160)", "mjj (GeV)", "", "", ""])
-plots.append(["mjj", "mjj", "", "", "", "evWeight", "(20, 80, 160)", "mjj (GeV)", "", "", ""])
+plots.append(["mjj_cat0_" + CIC1 +"_"+ CIC2, "mjj", "(cut_based_ct == 0)", "", "", "evWeight", "(20, 80, 160)", "mjj (GeV)", "m= " + MASSE +"GeV", "", ""])
+plots.append(["mjj_cat1_" + CIC1 +"_"+ CIC2, "mjj", "(cut_based_ct == 1)", "", "", "evWeight", "(20, 80, 160)", "mjj (GeV)", "m= " + MASSE +"GeV", "", ""])
+plots.append(["mjj_" + CIC1 +"_"+ CIC2, "mjj", "", "", "", "evWeight", "(20, 80, 160)", "mjj (GeV)", "m= " + MASSE +"GeV", "", ""])
 
-plots.append(["mgg_cat0", "mgg", "(cut_based_ct == 0)", "", "", "evWeight", "(25, 90, 190)", "mgg (GeV)", "", "", ""])
-plots.append(["mgg_cat1", "mgg", "(cut_based_ct == 1)", "", "", "evWeight", "(25, 90, 190)", "mgg (GeV)", "", "", ""])
-plots.append(["mgg", "mgg", "", "", "", "evWeight", "(25, 90, 190)", "mgg (GeV)", "", "", ""])
+plots.append(["mgg_cat0_" + CIC1 +"_"+ CIC2, "mgg", "(cut_based_ct == 0)", "", "", "evWeight", "(25, 90, 190)", "mgg (GeV)", "m= " + MASSE +"GeV", "", ""])
+plots.append(["mgg_cat1_" + CIC1 +"_"+ CIC2, "mgg", "(cut_based_ct == 1)", "", "", "evWeight", "(25, 90, 190)", "mgg (GeV)", "m= " + MASSE +"GeV", "", ""])
+plots.append(["mgg_" + CIC1 +"_"+ CIC2, "mgg", "", "", "", "evWeight", "(25, 90, 190)", "mgg (GeV)", "m= " + MASSE +"GeV", "", ""])
+#plots.append(["ggjj_mass", "ggjj_mass", "", "","",  "evweight", "(50, 100, 700)", "m_ggjj (GeV)", "", "", ""])
 Eff = []
 
 for name2, variable, cut, critere_eff,  norm, Scale_Factor, binning, title, additional_info, cutline, cutline2 in plots:
@@ -146,7 +162,12 @@ for name2, variable, cut, critere_eff,  norm, Scale_Factor, binning, title, addi
         chain = TChain(tree)
         chain.Add( path.join(dirpath, subdir, file) )
         sample_cut = cut
-        print sample_cut
+#        print sample_cut
+        print file
+#        print chain.GetEntries(cut)
+        if chain.GetEntries(cut)==0:
+            continue
+#        print chain.GetEntries(cut)
         if norm == 1.:
             sample_cut = "(" + sample_cut + ")/" + str( chain.GetEntries() )
         elif norm== 2.:
@@ -160,7 +181,7 @@ for name2, variable, cut, critere_eff,  norm, Scale_Factor, binning, title, addi
 
         if Scale_Factor != "":        
             sample_cut += "* (" + Scale_Factor + ")"   
-        print sample_cut
+#        print sample_cut
 
         latexLabel = TLatex()
         latexLabel.SetTextSize(.03)
@@ -173,13 +194,12 @@ for name2, variable, cut, critere_eff,  norm, Scale_Factor, binning, title, addi
 
         if ifile != 0:
             option = "same"
-        chain.Draw(variable + ">>h_tmp_ntot" + binning, sample_cut, "goff")
-        
-        
+
+        chain.Draw(variable + ">>h_tmp_ntot" + binning, sample_cut , "goff")
 
         # Cosmetics
         if "Data" in label:
-            h_ntot = ROOT.gDirectory.Get("h_tmp_ntot")
+            h_ntot_${ifile} = ROOT.gDirectory.Get("h_tmp_ntot")
             chain.Draw(variable + ">>h_tmp" + binning, sample_cut , "goff") # + "/" + str(h_ntot.GetMaximum())
             h = ROOT.gDirectory.Get("h_tmp")
             h.SetName(name + "_" + name2 + "_" + str(ifile))
@@ -193,8 +213,8 @@ for name2, variable, cut, critere_eff,  norm, Scale_Factor, binning, title, addi
             h.SetMarkerColor(ROOT.kBlack)
             h.SetMarkerSize(3)
             h.SetMarkerStyle(2)
-            h.Draw("E1same")
-        else:
+            h.Draw("E1")
+        elif "Radion" in label:
             h_ntot = ROOT.gDirectory.Get("h_tmp_ntot")
             chain.Draw(variable + ">>h_tmp" + binning, sample_cut , option) # + "/" + str(h_ntot.GetMaximum())
             h = ROOT.gDirectory.Get("h_tmp")
@@ -206,7 +226,19 @@ for name2, variable, cut, critere_eff,  norm, Scale_Factor, binning, title, addi
             h.SetFillColor(color)
             h.SetFillStyle(style)
             h.GetXaxis().SetTitle( title )
-
+        else:
+            h_ntot = ROOT.gDirectory.Get("h_tmp_ntot")
+            chain.Draw(variable + ">>h_tmp" + binning, sample_cut , option) # + "/" + str(h_ntot.GetMaximum())
+            h = ROOT.gDirectory.Get("h_tmp")
+            h.SetName(name + "_" + name2 + "_" + str(ifile))
+            if ifile == 0:
+                    firsthistname = name + "_" + name2 + "_" + str(ifile)
+#            h.SetLineWidth(1)
+#            h.SetLineColor(color)
+            h.SetFillColor(color)
+            h.SetFillStyle(3001)
+            h.GetXaxis().SetTitle( title )
+        print type(h)
         unit = ""
         if title.find("(") != -1:
             unit = title[title.find("(")+1:title.find(")")]
