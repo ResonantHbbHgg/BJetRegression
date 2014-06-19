@@ -1,8 +1,8 @@
 #!/bin/bash
 
-#today=`date +"%Y-%m-%d"`
-today="2014-06-06"
-version="v12_study_ciclevel_4_4"
+today=`date +"%Y-%m-%d"`
+#today="2014-06-06"
+version="v12_study_iso_variables_WP44"
 
 eosprefix="root://eoscms//eos/cms"
 #eospath="/store/cmst3/user/obondu/H2GGLOBE/Radion/trees/"
@@ -12,7 +12,7 @@ keep0btag=1
 
 i=-1
 
-###### DATA
+####### DATA
 #i=$((${i} + 1))
 #infile[${i}]="radion_tree_v09/Data.root"
 #tree[${i}]="Data"
@@ -36,12 +36,12 @@ i=-1
 #typ[${i}]="-270"
 #CS[${i}]="0"
 #
-#i=$((${i} + 1))
-#infile[${i}]="radion_tree_v09/XHH.root"
-#tree[${i}]="Radion_m300_8TeV_nm"
-#outtree[${i}]="Radion_m300_8TeV"
-#typ[${i}]="-300"
-#CS[${i}]="0"
+i=$((${i} + 1))
+infile[${i}]="radion_tree_v09/XHH.root"
+tree[${i}]="Radion_m300_8TeV_nm"
+outtree[${i}]="Radion_m300_8TeV"
+typ[${i}]="-300"
+CS[${i}]="0"
 #
 #i=$((${i} + 1))
 #infile[${i}]="radion_tree_v09/XHH.root"
@@ -235,13 +235,13 @@ i=-1
 #typ[${i}]="-1"
 #CS[${i}]="0"
 #
-##i=$((${i} + 1))
-##infile[${i}]="radion_tree_v09/SMHiggs.root"
-##tree[${i}]="wzh_m125_8TeV_wh"
-##outtree[${i}]="wzh_m125_8TeV_wh"
-##typ[${i}]="-1"
-##CS[${i}]="0"
-##
+#i=$((${i} + 1))
+#infile[${i}]="radion_tree_v09/SMHiggs.root"
+#tree[${i}]="wzh_m125_8TeV_wh"
+#outtree[${i}]="wzh_m125_8TeV_wh"
+#typ[${i}]="-1"
+#CS[${i}]="0"
+#
 #i=$((${i} + 1))
 #infile[${i}]="radion_tree_v09/SMHiggs.root"
 #tree[${i}]="wzh_m125_8TeV_zh"
@@ -263,7 +263,7 @@ i=-1
 #typ[${i}]="-1"
 #CS[${i}]="0"
 #
-
+#
 ###### SM di-Higgs
 #i=$((${i} + 1))
 #infile[${i}]="radion_tree_v09/SMHiggs.root"
@@ -272,50 +272,50 @@ i=-1
 #typ[${i}]="-2"
 #CS[${i}]="0"
 #
-
-###### Diphoton backgrounds
-i=$((${i} + 1))
-infile[${i}]="radion_tree_v09/diphoton.root"
-tree[${i}]="qcd_30_8TeV_ff"
-outtree[${i}]="qcd_30_8TeV_ff"
-typ[${i}]="1"
-CS[${i}]="0"
-
-i=$((${i} + 1))
-infile[${i}]="radion_tree_v09/diphoton.root"
-tree[${i}]="qcd_40_8TeV_ff"
-outtree[${i}]="qcd_40_8TeV_ff"
-typ[${i}]="1"
-CS[${i}]="0"
-
-i=$((${i} + 1))
-infile[${i}]="radion_tree_v09/diphoton.root"
-tree[${i}]="qcd_30_8TeV_pf"
-outtree[${i}]="qcd_30_8TeV_pf"
-typ[${i}]="1"
-CS[${i}]="0"
-
-i=$((${i} + 1))
-infile[${i}]="radion_tree_v09/diphoton.root"
-tree[${i}]="qcd_40_8TeV_pf"
-outtree[${i}]="qcd_40_8TeV_pf"
-typ[${i}]="1"
-CS[${i}]="0"
-
-i=$((${i} + 1))
-infile[${i}]="radion_tree_v09/diphoton.root"
-tree[${i}]="gjet_20_8TeV_pf"
-outtree[${i}]="gjet_20_8TeV_pf"
-typ[${i}]="1"
-CS[${i}]="0"
-
-i=$((${i} + 1))
-infile[${i}]="radion_tree_v09/diphoton.root"
-tree[${i}]="gjet_40_8TeV_pf"
-outtree[${i}]="gjet_40_8TeV_pf"
-typ[${i}]="1"
-CS[${i}]="0"
-
+#
+####### Diphoton backgrounds
+#i=$((${i} + 1))
+#infile[${i}]="radion_tree_v09/diphoton.root"
+#tree[${i}]="qcd_30_8TeV_ff"
+#outtree[${i}]="qcd_30_8TeV_ff"
+#typ[${i}]="1"
+#CS[${i}]="0"
+#
+#i=$((${i} + 1))
+#infile[${i}]="radion_tree_v09/diphoton.root"
+#tree[${i}]="qcd_40_8TeV_ff"
+#outtree[${i}]="qcd_40_8TeV_ff"
+#typ[${i}]="1"
+#CS[${i}]="0"
+#
+#i=$((${i} + 1))
+#infile[${i}]="radion_tree_v09/diphoton.root"
+#tree[${i}]="qcd_30_8TeV_pf"
+#outtree[${i}]="qcd_30_8TeV_pf"
+#typ[${i}]="1"
+#CS[${i}]="0"
+#
+#i=$((${i} + 1))
+#infile[${i}]="radion_tree_v09/diphoton.root"
+#tree[${i}]="qcd_40_8TeV_pf"
+#outtree[${i}]="qcd_40_8TeV_pf"
+#typ[${i}]="1"
+#CS[${i}]="0"
+#
+#i=$((${i} + 1))
+#infile[${i}]="radion_tree_v09/diphoton.root"
+#tree[${i}]="gjet_20_8TeV_pf"
+#outtree[${i}]="gjet_20_8TeV_pf"
+#typ[${i}]="1"
+#CS[${i}]="0"
+#
+#i=$((${i} + 1))
+#infile[${i}]="radion_tree_v09/diphoton.root"
+#tree[${i}]="gjet_40_8TeV_pf"
+#outtree[${i}]="gjet_40_8TeV_pf"
+#typ[${i}]="1"
+#CS[${i}]="0"
+#
 #i=$((${i} + 1))
 #infile[${i}]="radion_tree_v09/diphoton.root"
 #tree[${i}]="diphojet_sherpa_8TeV"
@@ -323,14 +323,14 @@ CS[${i}]="0"
 #typ[${i}]="1"
 #CS[${i}]="0"
 #
-i=$((${i} + 1))
-infile[${i}]="radion_tree_v09/backgrounds.root"
-tree[${i}]="DYJetsToLL"
-outtree[${i}]="DYJetsToLL"
-typ[${i}]="1"
-CS[${i}]="0"
-
-i=$((${i} + 1))
+#i=$((${i} + 1))
+#infile[${i}]="radion_tree_v09/backgrounds.root"
+#tree[${i}]="DYJetsToLL"
+#outtree[${i}]="DYJetsToLL"
+#typ[${i}]="1"
+#CS[${i}]="0"
+#
+#i=$((${i} + 1))
 #infile[${i}]="radion_tree_v09/backgrounds.root"
 #tree[${i}]="LNuGG_FSR_8TeV"
 #outtree[${i}]="LNuGG_FSR_8TeV"
