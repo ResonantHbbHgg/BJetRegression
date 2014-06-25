@@ -1138,6 +1138,25 @@ int main(int argc, char *argv[])
         t.dPhi_gg_regjj = gg.DeltaPhi( regjj );
         t.dPhi_gg_regkinjj = gg.DeltaPhi( regkinjj );
         t.dPhi_gg_kinjj = gg.DeltaPhi( kinjj );
+        // fill gen info that is not simply fast-forwarded
+		if( t.gr_hbb_p4_pt > .01 && t.gr_hgg_p4_pt > .01)
+        {
+            TLorentzVector gr_hbb, gr_hgg;
+            gr_hgg.SetPtEtaPhiM(t.gr_hgg_p4_pt, t.gr_hgg_p4_eta, t.gr_hgg_p4_phi, t.gr_hgg_p4_mass);
+            gr_hbb.SetPtEtaPhiM(t.gr_hbb_p4_pt, t.gr_hbb_p4_eta, t.gr_hbb_p4_phi, t.gr_hbb_p4_mass);
+            t.gr_hbbhgg_costhetastar_CS = getCosThetaStar_CS(gr_hgg, gr_hbb); 
+            t.gr_dEta_gg_bb = gr_hgg.Eta() - gr_hbb.Eta();
+            t.gr_dPhi_gg_bb = gr_hgg.DeltaPhi( gr_hbb );
+        }
+		if( t.gr_hjj_p4_pt > .01 && t.gr_hgg_p4_pt > .01)
+        {
+            TLorentzVector gr_hjj, gr_hgg;
+            gr_hgg.SetPtEtaPhiM(t.gr_hgg_p4_pt, t.gr_hgg_p4_eta, t.gr_hgg_p4_phi, t.gr_hgg_p4_mass);
+            gr_hjj.SetPtEtaPhiM(t.gr_hjj_p4_pt, t.gr_hjj_p4_eta, t.gr_hjj_p4_phi, t.gr_hjj_p4_mass);
+            t.gr_hjjhgg_costhetastar_CS = getCosThetaStar_CS(gr_hgg, gr_hjj); 
+            t.gr_dEta_gg_jj = gr_hgg.Eta() - gr_hjj.Eta();
+            t.gr_dPhi_gg_jj = gr_hgg.DeltaPhi( gr_hjj );
+        }
 // min DR(g, j)
 		t.minDRgj = 999999.0;
 		t.minDRgregj = 999999.0;

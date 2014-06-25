@@ -12,6 +12,9 @@ struct tree_variables
 	float gr_b2_p4_pt, gr_b2_p4_eta, gr_b2_p4_phi, gr_b2_p4_mass;
 	float gr_j1_p4_pt, gr_j1_p4_eta, gr_j1_p4_phi, gr_j1_p4_mass;
 	float gr_j2_p4_pt, gr_j2_p4_eta, gr_j2_p4_phi, gr_j2_p4_mass;
+    float gr_hbbhgg_costhetastar_CS, gr_hjjhgg_costhetastar_CS;
+    float gr_dEta_gg_bb, gr_dEta_gg_jj;
+    float gr_dPhi_gg_bb, gr_dPhi_gg_jj;
 // event variables
 	float met_corr_pfmet, met_corr_phi_pfmet, met_corr_eta_pfmet, met_corr_e_pfmet;
 	float pu_n, nvtx, rho;
@@ -269,6 +272,9 @@ void initialize_variables(tree_variables *t)
 	t->gr_b2_p4_pt = t->gr_b2_p4_eta = t->gr_b2_p4_phi = t->gr_b2_p4_mass = 0.;
 	t->gr_j1_p4_pt = t->gr_j1_p4_eta = t->gr_j1_p4_phi = t->gr_j1_p4_mass = 0.;
 	t->gr_j2_p4_pt = t->gr_j2_p4_eta = t->gr_j2_p4_phi = t->gr_j2_p4_mass = 0.;
+    t->gr_hbbhgg_costhetastar_CS = t->gr_hjjhgg_costhetastar_CS = 0.;
+    t->gr_dEta_gg_bb = t->gr_dEta_gg_jj = 0.;
+    t->gr_dPhi_gg_bb = t->gr_dPhi_gg_jj = 0.;
 	t->selection_cut_level = 0;
 	t->category = 0;
 
@@ -375,6 +381,12 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
 		intree->SetBranchAddress("gr_j2_p4_eta", &t->gr_j2_p4_eta);
 		intree->SetBranchAddress("gr_j2_p4_phi", &t->gr_j2_p4_phi);
 		intree->SetBranchAddress("gr_j2_p4_mass", &t->gr_j2_p4_mass);
+		intree->SetBranchAddress("gr_hbbhgg_costhetastar_CS", &t->gr_hbbhgg_costhetastar_CS);
+		intree->SetBranchAddress("gr_hjjhgg_costhetastar_CS", &t->gr_hjjhgg_costhetastar_CS);
+		intree->SetBranchAddress("gr_dEta_gg_bb", &t->gr_dEta_gg_bb);
+		intree->SetBranchAddress("gr_dEta_gg_jj", &t->gr_dEta_gg_jj);
+		intree->SetBranchAddress("gr_dPhi_gg_bb", &t->gr_dPhi_gg_bb);
+		intree->SetBranchAddress("gr_dPhi_gg_jj", &t->gr_dPhi_gg_jj);
 	}
 	intree->SetBranchAddress("j1_e", &t->j1_e);
 	intree->SetBranchAddress("j1_pt", &t->j1_pt);
@@ -1442,6 +1454,12 @@ void setup_outtree(TTree* outtree, tree_variables *t)
 	outtree->Branch("gr_j2_p4_eta", &t->gr_j2_p4_eta, "gr_j2_p4_eta/F");
 	outtree->Branch("gr_j2_p4_phi", &t->gr_j2_p4_phi, "gr_j2_p4_phi/F");
 	outtree->Branch("gr_j2_p4_mass", &t->gr_j2_p4_mass, "gr_j2_p4_mass/F");
+	outtree->Branch("gr_hbbhgg_costhetastar_CS", &t->gr_hbbhgg_costhetastar_CS, "gr_hbbhgg_costhetastar_CS/F");
+	outtree->Branch("gr_hjjhgg_costhetastar_CS", &t->gr_hjjhgg_costhetastar_CS, "gr_hjjhgg_costhetastar_CS/F");
+	outtree->Branch("gr_dEta_gg_bb", &t->gr_dEta_gg_bb, "gr_dEta_gg_bb/F");
+	outtree->Branch("gr_dEta_gg_jj", &t->gr_dEta_gg_jj, "gr_dEta_gg_jj/F");
+	outtree->Branch("gr_dPhi_gg_bb", &t->gr_dPhi_gg_bb, "gr_dPhi_gg_bb/F");
+	outtree->Branch("gr_dPhi_gg_jj", &t->gr_dPhi_gg_jj, "gr_dPhi_gg_jj/F");
 	// Photon Energy Scale & Photon Energy Resolution
 	outtree->Branch("gg_mass_pesD1", &t->gg_mass_pesD1, "gg_mass_pesD1/F");
 	outtree->Branch("gg_mass_pesU1", &t->gg_mass_pesU1, "gg_mass_pesU1/F");
