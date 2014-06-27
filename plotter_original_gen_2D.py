@@ -6,7 +6,7 @@ from os import path
 from math import log10, pow
 # ROOT setup
 import ROOT
-from ROOT import TFile, TTree, TLine, TChain, TCanvas, TH1D, TLatex, TLegend, TLorentzVector
+from ROOT import TFile, TTree, TLine, TChain, TCanvas, TH1D, TLatex, TLegend, TLorentzVector, gStyle
 ROOT.gROOT.Reset()
 ROOT.gROOT.SetBatch()
 ROOT.gROOT.ProcessLine(".x setTDRStyle.C")
@@ -14,18 +14,16 @@ ROOT.TGaxis.SetMaxDigits(3);
 
 c1 = TCanvas()
 afs_plottree = "/afs/cern.ch/work/o/obondu/public/forRadion/plotTrees/v10/"
-eos_tree = "root://eoscms//eos/cms/store/cmst3/group/hbbhgg/H2GGLOBE/Radion/trees/radion_tree_v09"
+#eos_tree = "root://eoscms//eos/cms/store/cmst3/group/hbbhgg/H2GGLOBE/Radion/trees/radion_tree_v09"
 
 intL = 19706.
 samples = []
-# samples.append([ name, dirpath, subdir, file, tree, color, style, label , sigma , N])
-#samples.append(["ggHH_8TeV", "", "2014-05-20_selection_noRegression_noMassCut_v10_hhh", "ggHH_8TeV_noRegression_noMassCut_v10_hhh.root", "ggHH_8TeV", ROOT.kRed, 0, "ggHH", 0.0000212, 96880])
-#samples.append(["diphojet_sherpa_8TeV", "", "2014-05-20_selection_noRegression_noMassCut_v10_hhh", "diphojet_sherpa_8TeV_noRegression_noMassCut_v10_hhh.root", "diphojet_sherpa_8TeV", ROOT.kBlue, 0, "QCD #gamma#gamma bb", 0.1, 96880])
 
-samples.append(["ggHH1_8TeV", "", "../LHEAnalysis", "ggHH1.root", "test", ROOT.kBlue, 0, "ggHH, #lambda = 1", 0.0000212, 100000])
-samples.append(["ggHH0_8TeV", "", "../LHEAnalysis", "ggHH0.root", "test", ROOT.kRed, 0, "ggHH, #lambda = 0", 0.0000212, 100000])
-samples.append(["ggHH2_8TeV", "", "../LHEAnalysis", "ggHH2.root", "test", ROOT.kGreen, 0, "ggHH, #lambda = 2", 0.0000212, 100000])
-samples.append(["ggHH_8TeV", eos_tree, "", "SMHiggs.root", "ggHH_8TeV", ROOT.kMagenta, 0, "ggHH, SM", 0.0000212, 96880])
+samples.append(["ggHH1_8TeV", "", "../LHEAnalysis", "original_gen_1.root", "test", "1", ROOT.kBlue, 0, "ggHH, #lambda = 1", 0.0000212, 100000])
+samples.append(["ggHH0_8TeV", "", "../LHEAnalysis", "original_gen_0.root", "test", "1", ROOT.kRed, 0, "ggHH, #lambda = 0 ", 0.0000212, 100000])
+samples.append(["ggHH2_8TeV", "", "../LHEAnalysis", "original_gen_2.root", "test", "1", ROOT.kGreen, 0, "ggHH, #lambda = 2", 0.0000212, 100000])
+
+gStyle.SetPalette(1)
 
 #####plots.append([ name2, variable, cut, norm, binning, title, additional_info, cutline, cutline2 ])
 plots = []
@@ -73,35 +71,47 @@ hDivided = []
 #plots.append(["ggjj_mass", "ggjj_mass", "", 1., "(500, 0, 1000)", "mass^{#ggjj} (GeV)", "", "", ""])
 
 #gamma1 and gamma2 (lhe2root.py)
-plots.append(["SM_gr_g1_p4_pt", "gr_g1_p4_pt", "", 1., "(50, 0, 500)", "p_{T}^{#gamma1} (GeV)", "", "", ""])
-plots.append(["SM_gr_g1_p4_eta", "gr_g1_p4_eta", "", 1., "(50, -4, 4)", "eta^{#gamma1} ", "", "", ""])
-plots.append(["SM_gr_g1_p4_phi", "gr_g1_p4_phi", "", 1., "(50, -4, 4)", "phi^{#gamma1} (radian)", "", "", ""])
-plots.append(["SM_gr_g1_p4_mass", "gr_g1_p4_mass", "", 1., "(100, 0, 200)", "mass^{#gamma1} (GeV", "", "", ""])
-plots.append(["SM_gr_g2_p4_pt", "gr_g2_p4_pt", "", 1., "(50, 0, 500)", "p_{T}^{#gamma1} (GeV)", "", "", ""])
-plots.append(["SM_gr_g2_p4_eta", "gr_g2_p4_eta", "", 1., "(50, -4, 4)", "eta^{#gamma1} ", "", "", ""])
-plots.append(["SM_gr_g2_p4_phi", "gr_g2_p4_phi", "", 1., "(50, -4, 4)", "phi^{#gamma1} (radian)", "", "", ""])
-plots.append(["SM_gr_g2_p4_mass", "gr_g2_p4_mass", "", 1., "(100, 0, 200)", "mass^{#gamma1} (GeV)", "", "", ""])
+plots.append(["2D_gr_g1_p4_pt", "gr_g1_p4_pt", "", 1., "(50, 0, 500)", "p_{T}^{#gamma1} (GeV)", "", "", ""])
+plots.append(["2D_gr_g1_p4_eta", "gr_g1_p4_eta", "", 1., "(50, -4, 4)", "eta^{#gamma1} ", "", "", ""])
+plots.append(["2D_gr_g1_p4_phi", "gr_g1_p4_phi", "", 1., "(50, -4, 4)", "phi^{#gamma1} (radian)", "", "", ""])
+plots.append(["2D_gr_g1_p4_mass", "gr_g1_p4_mass", "", 1., "(100, 0, 200)", "mass^{#gamma1} (GeV", "", "", ""])
+plots.append(["2D_gr_g2_p4_pt", "gr_g2_p4_pt", "", 1., "(50, 0, 500)", "p_{T}^{#gamma2} (GeV)", "", "", ""])
+plots.append(["2D_gr_g2_p4_eta", "gr_g2_p4_eta", "", 1., "(50, -4, 4)", "eta^{#gamma2} ", "", "", ""])
+plots.append(["2D_gr_g2_p4_phi", "gr_g2_p4_phi", "", 1., "(50, -4, 4)", "phi^{#gamma2} (radian)", "", "", ""])
+plots.append(["2D_gr_g2_p4_mass", "gr_g2_p4_mass", "", 1., "(100, 0, 200)", "mass^{#gamma2} (GeV)", "", "", ""])
 
 # b quark and anti b quark (lhe2root.py)
-plots.append(["SM_gr_b1_p4_pt", "gr_b1_p4_pt", "", 1., "(50, 0, 500)", "p_{T}^{#b1} (GeV)", "", "", ""])
-plots.append(["SM_gr_b1_p4_eta", "gr_b1_p4_eta", "", 1., "(50, -4, 4)", "eta^{#b1} ", "", "", ""])
-plots.append(["SM_gr_b1_p4_phi", "gr_b1_p4_phi", "", 1., "(50, -4, 4)", "phi^{#b1} (radian)", "", "", ""])
-plots.append(["SM_gr_b1_p4_mass", "gr_b1_p4_mass", "", 1., "(100, 0, 200)", "mass^{#b1} (GeV", "", "", ""])
-plots.append(["SM_gr_b2_p4_pt", "gr_b2_p4_pt", "", 1., "(50, 0, 500)", "p_{T}^{#b2} (GeV)", "", "", ""])
-plots.append(["SM_gr_b2_p4_eta", "gr_b2_p4_eta", "", 1., "(50, -4, 4)", "eta^{#b2} ", "", "", ""])
-plots.append(["SM_gr_b2_p4_phi", "gr_b2_p4_phi", "", 1., "(50, -4, 4)", "phi^{#b2} (radian)", "", "", ""])
-plots.append(["SM_gr_b2_p4_mass", "gr_b2_p4_mass", "", 1., "(100, 0, 200)", "mass^{#b2} (GeV)", "", "", ""])
+plots.append(["2D_gr_b1_p4_pt", "gr_b1_p4_pt", "", 1., "(50, 0, 500)", "p_{T}^{#b1} (GeV)", "", "", ""])
+plots.append(["2D_gr_b1_p4_eta", "gr_b1_p4_eta", "", 1., "(50, -4, 4)", "eta^{#b1} ", "", "", ""])
+plots.append(["2D_gr_b1_p4_phi", "gr_b1_p4_phi", "", 1., "(50, -4, 4)", "phi^{#b1} (radian)", "", "", ""])
+plots.append(["2D_gr_b1_p4_mass", "gr_b1_p4_mass", "", 1., "(100, 0, 200)", "mass^{#b1} (GeV", "", "", ""])
+plots.append(["2D_gr_b2_p4_pt", "gr_b2_p4_pt", "", 1., "(50, 0, 500)", "p_{T}^{#b2} (GeV)", "", "", ""])
+plots.append(["2D_gr_b2_p4_eta", "gr_b2_p4_eta", "", 1., "(50, -4, 4)", "eta^{#b2} ", "", "", ""])
+plots.append(["2D_gr_b2_p4_phi", "gr_b2_p4_phi", "", 1., "(50, -4, 4)", "phi^{#b2} (radian)", "", "", ""])
+plots.append(["2D_gr_b2_p4_mass", "gr_b2_p4_mass", "", 1., "(100, 0, 200)", "mass^{#b2} (GeV)", "", "", ""])
 
 # hgg and hbb (lhe2root.py)
-plots.append(["SM_gr_hgg_p4_pt", "gr_hgg_p4_pt", "", 1., "(50, 0, 500)", "p_{T}^{#hgg} (GeV)", "", "", ""])
-plots.append(["SM_gr_hgg_p4_eta", "gr_hgg_p4_eta", "", 1., "(50, -4, 4)", "eta^{#hgg} ", "", "", ""])
-plots.append(["SM_gr_hgg_p4_phi", "gr_hgg_p4_phi", "", 1., "(50, -4, 4)", "phi^{#hgg} (radian)", "", "", ""])
-plots.append(["SM_gr_hgg_p4_mass", "gr_hgg_p4_mass", "", 1., "(100, 0, 200)", "mass^{#hgg} (GeV", "", "", ""])
-plots.append(["SM_gr_hbb_p4_pt", "gr_hbb_p4_pt", "", 1., "(50, 0, 500)", "p_{T}^{#hbb} (GeV)", "", "", ""])
-plots.append(["SM_gr_hbb_p4_eta", "gr_hbb_p4_eta", "", 1., "(50, -4, 4)", "eta^{#hbb} ", "", "", ""])
-plots.append(["SM_gr_hbb_p4_phi", "gr_hbb_p4_phi", "", 1., "(50, -4, 4)", "phi^{#hbb} (radian)", "", "", ""])
-plots.append(["SM_gr_hbb_p4_mass", "gr_hbb_p4_mass", "", 1., "(100, 0, 200)", "mass^{#hbb} (GeV)", "", "", ""])
-
+plots.append(["2D_gr_hgg_p4_pt", "gr_hgg_p4_pt", "", 1., "(50, 0, 500)", "p_{T}^{#hgg} (GeV)", "", "", ""])
+plots.append(["2D_gr_hgg_p4_eta", "gr_hgg_p4_eta", "", 1., "(50, -4, 4)", "eta^{#hgg} ", "", "", ""])
+plots.append(["2D_gr_hgg_p4_phi", "gr_hgg_p4_phi", "", 1., "(50, -4, 4)", "phi^{#hgg} (radian)", "", "", ""])
+plots.append(["2D_gr_hgg_p4_mass", "gr_hgg_p4_mass", "", 1., "(100, 0, 200)", "mass^{#hgg} (GeV", "", "", ""])
+plots.append(["2D_gr_hbb_p4_pt", "gr_hbb_p4_pt", "", 1., "(50, 0, 500)", "p_{T}^{#hbb} (GeV)", "", "", ""])
+#plots.append(["gr_hbb_p4_pt_costhetastar_0_0.3", "gr_hbb_p4_pt", "costhetastar_CS < 0.3", 1., "(50, 0, 500)", "p_{T}^{#hbb} (GeV)", "|cos#theta*|^{#hh} < 0.3", "", ""])
+#plots.append(["gr_hbb_p4_pt_costhetastar_0.3_0.6", "gr_hbb_p4_pt", "costhetastar_CS > 0.3 && costhetastar_CS < 0.6", 1., "(50, 0, 500)", "p_{T}^{#hbb} (GeV)", "0.3 < |cos#theta*|^{#hh} < 0.6", "", ""])
+#plots.append(["gr_hbb_p4_pt_costhetastar_0.6_0.9", "gr_hbb_p4_pt", "costhetastar_CS > 0.6 && costhetastar_CS < 0.9", 1., "(50, 0, 500)", "p_{T}^{#hbb} (GeV)", "0.6 < |cos#theta*|^{#hh} < 0.9", "", ""])
+#plots.append(["gr_hbb_p4_pt_costhetastar_0.9_1", "gr_hbb_p4_pt", "costhetastar_CS > 0.9 && costhetastar_CS < 1", 1., "(50, 0, 500)", "p_{T}^{#hbb} (GeV)", "0.9 < |cos#theta*|^{#hh} < 1", "", ""])
+plots.append(["2D_gr_hbb_p4_eta", "gr_hbb_p4_eta", "", 1., "(50, -4, 4)", "eta^{#hbb} ", "", "", ""])
+plots.append(["2D_gr_hbb_p4_phi", "gr_hbb_p4_phi", "", 1., "(50, -4, 4)", "phi^{#hbb} (radian)", "", "", ""])
+plots.append(["2D_gr_hbb_p4_mass", "gr_hbb_p4_mass", "", 1., "(100, 0, 200)", "mass^{#hbb} (GeV)", "", "", ""])
+#plots.append(["gr_costhetastar_CS_pt_2D", "gr_hbb_p4_pt:costhetastar_CS_eta_limit", "", 1., "(20, 0, 1, 250, 0, 500)", "|cos#theta*|^{#hh}", "", "", ""])
+plots.append(["2D_gr_costhetastar_CS", "gr_hbbhgg_costhetastar_CS", "", 1., "(50, 0, 1)", "|cos#theta*|^{#hh} (#eta < 2.5)", "", "", ""])
+#plots.append(["gr_costhetastar_pt_0_50", "costhetastar_CS", "gr_hbb_p4_pt < 50", 1., "(50, 0, 1)", "|cos#theta*|^{#hh}", "p_{T}^{h} < 50 GeV", "", ""])
+#plots.append(["gr_costhetastar_pt_50_100", "costhetastar_CS", "gr_hbb_p4_pt > 50 && gr_hbb_p4_pt < 100", 1., "(50, 0, 1)", "|cos#theta*|^{#hh}", "50 < p_{T}^{h} < 100 GeV", "", ""])
+#plots.append(["gr_costhetastar_pt_100_150", "costhetastar_CS", " gr_hbb_p4_pt > 100 && gr_hbb_p4_pt < 150", 1., "(50, 0, 1)", "|cos#theta*|^{#hh}", "100 < p_{T}^{h} < 150 GeV", "", ""])
+#plots.append(["gr_costhetastar_pt_150_200", "costhetastar_CS", "gr_hbb_p4_pt > 150 && gr_hbb_p4_pt < 200", 1., "(50, 0, 1)", "|cos#theta*|^{#hh}", "150 < p_{T}^{h} < 200 GeV", "", ""])
+#plots.append(["gr_costhetastar_pt_200_500", "costhetastar_CS", "gr_hbb_p4_pt > 200 && gr_hbb_p4_pt < 1000", 1., "(50, 0, 1)", "|cos#theta*|^{#hh}", "200 < p_{T}^{h} < 500 GeV", "", ""])
+#plots.append(["2D_gr_delta_eta", "dEta_gg_jj", "", 1., "(50, -6, 6)", "#Delta#eta^{#hh}", "", "", ""])
+#plots.append(["2D_gr_delta_phi", "dPhi_gg_jj", "", 1., "(50, -6, 6)", "#Delta#phi^{#hh}", "", "", ""])
 
 
 # dividing the plots
@@ -132,16 +142,17 @@ for iplot, [name2, variable, cut, norm, binning, title, additional_info, cutline
     hDivided = []
     
 
-    for ifile, [ name, dirpath, subdir, file, tree, color, style, label , sigma , N] in enumerate(samples):
+    for ifile, [ name, dirpath, subdir, file, tree, sample_weight, color, style, label , sigma , N] in enumerate(samples):
 #        print ifile, file, color, style, label
         chain = TChain(tree)
         chain.Add( path.join(dirpath, subdir, file) )
         sample_cut = cut
         if norm == 1.:
-            sample_cut = "(" + sample_cut + ")/" + str( chain.GetEntries() )
+            sample_cut = "((" + sample_cut + ") * (" + sample_weight + "))/" + str( chain.GetEntries() )
         else:
-            sample_cut = "(" + sample_cut + ") * (" + str(sigma) + " * " + str(intL) + ")/" + str(N)
+            sample_cut = "((" + sample_cut + ") * (" + sample_weight + ")) * (" + str(sigma) + " * " + str(intL) + ")/" + str(N)
         option = ""
+        print sample_cut
         if ifile != 0:
             option = "same"
         chain.Draw(variable + ">>h_tmp" + binning, sample_cut, option)
@@ -155,18 +166,7 @@ for iplot, [name2, variable, cut, norm, binning, title, additional_info, cutline
         h.SetLineColor(color)
         h.SetFillColor(color)
         h.SetFillStyle(style)
-        h.GetXaxis().SetTitle( title )
-
-        hDen = ROOT.gDirectory.Get(firsthistname)
-#        hMul = hDen.Clone("hMul")
-        hFrac = h.Clone("hFrac")
-        
-        hFrac.Divide(hDen)
-        hFrac.SetName("hFrac_" + name)              
-        hDivided.append(hFrac)
-
-#        hFrac.Multiply(hMul)
-#        hDivided.append(hFrac)        
+        h.GetXaxis().SetTitle( title )       
 
         unit = ""
         if title.find("(") != -1:
@@ -193,7 +193,7 @@ for iplot, [name2, variable, cut, norm, binning, title, additional_info, cutline
     latexLabel.SetTextSize(.03)
     latexLabel.SetNDC()
     latexLabel.DrawLatex(.25, .96, "CMS Internal     L = 19.7 fb^{-1}     #sqrt{s} = 8 TeV")
-    latexLabel.DrawLatex(.55, .79, "-- gen level info and hadronized plot (magenta)")
+    latexLabel.DrawLatex(.28, .79, "--gen level info" )
     ROOT.gPad.RedrawAxis()
     legend.Draw()
     c1.Update()
@@ -215,9 +215,9 @@ for iplot, [name2, variable, cut, norm, binning, title, additional_info, cutline
         line2.SetX1(cutline2); line2.SetY1(ymin_lin); line2.SetX2(cutline2); line2.SetY2(ymax)
         line2.Draw("same")
     c1.Update()
-    c1.Print("pdf/" + name2 + ".pdf")
-    c1.Print("gif/" + name2 + ".gif")
-    c1.Print("root/" + name2 + ".root")
+    c1.Print("unweighted_original_plots_pdf/" + name2 + ".pdf")
+    c1.Print("unweighted_original_plots_gif/" + name2 + ".gif")
+    c1.Print("unweighted_original_plots_root/" + name2 + ".root")
 
 
     c1.SetLogy(1)
@@ -231,36 +231,12 @@ for iplot, [name2, variable, cut, norm, binning, title, additional_info, cutline
         line2.SetX1(cutline2); line2.SetY1(ymin_log); line2.SetX2(cutline2); line2.SetY2(ymax)
         line2.Draw("same")
     c1.Update()
-    c1.Print("pdf/" + name2 + "_log.pdf")
-    c1.Print("gif/" + name2 + "_log.gif")
-    c1.Print("root/" + name2 + "_log.root")
+    c1.Print("unweighted_original_plots_pdf/" + name2 + "_log.pdf")
+    c1.Print("unweighted_original_plots_gif/" + name2 + "_log.gif")
+    c1.Print("unweighted_original_plots_root/" + name2 + "_log.root")
     c1.SetLogy(0)
 
     c1.Clear()
 
-
-    for ihisto, histo in enumerate(hDivided):
-
-        if ihisto == 0:
-            histo.SetMaximum(5)
-            histo.SetMinimum(0)
-
-            histo.Draw()
-        else:
-            histo.Draw("SAME")
-
-    c1.Print("gif/" + name2 + "_ratio.gif")
-    c1.Print("pdf/" + name2 + "_ratio.pdf")
-    c1.Print("root/" + name2 + "_ratio.root")
-
-    fileOption = "UPDATE"
-    if iplot == 0:
-        fileOption = "RECREATE"
-    fileOut = TFile("weights.root", fileOption)
-    for ihisto, histo in enumerate(hDivided):
-        print histo.GetName()
-        histo.Write(histo.GetName() + "_" +  name2) 
-    fileOut.Close()
-
     del c1
-    del fileOut
+    
