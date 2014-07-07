@@ -16,7 +16,20 @@ jetChoice="Maxpt"
 
 i=-1
 
+##### DATA
+i=$((${i} + 1))
+infile[${i}]="radion_tree_v09/Data.root"
+tree[${i}]="Data"
+outtree[${i}]="Data"
+typ[${i}]="0"
+CS[${i}]="0"
 
+i=$((${i} + 1))
+infile[${i}]="radion_tree_v09/Data.root"
+tree[${i}]="Data"
+outtree[${i}]="Data"
+typ[${i}]="0"
+CS[${i}]="1"
 
 ##### SIGNAL
 ### LONG SAMPLE LIST
