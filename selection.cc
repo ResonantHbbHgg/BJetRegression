@@ -36,6 +36,7 @@ int main(int argc, char *argv[])
 	string outputfile;
 	string outputtree;
 	string regressionFolder;
+        string jetChoice;
 	int numberOfRegressionFiles;
 	int type; // Same conventions as in h2gglobe: <0 = signal ; =0 = data ; >0 = background
 	int SYNC; // mjj and mggjj cuts are different for sync and analysis
@@ -44,8 +45,8 @@ int main(int argc, char *argv[])
 	int REMOVE_UNDEFINED_BTAGSF;
 	int applyMassCuts;
 	int applyPhotonIDControlSample;
-    int printCutFlow;
-    int keep0btag;
+        int printCutFlow;
+        int keep0btag;
 
 	// print out passed arguments
 	copy(argv, argv + argc, ostream_iterator<char*>(cout, " ")); cout << endl;
@@ -63,6 +64,7 @@ int main(int argc, char *argv[])
 			("numberOfRegressionFiles,r", po::value<int>(&numberOfRegressionFiles)->default_value(2), "number of regression files")
 			("type", po::value<int>(&type)->default_value(0), "same conventions as in h2gglobe: <0 = signal ; =0 = data ; >0 = background")
 			("sync", po::value<int>(&SYNC)->default_value(0), "mjj and mggjj cuts are overwritten if sync is switched on")
+                        ("jetChoice", po::value<string>(&jetChoice)->default_value("Maxpt"), "possible jet-choices are: MaxptJets, Maxpt, MaxptOverM, MinDeltaM; Maxpt is used by default")
 			("removeUndefinedBtagSF", po::value<int>(&REMOVE_UNDEFINED_BTAGSF)->default_value(0), "remove undefined btagSF_M values (should be used only for the limit trees)")
 			("applyMassCuts", po::value<int>(&applyMassCuts)->default_value(1), "can switch off mass cuts (e.g. for control plots), prevails other mass cut options if switched off")
 			("applyPhotonIDControlSample", po::value<int>(&applyPhotonIDControlSample)->default_value(0), "Invert photon ID CiC cut to populate selection in gjjj instead of ggjj")
@@ -99,6 +101,7 @@ int main(int argc, char *argv[])
 	cout << "outputfile= " << outputfile << endl;
 	cout << "outputtree= " << outputtree << endl;
 	cout << "regressionFolder= " << regressionFolder << endl;
+        cout << "jetChoice= " << jetChoice << endl;
 
 	TFile *infile = TFile::Open(inputfile.c_str());
 	TTree *intree = (TTree*)infile->Get(inputtree.c_str());
@@ -457,110 +460,21 @@ int main(int argc, char *argv[])
 		{
 			if(DEBUG) cout << "Entering jet combinatorics: 0btag category" << endl;
 			t.category = 0;
-			unsigned int ij = 0;
 //			if(DEBUG) cout << "btaggedJet[0]= " << btaggedJet[0] << endl;
-			TLorentzVector j, jreg, jregkin;
-			j.SetPtEtaPhiE(J.jetPt[ij], J.jetEta[ij], J.jetPhi[ij], J.jetE[ij]);
-			jreg = ((float)J.jetRegPt[ij]/(float)J.jetPt[ij]) * j;
-			jregkin = ((float)J.jetRegKinPt[ij]/(float)J.jetPt[ij]) * j;
-			int imaxptjj;
-			int imaxptjjReg;
-			int imaxptjjRegKin;
-			float maxptjj = -99.;
-			float maxptjjReg = -99.;
-			float maxptjjRegKin = -99.;
-			for(unsigned int ijet = 0 ; ijet < J.jetPt.size() ; ijet++)
-			{
-				if( ijet == ij ) continue;
-				TLorentzVector tmp_j;
-				TLorentzVector tmp_jReg;
-				TLorentzVector tmp_jRegKin;
-				tmp_j.SetPtEtaPhiE(J.jetPt[ijet], J.jetEta[ijet], J.jetPhi[ijet], J.jetE[ijet]);
-				tmp_jReg = ((float)J.jetRegPt[ijet]/(float)J.jetPt[ijet]) * tmp_j;
-				tmp_jRegKin = ((float)J.jetRegKinPt[ijet]/(float)J.jetPt[ijet]) * tmp_j;
-				TLorentzVector jj = j + tmp_j;
-				TLorentzVector jjReg = jreg + tmp_jReg;
-				TLorentzVector jjRegKin = jregkin + tmp_jRegKin;
-				if( jj.Pt() > maxptjj )
-				{
-					maxptjj = jj.Pt();
-					imaxptjj = ijet;
-				}
-				if( jjReg.Pt() > maxptjjReg )
-				{
-					maxptjjReg = jjReg.Pt();
-					imaxptjjReg = ijet; 
-				}
-				if( jjRegKin.Pt() > maxptjjRegKin )
-				{
-					maxptjjRegKin = jjRegKin.Pt();
-					imaxptjjRegKin = ijet; 
-				}
-			}
-			ij1 = ij;
-			ij2 = imaxptjj;
-			ij1Reg = ij;
-			ij2Reg = imaxptjjReg;
-			ij1RegKin = ij;
-			ij2RegKin = imaxptjjRegKin;
-		}
-		if( btaggedJet.size() == 1 )
-		{
-			if(DEBUG) cout << "Entering jet combinatorics: 1btag category" << endl;
-			t.category = 1;
-			unsigned int ij = btaggedJet[0];
-			if(DEBUG) cout << "btaggedJet[0]= " << btaggedJet[0] << endl;
-			TLorentzVector j, jreg, jregkin;
-			j.SetPtEtaPhiE(J.jetPt[ij], J.jetEta[ij], J.jetPhi[ij], J.jetE[ij]);
-			jreg = ((float)J.jetRegPt[ij]/(float)J.jetPt[ij]) * j;
-			jregkin = ((float)J.jetRegKinPt[ij]/(float)J.jetPt[ij]) * j;
-			int imaxptjj;
-			int imaxptjjReg;
-			int imaxptjjRegKin;
-			float maxptjj = -99.;
-			float maxptjjReg = -99.;
-			float maxptjjRegKin = -99.;
-			for(unsigned int ijet = 0 ; ijet < J.jetPt.size() ; ijet++)
-			{
-				if( ijet == ij ) continue;
-				TLorentzVector tmp_j;
-				TLorentzVector tmp_jReg;
-				TLorentzVector tmp_jRegKin;
-				tmp_j.SetPtEtaPhiE(J.jetPt[ijet], J.jetEta[ijet], J.jetPhi[ijet], J.jetE[ijet]);
-				tmp_jReg = ((float)J.jetRegPt[ijet]/(float)J.jetPt[ijet]) * tmp_j;
-				tmp_jRegKin = ((float)J.jetRegKinPt[ijet]/(float)J.jetPt[ijet]) * tmp_j;
-				TLorentzVector jj = j + tmp_j;
-				TLorentzVector jjReg = jreg + tmp_jReg;
-				TLorentzVector jjRegKin = jregkin + tmp_jRegKin;
-				if( jj.Pt() > maxptjj )
-				{
-					maxptjj = jj.Pt();
-					imaxptjj = ijet;
-				}
-				if( jjReg.Pt() > maxptjjReg )
-				{
-					maxptjjReg = jjReg.Pt();
-					imaxptjjReg = ijet; 
-				}
-				if( jjRegKin.Pt() > maxptjjRegKin )
-				{
-					maxptjjRegKin = jjRegKin.Pt();
-					imaxptjjRegKin = ijet; 
-				}
-			}
-			ij1 = ij;
-			ij2 = imaxptjj;
-			ij1Reg = ij;
-			ij2Reg = imaxptjjReg;
-			ij1RegKin = ij;
-			ij2RegKin = imaxptjjRegKin;
-		}
-		// if two or more bjets, then loop only over btagged jets
-		if( btaggedJet.size() > 1 )
-		{
-			t.category = 2;
-			if(DEBUG) cout << "Entering jet combinatorics: 2btag category" << endl;
+			float mgg = t.PhotonsMass;
 			int ij;
+                        int imaxpt;
+			int imaxptReg;
+			int imaxptRegKin;
+                        int jmaxpt;
+			int jmaxptReg;
+			int jmaxptRegKin;
+			float maxpt = -99.;
+			float maxptReg = -99.;
+			float maxptRegKin = -99.;
+                        float maxpt2 = -99.;
+			float maxptReg2 = -99.;
+			float maxptRegKin2 = -99.;
 			int imaxptjj;
 			int imaxptjjReg;
 			int imaxptjjRegKin;
@@ -570,17 +484,52 @@ int main(int argc, char *argv[])
 			float maxptjj = -99.;
 			float maxptjjReg = -99.;
 			float maxptjjRegKin = -99.;
-			for( unsigned int i = 0 ; i < btaggedJet.size() - 1 ; i++ )
+                        int imaxptOmjj;
+			int imaxptOmjjReg;
+			int imaxptOmjjRegKin;
+                        int jmaxptOmjj;
+			int jmaxptOmjjReg;
+			int jmaxptOmjjRegKin;
+			float maxptOmjj = -99.;
+			float maxptOmjjReg = -99.;
+			float maxptOmjjRegKin = -99.;
+                        int ideltaMjj;
+			int ideltaMjjReg;
+			int ideltaMjjRegKin;
+                        int jdeltaMjj;
+			int jdeltaMjjReg;
+			int jdeltaMjjRegKin;
+			float deltaMjj = 9999.;
+			float deltaMjjReg = 9999.;
+			float deltaMjjRegKin = 9999.;
+			for( unsigned int i = 0 ; i < J.jetPt.size() - 1 ; i++ )
 			{
-				ij = btaggedJet[i];
+				ij = i;
 				if(DEBUG) cout << "btaggedJet[" << i << "]= " << ij << "\tjetPt[" << ij << "]= " << J.jetPt[ij] << endl;
 				TLorentzVector j, jreg, jregkin;
 				j.SetPtEtaPhiE(J.jetPt[ij], J.jetEta[ij], J.jetPhi[ij], J.jetE[ij]);
 				jreg = ((float)J.jetRegPt[ij]/(float)J.jetPt[ij]) * j;
 				jregkin = ((float)J.jetRegKinPt[ij]/(float)J.jetPt[ij]) * j;
-				for(unsigned int k = i+1 ; k < btaggedJet.size() ; k++)
+                                if(jetChoice == "MaxptJets"){
+					  if( j.Pt() > maxpt2 )
+					  {
+						maxpt2 = j.Pt();
+						imaxpt = ij;
+					  }
+					  if( jreg.Pt() > maxptReg2 )
+					  {
+						maxptReg2 = jreg.Pt();
+						imaxptReg = ij; 
+					  }
+					  if( jregkin.Pt() > maxptRegKin2 )
+					  {
+						maxptRegKin2 = jregkin.Pt();
+						imaxptRegKin = ij; 
+					  }
+                                }
+				for(unsigned int k = i+1 ; k < J.jetPt.size() ; k++)
 				{
-					int ijet = btaggedJet[k];
+					int ijet = k;
 					TLorentzVector tmp_j;
 					TLorentzVector tmp_jReg;
 					TLorentzVector tmp_jRegKin;
@@ -591,7 +540,26 @@ int main(int argc, char *argv[])
 					TLorentzVector jjReg = jreg + tmp_jReg;
 					TLorentzVector jjRegKin = jregkin + tmp_jRegKin;
 					if(DEBUG) cout << "btaggedJet[" << k << "]= " << btaggedJet[k] << "\tjetPt[" << ijet << "]= " << J.jetPt[ijet] << "\tjj.Pt()= " << jj.Pt() << "\t(maxptjj= " << maxptjj << ")" << endl;
-					if( jj.Pt() > maxptjj )
+
+					if(jetChoice == "MaxptJets"){
+					  if( tmp_j.Pt() > maxpt )
+					  {
+						maxpt = tmp_j.Pt();
+						jmaxpt = ijet;
+					  }
+					  if( tmp_jReg.Pt() > maxptReg )
+					  {
+						maxptReg = tmp_jReg.Pt();
+						jmaxptReg = ijet; 
+					  }
+					  if( tmp_jRegKin.Pt() > maxptRegKin )
+					  {
+						maxptRegKin = tmp_jRegKin.Pt();
+						jmaxptRegKin = ijet; 
+					  }
+                                        }
+                                        else if(jetChoice == "Maxpt"){
+                                        if( jj.Pt() > maxptjj )
 					{
 						maxptjj = jj.Pt();
 						imaxptjj = ij;
@@ -609,14 +577,427 @@ int main(int argc, char *argv[])
 						imaxptjjRegKin = ij;
 						jmaxptjjRegKin = ijet; 
 					}
+                                        }
+                                        else if(jetChoice == "MaxptOverM"){
+					  if( jj.Pt()/jj.M() > maxptOmjj )
+					  {
+						maxptOmjj = jj.Pt()/jj.M();
+						imaxptOmjj = ij;
+						jmaxptOmjj = ijet;
+					  }
+					  if( jjReg.Pt()/jjReg.M() > maxptOmjjReg )
+					  {
+						maxptOmjjReg = jjReg.Pt()/jjReg.M();
+						imaxptOmjjReg = ij;
+						jmaxptOmjjReg = ijet; 
+					  }
+					  if( jjRegKin.Pt()/jjRegKin.M() > maxptOmjjRegKin )
+					  {
+						maxptOmjjRegKin = jjRegKin.Pt()/jjRegKin.M();
+						imaxptOmjjRegKin = ij;
+						jmaxptOmjjRegKin = ijet; 
+					  }
+                                        }
+                                        else if(jetChoice == "MinDeltaM"){
+                                          if( fabs(jj.M()-mgg) < deltaMjj )
+				          {
+					        deltaMjj = fabs(jj.M()-mgg);
+                                                ideltaMjj = ij;
+					        jdeltaMjj = ijet;
+				          }
+			       	          if( fabs(jjReg.M()-mgg) < deltaMjjReg )
+				          {
+					        deltaMjjReg = fabs(jjReg.M()-mgg);
+                                                ideltaMjjReg = ij;
+					        jdeltaMjjReg = ijet; 
+				          }
+				          if( fabs(jjRegKin.M()-mgg) < deltaMjjRegKin )
+				          {
+					        deltaMjjRegKin = fabs(jjRegKin.M()-mgg);
+                                                ideltaMjjRegKin = ij; 
+					        jdeltaMjjRegKin = ijet; 
+				          }
+                                        }
+				}
+                                
+			}
+                        if(jetChoice == "MaxptJets"){
+			   ij1 = imaxpt;
+			   ij2 = jmaxpt;
+			   ij1Reg = imaxptReg;
+			   ij2Reg = jmaxptReg;
+			   ij1RegKin = imaxptRegKin;
+			   ij2RegKin = jmaxptRegKin;
+                        }
+                        else if(jetChoice == "Maxpt"){
+                           ij1 = imaxptjj;
+			   ij2 = jmaxptjj;
+			   ij1Reg = imaxptjjReg;
+			   ij2Reg = jmaxptjjReg;
+			   ij1RegKin = imaxptjjRegKin;
+			   ij2RegKin = jmaxptjjRegKin;
+                        }
+                        else if(jetChoice == "MaxptOverM"){
+			   ij1 = imaxptOmjj;
+			   ij2 = jmaxptOmjj;
+			   ij1Reg = imaxptOmjjReg;
+			   ij2Reg = jmaxptOmjjReg;
+			   ij1RegKin = imaxptOmjjRegKin;
+			   ij2RegKin = jmaxptOmjjRegKin;
+                        }
+                        else if(jetChoice == "MinDeltaM"){
+                           ij1 = ideltaMjj;
+			   ij2 = jdeltaMjj;
+			   ij1Reg = ideltaMjjReg;
+			   ij2Reg = jdeltaMjjReg;
+			   ij1RegKin = ideltaMjjRegKin;
+			   ij2RegKin = jdeltaMjjRegKin;
+                        }
+		}
+		if( btaggedJet.size() == 1 )
+		{
+			if(DEBUG) cout << "Entering jet combinatorics: 1btag category" << endl;
+			t.category = 1;
+			unsigned int ij = btaggedJet[0];
+			if(DEBUG) cout << "btaggedJet[0]= " << btaggedJet[0] << endl;
+			TLorentzVector j, jreg, jregkin;
+			j.SetPtEtaPhiE(J.jetPt[ij], J.jetEta[ij], J.jetPhi[ij], J.jetE[ij]);
+			jreg = ((float)J.jetRegPt[ij]/(float)J.jetPt[ij]) * j;
+			jregkin = ((float)J.jetRegKinPt[ij]/(float)J.jetPt[ij]) * j;
+			float mgg = t.PhotonsMass;
+                        int imaxpt;
+			int imaxptReg;
+			int imaxptRegKin;
+			float maxpt = -99.;
+			float maxptReg = -99.;
+			float maxptRegKin = -99.;
+			int imaxptjj;
+			int imaxptjjReg;
+			int imaxptjjRegKin;
+			float maxptjj = -99.;
+			float maxptjjReg = -99.;
+			float maxptjjRegKin = -99.;
+                        int imaxptOmjj;
+			int imaxptOmjjReg;
+			int imaxptOmjjRegKin;
+			float maxptOmjj = -99.;
+			float maxptOmjjReg = -99.;
+			float maxptOmjjRegKin = -99.;
+                        int ideltaMjj;
+			int ideltaMjjReg;
+			int ideltaMjjRegKin;
+			float deltaMjj = 9999.;
+			float deltaMjjReg = 9999.;
+			float deltaMjjRegKin = 9999.;
+			for(unsigned int ijet = 0 ; ijet < J.jetPt.size() ; ijet++)
+			{
+				if( ijet == ij ) continue;
+				TLorentzVector tmp_j;
+				TLorentzVector tmp_jReg;
+				TLorentzVector tmp_jRegKin;
+				tmp_j.SetPtEtaPhiE(J.jetPt[ijet], J.jetEta[ijet], J.jetPhi[ijet], J.jetE[ijet]);
+				tmp_jReg = ((float)J.jetRegPt[ijet]/(float)J.jetPt[ijet]) * tmp_j;
+				tmp_jRegKin = ((float)J.jetRegKinPt[ijet]/(float)J.jetPt[ijet]) * tmp_j;
+				TLorentzVector jj = j + tmp_j;
+				TLorentzVector jjReg = jreg + tmp_jReg;
+				TLorentzVector jjRegKin = jregkin + tmp_jRegKin;
+				if(jetChoice == "MaxptJets"){
+				   if( tmp_j.Pt() > maxpt )
+				   {
+					maxpt = tmp_j.Pt();
+					imaxpt = ijet;
+				   }
+				   if( tmp_jReg.Pt() > maxptReg )
+				   {
+					maxptReg = tmp_jReg.Pt();
+					imaxptReg = ijet; 
+				   }
+				   if( tmp_jRegKin.Pt() > maxptRegKin )
+				   {
+					maxptRegKin = tmp_jRegKin.Pt();
+					imaxptRegKin = ijet; 
+				   }
+                                }
+                                else if(jetChoice == "Maxpt"){
+				   if( jj.Pt() > maxptjj )
+				   {
+					maxptjj = jj.Pt();
+					imaxptjj = ijet;
+				   }
+				   if( jjReg.Pt() > maxptjjReg )
+				   {
+					maxptjjReg = jjReg.Pt();
+					imaxptjjReg = ijet; 
+				   }
+				   if( jjRegKin.Pt() > maxptjjRegKin )
+				   {
+					maxptjjRegKin = jjRegKin.Pt();
+					imaxptjjRegKin = ijet; 
+				   }
+                                }
+                                else if(jetChoice == "MaxptOverM"){
+				   if( jj.Pt()/jj.M() > maxptOmjj )
+				   {
+					maxptOmjj = jj.Pt()/jj.M();
+					imaxptOmjj = ijet;
+				   }
+				   if( jjReg.Pt()/jjReg.M() > maxptOmjjReg )
+				   {
+					maxptOmjjReg = jjReg.Pt()/jjReg.M();
+					imaxptOmjjReg = ijet; 
+				   }
+				   if( jjRegKin.Pt()/jjRegKin.M() > maxptOmjjRegKin )
+				   {
+					maxptOmjjRegKin = jjRegKin.Pt()/jjRegKin.M();
+					imaxptOmjjRegKin = ijet; 
+				   }
+                                }
+                                else if(jetChoice == "MinDeltaM"){
+                                   if( fabs(jj.M()-mgg) < deltaMjj )
+				   {
+					deltaMjj = fabs(jj.M()-mgg);
+					ideltaMjj = ijet;
+				   }
+			       	   if( fabs(jjReg.M()-mgg) < deltaMjjReg )
+				   {
+					deltaMjjReg = fabs(jjReg.M()-mgg);
+					ideltaMjjReg = ijet; 
+				   }
+				   if( fabs(jjRegKin.M()-mgg) < deltaMjjRegKin )
+				   {
+					deltaMjjRegKin = fabs(jjRegKin.M()-mgg);
+					ideltaMjjRegKin = ijet; 
+				   }
+                                }
+			}
+			if(jetChoice == "MaxptJets"){
+			   ij1 = ij;
+			   ij2 = imaxpt;
+			   ij1Reg = ij;
+			   ij2Reg = imaxptReg;
+			   ij1RegKin = ij;
+			   ij2RegKin = imaxptRegKin;
+                        }
+                        else if(jetChoice == "Maxpt"){
+                           ij1 = ij;
+			   ij2 = imaxptjj;
+			   ij1Reg = ij;
+			   ij2Reg = imaxptjjReg;
+			   ij1RegKin = ij;
+			   ij2RegKin = imaxptjjRegKin;
+                        }
+                        else if(jetChoice == "MaxptOverM"){
+                           ij1 = ij;
+			   ij2 = imaxptOmjj;
+			   ij1Reg = ij;
+			   ij2Reg = imaxptOmjjReg;
+			   ij1RegKin = ij;
+			   ij2RegKin = imaxptOmjjRegKin;
+                        }
+                        else if(jetChoice == "MinDeltaM"){
+                           ij1 = ij;
+			   ij2 = ideltaMjj;
+			   ij1Reg = ij;
+			   ij2Reg = ideltaMjjReg;
+			   ij1RegKin = ij;
+			   ij2RegKin = ideltaMjjRegKin;
+                        }
+		}
+		// if two or more bjets, then loop only over btagged jets
+		if( btaggedJet.size() > 1 )
+		{
+			t.category = 2;
+			if(DEBUG) cout << "Entering jet combinatorics: 2btag category" << endl;
+			float mgg = t.PhotonsMass;
+			int ij;
+                        int imaxpt;
+			int imaxptReg;
+			int imaxptRegKin;
+                        int jmaxpt;
+			int jmaxptReg;
+			int jmaxptRegKin;
+			float maxpt = -99.;
+			float maxptReg = -99.;
+			float maxptRegKin = -99.;
+                        float maxpt2 = -99.;
+			float maxptReg2 = -99.;
+			float maxptRegKin2 = -99.;
+			int imaxptjj;
+			int imaxptjjReg;
+			int imaxptjjRegKin;
+			int jmaxptjj;
+			int jmaxptjjReg;
+			int jmaxptjjRegKin;
+			float maxptjj = -99.;
+			float maxptjjReg = -99.;
+			float maxptjjRegKin = -99.;
+                        int imaxptOmjj;
+			int imaxptOmjjReg;
+			int imaxptOmjjRegKin;
+                        int jmaxptOmjj;
+			int jmaxptOmjjReg;
+			int jmaxptOmjjRegKin;
+			float maxptOmjj = -99.;
+			float maxptOmjjReg = -99.;
+			float maxptOmjjRegKin = -99.;
+                        int ideltaMjj;
+			int ideltaMjjReg;
+			int ideltaMjjRegKin;
+                        int jdeltaMjj;
+			int jdeltaMjjReg;
+			int jdeltaMjjRegKin;
+			float deltaMjj = 9999.;
+			float deltaMjjReg = 9999.;
+			float deltaMjjRegKin = 9999.;
+			for( unsigned int i = 0 ; i < btaggedJet.size() - 1 ; i++ )
+			{
+				ij = btaggedJet[i];
+				if(DEBUG) cout << "btaggedJet[" << i << "]= " << ij << "\tjetPt[" << ij << "]= " << J.jetPt[ij] << endl;
+				TLorentzVector j, jreg, jregkin;
+				j.SetPtEtaPhiE(J.jetPt[ij], J.jetEta[ij], J.jetPhi[ij], J.jetE[ij]);
+				jreg = ((float)J.jetRegPt[ij]/(float)J.jetPt[ij]) * j;
+				jregkin = ((float)J.jetRegKinPt[ij]/(float)J.jetPt[ij]) * j;
+                                if(jetChoice == "MaxptJets"){
+					  if( j.Pt() > maxpt2 )
+					  {
+						maxpt2 = j.Pt();
+						imaxpt = ij;
+					  }
+					  if( jreg.Pt() > maxptReg2 )
+					  {
+						maxptReg2 = jreg.Pt();
+						imaxptReg = ij; 
+					  }
+					  if( jregkin.Pt() > maxptRegKin2 )
+					  {
+						maxptRegKin2 = jregkin.Pt();
+						imaxptRegKin = ij; 
+					  }
+                                }
+				for(unsigned int k = i+1 ; k < btaggedJet.size() ; k++)
+				{
+					int ijet = btaggedJet[k];
+					TLorentzVector tmp_j;
+					TLorentzVector tmp_jReg;
+					TLorentzVector tmp_jRegKin;
+					tmp_j.SetPtEtaPhiE(J.jetPt[ijet], J.jetEta[ijet], J.jetPhi[ijet], J.jetE[ijet]);
+					tmp_jReg = ((float)J.jetRegPt[ijet]/(float)J.jetPt[ijet]) * tmp_j;
+					tmp_jRegKin = ((float)J.jetRegKinPt[ijet]/(float)J.jetPt[ijet]) * tmp_j;
+					TLorentzVector jj = j + tmp_j;
+					TLorentzVector jjReg = jreg + tmp_jReg;
+					TLorentzVector jjRegKin = jregkin + tmp_jRegKin;
+					if(DEBUG) cout << "btaggedJet[" << k << "]= " << btaggedJet[k] << "\tjetPt[" << ijet << "]= " << J.jetPt[ijet] << "\tjj.Pt()= " << jj.Pt() << "\t(maxptjj= " << maxptjj << ")" << endl;
+					if(jetChoice == "MaxptJets"){
+					  if( tmp_j.Pt() > maxpt )
+					  {
+						maxpt = tmp_j.Pt();
+						jmaxpt = ijet;
+					  }
+					  if( tmp_jReg.Pt() > maxptReg )
+					  {
+						maxptReg = tmp_jReg.Pt();
+						jmaxptReg = ijet; 
+					  }
+					  if( tmp_jRegKin.Pt() > maxptRegKin )
+					  {
+						maxptRegKin = tmp_jRegKin.Pt();
+						jmaxptRegKin = ijet; 
+					  }
+                                        }
+                                        else if(jetChoice == "Maxpt"){
+                                          if( jj.Pt() > maxptjj )
+					  {
+						maxptjj = jj.Pt();
+						imaxptjj = ij;
+						jmaxptjj = ijet;
+					  }
+					  if( jjReg.Pt() > maxptjjReg )
+					  {
+						maxptjjReg = jjReg.Pt();
+						imaxptjjReg = ij;
+						jmaxptjjReg = ijet; 
+					  }
+					  if( jjRegKin.Pt() > maxptjjRegKin )
+					  {
+						maxptjjRegKin = jjRegKin.Pt();
+						imaxptjjRegKin = ij;
+						jmaxptjjRegKin = ijet; 
+					  }
+                                        }
+                                        else if(jetChoice == "MaxptOverM"){
+					  if( jj.Pt()/jj.M() > maxptOmjj )
+					  {
+						maxptOmjj = jj.Pt()/jj.M();
+						imaxptOmjj = ij;
+						jmaxptOmjj = ijet;
+					  }
+					  if( jjReg.Pt()/jjReg.M() > maxptOmjjReg )
+					  {
+						maxptOmjjReg = jjReg.Pt()/jjReg.M();
+						imaxptOmjjReg = ij;
+						jmaxptOmjjReg = ijet; 
+					  }
+					  if( jjRegKin.Pt()/jjRegKin.M() > maxptOmjjRegKin )
+					  {
+						maxptOmjjRegKin = jjRegKin.Pt()/jjRegKin.M();
+						imaxptOmjjRegKin = ij;
+						jmaxptOmjjRegKin = ijet; 
+					  }
+                                        }
+                                        else if(jetChoice == "MinDeltaM"){
+                                          if( fabs(jj.M()-mgg) < deltaMjj )
+				          {
+					        deltaMjj = fabs(jj.M()-mgg);
+                                                ideltaMjj = ij;
+					        jdeltaMjj = ijet;
+				          }
+			       	          if( fabs(jjReg.M()-mgg) < deltaMjjReg )
+				          {
+					        deltaMjjReg = fabs(jjReg.M()-mgg);
+                                                ideltaMjjReg = ij;
+					        jdeltaMjjReg = ijet; 
+				          }
+				          if( fabs(jjRegKin.M()-mgg) < deltaMjjRegKin )
+				          {
+					        deltaMjjRegKin = fabs(jjRegKin.M()-mgg);
+                                                ideltaMjjRegKin = ij; 
+					        jdeltaMjjRegKin = ijet; 
+				          }
+                                        }
 				}
 			} // end of loop over bjets
-			ij1 = imaxptjj;
-			ij2 = jmaxptjj;
-			ij1Reg = imaxptjjReg;
-			ij2Reg = jmaxptjjReg;
-			ij1RegKin = imaxptjjRegKin;
-			ij2RegKin = jmaxptjjRegKin;
+			if(jetChoice == "MaxptJets"){
+			   ij1 = imaxpt;
+			   ij2 = jmaxpt;
+			   ij1Reg = imaxptReg;
+			   ij2Reg = jmaxptReg;
+			   ij1RegKin = imaxptRegKin;
+			   ij2RegKin = jmaxptRegKin;
+                        }
+                        else if(jetChoice == "Maxpt"){
+                           ij1 = imaxptjj;
+			   ij2 = jmaxptjj;
+			   ij1Reg = imaxptjjReg;
+			   ij2Reg = jmaxptjjReg;
+			   ij1RegKin = imaxptjjRegKin;
+			   ij2RegKin = jmaxptjjRegKin;
+                        }
+                        else if(jetChoice == "MaxptOverM"){
+			   ij1 = imaxptOmjj;
+			   ij2 = jmaxptOmjj;
+			   ij1Reg = imaxptOmjjReg;
+			   ij2Reg = jmaxptOmjjReg;
+			   ij1RegKin = imaxptOmjjRegKin;
+			   ij2RegKin = jmaxptOmjjRegKin;
+                        }
+                        else if(jetChoice == "MinDeltaM"){
+                           ij1 = ideltaMjj;
+			   ij2 = jdeltaMjj;
+			   ij1Reg = ideltaMjjReg;
+			   ij2Reg = jdeltaMjjReg;
+			   ij1RegKin = ideltaMjjRegKin;
+			   ij2RegKin = jdeltaMjjRegKin;
+                        }
 		} // end of if two bjets
 
 		TLorentzVector pho1;
