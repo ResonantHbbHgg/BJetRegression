@@ -1,7 +1,7 @@
 #!/bin/bash
 
 today=`date +"%Y-%m-%d"`
-version="v14"
+version="v15"
 
 eosprefix="root://eoscms//eos/cms"
 #eospath="/store/cmst3/user/obondu/H2GGLOBE/Radion/trees/"
@@ -9,22 +9,14 @@ eospath="/store/cmst3/group/hbbhgg/H2GGLOBE/Radion/trees/"
 
 keep0btag=1
 
+jetChoice="Maxpt" 
+#jetChoice="MaxptJets"
+#jetChoice="MaxptOverM"
+#jetChoice="MinDeltaM"
+
 i=-1
 
-##### DATA
-i=$((${i} + 1))
-infile[${i}]="radion_tree_v09/Data.root"
-tree[${i}]="Data"
-outtree[${i}]="Data"
-typ[${i}]="0"
-CS[${i}]="0"
 
-i=$((${i} + 1))
-infile[${i}]="radion_tree_v09/Data.root"
-tree[${i}]="Data"
-outtree[${i}]="Data"
-typ[${i}]="0"
-CS[${i}]="1"
 
 ##### SIGNAL
 ### LONG SAMPLE LIST
@@ -381,7 +373,7 @@ imasscut=0
 
 for ireg in `echo "0"`
 do
-	folder="${today}_selection_${regsuffix[${ireg}]}_${masscutsuffix[${imasscut}]}_${version}"
+	folder="${today}_selection_${regsuffix[${ireg}]}_${masscutsuffix[${imasscut}]}_${version}_${jetChoice}"
 	mkdir -p ${folder}
 	for isample in `seq 0 ${itot}`
 	do
@@ -405,6 +397,7 @@ do
 --outputfile ${folder}/${file}.root \
 --numberOfRegressionFiles 0 \
 --type ${typ[${isample}]} \
+--jetChoice $jetChoice \
 --removeUndefinedBtagSF ${removeZeroFlavour} \
 --applyMassCuts ${imasscut} \
 --applyPhotonIDControlSample ${applyCS} \
