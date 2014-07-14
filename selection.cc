@@ -165,7 +165,7 @@ int main(int argc, char *argv[])
 
   int decade = 0;
   int totevents = intree->GetEntries();
-  if(DEBUG) totevents = 1;
+  if(DEBUG) totevents = 1000;
   cout << "#entries= " << totevents << endl;
   // loop over events
   for(int ievt=0 ; ievt < totevents ; ievt++)
@@ -245,46 +245,28 @@ int main(int argc, char *argv[])
         flow[iflow] = "After photon pt cuts"; cutFlow[iflow]++; iflow++;
 
 		if(DEBUG) cout << "t.ph1_ciclevel= " << t.ph1_ciclevel << "\tph2_ciclevel= " << t.ph2_ciclevel << endl;
+//		if( (!applyPhotonIDControlSample) && ((t.ph1_ciclevel < 4) || (t.ph2_ciclevel < 4)) ) continue;
 
-        if( (!applyPhotonIDControlSample) && ((t.ph1_ciclevel < 4) || (t.ph2_ciclevel < 4)) ) continue;
-//		if (!applyPhotonIDControlSample)
-//        { 
-//            if (((t.ph1_isEB == 1) && (t.ph1_r9 > 0.94)) && ((ph1_PFisoA > 6) || (ph1_PFisoB > 10) || (ph1_PFisoC > 3.8) || (t.ph1_sieie > 0.0108) || (t.ph1_hoe > 0.124) || (t.ph1_r9 < 0.94))) continue;
-//
-//            else if (((t.ph1_isEB == 1) && (t.ph1_r9 < 0.94)) && ((ph1_PFisoA > 4.7) || (ph1_PFisoB > 6.5) || (ph1_PFisoC > 2.5) || (t.ph1_sieie > 0.0102) || (t.ph1_hoe > 0.092) || (t.ph1_r9 < 0.28))) continue;
-//
-//            else if (((t.ph1_isEB == 0) && (t.ph1_r9 > 0.94)) && ((ph1_PFisoA > 5.6) || (ph1_PFisoB > 5.6) || (ph1_PFisoC > 3.1) || (t.ph1_sieie > 0.028) || (t.ph1_hoe > 0.142) || (t.ph1_r9 < 0.94))) continue;  
-//
-//            else if (((t.ph1_isEB == 0) && (t.ph1_r9 < 0.94)) && ((ph1_PFisoA > 3.6) || (ph1_PFisoB > 4.4) || (ph1_PFisoC > 2.2) || (t.ph1_sieie > 0.028) || (t.ph1_hoe > 0.063) || (t.ph1_r9 < 0.24))) continue;
-//
-//
-//            if (((t.ph2_isEB == 1) && (t.ph2_r9 > 0.94)) && ((ph2_PFisoA > 6) || (ph2_PFisoB > 10) || (ph2_PFisoC > 3.8) || (t.ph2_sieie > 0.0108) || (t.ph2_hoe > 0.124) || (t.ph2_r9 < 0.94))) continue;
-//
-//            else if (((t.ph2_isEB == 1) && (t.ph2_r9 < 0.94)) && ((ph2_PFisoA > 4.7) || (ph2_PFisoB > 6.5) || (ph2_PFisoC > 2.5) || (t.ph2_sieie > 0.0102) || (t.ph2_hoe > 0.092) || (t.ph2_r9 < 0.28))) continue;
-//
-//            else if (((t.ph2_isEB == 0) && (t.ph2_r9 > 0.94)) && ((ph2_PFisoA > 5.6) || (ph2_PFisoB > 5.6) || (ph2_PFisoC > 3.1) || (t.ph2_sieie > 0.028) || (t.ph2_hoe > 0.142) || (t.ph2_r9 < 0.94))) continue;
-//
-//            else if (((t.ph2_isEB == 0) && (t.ph2_r9 < 0.94)) && ((ph2_PFisoA > 3.6) || (ph2_PFisoB > 4.4) || (ph2_PFisoC > 2.2) || (t.ph2_sieie > 0.028) || (t.ph2_hoe > 0.063) || (t.ph2_r9 < 0.24))) continue;
-//        }
-//        { 
-//            if (((t.ph1_isEB == 1) && (t.ph1_r9 > 0.94)) && ((ph1_PFisoC > 3.8) || (t.ph1_sieie > 0.0108) || (t.ph1_hoe > 0.124) || (t.ph1_r9 < 0.94))) continue;
-//
-//            else if (((t.ph1_isEB == 1) && (t.ph1_r9 < 0.94)) && ((ph1_PFisoC > 2.5) || (t.ph1_sieie > 0.0102) || (t.ph1_hoe > 0.092) || (t.ph1_r9 < 0.298))) continue;
-//
-//            else if (((t.ph1_isEB == 0) && (t.ph1_r9 > 0.94)) && ((ph1_PFisoC > 3.1) || (t.ph1_sieie > 0.028) || (t.ph1_hoe > 0.142) || (t.ph1_r9 < 0.94))) continue;  
-//
-//            else if (((t.ph1_isEB == 0) && (t.ph1_r9 < 0.94)) && ((ph1_PFisoC > 2.2) || (t.ph1_sieie > 0.028) || (t.ph1_hoe > 0.063) || (t.ph1_r9 < 0.24))) continue;
-//
-//
-//            if (((t.ph2_isEB == 1) && (t.ph2_r9 > 0.94)) && ((ph2_PFisoC > 3.8) || (t.ph2_sieie > 0.0108) || (t.ph2_hoe > 0.124) || (t.ph2_r9 < 0.94))) continue;
-//
-//            else if (((t.ph2_isEB == 1) && (t.ph2_r9 < 0.94)) && ((ph2_PFisoC > 2.5) || (t.ph2_sieie > 0.0102) || (t.ph2_hoe > 0.092) || (t.ph2_r9 < 0.298))) continue;
-//
-//            else if (((t.ph2_isEB == 0) && (t.ph2_r9 > 0.94)) && ((ph2_PFisoC > 3.1) || (t.ph2_sieie > 0.028) || (t.ph2_hoe > 0.142) || (t.ph2_r9 < 0.94))) continue;
-//
-//            else if (((t.ph2_isEB == 0) && (t.ph2_r9 < 0.94)) && ((ph2_PFisoC > 2.2) || (t.ph2_sieie > 0.028) || (t.ph2_hoe > 0.063) || (t.ph2_r9 < 0.24))) continue;
-//        }
-		else if (applyPhotonIDControlSample)
+        if (!applyPhotonIDControlSample)
+            {
+            if ((t.ph1_isEB == 1) && (t.ph1_r9 > 0.94) && ((ph1_PFisoA > 6) || (ph1_PFisoB > 10) || (ph1_PFisoC > 3.8) || (t.ph1_sieie > 0.0108)  || (t.ph1_hoe > 0.124) || (t.ph1_r9 < 0.94))) continue;  
+                
+            if ((t.ph1_isEB == 1) && (t.ph1_r9 < 0.94) && ((ph1_PFisoA > 4.7) || (ph1_PFisoB > 6.5) || (ph1_PFisoC > 2.5) || (t.ph1_sieie > 0.0102)  || (t.ph1_hoe > 0.092) || (t.ph1_r9 < 0.298))) continue;
+                
+            if ((t.ph1_isEB == 0) && (t.ph1_r9 > 0.94) && ((ph1_PFisoA > 5.6) || (ph1_PFisoB > 5.6) || (ph1_PFisoC > 3.1) || (t.ph1_sieie > 0.028)  || (t.ph1_hoe > 0.142) || (t.ph1_r9 < 0.94))) continue;
+                 
+            if ((t.ph1_isEB == 0) && (t.ph1_r9 < 0.94) && ((ph1_PFisoA > 3.6) || (ph1_PFisoB > 4.4) || (ph1_PFisoC > 2.2) || (t.ph1_sieie > 0.028)  || (t.ph1_hoe > 0.063) || (t.ph1_r9 < 0.24))) continue; 
+        
+            if ((t.ph2_isEB == 1) && (t.ph2_r9 > 0.94) && ((-2 > 6) || (-1 > 10) || (ph2_PFisoC > 3.8) || (t.ph2_sieie > 0.0108)  || (t.ph2_hoe > 0.124) || (t.ph2_r9 < 0.94))) continue;
+ 
+            if ((t.ph2_isEB == 1) && (t.ph2_r9< 0.94) && ((-2 > 4.7) || (-1 > 6.5) || (ph2_PFisoC > 2.5) || (t.ph2_sieie > 0.0102)  || (t.ph2_hoe > 0.092) || (t.ph2_r9 < 0.298))) continue;
+             
+            if ((t.ph2_isEB == 0) && (t.ph2_r9 > 0.94) && ((-2 > 5.6) || (-1 > 5.6) || (ph2_PFisoC > 3.1) || (t.ph2_sieie > 0.028)  || (t.ph2_hoe > 0.142) || (t.ph2_r9 < 0.94))) continue;
+
+            if ((t.ph2_isEB == 0) && (t.ph2_r9 < 0.94) && ((-2 > 3.6) || (-1 > 4.4) || (ph2_PFisoC > 2.2) || (t.ph2_sieie > 0.028)  || (t.ph2_hoe > 0.063) || (t.ph2_r9 < 0.24))) continue;
+        }    
+    
+		if (applyPhotonIDControlSample)
 		{
 			bool ph1_id = (t.ph1_ciclevel >= 3);
 			bool ph2_id = (t.ph2_ciclevel >= 3);
@@ -409,10 +391,10 @@ int main(int argc, char *argv[])
 			njets[1]++; jetcut[1] = "After jet pt > 25";
 			if( fabs(t.jet_eta) > 2.5 ) continue;
 			njets[2]++; jetcut[2] = "After jet |eta| < 2.5";
-			if( t.jet_betaStarClassic > 0.2 * log( t.nvtx - 0.64) ) continue;
-			njets[3]++; jetcut[3] = "After t.jet_betaStarClassic > 0.2 * log( t.nvtx - 0.64)";
-			if( t.jet_dR2Mean > 0.06 ) continue;
-			njets[4]++; jetcut[4] = "After t.jet_dR2Mean > 0.06";
+//			if( t.jet_betaStarClassic > 0.2 * log( t.nvtx - 0.64) ) continue;
+//			njets[3]++; jetcut[3] = "After t.jet_betaStarClassic > 0.2 * log( t.nvtx - 0.64)";
+//			if( t.jet_dR2Mean > 0.06 ) continue;
+//			njets[4]++; jetcut[4] = "After t.jet_dR2Mean > 0.06";
 			if(DEBUG) cout << "Jet is passing selection cuts" << endl;
 			// ** call regression to correct the pt **
 			// ** store 4-momentum + csv output for combinatorics **
@@ -832,7 +814,7 @@ int main(int argc, char *argv[])
 
 		t.selection_cut_level = 0;
 		t.weight = t.ev_weight;
-		t.evweight = t.ev_evweight;
+        t.evweight = t.ev_evweight;
 		t.pu_weight = t.ev_pu_weight;
 		// adding this for correct yields out of the control plots:
 		t.evweight_w_btagSF = t.evweight;
