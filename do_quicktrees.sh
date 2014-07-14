@@ -1,11 +1,11 @@
 #!/bin/bash
 
-version="v33"
+version="v33_bbH"
 today=`date +"0%Y-%m-%d"`
 #set -x
 
-inputversion="v14"
-inputfolder="2014-06-12_selection_noRegression_noMassCut_${inputversion}/"
+inputversion="v15"
+inputfolder="2014-06-25_selection_noRegression_noMassCut_${inputversion}/"
 
 i=-1
 
@@ -30,6 +30,8 @@ do
 			removeUndefinedBtagSF=0
 			applyPhotonIDControlSample=0
 			suffix=""
+            extraline=""
+#            extraline="--applyMjjCut 0 --applyMtotCut 0"
 			if [ "${sample}" == "Radion" ]
 			then
 				intree="${sample}_m${mass}_8TeV"
@@ -71,6 +73,7 @@ do
 			line[${i}]="${line[${i}]} --massCutVersion 3"
 			line[${i}]="${line[${i}]} --applyPhotonIDControlSample ${applyPhotonIDControlSample}"
 			line[${i}]="${line[${i}]} --controlSampleWeights ${controlSampleWeights}"
+            line[${i}]="${line[${i}]} ${extraline}"
 			log[${i}]="${outfolder}/${outtree}_m${mass}.eo"
 		#	echo -e "i= ${i}\tline= ${line[${i}]}"
 		done

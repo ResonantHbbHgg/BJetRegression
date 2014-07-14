@@ -36,6 +36,7 @@ int main(int argc, char *argv[])
 	int massCutVersion;
 	int applyPhotonIDControlSample;
 	int applyMtotCut;
+	int applyMjjCut;
 	string controlSampleWeights;
 
 	// print out passed arguments
@@ -60,6 +61,7 @@ int main(int argc, char *argv[])
 			("applyPhotonIDControlSample", po::value<int>(&applyPhotonIDControlSample)->default_value(0), "Invert photon ID CiC cut to populate selection in gjjj instead of ggjj")
 			("controlSampleWeights", po::value<string>(&controlSampleWeights)->default_value("scales_2D_pt_data_4GeVbinning.root"), "file containing the weights for creating the control sample")
 			("applyMtotCut", po::value<int>(&applyMtotCut)->default_value(1), "Apply the mtot cut. Should NOT been played with")
+			("applyMjjCut", po::value<int>(&applyMjjCut)->default_value(1), "Apply the mjj cut. Should NOT been played with")
 		;
 		po::variables_map vm;
 		po::store(po::parse_command_line(argc, argv, desc), vm);
@@ -329,7 +331,7 @@ int main(int argc, char *argv[])
 			else 
 			if( massCutVersion == 3 )
 			{// FITTING THE MGG SPECTRUM: newer version: preapproval values (18 dec. 2013)
-				if( t.mjj_wokinfit < 85. || t.mjj_wokinfit > 155. ) continue;
+				if( applyMjjCut && (t.mjj_wokinfit < 85. || t.mjj_wokinfit > 155.) ) continue;
                 if( !((type == -2 || type == 0) && !applyMtotCut) ){
     				if( mass == 260 && (t.mtot_wokinfit < 225. || t.mtot_wokinfit > 280.) ) continue;
     				if( mass == 270 && (t.mtot_wokinfit < 225. || t.mtot_wokinfit > 295.) ) continue;
@@ -364,7 +366,7 @@ int main(int argc, char *argv[])
 			if( massCutVersion == 3)
 			{ // Cuts for preapproval (18 dec. 2013)
 				if( t.mgg < 120. || t.mgg > 130. ) continue;
-				if( t.mjj_wokinfit < 90. || t.mjj_wokinfit > 165. ) continue;
+				if( applyMjjCut && (t.mjj_wokinfit < 90. || t.mjj_wokinfit > 165.) ) continue;
 			}
 		}
 
