@@ -381,22 +381,22 @@ imasscut=0
 
 for ireg in `echo "0"`
 do
-	folder="${today}_selection_${regsuffix[${ireg}]}_${masscutsuffix[${imasscut}]}_${version}"
-	mkdir -p ${folder}
-	for isample in `seq 0 ${itot}`
-	do
+    folder="${today}_selection_${regsuffix[${ireg}]}_${masscutsuffix[${imasscut}]}_${version}"
+    mkdir -p ${folder}
+    for isample in `seq 0 ${itot}`
+    do
         applyCS="${CS[${isample}]}"
-		echo -e "isample= ${isample} / ${itot}\tinfile= ${infile[${isample}]}\ttree= ${tree[${isample}]}\touttree= ${outtree[${isample}]}\ttyp= ${typ[${isample}]}\tireg= ${ireg}\tapplyCS= ${applyCS}"
-		file="${outtree[${isample}]}_${regsuffix[${ireg}]}_${masscutsuffix[${imasscut}]}_${version}"
+        echo -e "isample= ${isample} / ${itot}\tinfile= ${infile[${isample}]}\ttree= ${tree[${isample}]}\touttree= ${outtree[${isample}]}\ttyp= ${typ[${isample}]}\tireg= ${ireg}\tapplyCS= ${applyCS}"
+        file="${outtree[${isample}]}_${regsuffix[${ireg}]}_${masscutsuffix[${imasscut}]}_${version}"
         if [[ "${applyCS}" == "1" ]]
         then
             file="${outtree[${isample}]}_${regsuffix[${ireg}]}_${masscutsuffix[${imasscut}]}_controlSample_${version}"
         fi
-		removeZeroFlavour=0
-		if [ "${typ[${isample}]}" != "0" ]
-		then 
-			removeZeroFlavour=1
-		fi
+        removeZeroFlavour=0
+        if [ "${typ[${isample}]}" != "0" ]
+        then 
+            removeZeroFlavour=1
+        fi
 
 ./selection.exe \
 --inputfile ${eosprefix}${eospath}${infile[${isample}]} \
@@ -414,7 +414,7 @@ do
 
     mv cutFlow_${tree[${isample}]}.dat ${folder}/
 
-	done # isample
+    done # isample
 done #ireg
 
 
