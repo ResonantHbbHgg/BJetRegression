@@ -31,7 +31,7 @@ do
             applyPhotonIDControlSample=0
             suffix=""
             extraline=""
-#            extraline="--applyMjjCut 0 --applyMtotCut 0"
+#            extraline="--applyMjjCut 0  --applyMggCut 0 --applyMtotCut 0"
             if [ "${sample}" == "Radion" ]
             then
                 intree="${sample}_m${mass}_8TeV"
