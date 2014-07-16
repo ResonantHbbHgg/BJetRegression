@@ -248,24 +248,40 @@ int main(int argc, char *argv[])
 //		if( (!applyPhotonIDControlSample) && ((t.ph1_ciclevel < 4) || (t.ph2_ciclevel < 4)) ) continue;
 
         if (!applyPhotonIDControlSample)
+//            {
+//            if ((t.ph1_isEB == 1) && (t.ph1_r9 > 0.94) && ((ph1_PFisoA > 6) || (ph1_PFisoB > 10) || (ph1_PFisoC > 3.8) || (t.ph1_sieie > 0.0108)  || (t.ph1_hoe > 0.124) || (t.ph1_r9 < 0.94))) continue;  
+//                
+//            if ((t.ph1_isEB == 1) && (t.ph1_r9 < 0.94) && ((ph1_PFisoA > 4.7) || (ph1_PFisoB > 6.5) || (ph1_PFisoC > 2.5) || (t.ph1_sieie > 0.0102)  || (t.ph1_hoe > 0.092) || (t.ph1_r9 < 0.298))) continue;
+//                
+//            if ((t.ph1_isEB == 0) && (t.ph1_r9 > 0.94) && ((ph1_PFisoA > 5.6) || (ph1_PFisoB > 5.6) || (ph1_PFisoC > 3.1) || (t.ph1_sieie > 0.028)  || (t.ph1_hoe > 0.142) || (t.ph1_r9 < 0.94))) continue;
+//                 
+//            if ((t.ph1_isEB == 0) && (t.ph1_r9 < 0.94) && ((ph1_PFisoA > 3.6) || (ph1_PFisoB > 4.4) || (ph1_PFisoC > 2.2) || (t.ph1_sieie > 0.028)  || (t.ph1_hoe > 0.063) || (t.ph1_r9 < 0.24))) continue; 
+//        
+//            if ((t.ph2_isEB == 1) && (t.ph2_r9 > 0.94) && ((ph2_PFisoA > 6) || (ph2_PFisoB > 10) || (ph2_PFisoC > 3.8) || (t.ph2_sieie > 0.0108)  || (t.ph2_hoe > 0.124) || (t.ph2_r9 < 0.94))) continue;
+// 
+//            if ((t.ph2_isEB == 1) && (t.ph2_r9< 0.94) && ((ph2_PFisoA > 4.7) || (ph2_PFisoB > 6.5) || (ph2_PFisoC > 2.5) || (t.ph2_sieie > 0.0102)  || (t.ph2_hoe > 0.092) || (t.ph2_r9 < 0.298))) continue;
+//             
+//            if ((t.ph2_isEB == 0) && (t.ph2_r9 > 0.94) && ((ph2_PFisoA > 5.6) || (ph2_PFisoB > 5.6) || (ph2_PFisoC > 3.1) || (t.ph2_sieie > 0.028)  || (t.ph2_hoe > 0.142) || (t.ph2_r9 < 0.94))) continue;
+//
+//            if ((t.ph2_isEB == 0) && (t.ph2_r9 < 0.94) && ((ph2_PFisoA > 3.6) || (ph2_PFisoB > 4.4) || (ph2_PFisoC > 2.2) || (t.ph2_sieie > 0.028)  || (t.ph2_hoe > 0.063) || (t.ph2_r9 < 0.24))) continue;
+//        }    
             {
-            if ((t.ph1_isEB == 1) && (t.ph1_r9 > 0.94) && ((ph1_PFisoA > 6) || (ph1_PFisoB > 10) || (ph1_PFisoC > 3.8) || (t.ph1_sieie > 0.0108)  || (t.ph1_hoe > 0.124) || (t.ph1_r9 < 0.94))) continue;  
-                
-            if ((t.ph1_isEB == 1) && (t.ph1_r9 < 0.94) && ((ph1_PFisoA > 4.7) || (ph1_PFisoB > 6.5) || (ph1_PFisoC > 2.5) || (t.ph1_sieie > 0.0102)  || (t.ph1_hoe > 0.092) || (t.ph1_r9 < 0.298))) continue;
-                
-            if ((t.ph1_isEB == 0) && (t.ph1_r9 > 0.94) && ((ph1_PFisoA > 5.6) || (ph1_PFisoB > 5.6) || (ph1_PFisoC > 3.1) || (t.ph1_sieie > 0.028)  || (t.ph1_hoe > 0.142) || (t.ph1_r9 < 0.94))) continue;
-                 
-            if ((t.ph1_isEB == 0) && (t.ph1_r9 < 0.94) && ((ph1_PFisoA > 3.6) || (ph1_PFisoB > 4.4) || (ph1_PFisoC > 2.2) || (t.ph1_sieie > 0.028)  || (t.ph1_hoe > 0.063) || (t.ph1_r9 < 0.24))) continue; 
-        
-            if ((t.ph2_isEB == 1) && (t.ph2_r9 > 0.94) && ((-2 > 6) || (-1 > 10) || (ph2_PFisoC > 3.8) || (t.ph2_sieie > 0.0108)  || (t.ph2_hoe > 0.124) || (t.ph2_r9 < 0.94))) continue;
- 
-            if ((t.ph2_isEB == 1) && (t.ph2_r9< 0.94) && ((-2 > 4.7) || (-1 > 6.5) || (ph2_PFisoC > 2.5) || (t.ph2_sieie > 0.0102)  || (t.ph2_hoe > 0.092) || (t.ph2_r9 < 0.298))) continue;
-             
-            if ((t.ph2_isEB == 0) && (t.ph2_r9 > 0.94) && ((-2 > 5.6) || (-1 > 5.6) || (ph2_PFisoC > 3.1) || (t.ph2_sieie > 0.028)  || (t.ph2_hoe > 0.142) || (t.ph2_r9 < 0.94))) continue;
+            if ((t.ph1_isEB == 1) && (t.ph1_r9 > 0.94) && ((ph1_PFisoA > 8.9) || (ph1_PFisoB > 43) || (ph1_PFisoC > 3.8) || (t.ph1_sieie > 0.0108)  || (t.ph1_hoe > 0.124) || (t.ph1_r9 < 0.94))) continue;
 
-            if ((t.ph2_isEB == 0) && (t.ph2_r9 < 0.94) && ((-2 > 3.6) || (-1 > 4.4) || (ph2_PFisoC > 2.2) || (t.ph2_sieie > 0.028)  || (t.ph2_hoe > 0.063) || (t.ph2_r9 < 0.24))) continue;
-        }    
-    
+            if ((t.ph1_isEB == 1) && (t.ph1_r9 < 0.94) && ((ph1_PFisoA > 6.3) || (ph1_PFisoB > 19.4) || (ph1_PFisoC > 2.5) || (t.ph1_sieie > 0.0102)  || (t.ph1_hoe > 0.092) || (t.ph1_r9 < 0.298))) continue;
+
+            if ((t.ph1_isEB == 0) && (t.ph1_r9 > 0.94) && ((ph1_PFisoA > 9.8) || (ph1_PFisoB > 24) || (ph1_PFisoC > 3.1) || (t.ph1_sieie > 0.028)  || (t.ph1_hoe > 0.142) || (t.ph1_r9 < 0.94))) continue;
+
+            if ((t.ph1_isEB == 0) && (t.ph1_r9 < 0.94) && ((ph1_PFisoA > 6.8) || (ph1_PFisoB > 7.9) || (ph1_PFisoC > 2.2) || (t.ph1_sieie > 0.028)  || (t.ph1_hoe > 0.063) || (t.ph1_r9 < 0.24))) continue;
+
+            if ((t.ph2_isEB == 1) && (t.ph2_r9 > 0.94) && ((ph2_PFisoA > 8.9) || (ph2_PFisoB > 43) || (ph2_PFisoC > 3.8) || (t.ph2_sieie > 0.0108)  || (t.ph2_hoe > 0.124) || (t.ph2_r9 < 0.94))) continue;
+
+            if ((t.ph2_isEB == 1) && (t.ph2_r9< 0.94) && ((ph2_PFisoA > 6.3) || (ph2_PFisoB > 19.4) || (ph2_PFisoC > 2.5) || (t.ph2_sieie > 0.0102)  || (t.ph2_hoe > 0.092) || (t.ph2_r9 < 0.298))) continue;
+
+            if ((t.ph2_isEB == 0) && (t.ph2_r9 > 0.94) && ((ph2_PFisoA > 9.8) || (ph2_PFisoB > 24) || (ph2_PFisoC > 3.1) || (t.ph2_sieie > 0.028)  || (t.ph2_hoe > 0.142) || (t.ph2_r9 < 0.94))) continue;
+
+            if ((t.ph2_isEB == 0) && (t.ph2_r9 < 0.94) && ((ph2_PFisoA > 6.8) || (ph2_PFisoB > 7.9) || (ph2_PFisoC > 2.2) || (t.ph2_sieie > 0.028)  || (t.ph2_hoe > 0.063) || (t.ph2_r9 < 0.24))) continue;
+        }
 		if (applyPhotonIDControlSample)
 		{
 			bool ph1_id = (t.ph1_ciclevel >= 3);
