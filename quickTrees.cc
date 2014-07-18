@@ -138,7 +138,7 @@ int main(int argc, char *argv[])
 		}
 
 	t.evWeight_w_btagSF = t.evWeight;
-	t.weight = t.evWeight;
+	t.weight = 4 * t.evWeight;
 	t.weightBtagSF = -1000;
 	t.weightBtagSFerrUp = -1000;
 	t.weightBtagSFerrDown = -1000;
@@ -159,7 +159,7 @@ int main(int argc, char *argv[])
 
 		if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("reg", whichJet.c_str()) == 0) )
 			{ t.mjj_wokinfit = t.mjj; t.mtot_wokinfit = t.mtot; }
-		
+	t.reweight = (1) * t.evWeight_w_btagSF;	
 // EXTRA CUTS
 	if( cutLevel > 0)
 	{
@@ -331,13 +331,13 @@ int main(int argc, char *argv[])
 			{// FITTING THE MGG SPECTRUM: newer version: preapproval values (18 dec. 2013)
 				if( t.mjj_wokinfit < 85. || t.mjj_wokinfit > 155. ) continue;
                 if( !((type == -2 || type == 0) && !applyMtotCut) ){
-    				if( mass == 260 && (t.mtot_wokinfit < 225. || t.mtot_wokinfit > 280.) ) continue;
-    				if( mass == 270 && (t.mtot_wokinfit < 225. || t.mtot_wokinfit > 295.) ) continue;
-    				if( mass == 300 && (t.mtot_wokinfit < 255. || t.mtot_wokinfit > 330.) ) continue;
-    				if( mass == 350 && (t.mtot_wokinfit < 310. || t.mtot_wokinfit > 395.) ) continue;
-    				if( mass == 400 && (t.mtot_wokinfit < 370. || t.mtot_wokinfit > 440.) ) continue;
-    				if( mass == 450 && (t.mtot_wokinfit < 410. || t.mtot_wokinfit > 495.) ) continue;
-    				if( mass == 500 && (t.mtot_wokinfit < 445. || t.mtot_wokinfit > 535.) ) continue;
+    				if( mass == 260 && (t.mtot < 225. || t.mtot > 280.) ) continue;
+    				if( mass == 270 && (t.mtot < 260. || t.mtot > 280.) ) continue;
+    				if( mass == 300 && (t.mtot < 290. || t.mtot > 310.) ) continue;
+    				if( mass == 350 && (t.mtot < 330. || t.mtot > 375.) ) continue;
+    				if( mass == 400 && (t.mtot < 380. || t.mtot > 435.) ) continue;
+    				if( mass == 450 && (t.mtot < 410. || t.mtot > 495.) ) continue;
+    				if( mass == 500 && (t.mtot < 445. || t.mtot > 535.) ) continue;
                 } // if the sample is ggHH and applyMtotCut is switch off, then do not apply any mtot cut
 			}
 		} // END OF FIT MGG SPECTRUM
