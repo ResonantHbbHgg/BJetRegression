@@ -22,16 +22,16 @@ intL = 19706.
 samples = [] 
 # samples.append([ name, dirpath, subdir, file, tree, color, style, label , sigma , N])
 
-samples.append(["Radion_m300", ".", "2014-06-19_selection_noRegression_noMassCut_v12_study_iso_variables_WP44", "Radion_m300_8TeV_noRegression_noMassCut_v12_study_iso_variables_WP44.root", "Radion_m300_8TeV", ROOT.kBlack, 0, "mass = 300 GeV, WP 4" , 13.55e-3, 19999])
+samples.append(["Radion_m300", ".", "2014-07-16_selection_noRegression_noMassCut_v12_study_cic_WP_handmade_4_4_loose_isoAB_pho2", "Radion_m300_*.root", "Radion_m300_8TeV", ROOT.kBlack, 0, "Radion M = 300 GeV" , 13.55e-3, 19999])
 #samples.append(["Radion_m300", ".", "2014-06-06_selection_noRegression_noMassCut_v12_study_ciclevel_4_4", "Radion_m300_8TeV_noRegression_noMassCut_v12_study_ciclevel_4_4.root", "Radion_m300_8TeV", ROOT.kBlack, 0, "mass = 300 GeV, WP 4" , 13.55e-3, 19999])
-#samples.append(["Radion_m300", ".", "2014-06-06_selection_noRegression_noMassCut_v12_study_ciclevel_0_0", "Radion_m300_8TeV_noRegression_noMassCut_v12_study_ciclevel_0_0.root", "Radion_m300_8TeV", ROOT.kBlue, 0, "WP 0" , 13.55e-3, 19999])
-samples.append(["Radion_m300", ".", "2014-06-19_selection_noRegression_noMassCut_v12_study_iso_variables_WP44_handmade", "Radion_m300_8TeV_noRegression_noMassCut_v12_study_iso_variables_WP44_handmade.root", "Radion_m300_8TeV", ROOT.kRed, 0, "hand made WP 4" , 13.55e-3, 19999])
+#samples.append(["Radion_m300", ".", "2014-06-06_selection_noRegression_noMassCut_v12_study_ciclevel_0_0", "Radion_m300_8TeV_noRegression_noMassCut_v12_study_ciclevel_0_0.root", "Radion_m300_8TeV", ROOT.kBlack, 0, "Radion (M=300 GeV), CIC >= 0" , 13.55e-3, 19999])
+#samples.append(["Radion_m300", ".", "2014-06-19_selection_noRegression_noMassCut_v12_study_iso_variables_WP44_handmade", "Radion_m300_8TeV_noRegression_noMassCut_v12_study_iso_variables_WP44_handmade.root", "Radion_m300_8TeV", ROOT.kRed, 0, "hand made WP 4" , 13.55e-3, 19999])
 #samples.append(["Radion_m300", ".", "2014-06-18_selection_noRegression_noMassCut_v12_study_iso_variables_WP44", "Radion_m300_8TeV_noRegression_noMassCut_v12_study_iso_variables_WP44.root", "Radion_m300_8TeV", ROOT.kRed, 0, "hand made WP 4" , 13.55e-3, 19999])
-#samples.append(["Radion_m300", ".", "2014-06-18_selection_noRegression_noMassCut_v12_study_iso_variables_nocutAB", "Radion_m300_8TeV_noRegression_noMassCut_v12_study_iso_variables.root", "Radion_m300_8TeV", ROOT.kRed, 0, "WP 4 without isoA,B cut" , 13.55e-3, 19999])
+#samples.append(["Data", ".", "2014-06-06_selection_noRegression_noMassCut_v12_study_ciclevel_0_1", "Data*.root", "Data", ROOT.kRed, 0, "" , 13.55e-3, 19999])
 
 #CIC1 = "0"
-#CIC2 = "0"
-#MASSE = "400"
+#CIC2 = "1"
+#MASSE = "270"
 #samples.append(["Data", "/afs/cern.ch/work/f/fbojarsk/CMSSW_6_1_1/src/BJetRegression/", "v31_study_ciclevel_" +  CIC1 +"_" + CIC2 +"_fitToMgg_noKinFit/", "Data_m" + MASSE + ".root", "TCVARS", ROOT.kBlack, 20, "Data", 13.55e-3, 19999])
 #
 #samples.append(["Sherpa", "/afs/cern.ch/work/f/fbojarsk/CMSSW_6_1_1/src/BJetRegression/", "v31_study_ciclevel_" +  CIC1 +"_" + CIC2 +"_fitToMgg_noKinFit/", "diphojet_sherpa_8TeV_m" + MASSE + ".root", "TCVARS", ROOT.kRed, 1, "Sherpa", 13.55e-3, 19999])
@@ -45,10 +45,40 @@ samples.append(["Radion_m300", ".", "2014-06-19_selection_noRegression_noMassCut
 
 #samples.append(["pouet", "/afs/cern.ch/work/f/fbojarsk/CMSSW_6_1_1/src/BJetRegression/", "2014-06-03_selection_noRegression_noMassCut_v10bis_effStudies_RMS_BetaStar_nocut", "diphojet_sherpa_8TeV_noRegression_noMassCut_v10bis_effStudies_RMS_BetaStar_nocut.root", "diphojet_sherpa_8TeV", ROOT.kRed, 20, "Sherpa_nocut ", 13.55e-3, 19999])
 
+#samples.append(["pouet", "", "2014-06-25_selection_noRegression_noMassCut_v12_study_ciclevel_3_0", "Radion_m270_8TeV_noRegression_noMassCut_v12_study_ciclevel_3_0.root", "Radion_m270_8TeV", ROOT.kBlack, 0, "3_0", 13.55e-3, 19999])
+#samples.append(["pouet", "", "2014-06-06_selection_noRegression_noMassCut_v12_study_ciclevel_3_1", "Radion_m270_8TeV_noRegression_noMassCut_v12_study_ciclevel_3_1.root", "Radion_m270_8TeV", ROOT.kBlue, 0, "3_1", 13.55e-3, 19999])
+#samples.append(["pouet", "", "2014-06-06_selection_noRegression_noMassCut_v12_study_ciclevel_3_2", "Radion_m270_8TeV_noRegression_noMassCut_v12_study_ciclevel_3_2.root", "Radion_m270_8TeV", ROOT.kGreen, 0, "3_2", 13.55e-3, 19999])
+#samples.append(["pouet", "", "2014-06-06_selection_noRegression_noMassCut_v12_study_ciclevel_3_3", "Radion_m270_8TeV_noRegression_noMassCut_v12_study_ciclevel_3_3.root", "Radion_m270_8TeV", ROOT.kYellow, 0, "3_3", 13.55e-3, 19999])
+#samples.append(["Radion_m300", "", "2014-07-10_selection_noRegression_noMassCut_v12_study_cic_no_cic_cut", "Radion_m300*.root", "Radion_m300_8TeV", ROOT.kRed, 0, "n-1 plot", 13.55e-3, 19999])
+#samples.append(["Radion_m300", "", "2014-07-11_selection_noRegression_noMassCut_v12_study_cic_WP_handmade_4_4", "Radion_m300*.root", "Radion_m300_8TeV", ROOT.kBlack, 0, "WP 4_4", 13.55e-3, 19999])
+
 #####plots.append([ name2, variable, cut,critere_eff, norm, Scale Factor, binning, title, additional_info, cutline, cutline2 ])
 plots = []
+
+#plots.append(["pho1_cic", "ph1_ciclevel", "((((pho1_isEB == 1) && (pho1_r9 > 0.94) && (pho1_PFisoA < 6) && (pho1_PFisoB < 10) && (pho1_PFisoC < 3.8) && (pho1_sieie < 0.0108)  && (pho1_hoe < 0.124) && (pho1_r9 > 0.94)  ) || ((pho1_isEB == 1) && (pho1_r9 < 0.94) && (pho1_PFisoA < 4.7) && (pho1_PFisoB < 6.5) && (pho1_PFisoC < 2.5) && (pho1_sieie < 0.0102)  && (pho1_hoe < 0.092) && (pho1_r9 > 0.298)) || ((pho1_isEB == 0) && (pho1_r9 > 0.94) && (pho1_PFisoA < 5.6) && (pho1_PFisoB < 5.6) && (pho1_PFisoC < 3.1) && (pho1_sieie < 0.028)  && (pho1_hoe < 0.142) && (pho1_r9 > 0.94)) || ((pho1_isEB == 0) && (pho1_r9 < 0.94) && (pho1_PFisoA < 3.6) && (pho1_PFisoB < 4.4) && (pho1_PFisoC < 2.2) && (pho1_sieie < 0.028)  && (pho1_hoe < 0.063) && (pho1_r9 > 0.24))) && (((pho2_isEB == 1) && (pho2_r9 > 0.94) && (pho2_PFisoA < 6) && (pho2_PFisoB < 10) && (pho2_PFisoC < 3.8) && (pho2_sieie < 0.0108)  && (pho2_hoe < 0.124) && (pho2_r9 > 0.94)) || ((pho2_isEB == 1) && (pho2_r9< 0.94) && (pho2_PFisoA < 4.7) && (pho2_PFisoB < 6.5) && (pho2_PFisoC < 2.5) && (pho2_sieie < 0.0102)  && (pho2_hoe < 0.092) && (pho2_r9 > 0.298)) || ((pho2_isEB == 0) && (pho2_r9 > 0.94) && (pho2_PFisoA < 5.6) && (pho2_PFisoB < 5.6) && (pho2_PFisoC< 3.1) && (pho2_sieie < 0.028)  && (pho2_hoe < 0.142) && (pho2_r9 > 0.94)) || ((pho2_isEB == 0) && (pho2_r9 < 0.94) && (pho2_PFisoA < 3.6) && (pho2_PFisoB < 4.4) && (pho2_PFisoC < 2.2) && (pho2_sieie < 0.028)  && (pho2_hoe < 0.063) && (pho2_r9 > 0.24)))  && (category >= 1))", "", "", "evweight", "(14, 0, 14)", "ciclevel^{#gamma1}", "", "", ""])
+#plots.append(["pho1_cic_without_1_isoA", "ph1_ciclevel", "((((pho1_isEB == 1) && (pho1_r9 > 0.94) && (-1 < 6) && (pho1_PFisoB < 10) && (pho1_PFisoC < 3.8) && (pho1_sieie < 0.0108)  && (pho1_hoe < 0.124) && (pho1_r9 > 0.94)  ) || ((pho1_isEB == 1) && (pho1_r9 < 0.94) && (-1 < 4.7) && (pho1_PFisoB < 6.5) && (pho1_PFisoC < 2.5) && (pho1_sieie < 0.0102)  && (pho1_hoe < 0.092) && (pho1_r9 > 0.298)) || ((pho1_isEB == 0) && (pho1_r9 > 0.94) && (-1 < 5.6) && (pho1_PFisoB < 5.6) && (pho1_PFisoC < 3.1) && (pho1_sieie < 0.028)  && (pho1_hoe < 0.142) && (pho1_r9 > 0.94)) || ((pho1_isEB == 0) && (pho1_r9 < 0.94) && (-1 < 3.6) && (pho1_PFisoB < 4.4) && (pho1_PFisoC < 2.2) && (pho1_sieie < 0.028)  && (pho1_hoe < 0.063) && (pho1_r9 > 0.24))) && (((pho2_isEB == 1) && (pho2_r9 > 0.94) && (pho2_PFisoA < 6) && (pho2_PFisoB < 10) && (pho2_PFisoC < 3.8) && (pho2_sieie < 0.0108)  && (pho2_hoe < 0.124) && (pho2_r9 > 0.94)) || ((pho2_isEB == 1) && (pho2_r9< 0.94) && (pho2_PFisoA < 4.7) && (pho2_PFisoB < 6.5) && (pho2_PFisoC < 2.5) && (pho2_sieie < 0.0102)  && (pho2_hoe < 0.092) && (pho2_r9 > 0.298)) || ((pho2_isEB == 0) && (pho2_r9 > 0.94) && (pho2_PFisoA < 5.6) && (pho2_PFisoB < 5.6) && (pho2_PFisoC< 3.1) && (pho2_sieie < 0.028)  && (pho2_hoe < 0.142) && (pho2_r9 > 0.94)) || ((pho2_isEB == 0) && (pho2_r9 < 0.94) && (pho2_PFisoA < 3.6) && (pho2_PFisoB < 4.4) && (pho2_PFisoC < 2.2) && (pho2_sieie < 0.028)  && (pho2_hoe < 0.063) && (pho2_r9 > 0.24)))  && (category >= 1))", "", "", "evweight", "(14, 0, 14)", "ciclevel^{#gamma1}", "without isoA^{#gamma 1}", "", ""])
+#plots.append(["pho1_cic_without_1_isoB", "ph1_ciclevel", "((((pho1_isEB == 1) && (pho1_r9 > 0.94) && (pho1_PFisoA < 6) && (-1 < 10) && (pho1_PFisoC < 3.8) && (pho1_sieie < 0.0108)  && (pho1_hoe < 0.124) && (pho1_r9 > 0.94)  ) || ((pho1_isEB == 1) && (pho1_r9 < 0.94) && (pho1_PFisoA < 4.7) && (-1 < 6.5) && (pho1_PFisoC < 2.5) && (pho1_sieie < 0.0102)  && (pho1_hoe < 0.092) && (pho1_r9 > 0.298)) || ((pho1_isEB == 0) && (pho1_r9 > 0.94) && (pho1_PFisoA < 5.6) && (-1 < 5.6) && (pho1_PFisoC < 3.1) && (pho1_sieie < 0.028)  && (pho1_hoe < 0.142) && (pho1_r9 > 0.94)) || ((pho1_isEB == 0) && (pho1_r9 < 0.94) && (pho1_PFisoA < 3.6) && (-1 < 4.4) && (pho1_PFisoC < 2.2) && (pho1_sieie < 0.028)  && (pho1_hoe < 0.063) && (pho1_r9 > 0.24))) && (((pho2_isEB == 1) && (pho2_r9 > 0.94) && (pho2_PFisoA < 6) && (pho2_PFisoB < 10) && (pho2_PFisoC < 3.8) && (pho2_sieie < 0.0108)  && (pho2_hoe < 0.124) && (pho2_r9 > 0.94)) || ((pho2_isEB == 1) && (pho2_r9< 0.94) && (pho2_PFisoA < 4.7) && (pho2_PFisoB < 6.5) && (pho2_PFisoC < 2.5) && (pho2_sieie < 0.0102)  && (pho2_hoe < 0.092) && (pho2_r9 > 0.298)) || ((pho2_isEB == 0) && (pho2_r9 > 0.94) && (pho2_PFisoA < 5.6) && (pho2_PFisoB < 5.6) && (pho2_PFisoC< 3.1) && (pho2_sieie < 0.028)  && (pho2_hoe < 0.142) && (pho2_r9 > 0.94)) || ((pho2_isEB == 0) && (pho2_r9 < 0.94) && (pho2_PFisoA < 3.6) && (pho2_PFisoB < 4.4) && (pho2_PFisoC < 2.2) && (pho2_sieie < 0.028)  && (pho2_hoe < 0.063) && (pho2_r9 > 0.24)))  && (category >= 1))", "", "", "evweight", "(14, 0, 14)", "ciclevel^{#gamma1}", "without isoB^{#gamma 1}", "", ""])
+#plots.append(["pho1_cic_without_1_isoC", "ph1_ciclevel", "((((pho1_isEB == 1) && (pho1_r9 > 0.94) && (pho1_PFisoA < 6) && (pho1_PFisoB < 10) && (-1 < 3.8) && (pho1_sieie < 0.0108)  && (pho1_hoe < 0.124) && (pho1_r9 > 0.94)  ) || ((pho1_isEB == 1) && (pho1_r9 < 0.94) && (pho1_PFisoA < 4.7) && (pho1_PFisoB < 6.5) && (-1 < 2.5) && (pho1_sieie < 0.0102)  && (pho1_hoe < 0.092) && (pho1_r9 > 0.298)) || ((pho1_isEB == 0) && (pho1_r9 > 0.94) && (pho1_PFisoA < 5.6) && (pho1_PFisoB < 5.6) && (-1 < 3.1) && (pho1_sieie < 0.028)  && (pho1_hoe < 0.142) && (pho1_r9 > 0.94)) || ((pho1_isEB == 0) && (pho1_r9 < 0.94) && (pho1_PFisoA < 3.6) && (pho1_PFisoB < 4.4) && (-1 < 2.2) && (pho1_sieie < 0.028)  && (pho1_hoe < 0.063) && (pho1_r9 > 0.24))) && (((pho2_isEB == 1) && (pho2_r9 > 0.94) && (pho2_PFisoA < 6) && (pho2_PFisoB < 10) && (pho2_PFisoC < 3.8) && (pho2_sieie < 0.0108)  && (pho2_hoe < 0.124) && (pho2_r9 > 0.94)) || ((pho2_isEB == 1) && (pho2_r9< 0.94) && (pho2_PFisoA < 4.7) && (pho2_PFisoB < 6.5) && (pho2_PFisoC < 2.5) && (pho2_sieie < 0.0102)  && (pho2_hoe < 0.092) && (pho2_r9 > 0.298)) || ((pho2_isEB == 0) && (pho2_r9 > 0.94) && (pho2_PFisoA < 5.6) && (pho2_PFisoB < 5.6) && (pho2_PFisoC< 3.1) && (pho2_sieie < 0.028)  && (pho2_hoe < 0.142) && (pho2_r9 > 0.94)) || ((pho2_isEB == 0) && (pho2_r9 < 0.94) && (pho2_PFisoA < 3.6) && (pho2_PFisoB < 4.4) && (pho2_PFisoC < 2.2) && (pho2_sieie < 0.028)  && (pho2_hoe < 0.063) && (pho2_r9 > 0.24)))  && (category >= 1))", "", "", "evweight", "(14, 0, 14)", "ciclevel^{#gamma1}", "without isoC^{#gamma 1}", "", ""])
+#plots.append(["pho1_cic_without_1_sieie", "ph1_ciclevel", "((((pho1_isEB == 1) && (pho1_r9 > 0.94) && (pho1_PFisoA < 6) && (pho1_PFisoB < 10) && (pho1_PFisoC < 3.8) && (-1 < 0.0108)  && (pho1_hoe < 0.124) && (pho1_r9 > 0.94)  ) || ((pho1_isEB == 1) && (pho1_r9 < 0.94) && (pho1_PFisoA < 4.7) && (pho1_PFisoB < 6.5) && (pho1_PFisoC < 2.5) && (-1 < 0.0102)  && (pho1_hoe < 0.092) && (pho1_r9 > 0.298)) || ((pho1_isEB == 0) && (pho1_r9 > 0.94) && (pho1_PFisoA < 5.6) && (pho1_PFisoB < 5.6) && (pho1_PFisoC < 3.1) && (-1 < 0.028)  && (pho1_hoe < 0.142) && (pho1_r9 > 0.94)) || ((pho1_isEB == 0) && (pho1_r9 < 0.94) && (pho1_PFisoA < 3.6) && (pho1_PFisoB < 4.4) && (pho1_PFisoC < 2.2) && (-1 < 0.028)  && (pho1_hoe < 0.063) && (pho1_r9 > 0.24))) && (((pho2_isEB == 1) && (pho2_r9 > 0.94) && (pho2_PFisoA < 6) && (pho2_PFisoB < 10) && (pho2_PFisoC < 3.8) && (pho2_sieie < 0.0108)  && (pho2_hoe < 0.124) && (pho2_r9 > 0.94)) || ((pho2_isEB == 1) && (pho2_r9< 0.94) && (pho2_PFisoA < 4.7) && (pho2_PFisoB < 6.5) && (pho2_PFisoC < 2.5) && (pho2_sieie < 0.0102)  && (pho2_hoe < 0.092) && (pho2_r9 > 0.298)) || ((pho2_isEB == 0) && (pho2_r9 > 0.94) && (pho2_PFisoA < 5.6) && (pho2_PFisoB < 5.6) && (pho2_PFisoC< 3.1) && (pho2_sieie < 0.028)  && (pho2_hoe < 0.142) && (pho2_r9 > 0.94)) || ((pho2_isEB == 0) && (pho2_r9 < 0.94) && (pho2_PFisoA < 3.6) && (pho2_PFisoB < 4.4) && (pho2_PFisoC < 2.2) && (pho2_sieie < 0.028)  && (pho2_hoe < 0.063) && (pho2_r9 > 0.24)))  && (category >= 1))", "", "", "evweight", "(14, 0, 14)", "ciclevel^{#gamma1}", "without sieie^{#gamma 1}", "", ""])
+#plots.append(["pho1_cic_without_1_hoe", "ph1_ciclevel", "((((pho1_isEB == 1) && (pho1_r9 > 0.94) && (pho1_PFisoA < 6) && (pho1_PFisoB < 10) && (pho1_PFisoC < 3.8) && (pho1_sieie < 0.0108)  && (-1 < 0.124) && (pho1_r9 > 0.94)  ) || ((pho1_isEB == 1) && (pho1_r9 < 0.94) && (pho1_PFisoA < 4.7) && (pho1_PFisoB < 6.5) && (pho1_PFisoC < 2.5) && (pho1_sieie < 0.0102)  && (-1 < 0.092) && (pho1_r9 > 0.298)) || ((pho1_isEB == 0) && (pho1_r9 > 0.94) && (pho1_PFisoA < 5.6) && (pho1_PFisoB < 5.6) && (pho1_PFisoC < 3.1) && (pho1_sieie < 0.028)  && (-1 < 0.142) && (pho1_r9 > 0.94)) || ((pho1_isEB == 0) && (pho1_r9 < 0.94) && (pho1_PFisoA < 3.6) && (pho1_PFisoB < 4.4) && (pho1_PFisoC < 2.2) && (pho1_sieie < 0.028)  && (-1 < 0.063) && (pho1_r9 > 0.24))) && (((pho2_isEB == 1) && (pho2_r9 > 0.94) && (pho2_PFisoA < 6) && (pho2_PFisoB < 10) && (pho2_PFisoC < 3.8) && (pho2_sieie < 0.0108)  && (pho2_hoe < 0.124) && (pho2_r9 > 0.94)) || ((pho2_isEB == 1) && (pho2_r9< 0.94) && (pho2_PFisoA < 4.7) && (pho2_PFisoB < 6.5) && (pho2_PFisoC < 2.5) && (pho2_sieie < 0.0102)  && (pho2_hoe < 0.092) && (pho2_r9 > 0.298)) || ((pho2_isEB == 0) && (pho2_r9 > 0.94) && (pho2_PFisoA < 5.6) && (pho2_PFisoB < 5.6) && (pho2_PFisoC< 3.1) && (pho2_sieie < 0.028)  && (pho2_hoe < 0.142) && (pho2_r9 > 0.94)) || ((pho2_isEB == 0) && (pho2_r9 < 0.94) && (pho2_PFisoA < 3.6) && (pho2_PFisoB < 4.4) && (pho2_PFisoC < 2.2) && (pho2_sieie < 0.028)  && (pho2_hoe < 0.063) && (pho2_r9 > 0.24)))  && (category >= 1))", "", "", "evweight", "(14, 0, 14)", "ciclevel^{#gamma1}", "without hoe^{#gamma 1}", "", ""])
+#plots.append(["pho1_cic_without_1_r9", "ph1_ciclevel", "((((pho1_isEB == 1) && (pho1_r9 > 0.94) && (pho1_PFisoA < 6) && (pho1_PFisoB < 10) && (pho1_PFisoC < 3.8) && (pho1_sieie < 0.0108)  && (pho1_hoe < 0.124) && (1000 > 0.94)  ) || ((pho1_isEB == 1) && (pho1_r9 < 0.94) && (pho1_PFisoA < 4.7) && (pho1_PFisoB < 6.5) && (pho1_PFisoC < 2.5) && (pho1_sieie < 0.0102)  && (pho1_hoe < 0.092) && (1000 > 0.298)) || ((pho1_isEB == 0) && (pho1_r9 > 0.94) && (pho1_PFisoA < 5.6) && (pho1_PFisoB < 5.6) && (pho1_PFisoC < 3.1) && (pho1_sieie < 0.028)  && (pho1_hoe < 0.142) && (1000 > 0.94)) || ((pho1_isEB == 0) && (pho1_r9 < 0.94) && (pho1_PFisoA < 3.6) && (pho1_PFisoB < 4.4) && (pho1_PFisoC < 2.2) && (pho1_sieie < 0.028)  && (pho1_hoe < 0.063) && (1000 > 0.24))) && (((pho2_isEB == 1) && (pho2_r9 > 0.94) && (pho2_PFisoA < 6) && (pho2_PFisoB < 10) && (pho2_PFisoC < 3.8) && (pho2_sieie < 0.0108)  && (pho2_hoe < 0.124) && (pho2_r9 > 0.94)) || ((pho2_isEB == 1) && (pho2_r9< 0.94) && (pho2_PFisoA < 4.7) && (pho2_PFisoB < 6.5) && (pho2_PFisoC < 2.5) && (pho2_sieie < 0.0102)  && (pho2_hoe < 0.092) && (pho2_r9 > 0.298)) || ((pho2_isEB == 0) && (pho2_r9 > 0.94) && (pho2_PFisoA < 5.6) && (pho2_PFisoB < 5.6) && (pho2_PFisoC< 3.1) && (pho2_sieie < 0.028)  && (pho2_hoe < 0.142) && (pho2_r9 > 0.94)) || ((pho2_isEB == 0) && (pho2_r9 < 0.94) && (pho2_PFisoA < 3.6) && (pho2_PFisoB < 4.4) && (pho2_PFisoC < 2.2) && (pho2_sieie < 0.028)  && (pho2_hoe < 0.063) && (pho2_r9 > 0.24)))  && (category >= 1))", "", "", "evweight", "(14, 0, 14)", "ciclevel^{#gamma1}", "without r9^{#gamma 1}", "", ""])
+#
+#plots.append(["pho1_cic_without_2_isoA", "ph1_ciclevel", "((((pho1_isEB == 1) && (pho1_r9 > 0.94) && (pho1_PFisoA < 6) && (pho1_PFisoB < 10) && (pho1_PFisoC < 3.8) && (pho1_sieie < 0.0108)  && (pho1_hoe < 0.124) && (pho1_r9 > 0.94)  ) || ((pho1_isEB == 1) && (pho1_r9 < 0.94) && (pho1_PFisoA < 4.7) && (pho1_PFisoB < 6.5) && (pho1_PFisoC < 2.5) && (pho1_sieie < 0.0102)  && (pho1_hoe < 0.092) && (pho1_r9 > 0.298)) || ((pho1_isEB == 0) && (pho1_r9 > 0.94) && (pho1_PFisoA < 5.6) && (pho1_PFisoB < 5.6) && (pho1_PFisoC < 3.1) && (pho1_sieie < 0.028)  && (pho1_hoe < 0.142) && (pho1_r9 > 0.94)) || ((pho1_isEB == 0) && (pho1_r9 < 0.94) && (pho1_PFisoA < 3.6) && (pho1_PFisoB < 4.4) && (pho1_PFisoC < 2.2) && (pho1_sieie < 0.028)  && (pho1_hoe < 0.063) && (pho1_r9 > 0.24))) && (((pho2_isEB == 1) && (pho2_r9 > 0.94) && (-1 < 6) && (pho2_PFisoB < 10) && (pho2_PFisoC < 3.8) && (pho2_sieie < 0.0108)  && (pho2_hoe < 0.124) && (pho2_r9 > 0.94)) || ((pho2_isEB == 1) && (pho2_r9< 0.94) && (-1 < 4.7) && (pho2_PFisoB < 6.5) && (pho2_PFisoC < 2.5) && (pho2_sieie < 0.0102)  && (pho2_hoe < 0.092) && (pho2_r9 > 0.298)) || ((pho2_isEB == 0) && (pho2_r9 > 0.94) && (-1 < 5.6) && (pho2_PFisoB < 5.6) && (pho2_PFisoC< 3.1) && (pho2_sieie < 0.028)  && (pho2_hoe < 0.142) && (pho2_r9 > 0.94)) || ((pho2_isEB == 0) && (pho2_r9 < 0.94) && (-1 < 3.6) && (pho2_PFisoB < 4.4) && (pho2_PFisoC < 2.2) && (pho2_sieie < 0.028)  && (pho2_hoe < 0.063) && (pho2_r9 > 0.24)))  && (category >= 1))", "", "", "evweight", "(14, 0, 14)", "ciclevel^{#gamma1}", "without isoA^{#gamma 2}", "", ""])
+#plots.append(["pho1_cic_without_2_isoB", "ph1_ciclevel", "((((pho1_isEB == 1) && (pho1_r9 > 0.94) && (pho1_PFisoA < 6) && (pho1_PFisoB < 10) && (pho1_PFisoC < 3.8) && (pho1_sieie < 0.0108)  && (pho1_hoe < 0.124) && (pho1_r9 > 0.94)  ) || ((pho1_isEB == 1) && (pho1_r9 < 0.94) && (pho1_PFisoA < 4.7) && (pho1_PFisoB < 6.5) && (pho1_PFisoC < 2.5) && (pho1_sieie < 0.0102)  && (pho1_hoe < 0.092) && (pho1_r9 > 0.298)) || ((pho1_isEB == 0) && (pho1_r9 > 0.94) && (pho1_PFisoA < 5.6) && (pho1_PFisoB < 5.6) && (pho1_PFisoC < 3.1) && (pho1_sieie < 0.028)  && (pho1_hoe < 0.142) && (pho1_r9 > 0.94)) || ((pho1_isEB == 0) && (pho1_r9 < 0.94) && (pho1_PFisoA < 3.6) && (pho1_PFisoB < 4.4) && (pho1_PFisoC < 2.2) && (pho1_sieie < 0.028)  && (pho1_hoe < 0.063) && (pho1_r9 > 0.24))) && (((pho2_isEB == 1) && (pho2_r9 > 0.94) && (pho2_PFisoA < 6) && (-1 < 10) && (pho2_PFisoC < 3.8) && (pho2_sieie < 0.0108)  && (pho2_hoe < 0.124) && (pho2_r9 > 0.94)) || ((pho2_isEB == 1) && (pho2_r9< 0.94) && (pho2_PFisoA < 4.7) && (-1 < 6.5) && (pho2_PFisoC < 2.5) && (pho2_sieie < 0.0102)  && (pho2_hoe < 0.092) && (pho2_r9 > 0.298)) || ((pho2_isEB == 0) && (pho2_r9 > 0.94) && (pho2_PFisoA < 5.6) && (-1 < 5.6) && (pho2_PFisoC< 3.1) && (pho2_sieie < 0.028)  && (pho2_hoe < 0.142) && (pho2_r9 > 0.94)) || ((pho2_isEB == 0) && (pho2_r9 < 0.94) && (pho2_PFisoA < 3.6) && (-1 < 4.4) && (pho2_PFisoC < 2.2) && (pho2_sieie < 0.028)  && (pho2_hoe < 0.063) && (pho2_r9 > 0.24)))  && (category >= 1))", "", "", "evweight", "(14, 0, 14)", "ciclevel^{#gamma1}", "without isoB^{#gamma 2}", "", ""])
+#plots.append(["pho1_cic_without_2_isoC", "ph1_ciclevel", "((((pho1_isEB == 1) && (pho1_r9 > 0.94) && (pho1_PFisoA < 6) && (pho1_PFisoB < 10) && (pho1_PFisoC < 3.8) && (pho1_sieie < 0.0108)  && (pho1_hoe < 0.124) && (pho1_r9 > 0.94)  ) || ((pho1_isEB == 1) && (pho1_r9 < 0.94) && (pho1_PFisoA < 4.7) && (pho1_PFisoB < 6.5) && (pho1_PFisoC < 2.5) && (pho1_sieie < 0.0102)  && (pho1_hoe < 0.092) && (pho1_r9 > 0.298)) || ((pho1_isEB == 0) && (pho1_r9 > 0.94) && (pho1_PFisoA < 5.6) && (pho1_PFisoB < 5.6) && (pho1_PFisoC < 3.1) && (pho1_sieie < 0.028)  && (pho1_hoe < 0.142) && (pho1_r9 > 0.94)) || ((pho1_isEB == 0) && (pho1_r9 < 0.94) && (pho1_PFisoA < 3.6) && (pho1_PFisoB < 4.4) && (pho1_PFisoC < 2.2) && (pho1_sieie < 0.028)  && (pho1_hoe < 0.063) && (pho1_r9 > 0.24))) && (((pho2_isEB == 1) && (pho2_r9 > 0.94) && (pho2_PFisoA < 6) && (pho2_PFisoB < 10) && (-1 < 3.8) && (pho2_sieie < 0.0108)  && (pho2_hoe < 0.124) && (pho2_r9 > 0.94)) || ((pho2_isEB == 1) && (pho2_r9< 0.94) && (pho2_PFisoA < 4.7) && (pho2_PFisoB < 6.5) && (-1 < 2.5) && (pho2_sieie < 0.0102)  && (pho2_hoe < 0.092) && (pho2_r9 > 0.298)) || ((pho2_isEB == 0) && (pho2_r9 > 0.94) && (pho2_PFisoA < 5.6) && (pho2_PFisoB < 5.6) && (-1< 3.1) && (pho2_sieie < 0.028)  && (pho2_hoe < 0.142) && (pho2_r9 > 0.94)) || ((pho2_isEB == 0) && (pho2_r9 < 0.94) && (pho2_PFisoA < 3.6) && (pho2_PFisoB < 4.4) && (-1 < 2.2) && (pho2_sieie < 0.028)  && (pho2_hoe < 0.063) && (pho2_r9 > 0.24)))  && (category >= 1))", "", "", "evweight", "(14, 0, 14)", "ciclevel^{#gamma1}", "without isoC^{#gamma 2}", "", ""])
+#plots.append(["pho1_cic_without_2_sieie", "ph1_ciclevel", "((((pho1_isEB == 1) && (pho1_r9 > 0.94) && (pho1_PFisoA < 6) && (pho1_PFisoB < 10) && (pho1_PFisoC < 3.8) && (pho1_sieie < 0.0108)  && (pho1_hoe < 0.124) && (pho1_r9 > 0.94)  ) || ((pho1_isEB == 1) && (pho1_r9 < 0.94) && (pho1_PFisoA < 4.7) && (pho1_PFisoB < 6.5) && (pho1_PFisoC < 2.5) && (pho1_sieie < 0.0102)  && (pho1_hoe < 0.092) && (pho1_r9 > 0.298)) || ((pho1_isEB == 0) && (pho1_r9 > 0.94) && (pho1_PFisoA < 5.6) && (pho1_PFisoB < 5.6) && (pho1_PFisoC < 3.1) && (pho1_sieie < 0.028)  && (pho1_hoe < 0.142) && (pho1_r9 > 0.94)) || ((pho1_isEB == 0) && (pho1_r9 < 0.94) && (pho1_PFisoA < 3.6) && (pho1_PFisoB < 4.4) && (pho1_PFisoC < 2.2) && (pho1_sieie < 0.028)  && (pho1_hoe < 0.063) && (pho1_r9 > 0.24))) && (((pho2_isEB == 1) && (pho2_r9 > 0.94) && (pho2_PFisoA < 6) && (pho2_PFisoB < 10) && (pho2_PFisoC < 3.8) && (-1 < 0.0108)  && (pho2_hoe < 0.124) && (pho2_r9 > 0.94)) || ((pho2_isEB == 1) && (pho2_r9< 0.94) && (pho2_PFisoA < 4.7) && (pho2_PFisoB < 6.5) && (pho2_PFisoC < 2.5) && (-1 < 0.0102)  && (pho2_hoe < 0.092) && (pho2_r9 > 0.298)) || ((pho2_isEB == 0) && (pho2_r9 > 0.94) && (pho2_PFisoA < 5.6) && (pho2_PFisoB < 5.6) && (pho2_PFisoC< 3.1) && (-1 < 0.028)  && (pho2_hoe < 0.142) && (pho2_r9 > 0.94)) || ((pho2_isEB == 0) && (pho2_r9 < 0.94) && (pho2_PFisoA < 3.6) && (pho2_PFisoB < 4.4) && (pho2_PFisoC < 2.2) && (-1 < 0.028)  && (pho2_hoe < 0.063) && (pho2_r9 > 0.24)))  && (category >= 1))", "", "", "evweight", "(14, 0, 14)", "ciclevel^{#gamma1}", "without sieie^{#gamma 2}", "", ""])
+#plots.append(["pho1_cic_without_2_hoe", "ph1_ciclevel", "((((pho1_isEB == 1) && (pho1_r9 > 0.94) && (pho1_PFisoA < 6) && (pho1_PFisoB < 10) && (pho1_PFisoC < 3.8) && (pho1_sieie < 0.0108)  && (pho1_hoe < 0.124) && (pho1_r9 > 0.94)  ) || ((pho1_isEB == 1) && (pho1_r9 < 0.94) && (pho1_PFisoA < 4.7) && (pho1_PFisoB < 6.5) && (pho1_PFisoC < 2.5) && (pho1_sieie < 0.0102)  && (pho1_hoe < 0.092) && (pho1_r9 > 0.298)) || ((pho1_isEB == 0) && (pho1_r9 > 0.94) && (pho1_PFisoA < 5.6) && (pho1_PFisoB < 5.6) && (pho1_PFisoC < 3.1) && (pho1_sieie < 0.028)  && (pho1_hoe < 0.142) && (pho1_r9 > 0.94)) || ((pho1_isEB == 0) && (pho1_r9 < 0.94) && (pho1_PFisoA < 3.6) && (pho1_PFisoB < 4.4) && (pho1_PFisoC < 2.2) && (pho1_sieie < 0.028)  && (pho1_hoe < 0.063) && (pho1_r9 > 0.24))) && (((pho2_isEB == 1) && (pho2_r9 > 0.94) && (pho2_PFisoA < 6) && (pho2_PFisoB < 10) && (pho2_PFisoC < 3.8) && (pho2_sieie < 0.0108)  && (-1 < 0.124) && (pho2_r9 > 0.94)) || ((pho2_isEB == 1) && (pho2_r9< 0.94) && (pho2_PFisoA < 4.7) && (pho2_PFisoB < 6.5) && (pho2_PFisoC < 2.5) && (pho2_sieie < 0.0102)  && (-1 < 0.092) && (pho2_r9 > 0.298)) || ((pho2_isEB == 0) && (pho2_r9 > 0.94) && (pho2_PFisoA < 5.6) && (pho2_PFisoB < 5.6) && (pho2_PFisoC< 3.1) && (pho2_sieie < 0.028)  && (-1 < 0.142) && (pho2_r9 > 0.94)) || ((pho2_isEB == 0) && (pho2_r9 < 0.94) && (pho2_PFisoA < 3.6) && (pho2_PFisoB < 4.4) && (pho2_PFisoC < 2.2) && (pho2_sieie < 0.028)  && (-1 < 0.063) && (pho2_r9 > 0.24)))  && (category >= 1))", "", "", "evweight", "(14, 0, 14)", "ciclevel^{#gamma1}", "without hoe^{#gamma 2}", "", ""])
+#plots.append(["pho1_cic_without_2_r9", "ph1_ciclevel", "((((pho1_isEB == 1) && (pho1_r9 > 0.94) && (pho1_PFisoA < 6) && (pho1_PFisoB < 10) && (pho1_PFisoC < 3.8) && (pho1_sieie < 0.0108)  && (pho1_hoe < 0.124) && (pho1_r9 > 0.94)  ) || ((pho1_isEB == 1) && (pho1_r9 < 0.94) && (pho1_PFisoA < 4.7) && (pho1_PFisoB < 6.5) && (pho1_PFisoC < 2.5) && (pho1_sieie < 0.0102)  && (pho1_hoe < 0.092) && (pho1_r9 > 0.298)) || ((pho1_isEB == 0) && (pho1_r9 > 0.94) && (pho1_PFisoA < 5.6) && (pho1_PFisoB < 5.6) && (pho1_PFisoC < 3.1) && (pho1_sieie < 0.028)  && (pho1_hoe < 0.142) && (pho1_r9 > 0.94)) || ((pho1_isEB == 0) && (pho1_r9 < 0.94) && (pho1_PFisoA < 3.6) && (pho1_PFisoB < 4.4) && (pho1_PFisoC < 2.2) && (pho1_sieie < 0.028)  && (pho1_hoe < 0.063) && (pho1_r9 > 0.24))) && (((pho2_isEB == 1) && (pho2_r9 > 0.94) && (pho2_PFisoA < 6) && (pho2_PFisoB < 10) && (pho2_PFisoC < 3.8) && (pho2_sieie < 0.0108)  && (pho2_hoe < 0.124) && (1000 > 0.94)) || ((pho2_isEB == 1) && (pho2_r9< 0.94) && (pho2_PFisoA < 4.7) && (pho2_PFisoB < 6.5) && (pho2_PFisoC < 2.5) && (pho2_sieie < 0.0102)  && (pho2_hoe < 0.092) && (1000 > 0.298)) || ((pho2_isEB == 0) && (pho2_r9 > 0.94) && (pho2_PFisoA < 5.6) && (pho2_PFisoB < 5.6) && (pho2_PFisoC< 3.1) && (pho2_sieie < 0.028)  && (pho2_hoe < 0.142) && (1000 > 0.94)) || ((pho2_isEB == 0) && (pho2_r9 < 0.94) && (pho2_PFisoA < 3.6) && (pho2_PFisoB < 4.4) && (pho2_PFisoC < 2.2) && (pho2_sieie < 0.028)  && (pho2_hoe < 0.063) && (1000 > 0.24)))  && (category >= 1))", "", "", "evweight", "(14, 0, 14)", "ciclevel^{#gamma1}", "without r9^{#gamma 2}", "", ""])
+#
+#plots.append(["pho1_cic_without_1_isoA", "ph1_ciclevel", "((((pho1_isEB == 1) && (pho1_r9 > 0.94) && (-1 < 6) && (pho1_PFisoB < 10) && (pho1_PFisoC < 3.8) && (pho1_sieie < 0.0108)  && (pho1_hoe < 0.124) && (pho1_r9 > 0.94)  ) || ((pho1_isEB == 1) && (pho1_r9 < 0.94) && (-1 < 4.7) && (pho1_PFisoB < 6.5) && (pho1_PFisoC < 2.5) && (pho1_sieie < 0.0102)  && (pho1_hoe < 0.092) && (pho1_r9 > 0.298)) || ((pho1_isEB == 0) && (pho1_r9 > 0.94) && (-1 < 5.6) && (pho1_PFisoB < 5.6) && (pho1_PFisoC < 3.1) && (pho1_sieie < 0.028)  && (pho1_hoe < 0.142) && (pho1_r9 > 0.94)) || ((pho1_isEB == 0) && (pho1_r9 < 0.94) && (-1 < 3.6) && (pho1_PFisoB < 4.4) && (pho1_PFisoC < 2.2) && (pho1_sieie < 0.028)  && (pho1_hoe < 0.063) && (pho1_r9 > 0.24))) && (((pho2_isEB == 1) && (pho2_r9 > 0.94) && (pho2_PFisoA < 6) && (pho2_PFisoB < 10) && (pho2_PFisoC < 3.8) && (pho2_sieie < 0.0108)  && (pho2_hoe < 0.124) && (pho2_r9 > 0.94)) || ((pho2_isEB == 1) && (pho2_r9< 0.94) && (pho2_PFisoA < 4.7) && (pho2_PFisoB < 6.5) && (pho2_PFisoC < 2.5) && (pho2_sieie < 0.0102)  && (pho2_hoe < 0.092) && (pho2_r9 > 0.298)) || ((pho2_isEB == 0) && (pho2_r9 > 0.94) && (pho2_PFisoA < 5.6) && (pho2_PFisoB < 5.6) && (pho2_PFisoC< 3.1) && (pho2_sieie < 0.028)  && (pho2_hoe < 0.142) && (pho2_r9 > 0.94)) || ((pho2_isEB == 0) && (pho2_r9 < 0.94) && (pho2_PFisoA < 3.6) && (pho2_PFisoB < 4.4) && (pho2_PFisoC < 2.2) && (pho2_sieie < 0.028)  && (pho2_hoe < 0.063) && (pho2_r9 > 0.24)))  && (category >= 1))", "", "", "evweight", "(14, 0, 14)", "ciclevel^{#gamma1}", "without isoA^{#gamma 1}", "", ""])
+#
+#plots.append(["pho1_cic_without_2_isoA_B", "ph1_ciclevel", "((((pho1_isEB == 1) && (pho1_r9 > 0.94) && (pho1_PFisoA < 6) && (pho1_PFisoB < 10) && (pho1_PFisoC < 3.8) && (pho1_sieie < 0.0108)  && (pho1_hoe < 0.124) && (pho1_r9 > 0.94)  ) || ((pho1_isEB == 1) && (pho1_r9 < 0.94) && (pho1_PFisoA < 4.7) && (pho1_PFisoB < 6.5) && (pho1_PFisoC < 2.5) && (pho1_sieie < 0.0102)  && (pho1_hoe < 0.092) && (pho1_r9 > 0.298)) || ((pho1_isEB == 0) && (pho1_r9 > 0.94) && (pho1_PFisoA < 5.6) && (pho1_PFisoB < 5.6) && (pho1_PFisoC < 3.1) && (pho1_sieie < 0.028)  && (pho1_hoe < 0.142) && (pho1_r9 > 0.94)) || ((pho1_isEB == 0) && (pho1_r9 < 0.94) && (pho1_PFisoA < 3.6) && (pho1_PFisoB < 4.4) && (pho1_PFisoC < 2.2) && (pho1_sieie < 0.028)  && (pho1_hoe < 0.063) && (pho1_r9 > 0.24))) && (((pho2_isEB == 1) && (pho2_r9 > 0.94) && (-1 < 6) && (-1 < 10) && (pho2_PFisoC < 3.8) && (pho2_sieie < 0.0108)  && (pho2_hoe < 0.124) && (pho2_r9 > 0.94)) || ((pho2_isEB == 1) && (pho2_r9< 0.94) && (-1 < 4.7) && (-1 < 6.5) && (pho2_PFisoC < 2.5) && (pho2_sieie < 0.0102)  && (pho2_hoe < 0.092) && (pho2_r9 > 0.298)) || ((pho2_isEB == 0) && (pho2_r9 > 0.94) && (-1 < 5.6) && (-1 < 5.6) && (pho2_PFisoC< 3.1) && (pho2_sieie < 0.028)  && (pho2_hoe < 0.142) && (pho2_r9 > 0.94)) || ((pho2_isEB == 0) && (pho2_r9 < 0.94) && (-1 < 3.6) && (-1 < 4.4) && (pho2_PFisoC < 2.2) && (pho2_sieie < 0.028)  && (pho2_hoe < 0.063) && (pho2_r9 > 0.24)))  && (category >= 1))", "", "", "evweight", "(14, 0, 14)", "ciclevel^{#gamma1}", "without isoA^{#gamma 2}, isoB^{#gamma 2}", "", ""])
+#
+#plots.append(["pho1_cic_without_1_2_isoA_B", "ph1_ciclevel", "((((pho1_isEB == 1) && (pho1_r9 > 0.94) && (-1 < 6) && (-1 < 10) && (pho1_PFisoC < 3.8) && (pho1_sieie < 0.0108)  && (pho1_hoe < 0.124) && (pho1_r9 > 0.94)  ) || ((pho1_isEB == 1) && (pho1_r9 < 0.94) && (-1 < 4.7) && (-1 < 6.5) && (pho1_PFisoC < 2.5) && (pho1_sieie < 0.0102)  && (pho1_hoe < 0.092) && (pho1_r9 > 0.298)) || ((pho1_isEB == 0) && (pho1_r9 > 0.94) && (-1 < 5.6) && (-1 < 5.6) && (pho1_PFisoC < 3.1) && (pho1_sieie < 0.028)  && (pho1_hoe < 0.142) && (pho1_r9 > 0.94)) || ((pho1_isEB == 0) && (pho1_r9 < 0.94) && (-1 < 3.6) && (-1 < 4.4) && (pho1_PFisoC < 2.2) && (pho1_sieie < 0.028)  && (pho1_hoe < 0.063) && (pho1_r9 > 0.24))) && (((pho2_isEB == 1) && (pho2_r9 > 0.94) && (-1 < 6) && (-1 < 10) && (pho2_PFisoC < 3.8) && (pho2_sieie < 0.0108)  && (pho2_hoe < 0.124) && (pho2_r9 > 0.94)) || ((pho2_isEB == 1) && (pho2_r9< 0.94) && (-1 < 4.7) && (-1 < 6.5) && (pho2_PFisoC < 2.5) && (pho2_sieie < 0.0102)  && (pho2_hoe < 0.092) && (pho2_r9 > 0.298)) || ((pho2_isEB == 0) && (pho2_r9 > 0.94) && (-1 < 5.6) && (-1 < 5.6) && (pho2_PFisoC< 3.1) && (pho2_sieie < 0.028)  && (pho2_hoe < 0.142) && (pho2_r9 > 0.94)) || ((pho2_isEB == 0) && (pho2_r9 < 0.94) && (-1 < 3.6) && (-1 < 4.4) && (pho2_PFisoC < 2.2) && (pho2_sieie < 0.028)  && (pho2_hoe < 0.063) && (pho2_r9 > 0.24)))  && (category >= 1))", "", "", "evweight", "(14, 0, 14)", "ciclevel^{#gamma1}", "without isoA^{#gamma 1}, isoB^{#gamma 1}, isoA^{#gamma 2}, isoB^{#gamma 2}", "", ""])
+#
+#
 #plots.append(["pho1_pt", "pho1_pt", "", "ph1_ciclevel >= 4", 2., "evweight", "(50, 40, 120)", "p_{T}^{#gamma1} (GeV)", "", 33.3, ""])
-#plots.append(["pho2_pt", "pho2_pt", "", "ph2_ciclevel >= 4", 2., "evweight", "(25, 20, 120)", "p_{T}^{#gamma2} (GeV)", "", 25., ""])
+#plots.append(["pho2_pt", "pho2_pt", "", "(ph2_ciclevel >= 4)*(ph1_ciclevel >= 4)", 2., "evweight", "(25, 20, 120)", "p_{T}^{#gamma2} (GeV)", "", 25., ""])
 #plots.append(["jet1_pt", "jet1_pt", "", "", 1., "", "(100, 0, 500)", "p_{T}^{jet1} (GeV)", "", 25., ""])
 #plots.append(["jet2_pt", "jet2_pt", "", "", 1., "", "(100, 0, 500)", "p_{T}^{jet1} (GeV)", "", 25., ""])
 #plots.append(["pho1_eta", "pho1_eta", "", "", 1., "", "(100, -5, 5)", "eta^{#gamma1}", "", 2.5, -2.5])
@@ -95,70 +125,69 @@ plots = []
 
 #plots.append(["pho2_PFisoA_cut_CIC_1", "pho1_PFisoA", "","ph2_ciclevel >= 1", 2., "", "(20,0, 20)", "PFisoA^{#gamma1}", "", "", ""])
 #plots.append(["pho2_PFisoB_cut_CIC_1", "pho1_PFisoB", "","ph2_ciclevel >= 1", 2., "", "(20,-4, 16)", "PFisoB^{#gamma1}", "", "", ""])
+#
+#plots.append(["pho1_PFisoA_barrel_lowr9", "pho1_PFisoA", "(pho1_isEB == 1) * (pho1_r9 < 0.94) ","", 2., "", "(60,0, 6)", "PFisoA^{#gamma1}", "barrel_lowr9", 4.7, ""])
+#plots.append(["pho1_PFisoA_barrel_highr9", "pho1_PFisoA", "(pho1_isEB == 1) * (pho1_r9 > 0.94) ","", 2., "", "(80,0, 8)", "PFisoA^{#gamma1}", "barrel_highr9", 6, ""])
+#plots.append(["pho1_PFisoA_endcap_lowr9", "pho1_PFisoA", "(pho1_isEB == 0) * (pho1_r9 < 0.94) ","", 2., "", "(50,0, 5)", "PFisoA^{#gamma1}", "endcap_lowr9", 3.6, ""])
+#plots.append(["pho1_PFisoA_endcap_highr9", "pho1_PFisoA", "(pho1_isEB == 0) * (pho1_r9 > 0.94) ","", 2., "", "(70,0, 7)", "PFisoA^{#gamma1}", "endcap_highr9", 5.6, ""])
+#
+#plots.append(["pho1_PFisoB_barrel_lowr9", "pho1_PFisoB", "(pho1_isEB == 1) * (pho1_r9 < 0.94) ","", 2., "", "(120,-4, 8)", "PFisoB^{#gamma1}", "barrel_lowr9", 6.5, ""])
+#plots.append(["pho1_PFisoB_barrel_highr9", "pho1_PFisoB", "(pho1_isEB == 1) * (pho1_r9 > 0.94) ","", 2., "", "(160,-4, 12)", "PFisoB^{#gamma1}", "barrel_highr9", 10, ""])
+#plots.append(["pho1_PFisoB_endcap_lowr9", "pho1_PFisoB", "(pho1_isEB == 0) * (pho1_r9 < 0.94) ","", 2., "", "(100,-4, 6)", "PFisoB^{#gamma1}", "endcap_lowr9", 4.4, ""])
+#plots.append(["pho1_PFisoB_endcap_highr9", "pho1_PFisoB", "(pho1_isEB == 0) * (pho1_r9 > 0.94) ","", 2., "", "(110,-4, 7)", "PFisoB^{#gamma1}", "endcap_highr9", 5.6, ""])
+#
+#plots.append(["pho1_PFisoC_barrel_lowr9", "pho1_PFisoC", "(pho1_isEB == 1) * (pho1_r9 < 0.94) ","", 2., "", "(50,-1, 4)", "PFisoC^{#gamma1}", "barrel_lowr9", 2.5, ""])
+#plots.append(["pho1_PFisoC_barrel_highr9", "pho1_PFisoC", "(pho1_isEB == 1) * (pho1_r9 > 0.94) ","", 2., "", "(60,-1, 5)", "PFisoC^{#gamma1}", "barrel_highr9", 3.8, ""])
+#plots.append(["pho1_PFisoC_endcap_lowr9", "pho1_PFisoC", "(pho1_isEB == 0) * (pho1_r9 < 0.94) ","", 2., "", "(40,-1, 3)", "PFisoC^{#gamma1}", "endcap_lowr9", 2.2, ""])
+#plots.append(["pho1_PFisoC_endcap_highr9", "pho1_PFisoC", "(pho1_isEB == 0) * (pho1_r9 > 0.94) ","", 2., "", "(50,-1, 4)", "PFisoC^{#gamma1}", "endcap_highr9", 3.1, ""])
+#
+#plots.append(["pho1_sieie_barrel_lowr9", "pho1_sieie", "(pho1_isEB == 1) * (pho1_r9 < 0.94) ","", 2., "", "(120,0, 0.0120)", "sieie^{#gamma1}", "barrel_lowr9", 0.0102, ""])
+#plots.append(["pho1_sieie_barrel_highr9", "pho1_sieie", "(pho1_isEB == 1) * (pho1_r9 > 0.94) ","", 2., "", "(120,0, 0.0120)", "sieie^{#gamma1}", "barrel_highr9", 0.0108, ""])
+#plots.append(["pho1_sieie_endcap_lowr9", "pho1_sieie", "(pho1_isEB == 0) * (pho1_r9 < 0.94) ","", 2., "", "(100,0.02, 0.03)", "sieie^{#gamma1}", "endcap_lowr9", 0.028, ""])
+#plots.append(["pho1_sieie_endcap_highr9", "pho1_sieie", "(pho1_isEB == 0) * (pho1_r9 > 0.94) ","", 2., "", "(100,0.02, 0.03)", "sieie^{#gamma1}", "endcap_highr9", 0.028, ""])
+#
+#plots.append(["pho1_hoe_barrel_lowr9", "pho1_hoe", "(pho1_isEB == 1) * (pho1_r9 < 0.94) ","", 2., "", "(100,0, 0.1)", "hoe^{#gamma1}", "barrel_lowr9", 0.092, ""])
+#plots.append(["pho1_hoe_barrel_highr9", "pho1_hoe", "(pho1_isEB == 1) * (pho1_r9 > 0.94) ","", 2., "", "(100, 0.04, 0.14)", "hoe^{#gamma1}", "barrel_highr9", 0.124, ""])
+#plots.append(["pho1_hoe_endcap_lowr9", "pho1_hoe", "(pho1_isEB == 0) * (pho1_r9 < 0.94) ","", 2., "", "(80,0, 0.08)", "hoe^{#gamma1}", "endcap_lowr9", 0.063, ""])
+#plots.append(["pho1_hoe_endcap_highr9", "pho1_hoe", "(pho1_isEB == 0) * (pho1_r9 > 0.94) ","", 2., "", "(150, 0, 0.150)", "hoe^{#gamma1}", "endcap_highr9", 0.142, ""])
+#
+#plots.append(["pho1_r9_barrel_lowr9", "pho1_r9", "(pho1_isEB == 1) * (pho1_r9 < 0.94) ","", 2., "", "(90,0.1, 1)", "r9^{#gamma1}", "barrel_lowr9", 0.298, ""])
+#plots.append(["pho1_r9_barrel_highr9", "pho1_r9", "(pho1_isEB == 1) * (pho1_r9 > 0.94) ","", 2., "", "(100,0.8, 1)", "r9^{#gamma1}", "barrel_highr9", 0.94, ""])
+#plots.append(["pho1_r9_endcap_lowr9", "pho1_r9", "(pho1_isEB == 0) * (pho1_r9 < 0.94) ","", 2., "", "(90,0.1, 1)", "r9^{#gamma1}", "endcap_lowr9", 0.24, ""])
+#plots.append(["pho1_r9_endcap_highr9", "pho1_r9", "(pho1_isEB == 0) * (pho1_r9 > 0.94) ","", 2., "", "(100, 0.8, 1)", "r9^{#gamma1}", "endcap_highr9", 0.28, ""])
+#
+#
+#plots.append(["pho2_PFisoA_barrel_lowr9", "pho2_PFisoA", "(pho2_isEB == 1) * (pho2_r9 < 0.94) ","(ph1_ciclevel >= 4) * (ph2_ciclevel >= 4)", 2., "", "(80,0, 40)", "PFisoA^{#gamma1}", "barrel_lowr9", 4.7, ""])
+plots.append(["pho2_PFisoA_barrel_highr9", "pho2_PFisoA", "(pho2_isEB == 1) * (pho2_r9 > 0.94)","", 2., "", "(15,0, 15)", "PFisoA^{#gamma2}", "barrel_highr9", 6, ""])
+#plots.append(["pho2_PFisoA_endcap_lowr9", "pho2_PFisoA", "(pho2_isEB == 0) * (pho2_r9 < 0.94) ","(ph1_ciclevel >= 4) * (ph2_ciclevel >= 4)", 2., "", "(80,0, 40)", "PFisoA^{#gamma2}", "endcap_lowr9", 3.6, ""])
+#plots.append(["pho2_PFisoA_endcap_highr9", "pho2_PFisoA", "(pho2_isEB == 0) * (pho2_r9 > 0.94) ","(ph1_ciclevel >= 4) * (ph2_ciclevel >= 4)", 2., "", "(80,0, 40)", "PFisoA^{#gamma2}", "endcap_highr9", 5.6, ""])
 
-plots.append(["pho1_PFisoA_barrel_lowr9", "pho1_PFisoA", "(pho1_isEB == 1) * (pho1_r9 < 0.94) ","", 2., "", "(60,0, 6)", "PFisoA^{#gamma1}", "barrel_lowr9", 4.7, ""])
-plots.append(["pho1_PFisoA_barrel_highr9", "pho1_PFisoA", "(pho1_isEB == 1) * (pho1_r9 > 0.94) ","", 2., "", "(80,0, 8)", "PFisoA^{#gamma1}", "barrel_highr9", 6, ""])
-plots.append(["pho1_PFisoA_endcap_lowr9", "pho1_PFisoA", "(pho1_isEB == 0) * (pho1_r9 < 0.94) ","", 2., "", "(50,0, 5)", "PFisoA^{#gamma1}", "endcap_lowr9", 3.6, ""])
-plots.append(["pho1_PFisoA_endcap_highr9", "pho1_PFisoA", "(pho1_isEB == 0) * (pho1_r9 > 0.94) ","", 2., "", "(70,0, 7)", "PFisoA^{#gamma1}", "endcap_highr9", 5.6, ""])
+#plots.append(["pho2_PFisoB_barrel_lowr9", "pho2_PFisoB", "(pho2_isEB == 1) * (pho2_r9 < 0.94) ","(ph1_ciclevel >= 4) * (ph2_ciclevel >= 4)", 2., "", "(80,0, 40)", "PFisoB^{#gamma2}", "barrel_lowr9", 6.5, ""])
+plots.append(["pho2_PFisoB_barrel_highr9", "pho2_PFisoB", "(pho2_isEB == 1) * (pho2_r9 > 0.94)","", 2., "", "(20,0, 20)", "PFisoB^{#gamma2}", "barrel_highr9", 10, ""])
+#plots.append(["pho2_PFisoB_endcap_lowr9", "pho2_PFisoB", "(pho2_isEB == 0) * (pho2_r9 < 0.94) ","(ph1_ciclevel >= 4) * (ph2_ciclevel >= 4)", 2., "", "(80,0, 40)", "PFisoB^{#gamma2}", "endcap_lowr9", 4.4, ""])
+#plots.append(["pho2_PFisoB_endcap_highr9", "pho2_PFisoB", "(pho2_isEB == 0) * (pho2_r9 > 0.94) ","(ph1_ciclevel >= 4) * (ph2_ciclevel >= 4)", 2., "", "(80,0, 40)", "PFisoB^{#gamma2}", "endcap_highr9", 5.6, ""])
 
-plots.append(["pho1_PFisoB_barrel_lowr9", "pho1_PFisoB", "(pho1_isEB == 1) * (pho1_r9 < 0.94) ","", 2., "", "(120,-4, 8)", "PFisoB^{#gamma1}", "barrel_lowr9", 6.5, ""])
-plots.append(["pho1_PFisoB_barrel_highr9", "pho1_PFisoB", "(pho1_isEB == 1) * (pho1_r9 > 0.94) ","", 2., "", "(160,-4, 12)", "PFisoB^{#gamma1}", "barrel_highr9", 10, ""])
-plots.append(["pho1_PFisoB_endcap_lowr9", "pho1_PFisoB", "(pho1_isEB == 0) * (pho1_r9 < 0.94) ","", 2., "", "(100,-4, 6)", "PFisoB^{#gamma1}", "endcap_lowr9", 4.4, ""])
-plots.append(["pho1_PFisoB_endcap_highr9", "pho1_PFisoB", "(pho1_isEB == 0) * (pho1_r9 > 0.94) ","", 2., "", "(110,-4, 7)", "PFisoB^{#gamma1}", "endcap_highr9", 5.6, ""])
-
-plots.append(["pho1_PFisoC_barrel_lowr9", "pho1_PFisoC", "(pho1_isEB == 1) * (pho1_r9 < 0.94) ","", 2., "", "(50,-1, 4)", "PFisoC^{#gamma1}", "barrel_lowr9", 2.5, ""])
-plots.append(["pho1_PFisoC_barrel_highr9", "pho1_PFisoC", "(pho1_isEB == 1) * (pho1_r9 > 0.94) ","", 2., "", "(60,-1, 5)", "PFisoC^{#gamma1}", "barrel_highr9", 3.8, ""])
-plots.append(["pho1_PFisoC_endcap_lowr9", "pho1_PFisoC", "(pho1_isEB == 0) * (pho1_r9 < 0.94) ","", 2., "", "(40,-1, 3)", "PFisoC^{#gamma1}", "endcap_lowr9", 2.2, ""])
-plots.append(["pho1_PFisoC_endcap_highr9", "pho1_PFisoC", "(pho1_isEB == 0) * (pho1_r9 > 0.94) ","", 2., "", "(50,-1, 4)", "PFisoC^{#gamma1}", "endcap_highr9", 3.1, ""])
-
-plots.append(["pho1_sieie_barrel_lowr9", "pho1_sieie", "(pho1_isEB == 1) * (pho1_r9 < 0.94) ","", 2., "", "(120,0, 0.0120)", "sieie^{#gamma1}", "barrel_lowr9", 0.0102, ""])
-plots.append(["pho1_sieie_barrel_highr9", "pho1_sieie", "(pho1_isEB == 1) * (pho1_r9 > 0.94) ","", 2., "", "(120,0, 0.0120)", "sieie^{#gamma1}", "barrel_highr9", 0.0108, ""])
-plots.append(["pho1_sieie_endcap_lowr9", "pho1_sieie", "(pho1_isEB == 0) * (pho1_r9 < 0.94) ","", 2., "", "(100,0.02, 0.03)", "sieie^{#gamma1}", "endcap_lowr9", 0.028, ""])
-plots.append(["pho1_sieie_endcap_highr9", "pho1_sieie", "(pho1_isEB == 0) * (pho1_r9 > 0.94) ","", 2., "", "(100,0.02, 0.03)", "sieie^{#gamma1}", "endcap_highr9", 0.028, ""])
-
-plots.append(["pho1_hoe_barrel_lowr9", "pho1_hoe", "(pho1_isEB == 1) * (pho1_r9 < 0.94) ","", 2., "", "(100,0, 0.1)", "hoe^{#gamma1}", "barrel_lowr9", 0.092, ""])
-plots.append(["pho1_hoe_barrel_highr9", "pho1_hoe", "(pho1_isEB == 1) * (pho1_r9 > 0.94) ","", 2., "", "(100, 0.04, 0.14)", "hoe^{#gamma1}", "barrel_highr9", 0.124, ""])
-plots.append(["pho1_hoe_endcap_lowr9", "pho1_hoe", "(pho1_isEB == 0) * (pho1_r9 < 0.94) ","", 2., "", "(80,0, 0.08)", "hoe^{#gamma1}", "endcap_lowr9", 0.063, ""])
-plots.append(["pho1_hoe_endcap_highr9", "pho1_hoe", "(pho1_isEB == 0) * (pho1_r9 > 0.94) ","", 2., "", "(150, 0, 0.150)", "hoe^{#gamma1}", "endcap_highr9", 0.142, ""])
-
-plots.append(["pho1_r9_barrel_lowr9", "pho1_r9", "(pho1_isEB == 1) * (pho1_r9 < 0.94) ","", 2., "", "(90,0.1, 1)", "r9^{#gamma1}", "barrel_lowr9", 0.298, ""])
-plots.append(["pho1_r9_barrel_highr9", "pho1_r9", "(pho1_isEB == 1) * (pho1_r9 > 0.94) ","", 2., "", "(100,0.8, 1)", "r9^{#gamma1}", "barrel_highr9", 0.94, ""])
-plots.append(["pho1_r9_endcap_lowr9", "pho1_r9", "(pho1_isEB == 0) * (pho1_r9 < 0.94) ","", 2., "", "(90,0.1, 1)", "r9^{#gamma1}", "endcap_lowr9", 0.24, ""])
-plots.append(["pho1_r9_endcap_highr9", "pho1_r9", "(pho1_isEB == 0) * (pho1_r9 > 0.94) ","", 2., "", "(100, 0.8, 1)", "r9^{#gamma1}", "endcap_highr9", 0.28, ""])
-
-
-plots.append(["pho2_PFisoA_barrel_lowr9", "pho2_PFisoA", "(pho2_isEB == 1) * (pho2_r9 < 0.94) ","", 2., "", "(60,0, 6)", "PFisoA^{#gamma1}", "barrel_lowr9", 4.7, ""])
-plots.append(["pho2_PFisoA_barrel_highr9", "pho2_PFisoA", "(pho2_isEB == 1) * (pho2_r9 > 0.94) ","", 2., "", "(80,0, 8)", "PFisoA^{#gamma2}", "barrel_highr9", 6, ""])
-plots.append(["pho2_PFisoA_endcap_lowr9", "pho2_PFisoA", "(pho2_isEB == 0) * (pho2_r9 < 0.94) ","", 2., "", "(50,0, 5)", "PFisoA^{#gamma2}", "endcap_lowr9", 3.6, ""])
-plots.append(["pho2_PFisoA_endcap_highr9", "pho2_PFisoA", "(pho2_isEB == 0) * (pho2_r9 > 0.94) ","", 2., "", "(70,0, 7)", "PFisoA^{#gamma2}", "endcap_highr9", 5.6, ""])
-
-plots.append(["pho2_PFisoB_barrel_lowr9", "pho2_PFisoB", "(pho2_isEB == 1) * (pho2_r9 < 0.94) ","", 2., "", "(120,-4, 8)", "PFisoB^{#gamma2}", "barrel_lowr9", 6.5, ""])
-plots.append(["pho2_PFisoB_barrel_highr9", "pho2_PFisoB", "(pho2_isEB == 1) * (pho2_r9 > 0.94) ","", 2., "", "(160,-4, 12)", "PFisoB^{#gamma2}", "barrel_highr9", 10, ""])
-plots.append(["pho2_PFisoB_endcap_lowr9", "pho2_PFisoB", "(pho2_isEB == 0) * (pho2_r9 < 0.94) ","", 2., "", "(100,-4, 6)", "PFisoB^{#gamma2}", "endcap_lowr9", 4.4, ""])
-plots.append(["pho2_PFisoB_endcap_highr9", "pho2_PFisoB", "(pho2_isEB == 0) * (pho2_r9 > 0.94) ","", 2., "", "(110,-4, 7)", "PFisoB^{#gamma2}", "endcap_highr9", 5.6, ""])
-
-plots.append(["pho2_PFisoC_barrel_lowr9", "pho2_PFisoC", "(pho2_isEB == 1) * (pho2_r9 < 0.94) ","", 2., "", "(50,-1, 4)", "PFisoC^{#gamma2}", "barrel_lowr9", 2.5, ""])
-plots.append(["pho2_PFisoC_barrel_highr9", "pho2_PFisoC", "(pho2_isEB == 1) * (pho2_r9 > 0.94) ","", 2., "", "(60,-1, 5)", "PFisoC^{#gamma2}", "barrel_highr9", 3.8, ""])
-plots.append(["pho2_PFisoC_endcap_lowr9", "pho2_PFisoC", "(pho2_isEB == 0) * (pho2_r9 < 0.94) ","", 2., "", "(40,-1, 3)", "PFisoC^{#gamma2}", "endcap_lowr9", 2.2, ""])
-plots.append(["pho2_PFisoC_endcap_highr9", "pho2_PFisoC", "(pho2_isEB == 0) * (pho2_r9 > 0.94) ","", 2., "", "(50,-1, 4)", "PFisoC^{#gamma2}", "endcap_highr9", 3.1, ""])
-
-plots.append(["pho2_sieie_barrel_lowr9", "pho2_sieie", "(pho2_isEB == 1) * (pho2_r9 < 0.94) ","", 2., "", "(120,0, 0.0120)", "sieie^{#gamma2}", "barrel_lowr9", 0.0102, ""])
-plots.append(["pho2_sieie_barrel_highr9", "pho2_sieie", "(pho2_isEB == 1) * (pho2_r9 > 0.94) ","", 2., "", "(120,0, 0.0120)", "sieie^{#gamma2}", "barrel_highr9", 0.0108, ""])
-plots.append(["pho2_sieie_endcap_lowr9", "pho2_sieie", "(pho2_isEB == 0) * (pho2_r9 < 0.94) ","", 2., "", "(100,0.02, 0.03)", "sieie^{#gamma2}", "endcap_lowr9", 0.028, ""])
-plots.append(["pho2_sieie_endcap_highr9", "pho2_sieie", "(pho2_isEB == 0) * (pho2_r9 > 0.94) ","", 2., "", "(100,0.02, 0.03)", "sieie^{#gamma2}", "endcap_highr9", 0.028, ""])
-
-plots.append(["pho2_hoe_barrel_lowr9", "pho2_hoe", "(pho2_isEB == 1) * (pho2_r9 < 0.94) ","", 2., "", "(100,0, 0.1)", "hoe^{#gamma2}", "barrel_lowr9", 0.092, ""])
-plots.append(["pho2_hoe_barrel_highr9", "pho2_hoe", "(pho2_isEB == 1) * (pho2_r9 > 0.94) ","", 2., "", "(100, 0.04, 0.14)", "hoe^{#gamma2}", "barrel_highr9", 0.124, ""])
-plots.append(["pho2_hoe_endcap_lowr9", "pho2_hoe", "(pho2_isEB == 0) * (pho2_r9 < 0.94) ","", 2., "", "(80,0, 0.08)", "hoe^{#gamma2}", "endcap_lowr9", 0.063, ""])
-plots.append(["pho2_hoe_endcap_highr9", "pho2_hoe", "(pho2_isEB == 0) * (pho2_r9 > 0.94) ","", 2., "", "(100, 0.05, 0.150)", "hoe^{#gamma2}", "endcap_highr9", 0.142, ""])
-
-plots.append(["pho2_r9_barrel_lowr9", "pho2_r9", "(pho2_isEB == 1) * (pho2_r9 < 0.94) ","", 2., "", "(90,0.1, 1)", "r9^{#gamma2}", "barrel_lowr9", 0.298, ""])
-plots.append(["pho2_r9_barrel_highr9", "pho2_r9", "(pho2_isEB == 1) * (pho2_r9 > 0.94) ","", 2., "", "(100,0.8, 1)", "r9^{#gamma2}", "barrel_highr9", 0.94, ""])
-plots.append(["pho2_r9_endcap_lowr9", "pho2_r9", "(pho2_isEB == 0) * (pho2_r9 < 0.94) ","", 2., "", "(90,0.1, 1)", "r9^{#gamma2}", "endcap_lowr9", 0.24, ""])
-plots.append(["pho2_r9_endcap_highr9", "pho2_r9", "(pho2_isEB == 0) * (pho2_r9 > 0.94) ","", 2., "", "(100, 0.8, 1)", "r9^{#gamma2}", "endcap_highr9", 0.28, ""])
-
-
-#plots.append(["toto", "pho2_PFisoB : pho2_PFisoB", "(fabs(pho2_eta) > 1.5) * (pho2_r9 > 0.94) ","ph2_ciclevel >= 4", 2., "", "(20,-4, 16, 20,-4, 16)", "PFisoA^{#gamma2}", "endcap_highr9", 5.6, ""])
+#plots.append(["pho2_PFisoC_barrel_lowr9", "pho2_PFisoC", "(pho2_isEB == 1) * (pho2_r9 < 0.94) ","", 2., "", "(50,-1, 4)", "PFisoC^{#gamma2}", "barrel_lowr9", 2.5, ""])
+#plots.append(["pho2_PFisoC_barrel_highr9", "pho2_PFisoC", "(pho2_isEB == 1) * (pho2_r9 > 0.94) ","(ph1_ciclevel >= 4) * (ph2_ciclevel >= 4)", 2., "", "(30,-1, 5)", "PFisoC^{#gamma2}", "barrel_highr9", 3.8, ""])
+#plots.append(["pho2_PFisoC_endcap_lowr9", "pho2_PFisoC", "(pho2_isEB == 0) * (pho2_r9 < 0.94) ","", 2., "", "(40,-1, 3)", "PFisoC^{#gamma2}", "endcap_lowr9", 2.2, ""])
+#plots.append(["pho2_PFisoC_endcap_highr9", "pho2_PFisoC", "(pho2_isEB == 0) * (pho2_r9 > 0.94) ","", 2., "", "(50,-1, 4)", "PFisoC^{#gamma2}", "endcap_highr9", 3.1, ""])
+#
+#plots.append(["pho2_sieie_barrel_lowr9", "pho2_sieie", "(pho2_isEB == 1) * (pho2_r9 < 0.94) ","", 2., "", "(120,0, 0.0120)", "sieie^{#gamma2}", "barrel_lowr9", 0.0102, ""])
+#plots.append(["pho2_sieie_barrel_highr9", "pho2_sieie", "(pho2_isEB == 1) * (pho2_r9 > 0.94) ","(ph1_ciclevel >= 4) * (ph2_ciclevel >= 4)", 2., "", "(25,0.007, 0.0120)", "sieie^{#gamma2}", "barrel_highr9", 0.0108, ""])
+#plots.append(["pho2_sieie_endcap_lowr9", "pho2_sieie", "(pho2_isEB == 0) * (pho2_r9 < 0.94) ","", 2., "", "(100,0.02, 0.03)", "sieie^{#gamma2}", "endcap_lowr9", 0.028, ""])
+#plots.append(["pho2_sieie_endcap_highr9", "pho2_sieie", "(pho2_isEB == 0) * (pho2_r9 > 0.94) ","", 2., "", "(100,0.02, 0.03)", "sieie^{#gamma2}", "endcap_highr9", 0.028, ""])
+#
+#plots.append(["pho2_hoe_barrel_lowr9", "pho2_hoe", "(pho2_isEB == 1) * (pho2_r9 < 0.94) ","", 2., "", "(100,0, 0.1)", "hoe^{#gamma2}", "barrel_lowr9", 0.092, ""])
+#plots.append(["pho2_hoe_barrel_highr9", "pho2_hoe", "(pho2_isEB == 1) * (pho2_r9 > 0.94) ","(ph1_ciclevel >= 4) * (ph2_ciclevel >= 4)", 2., "", "(28, 0, 0.14)", "hoe^{#gamma2}", "barrel_highr9", 0.124, ""])
+#plots.append(["pho2_hoe_endcap_lowr9", "pho2_hoe", "(pho2_isEB == 0) * (pho2_r9 < 0.94) ","", 2., "", "(80,0, 0.08)", "hoe^{#gamma2}", "endcap_lowr9", 0.063, ""])
+#plots.append(["pho2_hoe_endcap_highr9", "pho2_hoe", "(pho2_isEB == 0) * (pho2_r9 > 0.94) ","", 2., "", "(100, 0.05, 0.150)", "hoe^{#gamma2}", "endcap_highr9", 0.142, ""])
+#
+#plots.append(["pho2_r9_barrel_lowr9", "pho2_r9", "(pho2_isEB == 1) * (pho2_r9 < 0.94) ","", 2., "", "(90,0.1, 1)", "r9^{#gamma2}", "barrel_lowr9", 0.298, ""])
+#plots.append(["pho2_r9_barrel_highr9", "pho2_r9", "(pho2_isEB == 1) * (pho2_r9 > 0.94) ","", 2., "", "(100,0.8, 1)", "r9^{#gamma2}", "barrel_highr9", 0.94, ""])
+#plots.append(["pho2_r9_endcap_lowr9", "pho2_r9", "(pho2_isEB == 0) * (pho2_r9 < 0.94) ","", 2., "", "(90,0.1, 1)", "r9^{#gamma2}", "endcap_lowr9", 0.24, ""])
+#plots.append(["pho2_r9_endcap_highr9", "pho2_r9", "(pho2_isEB == 0) * (pho2_r9 > 0.94) ","", 2., "", "(100, 0.8, 1)", "r9^{#gamma2}", "endcap_highr9", 0.28, ""])
+#
+#plots.append(["toto", "pho2_PFisoB : pho2_PFisoA", "","", 2., "", "(20,-4, 16, 20,-4, 16)", "PFisoA^{#gamma2}", "", "", ""])
 
 #plots.append(["pho2_PFisoC", "pho2_PFisoC", "","ph2_ciclevel >= 4", 2., "", "(24,0, 6)", "PFisoC^{#gamma2}", "", "", ""])
 #plots.append(["pho1_isconv", "pho1_isconv", "","", 1., "", "(100,0, 1)", "isconv^{#gamma1}", "", "", ""])
@@ -173,17 +202,17 @@ plots.append(["pho2_r9_endcap_highr9", "pho2_r9", "(pho2_isEB == 0) * (pho2_r9 >
 
 #plots.append(["DeltaR_pho1_jet_min", "DeltaR_pho1_jet_min", "", "", 2., "evweight", "(50, 0, 5)", "DeltaR_pho1_jet_min", "", "", ""])
 #plots.append(["DeltaR_pho2_jet_min", "DeltaR_pho2_jet_min", "", "ph2_ciclevel >= 4", 2., "evweight", "(40, 0 , 4)", "DeltaR_pho2_jet_min", "", "", ""])
-#plots.append(["DeltaR_pho1_pho2", "DeltaR_pho1_pho2", "", "ph2_ciclevel >= 4", 2., "evweight", "(20, 0 , 5)", "DeltaR_pho1_pho2", "", "", ""])
+#plots.append(["DeltaR_pho1_pho2", "DeltaR_pho1_pho2", "", "(ph2_ciclevel >= 4) * (ph1_ciclevel >= 4)", 2., "evweight", "(20, 0 , 5)", "DeltaR(pho1,pho2)", "", "", ""])
 
 ##plots.append(["aaaaa_test_2D", "pho2_PFisoA : pho2_PFisoB", "", "", 2., "evweight", "(100, -5, 20, 100, -5, 20)", "pho1_PFisoA", "", 33.3, ""])
 #plots.append(["mtot_cat0_" + CIC1 +"_"+ CIC2, "mtot", "(cut_based_ct == 0)", "", "", "evWeight", "(25, 350, 450)", "mtot (GeV)", "m= " + MASSE +"GeV", "", ""])
 #plots.append(["mtot_cat1_" + CIC1 +"_"+ CIC2, "mtot", "(cut_based_ct == 1)", "", "", "evWeight", "(25, 350, 450)", "mtot (GeV)", "m= " + MASSE +"GeV", "", ""])
 #plots.append(["mtot_" + CIC1 +"_"+ CIC2, "mtot", "", "", "", "evWeight", "(25, 350, 450)", "mtot (GeV)", "m= " + MASSE +"GeV", "", ""])
-#
+
 #plots.append(["mjj_cat0_" + CIC1 +"_"+ CIC2, "mjj", "(cut_based_ct == 0)", "", "", "evWeight", "(20, 80, 160)", "mjj (GeV)", "m= " + MASSE +"GeV", "", ""])
 #plots.append(["mjj_cat1_" + CIC1 +"_"+ CIC2, "mjj", "(cut_based_ct == 1)", "", "", "evWeight", "(20, 80, 160)", "mjj (GeV)", "m= " + MASSE +"GeV", "", ""])
 #plots.append(["mjj_" + CIC1 +"_"+ CIC2, "mjj", "", "", "", "evWeight", "(20, 80, 160)", "mjj (GeV)", "m= " + MASSE +"GeV", "", ""])
-#
+
 #plots.append(["mgg_cat0_" + CIC1 +"_"+ CIC2, "mgg", "(cut_based_ct == 0)", "", "", "evWeight", "(25, 90, 190)", "mgg (GeV)", "m= " + MASSE +"GeV", "", ""])
 #plots.append(["mgg_cat1_" + CIC1 +"_"+ CIC2, "mgg", "(cut_based_ct == 1)", "", "", "evWeight", "(25, 90, 190)", "mgg (GeV)", "m= " + MASSE +"GeV", "", ""])
 #plots.append(["mgg_" + CIC1 +"_"+ CIC2, "mgg", "", "", "", "evWeight", "(25, 90, 190)", "mgg (GeV)", "m= " + MASSE +"GeV", "", ""])
@@ -242,9 +271,9 @@ for name2, variable, cut, critere_eff,  norm, Scale_Factor, binning, title, addi
         latexLabel = TLatex()
         latexLabel.SetTextSize(.03)
         latexLabel.SetNDC()
-        latexLabel.DrawLatex(.20, .85, additional_info)
+#        latexLabel.DrawLatex(.20, .85, additional_info)
         ROOT.gPad.RedrawAxis()
-        legend.Draw()
+#        legend.Draw()
         c1.Update()
 
 
@@ -255,9 +284,14 @@ for name2, variable, cut, critere_eff,  norm, Scale_Factor, binning, title, addi
 
         # Cosmetics
         h_ntot = ROOT.gDirectory.Get("h_tmp_ntot")
-        chain.Draw(variable + ">>h_tmp" + binning, sample_cut , option) # + "/" + str(h_ntot.GetMaximum())
+        chain.Draw(variable + ">>h_tmp" + binning, sample_cut + "/" + str(h_ntot.GetMaximum()), option)
         h = ROOT.gDirectory.Get("h_tmp")
         h.SetName(name + "_" + name2 + "_" + str(ifile))
+#        print ifile
+        if ifile ==0:
+            ncut = h.Integral()
+        else:
+            nwp = h.Integral()
         if ifile == 0:
                 firsthistname = name + "_" + name2 + "_" + str(ifile)
         h.SetLineWidth(1)
@@ -273,7 +307,9 @@ for name2, variable, cut, critere_eff,  norm, Scale_Factor, binning, title, addi
             h.GetYaxis().SetTitle( "# events / ( " + str(((xhigh - xlow) / xnbin)) + " " + unit + " )")
         legend.AddEntry(h.GetName(), label)
         ymax = max(ymax, h.GetMaximum())
+#        print "ymax = ", ymax
         ymin = min(ymin, h.GetMinimum(0.0))
+#        print "ymin = ", ymin
 
 #calcul ntot, nselect pour calcul efficacite
 #        if critere_eff == "":
@@ -355,11 +391,14 @@ for name2, variable, cut, critere_eff,  norm, Scale_Factor, binning, title, addi
     ymin_log = pow(10., log10(ymin) - .03*yrange_log)
 
     latexLabel = TLatex()
-    latexLabel.SetTextSize(.03)
+    latexLabel.SetTextSize(.025)
     latexLabel.SetNDC()
-    latexLabel.DrawLatex(.15, .96, "CMS Internal     L = 19.7 fb^{-1}     #sqrt{s} = 8 TeV    " + additional_info)
-#    latexLabel.DrawLatex(.2, .9, "n event = %s" %ntot)
-#    latexLabel.DrawLatex(.2, .85, "efficiency = %s " %round(eff, 2))
+    latexLabel.DrawLatex(.3, .96, "CMS Internal     L = 19.7 fb^{-1}     #sqrt{s} = 8 TeV   " + additional_info)
+#    latexLabel.DrawLatex(.15, .9, "n WP = %s" %round(nwp,1))
+#    latexLabel.DrawLatex(.15, .85, "n = " + str(round(ncut, 1)) + " ( + " + str(round(100 * ncut/nwp - 100 ,1)) + "%)")
+#    latexLabel.DrawLatex(.2, .85, additional_info)
+#    latexLabel.DrawLatex(.2, .85, "n evts = " + str(ntot) + " ,eff = " + str(round(eff,2)))
+#    latexLabel.DrawLatex(.45,.75, "blue : proportion of photon with CIC >= 4" )
     ROOT.gPad.RedrawAxis()
     legend.Draw()
     c1.Update()
