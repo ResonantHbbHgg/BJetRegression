@@ -104,7 +104,7 @@ plots.append(["2D_gr_hbb_p4_eta", "gr_hbb_p4_eta", "", 1., "(50, -4, 4)", "eta^{
 plots.append(["2D_gr_hbb_p4_phi", "gr_hbb_p4_phi", "", 1., "(50, -4, 4)", "phi^{#hbb} (radian)", "", "", ""])
 plots.append(["2D_gr_hbb_p4_mass", "gr_hbb_p4_mass", "", 1., "(100, 0, 200)", "mass^{#hbb} (GeV)", "", "", ""])
 #plots.append(["gr_costhetastar_CS_pt_2D", "gr_hbb_p4_pt:costhetastar_CS_eta_limit", "", 1., "(20, 0, 1, 250, 0, 500)", "|cos#theta*|^{#hh}", "", "", ""])
-plots.append(["2D_gr_costhetastar_CS", "gr_hbbhgg_costhetastar_CS", "", 1., "(50, 0, 1)", "|cos#theta*|^{#hh} (#eta < 2.5)", "", "", ""])
+plots.append(["2D_gr_costhetastar_CS", "gr_hbbhgg_costhetastar_CS", "", 1., "(20, 0, 1)", "|cos#theta*|^{#hh} (#eta < 2.5)", "", "", ""])
 #plots.append(["gr_costhetastar_pt_0_50", "costhetastar_CS", "gr_hbb_p4_pt < 50", 1., "(50, 0, 1)", "|cos#theta*|^{#hh}", "p_{T}^{h} < 50 GeV", "", ""])
 #plots.append(["gr_costhetastar_pt_50_100", "costhetastar_CS", "gr_hbb_p4_pt > 50 && gr_hbb_p4_pt < 100", 1., "(50, 0, 1)", "|cos#theta*|^{#hh}", "50 < p_{T}^{h} < 100 GeV", "", ""])
 #plots.append(["gr_costhetastar_pt_100_150", "costhetastar_CS", " gr_hbb_p4_pt > 100 && gr_hbb_p4_pt < 150", 1., "(50, 0, 1)", "|cos#theta*|^{#hh}", "100 < p_{T}^{h} < 150 GeV", "", ""])
@@ -113,6 +113,10 @@ plots.append(["2D_gr_costhetastar_CS", "gr_hbbhgg_costhetastar_CS", "", 1., "(50
 #plots.append(["2D_gr_delta_eta", "dEta_gg_jj", "", 1., "(50, -6, 6)", "#Delta#eta^{#hh}", "", "", ""])
 #plots.append(["2D_gr_delta_phi", "dPhi_gg_jj", "", 1., "(50, -6, 6)", "#Delta#phi^{#hh}", "", "", ""])
 
+plots.append(["2D_gr_radion_p4_pt", "gr_radion_p4_pt", "", 1., "(50, 0, 500)", "p_{T}^{#radion} (GeV)", "", "", ""])
+plots.append(["2D_gr_radion_p4_eta", "gr_radion_p4_eta", "", 1., "(50, -4, 4)", "eta^{#radion} ", "", "", ""])
+plots.append(["2D_gr_radion_p4_phi", "gr_radion_p4_phi", "", 1., "(50, -4, 4)", "phi^{#radion} (radian)", "", "", ""])
+plots.append(["2D_gr_radion_p4_mass", "gr_radion_p4_mass", "", 1., "(100, 200, 1000)", "mass^{#radion} (GeV", "", "", ""])
 
 # dividing the plots
 

@@ -153,6 +153,7 @@ int main(int argc, char *argv[])
 	if( type <= -250 ) t.evWeight_w_btagSF /= 1000.; // For increased numerical precision for limit settings, not related to actual physics
 
 	if( type == 0 && applyPhotonIDControlSample != 0) t.evWeight_w_btagSF *= h2D_pt_data->GetBinContent(h2D_pt_data->FindBin(t.pho2_pt, t.pho1_pt));
+    if( type == -2 ) t.evWeight_w_btagSF = t.evWeight;
 
 
 		if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("reg", whichJet.c_str()) == 0) )
@@ -328,7 +329,8 @@ int main(int argc, char *argv[])
 			if( massCutVersion == 3 )
 			{// FITTING THE MGG SPECTRUM: newer version: preapproval values (18 dec. 2013)
 				if( t.mjj_wokinfit < 85. || t.mjj_wokinfit > 155. ) continue;
-                if( !((type == -2 || type == 0) && !applyMtotCut) ){
+//                if( !((type == -2 || type == 0) && !applyMtotCut) ){
+                if( applyMtotCut ){
     				if( mass == 260 && (t.mtot_wokinfit < 225. || t.mtot_wokinfit > 280.) ) continue;
     				if( mass == 270 && (t.mtot_wokinfit < 225. || t.mtot_wokinfit > 295.) ) continue;
     				if( mass == 300 && (t.mtot_wokinfit < 255. || t.mtot_wokinfit > 330.) ) continue;

@@ -73,7 +73,7 @@ void setup_intree(TTree *intree, tree_variables *t, std::string whichJet)
 	}
 	intree->SetBranchAddress("njets_kRadionID_and_CSVM", &t->njets_kRadionID_and_CSVM);
 	intree->SetBranchAddress("selection_cut_level", &t->selection_cut_level);
-	intree->SetBranchAddress("evweight", &t->evWeight);
+	intree->SetBranchAddress("evweight_w_btagSF", &t->evWeight);
 	intree->SetBranchAddress("weight", &t->weight);
 	intree->SetBranchAddress("regcosthetastar", &t->regcosthetastar);
 	intree->SetBranchAddress("minDRgregkinj", &t->minDRgregkinj);

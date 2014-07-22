@@ -104,7 +104,7 @@ plots.append(["2D_gr_w_hbb_p4_pt", "gr_hbb_p4_pt", "", 1., "(50, 0, 500)", "p_{T
 plots.append(["2D_gr_w_hbb_p4_eta", "gr_hbb_p4_eta", "", 1., "(50, -4, 4)", "eta^{#hbb} ", "", "", ""])
 plots.append(["2D_gr_w_hbb_p4_phi", "gr_hbb_p4_phi", "", 1., "(50, -4, 4)", "phi^{#hbb} (radian)", "", "", ""])
 plots.append(["2D_gr_w_hbb_p4_mass", "gr_hbb_p4_mass", "", 1., "(100, 0, 200)", "mass^{#hbb} (GeV)", "", "", ""])
-plots.append(["2D_gr_w_costhetastar", "gr_hbbhgg_costhetastar_CS", "", 1., "(50, 0, 1)", "|cos#theta*|^{#hh}", "", "", ""])
+plots.append(["2D_gr_w_costhetastar", "gr_hbbhgg_costhetastar_CS", "", 1., "(20, 0, 1)", "|cos#theta*|^{#hh}", "", "", ""])
 #plots.append(["gr_w_costhetastar_pt_0_50", "costhetastar_CS", "gr_hbb_p4_pt < 50", 1., "(50, 0, 1)", "|cos#theta*|^{#hh}", "p_{T}^{h} < 50 GeV", "", ""])
 #plots.append(["gr_w_costhetastar_pt_50_100", "costhetastar_CS", "gr_hbb_p4_pt > 50 && gr_hbb_p4_pt < 100", 1., "(50, 0, 1)", "|cos#theta*|^{#hh}", "50 < p_{T}^{h} < 100 GeV", "", ""])
 #plots.append(["gr_w_costhetastar_pt_100_150", "costhetastar_CS", " gr_hbb_p4_pt > 100 && gr_hbb_p4_pt < 150", 1., "(50, 0, 1)", "|cos#theta*|^{#hh}", "100 < p_{T}^{h} < 150 GeV", "", ""])
