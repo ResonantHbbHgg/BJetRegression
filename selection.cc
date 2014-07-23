@@ -18,6 +18,7 @@
 #include <TLorentzVector.h>
 #include <TVector3.h>
 #include <TRandom3.h>
+#include <TH2F.h>
 // Analysis headers
 #include "../h2gglobe/BTagUtils.h"
 #include "../KinematicFit/DiJetKinFitter.h"
@@ -46,6 +47,7 @@ int main(int argc, char *argv[])
     int applyPhotonIDControlSample;
     int printCutFlow;
     int keep0btag;
+    int lambdaReweight;
 
     // print out passed arguments
     copy(argv, argv + argc, ostream_iterator<char*>(cout, " ")); cout << endl;
@@ -70,6 +72,7 @@ int main(int argc, char *argv[])
             ("full_dump", po::value<int>(&FULL_DUMP)->default_value(0), "switch on creation of the t.event dump")
             ("printCutFlow", po::value<int>(&printCutFlow)->default_value(0), "print cut flow")
             ("keep0btag", po::value<int>(&keep0btag)->default_value(0), "keep 0btag category")
+            ("lambdaReweight", po::value<int>(&lambdaReweight)->default_value(-1), "use lambda reweighting (for ggHH sample only)")
         ;
         po::variables_map vm;
         po::store(po::parse_command_line(argc, argv, desc), vm);
@@ -108,6 +111,13 @@ int main(int argc, char *argv[])
     if(SYNC) synchrofile.open("synchronisation.txt");
     if(FULL_DUMP) full_dump.open(Form("h2gglobe_%s.txt", inputtree.c_str()));
     if(printCutFlow) cutFlowFile.open(Form("cutFlow_%s.dat", inputtree.c_str()));
+    // Setup for lambda reweighting for ggHH samples
+    TFile *lambdaweightfile = TFile::Open("weights_2D.root");
+    TH2F* w_hbb_pt_costhetastar_CS = 0;
+    if(lambdaReweight != -1 && type == -2)
+    {
+        w_hbb_pt_costhetastar_CS = (TH2F*)lambdaweightfile->Get(Form("hFrac_ggHH%i_8TeV_gr_costhetastar_CS_pt_2D", lambdaReweight));
+    }
 
     if(DEBUG) cout << "Setup tree inputs" << endl;
     if(DEBUG) cout << "Setup tree outputs" << endl;
@@ -814,16 +824,7 @@ int main(int argc, char *argv[])
         TLorentzVector kinggjj_jerU = kinjj_jerU + gg;
 
         t.selection_cut_level = 0;
-        t.weight = t.ev_weight;
-        t.evweight = t.ev_evweight;
-        t.pu_weight = t.ev_pu_weight;
-        // adding this for correct yields out of the control plots:
-        t.evweight_w_btagSF = t.evweight;
-        if( type == -260 ) t.evweight_w_btagSF *= 1.2822;
-        if( type  !=   0 ) t.evweight_w_btagSF *= eventWeight_2jets("medium", J.jetbtagSF_M[ij1], J.jetbtagSF_M[ij2], J.jetbtagEff_M[ij1], J.jetbtagEff_M[ij2], J.jetCSV[ij1], J.jetCSV[ij2]);
-        t.evweight_w_btagSF_reg = t.evweight;
-        if( type == -260 ) t.evweight_w_btagSF_reg *= 1.2822;
-        if( type !=    0 ) t.evweight_w_btagSF_reg *= eventWeight_2jets("medium", J.jetbtagSF_M[ij1Reg], J.jetbtagSF_M[ij2Reg], J.jetbtagEff_M[ij1Reg], J.jetbtagEff_M[ij2Reg], J.jetCSV[ij1Reg], J.jetCSV[ij2Reg]);
+       
         t.pho1_pt = pho1.Pt();
         t.pho1_e = pho1.E();
         t.pho1_phi = pho1.Phi();
@@ -1170,7 +1171,23 @@ int main(int argc, char *argv[])
             t.gr_dEta_gg_jj = gr_hgg.Eta() - gr_hjj.Eta();
             t.gr_dPhi_gg_jj = gr_hgg.DeltaPhi( gr_hjj );
         }
-// min DR(g, j)
+
+        t.weight = t.ev_weight;
+        t.evweight = t.ev_evweight;
+        t.pu_weight = t.ev_pu_weight;
+        // adding this for correct yields out of the control plots:
+        t.evweight_w_btagSF = t.evweight;
+        if( type == -260 ) t.evweight_w_btagSF *= 1.2822;
+        if( type  !=   0 ) t.evweight_w_btagSF *= eventWeight_2jets("medium", J.jetbtagSF_M[ij1], J.jetbtagSF_M[ij2], J.jetbtagEff_M[ij1], J.jetbtagEff_M[ij2], J.jetCSV[ij1], J.jetCSV[ij2]);
+        if(lambdaReweight != -1 && type == -2) t.evweight_w_btagSF *= w_hbb_pt_costhetastar_CS->GetBinContent(
+                                                                            w_hbb_pt_costhetastar_CS->FindBin(fabs(t.gr_hbbhgg_costhetastar_CS), t.gr_hbb_p4_pt) );
+        t.evweight_w_btagSF_reg = t.evweight;
+        if( type == -260 ) t.evweight_w_btagSF_reg *= 1.2822;
+        if( type !=    0 ) t.evweight_w_btagSF_reg *= eventWeight_2jets("medium", J.jetbtagSF_M[ij1Reg], J.jetbtagSF_M[ij2Reg], J.jetbtagEff_M[ij1Reg], J.jetbtagEff_M[ij2Reg], J.jetCSV[ij1Reg], J.jetCSV[ij2Reg]);
+        if(lambdaReweight != -1 && type == -2) t.evweight_w_btagSF_reg *= w_hbb_pt_costhetastar_CS->GetBinContent(
+                                                                            w_hbb_pt_costhetastar_CS->FindBin(fabs(t.gr_hbbhgg_costhetastar_CS), t.gr_hbb_p4_pt) );
+
+ // min DR(g, j)
         t.minDRgj = 999999.0;
         t.minDRgregj = 999999.0;
         t.minDRgregkinj = 999999.0;
