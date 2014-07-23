@@ -138,7 +138,7 @@ if args.part == 1:
         samples.append(["ggHH","prod", eos_pro2, "GluGluToHHTo2B2G_M-125_8TeV-madgraph-pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v1_AODSIM", "*root", "event"])
         samples.append(["ggHH","redu", eos_redu, "Summer12_RD1/GluGluToHHTo2B2G_M-125_8TeV-madgraph-pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v1", "*root", "event"])
         samples.append(["ggHH","tree", eos_tree, "", "SMHiggs.root", "ggHH_8TeV"])
-    else: # background and data samples
+#    else: # background and data samples
         #samples.append([displayName, level, eos_base, sample, file, tree])
 # DATA
 #        samples.append(["data", "prod", eos_pro4, "Photon_Run2012A_22Jan2013-v1_AOD", "*root", "event"])
@@ -228,6 +228,8 @@ if args.part == 2:
         
 
 if args.part == 3:
+    francois_cuts_w_kinFit = True
+    whichJet = "kin"
     print("part 3: mass windows")
     mggjj_cut = {}
     mggjj_cut[260] = [225, 280]
@@ -235,6 +237,11 @@ if args.part == 3:
     mggjj_cut[300] = [255, 330]
     mggjj_cut[350] = [310, 395]
     mggjj_cut[400] = [370, 440]
+    if francois_cuts_w_kinFit:
+        mggjj_cut[270] = [260, 280]
+        mggjj_cut[300] = [290, 310]
+        mggjj_cut[350] = [330, 375]
+        mggjj_cut[400] = [380, 435]
     cutFlowDir = args.selectionFolder
     selectedFolder = args.selectionFolder
     cutFlowFiles = [ x for x in listdir(cutFlowDir) if path.isfile(path.join(cutFlowDir,x)) and "cutFlow_" in x and ".dat" in x and "part" not in x]
@@ -256,10 +263,10 @@ if args.part == 3:
         if not "Radion" in sample:
             masses = [260, 270, 300, 350, 400]
             for mass in masses:
-                print(sample + "_M" + str(mass), chain.GetEntries(), chain.GetEntries("jj_mass > 85 && jj_mass < 155"), chain.GetEntries("jj_mass > 85 && jj_mass < 155 && ggjj_mass > " + str(mggjj_cut[mass][0]) + " && ggjj_mass < " + str(mggjj_cut[mass][1])))
+                print(sample + "_M" + str(mass), chain.GetEntries(), chain.GetEntries("jj_mass > 85 && jj_mass < 155"), chain.GetEntries("jj_mass > 85 && jj_mass < 155 && " + whichJet + "ggjj_mass > " + str(mggjj_cut[mass][0]) + " && " + whichJet + "ggjj_mass < " + str(mggjj_cut[mass][1])))
         else:
             if mass <= 400:
-                print(sample, chain.GetEntries(), chain.GetEntries("jj_mass > 85 && jj_mass < 155"), chain.GetEntries("jj_mass > 85 && jj_mass < 155 && ggjj_mass > " + str(mggjj_cut[mass][0]) + " && ggjj_mass < " + str(mggjj_cut[mass][1])))
+                print(sample, chain.GetEntries(), chain.GetEntries("jj_mass > 85 && jj_mass < 155"), chain.GetEntries("jj_mass > 85 && jj_mass < 155 && " + whichJet + "ggjj_mass > " + str(mggjj_cut[mass][0]) + " && " + whichJet + "ggjj_mass < " + str(mggjj_cut[mass][1])))
             if mass >= 400:
                 print(sample, chain.GetEntries(), chain.GetEntries("jj_mass > 90 && jj_mass < 165"), chain.GetEntries("jj_mass > 90 && jj_mass < 165 && gg_mass > 120 && gg_mass < 130"))
         
