@@ -381,12 +381,6 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
         intree->SetBranchAddress("gr_j2_p4_eta", &t->gr_j2_p4_eta);
         intree->SetBranchAddress("gr_j2_p4_phi", &t->gr_j2_p4_phi);
         intree->SetBranchAddress("gr_j2_p4_mass", &t->gr_j2_p4_mass);
-        intree->SetBranchAddress("gr_hbbhgg_costhetastar_CS", &t->gr_hbbhgg_costhetastar_CS);
-        intree->SetBranchAddress("gr_hjjhgg_costhetastar_CS", &t->gr_hjjhgg_costhetastar_CS);
-        intree->SetBranchAddress("gr_dEta_gg_bb", &t->gr_dEta_gg_bb);
-        intree->SetBranchAddress("gr_dEta_gg_jj", &t->gr_dEta_gg_jj);
-        intree->SetBranchAddress("gr_dPhi_gg_bb", &t->gr_dPhi_gg_bb);
-        intree->SetBranchAddress("gr_dPhi_gg_jj", &t->gr_dPhi_gg_jj);
     }
     intree->SetBranchAddress("j1_e", &t->j1_e);
     intree->SetBranchAddress("j1_pt", &t->j1_pt);
