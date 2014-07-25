@@ -266,13 +266,13 @@ int main(int argc, char *argv[])
 //            if ((t.ph2_isEB == 0) && (t.ph2_r9 < 0.94) && ((ph2_PFisoA > 3.6) || (ph2_PFisoB > 4.4) || (ph2_PFisoC > 2.2) || (t.ph2_sieie > 0.028)  || (t.ph2_hoe > 0.063) || (t.ph2_r9 < 0.24))) continue;
 //        }    
             {
-            if ((t.ph1_isEB == 1) && (t.ph1_r9 > 0.94) && ((ph1_PFisoA > 8.9) || (ph1_PFisoB > 43) || (ph1_PFisoC > 3.8) || (t.ph1_sieie > 0.0108)  || (t.ph1_hoe > 0.124) || (t.ph1_r9 < 0.94))) continue;
+            if ((t.ph1_isEB == 1) && (t.ph1_r9 > 0.94) && ((ph1_PFisoA > 6) || (ph1_PFisoB > 10) || (ph1_PFisoC > 3.8) || (t.ph1_sieie > 0.0108)  || (t.ph1_hoe > 0.124) || (t.ph1_r9 < 0.94))) continue;
 
-            if ((t.ph1_isEB == 1) && (t.ph1_r9 < 0.94) && ((ph1_PFisoA > 6.3) || (ph1_PFisoB > 19.4) || (ph1_PFisoC > 2.5) || (t.ph1_sieie > 0.0102)  || (t.ph1_hoe > 0.092) || (t.ph1_r9 < 0.298))) continue;
+            if ((t.ph1_isEB == 1) && (t.ph1_r9 < 0.94) && ((ph1_PFisoA > 4.7) || (ph1_PFisoB > 6.5) || (ph1_PFisoC > 2.5) || (t.ph1_sieie > 0.0102)  || (t.ph1_hoe > 0.092) || (t.ph1_r9 < 0.298))) continue;
 
-            if ((t.ph1_isEB == 0) && (t.ph1_r9 > 0.94) && ((ph1_PFisoA > 9.8) || (ph1_PFisoB > 24) || (ph1_PFisoC > 3.1) || (t.ph1_sieie > 0.028)  || (t.ph1_hoe > 0.142) || (t.ph1_r9 < 0.94))) continue;
+            if ((t.ph1_isEB == 0) && (t.ph1_r9 > 0.94) && ((ph1_PFisoA > 5.6) || (ph1_PFisoB > 5.6) || (ph1_PFisoC > 3.1) || (t.ph1_sieie > 0.028)  || (t.ph1_hoe > 0.142) || (t.ph1_r9 < 0.94))) continue;
 
-            if ((t.ph1_isEB == 0) && (t.ph1_r9 < 0.94) && ((ph1_PFisoA > 6.8) || (ph1_PFisoB > 7.9) || (ph1_PFisoC > 2.2) || (t.ph1_sieie > 0.028)  || (t.ph1_hoe > 0.063) || (t.ph1_r9 < 0.24))) continue;
+            if ((t.ph1_isEB == 0) && (t.ph1_r9 < 0.94) && ((ph1_PFisoA > 3.6) || (ph1_PFisoB > 4.4) || (ph1_PFisoC > 2.2) || (t.ph1_sieie > 0.028)  || (t.ph1_hoe > 0.063) || (t.ph1_r9 < 0.24))) continue;
 
             if ((t.ph2_isEB == 1) && (t.ph2_r9 > 0.94) && ((ph2_PFisoA > 8.9) || (ph2_PFisoB > 43) || (ph2_PFisoC > 3.8) || (t.ph2_sieie > 0.0108)  || (t.ph2_hoe > 0.124) || (t.ph2_r9 < 0.94))) continue;
 
@@ -406,11 +406,11 @@ int main(int argc, char *argv[])
 			if( t.jet_regPt < 25. ) continue;
 			njets[1]++; jetcut[1] = "After jet pt > 25";
 			if( fabs(t.jet_eta) > 2.5 ) continue;
-			njets[2]++; jetcut[2] = "After jet |eta| < 2.5";
+//			njets[2]++; jetcut[2] = "After jet |eta| < 2.5";
 //			if( t.jet_betaStarClassic > 0.2 * log( t.nvtx - 0.64) ) continue;
 //			njets[3]++; jetcut[3] = "After t.jet_betaStarClassic > 0.2 * log( t.nvtx - 0.64)";
 //			if( t.jet_dR2Mean > 0.06 ) continue;
-//			njets[4]++; jetcut[4] = "After t.jet_dR2Mean > 0.06";
+			njets[4]++; jetcut[4] = "After t.jet_dR2Mean > 0.06";
 			if(DEBUG) cout << "Jet is passing selection cuts" << endl;
 			// ** call regression to correct the pt **
 			// ** store 4-momentum + csv output for combinatorics **
@@ -1212,6 +1212,15 @@ int main(int argc, char *argv[])
         t.DeltaR_jet2_pho2=jet2.DeltaR(pho2);
         t.DeltaR_pho1_jet_min= min ( jet1.DeltaR(pho1) , jet2.DeltaR(pho1));
         t.DeltaR_pho2_jet_min= min ( jet1.DeltaR(pho2) , jet2.DeltaR(pho2));
+
+        //Delta eta, phi, R between the Higgs
+        t.DeltaEta_gg_jj=gg.Eta() - jj.Eta();
+        t.DeltaPhi_gg_jj=gg.DeltaPhi(jj);
+        t.DeltaR_gg_jj=gg.DeltaR(jj);
+
+//        if (t.DeltaEta_gg_jj > 3 || t.DeltaEta_gg_jj < - 3) continue;
+
+
 
         // t.costhetastar
 		TLorentzVector Hgg_Rstar(gg);
