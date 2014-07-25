@@ -252,6 +252,9 @@ struct tree_variables
     float DeltaR_pho1_jet_min, DeltaR_jet1_pho1, DeltaR_jet1_pho2, DeltaR_jet2_pho1, DeltaR_jet2_pho2, DeltaR_pho2_jet_min;
     //DeltaR Pho/rg_pho
     float DeltaR_gr_pho1_pho1, DeltaR_gr_pho1_pho2, DeltaR_gr_pho2_pho1, DeltaR_gr_pho2_pho2, DeltaR_gr_pho1_gr_pho2, DeltaR_pho1_pho2, DeltaR_gr_pho_pho1_min, DeltaR_gr_pho_pho2_min; 
+    //Delta eta, phi, R HH
+    float DeltaEta_gg_jj, DeltaPhi_gg_jj, DeltaR_gg_jj ;
+
 
 	int njets_passing_kLooseID;
 	int njets_passing_kLooseID_and_CSVM;
@@ -1544,6 +1547,11 @@ void setup_outtree(TTree* outtree, tree_variables *t)
     outtree->Branch("DeltaR_pho1_pho2", &t->DeltaR_pho1_pho2, "DeltaR_pho1_pho2/F");
     outtree->Branch("DeltaR_gr_pho_pho1_min", &t->DeltaR_gr_pho_pho1_min, "DeltaR_gr_pho_pho1_min");
     outtree->Branch("DeltaR_gr_pho_pho2_min", &t->DeltaR_gr_pho_pho2_min, "DeltaR_gr_pho_pho2_min/F");
+
+    //Delta eta, phi, R between the Higgs
+    outtree->Branch("DeltaEta_gg_jj", &t->DeltaEta_gg_jj, "DeltaEta_gg_jj/F");
+    outtree->Branch("DeltaPhi_gg_jj", &t->DeltaPhi_gg_jj, "DeltaPhi_gg_jj/F");
+    outtree->Branch("DeltaR_gg_jj", &t->DeltaR_gg_jj, "DeltaR_gg_jj/F");
 
 	return;
 }
