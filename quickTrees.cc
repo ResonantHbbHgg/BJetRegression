@@ -159,7 +159,7 @@ int main(int argc, char *argv[])
 
 		if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("reg", whichJet.c_str()) == 0) )
 			{ t.mjj_wokinfit = t.mjj; t.mtot_wokinfit = t.mtot; }
-	t.reweight = (1) * t.evWeight_w_btagSF;	
+	t.reweight = (7.98) * t.evWeight_w_btagSF;	
 // EXTRA CUTS
 	if( cutLevel > 0)
 	{
