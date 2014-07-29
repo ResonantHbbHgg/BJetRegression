@@ -258,9 +258,10 @@ int main(int argc, char *argv[])
         if(DEBUG) cout << "t.ph1_ciclevel= " << t.ph1_ciclevel << "\tph2_ciclevel= " << t.ph2_ciclevel << endl;
         if(!applyPhotonIDControlSample)
         {
-//            if ((t.ph1_ciclevel < 4) || (t.ph2_ciclevel < 4)) ) continue;
+            if ((t.ph1_ciclevel < 4) || (t.ph2_ciclevel < 4))  continue;
             // switches for CIC 4 vs CIC 1 iso A and B values
-            bool noIsoA1 = false; bool noIsoA2 = false;
+            // comment line above and uncomment lines below for hand-made CiC level
+/*            bool noIsoA1 = false; bool noIsoA2 = false;
             bool noIsoB1 = false; bool noIsoB2 = false;
             if ((t.ph1_isEB == 1) && (t.ph1_r9 > 0.94) && ( (noIsoA1?(ph1_PFisoA > 8.9):(ph1_PFisoA > 6.0)) || (noIsoB1?(ph1_PFisoB > 43.):(ph1_PFisoB > 10.)) || (ph1_PFisoC > 3.8) || (t.ph1_sieie > 0.0108)  || (t.ph1_hoe > 0.124) || (t.ph1_r9 < 0.94))) continue;
             if ((t.ph1_isEB == 1) && (t.ph1_r9 < 0.94) && ( (noIsoA1?(ph1_PFisoA > 6.3):(ph1_PFisoA > 4.7)) || (noIsoB1?(ph1_PFisoB > 19.4):(ph1_PFisoB > 6.5)) || (ph1_PFisoC > 2.5) || (t.ph1_sieie > 0.0102)  || (t.ph1_hoe > 0.092) || (t.ph1_r9 < 0.298))) continue;
@@ -270,6 +271,7 @@ int main(int argc, char *argv[])
             if ((t.ph2_isEB == 1) && (t.ph2_r9< 0.94) && ( (noIsoA2?(ph2_PFisoA > 6.3):(ph2_PFisoA > 4.7)) || (noIsoB2?(ph2_PFisoB > 19.4):(ph2_PFisoB > 6.5)) || (ph2_PFisoC > 2.5) || (t.ph2_sieie > 0.0102)  || (t.ph2_hoe > 0.092) || (t.ph2_r9 < 0.298))) continue;
             if ((t.ph2_isEB == 0) && (t.ph2_r9 > 0.94) && ( (noIsoA2?(ph2_PFisoA > 9.8):(ph2_PFisoA > 5.6)) || (noIsoB2?(ph2_PFisoB > 24.):(ph2_PFisoB > 5.6)) || (ph2_PFisoC > 3.1) || (t.ph2_sieie > 0.028)  || (t.ph2_hoe > 0.142) || (t.ph2_r9 < 0.94))) continue;
             if ((t.ph2_isEB == 0) && (t.ph2_r9 < 0.94) && ( (noIsoA2?(ph2_PFisoA > 6.8):(ph2_PFisoA > 3.6)) || (noIsoB2?(ph2_PFisoB > 7.9):(ph2_PFisoB > 4.4)) || (ph2_PFisoC > 2.2) || (t.ph2_sieie > 0.028)  || (t.ph2_hoe > 0.063) || (t.ph2_r9 < 0.24))) continue;
+*/
         }
         else if (applyPhotonIDControlSample)
         {
@@ -1179,6 +1181,25 @@ int main(int argc, char *argv[])
         t.weight = t.ev_weight;
         t.evweight = t.ev_evweight;
         t.pu_weight = t.ev_pu_weight;
+// if the sample is a prompt-fake sample, remove the events with weights > 50, then apply kfactor * spreadfactor (from Francois' studies)
+// equivalent to a global increase of the weights of ~14%
+        string pf = "_pf";
+        if( inputtree.find(pf) != std::string::npos )
+        { 
+            float kfactor = 1.0;
+            float spreadfactor = 1.0;
+            if( t.evweight > 50 ) continue;
+            if( t.njets_kRadionID_and_CSVM == 0 )
+            {
+                kfactor = 1.17;
+                spreadfactor = 3.06;
+            } else {
+                kfactor = 1.58;
+                spreadfactor = 5.05;
+            }
+            t.evweight *= kfactor * spreadfactor; 
+        }
+
         // adding this for correct yields out of the control plots:
         t.evweight_w_btagSF = t.evweight;
         if( type == -260 ) t.evweight_w_btagSF *= 1.2822;
