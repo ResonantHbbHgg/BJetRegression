@@ -32,7 +32,7 @@ namespace po = boost::program_options;
 int main(int argc, char *argv[])
 {
     // declare arguments
-     string inputfile;
+    string inputfile;
     string inputtree;
     string outputfile;
     string outputtree;
@@ -699,7 +699,10 @@ int main(int argc, char *argv[])
         regjet2 = ((float)J.jetRegPt[ij2Reg]/(float)J.jetPt[ij2Reg]) * regjet2;
         regkinjet1 = regjet1;
         regkinjet2 = regjet2;
-        float Hmass = 125.;
+        float Hmass_MC = 125.;
+        float Hmass_data = 125.03; // From https://twiki.cern.ch/twiki/bin/view/CMSPublic/Hig14009TWiki
+//        float Hmass_data = 125.6; // From https://twiki.cern.ch/twiki/bin/view/CMSPublic/Hig13002PubTWiki
+        float Hmass = (type==0) ? Hmass_data : Hmass_MC;
         DiJetKinFitter* fitter_jetsH = new DiJetKinFitter( "fitter_jetsH", "fitter_jets", Hmass );
         pair<TLorentzVector,TLorentzVector> jets_kinfitH = fitter_jetsH->fit(regkinjet1, regkinjet2);
         regkinjet1 = jets_kinfitH.first;
