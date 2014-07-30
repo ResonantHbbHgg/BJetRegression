@@ -154,6 +154,35 @@ outtree[${i}]="Radion_m1500_8TeV"
 typ[${i}]="-1500"
 CS[${i}]="0"
 
+### Radion mH126 samples
+i=$((${i} + 1))
+infile[${i}]="radion_tree_v09/XHH.root"
+tree[${i}]="Radion_m270_mH126_8TeV"
+outtree[${i}]="Radion_m270_mH126_8TeV"
+typ[${i}]="-270"
+CS[${i}]="0"
+
+i=$((${i} + 1))
+infile[${i}]="radion_tree_v09/XHH.root"
+tree[${i}]="Radion_m300_mH126_8TeV"
+outtree[${i}]="Radion_m300_mH126_8TeV"
+typ[${i}]="-300"
+CS[${i}]="0"
+
+i=$((${i} + 1))
+infile[${i}]="radion_tree_v09/XHH.root"
+tree[${i}]="Radion_m500_mH126_8TeV"
+outtree[${i}]="Radion_m500_mH126_8TeV"
+typ[${i}]="-500"
+CS[${i}]="0"
+
+i=$((${i} + 1))
+infile[${i}]="radion_tree_v09/XHH.root"
+tree[${i}]="Radion_m700_mH126_8TeV"
+outtree[${i}]="Radion_m700_mH126_8TeV"
+typ[${i}]="-700"
+CS[${i}]="0"
+
 ### Radion aajj samples
 i=$((${i} + 1))
 infile[${i}]="radion_tree_v09/Radion_aajj_RD.root"
