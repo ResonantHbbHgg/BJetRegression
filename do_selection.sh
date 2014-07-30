@@ -154,6 +154,84 @@ outtree[${i}]="Radion_m1500_8TeV"
 typ[${i}]="-1500"
 CS[${i}]="0"
 
+### Radion aajj samples
+i=$((${i} + 1))
+infile[${i}]="radion_tree_v09/Radion_aajj_RD.root"
+tree[${i}]="Radion_m270_aajj_8TeV"
+outtree[${i}]="Radion_m270_aajj_8TeV"
+typ[${i}]="-270"
+CS[${i}]="0"
+
+i=$((${i} + 1))
+infile[${i}]="radion_tree_v09/Radion_aajj_RD.root"
+tree[${i}]="Radion_m300_aajj_8TeV"
+outtree[${i}]="Radion_m300_aajj_8TeV"
+typ[${i}]="-300"
+CS[${i}]="0"
+
+i=$((${i} + 1))
+infile[${i}]="radion_tree_v09/Radion_aajj_RD.root"
+tree[${i}]="Radion_m400_aajj_8TeV"
+outtree[${i}]="Radion_m400_aajj_8TeV"
+typ[${i}]="-400"
+CS[${i}]="0"
+
+i=$((${i} + 1))
+infile[${i}]="radion_tree_v09/Radion_aajj_RD.root"
+tree[${i}]="Radion_m450_aajj_8TeV"
+outtree[${i}]="Radion_m450_aajj_8TeV"
+typ[${i}]="-450"
+CS[${i}]="0"
+
+i=$((${i} + 1))
+infile[${i}]="radion_tree_v09/Radion_aajj_RD.root"
+tree[${i}]="Radion_m500_aajj_8TeV"
+outtree[${i}]="Radion_m500_aajj_8TeV"
+typ[${i}]="-500"
+CS[${i}]="0"
+
+i=$((${i} + 1))
+infile[${i}]="radion_tree_v09/Radion_aajj_RD.root"
+tree[${i}]="Radion_m550_aajj_8TeV"
+outtree[${i}]="Radion_m550_aajj_8TeV"
+typ[${i}]="-550"
+CS[${i}]="0"
+
+i=$((${i} + 1))
+infile[${i}]="radion_tree_v09/Radion_aajj_RD.root"
+tree[${i}]="Radion_m600_aajj_8TeV"
+outtree[${i}]="Radion_m600_aajj_8TeV"
+typ[${i}]="-600"
+CS[${i}]="0"
+
+i=$((${i} + 1))
+infile[${i}]="radion_tree_v09/Radion_aajj_RD.root"
+tree[${i}]="Radion_m700_aajj_8TeV"
+outtree[${i}]="Radion_m700_aajj_8TeV"
+typ[${i}]="-700"
+CS[${i}]="0"
+
+i=$((${i} + 1))
+infile[${i}]="radion_tree_v09/Radion_aajj_RD.root"
+tree[${i}]="Radion_m800_aajj_8TeV"
+outtree[${i}]="Radion_m800_aajj_8TeV"
+typ[${i}]="-800"
+CS[${i}]="0"
+
+i=$((${i} + 1))
+infile[${i}]="radion_tree_v09/Radion_aajj_RD.root"
+tree[${i}]="Radion_m900_aajj_8TeV"
+outtree[${i}]="Radion_m900_aajj_8TeV"
+typ[${i}]="-900"
+CS[${i}]="0"
+
+i=$((${i} + 1))
+infile[${i}]="radion_tree_v09/Radion_aajj_RD.root"
+tree[${i}]="Radion_m1000_aajj_8TeV"
+outtree[${i}]="Radion_m1000_aajj_8TeV"
+typ[${i}]="-1000"
+CS[${i}]="0"
+
 ### MSSM samples
 i=$((${i} + 1))
 infile[${i}]="radion_tree_v09/XHH.root"
