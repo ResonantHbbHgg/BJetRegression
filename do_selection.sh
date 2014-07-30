@@ -319,6 +319,49 @@ outtree[${i}]="Graviton_m1500_8TeV"
 typ[${i}]="-1500"
 CS[${i}]="0"
 
+### More graviton samples (narrow width)
+i=$((${i} + 1))
+infile[${i}]="radion_tree_v09/XHH.root"
+tree[${i}]="Graviton_m270_LR3tev_8TeV"
+outtree[${i}]="Graviton_m270_LR3tev_8TeV"
+typ[${i}]="-270"
+CS[${i}]="0"
+
+i=$((${i} + 1))
+infile[${i}]="radion_tree_v09/XHH.root"
+tree[${i}]="Graviton_m300_LR3tev_8TeV"
+outtree[${i}]="Graviton_m300_LR3tev_8TeV"
+typ[${i}]="-300"
+CS[${i}]="0"
+
+i=$((${i} + 1))
+infile[${i}]="radion_tree_v09/XHH.root"
+tree[${i}]="Graviton_m350_LR3tev_8TeV"
+outtree[${i}]="Graviton_m350_LR3tev_8TeV"
+typ[${i}]="-350"
+CS[${i}]="0"
+
+i=$((${i} + 1))
+infile[${i}]="radion_tree_v09/XHH.root"
+tree[${i}]="Graviton_m400_LR3tev_8TeV"
+outtree[${i}]="Graviton_m400_LR3tev_8TeV"
+typ[${i}]="-400"
+CS[${i}]="0"
+
+i=$((${i} + 1))
+infile[${i}]="radion_tree_v09/XHH.root"
+tree[${i}]="Graviton_m450_LR3tev_8TeV"
+outtree[${i}]="Graviton_m450_LR3tev_8TeV"
+typ[${i}]="-450"
+CS[${i}]="0"
+
+i=$((${i} + 1))
+infile[${i}]="radion_tree_v09/XHH.root"
+tree[${i}]="Graviton_m700_LR3tev_8TeV"
+outtree[${i}]="Graviton_m700_LR3tev_8TeV"
+typ[${i}]="-700"
+CS[${i}]="0"
+
 ##### SM Higgs
 i=$((${i} + 1))
 infile[${i}]="radion_tree_v09/SMHiggs.root"
