@@ -48,6 +48,7 @@ int main(int argc, char *argv[])
     int printCutFlow;
     int keep0btag;
     int lambdaReweight;
+    int whichPhotonID;
 
     // print out passed arguments
     copy(argv, argv + argc, ostream_iterator<char*>(cout, " ")); cout << endl;
@@ -73,6 +74,7 @@ int main(int argc, char *argv[])
             ("printCutFlow", po::value<int>(&printCutFlow)->default_value(0), "print cut flow")
             ("keep0btag", po::value<int>(&keep0btag)->default_value(0), "keep 0btag category")
             ("lambdaReweight", po::value<int>(&lambdaReweight)->default_value(-1), "use lambda reweighting (for ggHH sample only)")
+            ("whichPhotonID", po::value<int>(&whichPhotonID)->default_value(1), "0= CiC Super Tight, 1= CiC Super Tight with Francois' isolation")
         ;
         po::variables_map vm;
         po::store(po::parse_command_line(argc, argv, desc), vm);
@@ -174,23 +176,25 @@ int main(int argc, char *argv[])
     int cutFlow[30] = {0};
     int iflow;
 
-  int decade = 0;
-  int totevents = intree->GetEntries();
-  if(DEBUG) totevents = 1;
-  cout << "#entries= " << totevents << endl;
-  // loop over events
-  for(int ievt=0 ; ievt < totevents ; ievt++)
-  {
+    int decade = 0;
+    int totevents = intree->GetEntries();
+    int iev0 = 0;
+    if(DEBUG) iev0 = 2575;
+    if(DEBUG) totevents = iev0+1;
+    cout << "#entries= " << totevents << endl;
+    // loop over events
+    for(int ievt = iev0 ; ievt < totevents ; ievt++)
+    {
         int ilevel = 0;
         if(DEBUG) cout << "#####\tievt= " << ievt << endl;
-    double progress = 10.0*ievt/(1.0*totevents);
-    int k = TMath::FloorNint(progress);
-    if (k > decade && !DEBUG) cout<<10*k<<" %"<<endl;
-    decade = k;
+        double progress = 10.0*ievt/(1.0*totevents);
+        int k = TMath::FloorNint(progress);
+        if (k > decade && !DEBUG) cout<<10*k<<" %"<<endl;
+        decade = k;
 
         int njets_kRadionID_ = 0;
         int njets_kRadionID_and_CSVM_ = 0;
-    intree->GetEntry(ievt);
+        intree->GetEntry(ievt);
         if(DEBUG && SYNC_W_PHIL && !(/*t.event == 6976 ||*/ t.event == 8042 || t.event == 14339 /*|| t.event == 2227 || t.event == 4921 || t.event == 7665 || t.event == 7687 || t.event == 11246 || t.event == 15140 || t.event == 685*/) ) continue;
         if(DEBUG) cout << "#####\tievt= " << ievt << "\trun= " << t.run << "\tlumi= " << t.lumis << "\tevent= " << t.event << endl;
         if( numberOfRegressionFiles != 0 && type < -250 && ((int)t.event % 2 == 0) && !SYNC_W_PHIL) continue; // use regression only on odd events
@@ -221,27 +225,17 @@ int main(int argc, char *argv[])
         nevents[ilevel]++; eventcut[ilevel] = "Before photon ID";
         nevents_w[ilevel] += t.evweight; ilevel++;
         nevents_sync[0]++;
-        float ph1_PFisoA = (t.ph1_pfchargedisogood03 + t.ph1_ecaliso + 2.5 - t.rho * 0.09) * 50. / t.ph1_pt;
-        float ph1_PFisoB = (t.ph1_pfchargedisobad04 + t.ph1_ecalisobad + 2.5 - t.rho * 0.23) * 50. / t.ph1_badvtx_Et;
-        float ph1_PFisoC = t.ph1_pfchargedisogood03 * 50. / t.ph1_pt;
-        float ph2_PFisoA = (t.ph2_pfchargedisogood03 + t.ph2_ecaliso + 2.5 - t.rho * 0.09) * 50. / t.ph2_pt;
-        float ph2_PFisoB = (t.ph2_pfchargedisobad04 + t.ph2_ecalisobad + 2.5 - t.rho * 0.23) * 50. / t.ph2_badvtx_Et;
-        float ph2_PFisoC = t.ph2_pfchargedisogood03 * 50. / t.ph2_pt;
+        t.pho1_PFisoA = (t.ph1_pfchargedisogood03 + t.ph1_ecaliso + 2.5 - t.rho * 0.09) * 50. / t.ph1_pt;
+        t.pho1_PFisoB = (t.ph1_pfchargedisobad04 + t.ph1_ecalisobad + 2.5 - t.rho * 0.23) * 50. / t.ph1_badvtx_Et;
+        t.pho1_PFisoC = t.ph1_pfchargedisogood03 * 50. / t.ph1_pt;
+        t.pho2_PFisoA = (t.ph2_pfchargedisogood03 + t.ph2_ecaliso + 2.5 - t.rho * 0.09) * 50. / t.ph2_pt;
+        t.pho2_PFisoB = (t.ph2_pfchargedisobad04 + t.ph2_ecalisobad + 2.5 - t.rho * 0.23) * 50. / t.ph2_badvtx_Et;
+        t.pho2_PFisoC = t.ph2_pfchargedisogood03 * 50. / t.ph2_pt;
 
-        if(DEBUG) cout << "t.ph1_pt= " << t.ph1_pt << "\tph1_eta= " << t.ph1_eta << "\tph1_phi= " << t.ph1_phi << "\tph1_r9= " << t.ph1_r9 << "\tph1_SCEta= " << t.ph1_SCEta << endl;
-        if(DEBUG) cout << "t.ph2_pt= " << t.ph2_pt << "\tph2_eta= " << t.ph2_eta << "\tph2_phi= " << t.ph2_phi << "\tph2_r9= " << t.ph2_r9 << "\tph2_SCEta= " << t.ph2_SCEta << endl;
-        if(DEBUG) cout << "t.ph1_pfchargedisogood03= " << t.ph1_pfchargedisogood03 << "\tph1_ecaliso= " << t.ph1_ecaliso << "\trho= " << t.rho << "\tph1_pt= " << t.ph1_pt << endl;
-        if(DEBUG) cout << "t.ph1_pfchargedisobad04= " << t.ph1_pfchargedisobad04 << "\tph1_ecalisobad= " << t.ph1_ecalisobad << "\trho= " << t.rho << "\tph1_badvtx_Et= " << t.ph1_badvtx_Et << endl;
-        if(DEBUG) cout << "t.ph1_pfchargedisogood03= " << t.ph1_pfchargedisogood03 << "\tph1_pt= " << t.ph1_pt << endl;
-        if(DEBUG) cout << "t.ph2_pfchargedisogood03= " << t.ph2_pfchargedisogood03 << "\tph2_ecaliso= " << t.ph2_ecaliso << "\trho= " << t.rho << "\tph2_pt= " << t.ph2_pt << endl;
-        if(DEBUG) cout << "t.ph2_pfchargedisobad04= " << t.ph2_pfchargedisobad04 << "\tph2_ecalisobad= " << t.ph2_ecalisobad << "\trho= " << t.rho << "\tph2_badvtx_Et= " << t.ph2_badvtx_Et << endl;
-        if(DEBUG) cout << "t.ph2_pfchargedisogood03= " << t.ph2_pfchargedisogood03 << "\tph2_pt= " << t.ph2_pt << endl;
-        if(DEBUG) cout << "ph1_PFisoA= " << ph1_PFisoA << "\tph1_PFisoB= " << ph1_PFisoB << "\tph1_PFisoC= " << ph1_PFisoC << "\tph1_sieie= " << t.ph1_sieie << "\tph1_hoe= " << t.ph1_hoe << "\tph1_isconv= " << t.ph1_isconv << endl;
-        if(DEBUG) cout << "ph2_PFisoA= " << ph2_PFisoA << "\tph2_PFisoB= " << ph2_PFisoB << "\tph2_PFisoC= " << ph2_PFisoC << "\tph2_sieie= " << t.ph2_sieie << "\tph2_hoe= " << t.ph2_hoe << "\tph2_isconv= " << t.ph2_isconv << endl;
-        if(DEBUG) cout << "t.j1_pt= " << t.j1_pt << "\tj1_csvBtag= " << t.j1_csvBtag << "\tj1_csvMvaBtag= " << t.j1_csvMvaBtag << endl;
-        if(DEBUG) cout << "t.j2_pt= " << t.j2_pt << "\tj2_csvBtag= " << t.j2_csvBtag << "\tj2_csvMvaBtag= " << t.j2_csvMvaBtag << endl;
-        if(DEBUG) cout << "t.j3_pt= " << t.j3_pt << "\tj3_csvBtag= " << t.j3_csvBtag << "\tj3_csvMvaBtag= " << t.j3_csvMvaBtag << endl;
-        if(DEBUG) cout << "t.j4_pt= " << t.j4_pt << "\tj4_csvBtag= " << t.j4_csvBtag << "\tj4_csvMvaBtag= " << t.j4_csvMvaBtag << endl;
+        if(DEBUG) cout << "t.ph1_pt= " << t.ph1_pt << "\tph1_eta= " << t.ph1_eta << "\tph1_phi= " << t.ph1_phi << "\tph1_r9= " << t.ph1_r9 << "\tph1_SCEta= " << t.ph1_SCEta << "\tph1_isEB= " << t.ph1_isEB << endl;
+        if(DEBUG) cout << "t.pho1_PFisoA= " << t.pho1_PFisoA << "\tt.pho1_PFisoB= " << t.pho1_PFisoB << "\tt.pho1_PFisoC= " << t.pho1_PFisoC << "\tph1_sieie= " << t.ph1_sieie << "\tph1_hoe= " << t.ph1_hoe << "\tph1_isconv= " << t.ph1_isconv << "\tt.ph1_r9_cic= " << t.ph1_r9_cic << endl;
+        if(DEBUG) cout << "t.ph2_pt= " << t.ph2_pt << "\tph2_eta= " << t.ph2_eta << "\tph2_phi= " << t.ph2_phi << "\tph2_r9= " << t.ph2_r9 << "\tph2_SCEta= " << t.ph2_SCEta << "\tph2_isEB= " << t.ph2_isEB << endl;
+        if(DEBUG) cout << "t.pho2_PFisoA= " << t.pho2_PFisoA << "\tt.pho2_PFisoB= " << t.pho2_PFisoB << "\tt.pho2_PFisoC= " << t.pho2_PFisoC << "\tph2_sieie= " << t.ph2_sieie << "\tph2_hoe= " << t.ph2_hoe << "\tph2_isconv= " << t.ph2_isconv << "\tt.ph2_r9_cic= " << t.ph2_r9_cic << endl;
 
         if(DEBUG) cout << "t.ph1_pt= " << t.ph1_pt << "\t(float)(40.*t.PhotonsMass)/(float)120.= " << (float)(40.*t.PhotonsMass)/(float)120. << endl;
         if( t.ph1_pt < (float)(40.*t.PhotonsMass)/(float)120. ) continue;
@@ -258,30 +252,67 @@ int main(int argc, char *argv[])
         if(DEBUG) cout << "t.ph1_ciclevel= " << t.ph1_ciclevel << "\tph2_ciclevel= " << t.ph2_ciclevel << endl;
         if(!applyPhotonIDControlSample)
         {
-            if ((t.ph1_ciclevel < 4) || (t.ph2_ciclevel < 4))  continue;
+            if( whichPhotonID == 0 )
+            {
+                if ((t.ph1_ciclevel < 4) || (t.ph2_ciclevel < 4))  continue;
+            }
+            else if( whichPhotonID == 1 )
+            {
             // switches for CIC 4 vs CIC 1 iso A and B values
-            // comment line above and uncomment lines below for hand-made CiC level
-/*            bool noIsoA1 = false; bool noIsoA2 = false;
-            bool noIsoB1 = false; bool noIsoB2 = false;
-            if ((t.ph1_isEB == 1) && (t.ph1_r9 > 0.94) && ( (noIsoA1?(ph1_PFisoA > 8.9):(ph1_PFisoA > 6.0)) || (noIsoB1?(ph1_PFisoB > 43.):(ph1_PFisoB > 10.)) || (ph1_PFisoC > 3.8) || (t.ph1_sieie > 0.0108)  || (t.ph1_hoe > 0.124) || (t.ph1_r9 < 0.94))) continue;
-            if ((t.ph1_isEB == 1) && (t.ph1_r9 < 0.94) && ( (noIsoA1?(ph1_PFisoA > 6.3):(ph1_PFisoA > 4.7)) || (noIsoB1?(ph1_PFisoB > 19.4):(ph1_PFisoB > 6.5)) || (ph1_PFisoC > 2.5) || (t.ph1_sieie > 0.0102)  || (t.ph1_hoe > 0.092) || (t.ph1_r9 < 0.298))) continue;
-            if ((t.ph1_isEB == 0) && (t.ph1_r9 > 0.94) && ( (noIsoA1?(ph1_PFisoA > 9.8):(ph1_PFisoA > 5.6)) || (noIsoB1?(ph1_PFisoB > 24.):(ph1_PFisoB > 5.6)) || (ph1_PFisoC > 3.1) || (t.ph1_sieie > 0.028)  || (t.ph1_hoe > 0.142) || (t.ph1_r9 < 0.94))) continue;
-            if ((t.ph1_isEB == 0) && (t.ph1_r9 < 0.94) && ( (noIsoA1?(ph1_PFisoA > 6.8):(ph1_PFisoA > 3.6)) || (noIsoB1?(ph1_PFisoB > 7.9):(ph1_PFisoB > 4.4)) || (ph1_PFisoC > 2.2) || (t.ph1_sieie > 0.028)  || (t.ph1_hoe > 0.063) || (t.ph1_r9 < 0.24))) continue;
-            if ((t.ph2_isEB == 1) && (t.ph2_r9 > 0.94) && ( (noIsoA2?(ph2_PFisoA > 8.9):(ph2_PFisoA > 6.0)) || (noIsoB2?(ph2_PFisoB > 43.):(ph2_PFisoB > 10.)) || (ph2_PFisoC > 3.8) || (t.ph2_sieie > 0.0108)  || (t.ph2_hoe > 0.124) || (t.ph2_r9 < 0.94))) continue;
-            if ((t.ph2_isEB == 1) && (t.ph2_r9< 0.94) && ( (noIsoA2?(ph2_PFisoA > 6.3):(ph2_PFisoA > 4.7)) || (noIsoB2?(ph2_PFisoB > 19.4):(ph2_PFisoB > 6.5)) || (ph2_PFisoC > 2.5) || (t.ph2_sieie > 0.0102)  || (t.ph2_hoe > 0.092) || (t.ph2_r9 < 0.298))) continue;
-            if ((t.ph2_isEB == 0) && (t.ph2_r9 > 0.94) && ( (noIsoA2?(ph2_PFisoA > 9.8):(ph2_PFisoA > 5.6)) || (noIsoB2?(ph2_PFisoB > 24.):(ph2_PFisoB > 5.6)) || (ph2_PFisoC > 3.1) || (t.ph2_sieie > 0.028)  || (t.ph2_hoe > 0.142) || (t.ph2_r9 < 0.94))) continue;
-            if ((t.ph2_isEB == 0) && (t.ph2_r9 < 0.94) && ( (noIsoA2?(ph2_PFisoA > 6.8):(ph2_PFisoA > 3.6)) || (noIsoB2?(ph2_PFisoB > 7.9):(ph2_PFisoB > 4.4)) || (ph2_PFisoC > 2.2) || (t.ph2_sieie > 0.028)  || (t.ph2_hoe > 0.063) || (t.ph2_r9 < 0.24))) continue;
-*/
+            // for hand-made CiC level, by default switching off isolations on trailing photon
+                bool noIsoA1 = false; bool noIsoA2 = true;
+                bool noIsoB1 = false; bool noIsoB2 = true;
+                bool pho1_cic4 = false;
+                bool pho2_cic4 = false;
+                bool pho1_cic0 = false;
+                bool pho2_cic0 = false;
+                getHandMadeCiCLevel(&pho1_cic4, &pho2_cic4, &pho1_cic0, &pho2_cic0, &t,  noIsoA1, noIsoA2, noIsoB1, noIsoB2);
+                if(DEBUG) cout << "t.ph1_ciclevel= " << t.ph1_ciclevel << "\tt.ph2_ciclevel= " << t.ph2_ciclevel << endl;
+                if(DEBUG) cout << "pho1_cic4= " << pho1_cic4 << "\tpho2_cic4= " << pho2_cic4 << "\tpho1_cic0= " << pho1_cic0 << "\tpho2_cic0= " << pho2_cic0 << endl;
+
+                if( !(pho1_cic4) || !(pho2_cic4) ) continue;
+
+            } else {
+                cout << "Erm, no valid photon ID was asked for, crashing now for safety reasons" << endl;
+                return 3;
+            }
         }
         else if (applyPhotonIDControlSample)
         {
-            bool ph1_id = (t.ph1_ciclevel >= 3);
-            bool ph2_id = (t.ph2_ciclevel >= 3);
-            bool ph1_Lid = (t.ph1_ciclevel >= 0) && (t.ph1_ciclevel < 3);
-            bool ph2_Lid = (t.ph2_ciclevel >= 0) && (t.ph2_ciclevel < 3);
-            if(ph1_id && ph2_id) continue; // reject gg
-            if(ph1_Lid && ph2_Lid) continue; // reject jj
-            if( !( (ph1_id && ph2_Lid) || (ph2_id && ph1_Lid)) ) continue; // reject if different from gj or jg
+            if( whichPhotonID == 0 )
+            {
+                bool ph1_id = (t.ph1_ciclevel >= 4);
+                bool ph2_id = (t.ph2_ciclevel >= 4);
+                bool ph1_Lid = (t.ph1_ciclevel >= 0) && (t.ph1_ciclevel < 4);
+                bool ph2_Lid = (t.ph2_ciclevel >= 0) && (t.ph2_ciclevel < 4);
+                if(ph1_id && ph2_id) continue; // reject gg
+                if(ph1_Lid && ph2_Lid) continue; // reject jj
+                if( !( (ph1_id && ph2_Lid) || (ph2_id && ph1_Lid)) ) continue; // reject if different from gj or jg
+            }
+            else if( whichPhotonID == 1 )
+            {
+                bool noIsoA1 = false; bool noIsoA2 = true;
+                bool noIsoB1 = false; bool noIsoB2 = true;
+                bool pho1_cic4 = false;
+                bool pho2_cic4 = false;
+                bool pho1_cic0 = false;
+                bool pho2_cic0 = false;
+                getHandMadeCiCLevel(&pho1_cic4, &pho2_cic4, &pho1_cic0, &pho2_cic0, &t,  noIsoA1, noIsoA2, noIsoB1, noIsoB2);
+                bool ph1_id = pho1_cic4;
+                bool ph2_id = pho2_cic4;
+                bool ph1_Lid = (pho1_cic0) && !(pho1_cic4);
+                bool ph2_Lid = (pho2_cic0) && !(pho2_cic4);
+//                assert( pho1_cic4 == (t.ph1_ciclevel >= 4) );
+//                assert( pho2_cic4 == (t.ph2_ciclevel >= 4) );
+//                assert( pho1_cic0 == (t.ph1_ciclevel >= 0) );
+//                assert( pho2_cic0 == (t.ph2_ciclevel >= 0) );
+                if(ph1_id && ph2_id) continue; // reject gg
+                if(ph1_Lid && ph2_Lid) continue; // reject jj
+                if( !( (ph1_id && ph2_Lid) || (ph2_id && ph1_Lid)) ) continue; // reject if different from gj or jg
+            } else {
+                cout << "Erm, no valid photon ID was asked for, crashing now for safety reasons" << endl;
+                return 3;
+            }
         }
         flow[iflow] = "After photon cic ID"; cutFlow[iflow]++; iflow++;
         nevents[ilevel]++; eventcut[ilevel] = "After cic cut on both photons";
