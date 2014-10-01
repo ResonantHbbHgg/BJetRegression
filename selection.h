@@ -25,7 +25,7 @@ struct tree_variables
     float evweight_w_btagSF, evweight_w_btagSF_reg;
 // object variables
     float ph1_eta, ph2_eta, ph1_pt, ph2_pt, PhotonsMass, ph1_phi, ph2_phi, ph1_e, ph2_e, ph1_r9, ph2_r9, ph1_sieie, ph2_sieie, ph1_hoe, ph2_hoe;
-    float ph1_r9_cic, ph2_r9_cic;
+    float ph1_r9_cic, ph2_r9_cic, ph1_IDmva, ph2_IDmva;
     float ph1_pfchargedisogood03, ph1_ecaliso, ph1_pfchargedisobad04, ph1_ecalisobad, ph1_badvtx_Et, ph1_isconv;
     float ph2_pfchargedisogood03, ph2_ecaliso, ph2_pfchargedisobad04, ph2_ecalisobad, ph2_badvtx_Et, ph2_isconv;
     int ph1_ciclevel, ph2_ciclevel, ph1_isEB, ph2_isEB;
@@ -186,8 +186,8 @@ struct tree_variables
 
 // setup tree outputs
     float vtx_z;
-    float pho1_pt, pho1_e, pho1_phi, pho1_eta, pho1_mass, pho1_r9, pho1_sieie, pho1_hoe, pho1_r9_cic;
-    float pho2_pt, pho2_e, pho2_phi, pho2_eta, pho2_mass, pho2_r9, pho2_sieie, pho2_hoe, pho2_r9_cic;
+    float pho1_pt, pho1_e, pho1_phi, pho1_eta, pho1_mass, pho1_r9, pho1_sieie, pho1_hoe, pho1_r9_cic, pho1_IDmva;
+    float pho2_pt, pho2_e, pho2_phi, pho2_eta, pho2_mass, pho2_r9, pho2_sieie, pho2_hoe, pho2_r9_cic, pho2_IDmva;
     int pho1_isEB, pho2_isEB;
     float pho1_pfchargedisogood03, pho1_ecaliso, pho1_pfchargedisobad04, pho1_ecalisobad, pho1_badvtx_Et, pho1_PFisoA, pho1_PFisoB, pho1_PFisoC, pho1_isconv;
     float pho2_pfchargedisogood03, pho2_ecaliso, pho2_pfchargedisobad04, pho2_ecalisobad, pho2_badvtx_Et, pho2_PFisoA, pho2_PFisoB, pho2_PFisoC, pho2_isconv;
@@ -298,6 +298,8 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
     intree->SetBranchAddress("ph2_r9", &t->ph2_r9);
     intree->SetBranchAddress("ph1_r9_cic", &t->ph1_r9_cic);
     intree->SetBranchAddress("ph2_r9_cic", &t->ph2_r9_cic);
+    intree->SetBranchAddress("ph1_IDmva", &t->ph1_IDmva);
+    intree->SetBranchAddress("ph2_IDmva", &t->ph2_IDmva);
     intree->SetBranchAddress("ph1_sieie", &t->ph1_sieie);
     intree->SetBranchAddress("ph2_sieie", &t->ph2_sieie);
     intree->SetBranchAddress("ph1_hoe", &t->ph1_hoe);
@@ -1166,6 +1168,7 @@ void setup_outtree(TTree* outtree, tree_variables *t)
     outtree->Branch("pho1_mass", &t->pho1_mass, "pho1_mass/F");
     outtree->Branch("pho1_r9", &t->pho1_r9, "pho1_r9/F");
     outtree->Branch("pho1_r9_cic", &t->pho1_r9_cic, "pho1_r9_cic/F");
+    outtree->Branch("pho1_IDmva", &t->pho1_IDmva, "pho1_IDmva/F");
     outtree->Branch("pho1_sieie", &t->pho1_sieie, "pho1_sieie/F");
     outtree->Branch("pho1_hoe", &t->pho1_hoe, "pho1_hoe/F");
     outtree->Branch("pho1_isEB", &t->pho1_isEB, "pho1_isEB/I");
@@ -1185,6 +1188,7 @@ void setup_outtree(TTree* outtree, tree_variables *t)
     outtree->Branch("pho2_mass", &t->pho2_mass, "pho2_mass/F");
     outtree->Branch("pho2_r9", &t->pho2_r9, "pho2_r9/F");
     outtree->Branch("pho2_r9_cic", &t->pho2_r9_cic, "pho2_r9_cic/F");
+    outtree->Branch("pho2_IDmva", &t->pho2_IDmva, "pho2_IDmva/F");
     outtree->Branch("pho2_sieie", &t->pho2_sieie, "pho2_sieie/F");
     outtree->Branch("pho2_hoe", &t->pho2_hoe, "pho2_hoe/F");
     outtree->Branch("pho2_isEB", &t->pho2_isEB, "pho2_isEB/I");

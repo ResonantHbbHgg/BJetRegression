@@ -868,6 +868,8 @@ int main(int argc, char *argv[])
         t.pho1_eta = pho1.Eta();
         t.pho1_mass = pho1.M();
         t.pho1_r9 = t.ph1_r9;
+        t.pho1_r9_cic = t.ph1_r9_cic;
+        t.pho1_IDmva = t.ph1_IDmva;
         t.pho1_sieie = t.ph1_sieie;
         t.pho1_hoe = t.ph1_hoe;
         t.pho1_isEB = t.ph1_isEB;
@@ -885,6 +887,8 @@ int main(int argc, char *argv[])
         t.pho2_eta = pho2.Eta();
         t.pho2_mass = pho2.M();
         t.pho2_r9 = t.ph2_r9;
+        t.pho2_r9_cic = t.ph2_r9_cic;
+        t.pho2_IDmva = t.ph2_IDmva;
         t.pho2_sieie = t.ph2_sieie;
         t.pho2_hoe = t.ph2_hoe;
         t.pho2_isEB = t.ph2_isEB;
