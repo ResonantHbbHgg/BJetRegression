@@ -34,54 +34,54 @@ struct tree_variables
     float ph1_pesD_e, ph2_pesD_e, ph1_pesU_e, ph2_pesU_e;
     float ph1_perD_e, ph2_perD_e, ph1_perU_e, ph2_perU_e;
 
-    float j1_e, j1_pt, j1_phi, j1_eta, j1_beta, j1_betaStar, j1_betaStarClassic, j1_dR2Mean, j1_csvBtag, j1_csvMvaBtag, j1_jetProbBtag, j1_tcheBtag, j1_secVtxPt, j1_secVtx3dL, j1_emfrac, j1_hadfrac, j1_axis1, j1_axis2, j1_pull, j1_btagSF_M, j1_btagEff_M, j1_btagSFErrorUp_M, j1_btagSFErrorDown_M, j1_btagEffError_M;
+    float j1_e, j1_pt, j1_phi, j1_eta, j1_beta, j1_betaStar, j1_betaStarClassic, j1_dR2Mean, j1_csvBtag, j1_csvMvaBtag, j1_jetProbBtag, j1_tcheBtag, j1_secVtxPt, j1_secVtx3dL, j1_emfrac, j1_hadfrac, j1_axis1, j1_axis2, j1_pull, j1_btagSF_M, j1_btagEff_M, j1_btagSFErrorUp_M, j1_btagSFErrorDown_M, j1_btagEffError_M, j1_cutbased_wp_level, j1_simple_wp_level, j1_full_wp_level;
     int j1_ntk, j1_nNeutrals, j1_nCharged, j1_flavour;
 
-    float j2_e, j2_pt, j2_phi, j2_eta, j2_beta, j2_betaStar, j2_betaStarClassic, j2_dR2Mean, j2_csvBtag, j2_csvMvaBtag, j2_jetProbBtag, j2_tcheBtag, j2_secVtxPt, j2_secVtx3dL, j2_emfrac, j2_hadfrac, j2_axis1, j2_axis2, j2_pull, j2_btagSF_M, j2_btagEff_M, j2_btagSFErrorUp_M, j2_btagSFErrorDown_M, j2_btagEffError_M;
+    float j2_e, j2_pt, j2_phi, j2_eta, j2_beta, j2_betaStar, j2_betaStarClassic, j2_dR2Mean, j2_csvBtag, j2_csvMvaBtag, j2_jetProbBtag, j2_tcheBtag, j2_secVtxPt, j2_secVtx3dL, j2_emfrac, j2_hadfrac, j2_axis1, j2_axis2, j2_pull, j2_btagSF_M, j2_btagEff_M, j2_btagSFErrorUp_M, j2_btagSFErrorDown_M, j2_btagEffError_M, j2_cutbased_wp_level, j2_simple_wp_level, j2_full_wp_level;
     int j2_ntk, j2_nNeutrals, j2_nCharged, j2_flavour;
 
-    float j3_e, j3_pt, j3_phi, j3_eta, j3_beta, j3_betaStar, j3_betaStarClassic, j3_dR2Mean, j3_csvBtag, j3_csvMvaBtag, j3_jetProbBtag, j3_tcheBtag, j3_secVtxPt, j3_secVtx3dL, j3_emfrac, j3_hadfrac, j3_axis1, j3_axis2, j3_pull, j3_btagSF_M, j3_btagEff_M, j3_btagSFErrorUp_M, j3_btagSFErrorDown_M, j3_btagEffError_M;
+    float j3_e, j3_pt, j3_phi, j3_eta, j3_beta, j3_betaStar, j3_betaStarClassic, j3_dR2Mean, j3_csvBtag, j3_csvMvaBtag, j3_jetProbBtag, j3_tcheBtag, j3_secVtxPt, j3_secVtx3dL, j3_emfrac, j3_hadfrac, j3_axis1, j3_axis2, j3_pull, j3_btagSF_M, j3_btagEff_M, j3_btagSFErrorUp_M, j3_btagSFErrorDown_M, j3_btagEffError_M, j3_cutbased_wp_level, j3_simple_wp_level, j3_full_wp_level;
     int j3_ntk, j3_nNeutrals, j3_nCharged, j3_flavour;
 
-    float j4_e, j4_pt, j4_phi, j4_eta, j4_beta, j4_betaStar, j4_betaStarClassic, j4_dR2Mean, j4_csvBtag, j4_csvMvaBtag, j4_jetProbBtag, j4_tcheBtag, j4_secVtxPt, j4_secVtx3dL, j4_emfrac, j4_hadfrac, j4_axis1, j4_axis2, j4_pull, j4_btagSF_M, j4_btagEff_M, j4_btagSFErrorUp_M, j4_btagSFErrorDown_M, j4_btagEffError_M;
+    float j4_e, j4_pt, j4_phi, j4_eta, j4_beta, j4_betaStar, j4_betaStarClassic, j4_dR2Mean, j4_csvBtag, j4_csvMvaBtag, j4_jetProbBtag, j4_tcheBtag, j4_secVtxPt, j4_secVtx3dL, j4_emfrac, j4_hadfrac, j4_axis1, j4_axis2, j4_pull, j4_btagSF_M, j4_btagEff_M, j4_btagSFErrorUp_M, j4_btagSFErrorDown_M, j4_btagEffError_M, j4_cutbased_wp_level, j4_simple_wp_level, j4_full_wp_level;
     int j4_ntk, j4_nNeutrals, j4_nCharged, j4_flavour;
 
-    float j5_e, j5_pt, j5_phi, j5_eta, j5_beta, j5_betaStar, j5_betaStarClassic, j5_dR2Mean, j5_csvBtag, j5_csvMvaBtag, j5_jetProbBtag, j5_tcheBtag, j5_secVtxPt, j5_secVtx3dL, j5_emfrac, j5_hadfrac, j5_axis1, j5_axis2, j5_pull, j5_btagSF_M, j5_btagEff_M, j5_btagSFErrorUp_M, j5_btagSFErrorDown_M, j5_btagEffError_M;
+    float j5_e, j5_pt, j5_phi, j5_eta, j5_beta, j5_betaStar, j5_betaStarClassic, j5_dR2Mean, j5_csvBtag, j5_csvMvaBtag, j5_jetProbBtag, j5_tcheBtag, j5_secVtxPt, j5_secVtx3dL, j5_emfrac, j5_hadfrac, j5_axis1, j5_axis2, j5_pull, j5_btagSF_M, j5_btagEff_M, j5_btagSFErrorUp_M, j5_btagSFErrorDown_M, j5_btagEffError_M, j5_cutbased_wp_level, j5_simple_wp_level, j5_full_wp_level;
     int j5_ntk, j5_nNeutrals, j5_nCharged, j5_flavour;
 
-    float j6_e, j6_pt, j6_phi, j6_eta, j6_beta, j6_betaStar, j6_betaStarClassic, j6_dR2Mean, j6_csvBtag, j6_csvMvaBtag, j6_jetProbBtag, j6_tcheBtag, j6_secVtxPt, j6_secVtx3dL, j6_emfrac, j6_hadfrac, j6_axis1, j6_axis2, j6_pull, j6_btagSF_M, j6_btagEff_M, j6_btagSFErrorUp_M, j6_btagSFErrorDown_M, j6_btagEffError_M;
+    float j6_e, j6_pt, j6_phi, j6_eta, j6_beta, j6_betaStar, j6_betaStarClassic, j6_dR2Mean, j6_csvBtag, j6_csvMvaBtag, j6_jetProbBtag, j6_tcheBtag, j6_secVtxPt, j6_secVtx3dL, j6_emfrac, j6_hadfrac, j6_axis1, j6_axis2, j6_pull, j6_btagSF_M, j6_btagEff_M, j6_btagSFErrorUp_M, j6_btagSFErrorDown_M, j6_btagEffError_M, j6_cutbased_wp_level, j6_simple_wp_level, j6_full_wp_level;
     int j6_ntk, j6_nNeutrals, j6_nCharged, j6_flavour;
 
-    float j7_e, j7_pt, j7_phi, j7_eta, j7_beta, j7_betaStar, j7_betaStarClassic, j7_dR2Mean, j7_csvBtag, j7_csvMvaBtag, j7_jetProbBtag, j7_tcheBtag, j7_secVtxPt, j7_secVtx3dL, j7_emfrac, j7_hadfrac, j7_axis1, j7_axis2, j7_pull, j7_btagSF_M, j7_btagEff_M, j7_btagSFErrorUp_M, j7_btagSFErrorDown_M, j7_btagEffError_M;
+    float j7_e, j7_pt, j7_phi, j7_eta, j7_beta, j7_betaStar, j7_betaStarClassic, j7_dR2Mean, j7_csvBtag, j7_csvMvaBtag, j7_jetProbBtag, j7_tcheBtag, j7_secVtxPt, j7_secVtx3dL, j7_emfrac, j7_hadfrac, j7_axis1, j7_axis2, j7_pull, j7_btagSF_M, j7_btagEff_M, j7_btagSFErrorUp_M, j7_btagSFErrorDown_M, j7_btagEffError_M, j7_cutbased_wp_level, j7_simple_wp_level, j7_full_wp_level;
     int j7_ntk, j7_nNeutrals, j7_nCharged, j7_flavour;
 
-    float j8_e, j8_pt, j8_phi, j8_eta, j8_beta, j8_betaStar, j8_betaStarClassic, j8_dR2Mean, j8_csvBtag, j8_csvMvaBtag, j8_jetProbBtag, j8_tcheBtag, j8_secVtxPt, j8_secVtx3dL, j8_emfrac, j8_hadfrac, j8_axis1, j8_axis2, j8_pull, j8_btagSF_M, j8_btagEff_M, j8_btagSFErrorUp_M, j8_btagSFErrorDown_M, j8_btagEffError_M;
+    float j8_e, j8_pt, j8_phi, j8_eta, j8_beta, j8_betaStar, j8_betaStarClassic, j8_dR2Mean, j8_csvBtag, j8_csvMvaBtag, j8_jetProbBtag, j8_tcheBtag, j8_secVtxPt, j8_secVtx3dL, j8_emfrac, j8_hadfrac, j8_axis1, j8_axis2, j8_pull, j8_btagSF_M, j8_btagEff_M, j8_btagSFErrorUp_M, j8_btagSFErrorDown_M, j8_btagEffError_M, j8_cutbased_wp_level, j8_simple_wp_level, j8_full_wp_level;
     int j8_ntk, j8_nNeutrals, j8_nCharged, j8_flavour;
 
-    float j9_e, j9_pt, j9_phi, j9_eta, j9_beta, j9_betaStar, j9_betaStarClassic, j9_dR2Mean, j9_csvBtag, j9_csvMvaBtag, j9_jetProbBtag, j9_tcheBtag, j9_secVtxPt, j9_secVtx3dL, j9_emfrac, j9_hadfrac, j9_axis1, j9_axis2, j9_pull, j9_btagSF_M, j9_btagEff_M, j9_btagSFErrorUp_M, j9_btagSFErrorDown_M, j9_btagEffError_M;
+    float j9_e, j9_pt, j9_phi, j9_eta, j9_beta, j9_betaStar, j9_betaStarClassic, j9_dR2Mean, j9_csvBtag, j9_csvMvaBtag, j9_jetProbBtag, j9_tcheBtag, j9_secVtxPt, j9_secVtx3dL, j9_emfrac, j9_hadfrac, j9_axis1, j9_axis2, j9_pull, j9_btagSF_M, j9_btagEff_M, j9_btagSFErrorUp_M, j9_btagSFErrorDown_M, j9_btagEffError_M, j9_cutbased_wp_level, j9_simple_wp_level, j9_full_wp_level;
     int j9_ntk, j9_nNeutrals, j9_nCharged, j9_flavour;
 
-    float j10_e, j10_pt, j10_phi, j10_eta, j10_beta, j10_betaStar, j10_betaStarClassic, j10_dR2Mean, j10_csvBtag, j10_csvMvaBtag, j10_jetProbBtag, j10_tcheBtag, j10_secVtxPt, j10_secVtx3dL, j10_emfrac, j10_hadfrac, j10_axis1, j10_axis2, j10_pull, j10_btagSF_M, j10_btagEff_M, j10_btagSFErrorUp_M, j10_btagSFErrorDown_M, j10_btagEffError_M;
+    float j10_e, j10_pt, j10_phi, j10_eta, j10_beta, j10_betaStar, j10_betaStarClassic, j10_dR2Mean, j10_csvBtag, j10_csvMvaBtag, j10_jetProbBtag, j10_tcheBtag, j10_secVtxPt, j10_secVtx3dL, j10_emfrac, j10_hadfrac, j10_axis1, j10_axis2, j10_pull, j10_btagSF_M, j10_btagEff_M, j10_btagSFErrorUp_M, j10_btagSFErrorDown_M, j10_btagEffError_M, j10_cutbased_wp_level, j10_simple_wp_level, j10_full_wp_level;
     int j10_ntk, j10_nNeutrals, j10_nCharged, j10_flavour;
 
-    float j11_e, j11_pt, j11_phi, j11_eta, j11_beta, j11_betaStar, j11_betaStarClassic, j11_dR2Mean, j11_csvBtag, j11_csvMvaBtag, j11_jetProbBtag, j11_tcheBtag, j11_secVtxPt, j11_secVtx3dL, j11_emfrac, j11_hadfrac, j11_axis1, j11_axis2, j11_pull, j11_btagSF_M, j11_btagEff_M, j11_btagSFErrorUp_M, j11_btagSFErrorDown_M, j11_btagEffError_M;
+    float j11_e, j11_pt, j11_phi, j11_eta, j11_beta, j11_betaStar, j11_betaStarClassic, j11_dR2Mean, j11_csvBtag, j11_csvMvaBtag, j11_jetProbBtag, j11_tcheBtag, j11_secVtxPt, j11_secVtx3dL, j11_emfrac, j11_hadfrac, j11_axis1, j11_axis2, j11_pull, j11_btagSF_M, j11_btagEff_M, j11_btagSFErrorUp_M, j11_btagSFErrorDown_M, j11_btagEffError_M, j11_cutbased_wp_level, j11_simple_wp_level, j11_full_wp_level;
     int j11_ntk, j11_nNeutrals, j11_nCharged, j11_flavour;
 
-    float j12_e, j12_pt, j12_phi, j12_eta, j12_beta, j12_betaStar, j12_betaStarClassic, j12_dR2Mean, j12_csvBtag, j12_csvMvaBtag, j12_jetProbBtag, j12_tcheBtag, j12_secVtxPt, j12_secVtx3dL, j12_emfrac, j12_hadfrac, j12_axis1, j12_axis2, j12_pull, j12_btagSF_M, j12_btagEff_M, j12_btagSFErrorUp_M, j12_btagSFErrorDown_M, j12_btagEffError_M;
+    float j12_e, j12_pt, j12_phi, j12_eta, j12_beta, j12_betaStar, j12_betaStarClassic, j12_dR2Mean, j12_csvBtag, j12_csvMvaBtag, j12_jetProbBtag, j12_tcheBtag, j12_secVtxPt, j12_secVtx3dL, j12_emfrac, j12_hadfrac, j12_axis1, j12_axis2, j12_pull, j12_btagSF_M, j12_btagEff_M, j12_btagSFErrorUp_M, j12_btagSFErrorDown_M, j12_btagEffError_M, j12_cutbased_wp_level, j12_simple_wp_level, j12_full_wp_level;
     int j12_ntk, j12_nNeutrals, j12_nCharged, j12_flavour;
 
-    float j13_e, j13_pt, j13_phi, j13_eta, j13_beta, j13_betaStar, j13_betaStarClassic, j13_dR2Mean, j13_csvBtag, j13_csvMvaBtag, j13_jetProbBtag, j13_tcheBtag, j13_secVtxPt, j13_secVtx3dL, j13_emfrac, j13_hadfrac, j13_axis1, j13_axis2, j13_pull, j13_btagSF_M, j13_btagEff_M, j13_btagSFErrorUp_M, j13_btagSFErrorDown_M, j13_btagEffError_M;
+    float j13_e, j13_pt, j13_phi, j13_eta, j13_beta, j13_betaStar, j13_betaStarClassic, j13_dR2Mean, j13_csvBtag, j13_csvMvaBtag, j13_jetProbBtag, j13_tcheBtag, j13_secVtxPt, j13_secVtx3dL, j13_emfrac, j13_hadfrac, j13_axis1, j13_axis2, j13_pull, j13_btagSF_M, j13_btagEff_M, j13_btagSFErrorUp_M, j13_btagSFErrorDown_M, j13_btagEffError_M, j13_cutbased_wp_level, j13_simple_wp_level, j13_full_wp_level;
     int j13_ntk, j13_nNeutrals, j13_nCharged, j13_flavour;
 
-    float j14_e, j14_pt, j14_phi, j14_eta, j14_beta, j14_betaStar, j14_betaStarClassic, j14_dR2Mean, j14_csvBtag, j14_csvMvaBtag, j14_jetProbBtag, j14_tcheBtag, j14_secVtxPt, j14_secVtx3dL, j14_emfrac, j14_hadfrac, j14_axis1, j14_axis2, j14_pull, j14_btagSF_M, j14_btagEff_M, j14_btagSFErrorUp_M, j14_btagSFErrorDown_M, j14_btagEffError_M;
+    float j14_e, j14_pt, j14_phi, j14_eta, j14_beta, j14_betaStar, j14_betaStarClassic, j14_dR2Mean, j14_csvBtag, j14_csvMvaBtag, j14_jetProbBtag, j14_tcheBtag, j14_secVtxPt, j14_secVtx3dL, j14_emfrac, j14_hadfrac, j14_axis1, j14_axis2, j14_pull, j14_btagSF_M, j14_btagEff_M, j14_btagSFErrorUp_M, j14_btagSFErrorDown_M, j14_btagEffError_M, j14_cutbased_wp_level, j14_simple_wp_level, j14_full_wp_level;
     int j14_ntk, j14_nNeutrals, j14_nCharged, j14_flavour;
 
-    float j15_e, j15_pt, j15_phi, j15_eta, j15_beta, j15_betaStar, j15_betaStarClassic, j15_dR2Mean, j15_csvBtag, j15_csvMvaBtag, j15_jetProbBtag, j15_tcheBtag, j15_secVtxPt, j15_secVtx3dL, j15_emfrac, j15_hadfrac, j15_axis1, j15_axis2, j15_pull, j15_btagSF_M, j15_btagEff_M, j15_btagSFErrorUp_M, j15_btagSFErrorDown_M, j15_btagEffError_M;
+    float j15_e, j15_pt, j15_phi, j15_eta, j15_beta, j15_betaStar, j15_betaStarClassic, j15_dR2Mean, j15_csvBtag, j15_csvMvaBtag, j15_jetProbBtag, j15_tcheBtag, j15_secVtxPt, j15_secVtx3dL, j15_emfrac, j15_hadfrac, j15_axis1, j15_axis2, j15_pull, j15_btagSF_M, j15_btagEff_M, j15_btagSFErrorUp_M, j15_btagSFErrorDown_M, j15_btagEffError_M, j15_cutbased_wp_level, j15_simple_wp_level, j15_full_wp_level;
     int j15_ntk, j15_nNeutrals, j15_nCharged, j15_flavour;
 
     float jet_e, jet_pt, jet_phi, jet_eta;
     float jet_betaStarClassic, jet_dR2Mean, jet_csvBtag;
-    float jet_secVtxPt, jet_secVtx3dL, jet_emfrac, jet_hadfrac, jet_btagSF_M, jet_flavour, jet_btagEff_M, jet_btagSFErrorUp_M, jet_btagSFErrorDown_M, jet_btagEffError_M;
+    float jet_secVtxPt, jet_secVtx3dL, jet_emfrac, jet_hadfrac, jet_btagSF_M, jet_flavour, jet_btagEff_M, jet_btagSFErrorUp_M, jet_btagSFErrorDown_M, jet_btagEffError_M, jet_cutbased_wp_level, jet_simple_wp_level, jet_full_wp_level;
     int jet_nNeutrals, jet_nCharged, jet_nConstituents;
     float jet_nConstituents_;
     float jet_dPhiMet_fabs;
@@ -191,8 +191,8 @@ struct tree_variables
     int pho1_isEB, pho2_isEB;
     float pho1_pfchargedisogood03, pho1_ecaliso, pho1_pfchargedisobad04, pho1_ecalisobad, pho1_badvtx_Et, pho1_PFisoA, pho1_PFisoB, pho1_PFisoC, pho1_isconv;
     float pho2_pfchargedisogood03, pho2_ecaliso, pho2_pfchargedisobad04, pho2_ecalisobad, pho2_badvtx_Et, pho2_PFisoA, pho2_PFisoB, pho2_PFisoC, pho2_isconv;
-    float jet1_pt, jet1_e, jet1_phi, jet1_eta, jet1_mass, jet1_csvBtag, jet1_btagSF_M, jet1_btagEff_M, jet1_btagSFErrorUp_M, jet1_btagSFErrorDown_M, jet1_btagEffError_M, jet1_betaStarClassic, jet1_dR2Mean;
-    float jet2_pt, jet2_e, jet2_phi, jet2_eta, jet2_mass, jet2_csvBtag, jet2_btagSF_M, jet2_btagEff_M, jet2_btagSFErrorUp_M, jet2_btagSFErrorDown_M, jet2_btagEffError_M, jet2_betaStarClassic, jet2_dR2Mean;
+    float jet1_pt, jet1_e, jet1_phi, jet1_eta, jet1_mass, jet1_csvBtag, jet1_btagSF_M, jet1_btagEff_M, jet1_btagSFErrorUp_M, jet1_btagSFErrorDown_M, jet1_btagEffError_M, jet1_cutbased_wp_level, jet1_simple_wp_level, jet1_full_wp_level, jet1_betaStarClassic, jet1_dR2Mean;
+    float jet2_pt, jet2_e, jet2_phi, jet2_eta, jet2_mass, jet2_csvBtag, jet2_btagSF_M, jet2_btagEff_M, jet2_btagSFErrorUp_M, jet2_btagSFErrorDown_M, jet2_btagEffError_M, jet2_cutbased_wp_level, jet2_simple_wp_level, jet2_full_wp_level, jet2_betaStarClassic, jet2_dR2Mean;
     int jet1_flavour;
     int jet2_flavour;
 
@@ -200,18 +200,18 @@ struct tree_variables
     int regjet1_nConstituents;
     float regjet2_emfrac, regjet2_hadfrac, regjet2_secVtxPt, regjet2_secVtx3dL, regjet2_dPhiMet;
     int regjet2_nConstituents;
-    float regjet1_pt, regjet1_e, regjet1_phi, regjet1_eta, regjet1_mass, regjet1_csvBtag, regjet1_btagSF_M, regjet1_btagEff_M, regjet1_btagSFErrorUp_M, regjet1_btagSFErrorDown_M, regjet1_btagEffError_M, regjet1_betaStarClassic, regjet1_dR2Mean;
-    float regjet2_pt, regjet2_e, regjet2_phi, regjet2_eta, regjet2_mass, regjet2_csvBtag, regjet2_btagSF_M, regjet2_btagEff_M, regjet2_btagSFErrorUp_M, regjet2_btagSFErrorDown_M, regjet2_btagEffError_M, regjet2_betaStarClassic, regjet2_dR2Mean;
+    float regjet1_pt, regjet1_e, regjet1_phi, regjet1_eta, regjet1_mass, regjet1_csvBtag, regjet1_btagSF_M, regjet1_btagEff_M, regjet1_btagSFErrorUp_M, regjet1_btagSFErrorDown_M, regjet1_btagEffError_M, regjet1_cutbased_wp_level, regjet1_simple_wp_level, regjet1_full_wp_level, regjet1_betaStarClassic, regjet1_dR2Mean;
+    float regjet2_pt, regjet2_e, regjet2_phi, regjet2_eta, regjet2_mass, regjet2_csvBtag, regjet2_btagSF_M, regjet2_btagEff_M, regjet2_btagSFErrorUp_M, regjet2_btagSFErrorDown_M, regjet2_btagEffError_M, regjet2_cutbased_wp_level, regjet2_simple_wp_level, regjet2_full_wp_level, regjet2_betaStarClassic, regjet2_dR2Mean;
     int regjet1_flavour;
     int regjet2_flavour;
 
-    float regkinjet1_pt, regkinjet1_e, regkinjet1_phi, regkinjet1_eta, regkinjet1_mass, regkinjet1_csvBtag, regkinjet1_btagSF_M, regkinjet1_btagEff_M, regkinjet1_btagSFErrorUp_M, regkinjet1_btagSFErrorDown_M, regkinjet1_btagEffError_M, regkinjet1_betaStarClassic, regkinjet1_dR2Mean;
-    float regkinjet2_pt, regkinjet2_e, regkinjet2_phi, regkinjet2_eta, regkinjet2_mass, regkinjet2_csvBtag, regkinjet2_btagSF_M, regkinjet2_btagEff_M, regkinjet2_btagSFErrorUp_M, regkinjet2_btagSFErrorDown_M, regkinjet2_btagEffError_M, regkinjet2_betaStarClassic, regkinjet2_dR2Mean;
+    float regkinjet1_pt, regkinjet1_e, regkinjet1_phi, regkinjet1_eta, regkinjet1_mass, regkinjet1_csvBtag, regkinjet1_btagSF_M, regkinjet1_btagEff_M, regkinjet1_btagSFErrorUp_M, regkinjet1_btagSFErrorDown_M, regkinjet1_btagEffError_M, regkinjet1_cutbased_wp_level, regkinjet1_simple_wp_level, regkinjet1_full_wp_level, regkinjet1_betaStarClassic, regkinjet1_dR2Mean;
+    float regkinjet2_pt, regkinjet2_e, regkinjet2_phi, regkinjet2_eta, regkinjet2_mass, regkinjet2_csvBtag, regkinjet2_btagSF_M, regkinjet2_btagEff_M, regkinjet2_btagSFErrorUp_M, regkinjet2_btagSFErrorDown_M, regkinjet2_btagEffError_M, regkinjet2_cutbased_wp_level, regkinjet2_simple_wp_level, regkinjet2_full_wp_level, regkinjet2_betaStarClassic, regkinjet2_dR2Mean;
     int regkinjet1_flavour;
     int regkinjet2_flavour;
 
-    float kinjet1_pt, kinjet1_e, kinjet1_phi, kinjet1_eta, kinjet1_mass, kinjet1_csvBtag, kinjet1_btagSF_M, kinjet1_btagEff_M, kinjet1_btagSFErrorUp_M, kinjet1_btagSFErrorDown_M, kinjet1_btagEffError_M, kinjet1_betaStarClassic, kinjet1_dR2Mean;
-    float kinjet2_pt, kinjet2_e, kinjet2_phi, kinjet2_eta, kinjet2_mass, kinjet2_csvBtag, kinjet2_btagSF_M, kinjet2_btagEff_M, kinjet2_btagSFErrorUp_M, kinjet2_btagSFErrorDown_M, kinjet2_btagEffError_M, kinjet2_betaStarClassic, kinjet2_dR2Mean;
+    float kinjet1_pt, kinjet1_e, kinjet1_phi, kinjet1_eta, kinjet1_mass, kinjet1_csvBtag, kinjet1_btagSF_M, kinjet1_btagEff_M, kinjet1_btagSFErrorUp_M, kinjet1_btagSFErrorDown_M, kinjet1_btagEffError_M, kinjet1_cutbased_wp_level, kinjet1_simple_wp_level, kinjet1_full_wp_level, kinjet1_betaStarClassic, kinjet1_dR2Mean;
+    float kinjet2_pt, kinjet2_e, kinjet2_phi, kinjet2_eta, kinjet2_mass, kinjet2_csvBtag, kinjet2_btagSF_M, kinjet2_btagEff_M, kinjet2_btagSFErrorUp_M, kinjet2_btagSFErrorDown_M, kinjet2_btagEffError_M, kinjet2_cutbased_wp_level, kinjet2_simple_wp_level, kinjet2_full_wp_level, kinjet2_betaStarClassic, kinjet2_dR2Mean;
     int kinjet1_flavour;
     int kinjet2_flavour;
 
@@ -409,6 +409,9 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
     intree->SetBranchAddress("j1_btagSFErrorDown_M", &t->j1_btagSFErrorDown_M);
     intree->SetBranchAddress("j1_btagEff_M", &t->j1_btagEff_M);
     intree->SetBranchAddress("j1_btagEffError_M", &t->j1_btagEffError_M);
+    intree->SetBranchAddress("j1_cutbased_wp_level", &t->j1_cutbased_wp_level);
+    intree->SetBranchAddress("j1_simple_wp_level", &t->j1_simple_wp_level);
+    intree->SetBranchAddress("j1_full_wp_level", &t->j1_full_wp_level);
     intree->SetBranchAddress("j1_ntk", &t->j1_ntk);
     intree->SetBranchAddress("j1_nNeutrals", &t->j1_nNeutrals);
     intree->SetBranchAddress("j1_nCharged", &t->j1_nCharged);
@@ -438,6 +441,9 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
     intree->SetBranchAddress("j2_btagSFErrorDown_M", &t->j2_btagSFErrorDown_M);
     intree->SetBranchAddress("j2_btagEff_M", &t->j2_btagEff_M);
     intree->SetBranchAddress("j2_btagEffError_M", &t->j2_btagEffError_M);
+    intree->SetBranchAddress("j2_cutbased_wp_level", &t->j2_cutbased_wp_level);
+    intree->SetBranchAddress("j2_simple_wp_level", &t->j2_simple_wp_level);
+    intree->SetBranchAddress("j2_full_wp_level", &t->j2_full_wp_level);
     intree->SetBranchAddress("j2_ntk", &t->j2_ntk);
     intree->SetBranchAddress("j2_nNeutrals", &t->j2_nNeutrals);
     intree->SetBranchAddress("j2_nCharged", &t->j2_nCharged);
@@ -467,6 +473,9 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
     intree->SetBranchAddress("j3_btagSFErrorDown_M", &t->j3_btagSFErrorDown_M);
     intree->SetBranchAddress("j3_btagEff_M", &t->j3_btagEff_M);
     intree->SetBranchAddress("j3_btagEffError_M", &t->j3_btagEffError_M);
+    intree->SetBranchAddress("j3_cutbased_wp_level", &t->j3_cutbased_wp_level);
+    intree->SetBranchAddress("j3_simple_wp_level", &t->j3_simple_wp_level);
+    intree->SetBranchAddress("j3_full_wp_level", &t->j3_full_wp_level);
     intree->SetBranchAddress("j3_ntk", &t->j3_ntk);
     intree->SetBranchAddress("j3_nNeutrals", &t->j3_nNeutrals);
     intree->SetBranchAddress("j3_nCharged", &t->j3_nCharged);
@@ -496,6 +505,9 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
     intree->SetBranchAddress("j4_btagSFErrorDown_M", &t->j4_btagSFErrorDown_M);
     intree->SetBranchAddress("j4_btagEff_M", &t->j4_btagEff_M);
     intree->SetBranchAddress("j4_btagEffError_M", &t->j4_btagEffError_M);
+    intree->SetBranchAddress("j4_cutbased_wp_level", &t->j4_cutbased_wp_level);
+    intree->SetBranchAddress("j4_simple_wp_level", &t->j4_simple_wp_level);
+    intree->SetBranchAddress("j4_full_wp_level", &t->j4_full_wp_level);
     intree->SetBranchAddress("j4_ntk", &t->j4_ntk);
     intree->SetBranchAddress("j4_nNeutrals", &t->j4_nNeutrals);
     intree->SetBranchAddress("j4_nCharged", &t->j4_nCharged);
@@ -525,6 +537,9 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
     intree->SetBranchAddress("j5_btagSFErrorDown_M", &t->j5_btagSFErrorDown_M);
     intree->SetBranchAddress("j5_btagEff_M", &t->j5_btagEff_M);
     intree->SetBranchAddress("j5_btagEffError_M", &t->j5_btagEffError_M);
+    intree->SetBranchAddress("j5_cutbased_wp_level", &t->j5_cutbased_wp_level);
+    intree->SetBranchAddress("j5_simple_wp_level", &t->j5_simple_wp_level);
+    intree->SetBranchAddress("j5_full_wp_level", &t->j5_full_wp_level);
     intree->SetBranchAddress("j5_ntk", &t->j5_ntk);
     intree->SetBranchAddress("j5_nNeutrals", &t->j5_nNeutrals);
     intree->SetBranchAddress("j5_nCharged", &t->j5_nCharged);
@@ -554,6 +569,9 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
     intree->SetBranchAddress("j6_btagSFErrorDown_M", &t->j6_btagSFErrorDown_M);
     intree->SetBranchAddress("j6_btagEff_M", &t->j6_btagEff_M);
     intree->SetBranchAddress("j6_btagEffError_M", &t->j6_btagEffError_M);
+    intree->SetBranchAddress("j6_cutbased_wp_level", &t->j6_cutbased_wp_level);
+    intree->SetBranchAddress("j6_simple_wp_level", &t->j6_simple_wp_level);
+    intree->SetBranchAddress("j6_full_wp_level", &t->j6_full_wp_level);
     intree->SetBranchAddress("j6_ntk", &t->j6_ntk);
     intree->SetBranchAddress("j6_nNeutrals", &t->j6_nNeutrals);
     intree->SetBranchAddress("j6_nCharged", &t->j6_nCharged);
@@ -583,6 +601,9 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
     intree->SetBranchAddress("j7_btagSFErrorDown_M", &t->j7_btagSFErrorDown_M);
     intree->SetBranchAddress("j7_btagEff_M", &t->j7_btagEff_M);
     intree->SetBranchAddress("j7_btagEffError_M", &t->j7_btagEffError_M);
+    intree->SetBranchAddress("j7_cutbased_wp_level", &t->j7_cutbased_wp_level);
+    intree->SetBranchAddress("j7_simple_wp_level", &t->j7_simple_wp_level);
+    intree->SetBranchAddress("j7_full_wp_level", &t->j7_full_wp_level);
     intree->SetBranchAddress("j7_ntk", &t->j7_ntk);
     intree->SetBranchAddress("j7_nNeutrals", &t->j7_nNeutrals);
     intree->SetBranchAddress("j7_nCharged", &t->j7_nCharged);
@@ -612,6 +633,9 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
     intree->SetBranchAddress("j8_btagSFErrorDown_M", &t->j8_btagSFErrorDown_M);
     intree->SetBranchAddress("j8_btagEff_M", &t->j8_btagEff_M);
     intree->SetBranchAddress("j8_btagEffError_M", &t->j8_btagEffError_M);
+    intree->SetBranchAddress("j8_cutbased_wp_level", &t->j8_cutbased_wp_level);
+    intree->SetBranchAddress("j8_simple_wp_level", &t->j8_simple_wp_level);
+    intree->SetBranchAddress("j8_full_wp_level", &t->j8_full_wp_level);
     intree->SetBranchAddress("j8_ntk", &t->j8_ntk);
     intree->SetBranchAddress("j8_nNeutrals", &t->j8_nNeutrals);
     intree->SetBranchAddress("j8_nCharged", &t->j8_nCharged);
@@ -641,6 +665,9 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
     intree->SetBranchAddress("j9_btagSFErrorDown_M", &t->j9_btagSFErrorDown_M);
     intree->SetBranchAddress("j9_btagEff_M", &t->j9_btagEff_M);
     intree->SetBranchAddress("j9_btagEffError_M", &t->j9_btagEffError_M);
+    intree->SetBranchAddress("j9_cutbased_wp_level", &t->j9_cutbased_wp_level);
+    intree->SetBranchAddress("j9_simple_wp_level", &t->j9_simple_wp_level);
+    intree->SetBranchAddress("j9_full_wp_level", &t->j9_full_wp_level);
     intree->SetBranchAddress("j9_ntk", &t->j9_ntk);
     intree->SetBranchAddress("j9_nNeutrals", &t->j9_nNeutrals);
     intree->SetBranchAddress("j9_nCharged", &t->j9_nCharged);
@@ -670,6 +697,9 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
     intree->SetBranchAddress("j10_btagSFErrorDown_M", &t->j10_btagSFErrorDown_M);
     intree->SetBranchAddress("j10_btagEff_M", &t->j10_btagEff_M);
     intree->SetBranchAddress("j10_btagEffError_M", &t->j10_btagEffError_M);
+    intree->SetBranchAddress("j10_cutbased_wp_level", &t->j10_cutbased_wp_level);
+    intree->SetBranchAddress("j10_simple_wp_level", &t->j10_simple_wp_level);
+    intree->SetBranchAddress("j10_full_wp_level", &t->j10_full_wp_level);
     intree->SetBranchAddress("j10_ntk", &t->j10_ntk);
     intree->SetBranchAddress("j10_nNeutrals", &t->j10_nNeutrals);
     intree->SetBranchAddress("j10_nCharged", &t->j10_nCharged);
@@ -699,6 +729,9 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
     intree->SetBranchAddress("j11_btagSFErrorDown_M", &t->j11_btagSFErrorDown_M);
     intree->SetBranchAddress("j11_btagEff_M", &t->j11_btagEff_M);
     intree->SetBranchAddress("j11_btagEffError_M", &t->j11_btagEffError_M);
+    intree->SetBranchAddress("j11_cutbased_wp_level", &t->j11_cutbased_wp_level);
+    intree->SetBranchAddress("j11_simple_wp_level", &t->j11_simple_wp_level);
+    intree->SetBranchAddress("j11_full_wp_level", &t->j11_full_wp_level);
     intree->SetBranchAddress("j11_ntk", &t->j11_ntk);
     intree->SetBranchAddress("j11_nNeutrals", &t->j11_nNeutrals);
     intree->SetBranchAddress("j11_nCharged", &t->j11_nCharged);
@@ -728,6 +761,9 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
     intree->SetBranchAddress("j12_btagSFErrorDown_M", &t->j12_btagSFErrorDown_M);
     intree->SetBranchAddress("j12_btagEff_M", &t->j12_btagEff_M);
     intree->SetBranchAddress("j12_btagEffError_M", &t->j12_btagEffError_M);
+    intree->SetBranchAddress("j12_cutbased_wp_level", &t->j12_cutbased_wp_level);
+    intree->SetBranchAddress("j12_simple_wp_level", &t->j12_simple_wp_level);
+    intree->SetBranchAddress("j12_full_wp_level", &t->j12_full_wp_level);
     intree->SetBranchAddress("j12_ntk", &t->j12_ntk);
     intree->SetBranchAddress("j12_nNeutrals", &t->j12_nNeutrals);
     intree->SetBranchAddress("j12_nCharged", &t->j12_nCharged);
@@ -757,6 +793,9 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
     intree->SetBranchAddress("j13_btagSFErrorDown_M", &t->j13_btagSFErrorDown_M);
     intree->SetBranchAddress("j13_btagEff_M", &t->j13_btagEff_M);
     intree->SetBranchAddress("j13_btagEffError_M", &t->j13_btagEffError_M);
+    intree->SetBranchAddress("j13_cutbased_wp_level", &t->j13_cutbased_wp_level);
+    intree->SetBranchAddress("j13_simple_wp_level", &t->j13_simple_wp_level);
+    intree->SetBranchAddress("j13_full_wp_level", &t->j13_full_wp_level);
     intree->SetBranchAddress("j13_ntk", &t->j13_ntk);
     intree->SetBranchAddress("j13_nNeutrals", &t->j13_nNeutrals);
     intree->SetBranchAddress("j13_nCharged", &t->j13_nCharged);
@@ -786,6 +825,9 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
     intree->SetBranchAddress("j14_btagSFErrorDown_M", &t->j14_btagSFErrorDown_M);
     intree->SetBranchAddress("j14_btagEff_M", &t->j14_btagEff_M);
     intree->SetBranchAddress("j14_btagEffError_M", &t->j14_btagEffError_M);
+    intree->SetBranchAddress("j14_cutbased_wp_level", &t->j14_cutbased_wp_level);
+    intree->SetBranchAddress("j14_simple_wp_level", &t->j14_simple_wp_level);
+    intree->SetBranchAddress("j14_full_wp_level", &t->j14_full_wp_level);
     intree->SetBranchAddress("j14_ntk", &t->j14_ntk);
     intree->SetBranchAddress("j14_nNeutrals", &t->j14_nNeutrals);
     intree->SetBranchAddress("j14_nCharged", &t->j14_nCharged);
@@ -815,6 +857,9 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
     intree->SetBranchAddress("j15_btagSFErrorDown_M", &t->j15_btagSFErrorDown_M);
     intree->SetBranchAddress("j15_btagEff_M", &t->j15_btagEff_M);
     intree->SetBranchAddress("j15_btagEffError_M", &t->j15_btagEffError_M);
+    intree->SetBranchAddress("j15_cutbased_wp_level", &t->j15_cutbased_wp_level);
+    intree->SetBranchAddress("j15_simple_wp_level", &t->j15_simple_wp_level);
+    intree->SetBranchAddress("j15_full_wp_level", &t->j15_full_wp_level);
     intree->SetBranchAddress("j15_ntk", &t->j15_ntk);
     intree->SetBranchAddress("j15_nNeutrals", &t->j15_nNeutrals);
     intree->SetBranchAddress("j15_nCharged", &t->j15_nCharged);
@@ -1224,6 +1269,9 @@ void setup_outtree(TTree* outtree, tree_variables *t)
     outtree->Branch("jet1_btagSFErrorDown_M", &t->jet1_btagSFErrorDown_M, "jet1_btagSFErrorDown_M/F");
     outtree->Branch("jet1_btagEff_M", &t->jet1_btagEff_M, "jet1_btagEff_M/F");
     outtree->Branch("jet1_btagEffError_M", &t->jet1_btagEffError_M, "jet1_btagEffError_M/F");
+    outtree->Branch("jet1_cutbased_wp_level", &t->jet1_cutbased_wp_level, "jet1_cutbased_wp_level/F");
+    outtree->Branch("jet1_simple_wp_level", &t->jet1_simple_wp_level, "jet1_simple_wp_level/F");
+    outtree->Branch("jet1_full_wp_level", &t->jet1_full_wp_level, "jet1_full_wp_level/F");
     outtree->Branch("jet1_betaStarClassic", &t->jet1_betaStarClassic, "jet1_betaStarClassic/F");
     outtree->Branch("jet1_dR2Mean", &t->jet1_dR2Mean, "jet1_dR2Mean/F");
     outtree->Branch("jet2_pt", &t->jet2_pt, "jet2_pt/F");
@@ -1238,6 +1286,9 @@ void setup_outtree(TTree* outtree, tree_variables *t)
     outtree->Branch("jet2_btagSFErrorDown_M", &t->jet2_btagSFErrorDown_M, "jet2_btagSFErrorDown_M/F");
     outtree->Branch("jet2_btagEff_M", &t->jet2_btagEff_M, "jet2_btagEff_M/F");
     outtree->Branch("jet2_btagEffError_M", &t->jet2_btagEffError_M, "jet2_btagEffError_M/F");
+    outtree->Branch("jet2_cutbased_wp_level", &t->jet2_cutbased_wp_level, "jet2_cutbased_wp_level/F");
+    outtree->Branch("jet2_simple_wp_level", &t->jet2_simple_wp_level, "jet2_simple_wp_level/F");
+    outtree->Branch("jet2_full_wp_level", &t->jet2_full_wp_level, "jet2_full_wp_level/F");
     outtree->Branch("jet2_betaStarClassic", &t->jet2_betaStarClassic, "jet2_betaStarClassic/F");
     outtree->Branch("jet2_dR2Mean", &t->jet2_dR2Mean, "jet2_dR2Mean/F");
 // storing inputs of the regression for comparison
@@ -1266,6 +1317,9 @@ void setup_outtree(TTree* outtree, tree_variables *t)
     outtree->Branch("regjet1_btagSFErrorDown_M", &t->regjet1_btagSFErrorDown_M, "regjet1_btagSFErrorDown_M/F");
     outtree->Branch("regjet1_btagEff_M", &t->regjet1_btagEff_M, "regjet1_btagEff_M/F");
     outtree->Branch("regjet1_btagEffError_M", &t->regjet1_btagEffError_M, "regjet1_btagEffError_M/F");
+    outtree->Branch("regjet1_cutbased_wp_level", &t->regjet1_cutbased_wp_level, "regjet1_cutbased_wp_level/F");
+    outtree->Branch("regjet1_simple_wp_level", &t->regjet1_simple_wp_level, "regjet1_simple_wp_level/F");
+    outtree->Branch("regjet1_full_wp_level", &t->regjet1_full_wp_level, "regjet1_full_wp_level/F");
     outtree->Branch("regjet1_betaStarClassic", &t->regjet1_betaStarClassic, "regjet1_betaStarClassic/F");
     outtree->Branch("regjet1_dR2Mean", &t->regjet1_dR2Mean, "regjet1_dR2Mean/F");
     outtree->Branch("regjet2_pt", &t->regjet2_pt, "regjet2_pt/F");
@@ -1280,6 +1334,9 @@ void setup_outtree(TTree* outtree, tree_variables *t)
     outtree->Branch("regjet2_btagSFErrorDown_M", &t->regjet2_btagSFErrorDown_M, "regjet2_btagSFErrorDown_M/F");
     outtree->Branch("regjet2_btagEff_M", &t->regjet2_btagEff_M, "regjet2_btagEff_M/F");
     outtree->Branch("regjet2_btagEffError_M", &t->regjet2_btagEffError_M, "regjet2_btagEffError_M/F");
+    outtree->Branch("regjet2_cutbased_wp_level", &t->regjet2_cutbased_wp_level, "regjet2_cutbased_wp_level/F");
+    outtree->Branch("regjet2_simple_wp_level", &t->regjet2_simple_wp_level, "regjet2_simple_wp_level/F");
+    outtree->Branch("regjet2_full_wp_level", &t->regjet2_full_wp_level, "regjet2_full_wp_level/F");
     outtree->Branch("regjet2_betaStarClassic", &t->regjet2_betaStarClassic, "regjet2_betaStarClassic/F");
     outtree->Branch("regjet2_dR2Mean", &t->regjet2_dR2Mean, "regjet2_dR2Mean/F");
     outtree->Branch("regkinjet1_pt", &t->regkinjet1_pt, "regkinjet1_pt/F");
@@ -1294,6 +1351,9 @@ void setup_outtree(TTree* outtree, tree_variables *t)
     outtree->Branch("regkinjet1_btagSFErrorDown_M", &t->regkinjet1_btagSFErrorDown_M, "regkinjet1_btagSFErrorDown_M/F");
     outtree->Branch("regkinjet1_btagEff_M", &t->regkinjet1_btagEff_M, "regkinjet1_btagEff_M/F");
     outtree->Branch("regkinjet1_btagEffError_M", &t->regkinjet1_btagEffError_M, "regkinjet1_btagEffError_M/F");
+    outtree->Branch("regkinjet1_cutbased_wp_level", &t->regkinjet1_cutbased_wp_level, "regkinjet1_cutbased_wp_level/F");
+    outtree->Branch("regkinjet1_simple_wp_level", &t->regkinjet1_simple_wp_level, "regkinjet1_simple_wp_level/F");
+    outtree->Branch("regkinjet1_full_wp_level", &t->regkinjet1_full_wp_level, "regkinjet1_full_wp_level/F");
     outtree->Branch("regkinjet1_betaStarClassic", &t->regkinjet1_betaStarClassic, "regkinjet1_betaStarClassic/F");
     outtree->Branch("regkinjet1_dR2Mean", &t->regkinjet1_dR2Mean, "regkinjet1_dR2Mean/F");
     outtree->Branch("regkinjet2_pt", &t->regkinjet2_pt, "regkinjet2_pt/F");
@@ -1307,6 +1367,9 @@ void setup_outtree(TTree* outtree, tree_variables *t)
     outtree->Branch("regkinjet2_btagSFErrorUp_M", &t->regkinjet2_btagSFErrorUp_M, "regkinjet2_btagSFErrorUp_M/F");
     outtree->Branch("regkinjet2_btagSFErrorDown_M", &t->regkinjet2_btagSFErrorDown_M, "regkinjet2_btagSFErrorDown_M/F");
     outtree->Branch("regkinjet2_btagEffError_M", &t->regkinjet2_btagEffError_M, "regkinjet2_btagEffError_M/F");
+    outtree->Branch("regkinjet2_cutbased_wp_level", &t->regkinjet2_cutbased_wp_level, "regkinjet2_cutbased_wp_level/F");
+    outtree->Branch("regkinjet2_simple_wp_level", &t->regkinjet2_simple_wp_level, "regkinjet2_simple_wp_level/F");
+    outtree->Branch("regkinjet2_full_wp_level", &t->regkinjet2_full_wp_level, "regkinjet2_full_wp_level/F");
     outtree->Branch("regkinjet2_btagEff_M", &t->regkinjet2_btagEff_M, "regkinjet2_btagEff_M/F");
     outtree->Branch("regkinjet2_betaStarClassic", &t->regkinjet2_betaStarClassic, "regkinjet2_betaStarClassic/F");
     outtree->Branch("regkinjet2_dR2Mean", &t->regkinjet2_dR2Mean, "regkinjet2_dR2Mean/F");
@@ -1321,6 +1384,9 @@ void setup_outtree(TTree* outtree, tree_variables *t)
     outtree->Branch("kinjet1_btagSFErrorUp_M", &t->kinjet1_btagSFErrorUp_M, "kinjet1_btagSFErrorUp_M/F");
     outtree->Branch("kinjet1_btagSFErrorDown_M", &t->kinjet1_btagSFErrorDown_M, "kinjet1_btagSFErrorDown_M/F");
     outtree->Branch("kinjet1_btagEffError_M", &t->kinjet1_btagEffError_M, "kinjet1_btagEffError_M/F");
+    outtree->Branch("kinjet1_cutbased_wp_level", &t->kinjet1_cutbased_wp_level, "kinjet1_cutbased_wp_level/F");
+    outtree->Branch("kinjet1_simple_wp_level", &t->kinjet1_simple_wp_level, "kinjet1_simple_wp_level/F");
+    outtree->Branch("kinjet1_full_wp_level", &t->kinjet1_full_wp_level, "kinjet1_full_wp_level/F");
     outtree->Branch("kinjet1_btagEff_M", &t->kinjet1_btagEff_M, "kinjet1_btagEff_M/F");
     outtree->Branch("kinjet1_betaStarClassic", &t->kinjet1_betaStarClassic, "kinjet1_betaStarClassic/F");
     outtree->Branch("kinjet1_dR2Mean", &t->kinjet1_dR2Mean, "kinjet1_dR2Mean/F");
@@ -1335,6 +1401,9 @@ void setup_outtree(TTree* outtree, tree_variables *t)
     outtree->Branch("kinjet2_btagSFErrorUp_M", &t->kinjet2_btagSFErrorUp_M, "kinjet2_btagSFErrorUp_M/F");
     outtree->Branch("kinjet2_btagSFErrorDown_M", &t->kinjet2_btagSFErrorDown_M, "kinjet2_btagSFErrorDown_M/F");
     outtree->Branch("kinjet2_btagEffError_M", &t->kinjet2_btagEffError_M, "kinjet2_btagEffError_M/F");
+    outtree->Branch("kinjet2_cutbased_wp_level", &t->kinjet2_cutbased_wp_level, "kinjet2_cutbased_wp_level/F");
+    outtree->Branch("kinjet2_simple_wp_level", &t->kinjet2_simple_wp_level, "kinjet2_simple_wp_level/F");
+    outtree->Branch("kinjet2_full_wp_level", &t->kinjet2_full_wp_level, "kinjet2_full_wp_level/F");
     outtree->Branch("kinjet2_btagEff_M", &t->kinjet2_btagEff_M, "kinjet2_btagEff_M/F");
     outtree->Branch("kinjet2_betaStarClassic", &t->kinjet2_betaStarClassic, "kinjet2_betaStarClassic/F");
     outtree->Branch("kinjet2_dR2Mean", &t->kinjet2_dR2Mean, "kinjet2_dR2Mean/F");
@@ -1558,6 +1627,9 @@ struct jet_variables
         std::vector<float> jetbtagSFErrorDown_M;
         std::vector<float> jetbtagEff_M;
         std::vector<float> jetbtagEffError_M;
+        std::vector<float> jetcutbased_wp_level;
+        std::vector<float> jetsimple_wp_level;
+        std::vector<float> jetfull_wp_level;
         std::vector<float> jetbetaStarClassic;
         std::vector<float> jetdR2Mean;
         std::vector<float> jetE;
@@ -1591,6 +1663,9 @@ void initialize_jet_variables( jet_variables * J )
         J->jetbtagSFErrorDown_M.clear();
         J->jetbtagEff_M.clear();
         J->jetbtagEffError_M.clear();
+        J->jetcutbased_wp_level.clear();
+        J->jetsimple_wp_level.clear();
+        J->jetfull_wp_level.clear();
         J->jetbetaStarClassic.clear();
         J->jetdR2Mean.clear();
         J->jetE.clear();
@@ -1639,6 +1714,9 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met)
                 t->jet_btagSFErrorDown_M = t->j1_btagSFErrorDown_M;
                 t->jet_btagEff_M = t->j1_btagEff_M;
                 t->jet_btagEffError_M = t->j1_btagEffError_M;
+                t->jet_cutbased_wp_level = t->j1_cutbased_wp_level;
+                t->jet_simple_wp_level = t->j1_simple_wp_level;
+                t->jet_full_wp_level = t->j1_full_wp_level;
                 t->jet_betaStarClassic = t->j1_betaStarClassic;
                 t->jet_dR2Mean = t->j1_dR2Mean;
                 t->jet_nNeutrals = t->j1_nNeutrals;
@@ -1687,6 +1765,9 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met)
                 t->jet_btagSFErrorDown_M = t->j2_btagSFErrorDown_M;
                 t->jet_btagEff_M = t->j2_btagEff_M;
                 t->jet_btagEffError_M = t->j2_btagEffError_M;
+                t->jet_cutbased_wp_level = t->j2_cutbased_wp_level;
+                t->jet_simple_wp_level = t->j2_simple_wp_level;
+                t->jet_full_wp_level = t->j2_full_wp_level;
                 t->jet_betaStarClassic = t->j2_betaStarClassic;
                 t->jet_dR2Mean = t->j2_dR2Mean;
                 t->jet_nNeutrals = t->j2_nNeutrals;
@@ -1735,6 +1816,9 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met)
                 t->jet_btagSFErrorDown_M = t->j3_btagSFErrorDown_M;
                 t->jet_btagEff_M = t->j3_btagEff_M;
                 t->jet_btagEffError_M = t->j3_btagEffError_M;
+                t->jet_cutbased_wp_level = t->j3_cutbased_wp_level;
+                t->jet_simple_wp_level = t->j3_simple_wp_level;
+                t->jet_full_wp_level = t->j3_full_wp_level;
                 t->jet_betaStarClassic = t->j3_betaStarClassic;
                 t->jet_dR2Mean = t->j3_dR2Mean;
                 t->jet_nNeutrals = t->j3_nNeutrals;
@@ -1783,6 +1867,9 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met)
                 t->jet_btagSFErrorDown_M = t->j4_btagSFErrorDown_M;
                 t->jet_btagEff_M = t->j4_btagEff_M;
                 t->jet_btagEffError_M = t->j4_btagEffError_M;
+                t->jet_cutbased_wp_level = t->j4_cutbased_wp_level;
+                t->jet_simple_wp_level = t->j4_simple_wp_level;
+                t->jet_full_wp_level = t->j4_full_wp_level;
                 t->jet_betaStarClassic = t->j4_betaStarClassic;
                 t->jet_dR2Mean = t->j4_dR2Mean;
                 t->jet_nNeutrals = t->j4_nNeutrals;
@@ -1831,6 +1918,9 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met)
                 t->jet_btagSFErrorDown_M = t->j5_btagSFErrorDown_M;
                 t->jet_btagEff_M = t->j5_btagEff_M;
                 t->jet_btagEffError_M = t->j5_btagEffError_M;
+                t->jet_cutbased_wp_level = t->j5_cutbased_wp_level;
+                t->jet_simple_wp_level = t->j5_simple_wp_level;
+                t->jet_full_wp_level = t->j5_full_wp_level;
                 t->jet_betaStarClassic = t->j5_betaStarClassic;
                 t->jet_dR2Mean = t->j5_dR2Mean;
                 t->jet_nNeutrals = t->j5_nNeutrals;
@@ -1879,6 +1969,9 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met)
                 t->jet_btagSFErrorDown_M = t->j6_btagSFErrorDown_M;
                 t->jet_btagEff_M = t->j6_btagEff_M;
                 t->jet_btagEffError_M = t->j6_btagEffError_M;
+                t->jet_cutbased_wp_level = t->j6_cutbased_wp_level;
+                t->jet_simple_wp_level = t->j6_simple_wp_level;
+                t->jet_full_wp_level = t->j6_full_wp_level;
                 t->jet_betaStarClassic = t->j6_betaStarClassic;
                 t->jet_dR2Mean = t->j6_dR2Mean;
                 t->jet_nNeutrals = t->j6_nNeutrals;
@@ -1927,6 +2020,9 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met)
                 t->jet_btagSFErrorDown_M = t->j7_btagSFErrorDown_M;
                 t->jet_btagEff_M = t->j7_btagEff_M;
                 t->jet_btagEffError_M = t->j7_btagEffError_M;
+                t->jet_cutbased_wp_level = t->j7_cutbased_wp_level;
+                t->jet_simple_wp_level = t->j7_simple_wp_level;
+                t->jet_full_wp_level = t->j7_full_wp_level;
                 t->jet_betaStarClassic = t->j7_betaStarClassic;
                 t->jet_dR2Mean = t->j7_dR2Mean;
                 t->jet_nNeutrals = t->j7_nNeutrals;
@@ -1975,6 +2071,9 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met)
                 t->jet_btagSFErrorDown_M = t->j8_btagSFErrorDown_M;
                 t->jet_btagEff_M = t->j8_btagEff_M;
                 t->jet_btagEffError_M = t->j8_btagEffError_M;
+                t->jet_cutbased_wp_level = t->j8_cutbased_wp_level;
+                t->jet_simple_wp_level = t->j8_simple_wp_level;
+                t->jet_full_wp_level = t->j8_full_wp_level;
                 t->jet_betaStarClassic = t->j8_betaStarClassic;
                 t->jet_dR2Mean = t->j8_dR2Mean;
                 t->jet_nNeutrals = t->j8_nNeutrals;
@@ -2023,6 +2122,9 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met)
                 t->jet_btagSFErrorDown_M = t->j9_btagSFErrorDown_M;
                 t->jet_btagEff_M = t->j9_btagEff_M;
                 t->jet_btagEffError_M = t->j9_btagEffError_M;
+                t->jet_cutbased_wp_level = t->j9_cutbased_wp_level;
+                t->jet_simple_wp_level = t->j9_simple_wp_level;
+                t->jet_full_wp_level = t->j9_full_wp_level;
                 t->jet_betaStarClassic = t->j9_betaStarClassic;
                 t->jet_dR2Mean = t->j9_dR2Mean;
                 t->jet_nNeutrals = t->j9_nNeutrals;
@@ -2071,6 +2173,9 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met)
                 t->jet_btagSFErrorDown_M = t->j10_btagSFErrorDown_M;
                 t->jet_btagEff_M = t->j10_btagEff_M;
                 t->jet_btagEffError_M = t->j10_btagEffError_M;
+                t->jet_cutbased_wp_level = t->j10_cutbased_wp_level;
+                t->jet_simple_wp_level = t->j10_simple_wp_level;
+                t->jet_full_wp_level = t->j10_full_wp_level;
                 t->jet_betaStarClassic = t->j10_betaStarClassic;
                 t->jet_dR2Mean = t->j10_dR2Mean;
                 t->jet_nNeutrals = t->j10_nNeutrals;
@@ -2119,6 +2224,9 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met)
                 t->jet_btagSFErrorDown_M = t->j11_btagSFErrorDown_M;
                 t->jet_btagEff_M = t->j11_btagEff_M;
                 t->jet_btagEffError_M = t->j11_btagEffError_M;
+                t->jet_cutbased_wp_level = t->j11_cutbased_wp_level;
+                t->jet_simple_wp_level = t->j11_simple_wp_level;
+                t->jet_full_wp_level = t->j11_full_wp_level;
                 t->jet_betaStarClassic = t->j11_betaStarClassic;
                 t->jet_dR2Mean = t->j11_dR2Mean;
                 t->jet_nNeutrals = t->j11_nNeutrals;
@@ -2167,6 +2275,9 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met)
                 t->jet_btagSFErrorDown_M = t->j12_btagSFErrorDown_M;
                 t->jet_btagEff_M = t->j12_btagEff_M;
                 t->jet_btagEffError_M = t->j12_btagEffError_M;
+                t->jet_cutbased_wp_level = t->j12_cutbased_wp_level;
+                t->jet_simple_wp_level = t->j12_simple_wp_level;
+                t->jet_full_wp_level = t->j12_full_wp_level;
                 t->jet_betaStarClassic = t->j12_betaStarClassic;
                 t->jet_dR2Mean = t->j12_dR2Mean;
                 t->jet_nNeutrals = t->j12_nNeutrals;
@@ -2215,6 +2326,9 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met)
                 t->jet_btagSFErrorDown_M = t->j13_btagSFErrorDown_M;
                 t->jet_btagEff_M = t->j13_btagEff_M;
                 t->jet_btagEffError_M = t->j13_btagEffError_M;
+                t->jet_cutbased_wp_level = t->j13_cutbased_wp_level;
+                t->jet_simple_wp_level = t->j13_simple_wp_level;
+                t->jet_full_wp_level = t->j13_full_wp_level;
                 t->jet_betaStarClassic = t->j13_betaStarClassic;
                 t->jet_dR2Mean = t->j13_dR2Mean;
                 t->jet_nNeutrals = t->j13_nNeutrals;
@@ -2263,6 +2377,9 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met)
                 t->jet_btagSFErrorDown_M = t->j14_btagSFErrorDown_M;
                 t->jet_btagEff_M = t->j14_btagEff_M;
                 t->jet_btagEffError_M = t->j14_btagEffError_M;
+                t->jet_cutbased_wp_level = t->j14_cutbased_wp_level;
+                t->jet_simple_wp_level = t->j14_simple_wp_level;
+                t->jet_full_wp_level = t->j14_full_wp_level;
                 t->jet_betaStarClassic = t->j14_betaStarClassic;
                 t->jet_dR2Mean = t->j14_dR2Mean;
                 t->jet_nNeutrals = t->j14_nNeutrals;
@@ -2311,6 +2428,9 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met)
                 t->jet_btagSFErrorDown_M = t->j15_btagSFErrorDown_M;
                 t->jet_btagEff_M = t->j15_btagEff_M;
                 t->jet_btagEffError_M = t->j15_btagEffError_M;
+                t->jet_cutbased_wp_level = t->j15_cutbased_wp_level;
+                t->jet_simple_wp_level = t->j15_simple_wp_level;
+                t->jet_full_wp_level = t->j15_full_wp_level;
                 t->jet_betaStarClassic = t->j15_betaStarClassic;
                 t->jet_dR2Mean = t->j15_dR2Mean;
                 t->jet_nNeutrals = t->j15_nNeutrals;

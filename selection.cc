@@ -450,6 +450,9 @@ int main(int argc, char *argv[])
             J.jetbtagSFErrorDown_M.push_back(t.jet_btagSFErrorDown_M);
             J.jetbtagEff_M.push_back(t.jet_btagEff_M);
             J.jetbtagEffError_M.push_back(t.jet_btagEffError_M);
+            J.jetcutbased_wp_level.push_back(t.jet_cutbased_wp_level);
+            J.jetsimple_wp_level.push_back(t.jet_simple_wp_level);
+            J.jetfull_wp_level.push_back(t.jet_full_wp_level);
             J.jetdR2Mean.push_back(t.jet_dR2Mean);
             J.jetbetaStarClassic.push_back(t.jet_betaStarClassic);
             J.jetE.push_back(t.jet_e);
@@ -912,6 +915,9 @@ int main(int argc, char *argv[])
         t.jet1_btagSFErrorDown_M = J.jetbtagSFErrorDown_M[ij1];
         t.jet1_btagEff_M = J.jetbtagEff_M[ij1];
         t.jet1_btagEffError_M = J.jetbtagEffError_M[ij1];
+        t.jet1_cutbased_wp_level = J.jetcutbased_wp_level[ij1];
+        t.jet1_simple_wp_level = J.jetsimple_wp_level[ij1];
+        t.jet1_full_wp_level = J.jetfull_wp_level[ij1];
         t.jet1_betaStarClassic = J.jetbetaStarClassic[ij1];
         t.jet1_dR2Mean = J.jetdR2Mean[ij1];
         t.jet2_pt = jet2.Pt();
@@ -926,6 +932,9 @@ int main(int argc, char *argv[])
         t.jet2_btagSFErrorDown_M = J.jetbtagSFErrorDown_M[ij2];
         t.jet2_btagEff_M = J.jetbtagEff_M[ij2];
         t.jet2_btagEffError_M = J.jetbtagEffError_M[ij2];
+        t.jet2_cutbased_wp_level = J.jetcutbased_wp_level[ij2];
+        t.jet2_simple_wp_level = J.jetsimple_wp_level[ij2];
+        t.jet2_full_wp_level = J.jetfull_wp_level[ij2];
         t.jet2_betaStarClassic = J.jetbetaStarClassic[ij2];
         t.jet2_dR2Mean = J.jetdR2Mean[ij2];
         t.regjet1_pt = regjet1.Pt();
@@ -940,6 +949,9 @@ int main(int argc, char *argv[])
         t.regjet1_btagSFErrorDown_M = J.jetbtagSFErrorDown_M[ij1Reg];
         t.regjet1_btagEff_M = J.jetbtagEff_M[ij1Reg];
         t.regjet1_btagEffError_M = J.jetbtagEffError_M[ij1Reg];
+        t.regjet1_cutbased_wp_level = J.jetcutbased_wp_level[ij1Reg];
+        t.regjet1_simple_wp_level = J.jetsimple_wp_level[ij1Reg];
+        t.regjet1_full_wp_level = J.jetfull_wp_level[ij1Reg];
         t.regjet1_betaStarClassic = J.jetbetaStarClassic[ij1Reg];
         t.regjet1_dR2Mean = J.jetdR2Mean[ij1Reg];
         t.regjet2_pt = regjet2.Pt();
@@ -954,6 +966,9 @@ int main(int argc, char *argv[])
         t.regjet2_btagSFErrorDown_M = J.jetbtagSFErrorDown_M[ij2Reg];
         t.regjet2_btagEff_M = J.jetbtagEff_M[ij2Reg];
         t.regjet2_btagEffError_M = J.jetbtagEffError_M[ij2Reg];
+        t.regjet2_cutbased_wp_level = J.jetcutbased_wp_level[ij2Reg];
+        t.regjet2_simple_wp_level = J.jetsimple_wp_level[ij2Reg];
+        t.regjet2_full_wp_level = J.jetfull_wp_level[ij2Reg];
         t.regjet2_betaStarClassic = J.jetbetaStarClassic[ij2Reg];
         t.regjet2_dR2Mean = J.jetdR2Mean[ij2Reg];
         t.regjet1_emfrac = J.jetEmfrac[ij1Reg];
@@ -980,6 +995,9 @@ int main(int argc, char *argv[])
         t.regkinjet1_btagSFErrorDown_M = J.jetbtagSFErrorDown_M[ij1RegKin];
         t.regkinjet1_btagEff_M = J.jetbtagEff_M[ij1RegKin];
         t.regkinjet1_btagEffError_M = J.jetbtagEffError_M[ij1RegKin];
+        t.regkinjet1_cutbased_wp_level = J.jetcutbased_wp_level[ij1RegKin];
+        t.regkinjet1_simple_wp_level = J.jetsimple_wp_level[ij1RegKin];
+        t.regkinjet1_full_wp_level = J.jetfull_wp_level[ij1RegKin];
         t.regkinjet1_betaStarClassic = J.jetbetaStarClassic[ij1RegKin];
         t.regkinjet1_dR2Mean = J.jetdR2Mean[ij1RegKin];
         t.regkinjet2_pt = regkinjet2.Pt();
@@ -994,6 +1012,9 @@ int main(int argc, char *argv[])
         t.regkinjet2_btagSFErrorDown_M = J.jetbtagSFErrorDown_M[ij2RegKin];
         t.regkinjet2_btagEff_M = J.jetbtagEff_M[ij2RegKin];
         t.regkinjet2_btagEffError_M = J.jetbtagEffError_M[ij2RegKin];
+        t.regkinjet2_cutbased_wp_level = J.jetcutbased_wp_level[ij2RegKin];
+        t.regkinjet2_simple_wp_level = J.jetsimple_wp_level[ij2RegKin];
+        t.regkinjet2_full_wp_level = J.jetfull_wp_level[ij2RegKin];
         t.regkinjet2_betaStarClassic = J.jetbetaStarClassic[ij2RegKin];
         t.regkinjet2_dR2Mean = J.jetdR2Mean[ij2RegKin];
         t.kinjet1_pt = kinjet1.Pt();
@@ -1008,6 +1029,9 @@ int main(int argc, char *argv[])
         t.kinjet1_btagSFErrorDown_M = J.jetbtagSFErrorDown_M[ij1];
         t.kinjet1_btagEff_M = J.jetbtagEff_M[ij1];
         t.kinjet1_btagEffError_M = J.jetbtagEffError_M[ij1];
+        t.kinjet1_cutbased_wp_level = J.jetcutbased_wp_level[ij1];
+        t.kinjet1_simple_wp_level = J.jetsimple_wp_level[ij1];
+        t.kinjet1_full_wp_level = J.jetfull_wp_level[ij1];
         t.kinjet1_betaStarClassic = J.jetbetaStarClassic[ij1];
         t.kinjet1_dR2Mean = J.jetdR2Mean[ij1];
         t.kinjet2_pt = kinjet2.Pt();
@@ -1022,6 +1046,9 @@ int main(int argc, char *argv[])
         t.kinjet2_btagSFErrorDown_M = J.jetbtagSFErrorDown_M[ij2];
         t.kinjet2_btagEff_M = J.jetbtagEff_M[ij2];
         t.kinjet2_btagEffError_M = J.jetbtagEffError_M[ij2];
+        t.kinjet2_cutbased_wp_level = J.jetcutbased_wp_level[ij2];
+        t.kinjet2_simple_wp_level = J.jetsimple_wp_level[ij2];
+        t.kinjet2_full_wp_level = J.jetfull_wp_level[ij2];
         t.kinjet2_betaStarClassic = J.jetbetaStarClassic[ij2];
         t.kinjet2_dR2Mean = J.jetdR2Mean[ij2];
         t.jj_pt = jj.Pt();
