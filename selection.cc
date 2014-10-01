@@ -1220,6 +1220,10 @@ int main(int argc, char *argv[])
         t.dPhi_gg_regjj = gg.DeltaPhi( regjj );
         t.dPhi_gg_regkinjj = gg.DeltaPhi( regkinjj );
         t.dPhi_gg_kinjj = gg.DeltaPhi( kinjj );
+        t.dR_gg_jj = gg.DeltaR( jj );
+        t.dR_gg_regjj = gg.DeltaR( regjj );
+        t.dR_gg_regkinjj = gg.DeltaR( regkinjj );
+        t.dR_gg_kinjj = gg.DeltaR( kinjj );
         // fill gen info that is not simply fast-forwarded
         if( t.gr_hbb_p4_pt > .01 && t.gr_hgg_p4_pt > .01)
         {
@@ -1229,6 +1233,7 @@ int main(int argc, char *argv[])
             t.gr_hbbhgg_costhetastar_CS = getCosThetaStar_CS(gr_hgg, gr_hbb); 
             t.gr_dEta_gg_bb = gr_hgg.Eta() - gr_hbb.Eta();
             t.gr_dPhi_gg_bb = gr_hgg.DeltaPhi( gr_hbb );
+            t.gr_dR_gg_bb = gr_hgg.DeltaR( gr_hbb );
         }
         if( t.gr_hjj_p4_pt > .01 && t.gr_hgg_p4_pt > .01)
         {
@@ -1238,6 +1243,7 @@ int main(int argc, char *argv[])
             t.gr_hjjhgg_costhetastar_CS = getCosThetaStar_CS(gr_hgg, gr_hjj); 
             t.gr_dEta_gg_jj = gr_hgg.Eta() - gr_hjj.Eta();
             t.gr_dPhi_gg_jj = gr_hgg.DeltaPhi( gr_hjj );
+            t.gr_dR_gg_jj = gr_hgg.DeltaR( gr_hjj );
         }
 
         t.weight = t.ev_weight;

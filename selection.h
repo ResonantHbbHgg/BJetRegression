@@ -15,6 +15,7 @@ struct tree_variables
     float gr_hbbhgg_costhetastar_CS, gr_hjjhgg_costhetastar_CS;
     float gr_dEta_gg_bb, gr_dEta_gg_jj;
     float gr_dPhi_gg_bb, gr_dPhi_gg_jj;
+    float gr_dR_gg_bb, gr_dR_gg_jj;
 // event variables
     float met_corr_pfmet, met_corr_phi_pfmet, met_corr_eta_pfmet, met_corr_e_pfmet;
     float pu_n, nvtx, rho;
@@ -232,6 +233,7 @@ struct tree_variables
     float HT_gg;
     float dEta_gg_jj, dEta_gg_regjj, dEta_gg_regkinjj, dEta_gg_kinjj;
     float dPhi_gg_jj, dPhi_gg_regjj, dPhi_gg_regkinjj, dPhi_gg_kinjj;
+    float dR_gg_jj, dR_gg_regjj, dR_gg_regkinjj, dR_gg_kinjj;
     // Photon Energy Scale & Photon Energy Resolution
     float gg_mass_pesD1, gg_mass_pesU1, gg_mass_perD1, gg_mass_perU1;
     float gg_mass_pesD2, gg_mass_pesU2, gg_mass_perD2, gg_mass_perU2;
@@ -276,6 +278,7 @@ void initialize_variables(tree_variables *t)
     t->gr_hbbhgg_costhetastar_CS = t->gr_hjjhgg_costhetastar_CS = 0.;
     t->gr_dEta_gg_bb = t->gr_dEta_gg_jj = 0.;
     t->gr_dPhi_gg_bb = t->gr_dPhi_gg_jj = 0.;
+    t->gr_dR_gg_bb = t->gr_dR_gg_jj = 0.;
     t->selection_cut_level = 0;
     t->category = 0;
 
@@ -1485,6 +1488,10 @@ void setup_outtree(TTree* outtree, tree_variables *t)
     outtree->Branch("dPhi_gg_regjj", &t->dPhi_gg_regjj, "dPhi_gg_regjj/F");
     outtree->Branch("dPhi_gg_regkinjj", &t->dPhi_gg_regkinjj, "dPhi_gg_regkinjj/F");
     outtree->Branch("dPhi_gg_kinjj", &t->dPhi_gg_kinjj, "dPhi_gg_kinjj/F");
+    outtree->Branch("dR_gg_jj", &t->dR_gg_jj, "dR_gg_jj/F");
+    outtree->Branch("dR_gg_regjj", &t->dR_gg_regjj, "dR_gg_regjj/F");
+    outtree->Branch("dR_gg_regkinjj", &t->dR_gg_regkinjj, "dR_gg_regkinjj/F");
+    outtree->Branch("dR_gg_kinjj", &t->dR_gg_kinjj, "dR_gg_kinjj/F");
 // gen level info
     outtree->Branch("gr_radion_p4_pt", &t->gr_radion_p4_pt, "gr_radion_p4_pt/F");
     outtree->Branch("gr_radion_p4_eta", &t->gr_radion_p4_eta, "gr_radion_p4_eta/F");
@@ -1532,6 +1539,8 @@ void setup_outtree(TTree* outtree, tree_variables *t)
     outtree->Branch("gr_dEta_gg_jj", &t->gr_dEta_gg_jj, "gr_dEta_gg_jj/F");
     outtree->Branch("gr_dPhi_gg_bb", &t->gr_dPhi_gg_bb, "gr_dPhi_gg_bb/F");
     outtree->Branch("gr_dPhi_gg_jj", &t->gr_dPhi_gg_jj, "gr_dPhi_gg_jj/F");
+    outtree->Branch("gr_dR_gg_bb", &t->gr_dR_gg_bb, "gr_dR_gg_bb/F");
+    outtree->Branch("gr_dR_gg_jj", &t->gr_dR_gg_jj, "gr_dR_gg_jj/F");
     // Photon Energy Scale & Photon Energy Resolution
     outtree->Branch("gg_mass_pesD1", &t->gg_mass_pesD1, "gg_mass_pesD1/F");
     outtree->Branch("gg_mass_pesU1", &t->gg_mass_pesU1, "gg_mass_pesU1/F");
