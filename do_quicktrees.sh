@@ -160,7 +160,7 @@ do
             line[${i}]="${line[${i}]} --cutLevel 0"
             line[${i}]="${line[${i}]} --mass ${mass}"
             line[${i}]="${line[${i}]} --removeUndefinedBtagSF ${removeUndefinedBtagSF}"
-            line[${i}]="${line[${i}]} --massCutVersion 3"
+            line[${i}]="${line[${i}]} --massCutVersion 4"
             line[${i}]="${line[${i}]} --applyPhotonIDControlSample ${applyPhotonIDControlSample}"
             line[${i}]="${line[${i}]} --controlSampleWeights ${controlSampleWeights}"
             line[${i}]="${line[${i}]} ${extraline}"
