@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
             ("cutLevel", po::value<int>(&cutLevel)->default_value(0), "switch to apply extra cuts in addition to the baseline ones")
             ("mass", po::value<int>(&mass)->default_value(300), "mass hypothesis (for mass cut switches)")
             ("removeUndefinedBtagSF", po::value<int>(&removeUndefinedBtagSF)->default_value(0), "remove undefined btagSF_M values (should be used only for the limit trees)")
-            ("massCutVersion", po::value<int>(&massCutVersion)->default_value(3), "0= default 1= non-kin specific 2= v02 limit trees 3= preapproval values")
+            ("massCutVersion", po::value<int>(&massCutVersion)->default_value(3), "0= default 1= non-kin specific 2= v02 limit trees 3= preapproval values 4= new baseline optimization")
             ("applyPhotonIDControlSample", po::value<int>(&applyPhotonIDControlSample)->default_value(0), "Invert photon ID CiC cut to populate selection in gjjj instead of ggjj")
             ("controlSampleWeights", po::value<string>(&controlSampleWeights)->default_value("scales_2D_pt_data_4GeVbinning.root"), "file containing the weights for creating the control sample")
             ("applyMtotCut", po::value<int>(&applyMtotCut)->default_value(1), "Apply the mtot cut. Should NOT been played with")
@@ -355,6 +355,30 @@ int main(int argc, char *argv[])
                         if( mass == 500 && (t.mtot < 445. || t.mtot > 535.) ) continue; // not updated
                     }
                 } // if the sample is ggHH and applyMtotCut is switch off, then do not apply any mtot cut
+            }
+	    if( massCutVersion == 4 )
+	    {// FITTING THE MGG SPECTRUM: new baseline optimization
+	      if( applyMjjCut && (strcmp("", whichJet.c_str()) == 0 || strcmp("kin", whichJet.c_str()) == 0)){
+		if( mass == 0 && t.njets_kRadionID_and_CSVM>=2 && (t.mjj_wokinfit < 100. || t.mjj_wokinfit > 145.) ) continue; //Badder optim
+		if( mass == 0 && t.njets_kRadionID_and_CSVM==1 && (t.mjj_wokinfit < 90. || t.mjj_wokinfit > 150.) ) continue; //Badder optim
+		if( mass > 0  && t.njets_kRadionID_and_CSVM>=2 && (t.mjj_wokinfit < 100. || t.mjj_wokinfit > 140.) ) continue; //Phil optim
+		if( mass > 0  && t.njets_kRadionID_and_CSVM==1 && (t.mjj_wokinfit <  90. || t.mjj_wokinfit > 145.) ) continue; //Phil optim
+	      }
+	      if( applyMjjCut && (strcmp("reg", whichJet.c_str()) == 0 || strcmp("regkin", whichJet.c_str()) == 0)){
+		if( mass == 0 && t.njets_kRadionID_and_CSVM>=2 && (t.mjj_wokinfit < 110. || t.mjj_wokinfit > 145.) ) continue;
+		if( mass == 0 && t.njets_kRadionID_and_CSVM==1 && (t.mjj_wokinfit < 105. || t.mjj_wokinfit > 150.) ) continue;
+		if( mass > 0  && t.njets_kRadionID_and_CSVM>=2 && (t.mjj_wokinfit < 100. || t.mjj_wokinfit > 140.) ) continue;
+		if( mass > 0  && t.njets_kRadionID_and_CSVM==1 && (t.mjj_wokinfit < 100. || t.mjj_wokinfit > 150.) ) continue;
+	      if( applyMtotCut ){
+		if( mass == 0 && ((t.njets_kRadionID_and_CSVM>=2 && t.mtot < 350.) || (t.njets_kRadionID_and_CSVM==1 && t.mtot<365.)) ) continue;
+		if( mass == 260 && (t.mtot < 250. || t.mtot > 270.) ) continue;
+		if( mass == 270 && (t.mtot < 260. || t.mtot > 280.) ) continue;
+		if( mass == 300 && (t.mtot < 290. || t.mtot > 310.) ) continue;
+		if( mass == 350 && (t.mtot < 330. || t.mtot > 375.) ) continue;
+		if( mass == 400 && (t.mtot < 380. || t.mtot > 435.) ) continue;
+		if( mass == 450 && (t.mtot < 430. || t.mtot > 485.) ) continue;
+		if( mass == 500 && (t.mtot < 480. || t.mtot > 535.) ) continue;
+	      }
             }
         } // END OF FIT MGG SPECTRUM
 
