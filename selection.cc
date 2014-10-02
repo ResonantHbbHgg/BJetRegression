@@ -103,7 +103,7 @@ int main(int argc, char *argv[])
     cout << "inputtree= " << inputtree << endl;
     cout << "outputfile= " << outputfile << endl;
     cout << "outputtree= " << outputtree << endl;
-    cout << "regressionFilePath= " << regressionFolder << endl;
+    cout << "regressionFilePath= " << regressionFilePath << endl;
 
     TFile *infile = TFile::Open(inputfile.c_str());
     TTree *intree = (TTree*)infile->Get(inputtree.c_str());
