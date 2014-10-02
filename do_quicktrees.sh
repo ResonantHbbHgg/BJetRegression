@@ -85,6 +85,10 @@ kinfitlabel[0]="noKinFit"
 kinfitlabel[1]="withKinFit"
 kinfitjet[0]="base"
 kinfitjet[1]="kin"
+#kinfitlabel[2]="withReg"
+#kinfitlabel[3]="withRegKinFit"
+#kinfitjet[2]="reg"
+#kinfitjet[3]="regkin"
 for ikin in `seq 0 1`
 do
     outfolder="${version}_fitToMgg_${kinfitlabel[${ikin}]}"
