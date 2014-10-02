@@ -91,7 +91,7 @@ do
     mkdir -p ${outfolder}
     for sample in `echo "Radion Graviton MSSM ggh_m125_powheg_8TeV vbf_m125_8TeV wzh_m125_8TeV_wh wzh_m125_8TeV_zh tth_m125_8TeV bbh_m125_8TeV Data DataCS diphojet_sherpa_8TeV ggHH_8TeV"`
     do
-        for mass in `echo "260 270 300 350 400 450 500"`
+        for mass in `echo "0 260 270 300 350 400 450 500"`
         do
             intree=${sample}
             outtree=${sample}
@@ -102,7 +102,7 @@ do
             extraline=""
             if [ "${sample}" == "Radion" ] 
             then
-                if [ "${mass}" == "260" ]
+                if [ "${mass}" == "0" ] || [ "${mass}" == "260" ]
                 then
                     continue
                 else
@@ -113,7 +113,7 @@ do
                 fi
             elif [ "${sample}" == "Graviton" ]
             then
-                if [ "${mass}" == "260" ] || [ "${mass}" == "270" ] || [ "${mass}" == "350" ] || [ "${mass}" == "400" ] || [ "${mass}" == "450" ]
+                if [ "${mass}" == "0" ] || [ "${mass}" == "260" ] || [ "${mass}" == "270" ] || [ "${mass}" == "350" ] || [ "${mass}" == "400" ] || [ "${mass}" == "450" ]
                 then
                     continue
                 else
@@ -124,7 +124,7 @@ do
                 fi
             elif [ "${sample}" == "MSSM" ]
             then
-                if [ "${mass}" == "270" ] || [ "${mass}" == "400" ] || [ "${mass}" == "450" ] || [ "${mass}" == "500" ]
+                if [ "${mass}" == "0" ] || [ "${mass}" == "270" ] || [ "${mass}" == "400" ] || [ "${mass}" == "450" ] || [ "${mass}" == "500" ]
                 then
                     continue
                 else
@@ -136,7 +136,6 @@ do
             elif [ "${sample}" == "Data" ]
             then
                 itype="0"
-    #            extraline="--applyMtotCut 0"
             elif [ "${sample}" == "DataCS" ]
             then
                 itype="0"
@@ -145,8 +144,11 @@ do
                 suffix="controlSample_"
             elif [ "${sample}" == "ggHH_8TeV" ]
             then
-                itype="-2"
-                extraline="--applyMtotCut 0"
+		if [ "${mass}" == "260" ] || [ "${mass}" == "270" ] || [ "${mass}" == "300" ] || [ "${mass}" == "350" ] || [ "${mass}" == "400" ] || [ "${mass}" == "450" ] || [ "${mass}" == "500" ]
+		then
+		    continue
+		fi
+		itype="-2"
             fi
             i=$((${i} + 1))
             line[${i}]=""
