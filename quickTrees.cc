@@ -128,9 +128,18 @@ int main(int argc, char *argv[])
     float n_w_1btag = 0.;
     float n_w_2btag = 0.;
 
+
+    bool removeTrainingEvents = 0; //if using regression jets, remove training events from training samples. These are even events in MSSM and ggHH samples.
+    float trainingWeight = 1.0; //apply an extra event weight for those samples
+    removeTrainingEvents = ((strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0)) && (strncmp(inputtree.c_str(),"MSSM",4)==0 || strncmp(inputtree.c_str(),"ggHH",4)==0);
+    trainingWeight = (float)intree->GetEntries()/(float)intree->GetEntries("event%2==1");
+
+
     for(int ievt= 0 ; ievt < (int)intree->GetEntries() ; ievt++)
     {
         intree->GetEntry(ievt);
+
+	if(removeTrainingEvents && t.event%2 == 0 ) continue;
 
         if(removeUndefinedBtagSF)
         {
@@ -141,6 +150,7 @@ int main(int argc, char *argv[])
             }
         }
 
+    t.evWeight *= trainingWeight;
     t.evWeight_w_btagSF = t.evWeight;
     t.weight = t.evWeight;
     t.weightBtagSF = -1000;
