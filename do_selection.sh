@@ -9,6 +9,9 @@ eospath="/store/cmst3/group/hbbhgg/H2GGLOBE/Radion/trees/radion_tree_v10/"
 keep0btag=1
 whichPhotonID=1 # 0=CiC Super Tight, 1=Francois' CiC
 
+numRegFiles=0 #0 for no regression, 1 for regression; if regression is applied, ensure the latest production is used.
+regFilePath="weights/TMVARegression_resonant_BDTG.weights.xml" #it is also possible (but not recommended) to use "weights/TMVARegression_SM_BDTG.weights.xml"
+
 i=-1
 
 ##### DATA
@@ -555,7 +558,8 @@ do
 --inputtree ${tree[${isample}]} \
 --outputtree ${outtree[${isample}]} \
 --outputfile ${folder}/${file}.root \
---numberOfRegressionFiles 0 \
+--regressionFilePath ${regFilePath} \
+--numberOfRegressionFiles ${numRegFiles} \
 --type ${typ[${isample}]} \
 --removeUndefinedBtagSF ${removeZeroFlavour} \
 --applyMassCuts ${imasscut} \

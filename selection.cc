@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
     string inputtree;
     string outputfile;
     string outputtree;
-    string regressionFolder;
+    string regressionFilePath;
     int numberOfRegressionFiles;
     int type; // Same conventions as in h2gglobe: <0 = signal ; =0 = data ; >0 = background
     int SYNC; // mjj and mggjj cuts are different for sync and analysis
@@ -62,8 +62,8 @@ int main(int argc, char *argv[])
             ("inputtree,t", po::value<string>(&inputtree)->default_value("Radion_m300_8TeV_nm"), "input tree")
             ("outputtree", po::value<string>(&outputtree)->default_value("Radion_m300_8TeV_nm"), "output tree")
             ("outputfile,o", po::value<string>(&outputfile)->default_value("selected.root"), "output file")
-            ("regressionFolder", po::value<string>(&regressionFolder)->default_value("/afs/cern.ch/user/h/hebda/public/"), "regression folder")
-            ("numberOfRegressionFiles,r", po::value<int>(&numberOfRegressionFiles)->default_value(2), "number of regression files")
+            ("regressionFilePath", po::value<string>(&regressionFilePath)->default_value("weights/TMVARegression_resonant_BDTG.weights.xml"), "regression file path")
+            ("numberOfRegressionFiles,r", po::value<int>(&numberOfRegressionFiles)->default_value(0), "number of regression files")
             ("type", po::value<int>(&type)->default_value(0), "same conventions as in h2gglobe: <0 = signal ; =0 = data ; >0 = background")
             ("sync", po::value<int>(&SYNC)->default_value(0), "mjj and mggjj cuts are overwritten if sync is switched on")
             ("removeUndefinedBtagSF", po::value<int>(&REMOVE_UNDEFINED_BTAGSF)->default_value(0), "remove undefined btagSF_M values (should be used only for the limit trees)")
@@ -103,7 +103,7 @@ int main(int argc, char *argv[])
     cout << "inputtree= " << inputtree << endl;
     cout << "outputfile= " << outputfile << endl;
     cout << "outputtree= " << outputtree << endl;
-    cout << "regressionFolder= " << regressionFolder << endl;
+    cout << "regressionFilePath= " << regressionFolder << endl;
 
     TFile *infile = TFile::Open(inputfile.c_str());
     TTree *intree = (TTree*)infile->Get(inputtree.c_str());
@@ -137,26 +137,37 @@ int main(int argc, char *argv[])
     if(DEBUG) cout << "Prepare for regression" << endl;
 // prepare for regression
     TMVA::Reader* readerRegres = new TMVA::Reader( "!Color:!Silent" );
-    readerRegres->AddVariable( "jet_eta", &t.jet_eta); 
-    readerRegres->AddVariable( "jet_emfrac", &t.jet_emfrac);
-    readerRegres->AddVariable( "jet_hadfrac", &t.jet_hadfrac);
-    readerRegres->AddVariable( "jet_nconstituents", &t.jet_nConstituents_);
-    readerRegres->AddVariable( "jet_vtx3dL", &t.jet_secVtx3dL);
+    readerRegres->AddVariable( "bjet_pt", &t.jet_pt);
+    readerRegres->AddVariable( "bjet_eta", &t.jet_eta);
+    readerRegres->AddVariable( "bjet_mt", &t.jet_mt);
+    readerRegres->AddVariable( "bjet_phofrac", &t.jet_phofrac);
+    readerRegres->AddVariable( "bjet_nhadfrac", &t.jet_nhadfrac);
+    readerRegres->AddVariable( "(bjet_softLeptIdLooseMu==1 || bjet_softLeptIdEle95==1) ? (bjet_softLeptPt) : (-99)", &t.jet_softLeptPt);
+    readerRegres->AddVariable( "(bjet_softLeptIdLooseMu==1 || bjet_softLeptIdEle95==1) ? (bjet_softLeptPtRel) : (-99)", &t.jet_softLeptPtRel);
+    readerRegres->AddVariable( "bjet_secVtxM", &t.jet_secVtxM);
+    readerRegres->AddVariable( "bjet_secVtx3deL", &t.jet_secVtx3deL);
     readerRegres->AddVariable( "MET", &t.met_corr_pfmet);
-    readerRegres->AddVariable( "jet_dPhiMETJet", &t.jet_dPhiMet_fabs);
-//    readerRegres->AddVariable( "rho25", &t.rho); // Added for Phil Oct 28 (later: removed)
+    readerRegres->AddVariable( "(abs(bjet_phi-METphi)>3.14159265 ) ? (2*3.14159265-abs(bjet_phi-METphi)) : (abs(bjet_phi-METphi))", &t.jet_dPhiMet);
+    readerRegres->AddVariable( "bjet_leadTrackPt", &t.jet_leadTrackPt);
+    readerRegres->AddVariable( "bjet_nCharged+bjet_nNeutrals", &t.jet_nConstituents_);
+    readerRegres->AddVariable( "rho", &t.rho);
+    readerRegres->AddSpectator( "bjet_mufrac", &t.jet_mufrac);
+    readerRegres->AddSpectator( "bjet_elefrac", &t.jet_elefrac);
+    readerRegres->AddSpectator( "bjet_chadfrac", &t.jet_chadfrac);
+    readerRegres->AddSpectator( "(bjet_softLeptIdLooseMu==1 || bjet_softLeptIdEle95==1) ? (bjet_softLeptDR) : (-99)", &t.jet_softLeptDR);
+    readerRegres->AddSpectator( "bjet_secVtxPt", &t.jet_secVtxPt);
+    readerRegres->AddSpectator( "bjet_secVtx3dL", &t.jet_secVtx3dL);
+    readerRegres->AddSpectator( "bjet_JECUnc", &t.jet_JECUnc);
 
 // Adding variables
-    if(numberOfRegressionFiles != 0 && numberOfRegressionFiles != 2)
+    if(numberOfRegressionFiles != 0 && numberOfRegressionFiles != 1)
     {
-        cout << "ERROR: current version must have two regression files or no regression" << endl;
+        cout << "ERROR: current version must have one regression file or no regression" << endl;
         return 1;
-//        readerRegres->BookMVA("BDT", regressionFolder.c_str());
     } else {
         for(int i = 0; i < numberOfRegressionFiles ; i++)
         {
-//            readerRegres->BookMVA(Form("BDT_%i", i), Form("%s/TMVARegression_10_Cat%i_BDTG.weights.xml", regressionFolder.c_str(), i)); // Phil, Oct 17
-            readerRegres->BookMVA(Form("BDT_%i", i), Form("%s/jetRegressionWeights/TMVARegression_Cat%i_BDTG.weights.xml", regressionFolder.c_str(), i)); // Phil, Oct 28
+	  readerRegres->BookMVA("BDTG", Form("%s", regressionFilePath.c_str()));
         }
     }
 
@@ -197,7 +208,6 @@ int main(int argc, char *argv[])
         intree->GetEntry(ievt);
         if(DEBUG && SYNC_W_PHIL && !(/*t.event == 6976 ||*/ t.event == 8042 || t.event == 14339 /*|| t.event == 2227 || t.event == 4921 || t.event == 7665 || t.event == 7687 || t.event == 11246 || t.event == 15140 || t.event == 685*/) ) continue;
         if(DEBUG) cout << "#####\tievt= " << ievt << "\trun= " << t.run << "\tlumi= " << t.lumis << "\tevent= " << t.event << endl;
-        if( numberOfRegressionFiles != 0 && type < -250 && ((int)t.event % 2 == 0) && !SYNC_W_PHIL) continue; // use regression only on odd events
     
         if(DEBUG) cout << "for MC, get the MC truth hjj system" << endl;
 // Compute hjj system
@@ -411,17 +421,14 @@ int main(int argc, char *argv[])
             t.jet_nConstituents_ = (float) t.jet_nConstituents;
             t.jet_dPhiMet_fabs = fabs(t.jet_dPhiMet);
 
-            if(DEBUG && numberOfRegressionFiles != 0) cout << "input= " << t.jet_pt << "\toutput (BDT_0)= " << readerRegres->EvaluateRegression(Form("BDT_%i", 0))[0] * t.jet_pt << "\toutput (BDT_1)= " << readerRegres->EvaluateRegression(Form("BDT_%i", 1))[0] * t.jet_pt << endl;
+            if(DEBUG && numberOfRegressionFiles != 0) cout << "input= " << t.jet_pt << "\toutput (BDTG)= " << readerRegres->EvaluateRegression("BDTG")[0] << endl;
             if( REMOVE_UNDEFINED_BTAGSF && t.jet_flavour == 0. ) continue;
 //            njets[5]++; jetcut[5] = "After t.jet_csvBtag < 0.";
             if(DEBUG) cout << "now with the regression" << endl;
             if(numberOfRegressionFiles == 0)
                 t.jet_regPt = t.jet_pt; // no regression applied
-//            else if(numberOfRegressionFiles <= 1)
-//                t.jet_regPt = (float)(readerRegres->EvaluateMVA("BDT"));
-            else
-//                t.jet_regPt = (float)(readerRegres->EvaluateRegression(Form("BDT_%i", t.jet_pt < 80. ? 0 : 1))[0]) * t.jet_pt; // Phil Oct 17
-                t.jet_regPt = (float)(readerRegres->EvaluateRegression(Form("BDT_%i", t.jet_pt < 90. ? 0 : 1))[0]) * t.jet_pt; // Phil Oct 28
+            else if(numberOfRegressionFiles <= 1)
+                t.jet_regPt = (float)(readerRegres->EvaluateRegression("BDTG")[0]);
             t.jet_regkinPt = t.jet_regPt;
             // jet selection
             // ** acceptance + pu id **
@@ -461,10 +468,21 @@ int main(int argc, char *argv[])
             J.jetCSV.push_back(t.jet_csvBtag);
             J.jetRegPt.push_back(t.jet_regPt);
             J.jetRegKinPt.push_back(t.jet_regkinPt);
-            J.jetEmfrac.push_back(t.jet_emfrac);
-            J.jetHadfrac.push_back(t.jet_hadfrac);
+            J.jetMt.push_back(t.jet_mt);
+            J.jetChadfrac.push_back(t.jet_chadfrac);
+            J.jetNhadfrac.push_back(t.jet_nhadfrac);
+            J.jetPhofrac.push_back(t.jet_phofrac);
+            J.jetMufrac.push_back(t.jet_mufrac);
+            J.jetElefrac.push_back(t.jet_elefrac);
+            J.jetSoftLeptPt.push_back(t.jet_softLeptPt);
+            J.jetSoftLeptPtRel.push_back(t.jet_softLeptPtRel);
+            J.jetSoftLeptDR.push_back(t.jet_softLeptDR);
+            J.jetJECUnc.push_back(t.jet_JECUnc);
+            J.jetLeadTrackPt.push_back(t.jet_leadTrackPt);
             J.jetSecVtxPt.push_back(t.jet_secVtxPt);
             J.jetSecVtx3dL.push_back(t.jet_secVtx3dL);
+            J.jetSecVtx3deL.push_back(t.jet_secVtx3deL);
+            J.jetSecVtxM.push_back(t.jet_secVtxM);
             J.jetDPhiMet.push_back(t.jet_dPhiMet);
             J.jetNConstituents.push_back(t.jet_nConstituents);
 // Jet Energy Correction and Jet Energy Resolution
@@ -729,10 +747,8 @@ int main(int argc, char *argv[])
         jet2_jerC.SetPtEtaPhiE(J.jetJerC_pt[ij2], J.jetJerC_eta[ij2], J.jetJerC_phi[ij2], J.jetJerC_e[ij2]);
         jet1_jerU.SetPtEtaPhiE(J.jetJerU_pt[ij1], J.jetJerU_eta[ij1], J.jetJerU_phi[ij1], J.jetJerU_e[ij1]);
         jet2_jerU.SetPtEtaPhiE(J.jetJerU_pt[ij2], J.jetJerU_eta[ij2], J.jetJerU_phi[ij2], J.jetJerU_e[ij2]);
-        regjet1.SetPtEtaPhiE(J.jetPt[ij1Reg], J.jetEta[ij1Reg], J.jetPhi[ij1Reg], J.jetE[ij1Reg]);
-        regjet2.SetPtEtaPhiE(J.jetPt[ij2Reg], J.jetEta[ij2Reg], J.jetPhi[ij2Reg], J.jetE[ij2Reg]);
-        regjet1 = ((float)J.jetRegPt[ij1Reg]/(float)J.jetPt[ij1Reg]) * regjet1;
-        regjet2 = ((float)J.jetRegPt[ij2Reg]/(float)J.jetPt[ij2Reg]) * regjet2;
+        regjet1.SetPtEtaPhiE(J.jetRegPt[ij1Reg], J.jetEta[ij1Reg], J.jetPhi[ij1Reg], J.jetE[ij1Reg]*((float)J.jetRegPt[ij1Reg]/(float)J.jetPt[ij1Reg]));
+        regjet2.SetPtEtaPhiE(J.jetRegPt[ij2Reg], J.jetEta[ij2Reg], J.jetPhi[ij2Reg], J.jetE[ij2Reg]*((float)J.jetRegPt[ij2Reg]/(float)J.jetPt[ij2Reg]));
         regkinjet1 = regjet1;
         regkinjet2 = regjet2;
         float Hmass_MC = 125.;
@@ -971,16 +987,38 @@ int main(int argc, char *argv[])
         t.regjet2_full_wp_level = J.jetfull_wp_level[ij2Reg];
         t.regjet2_betaStarClassic = J.jetbetaStarClassic[ij2Reg];
         t.regjet2_dR2Mean = J.jetdR2Mean[ij2Reg];
-        t.regjet1_emfrac = J.jetEmfrac[ij1Reg];
-        t.regjet1_hadfrac = J.jetHadfrac[ij1Reg];
+        t.regjet1_mt = J.jetMt[ij1Reg];
+        t.regjet1_chadfrac = J.jetChadfrac[ij1Reg];
+        t.regjet1_nhadfrac = J.jetNhadfrac[ij1Reg];
+        t.regjet1_phofrac = J.jetPhofrac[ij1Reg];
+        t.regjet1_mufrac = J.jetMufrac[ij1Reg];
+        t.regjet1_elefrac = J.jetElefrac[ij1Reg];
+        t.regjet1_softLeptPt = J.jetSoftLeptPt[ij1Reg];
+        t.regjet1_softLeptPtRel = J.jetSoftLeptPtRel[ij1Reg];
+        t.regjet1_softLeptDR = J.jetSoftLeptDR[ij1Reg];
+        t.regjet1_leadTrackPt = J.jetLeadTrackPt[ij1Reg];
+        t.regjet1_JECUnc = J.jetJECUnc[ij1Reg];
         t.regjet1_secVtxPt = J.jetSecVtxPt[ij1Reg];
         t.regjet1_secVtx3dL = J.jetSecVtx3dL[ij1Reg];
+        t.regjet1_secVtx3deL = J.jetSecVtx3deL[ij1Reg];
+        t.regjet1_secVtxM = J.jetSecVtxM[ij1Reg];
         t.regjet1_dPhiMet = J.jetDPhiMet[ij1Reg];
         t.regjet1_nConstituents = J.jetNConstituents[ij1Reg];
-        t.regjet2_emfrac = J.jetEmfrac[ij2Reg];
-        t.regjet2_hadfrac = J.jetHadfrac[ij2Reg];
+        t.regjet2_mt = J.jetMt[ij2Reg];
+        t.regjet2_chadfrac = J.jetChadfrac[ij2Reg];
+        t.regjet2_nhadfrac = J.jetNhadfrac[ij2Reg];
+        t.regjet2_phofrac = J.jetPhofrac[ij2Reg];
+        t.regjet2_mufrac = J.jetMufrac[ij2Reg];
+        t.regjet2_elefrac = J.jetElefrac[ij2Reg];
+        t.regjet2_softLeptPt = J.jetSoftLeptPt[ij2Reg];
+        t.regjet2_softLeptPtRel = J.jetSoftLeptPtRel[ij2Reg];
+        t.regjet2_softLeptDR = J.jetSoftLeptDR[ij2Reg];
+        t.regjet2_leadTrackPt = J.jetLeadTrackPt[ij2Reg];
+        t.regjet2_JECUnc = J.jetJECUnc[ij2Reg];
         t.regjet2_secVtxPt = J.jetSecVtxPt[ij2Reg];
         t.regjet2_secVtx3dL = J.jetSecVtx3dL[ij2Reg];
+        t.regjet2_secVtx3deL = J.jetSecVtx3deL[ij2Reg];
+        t.regjet2_secVtxM = J.jetSecVtxM[ij2Reg];
         t.regjet2_dPhiMet = J.jetDPhiMet[ij2Reg];
         t.regjet2_nConstituents = J.jetNConstituents[ij2Reg];
         t.regkinjet1_pt = regkinjet1.Pt();
