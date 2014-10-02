@@ -7,6 +7,8 @@ today=`date +"0%Y-%m-%d"`
 inputversion="v15"
 inputfolder="2014-06-25_selection_noRegression_noMassCut_${inputversion}/"
 
+1D_analysis=1 #1 for fitting to Mgg, 0 for fitting to Mgg X Mjj. Does not effect Mggjj fit.
+
 i=-1
 
 controlSampleWeights="scales_2D_pt_data_4GeVbinning.root"
@@ -163,6 +165,7 @@ do
             line[${i}]="${line[${i}]} --type ${itype}"
             line[${i}]="${line[${i}]} --whichJet ${kinfitjet[${ikin}]}"
             line[${i}]="${line[${i}]} --fitStrategy mgg"
+            line[${i}]="${line[${i}]} --applyMjjCut ${1D_analysis}"
             line[${i}]="${line[${i}]} --cutLevel 0"
             line[${i}]="${line[${i}]} --mass ${mass}"
             line[${i}]="${line[${i}]} --removeUndefinedBtagSF ${removeUndefinedBtagSF}"
