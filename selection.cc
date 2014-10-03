@@ -127,7 +127,7 @@ int main(int argc, char *argv[])
     initialize_variables(&t);
 
     if(DEBUG) cout << "SetBranchAddresses (inputtree)" << endl;
-    setup_intree(intree, &t, type);
+    setup_intree(intree, &t, type, numberOfRegressionFiles);
     if(DEBUG) cout << "Branch (outtree)" << endl;
     setup_outtree(outtree, &t);
 

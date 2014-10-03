@@ -266,6 +266,8 @@ struct tree_variables
 
 void initialize_variables(tree_variables *t)
 {
+    // to protect gen level variables
+    // in case they are not present (ie data or MC backgrounds)
     t->gr_radion_p4_pt = t->gr_radion_p4_eta = t->gr_radion_p4_phi = t->gr_radion_p4_mass = 0.;
     t->gr_hgg_p4_pt = t->gr_hgg_p4_eta = t->gr_hgg_p4_phi = t->gr_hgg_p4_mass = 0.;
     t->gr_hbb_p4_pt = t->gr_hbb_p4_eta = t->gr_hbb_p4_phi = t->gr_hbb_p4_mass = 0.;
@@ -280,13 +282,32 @@ void initialize_variables(tree_variables *t)
     t->gr_dEta_gg_bb = t->gr_dEta_gg_jj = 0.;
     t->gr_dPhi_gg_bb = t->gr_dPhi_gg_jj = 0.;
     t->gr_dR_gg_bb = t->gr_dR_gg_jj = 0.;
+    // to protect jet variables related to the regression
+    // in case they are not present (ie processing old samples)
+    t->j1_secVtxM = t->j1_emfrac = t->j1_hadfrac = t->j1_chadfrac = t->j1_nhadfrac = t->j1_phofrac = t->j1_mufrac = t->j1_elefrac = t->j1_JECUnc = t->j1_leadTrackPt = t->j1_softLeptPt = t->j1_softLeptPtRel = t->j1_softLeptDR = t->j1_softLeptIdLooseMu = t->j1_softLeptIdEle95 = 0.;
+    t->j2_secVtxM = t->j2_emfrac = t->j2_hadfrac = t->j2_chadfrac = t->j2_nhadfrac = t->j2_phofrac = t->j2_mufrac = t->j2_elefrac = t->j2_JECUnc = t->j2_leadTrackPt = t->j2_softLeptPt = t->j2_softLeptPtRel = t->j2_softLeptDR = t->j2_softLeptIdLooseMu = t->j2_softLeptIdEle95 = 0.;
+    t->j3_secVtxM = t->j3_emfrac = t->j3_hadfrac = t->j3_chadfrac = t->j3_nhadfrac = t->j3_phofrac = t->j3_mufrac = t->j3_elefrac = t->j3_JECUnc = t->j3_leadTrackPt = t->j3_softLeptPt = t->j3_softLeptPtRel = t->j3_softLeptDR = t->j3_softLeptIdLooseMu = t->j3_softLeptIdEle95 = 0.;
+    t->j4_secVtxM = t->j4_emfrac = t->j4_hadfrac = t->j4_chadfrac = t->j4_nhadfrac = t->j4_phofrac = t->j4_mufrac = t->j4_elefrac = t->j4_JECUnc = t->j4_leadTrackPt = t->j4_softLeptPt = t->j4_softLeptPtRel = t->j4_softLeptDR = t->j4_softLeptIdLooseMu = t->j4_softLeptIdEle95 = 0.;
+    t->j5_secVtxM = t->j5_emfrac = t->j5_hadfrac = t->j5_chadfrac = t->j5_nhadfrac = t->j5_phofrac = t->j5_mufrac = t->j5_elefrac = t->j5_JECUnc = t->j5_leadTrackPt = t->j5_softLeptPt = t->j5_softLeptPtRel = t->j5_softLeptDR = t->j5_softLeptIdLooseMu = t->j5_softLeptIdEle95 = 0.;
+    t->j6_secVtxM = t->j6_emfrac = t->j6_hadfrac = t->j6_chadfrac = t->j6_nhadfrac = t->j6_phofrac = t->j6_mufrac = t->j6_elefrac = t->j6_JECUnc = t->j6_leadTrackPt = t->j6_softLeptPt = t->j6_softLeptPtRel = t->j6_softLeptDR = t->j6_softLeptIdLooseMu = t->j6_softLeptIdEle95 = 0.;
+    t->j7_secVtxM = t->j7_emfrac = t->j7_hadfrac = t->j7_chadfrac = t->j7_nhadfrac = t->j7_phofrac = t->j7_mufrac = t->j7_elefrac = t->j7_JECUnc = t->j7_leadTrackPt = t->j7_softLeptPt = t->j7_softLeptPtRel = t->j7_softLeptDR = t->j7_softLeptIdLooseMu = t->j7_softLeptIdEle95 = 0.;
+    t->j8_secVtxM = t->j8_emfrac = t->j8_hadfrac = t->j8_chadfrac = t->j8_nhadfrac = t->j8_phofrac = t->j8_mufrac = t->j8_elefrac = t->j8_JECUnc = t->j8_leadTrackPt = t->j8_softLeptPt = t->j8_softLeptPtRel = t->j8_softLeptDR = t->j8_softLeptIdLooseMu = t->j8_softLeptIdEle95 = 0.;
+    t->j9_secVtxM = t->j9_emfrac = t->j9_hadfrac = t->j9_chadfrac = t->j9_nhadfrac = t->j9_phofrac = t->j9_mufrac = t->j9_elefrac = t->j9_JECUnc = t->j9_leadTrackPt = t->j9_softLeptPt = t->j9_softLeptPtRel = t->j9_softLeptDR = t->j9_softLeptIdLooseMu = t->j9_softLeptIdEle95 = 0.;
+    t->j10_secVtxM = t->j10_emfrac = t->j10_hadfrac = t->j10_chadfrac = t->j10_nhadfrac = t->j10_phofrac = t->j10_mufrac = t->j10_elefrac = t->j10_JECUnc = t->j10_leadTrackPt = t->j10_softLeptPt = t->j10_softLeptPtRel = t->j10_softLeptDR = t->j10_softLeptIdLooseMu = t->j10_softLeptIdEle95 = 0.;
+    t->j11_secVtxM = t->j11_emfrac = t->j11_hadfrac = t->j11_chadfrac = t->j11_nhadfrac = t->j11_phofrac = t->j11_mufrac = t->j11_elefrac = t->j11_JECUnc = t->j11_leadTrackPt = t->j11_softLeptPt = t->j11_softLeptPtRel = t->j11_softLeptDR = t->j11_softLeptIdLooseMu = t->j11_softLeptIdEle95 = 0.;
+    t->j12_secVtxM = t->j12_emfrac = t->j12_hadfrac = t->j12_chadfrac = t->j12_nhadfrac = t->j12_phofrac = t->j12_mufrac = t->j12_elefrac = t->j12_JECUnc = t->j12_leadTrackPt = t->j12_softLeptPt = t->j12_softLeptPtRel = t->j12_softLeptDR = t->j12_softLeptIdLooseMu = t->j12_softLeptIdEle95 = 0.;
+    t->j13_secVtxM = t->j13_emfrac = t->j13_hadfrac = t->j13_chadfrac = t->j13_nhadfrac = t->j13_phofrac = t->j13_mufrac = t->j13_elefrac = t->j13_JECUnc = t->j13_leadTrackPt = t->j13_softLeptPt = t->j13_softLeptPtRel = t->j13_softLeptDR = t->j13_softLeptIdLooseMu = t->j13_softLeptIdEle95 = 0.;
+    t->j14_secVtxM = t->j14_emfrac = t->j14_hadfrac = t->j14_chadfrac = t->j14_nhadfrac = t->j14_phofrac = t->j14_mufrac = t->j14_elefrac = t->j14_JECUnc = t->j14_leadTrackPt = t->j14_softLeptPt = t->j14_softLeptPtRel = t->j14_softLeptDR = t->j14_softLeptIdLooseMu = t->j14_softLeptIdEle95 = 0.;
+    t->j15_secVtxM = t->j15_emfrac = t->j15_hadfrac = t->j15_chadfrac = t->j15_nhadfrac = t->j15_phofrac = t->j15_mufrac = t->j15_elefrac = t->j15_JECUnc = t->j15_leadTrackPt = t->j15_softLeptPt = t->j15_softLeptPtRel = t->j15_softLeptDR = t->j15_softLeptIdLooseMu = t->j15_softLeptIdEle95 = 0.;
+
+    // Other initalizations that we don't want to screw up
     t->selection_cut_level = 0;
     t->category = 0;
 
     return;
 }
 
-void setup_intree(TTree* intree, tree_variables *t, int type)
+void setup_intree(TTree* intree, tree_variables *t, int type, int numberOfRegressionFiles)
 {
     intree->SetBranchAddress("njets_passing_kLooseID", &t->njets_passing_kLooseID);
     intree->SetBranchAddress("njets_passing_kLooseID_and_CSVM", &t->njets_passing_kLooseID_and_CSVM);
@@ -406,21 +427,24 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
     intree->SetBranchAddress("j1_secVtxPt", &t->j1_secVtxPt);
     intree->SetBranchAddress("j1_secVtx3dL", &t->j1_secVtx3dL);
     intree->SetBranchAddress("j1_secVtx3deL", &t->j1_secVtx3deL);
-    intree->SetBranchAddress("j1_secVtxM", &t->j1_secVtxM);
-    intree->SetBranchAddress("j1_emfrac", &t->j1_emfrac);
-    intree->SetBranchAddress("j1_hadfrac", &t->j1_hadfrac);
-    intree->SetBranchAddress("j1_chadfrac", &t->j1_chadfrac);
-    intree->SetBranchAddress("j1_nhadfrac", &t->j1_nhadfrac);
-    intree->SetBranchAddress("j1_phofrac", &t->j1_phofrac);
-    intree->SetBranchAddress("j1_mufrac", &t->j1_mufrac);
-    intree->SetBranchAddress("j1_elefrac", &t->j1_elefrac);
-    intree->SetBranchAddress("j1_JECUnc", &t->j1_JECUnc);
-    intree->SetBranchAddress("j1_leadTrackPt", &t->j1_leadTrackPt);
-    intree->SetBranchAddress("j1_softLeptPt", &t->j1_softLeptPt);
-    intree->SetBranchAddress("j1_softLeptPtRel", &t->j1_softLeptPtRel);
-    intree->SetBranchAddress("j1_softLeptDR", &t->j1_softLeptDR);
-    intree->SetBranchAddress("j1_softLeptIdLooseMu", &t->j1_softLeptIdLooseMu);
-    intree->SetBranchAddress("j1_softLeptIdEle95", &t->j1_softLeptIdEle95);
+    if( numberOfRegressionFiles > 0 )
+    {
+        intree->SetBranchAddress("j1_secVtxM", &t->j1_secVtxM);
+        intree->SetBranchAddress("j1_emfrac", &t->j1_emfrac);
+        intree->SetBranchAddress("j1_hadfrac", &t->j1_hadfrac);
+        intree->SetBranchAddress("j1_chadfrac", &t->j1_chadfrac);
+        intree->SetBranchAddress("j1_nhadfrac", &t->j1_nhadfrac);
+        intree->SetBranchAddress("j1_phofrac", &t->j1_phofrac);
+        intree->SetBranchAddress("j1_mufrac", &t->j1_mufrac);
+        intree->SetBranchAddress("j1_elefrac", &t->j1_elefrac);
+        intree->SetBranchAddress("j1_JECUnc", &t->j1_JECUnc);
+        intree->SetBranchAddress("j1_leadTrackPt", &t->j1_leadTrackPt);
+        intree->SetBranchAddress("j1_softLeptPt", &t->j1_softLeptPt);
+        intree->SetBranchAddress("j1_softLeptPtRel", &t->j1_softLeptPtRel);
+        intree->SetBranchAddress("j1_softLeptDR", &t->j1_softLeptDR);
+        intree->SetBranchAddress("j1_softLeptIdLooseMu", &t->j1_softLeptIdLooseMu);
+        intree->SetBranchAddress("j1_softLeptIdEle95", &t->j1_softLeptIdEle95);
+    }
     intree->SetBranchAddress("j1_btagSF_M", &t->j1_btagSF_M);
     intree->SetBranchAddress("j1_flavour", &t->j1_flavour);
     intree->SetBranchAddress("j1_btagSFErrorUp_M", &t->j1_btagSFErrorUp_M);
@@ -452,21 +476,24 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
     intree->SetBranchAddress("j2_secVtxPt", &t->j2_secVtxPt);
     intree->SetBranchAddress("j2_secVtx3dL", &t->j2_secVtx3dL);
     intree->SetBranchAddress("j2_secVtx3deL", &t->j2_secVtx3deL);
-    intree->SetBranchAddress("j2_secVtxM", &t->j2_secVtxM);
-    intree->SetBranchAddress("j2_emfrac", &t->j2_emfrac);
-    intree->SetBranchAddress("j2_hadfrac", &t->j2_hadfrac);
-    intree->SetBranchAddress("j2_chadfrac", &t->j2_chadfrac);
-    intree->SetBranchAddress("j2_nhadfrac", &t->j2_nhadfrac);
-    intree->SetBranchAddress("j2_phofrac", &t->j2_phofrac);
-    intree->SetBranchAddress("j2_mufrac", &t->j2_mufrac);
-    intree->SetBranchAddress("j2_elefrac", &t->j2_elefrac);
-    intree->SetBranchAddress("j2_JECUnc", &t->j2_JECUnc);
-    intree->SetBranchAddress("j2_leadTrackPt", &t->j2_leadTrackPt);
-    intree->SetBranchAddress("j2_softLeptPt", &t->j2_softLeptPt);
-    intree->SetBranchAddress("j2_softLeptPtRel", &t->j2_softLeptPtRel);
-    intree->SetBranchAddress("j2_softLeptDR", &t->j2_softLeptDR);
-    intree->SetBranchAddress("j2_softLeptIdLooseMu", &t->j2_softLeptIdLooseMu);
-    intree->SetBranchAddress("j2_softLeptIdEle95", &t->j2_softLeptIdEle95);
+    if( numberOfRegressionFiles > 0 )
+    {
+        intree->SetBranchAddress("j2_secVtxM", &t->j2_secVtxM);
+        intree->SetBranchAddress("j2_emfrac", &t->j2_emfrac);
+        intree->SetBranchAddress("j2_hadfrac", &t->j2_hadfrac);
+        intree->SetBranchAddress("j2_chadfrac", &t->j2_chadfrac);
+        intree->SetBranchAddress("j2_nhadfrac", &t->j2_nhadfrac);
+        intree->SetBranchAddress("j2_phofrac", &t->j2_phofrac);
+        intree->SetBranchAddress("j2_mufrac", &t->j2_mufrac);
+        intree->SetBranchAddress("j2_elefrac", &t->j2_elefrac);
+        intree->SetBranchAddress("j2_JECUnc", &t->j2_JECUnc);
+        intree->SetBranchAddress("j2_leadTrackPt", &t->j2_leadTrackPt);
+        intree->SetBranchAddress("j2_softLeptPt", &t->j2_softLeptPt);
+        intree->SetBranchAddress("j2_softLeptPtRel", &t->j2_softLeptPtRel);
+        intree->SetBranchAddress("j2_softLeptDR", &t->j2_softLeptDR);
+        intree->SetBranchAddress("j2_softLeptIdLooseMu", &t->j2_softLeptIdLooseMu);
+        intree->SetBranchAddress("j2_softLeptIdEle95", &t->j2_softLeptIdEle95);
+    }
     intree->SetBranchAddress("j2_btagSF_M", &t->j2_btagSF_M);
     intree->SetBranchAddress("j2_flavour", &t->j2_flavour);
     intree->SetBranchAddress("j2_btagSFErrorUp_M", &t->j2_btagSFErrorUp_M);
@@ -498,21 +525,24 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
     intree->SetBranchAddress("j3_secVtxPt", &t->j3_secVtxPt);
     intree->SetBranchAddress("j3_secVtx3dL", &t->j3_secVtx3dL);
     intree->SetBranchAddress("j3_secVtx3deL", &t->j3_secVtx3deL);
-    intree->SetBranchAddress("j3_secVtxM", &t->j3_secVtxM);
-    intree->SetBranchAddress("j3_emfrac", &t->j3_emfrac);
-    intree->SetBranchAddress("j3_hadfrac", &t->j3_hadfrac);
-    intree->SetBranchAddress("j3_chadfrac", &t->j3_chadfrac);
-    intree->SetBranchAddress("j3_nhadfrac", &t->j3_nhadfrac);
-    intree->SetBranchAddress("j3_phofrac", &t->j3_phofrac);
-    intree->SetBranchAddress("j3_mufrac", &t->j3_mufrac);
-    intree->SetBranchAddress("j3_elefrac", &t->j3_elefrac);
-    intree->SetBranchAddress("j3_JECUnc", &t->j3_JECUnc);
-    intree->SetBranchAddress("j3_leadTrackPt", &t->j3_leadTrackPt);
-    intree->SetBranchAddress("j3_softLeptPt", &t->j3_softLeptPt);
-    intree->SetBranchAddress("j3_softLeptPtRel", &t->j3_softLeptPtRel);
-    intree->SetBranchAddress("j3_softLeptDR", &t->j3_softLeptDR);
-    intree->SetBranchAddress("j3_softLeptIdLooseMu", &t->j3_softLeptIdLooseMu);
-    intree->SetBranchAddress("j3_softLeptIdEle95", &t->j3_softLeptIdEle95);
+    if( numberOfRegressionFiles > 0 )
+    {
+        intree->SetBranchAddress("j3_secVtxM", &t->j3_secVtxM);
+        intree->SetBranchAddress("j3_emfrac", &t->j3_emfrac);
+        intree->SetBranchAddress("j3_hadfrac", &t->j3_hadfrac);
+        intree->SetBranchAddress("j3_chadfrac", &t->j3_chadfrac);
+        intree->SetBranchAddress("j3_nhadfrac", &t->j3_nhadfrac);
+        intree->SetBranchAddress("j3_phofrac", &t->j3_phofrac);
+        intree->SetBranchAddress("j3_mufrac", &t->j3_mufrac);
+        intree->SetBranchAddress("j3_elefrac", &t->j3_elefrac);
+        intree->SetBranchAddress("j3_JECUnc", &t->j3_JECUnc);
+        intree->SetBranchAddress("j3_leadTrackPt", &t->j3_leadTrackPt);
+        intree->SetBranchAddress("j3_softLeptPt", &t->j3_softLeptPt);
+        intree->SetBranchAddress("j3_softLeptPtRel", &t->j3_softLeptPtRel);
+        intree->SetBranchAddress("j3_softLeptDR", &t->j3_softLeptDR);
+        intree->SetBranchAddress("j3_softLeptIdLooseMu", &t->j3_softLeptIdLooseMu);
+        intree->SetBranchAddress("j3_softLeptIdEle95", &t->j3_softLeptIdEle95);
+    }
     intree->SetBranchAddress("j3_btagSF_M", &t->j3_btagSF_M);
     intree->SetBranchAddress("j3_flavour", &t->j3_flavour);
     intree->SetBranchAddress("j3_btagSFErrorUp_M", &t->j3_btagSFErrorUp_M);
@@ -544,21 +574,24 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
     intree->SetBranchAddress("j4_secVtxPt", &t->j4_secVtxPt);
     intree->SetBranchAddress("j4_secVtx3dL", &t->j4_secVtx3dL);
     intree->SetBranchAddress("j4_secVtx3deL", &t->j4_secVtx3deL);
-    intree->SetBranchAddress("j4_secVtxM", &t->j4_secVtxM);
-    intree->SetBranchAddress("j4_emfrac", &t->j4_emfrac);
-    intree->SetBranchAddress("j4_hadfrac", &t->j4_hadfrac);
-    intree->SetBranchAddress("j4_chadfrac", &t->j4_chadfrac);
-    intree->SetBranchAddress("j4_nhadfrac", &t->j4_nhadfrac);
-    intree->SetBranchAddress("j4_phofrac", &t->j4_phofrac);
-    intree->SetBranchAddress("j4_mufrac", &t->j4_mufrac);
-    intree->SetBranchAddress("j4_elefrac", &t->j4_elefrac);
-    intree->SetBranchAddress("j4_JECUnc", &t->j4_JECUnc);
-    intree->SetBranchAddress("j4_leadTrackPt", &t->j4_leadTrackPt);
-    intree->SetBranchAddress("j4_softLeptPt", &t->j4_softLeptPt);
-    intree->SetBranchAddress("j4_softLeptPtRel", &t->j4_softLeptPtRel);
-    intree->SetBranchAddress("j4_softLeptDR", &t->j4_softLeptDR);
-    intree->SetBranchAddress("j4_softLeptIdLooseMu", &t->j4_softLeptIdLooseMu);
-    intree->SetBranchAddress("j4_softLeptIdEle95", &t->j4_softLeptIdEle95);
+    if( numberOfRegressionFiles > 0 )
+    {
+        intree->SetBranchAddress("j4_secVtxM", &t->j4_secVtxM);
+        intree->SetBranchAddress("j4_emfrac", &t->j4_emfrac);
+        intree->SetBranchAddress("j4_hadfrac", &t->j4_hadfrac);
+        intree->SetBranchAddress("j4_chadfrac", &t->j4_chadfrac);
+        intree->SetBranchAddress("j4_nhadfrac", &t->j4_nhadfrac);
+        intree->SetBranchAddress("j4_phofrac", &t->j4_phofrac);
+        intree->SetBranchAddress("j4_mufrac", &t->j4_mufrac);
+        intree->SetBranchAddress("j4_elefrac", &t->j4_elefrac);
+        intree->SetBranchAddress("j4_JECUnc", &t->j4_JECUnc);
+        intree->SetBranchAddress("j4_leadTrackPt", &t->j4_leadTrackPt);
+        intree->SetBranchAddress("j4_softLeptPt", &t->j4_softLeptPt);
+        intree->SetBranchAddress("j4_softLeptPtRel", &t->j4_softLeptPtRel);
+        intree->SetBranchAddress("j4_softLeptDR", &t->j4_softLeptDR);
+        intree->SetBranchAddress("j4_softLeptIdLooseMu", &t->j4_softLeptIdLooseMu);
+        intree->SetBranchAddress("j4_softLeptIdEle95", &t->j4_softLeptIdEle95);
+    }
     intree->SetBranchAddress("j4_btagSF_M", &t->j4_btagSF_M);
     intree->SetBranchAddress("j4_flavour", &t->j4_flavour);
     intree->SetBranchAddress("j4_btagSFErrorUp_M", &t->j4_btagSFErrorUp_M);
@@ -590,21 +623,24 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
     intree->SetBranchAddress("j5_secVtxPt", &t->j5_secVtxPt);
     intree->SetBranchAddress("j5_secVtx3dL", &t->j5_secVtx3dL);
     intree->SetBranchAddress("j5_secVtx3deL", &t->j5_secVtx3deL);
-    intree->SetBranchAddress("j5_secVtxM", &t->j5_secVtxM);
-    intree->SetBranchAddress("j5_emfrac", &t->j5_emfrac);
-    intree->SetBranchAddress("j5_hadfrac", &t->j5_hadfrac);
-    intree->SetBranchAddress("j5_chadfrac", &t->j5_chadfrac);
-    intree->SetBranchAddress("j5_nhadfrac", &t->j5_nhadfrac);
-    intree->SetBranchAddress("j5_phofrac", &t->j5_phofrac);
-    intree->SetBranchAddress("j5_mufrac", &t->j5_mufrac);
-    intree->SetBranchAddress("j5_elefrac", &t->j5_elefrac);
-    intree->SetBranchAddress("j5_JECUnc", &t->j5_JECUnc);
-    intree->SetBranchAddress("j5_leadTrackPt", &t->j5_leadTrackPt);
-    intree->SetBranchAddress("j5_softLeptPt", &t->j5_softLeptPt);
-    intree->SetBranchAddress("j5_softLeptPtRel", &t->j5_softLeptPtRel);
-    intree->SetBranchAddress("j5_softLeptDR", &t->j5_softLeptDR);
-    intree->SetBranchAddress("j5_softLeptIdLooseMu", &t->j5_softLeptIdLooseMu);
-    intree->SetBranchAddress("j5_softLeptIdEle95", &t->j5_softLeptIdEle95);
+    if( numberOfRegressionFiles > 0 )
+    {
+        intree->SetBranchAddress("j5_secVtxM", &t->j5_secVtxM);
+        intree->SetBranchAddress("j5_emfrac", &t->j5_emfrac);
+        intree->SetBranchAddress("j5_hadfrac", &t->j5_hadfrac);
+        intree->SetBranchAddress("j5_chadfrac", &t->j5_chadfrac);
+        intree->SetBranchAddress("j5_nhadfrac", &t->j5_nhadfrac);
+        intree->SetBranchAddress("j5_phofrac", &t->j5_phofrac);
+        intree->SetBranchAddress("j5_mufrac", &t->j5_mufrac);
+        intree->SetBranchAddress("j5_elefrac", &t->j5_elefrac);
+        intree->SetBranchAddress("j5_JECUnc", &t->j5_JECUnc);
+        intree->SetBranchAddress("j5_leadTrackPt", &t->j5_leadTrackPt);
+        intree->SetBranchAddress("j5_softLeptPt", &t->j5_softLeptPt);
+        intree->SetBranchAddress("j5_softLeptPtRel", &t->j5_softLeptPtRel);
+        intree->SetBranchAddress("j5_softLeptDR", &t->j5_softLeptDR);
+        intree->SetBranchAddress("j5_softLeptIdLooseMu", &t->j5_softLeptIdLooseMu);
+        intree->SetBranchAddress("j5_softLeptIdEle95", &t->j5_softLeptIdEle95);
+    }
     intree->SetBranchAddress("j5_btagSF_M", &t->j5_btagSF_M);
     intree->SetBranchAddress("j5_flavour", &t->j5_flavour);
     intree->SetBranchAddress("j5_btagSFErrorUp_M", &t->j5_btagSFErrorUp_M);
@@ -636,21 +672,24 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
     intree->SetBranchAddress("j6_secVtxPt", &t->j6_secVtxPt);
     intree->SetBranchAddress("j6_secVtx3dL", &t->j6_secVtx3dL);
     intree->SetBranchAddress("j6_secVtx3deL", &t->j6_secVtx3deL);
-    intree->SetBranchAddress("j6_secVtxM", &t->j6_secVtxM);
-    intree->SetBranchAddress("j6_emfrac", &t->j6_emfrac);
-    intree->SetBranchAddress("j6_hadfrac", &t->j6_hadfrac);
-    intree->SetBranchAddress("j6_chadfrac", &t->j6_chadfrac);
-    intree->SetBranchAddress("j6_nhadfrac", &t->j6_nhadfrac);
-    intree->SetBranchAddress("j6_phofrac", &t->j6_phofrac);
-    intree->SetBranchAddress("j6_mufrac", &t->j6_mufrac);
-    intree->SetBranchAddress("j6_elefrac", &t->j6_elefrac);
-    intree->SetBranchAddress("j6_JECUnc", &t->j6_JECUnc);
-    intree->SetBranchAddress("j6_leadTrackPt", &t->j6_leadTrackPt);
-    intree->SetBranchAddress("j6_softLeptPt", &t->j6_softLeptPt);
-    intree->SetBranchAddress("j6_softLeptPtRel", &t->j6_softLeptPtRel);
-    intree->SetBranchAddress("j6_softLeptDR", &t->j6_softLeptDR);
-    intree->SetBranchAddress("j6_softLeptIdLooseMu", &t->j6_softLeptIdLooseMu);
-    intree->SetBranchAddress("j6_softLeptIdEle95", &t->j6_softLeptIdEle95);
+    if( numberOfRegressionFiles > 0 )
+    {
+        intree->SetBranchAddress("j6_secVtxM", &t->j6_secVtxM);
+        intree->SetBranchAddress("j6_emfrac", &t->j6_emfrac);
+        intree->SetBranchAddress("j6_hadfrac", &t->j6_hadfrac);
+        intree->SetBranchAddress("j6_chadfrac", &t->j6_chadfrac);
+        intree->SetBranchAddress("j6_nhadfrac", &t->j6_nhadfrac);
+        intree->SetBranchAddress("j6_phofrac", &t->j6_phofrac);
+        intree->SetBranchAddress("j6_mufrac", &t->j6_mufrac);
+        intree->SetBranchAddress("j6_elefrac", &t->j6_elefrac);
+        intree->SetBranchAddress("j6_JECUnc", &t->j6_JECUnc);
+        intree->SetBranchAddress("j6_leadTrackPt", &t->j6_leadTrackPt);
+        intree->SetBranchAddress("j6_softLeptPt", &t->j6_softLeptPt);
+        intree->SetBranchAddress("j6_softLeptPtRel", &t->j6_softLeptPtRel);
+        intree->SetBranchAddress("j6_softLeptDR", &t->j6_softLeptDR);
+        intree->SetBranchAddress("j6_softLeptIdLooseMu", &t->j6_softLeptIdLooseMu);
+        intree->SetBranchAddress("j6_softLeptIdEle95", &t->j6_softLeptIdEle95);
+    }
     intree->SetBranchAddress("j6_btagSF_M", &t->j6_btagSF_M);
     intree->SetBranchAddress("j6_flavour", &t->j6_flavour);
     intree->SetBranchAddress("j6_btagSFErrorUp_M", &t->j6_btagSFErrorUp_M);
@@ -682,21 +721,24 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
     intree->SetBranchAddress("j7_secVtxPt", &t->j7_secVtxPt);
     intree->SetBranchAddress("j7_secVtx3dL", &t->j7_secVtx3dL);
     intree->SetBranchAddress("j7_secVtx3deL", &t->j7_secVtx3deL);
-    intree->SetBranchAddress("j7_secVtxM", &t->j7_secVtxM);
-    intree->SetBranchAddress("j7_emfrac", &t->j7_emfrac);
-    intree->SetBranchAddress("j7_hadfrac", &t->j7_hadfrac);
-    intree->SetBranchAddress("j7_chadfrac", &t->j7_chadfrac);
-    intree->SetBranchAddress("j7_nhadfrac", &t->j7_nhadfrac);
-    intree->SetBranchAddress("j7_phofrac", &t->j7_phofrac);
-    intree->SetBranchAddress("j7_mufrac", &t->j7_mufrac);
-    intree->SetBranchAddress("j7_elefrac", &t->j7_elefrac);
-    intree->SetBranchAddress("j7_JECUnc", &t->j7_JECUnc);
-    intree->SetBranchAddress("j7_leadTrackPt", &t->j7_leadTrackPt);
-    intree->SetBranchAddress("j7_softLeptPt", &t->j7_softLeptPt);
-    intree->SetBranchAddress("j7_softLeptPtRel", &t->j7_softLeptPtRel);
-    intree->SetBranchAddress("j7_softLeptDR", &t->j7_softLeptDR);
-    intree->SetBranchAddress("j7_softLeptIdLooseMu", &t->j7_softLeptIdLooseMu);
-    intree->SetBranchAddress("j7_softLeptIdEle95", &t->j7_softLeptIdEle95);
+    if( numberOfRegressionFiles > 0 )
+    {
+        intree->SetBranchAddress("j7_secVtxM", &t->j7_secVtxM);
+        intree->SetBranchAddress("j7_emfrac", &t->j7_emfrac);
+        intree->SetBranchAddress("j7_hadfrac", &t->j7_hadfrac);
+        intree->SetBranchAddress("j7_chadfrac", &t->j7_chadfrac);
+        intree->SetBranchAddress("j7_nhadfrac", &t->j7_nhadfrac);
+        intree->SetBranchAddress("j7_phofrac", &t->j7_phofrac);
+        intree->SetBranchAddress("j7_mufrac", &t->j7_mufrac);
+        intree->SetBranchAddress("j7_elefrac", &t->j7_elefrac);
+        intree->SetBranchAddress("j7_JECUnc", &t->j7_JECUnc);
+        intree->SetBranchAddress("j7_leadTrackPt", &t->j7_leadTrackPt);
+        intree->SetBranchAddress("j7_softLeptPt", &t->j7_softLeptPt);
+        intree->SetBranchAddress("j7_softLeptPtRel", &t->j7_softLeptPtRel);
+        intree->SetBranchAddress("j7_softLeptDR", &t->j7_softLeptDR);
+        intree->SetBranchAddress("j7_softLeptIdLooseMu", &t->j7_softLeptIdLooseMu);
+        intree->SetBranchAddress("j7_softLeptIdEle95", &t->j7_softLeptIdEle95);
+    }
     intree->SetBranchAddress("j7_btagSF_M", &t->j7_btagSF_M);
     intree->SetBranchAddress("j7_flavour", &t->j7_flavour);
     intree->SetBranchAddress("j7_btagSFErrorUp_M", &t->j7_btagSFErrorUp_M);
@@ -728,21 +770,24 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
     intree->SetBranchAddress("j8_secVtxPt", &t->j8_secVtxPt);
     intree->SetBranchAddress("j8_secVtx3dL", &t->j8_secVtx3dL);
     intree->SetBranchAddress("j8_secVtx3deL", &t->j8_secVtx3deL);
-    intree->SetBranchAddress("j8_secVtxM", &t->j8_secVtxM);
-    intree->SetBranchAddress("j8_emfrac", &t->j8_emfrac);
-    intree->SetBranchAddress("j8_hadfrac", &t->j8_hadfrac);
-    intree->SetBranchAddress("j8_chadfrac", &t->j8_chadfrac);
-    intree->SetBranchAddress("j8_nhadfrac", &t->j8_nhadfrac);
-    intree->SetBranchAddress("j8_phofrac", &t->j8_phofrac);
-    intree->SetBranchAddress("j8_mufrac", &t->j8_mufrac);
-    intree->SetBranchAddress("j8_elefrac", &t->j8_elefrac);
-    intree->SetBranchAddress("j8_JECUnc", &t->j8_JECUnc);
-    intree->SetBranchAddress("j8_leadTrackPt", &t->j8_leadTrackPt);
-    intree->SetBranchAddress("j8_softLeptPt", &t->j8_softLeptPt);
-    intree->SetBranchAddress("j8_softLeptPtRel", &t->j8_softLeptPtRel);
-    intree->SetBranchAddress("j8_softLeptDR", &t->j8_softLeptDR);
-    intree->SetBranchAddress("j8_softLeptIdLooseMu", &t->j8_softLeptIdLooseMu);
-    intree->SetBranchAddress("j8_softLeptIdEle95", &t->j8_softLeptIdEle95);
+    if( numberOfRegressionFiles > 0 )
+    {
+        intree->SetBranchAddress("j8_secVtxM", &t->j8_secVtxM);
+        intree->SetBranchAddress("j8_emfrac", &t->j8_emfrac);
+        intree->SetBranchAddress("j8_hadfrac", &t->j8_hadfrac);
+        intree->SetBranchAddress("j8_chadfrac", &t->j8_chadfrac);
+        intree->SetBranchAddress("j8_nhadfrac", &t->j8_nhadfrac);
+        intree->SetBranchAddress("j8_phofrac", &t->j8_phofrac);
+        intree->SetBranchAddress("j8_mufrac", &t->j8_mufrac);
+        intree->SetBranchAddress("j8_elefrac", &t->j8_elefrac);
+        intree->SetBranchAddress("j8_JECUnc", &t->j8_JECUnc);
+        intree->SetBranchAddress("j8_leadTrackPt", &t->j8_leadTrackPt);
+        intree->SetBranchAddress("j8_softLeptPt", &t->j8_softLeptPt);
+        intree->SetBranchAddress("j8_softLeptPtRel", &t->j8_softLeptPtRel);
+        intree->SetBranchAddress("j8_softLeptDR", &t->j8_softLeptDR);
+        intree->SetBranchAddress("j8_softLeptIdLooseMu", &t->j8_softLeptIdLooseMu);
+        intree->SetBranchAddress("j8_softLeptIdEle95", &t->j8_softLeptIdEle95);
+    }
     intree->SetBranchAddress("j8_btagSF_M", &t->j8_btagSF_M);
     intree->SetBranchAddress("j8_flavour", &t->j8_flavour);
     intree->SetBranchAddress("j8_btagSFErrorUp_M", &t->j8_btagSFErrorUp_M);
@@ -774,21 +819,24 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
     intree->SetBranchAddress("j9_secVtxPt", &t->j9_secVtxPt);
     intree->SetBranchAddress("j9_secVtx3dL", &t->j9_secVtx3dL);
     intree->SetBranchAddress("j9_secVtx3deL", &t->j9_secVtx3deL);
-    intree->SetBranchAddress("j9_secVtxM", &t->j9_secVtxM);
-    intree->SetBranchAddress("j9_emfrac", &t->j9_emfrac);
-    intree->SetBranchAddress("j9_hadfrac", &t->j9_hadfrac);
-    intree->SetBranchAddress("j9_chadfrac", &t->j9_chadfrac);
-    intree->SetBranchAddress("j9_nhadfrac", &t->j9_nhadfrac);
-    intree->SetBranchAddress("j9_phofrac", &t->j9_phofrac);
-    intree->SetBranchAddress("j9_mufrac", &t->j9_mufrac);
-    intree->SetBranchAddress("j9_elefrac", &t->j9_elefrac);
-    intree->SetBranchAddress("j9_JECUnc", &t->j9_JECUnc);
-    intree->SetBranchAddress("j9_leadTrackPt", &t->j9_leadTrackPt);
-    intree->SetBranchAddress("j9_softLeptPt", &t->j9_softLeptPt);
-    intree->SetBranchAddress("j9_softLeptPtRel", &t->j9_softLeptPtRel);
-    intree->SetBranchAddress("j9_softLeptDR", &t->j9_softLeptDR);
-    intree->SetBranchAddress("j9_softLeptIdLooseMu", &t->j9_softLeptIdLooseMu);
-    intree->SetBranchAddress("j9_softLeptIdEle95", &t->j9_softLeptIdEle95);
+    if( numberOfRegressionFiles > 0 )
+    {
+        intree->SetBranchAddress("j9_secVtxM", &t->j9_secVtxM);
+        intree->SetBranchAddress("j9_emfrac", &t->j9_emfrac);
+        intree->SetBranchAddress("j9_hadfrac", &t->j9_hadfrac);
+        intree->SetBranchAddress("j9_chadfrac", &t->j9_chadfrac);
+        intree->SetBranchAddress("j9_nhadfrac", &t->j9_nhadfrac);
+        intree->SetBranchAddress("j9_phofrac", &t->j9_phofrac);
+        intree->SetBranchAddress("j9_mufrac", &t->j9_mufrac);
+        intree->SetBranchAddress("j9_elefrac", &t->j9_elefrac);
+        intree->SetBranchAddress("j9_JECUnc", &t->j9_JECUnc);
+        intree->SetBranchAddress("j9_leadTrackPt", &t->j9_leadTrackPt);
+        intree->SetBranchAddress("j9_softLeptPt", &t->j9_softLeptPt);
+        intree->SetBranchAddress("j9_softLeptPtRel", &t->j9_softLeptPtRel);
+        intree->SetBranchAddress("j9_softLeptDR", &t->j9_softLeptDR);
+        intree->SetBranchAddress("j9_softLeptIdLooseMu", &t->j9_softLeptIdLooseMu);
+        intree->SetBranchAddress("j9_softLeptIdEle95", &t->j9_softLeptIdEle95);
+    }
     intree->SetBranchAddress("j9_btagSF_M", &t->j9_btagSF_M);
     intree->SetBranchAddress("j9_flavour", &t->j9_flavour);
     intree->SetBranchAddress("j9_btagSFErrorUp_M", &t->j9_btagSFErrorUp_M);
@@ -820,21 +868,24 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
     intree->SetBranchAddress("j10_secVtxPt", &t->j10_secVtxPt);
     intree->SetBranchAddress("j10_secVtx3dL", &t->j10_secVtx3dL);
     intree->SetBranchAddress("j10_secVtx3deL", &t->j10_secVtx3deL);
-    intree->SetBranchAddress("j10_secVtxM", &t->j10_secVtxM);
-    intree->SetBranchAddress("j10_emfrac", &t->j10_emfrac);
-    intree->SetBranchAddress("j10_hadfrac", &t->j10_hadfrac);
-    intree->SetBranchAddress("j10_chadfrac", &t->j10_chadfrac);
-    intree->SetBranchAddress("j10_nhadfrac", &t->j10_nhadfrac);
-    intree->SetBranchAddress("j10_phofrac", &t->j10_phofrac);
-    intree->SetBranchAddress("j10_mufrac", &t->j10_mufrac);
-    intree->SetBranchAddress("j10_elefrac", &t->j10_elefrac);
-    intree->SetBranchAddress("j10_JECUnc", &t->j10_JECUnc);
-    intree->SetBranchAddress("j10_leadTrackPt", &t->j10_leadTrackPt);
-    intree->SetBranchAddress("j10_softLeptPt", &t->j10_softLeptPt);
-    intree->SetBranchAddress("j10_softLeptPtRel", &t->j10_softLeptPtRel);
-    intree->SetBranchAddress("j10_softLeptDR", &t->j10_softLeptDR);
-    intree->SetBranchAddress("j10_softLeptIdLooseMu", &t->j10_softLeptIdLooseMu);
-    intree->SetBranchAddress("j10_softLeptIdEle95", &t->j10_softLeptIdEle95);
+    if( numberOfRegressionFiles > 0 )
+    {
+        intree->SetBranchAddress("j10_secVtxM", &t->j10_secVtxM);
+        intree->SetBranchAddress("j10_emfrac", &t->j10_emfrac);
+        intree->SetBranchAddress("j10_hadfrac", &t->j10_hadfrac);
+        intree->SetBranchAddress("j10_chadfrac", &t->j10_chadfrac);
+        intree->SetBranchAddress("j10_nhadfrac", &t->j10_nhadfrac);
+        intree->SetBranchAddress("j10_phofrac", &t->j10_phofrac);
+        intree->SetBranchAddress("j10_mufrac", &t->j10_mufrac);
+        intree->SetBranchAddress("j10_elefrac", &t->j10_elefrac);
+        intree->SetBranchAddress("j10_JECUnc", &t->j10_JECUnc);
+        intree->SetBranchAddress("j10_leadTrackPt", &t->j10_leadTrackPt);
+        intree->SetBranchAddress("j10_softLeptPt", &t->j10_softLeptPt);
+        intree->SetBranchAddress("j10_softLeptPtRel", &t->j10_softLeptPtRel);
+        intree->SetBranchAddress("j10_softLeptDR", &t->j10_softLeptDR);
+        intree->SetBranchAddress("j10_softLeptIdLooseMu", &t->j10_softLeptIdLooseMu);
+        intree->SetBranchAddress("j10_softLeptIdEle95", &t->j10_softLeptIdEle95);
+    }
     intree->SetBranchAddress("j10_btagSF_M", &t->j10_btagSF_M);
     intree->SetBranchAddress("j10_flavour", &t->j10_flavour);
     intree->SetBranchAddress("j10_btagSFErrorUp_M", &t->j10_btagSFErrorUp_M);
@@ -866,21 +917,24 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
     intree->SetBranchAddress("j11_secVtxPt", &t->j11_secVtxPt);
     intree->SetBranchAddress("j11_secVtx3dL", &t->j11_secVtx3dL);
     intree->SetBranchAddress("j11_secVtx3deL", &t->j11_secVtx3deL);
-    intree->SetBranchAddress("j11_secVtxM", &t->j11_secVtxM);
-    intree->SetBranchAddress("j11_emfrac", &t->j11_emfrac);
-    intree->SetBranchAddress("j11_hadfrac", &t->j11_hadfrac);
-    intree->SetBranchAddress("j11_chadfrac", &t->j11_chadfrac);
-    intree->SetBranchAddress("j11_nhadfrac", &t->j11_nhadfrac);
-    intree->SetBranchAddress("j11_phofrac", &t->j11_phofrac);
-    intree->SetBranchAddress("j11_mufrac", &t->j11_mufrac);
-    intree->SetBranchAddress("j11_elefrac", &t->j11_elefrac);
-    intree->SetBranchAddress("j11_JECUnc", &t->j11_JECUnc);
-    intree->SetBranchAddress("j11_leadTrackPt", &t->j11_leadTrackPt);
-    intree->SetBranchAddress("j11_softLeptPt", &t->j11_softLeptPt);
-    intree->SetBranchAddress("j11_softLeptPtRel", &t->j11_softLeptPtRel);
-    intree->SetBranchAddress("j11_softLeptDR", &t->j11_softLeptDR);
-    intree->SetBranchAddress("j11_softLeptIdLooseMu", &t->j11_softLeptIdLooseMu);
-    intree->SetBranchAddress("j11_softLeptIdEle95", &t->j11_softLeptIdEle95);
+    if( numberOfRegressionFiles > 0 )
+    {
+        intree->SetBranchAddress("j11_secVtxM", &t->j11_secVtxM);
+        intree->SetBranchAddress("j11_emfrac", &t->j11_emfrac);
+        intree->SetBranchAddress("j11_hadfrac", &t->j11_hadfrac);
+        intree->SetBranchAddress("j11_chadfrac", &t->j11_chadfrac);
+        intree->SetBranchAddress("j11_nhadfrac", &t->j11_nhadfrac);
+        intree->SetBranchAddress("j11_phofrac", &t->j11_phofrac);
+        intree->SetBranchAddress("j11_mufrac", &t->j11_mufrac);
+        intree->SetBranchAddress("j11_elefrac", &t->j11_elefrac);
+        intree->SetBranchAddress("j11_JECUnc", &t->j11_JECUnc);
+        intree->SetBranchAddress("j11_leadTrackPt", &t->j11_leadTrackPt);
+        intree->SetBranchAddress("j11_softLeptPt", &t->j11_softLeptPt);
+        intree->SetBranchAddress("j11_softLeptPtRel", &t->j11_softLeptPtRel);
+        intree->SetBranchAddress("j11_softLeptDR", &t->j11_softLeptDR);
+        intree->SetBranchAddress("j11_softLeptIdLooseMu", &t->j11_softLeptIdLooseMu);
+        intree->SetBranchAddress("j11_softLeptIdEle95", &t->j11_softLeptIdEle95);
+    }
     intree->SetBranchAddress("j11_btagSF_M", &t->j11_btagSF_M);
     intree->SetBranchAddress("j11_flavour", &t->j11_flavour);
     intree->SetBranchAddress("j11_btagSFErrorUp_M", &t->j11_btagSFErrorUp_M);
@@ -912,21 +966,24 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
     intree->SetBranchAddress("j12_secVtxPt", &t->j12_secVtxPt);
     intree->SetBranchAddress("j12_secVtx3dL", &t->j12_secVtx3dL);
     intree->SetBranchAddress("j12_secVtx3deL", &t->j12_secVtx3deL);
-    intree->SetBranchAddress("j12_secVtxM", &t->j12_secVtxM);
-    intree->SetBranchAddress("j12_emfrac", &t->j12_emfrac);
-    intree->SetBranchAddress("j12_hadfrac", &t->j12_hadfrac);
-    intree->SetBranchAddress("j12_chadfrac", &t->j12_chadfrac);
-    intree->SetBranchAddress("j12_nhadfrac", &t->j12_nhadfrac);
-    intree->SetBranchAddress("j12_phofrac", &t->j12_phofrac);
-    intree->SetBranchAddress("j12_mufrac", &t->j12_mufrac);
-    intree->SetBranchAddress("j12_elefrac", &t->j12_elefrac);
-    intree->SetBranchAddress("j12_JECUnc", &t->j12_JECUnc);
-    intree->SetBranchAddress("j12_leadTrackPt", &t->j12_leadTrackPt);
-    intree->SetBranchAddress("j12_softLeptPt", &t->j12_softLeptPt);
-    intree->SetBranchAddress("j12_softLeptPtRel", &t->j12_softLeptPtRel);
-    intree->SetBranchAddress("j12_softLeptDR", &t->j12_softLeptDR);
-    intree->SetBranchAddress("j12_softLeptIdLooseMu", &t->j12_softLeptIdLooseMu);
-    intree->SetBranchAddress("j12_softLeptIdEle95", &t->j12_softLeptIdEle95);
+    if( numberOfRegressionFiles > 0 )
+    {
+        intree->SetBranchAddress("j12_secVtxM", &t->j12_secVtxM);
+        intree->SetBranchAddress("j12_emfrac", &t->j12_emfrac);
+        intree->SetBranchAddress("j12_hadfrac", &t->j12_hadfrac);
+        intree->SetBranchAddress("j12_chadfrac", &t->j12_chadfrac);
+        intree->SetBranchAddress("j12_nhadfrac", &t->j12_nhadfrac);
+        intree->SetBranchAddress("j12_phofrac", &t->j12_phofrac);
+        intree->SetBranchAddress("j12_mufrac", &t->j12_mufrac);
+        intree->SetBranchAddress("j12_elefrac", &t->j12_elefrac);
+        intree->SetBranchAddress("j12_JECUnc", &t->j12_JECUnc);
+        intree->SetBranchAddress("j12_leadTrackPt", &t->j12_leadTrackPt);
+        intree->SetBranchAddress("j12_softLeptPt", &t->j12_softLeptPt);
+        intree->SetBranchAddress("j12_softLeptPtRel", &t->j12_softLeptPtRel);
+        intree->SetBranchAddress("j12_softLeptDR", &t->j12_softLeptDR);
+        intree->SetBranchAddress("j12_softLeptIdLooseMu", &t->j12_softLeptIdLooseMu);
+        intree->SetBranchAddress("j12_softLeptIdEle95", &t->j12_softLeptIdEle95);
+    }
     intree->SetBranchAddress("j12_btagSF_M", &t->j12_btagSF_M);
     intree->SetBranchAddress("j12_flavour", &t->j12_flavour);
     intree->SetBranchAddress("j12_btagSFErrorUp_M", &t->j12_btagSFErrorUp_M);
@@ -958,21 +1015,24 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
     intree->SetBranchAddress("j13_secVtxPt", &t->j13_secVtxPt);
     intree->SetBranchAddress("j13_secVtx3dL", &t->j13_secVtx3dL);
     intree->SetBranchAddress("j13_secVtx3deL", &t->j13_secVtx3deL);
-    intree->SetBranchAddress("j13_secVtxM", &t->j13_secVtxM);
-    intree->SetBranchAddress("j13_emfrac", &t->j13_emfrac);
-    intree->SetBranchAddress("j13_hadfrac", &t->j13_hadfrac);
-    intree->SetBranchAddress("j13_chadfrac", &t->j13_chadfrac);
-    intree->SetBranchAddress("j13_nhadfrac", &t->j13_nhadfrac);
-    intree->SetBranchAddress("j13_phofrac", &t->j13_phofrac);
-    intree->SetBranchAddress("j13_mufrac", &t->j13_mufrac);
-    intree->SetBranchAddress("j13_elefrac", &t->j13_elefrac);
-    intree->SetBranchAddress("j13_JECUnc", &t->j13_JECUnc);
-    intree->SetBranchAddress("j13_leadTrackPt", &t->j13_leadTrackPt);
-    intree->SetBranchAddress("j13_softLeptPt", &t->j13_softLeptPt);
-    intree->SetBranchAddress("j13_softLeptPtRel", &t->j13_softLeptPtRel);
-    intree->SetBranchAddress("j13_softLeptDR", &t->j13_softLeptDR);
-    intree->SetBranchAddress("j13_softLeptIdLooseMu", &t->j13_softLeptIdLooseMu);
-    intree->SetBranchAddress("j13_softLeptIdEle95", &t->j13_softLeptIdEle95);
+    if( numberOfRegressionFiles > 0 )
+    {
+        intree->SetBranchAddress("j13_secVtxM", &t->j13_secVtxM);
+        intree->SetBranchAddress("j13_emfrac", &t->j13_emfrac);
+        intree->SetBranchAddress("j13_hadfrac", &t->j13_hadfrac);
+        intree->SetBranchAddress("j13_chadfrac", &t->j13_chadfrac);
+        intree->SetBranchAddress("j13_nhadfrac", &t->j13_nhadfrac);
+        intree->SetBranchAddress("j13_phofrac", &t->j13_phofrac);
+        intree->SetBranchAddress("j13_mufrac", &t->j13_mufrac);
+        intree->SetBranchAddress("j13_elefrac", &t->j13_elefrac);
+        intree->SetBranchAddress("j13_JECUnc", &t->j13_JECUnc);
+        intree->SetBranchAddress("j13_leadTrackPt", &t->j13_leadTrackPt);
+        intree->SetBranchAddress("j13_softLeptPt", &t->j13_softLeptPt);
+        intree->SetBranchAddress("j13_softLeptPtRel", &t->j13_softLeptPtRel);
+        intree->SetBranchAddress("j13_softLeptDR", &t->j13_softLeptDR);
+        intree->SetBranchAddress("j13_softLeptIdLooseMu", &t->j13_softLeptIdLooseMu);
+        intree->SetBranchAddress("j13_softLeptIdEle95", &t->j13_softLeptIdEle95);
+    }
     intree->SetBranchAddress("j13_btagSF_M", &t->j13_btagSF_M);
     intree->SetBranchAddress("j13_flavour", &t->j13_flavour);
     intree->SetBranchAddress("j13_btagSFErrorUp_M", &t->j13_btagSFErrorUp_M);
@@ -1004,21 +1064,24 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
     intree->SetBranchAddress("j14_secVtxPt", &t->j14_secVtxPt);
     intree->SetBranchAddress("j14_secVtx3dL", &t->j14_secVtx3dL);
     intree->SetBranchAddress("j14_secVtx3deL", &t->j14_secVtx3deL);
-    intree->SetBranchAddress("j14_secVtxM", &t->j14_secVtxM);
-    intree->SetBranchAddress("j14_emfrac", &t->j14_emfrac);
-    intree->SetBranchAddress("j14_hadfrac", &t->j14_hadfrac);
-    intree->SetBranchAddress("j14_chadfrac", &t->j14_chadfrac);
-    intree->SetBranchAddress("j14_nhadfrac", &t->j14_nhadfrac);
-    intree->SetBranchAddress("j14_phofrac", &t->j14_phofrac);
-    intree->SetBranchAddress("j14_mufrac", &t->j14_mufrac);
-    intree->SetBranchAddress("j14_elefrac", &t->j14_elefrac);
-    intree->SetBranchAddress("j14_JECUnc", &t->j14_JECUnc);
-    intree->SetBranchAddress("j14_leadTrackPt", &t->j14_leadTrackPt);
-    intree->SetBranchAddress("j14_softLeptPt", &t->j14_softLeptPt);
-    intree->SetBranchAddress("j14_softLeptPtRel", &t->j14_softLeptPtRel);
-    intree->SetBranchAddress("j14_softLeptDR", &t->j14_softLeptDR);
-    intree->SetBranchAddress("j14_softLeptIdLooseMu", &t->j14_softLeptIdLooseMu);
-    intree->SetBranchAddress("j14_softLeptIdEle95", &t->j14_softLeptIdEle95);
+    if( numberOfRegressionFiles > 0 )
+    {
+        intree->SetBranchAddress("j14_secVtxM", &t->j14_secVtxM);
+        intree->SetBranchAddress("j14_emfrac", &t->j14_emfrac);
+        intree->SetBranchAddress("j14_hadfrac", &t->j14_hadfrac);
+        intree->SetBranchAddress("j14_chadfrac", &t->j14_chadfrac);
+        intree->SetBranchAddress("j14_nhadfrac", &t->j14_nhadfrac);
+        intree->SetBranchAddress("j14_phofrac", &t->j14_phofrac);
+        intree->SetBranchAddress("j14_mufrac", &t->j14_mufrac);
+        intree->SetBranchAddress("j14_elefrac", &t->j14_elefrac);
+        intree->SetBranchAddress("j14_JECUnc", &t->j14_JECUnc);
+        intree->SetBranchAddress("j14_leadTrackPt", &t->j14_leadTrackPt);
+        intree->SetBranchAddress("j14_softLeptPt", &t->j14_softLeptPt);
+        intree->SetBranchAddress("j14_softLeptPtRel", &t->j14_softLeptPtRel);
+        intree->SetBranchAddress("j14_softLeptDR", &t->j14_softLeptDR);
+        intree->SetBranchAddress("j14_softLeptIdLooseMu", &t->j14_softLeptIdLooseMu);
+        intree->SetBranchAddress("j14_softLeptIdEle95", &t->j14_softLeptIdEle95);
+    }
     intree->SetBranchAddress("j14_btagSF_M", &t->j14_btagSF_M);
     intree->SetBranchAddress("j14_flavour", &t->j14_flavour);
     intree->SetBranchAddress("j14_btagSFErrorUp_M", &t->j14_btagSFErrorUp_M);
@@ -1050,21 +1113,24 @@ void setup_intree(TTree* intree, tree_variables *t, int type)
     intree->SetBranchAddress("j15_secVtxPt", &t->j15_secVtxPt);
     intree->SetBranchAddress("j15_secVtx3dL", &t->j15_secVtx3dL);
     intree->SetBranchAddress("j15_secVtx3deL", &t->j15_secVtx3deL);
-    intree->SetBranchAddress("j15_secVtxM", &t->j15_secVtxM);
-    intree->SetBranchAddress("j15_emfrac", &t->j15_emfrac);
-    intree->SetBranchAddress("j15_hadfrac", &t->j15_hadfrac);
-    intree->SetBranchAddress("j15_chadfrac", &t->j15_chadfrac);
-    intree->SetBranchAddress("j15_nhadfrac", &t->j15_nhadfrac);
-    intree->SetBranchAddress("j15_phofrac", &t->j15_phofrac);
-    intree->SetBranchAddress("j15_mufrac", &t->j15_mufrac);
-    intree->SetBranchAddress("j15_elefrac", &t->j15_elefrac);
-    intree->SetBranchAddress("j15_JECUnc", &t->j15_JECUnc);
-    intree->SetBranchAddress("j15_leadTrackPt", &t->j15_leadTrackPt);
-    intree->SetBranchAddress("j15_softLeptPt", &t->j15_softLeptPt);
-    intree->SetBranchAddress("j15_softLeptPtRel", &t->j15_softLeptPtRel);
-    intree->SetBranchAddress("j15_softLeptDR", &t->j15_softLeptDR);
-    intree->SetBranchAddress("j15_softLeptIdLooseMu", &t->j15_softLeptIdLooseMu);
-    intree->SetBranchAddress("j15_softLeptIdEle95", &t->j15_softLeptIdEle95);
+    if( numberOfRegressionFiles > 0 )
+    {
+        intree->SetBranchAddress("j15_secVtxM", &t->j15_secVtxM);
+        intree->SetBranchAddress("j15_emfrac", &t->j15_emfrac);
+        intree->SetBranchAddress("j15_hadfrac", &t->j15_hadfrac);
+        intree->SetBranchAddress("j15_chadfrac", &t->j15_chadfrac);
+        intree->SetBranchAddress("j15_nhadfrac", &t->j15_nhadfrac);
+        intree->SetBranchAddress("j15_phofrac", &t->j15_phofrac);
+        intree->SetBranchAddress("j15_mufrac", &t->j15_mufrac);
+        intree->SetBranchAddress("j15_elefrac", &t->j15_elefrac);
+        intree->SetBranchAddress("j15_JECUnc", &t->j15_JECUnc);
+        intree->SetBranchAddress("j15_leadTrackPt", &t->j15_leadTrackPt);
+        intree->SetBranchAddress("j15_softLeptPt", &t->j15_softLeptPt);
+        intree->SetBranchAddress("j15_softLeptPtRel", &t->j15_softLeptPtRel);
+        intree->SetBranchAddress("j15_softLeptDR", &t->j15_softLeptDR);
+        intree->SetBranchAddress("j15_softLeptIdLooseMu", &t->j15_softLeptIdLooseMu);
+        intree->SetBranchAddress("j15_softLeptIdEle95", &t->j15_softLeptIdEle95);
+    }
     intree->SetBranchAddress("j15_btagSF_M", &t->j15_btagSF_M);
     intree->SetBranchAddress("j15_flavour", &t->j15_flavour);
     intree->SetBranchAddress("j15_btagSFErrorUp_M", &t->j15_btagSFErrorUp_M);
