@@ -1,11 +1,11 @@
 #!/bin/bash
 
-version="v33_test"
+version="v34"
 today=`date +"0%Y-%m-%d"`
 #set -x
 
-inputversion="v15"
-inputfolder="2014-06-25_selection_noRegression_noMassCut_${inputversion}/"
+inputversion="v16"
+inputfolder="2014-10-03_selection_noRegression_noMassCut_${inputversion}/"
 
 1D_analysis=1 #1 for fitting to Mgg, 0 for fitting to Mgg X Mjj. Does not effect Mggjj fit.
 
