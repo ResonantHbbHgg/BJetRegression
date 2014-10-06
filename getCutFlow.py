@@ -9,8 +9,8 @@ from os import path, listdir
 parser = argparse.ArgumentParser()
 parser.add_argument("--part", help="1= prod and reduced level, 2= object selection, 3= mass windows, 999= get everything together", nargs='?', const=2, type=int, default=2)
 parser.add_argument("--doBackgrounds", help="do the plot for backgrounds instead of Higgses samples", nargs='?', const=0, type=int, default=0)
-parser.add_argument("--selectionVersion", help="selection version", nargs='?', const="v14", type=str, default="v14")
-parser.add_argument("--selectionFolder", help="selection version", nargs='?', const="2014-06-12_selection_noRegression_noMassCut_v14", type=str, default="2014-06-12_selection_noRegression_noMassCut_v14")
+parser.add_argument("--selectionVersion", help="selection version", nargs='?', const="v16_beta", type=str, default="v16_beta")
+parser.add_argument("--selectionFolder", help="selection version", nargs='?', const="2014-10-06_selection_noRegression_noMassCut_v16_beta", type=str, default="2014-10-06_selection_noRegression_noMassCut_v16_beta")
 parser.add_argument("--plotName", help="plot name", nargs='?', const="flow", type=str, default="flow")
 args = parser.parse_args()
 # ROOT setup
@@ -31,7 +31,7 @@ if args.part == 1:
     eos_redu = "/store/cmst3/user/obondu/H2GGLOBE/Radion/reduced/radion_reduction_v11/mc"
     eos_red2 = "/store/cmst3/group/hbbhgg/H2GGLOBE/Radion/reduced/radion_reduction_v11/mc"
     eos_red3 = "/store/cmst3/group/hbbhgg/H2GGLOBE/Radion/reduced/radion_reduction_v11/data"
-    eos_tree = "/store/cmst3/group/hbbhgg/H2GGLOBE/Radion/trees/radion_tree_v09"
+    eos_tree = "/store/cmst3/group/hbbhgg/H2GGLOBE/Radion/trees/radion_tree_v10"
     samples = []
     if args.doBackgrounds == 0:
         samples.append(["Radion_m270", "prod", eos_pro2, "RadionToHH_2Gamma_2b_M-270_TuneZ2star_8TeV-Madgraph_pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v1_AODSIM", "*root", "event"])
