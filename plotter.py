@@ -14,32 +14,34 @@ ROOT.gROOT.ProcessLine(".x setTDRStyle.C")
 ROOT.TGaxis.SetMaxDigits(3);
 
 c1 = TCanvas()
-afs_plottree = "/afs/cern.ch/work/o/obondu/public/forRadion/plotTrees/v14/2014-06-12_selection_noRegression_noMassCut_v14"
+afs_plottree = "/afs/cern.ch/work/o/obondu/Higgs/CMSSW_6_1_1_radion_v2/src/BJetRegression/2014-10-08_selection_noRegression_noMassCut_v16/"
 eos_tree = "root://eoscms//eos/cms/store/cmst3/user/obondu/H2GGLOBE/Radion/trees/radion_redu_11_tree_08"
 
 intL = 19706.
 samples = []
 # samples.append([ name, typ, dirpath, subdir, file, tree, sample_cut, color, style, label , sigma , N])
 #samples.append(["Radion_m300", -300, afs_plottree, "", "Radion_m300_8TeV_noRegression_noMassCut_v*.root", "Radion_m300_8TeV", "evweight_w_btagSF", ROOT.kRed, 0, "m_{X} = 300 GeV" , 13.55e-3, 19999])
-samples.append(["Data", 0, afs_plottree, "", "Data_noRegression_noMassCut_v*.root", "Data", "", ROOT.kBlack, 0, "Data", 1., 1001822])
-samples.append(["qcd_40_8TeV_ff", 30, afs_plottree, "", "qcd_40_8TeV_ff_noRegression_noMassCut_v*.root", "qcd_40_8TeV_ff", "(evweight_w_btagSF) * (evweight_w_btagSF < 50)", ROOT.kCyan+2, 1001, "QCD jets" , 1., 14404429])
-samples.append(["qcd_30_8TeV_ff", 30, afs_plottree, "", "qcd_30_8TeV_ff_noRegression_noMassCut_v*.root", "qcd_30_8TeV_ff", "(evweight_w_btagSF) * (evweight_w_btagSF < 50)", ROOT.kCyan+2, 1001, "QCD jets" , 1., 14404429])
-samples.append(["qcd_30_8TeV_pf", 20, afs_plottree, "", "qcd_30_8TeV_pf_noRegression_noMassCut_v*.root", "qcd_30_8TeV_pf", "(evweight_w_btagSF) * (evweight_w_btagSF < 50)", ROOT.kBlue-4, 1001, "QCD #gamma + jets" , 1., 14404429])
-samples.append(["qcd_40_8TeV_pf", 20, afs_plottree, "", "qcd_40_8TeV_pf_noRegression_noMassCut_v*.root", "qcd_40_8TeV_pf", "(evweight_w_btagSF) * (evweight_w_btagSF < 50)", ROOT.kBlue-4, 1001, "QCD #gamma + jets" , 1., 14404429])
-samples.append(["gjet_20_8TeV_pf", 20, afs_plottree, "", "gjet_20_8TeV_pf_noRegression_noMassCut_v*.root", "gjet_20_8TeV_pf", "evweight_w_btagSF", ROOT.kBlue-4, 1001, "QCD #gamma + jets" , 1., 14404429])
-samples.append(["gjet_40_8TeV_pf", 20, afs_plottree, "", "gjet_40_8TeV_pf_noRegression_noMassCut_v*.root", "gjet_40_8TeV_pf", "evweight_w_btagSF", ROOT.kBlue-4, 1001, "QCD #gamma + jets" , 1., 14404429])
-samples.append(["diphojet_sherpa_8TeV", 10, afs_plottree, "", "diphojet_sherpa_8TeV_noRegression_noMassCut_v*.root", "diphojet_sherpa_8TeV", "evweight_w_btagSF", ROOT.kGreen+2, 1001, "QCD #gamma#gamma + jets" , 1., 14404429])
-samples.append(["DYJetsToLL", 5, afs_plottree, "", "DYJetsToLL_noRegression_noMassCut_v*.root", "DYJetsToLL", "evweight_w_btagSF", ROOT.kMagenta+2, 1001, "DY" , 1., 14404429])
+samples.append(["Data", 0, afs_plottree, "", "Data_noRegression_noMassCut_v*.root", "Data", "gg_mass < 120 || gg_mass > 130", ROOT.kBlack, 0, "Data (m_{#gamma#gamma}-blind)", 1., 1001822])
+samples.append(["ControlSample", 1, afs_plottree, "", "Data_noRegression_noMassCut_controlSampleWeighted_v*.root", "Data", "evweight_w_btagSF", ROOT.kRed, 3003, "CS w", 1., 1001822])
+samples.append(["ControlSampleUNW", -1, afs_plottree, "", "Data_noRegression_noMassCut_controlSample_v*.root", "Data", "", ROOT.kBlue, 1, "CS unw", 1., 1001822])
+#samples.append(["qcd_40_8TeV_ff", 30, afs_plottree, "", "qcd_40_8TeV_ff_noRegression_noMassCut_v*.root", "qcd_40_8TeV_ff", "(evweight_w_btagSF) * (evweight_w_btagSF < 50)", ROOT.kCyan+2, 1001, "QCD jets" , 1., 14404429])
+#samples.append(["qcd_30_8TeV_ff", 30, afs_plottree, "", "qcd_30_8TeV_ff_noRegression_noMassCut_v*.root", "qcd_30_8TeV_ff", "(evweight_w_btagSF) * (evweight_w_btagSF < 50)", ROOT.kCyan+2, 1001, "QCD jets" , 1., 14404429])
+#samples.append(["qcd_30_8TeV_pf", 20, afs_plottree, "", "qcd_30_8TeV_pf_noRegression_noMassCut_v*.root", "qcd_30_8TeV_pf", "(evweight_w_btagSF) * (evweight_w_btagSF < 50)", ROOT.kBlue-4, 1001, "QCD #gamma + jets" , 1., 14404429])
+#samples.append(["qcd_40_8TeV_pf", 20, afs_plottree, "", "qcd_40_8TeV_pf_noRegression_noMassCut_v*.root", "qcd_40_8TeV_pf", "(evweight_w_btagSF) * (evweight_w_btagSF < 50)", ROOT.kBlue-4, 1001, "QCD #gamma + jets" , 1., 14404429])
+#samples.append(["gjet_20_8TeV_pf", 20, afs_plottree, "", "gjet_20_8TeV_pf_noRegression_noMassCut_v*.root", "gjet_20_8TeV_pf", "evweight_w_btagSF", ROOT.kBlue-4, 1001, "QCD #gamma + jets" , 1., 14404429])
+#samples.append(["gjet_40_8TeV_pf", 20, afs_plottree, "", "gjet_40_8TeV_pf_noRegression_noMassCut_v*.root", "gjet_40_8TeV_pf", "evweight_w_btagSF", ROOT.kBlue-4, 1001, "QCD #gamma + jets" , 1., 14404429])
+#samples.append(["diphojet_sherpa_8TeV", 10, afs_plottree, "", "diphojet_sherpa_8TeV_noRegression_noMassCut_v*.root", "diphojet_sherpa_8TeV", "evweight_w_btagSF", ROOT.kGreen+2, 1001, "QCD #gamma#gamma + jets" , 1., 14404429])
+#samples.append(["DYJetsToLL", 5, afs_plottree, "", "DYJetsToLL_noRegression_noMassCut_v*.root", "DYJetsToLL", "evweight_w_btagSF", ROOT.kMagenta+2, 1001, "DY" , 1., 14404429])
 
 
 #####plots.append([ name2, variable, plot_cut, norm, binning, title, additional_info, cutline, cutline2 ])
 plots = []
-#plots.append(["pho1_pt", "pho1_pt", "", intL, "(100, 0, 500)", "p_{T}^{#gamma1} (GeV)", "", 33.3, ""])
-#plots.append(["pho2_pt", "pho2_pt", "", intL, "(100, 0, 500)", "p_{T}^{#gamma2} (GeV)", "", 25., ""])
+plots.append(["pho1_pt", "pho1_pt", "", 1, "(50, 0, 200)", "p_{T}^{#gamma1} (GeV)", "", "", ""])
+plots.append(["pho2_pt", "pho2_pt", "", 1, "(50, 0, 200)", "p_{T}^{#gamma2} (GeV)", "", "", ""])
 #plots.append(["jet1_pt", "jet1_pt", "", intL, "(100, 0, 500)", "p_{T}^{jet1} (GeV)", "", 25., ""])
 #plots.append(["jet2_pt", "jet2_pt", "", intL, "(100, 0, 500)", "p_{T}^{jet1} (GeV)", "", 25., ""])
-#plots.append(["pho1_eta", "pho1_eta", "", intL, "(100, -5, 5)", "eta^{#gamma1}", "", 2.5, -2.5])
-#plots.append(["pho2_eta", "pho2_eta", "", intL, "(100, -5, 5)", "eta^{#gamma2}", "", 2.5, -2.5])
+plots.append(["pho1_eta", "pho1_eta", "", 1, "(30, -3., 3.)", "eta^{#gamma1}", "", "", ""])
+plots.append(["pho2_eta", "pho2_eta", "", 1, "(30, -3., 3.)", "eta^{#gamma2}", "", "", ""])
 #plots.append(["jet1_eta", "jet1_eta", "", intL, "(100, -5, 5)", "eta^{jet1}", "", "", ""])
 #plots.append(["jet2_eta", "jet2_eta", "", intL, "(100, -5, 5)", "eta^{jet1}", "", "", ""])
 #plots.append(["pho1_phi", "pho1_phi", "", intL, "(100, -5, 5)", "phi^{#gamma1}", "", "", ""])
@@ -56,12 +58,12 @@ plots = []
 #plots.append(["pho2_mass", "pho2_mass", "", intL, "(100, -1, 1)", "mass^{#gamma2} (GeV)", "", "", ""])
 #plots.append(["jet1_mass", "jet1_mass", "", intL, "(100, 0, 100)", "mass^{jet1} (GeV)", "", "", ""])
 #plots.append(["jet2_mass", "jet2_mass", "", intL, "(100, 0, 100)", "mass^{jet2} (GeV)", "", "", ""])
-plots.append(["jj_mass_normData", "jj_mass", "", "data", "(50, 0, 500)", "mass^{jj} (GeV)", "", "", ""])
-plots.append(["gg_mass_normData", "gg_mass", "", "data", "(40, 100, 180)", "mass^{#gamma#gamma} (GeV)", "", "", ""])
+#plots.append(["jj_mass_normData", "jj_mass", "", "data", "(50, 0, 500)", "mass^{jj} (GeV)", "", "", ""])
+#plots.append(["gg_mass_normData", "gg_mass", "", "data", "(40, 100, 180)", "mass^{#gamma#gamma} (GeV)", "", "", ""])
 plots.append(["jj_mass_norm1", "jj_mass", "", 1, "(50, 0, 500)", "mass^{jj} (GeV)", "", "", ""])
 plots.append(["gg_mass_norm1", "gg_mass", "", 1, "(40, 100, 180)", "mass^{#gamma#gamma} (GeV)", "", "", ""])
-plots.append(["jj_mass", "jj_mass", "", intL, "(50, 0, 500)", "mass^{jj} (GeV)", "", "", ""])
-plots.append(["gg_mass", "gg_mass", "", intL, "(40, 100, 180)", "mass^{#gamma#gamma} (GeV)", "", "", ""])
+#plots.append(["jj_mass", "jj_mass", "", intL, "(50, 0, 500)", "mass^{jj} (GeV)", "", "", ""])
+#plots.append(["gg_mass", "gg_mass", "", intL, "(40, 100, 180)", "mass^{#gamma#gamma} (GeV)", "", "", ""])
 #plots.append(["pho1_e", "pho1_e", "", intL, "(500, 0, 500)", "e^{#gamma1} (GeV)", "", "", ""])
 #plots.append(["pho2_e", "pho2_e", "", intL, "(500, 0, 500)", "e^{#gamma2} (GeV)", "", "", ""])
 #plots.append(["jet1_e", "jet1_e", "", intL, "(500, 0, 500)", "e^{jet1} (GeV)", "", "", ""])
@@ -72,9 +74,9 @@ plots.append(["gg_mass", "gg_mass", "", intL, "(40, 100, 180)", "mass^{#gamma#ga
 #plots.append(["pho2_r9", "pho2_r9", "", intL, "(100, 0, 5)", "r9^{#gamma2}", "", "", ""])
 #plots.append(["ggjj_pt", "ggjj_pt", "", intL, "(500, 0, 500)", "p_{T}^{#gamma#gammajj} (GeV)", "", "", ""])
 #plots.append(["ggjj_e", "ggjj_e", "", intL, "(1000, 0, 1000)", "e^{#gamma#gammajj} (GeV)", "", "", ""])
-plots.append(["ggjj_mass_normData", "ggjj_mass / 1000.", "", "data", "(50, 0, 1.)", "mass^{#gamma#gammajj} (TeV)", "", "", ""])
+#plots.append(["ggjj_mass_normData", "ggjj_mass / 1000.", "", "data", "(50, 0, 1.)", "mass^{#gamma#gammajj} (TeV)", "", "", ""])
 plots.append(["ggjj_mass_norm1", "ggjj_mass / 1000.", "", 1, "(50, 0, 1.)", "mass^{#gamma#gammajj} (TeV)", "", "", ""])
-plots.append(["ggjj_mass", "ggjj_mass / 1000.", "", intL, "(50, 0, 1.)", "mass^{#gamma#gammajj} (TeV)", "", "", ""])
+#plots.append(["ggjj_mass", "ggjj_mass / 1000.", "", intL, "(50, 0, 1.)", "mass^{#gamma#gammajj} (TeV)", "", "", ""])
 #plots.append(["ggjj_phi", "ggjj_phi", "", intL, "(100, -5, 5)", "phi^{#gamma#gammajj}", "", "", ""])
 #plots.append(["ggjj_eta", "ggjj_eta", "", intL, "(100, -10, 10)", "eta^{#gamma#gammajj}", "", "", ""])
 #plots.append(["pho1_sieie", "pho1_sieie", "", intL, "(100, -0.5, 0.5)", "sieie^{#gamma1}", "", "", ""])
@@ -125,7 +127,7 @@ for name2, variable, plot_cut, norm, binning, title, additional_info, cutline, c
         if typ < 0:
             total_cut = "(" + plot_cut + ") * (" + str(sigma) + " * " + str(intL) + ")/" + str(N)
         elif typ == 0:
-           total_cut = "(" + plot_cut + ")"
+           total_cut = "(" + plot_cut + ") * (" + sample_cut + ")"
         elif typ > 0:
            total_cut = "(" + plot_cut + ") * (" + sample_cut + ")"
         option = ""
