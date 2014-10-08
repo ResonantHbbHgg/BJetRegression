@@ -74,7 +74,7 @@ int main(int argc, char *argv[])
             ("printCutFlow", po::value<int>(&printCutFlow)->default_value(0), "print cut flow")
             ("keep0btag", po::value<int>(&keep0btag)->default_value(0), "keep 0btag category")
             ("lambdaReweight", po::value<int>(&lambdaReweight)->default_value(-1), "use lambda reweighting (for ggHH sample only)")
-            ("whichPhotonID", po::value<int>(&whichPhotonID)->default_value(1), "0= CiC Super Tight, 1= CiC Super Tight with Francois' isolation")
+            ("whichPhotonID", po::value<int>(&whichPhotonID)->default_value(1), "0= CiC Super Tight, 1= CiC Super Tight with Francois' isolation, 2= photon ID MVA")
         ;
         po::variables_map vm;
         po::store(po::parse_command_line(argc, argv, desc), vm);
@@ -127,7 +127,7 @@ int main(int argc, char *argv[])
     initialize_variables(&t);
 
     if(DEBUG) cout << "SetBranchAddresses (inputtree)" << endl;
-    setup_intree(intree, &t, type);
+    setup_intree(intree, &t, type, numberOfRegressionFiles);
     if(DEBUG) cout << "Branch (outtree)" << endl;
     setup_outtree(outtree, &t);
 
@@ -167,7 +167,7 @@ int main(int argc, char *argv[])
     } else {
         for(int i = 0; i < numberOfRegressionFiles ; i++)
         {
-	  readerRegres->BookMVA("BDTG", Form("%s", regressionFilePath.c_str()));
+            readerRegres->BookMVA("BDTG", Form("%s", regressionFilePath.c_str()));
         }
     }
 
@@ -187,20 +187,22 @@ int main(int argc, char *argv[])
     int cutFlow[30] = {0};
     int iflow;
 
-    int decade = 0;
     int totevents = intree->GetEntries();
     int iev0 = 0;
     if(DEBUG) iev0 = 2575;
     if(DEBUG) totevents = iev0+1;
     cout << "#entries= " << totevents << endl;
     // loop over events
+    float progress = 0.;
+    int k = 0;
+    int decade = 0;
     for(int ievt = iev0 ; ievt < totevents ; ievt++)
     {
         int ilevel = 0;
         if(DEBUG) cout << "#####\tievt= " << ievt << endl;
-        double progress = 10.0*ievt/(1.0*totevents);
-        int k = TMath::FloorNint(progress);
-        if (k > decade && !DEBUG) cout<<10*k<<" %"<<endl;
+        progress = 10.0*ievt/(1.0*totevents);
+        k = floor(progress);
+        if (!DEBUG && k > decade) cout<<10.0*k<<" %"<<endl;
         decade = k;
 
         int njets_kRadionID_ = 0;
@@ -212,7 +214,7 @@ int main(int argc, char *argv[])
         if(DEBUG) cout << "for MC, get the MC truth hjj system" << endl;
 // Compute hjj system
         TLorentzVector gj1, gj2;
-        if( t.gr_j1_p4_pt > .01 && t.gr_j2_p4_pt > .01)
+        if( type != 0 && t.gr_j1_p4_pt > .01 && t.gr_j2_p4_pt > .01)
         {
             gj1.SetPtEtaPhiM(t.gr_j1_p4_pt, t.gr_j1_p4_eta, t.gr_j1_p4_phi, t.gr_j1_p4_mass);
             gj2.SetPtEtaPhiM(t.gr_j2_p4_pt, t.gr_j2_p4_eta, t.gr_j2_p4_phi, t.gr_j2_p4_mass);
@@ -279,10 +281,17 @@ int main(int argc, char *argv[])
                 getHandMadeCiCLevel(&pho1_cic4, &pho2_cic4, &pho1_cic0, &pho2_cic0, &t,  noIsoA1, noIsoA2, noIsoB1, noIsoB2);
                 if(DEBUG) cout << "t.ph1_ciclevel= " << t.ph1_ciclevel << "\tt.ph2_ciclevel= " << t.ph2_ciclevel << endl;
                 if(DEBUG) cout << "pho1_cic4= " << pho1_cic4 << "\tpho2_cic4= " << pho2_cic4 << "\tpho1_cic0= " << pho1_cic0 << "\tpho2_cic0= " << pho2_cic0 << endl;
-
                 if( !(pho1_cic4) || !(pho2_cic4) ) continue;
 
-            } else {
+            }
+            else if( whichPhotonID == 2 )
+            {
+                bool ph1_id = t.ph1_isEB ? (t.ph1_IDmva > 0.02) : (t.ph1_IDmva > 0.1);
+                bool ph2_id = t.ph2_isEB ? (t.ph2_IDmva > 0.02) : (t.ph2_IDmva > 0.1);
+                if(!( ph1_id && ph2_id )) continue; 
+            }
+            else
+            {
                 cout << "Erm, no valid photon ID was asked for, crashing now for safety reasons" << endl;
                 return 3;
             }
@@ -319,7 +328,19 @@ int main(int argc, char *argv[])
                 if(ph1_id && ph2_id) continue; // reject gg
                 if(ph1_Lid && ph2_Lid) continue; // reject jj
                 if( !( (ph1_id && ph2_Lid) || (ph2_id && ph1_Lid)) ) continue; // reject if different from gj or jg
-            } else {
+            }
+            else if( whichPhotonID == 2 )
+            {
+                bool ph1_id = t.ph1_isEB ? (t.ph1_IDmva > 0.02) : (t.ph1_IDmva > 0.1);
+                bool ph2_id = t.ph2_isEB ? (t.ph2_IDmva > 0.02) : (t.ph2_IDmva > 0.1);
+                bool ph1_Lid = (t.ph1_ciclevel >= 0) && (!ph1_id);
+                bool ph2_Lid = (t.ph2_ciclevel >= 0) && (!ph2_id);
+                if(ph1_id && ph2_id) continue; // reject gg
+                if(ph1_Lid && ph2_Lid) continue; // reject jj
+                if( !( (ph1_id && ph2_Lid) || (ph2_id && ph1_Lid)) ) continue; // reject if different from gj or jg
+            }
+            else
+            {
                 cout << "Erm, no valid photon ID was asked for, crashing now for safety reasons" << endl;
                 return 3;
             }
@@ -417,7 +438,7 @@ int main(int argc, char *argv[])
         for( int ijet = 0 ; ijet < min(t.njets_passing_kLooseID, 15); ijet ++ )
         {
             njets[0]++; jetcut[0] = "Before JetID";
-            fill_jet_variables( &t, ijet, met);
+            fill_jet_variables( &t, ijet, met, numberOfRegressionFiles);
             t.jet_nConstituents_ = (float) t.jet_nConstituents;
             t.jet_dPhiMet_fabs = fabs(t.jet_dPhiMet);
 
@@ -427,7 +448,7 @@ int main(int argc, char *argv[])
             if(DEBUG) cout << "now with the regression" << endl;
             if(numberOfRegressionFiles == 0)
                 t.jet_regPt = t.jet_pt; // no regression applied
-            else if(numberOfRegressionFiles <= 1)
+            else if(numberOfRegressionFiles == 1)
                 t.jet_regPt = (float)(readerRegres->EvaluateRegression("BDTG")[0]);
             t.jet_regkinPt = t.jet_regPt;
             // jet selection
