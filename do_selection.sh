@@ -35,7 +35,7 @@ nJackknife=10
 iJackknife=0
 if [ ${nJackknife} != 0 ]
 then
-    version="${version}_${iJackknife}_over_${nJackknife}"
+    version="${version}_jackknifed_${iJackknife}_over_${nJackknife}"
 fi
 
 # Initializing the sample list
@@ -769,7 +769,12 @@ do
     for isample in `seq 0 ${itot}`
     do
         applyCS="${CS[${isample}]}"
-        printCutFlow="1"
+        if [ ${nJackknife} == 0 ]
+        then
+            printCutFlow="1"
+        else
+            printCutFlow="0"
+        fi
         echo -e "isample= ${isample} / ${itot}\tinfile= ${infile[${isample}]}\ttree= ${tree[${isample}]}\touttree= ${outtree[${isample}]}\ttyp= ${typ[${isample}]}\tireg= ${ireg}\tapplyCS= ${applyCS}"
         file="${outtree[${isample}]}_${regsuffix[${ireg}]}_${masscutsuffix[${imasscut}]}_${version}"
         if [[ "${applyCS}" == "1" ]]

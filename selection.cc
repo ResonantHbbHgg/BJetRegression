@@ -215,8 +215,8 @@ int main(int argc, char *argv[])
         // Jackknife stuff :
         if( nJackknife >=2 )
         {
-            if( ievt % nJackknife != iJackknife ) continue; // keep only 1 event in nJackknife
-            else weight_jackknife = (float)nJackknife; // to keep consistent weights, this event has a factor nJackknife to its weight
+            if( ievt % nJackknife == iJackknife ) continue; // throw away 1 event in nJackknife
+            else weight_jackknife = (float)nJackknife/((float)nJackknife - 1.); // to keep consistent weights
         }
 
         int njets_kRadionID_ = 0;
