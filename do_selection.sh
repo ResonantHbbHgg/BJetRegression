@@ -7,7 +7,6 @@ eospath="/store/cmst3/group/hbbhgg/H2GGLOBE/Radion/trees/"
 
 keep0btag=0
 whichPhotonID=2 # 0=CiC Super Tight ;; 1=Francois' ;; CiC 2= photonID MVA
-
 numRegFiles=0 #0 for no regression, 1 for regression; if regression is applied, ensure the latest production is used.
 regFilePath="weights/TMVARegression_resonant_BDTG.weights.xml" #it is also possible (but not recommended) to use "weights/TMVARegression_SM_BDTG.weights.xml"
 
@@ -23,16 +22,24 @@ doMSSM=0
 doGraviton=0
 doGravitonMore=0
 # SM Higgs
-doSMHiggs=0
+doSMHiggs=1
 doSMdiHiggs=0
 # BACKGROUNDS
-doDiphotonBackgrounds=0
-doRareBackgrounds=0
+doDiphotonBackgrounds=1
+doRareBackgrounds=1
 # NON-RESONANT SIGNALS
-doAnomalousHH=1
+doAnomalousHH=0
 
+# Keep both the following to 0 if you do not know how to play with this
+nJackknife=10
+iJackknife=0
+if [ ${nJackknife} != 0 ]
+then
+    version="${version}_jackknifed_${iJackknife}_over_${nJackknife}"
+fi
+
+# Initializing the sample list
 i=-1
-
 
 ##### DATA
 if [ ${doData} == 1 ]
@@ -762,7 +769,12 @@ do
     for isample in `seq 0 ${itot}`
     do
         applyCS="${CS[${isample}]}"
-        printCutFlow="1"
+        if [ ${nJackknife} == 0 ]
+        then
+            printCutFlow="1"
+        else
+            printCutFlow="0"
+        fi
         echo -e "isample= ${isample} / ${itot}\tinfile= ${infile[${isample}]}\ttree= ${tree[${isample}]}\touttree= ${outtree[${isample}]}\ttyp= ${typ[${isample}]}\tireg= ${ireg}\tapplyCS= ${applyCS}"
         file="${outtree[${isample}]}_${regsuffix[${ireg}]}_${masscutsuffix[${imasscut}]}_${version}"
         if [[ "${applyCS}" == "1" ]]
@@ -790,6 +802,8 @@ do
 --printCutFlow ${printCutFlow} \
 --keep0btag ${keep0btag} \
 --whichPhotonID ${whichPhotonID} \
+--nJackknife ${nJackknife} \
+--iJackknife ${iJackknife} \
 2> ${folder}/${file}.eo | tee ${folder}/${file}.eo | egrep '%|entries'
 
     if [[ "${printCutFlow}" == "1" ]]
