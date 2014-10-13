@@ -2,6 +2,8 @@ struct tree_variables
 {
     int run, lumis, event;
     float mgg, mjj, mtot;
+    float costhetastar_CS;
+    float jj_DR, gg_DR;
     float pho1_pt, pho1_e, pho1_phi, pho1_eta, pho1_mass;
     float pho2_pt, pho2_e, pho2_phi, pho2_eta, pho2_mass;
     float pho1_r9, pho2_r9;
@@ -62,6 +64,9 @@ void setup_intree(TTree *intree, tree_variables *t, std::string whichJet)
     intree->SetBranchAddress(Form("%sjet2_flavour", whichJet.c_str()), &t->jet2_flavour);
     intree->SetBranchAddress(Form("%sjj_mass", whichJet.c_str()), &t->mjj);
     intree->SetBranchAddress(Form("%sggjj_mass", whichJet.c_str()), &t->mtot);
+    intree->SetBranchAddress(Form("%scosthetastar_CS", whichJet.c_str()), &t->costhetastar_CS);
+    intree->SetBranchAddress(Form("%sjj_DR", whichJet.c_str()), &t->jj_DR);
+    intree->SetBranchAddress("gg_DR", &t->gg_DR);
 // Prepare mjj and mggjj variables "without kin fit" on which to cut
 // (in case there is no kin fit asked for, they are just a dumb copy/paste)
     if( (strcmp("kin", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
@@ -125,6 +130,9 @@ void setup_outtree(TTree *outtree, tree_variables *t)
     outtree->Branch("mgg", &t->mgg, "mgg/F");
     outtree->Branch("mjj", &t->mjj, "mjj/F");
     outtree->Branch("mtot", &t->mtot, "mtot/F");
+    outtree->Branch("costhetastar_CS", &t->costhetastar_CS, "costhetastar_CS/F");
+    outtree->Branch("jj_DR", &t->jj_DR, "jj_DR/F");
+    outtree->Branch("gg_DR", &t->gg_DR, "gg_DR/F");
     outtree->Branch("mjj_wkinfit", &t->mjj_wkinfit, "mjj_wkinfit/F");
     outtree->Branch("mjj_wokinfit", &t->mjj_wokinfit, "mjj_wokinfit/F");
     outtree->Branch("mtot_wokinfit", &t->mtot_wokinfit, "mtot_wokinfit/F");
