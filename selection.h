@@ -2023,10 +2023,10 @@ void initialize_jet_variables( jet_variables * J )
 }
 
 
-void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met, int numberOfRegressionFiles)
+bool fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met, int numberOfRegressionFiles)
 {
         TLorentzVector jet;
-            if( ijet == 0 )
+            if( ijet == 0 && t->j1_pt > .01 )
             {
                 t->jet_e = t->j1_e;
                 t->jet_pt = t->j1_pt;
@@ -2111,7 +2111,7 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met, int n
                 t->jet_jerU_eta = t->j1_jerU_eta;
             } 
             else
-            if( ijet == 1 )
+            if( ijet == 1 && t->j2_pt > .01 )
             {
                 t->jet_e = t->j2_e;
                 t->jet_pt = t->j2_pt;
@@ -2196,7 +2196,7 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met, int n
                 t->jet_jerU_eta = t->j2_jerU_eta;
             } 
             else
-            if( ijet == 2 )
+            if( ijet == 2 && t->j3_pt > .01 )
             {
                 t->jet_e = t->j3_e;
                 t->jet_pt = t->j3_pt;
@@ -2281,7 +2281,7 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met, int n
                 t->jet_jerU_eta = t->j3_jerU_eta;
             } 
             else
-            if( ijet == 3 )
+            if( ijet == 3 && t->j4_pt > .01 )
             {
                 t->jet_e = t->j4_e;
                 t->jet_pt = t->j4_pt;
@@ -2366,7 +2366,7 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met, int n
                 t->jet_jerU_eta = t->j4_jerU_eta;
             } 
             else
-            if( ijet == 4 )
+            if( ijet == 4 && t->j5_pt > .01 )
             {
                 t->jet_e = t->j5_e;
                 t->jet_pt = t->j5_pt;
@@ -2451,7 +2451,7 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met, int n
                 t->jet_jerU_eta = t->j5_jerU_eta;
             } 
             else
-            if( ijet == 5 )
+            if( ijet == 5 && t->j6_pt > .01 )
             {
                 t->jet_e = t->j6_e;
                 t->jet_pt = t->j6_pt;
@@ -2536,7 +2536,7 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met, int n
                 t->jet_jerU_eta = t->j6_jerU_eta;
             } 
             else
-            if( ijet == 6 )
+            if( ijet == 6 && t->j7_pt > .01 )
             {
                 t->jet_e = t->j7_e;
                 t->jet_pt = t->j7_pt;
@@ -2621,7 +2621,7 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met, int n
                 t->jet_jerU_eta = t->j7_jerU_eta;
             } 
             else
-            if( ijet == 7 )
+            if( ijet == 7 && t->j8_pt > .01 )
             {
                 t->jet_e = t->j8_e;
                 t->jet_pt = t->j8_pt;
@@ -2706,7 +2706,7 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met, int n
                 t->jet_jerU_eta = t->j8_jerU_eta;
             } 
             else
-            if( ijet == 8 )
+            if( ijet == 8 && t->j9_pt > .01 )
             {
                 t->jet_e = t->j9_e;
                 t->jet_pt = t->j9_pt;
@@ -2791,7 +2791,7 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met, int n
                 t->jet_jerU_eta = t->j9_jerU_eta;
             } 
             else
-            if( ijet == 9 )
+            if( ijet == 9 && t->j10_pt > .01 )
             {
                 t->jet_e = t->j10_e;
                 t->jet_pt = t->j10_pt;
@@ -2876,7 +2876,7 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met, int n
                 t->jet_jerU_eta = t->j10_jerU_eta;
             } 
             else
-            if( ijet == 10 )
+            if( ijet == 10 && t->j11_pt > .01 )
             {
                 t->jet_e = t->j11_e;
                 t->jet_pt = t->j11_pt;
@@ -2961,7 +2961,7 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met, int n
                 t->jet_jerU_eta = t->j11_jerU_eta;
             } 
             else
-            if( ijet == 11 )
+            if( ijet == 11 && t->j12_pt > .01 )
             {
                 t->jet_e = t->j12_e;
                 t->jet_pt = t->j12_pt;
@@ -3046,7 +3046,7 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met, int n
                 t->jet_jerU_eta = t->j12_jerU_eta;
             } 
             else
-            if( ijet == 12 )
+            if( ijet == 12 && t->j13_pt > .01 )
             {
                 t->jet_e = t->j13_e;
                 t->jet_pt = t->j13_pt;
@@ -3131,7 +3131,7 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met, int n
                 t->jet_jerU_eta = t->j13_jerU_eta;
             } 
             else
-            if( ijet == 13 )
+            if( ijet == 13 && t->j14_pt > .01 )
             {
                 t->jet_e = t->j14_e;
                 t->jet_pt = t->j14_pt;
@@ -3216,7 +3216,7 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met, int n
                 t->jet_jerU_eta = t->j14_jerU_eta;
             } 
             else
-            if( ijet == 14 )
+            if( ijet == 14 && t->j15_pt > .01 )
             {
                 t->jet_e = t->j15_e;
                 t->jet_pt = t->j15_pt;
@@ -3300,7 +3300,12 @@ void fill_jet_variables( tree_variables * t, int ijet, TLorentzVector met, int n
                 t->jet_jerU_phi = t->j15_jerU_phi;
                 t->jet_jerU_eta = t->j15_jerU_eta;
             } 
-            return;
+            else
+            {
+                t->jet_pt = 0.;
+                return false;
+            }
+            return true;
 }
 
 float getPESUncertainty(bool isEB, float sceta, float r9, float pt)

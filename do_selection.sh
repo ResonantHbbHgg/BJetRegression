@@ -1,12 +1,13 @@
 #!/bin/bash
 
-today=`date +"%Y-%m-%d"`
-version="v16"
+#today=`date +"%Y-%m-%d"`
+today="2014-10-13"
+version="v16_FTR14001"
 eosprefix="root://eoscms//eos/cms"
 eospath="/store/cmst3/group/hbbhgg/H2GGLOBE/Radion/trees/"
 
 keep0btag=0
-whichPhotonID=2 # 0=CiC Super Tight ;; 1=Francois' ;; CiC 2= photonID MVA
+whichPhotonID=0 # 0=CiC Super Tight ;; 1=Francois' ;; CiC 2= photonID MVA
 numRegFiles=0 #0 for no regression, 1 for regression; if regression is applied, ensure the latest production is used.
 regFilePath="weights/TMVARegression_resonant_BDTG.weights.xml" #it is also possible (but not recommended) to use "weights/TMVARegression_SM_BDTG.weights.xml"
 
@@ -22,16 +23,18 @@ doMSSM=0
 doGraviton=0
 doGravitonMore=0
 # SM Higgs
-doSMHiggs=1
+doSMHiggs=0
 doSMdiHiggs=0
 # BACKGROUNDS
-doDiphotonBackgrounds=1
+doDiphotonBackgrounds=0
 doRareBackgrounds=1
 # NON-RESONANT SIGNALS
-doAnomalousHH=0
+doAnomalousHH=1
 
+# going FTR14001_style, default should be 0
+FTR14001_style=1
 # Keep both the following to 0 if you do not know how to play with this
-nJackknife=10
+nJackknife=0
 iJackknife=0
 if [ ${nJackknife} != 0 ]
 then
@@ -804,6 +807,7 @@ do
 --whichPhotonID ${whichPhotonID} \
 --nJackknife ${nJackknife} \
 --iJackknife ${iJackknife} \
+--FTR14001_style ${FTR14001_style} \
 2> ${folder}/${file}.eo | tee ${folder}/${file}.eo | egrep '%|entries'
 
     if [[ "${printCutFlow}" == "1" ]]
