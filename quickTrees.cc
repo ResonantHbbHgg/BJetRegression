@@ -508,8 +508,8 @@ int main(int argc, char *argv[])
                 if( applyMggCut && (t.mgg < 100. || t.mgg > 150.) ) continue;
                 if( applyMjjCut && (t.mjj_wokinfit < 70. || t.mjj_wokinfit > 200.) ) continue;
                 // cut on DR(g,j) > 1.5 already apply at plot-tree level
-                if( t.jj_DR < 2. ) continue;
-                if( t.gg_DR < 2. ) continue;
+                if( t.jj_DR > 2. ) continue;
+                if( t.gg_DR > 2. ) continue;
             }
         }
 
