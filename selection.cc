@@ -460,8 +460,7 @@ int main(int argc, char *argv[])
         for( int ijet = 0 ; ijet < min(t.njets_passing_kLooseID, 15); ijet ++ )
         {
             njets[0]++; jetcut[0] = "Before JetID";
-            if( ! fill_jet_variables( &t, ijet, met, numberOfRegressionFiles) ) continue; // don't loose time if this jet is not filled with interesting information
-            if( t.jet_pt <= .01 ) continue; // should be redundant with the above
+            if( ! fill_jet_variables( &t, ijet, met, numberOfRegressionFiles) ) break; // don't loose time if this jet is not filled with interesting information
             t.jet_nConstituents_ = (float) t.jet_nConstituents;
             t.jet_dPhiMet_fabs = fabs(t.jet_dPhiMet);
 
@@ -574,12 +573,12 @@ int main(int argc, char *argv[])
 
 
 
-        int ij1, ij2;
-        int ij1Reg, ij2Reg;
-        int ij1RegKin, ij2RegKin;
-        ij1 = 0; ij2 = 0;
-        ij1Reg = 0; ij2Reg = 0;
-        ij1RegKin = 0; ij2RegKin = 0;
+        int ij1 = 0;
+        int ij2 = 0;
+        int ij1Reg = 0;
+        int ij2Reg = 0;
+        int ij1RegKin = 0;
+        int ij2RegKin = 0;
  
         if(DEBUG) cout << "btaggedJet.size()= " << btaggedJet.size() << endl;
         if(DEBUG)
