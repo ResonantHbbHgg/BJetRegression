@@ -50,6 +50,7 @@ int main(int argc, char *argv[])
     int lambdaReweight;
     int whichPhotonID;
     int iJackknife, nJackknife;
+    int FTR14001_style;
 
     // print out passed arguments
     copy(argv, argv + argc, ostream_iterator<char*>(cout, " ")); cout << endl;
@@ -78,6 +79,7 @@ int main(int argc, char *argv[])
             ("whichPhotonID", po::value<int>(&whichPhotonID)->default_value(1), "0= CiC Super Tight, 1= CiC Super Tight with Francois' isolation, 2= photon ID MVA")
             ("nJackknife", po::value<int>(&nJackknife)->default_value(0), "")
             ("iJackknife", po::value<int>(&iJackknife)->default_value(0), "")
+            ("FTR14001_style", po::value<int>(&FTR14001_style)->default_value(0), "FTR-14-001 HbbHgg upgrade study cuts")
         ;
         po::variables_map vm;
         po::store(po::parse_command_line(argc, argv, desc), vm);
@@ -102,6 +104,11 @@ int main(int argc, char *argv[])
     if( nJackknife == 1 || (nJackknife >= 2 && iJackknife >= nJackknife) )
     {
         cerr << "Error: you are switching on jacknifing the sample incorrectly:\tnJackknife= " << nJackknife << "\tiJackknife= " << iJackknife << endl;
+        return 1;
+    }
+    if( FTR14001_style == 1 && (whichPhotonID != 0 || numberOfRegressionFiles != 0) )
+    {
+        cerr << "Error: FTR-14-001 cuts require cut-based photon ID and no regression" << endl;
         return 1;
     }
 
@@ -264,12 +271,12 @@ int main(int argc, char *argv[])
         if(DEBUG) cout << "t.pho2_PFisoA= " << t.pho2_PFisoA << "\tt.pho2_PFisoB= " << t.pho2_PFisoB << "\tt.pho2_PFisoC= " << t.pho2_PFisoC << "\tph2_sieie= " << t.ph2_sieie << "\tph2_hoe= " << t.ph2_hoe << "\tph2_isconv= " << t.ph2_isconv << "\tt.ph2_r9_cic= " << t.ph2_r9_cic << endl;
 
         if(DEBUG) cout << "t.ph1_pt= " << t.ph1_pt << "\t(float)(40.*t.PhotonsMass)/(float)120.= " << (float)(40.*t.PhotonsMass)/(float)120. << endl;
-        if( t.ph1_pt < (float)(40.*t.PhotonsMass)/(float)120. ) continue;
+        if( (!FTR14001_style) ? (t.ph1_pt < (float)(40.*t.PhotonsMass)/(float)120.) : (t.ph1_pt < 40.) ) continue;
         nevents[ilevel]++; eventcut[ilevel] = "After floating pt cut for photon 1 (40*mgg/120 GeV)";
         nevents_w[ilevel] += t.evweight; ilevel++;
 //        if( t.ph2_pt < 25. ) continue;
         if(DEBUG) cout << "t.ph2_pt= " << t.ph2_pt << "\t(float)(30.*t.PhotonsMass)/(float)120.= " << (float)(30.*t.PhotonsMass)/(float)120. << endl;
-        if( t.ph2_pt < (float)(30.*t.PhotonsMass)/(float)120. ) continue; // switching to running pt cut per Hgg recommendations (Nov. 2013)
+        if( (!FTR14001_style) ? (t.ph2_pt < (float)(30.*t.PhotonsMass)/(float)120.) : (t.ph2_pt < 25.) ) continue; // switching to running pt cut per Hgg recommendations (Nov. 2013)
         nevents[ilevel]++; eventcut[ilevel] = "After fixed pt cut for photon 2 (25 GeV)";
         nevents_w[ilevel] += t.evweight; ilevel++;
         nevents_sync[1]++;
@@ -364,7 +371,7 @@ int main(int argc, char *argv[])
         nevents_w[ilevel] += t.evweight; ilevel++;
         nevents_sync[2]++;
         if(DEBUG) cout << "t.PhotonsMass= " << t.PhotonsMass << endl;
-        if( (t.PhotonsMass < 100.) || (t.PhotonsMass > 180.) ) continue;
+        if( (!FTR14001_style) ? ((t.PhotonsMass < 100.) || (t.PhotonsMass > 180.)) : ((t.PhotonsMass < 100.) || (t.PhotonsMass > 150.)) ) continue;
         flow[iflow] = "After diphoton mass cut"; cutFlow[iflow]++; iflow++;
         nevents[ilevel]++; eventcut[ilevel] = "After 100 < mgg < 180";
         nevents_w[ilevel] += t.evweight; ilevel++;
@@ -434,6 +441,7 @@ int main(int argc, char *argv[])
         if( DEBUG && t.njets_passing_kLooseID > 4 ) cout << "t.njets_passing_kLooseID= " << t.njets_passing_kLooseID << "\tnbjet_tmp= " << nbjet_tmp << endl;
         if(DEBUG) cout << "nbjet_tmp= " << nbjet_tmp << endl;
         if( (!keep0btag) && nbjet_tmp < 1 ) continue;
+        if( FTR14001_style && nbjet_tmp < 2 ) continue; // need at least 2 bjets for FTR14001_style
         flow[iflow] = "After at least one CSVM jet"; cutFlow[iflow]++; iflow++;
         nevents[ilevel]++; eventcut[ilevel] = "After nbjet >= 1";
         nevents_w[ilevel] += t.evweight; ilevel++;
@@ -467,9 +475,9 @@ int main(int argc, char *argv[])
             t.jet_regkinPt = t.jet_regPt;
             // jet selection
             // ** acceptance + pu id **
-            if( t.jet_regPt < 25. ) continue;
+            if( (!FTR14001_style) ? (t.jet_regPt < 25.) : (t.jet_regPt < 30.) ) continue;
             njets[1]++; jetcut[1] = "After jet pt > 25";
-            if( fabs(t.jet_eta) > 2.5 ) continue;
+            if( (!FTR14001_style) ? (fabs(t.jet_eta) > 2.5) : (fabs(t.jet_eta) > 2.4) ) continue;
             njets[2]++; jetcut[2] = "After jet |eta| < 2.5";
 //            if( t.jet_betaStarClassic > 0.2 * log( t.nvtx - 0.64) ) continue;
             njets[3]++; jetcut[3] = "After t.jet_betaStarClassic > 0.2 * log( t.nvtx - 0.64)";
@@ -480,7 +488,7 @@ int main(int argc, char *argv[])
             tmp_jet.SetPtEtaPhiE(t.jet_pt, t.jet_eta, t.jet_phi, t.jet_e);
             pho1.SetPtEtaPhiE(t.ph1_pt, t.ph1_eta, t.ph1_phi, t.ph1_e);
             pho2.SetPtEtaPhiE(t.ph2_pt, t.ph2_eta, t.ph2_phi, t.ph2_e);
-            if( (tmp_jet.DeltaR(pho1) < .5) || (tmp_jet.DeltaR(pho2) < .5) ) continue;
+            if( (!FTR14001_style) ? ((tmp_jet.DeltaR(pho1) < .5) || (tmp_jet.DeltaR(pho2) < .5)) : ((tmp_jet.DeltaR(pho1) < 1.5) || (tmp_jet.DeltaR(pho2) < 1.5)) ) continue;
             njets[5]++; jetcut[5] = "After minDR(g,j) > .5";
             if(DEBUG) cout << "Jet is passing selection cuts" << endl;
 
@@ -548,6 +556,14 @@ int main(int argc, char *argv[])
         }
 
         if( (!keep0btag) && btaggedJet.size() < 1 ) continue;
+        if( FTR14001_style && btaggedJet.size() < 2 ) continue; // need at least 2 bjets for FTR14001_style
+        if( FTR14001_style && J.jetPt.size() >= 4 ) continue; // need less than 4 jets for FTR14001_style
+        // for FTR14001_style there is additional cuts needed : 
+        // - lepton veto & DR(electron, photon) > .1 (not possible with the current globe trees)
+        // - DR(g,g) < 2.
+        // - DR(j,j) < 2.
+        // - 70 < mjj < 200
+        // Given these depend on the jet combinatorics and that these may change, they will be applied at quicktree level
         nevents[ilevel]++; eventcut[ilevel] = "After nbjet >=1 passing the jet selection";
         flow[iflow] = "After at least one CSVM jet passing the jet selection"; cutFlow[iflow]++; iflow++;
         nevents_w[ilevel] += t.evweight; ilevel++;
@@ -1157,6 +1173,7 @@ int main(int argc, char *argv[])
         t.gg_phi = gg.Phi();
         t.gg_eta = gg.Eta();
         t.gg_mass = gg.M();
+        t.gg_DR = pho1.DeltaR(pho2);
         t.ggjj_pt = ggjj.Pt();
         t.ggjj_e = ggjj.E();
         t.ggjj_phi = ggjj.Phi();

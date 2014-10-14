@@ -221,7 +221,7 @@ struct tree_variables
     float regjj_pt, regjj_e, regjj_phi, regjj_eta, regjj_mass, regjj_btagSF_M;
     float regkinjj_pt, regkinjj_e, regkinjj_phi, regkinjj_eta, regkinjj_mass, regkinjj_btagSF_M;
     float kinjj_pt, kinjj_e, kinjj_phi, kinjj_eta, kinjj_mass, kinjj_btagSF_M;
-    float gg_pt, gg_e, gg_phi, gg_eta, gg_mass;
+    float gg_pt, gg_e, gg_phi, gg_eta, gg_mass, gg_DR;
     float ggjj_pt, ggjj_e, ggjj_phi, ggjj_eta, ggjj_mass, regjj_DR, regkinjj_DR, kinjj_DR;
     float regggjj_pt, regggjj_e, regggjj_phi, regggjj_eta, regggjj_mass;
     float regkinggjj_pt, regkinggjj_e, regkinggjj_phi, regkinggjj_eta, regkinggjj_mass;
@@ -1742,6 +1742,7 @@ void setup_outtree(TTree* outtree, tree_variables *t)
     outtree->Branch("gg_phi", &t->gg_phi, "gg_phi/F");
     outtree->Branch("gg_eta", &t->gg_eta, "gg_eta/F");
     outtree->Branch("gg_mass", &t->gg_mass, "gg_mass/F");
+    outtree->Branch("gg_DR", &t->gg_DR, "gg_DR/F");
     outtree->Branch("ggjj_pt", &t->ggjj_pt, "ggjj_pt/F");
     outtree->Branch("ggjj_e", &t->ggjj_e, "ggjj_e/F");
     outtree->Branch("ggjj_phi", &t->ggjj_phi, "ggjj_phi/F");
