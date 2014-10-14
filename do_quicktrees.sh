@@ -4,8 +4,8 @@ version="v34_alpha"
 today=`date +"0%Y-%m-%d"`
 #set -x
 
-inputversion="v16_CiC"
-inputfolder="2014-10-08_selection_noRegression_noMassCut_${inputversion}/"
+inputversion="v16_FTR14001"
+inputfolder="2014-10-13_selection_noRegression_noMassCut_${inputversion}/"
 
 # IMPORTANT NOTES:
 # FOR NOW THE DEFAULT IS NO REGRESSION

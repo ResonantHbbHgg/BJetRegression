@@ -1,5 +1,6 @@
 CC        = g++
-CCFLAGS   = -Wall -g
+#CCFLAGS   = -Wall -g
+CCFLAGS   = -Wall -O2
 SOURCES   =
 ROOTFLAGS = `root-config --cflags`
 ROOTLIBS  = `root-config --libs --ldflags`
