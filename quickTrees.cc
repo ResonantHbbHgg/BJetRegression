@@ -12,7 +12,7 @@
 #include <TH2F.h>
 // RooFit headers
 // local analysis headers
-#include "../h2gglobe/BTagUtils.h"
+#include "BTagUtils.h"
 #include "quickTrees.h"
 // Verbosity
 #define DEBUG 0

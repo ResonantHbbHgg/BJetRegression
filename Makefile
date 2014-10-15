@@ -23,23 +23,23 @@ prepareCheckOverTraining.exe: prepareCheckOverTraining.cc
 trainRegression.exe: trainRegression.cc
 	$(CC) $(TMVA) $(CCFLAGS) $(ROOTFLAGS) $(ROOTLIBS) trainRegression.cc -o trainRegression.exe
 
-TFitParticleEtEtaPhi.o: ../KinematicFit/TFitParticleEtEtaPhi.cc
-	$(CC) $(CCFLAGS) $(ROOTFLAGS) -c ../KinematicFit/TFitParticleEtEtaPhi.cc -o TFitParticleEtEtaPhi.o
+TFitParticleEtEtaPhi.o: KinematicFit/TFitParticleEtEtaPhi.cc
+	$(CC) $(CCFLAGS) $(ROOTFLAGS) -c KinematicFit/TFitParticleEtEtaPhi.cc -o TFitParticleEtEtaPhi.o
 
-TKinFitter.o: ../KinematicFit/TKinFitter.cc
-	$(CC) $(CCFLAGS) $(ROOTFLAGS) -c ../KinematicFit/TKinFitter.cc -o TKinFitter.o
+TKinFitter.o: KinematicFit/TKinFitter.cc
+	$(CC) $(CCFLAGS) $(ROOTFLAGS) -c KinematicFit/TKinFitter.cc -o TKinFitter.o
 
-TFitConstraintM.o: ../KinematicFit/TFitConstraintM.cc
-	$(CC) $(CCFLAGS) $(ROOTFLAGS) -c ../KinematicFit/TFitConstraintM.cc -o TFitConstraintM.o
+TFitConstraintM.o: KinematicFit/TFitConstraintM.cc
+	$(CC) $(CCFLAGS) $(ROOTFLAGS) -c KinematicFit/TFitConstraintM.cc -o TFitConstraintM.o
 
-TAbsFitParticle.o: ../KinematicFit/TAbsFitParticle.cc
-	$(CC) $(CCFLAGS) $(ROOTFLAGS) -c ../KinematicFit/TAbsFitParticle.cc -o TAbsFitParticle.o
+TAbsFitParticle.o: KinematicFit/TAbsFitParticle.cc
+	$(CC) $(CCFLAGS) $(ROOTFLAGS) -c KinematicFit/TAbsFitParticle.cc -o TAbsFitParticle.o
 
-DiJetKinFitter.o: ../KinematicFit/DiJetKinFitter.cc
-	$(CC) $(CCFLAGS) $(ROOTFLAGS) -c ../KinematicFit/DiJetKinFitter.cc -o DiJetKinFitter.o
+DiJetKinFitter.o: KinematicFit/DiJetKinFitter.cc
+	$(CC) $(CCFLAGS) $(ROOTFLAGS) -c KinematicFit/DiJetKinFitter.cc -o DiJetKinFitter.o
 
-TAbsFitConstraint.o: ../KinematicFit/TAbsFitConstraint.cc
-	$(CC) $(CCFLAGS) $(ROOTFLAGS) -c ../KinematicFit/TAbsFitConstraint.cc -o TAbsFitConstraint.o
+TAbsFitConstraint.o: KinematicFit/TAbsFitConstraint.cc
+	$(CC) $(CCFLAGS) $(ROOTFLAGS) -c KinematicFit/TAbsFitConstraint.cc -o TAbsFitConstraint.o
 
 selection.o: selection.cc selection.h
 	$(CC) $(TMVA) $(CCFLAGS) $(ROOTFLAGS) $(BOOSTFLAGS) -c selection.cc -o selection.o
@@ -47,8 +47,8 @@ selection.o: selection.cc selection.h
 selection.exe: selection.o DiJetKinFitter.o TKinFitter.o TFitParticleEtEtaPhi.o TAbsFitParticle.o TFitConstraintM.o TAbsFitConstraint.o BTagUtils.o
 	$(CC) $(TMVA)  $(ROOTLIBS) $(BOOSTLIBS) selection.o DiJetKinFitter.o TKinFitter.o TFitParticleEtEtaPhi.o TAbsFitParticle.o TFitConstraintM.o TAbsFitConstraint.o BTagUtils.o -o selection.exe
 
-BTagUtils.o: ../h2gglobe/BTagUtils.cc ../h2gglobe/BTagUtils.h
-	$(CC) $(CCFLAGS) $(ROOTFLAGS) -c ../h2gglobe/BTagUtils.cc -o BTagUtils.o
+BTagUtils.o: BTagUtils.cc BTagUtils.h
+	$(CC) $(CCFLAGS) $(ROOTFLAGS) -c BTagUtils.cc -o BTagUtils.o
 
 quickTrees.o: quickTrees.cc quickTrees.h
 	$(CC) $(CCFLAGS) $(ROOTFLAGS) $(BOOSTFLAGS) -c quickTrees.cc -o quickTrees.o

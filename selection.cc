@@ -20,8 +20,8 @@
 #include <TRandom3.h>
 #include <TH2F.h>
 // Analysis headers
-#include "../h2gglobe/BTagUtils.h"
-#include "../KinematicFit/DiJetKinFitter.h"
+#include "BTagUtils.h"
+#include "KinematicFit/DiJetKinFitter.h"
 #include "selection.h"
 // Verbosity
 #define DEBUG 0
