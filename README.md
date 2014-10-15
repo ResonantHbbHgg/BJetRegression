@@ -13,13 +13,13 @@
 
         make
 
-## How to make the plottrees
-  * edit do_selection.sh with the necessary information, then:
+## How to make the plot-trees
+  * Edit do_selection.sh with the necessary information, then:
     
         sh do_selection.sh
 
-## How to make the limitrees
-  * after making the plottrees, edit do_quicktrees.sh with the necessary information, then:
+## How to make the limit-trees
+  * After making the plottrees, edit do_quicktrees.sh with the necessary information, then:
     
         sh do_quicktrees.sh
 
