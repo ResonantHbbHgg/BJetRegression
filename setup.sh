@@ -2,21 +2,6 @@
 
 WORKDIR=${PWD}
 
-# MAKE SURE KINFIT UTILITIES ARE HERE
-if [[ ! -d ../KinematicFit ]]
-then
-	echo "SETUP KINFIT"
-	cd ..
-	cvs co -d KinematicFit UserCode/pandolf/KinematicFit
-	cd ${WORKDIR}
-fi
-
-# MAKE SURE BTAGSF UTILITIES ARE HERE
-if [[ ! -e ../h2gglobe/BTagUtils.cc ]]
-then
-	echo "WARNING: NO BTagUtils.cc CAN BE SEEN, YOU SHOULD NOT BE ABLE TO RUN LIKE THIS...."
-fi
-
 # DEFINE ROOT IF NOT DEFINED
 if [[ -z ${ROOTSYS} ]]
 then
