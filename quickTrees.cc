@@ -492,14 +492,14 @@ int main(int argc, char *argv[])
 
 // 2D-FITTING OF BOTH MGG AND MJJ
         if( strcmp("2D", fitStrategy.c_str()) == 0 )
-        {
+	  {
             if( massCutVersion == 4)
             { // Cuts from Phil studies, these cuts are not documented yet but see the following for some comparisons:
               // (Sept. 4) https://indico.cern.ch/event/333573/session/14/contribution/18/material/slides/0.pdf)
                 if( applyMggCut && (t.mgg < 100. || t.mgg > 180.) ) continue;
                 if( applyMjjCut && (t.mjj_wokinfit < 60. || t.mjj_wokinfit > 180.) ) continue;
 		//These cuts were taken from Badder's 1D optimization. Should be revisited for 2D extraction?
-		if( t.njets_kRadionID_and_CSVM==2 )
+		if( t.njets_kRadionID_and_CSVM>=2 )
 		  {
 		    if( (cutLevel >= 0 && applyMtotCut) && (t.mtot < 350.) ) continue;
 		    if( (cutLevel >= 0) && (fabs(t.costhetastar_CS) > .75) ) continue;
