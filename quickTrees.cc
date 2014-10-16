@@ -499,7 +499,7 @@ int main(int argc, char *argv[])
                 if( applyMggCut && (t.mgg < 100. || t.mgg > 180.) ) continue;
                 if( applyMjjCut && (t.mjj_wokinfit < 60. || t.mjj_wokinfit > 180.) ) continue;
 		//These cuts were taken from Badder's 1D optimization. Should be revisited for 2D extraction?
-		if( t.njets_kRadionID_and_CSVM==1 )
+		if( t.njets_kRadionID_and_CSVM==2 )
 		  {
 		    if( (cutLevel >= 0 && applyMtotCut) && (t.mtot < 350.) ) continue;
 		    if( (cutLevel >= 0) && (fabs(t.costhetastar_CS) > .75) ) continue;
