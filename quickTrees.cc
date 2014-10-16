@@ -498,7 +498,18 @@ int main(int argc, char *argv[])
               // (Sept. 4) https://indico.cern.ch/event/333573/session/14/contribution/18/material/slides/0.pdf)
                 if( applyMggCut && (t.mgg < 100. || t.mgg > 180.) ) continue;
                 if( applyMjjCut && (t.mjj_wokinfit < 60. || t.mjj_wokinfit > 180.) ) continue;
-            }
+		//These cuts were taken from Badder's 1D optimization. Should be revisited for 2D extraction?
+		if( t.njets_kRadionID_and_CSVM==1 )
+		  {
+		    if( (cutLevel >= 0 && applyMtotCut) && (t.mtot < 350.) ) continue;
+		    if( (cutLevel >= 0) && (fabs(t.costhetastar_CS) > .75) ) continue;
+		  }
+		else if( t.njets_kRadionID_and_CSVM==1 )
+		  {
+		    if( (cutLevel >= 0 && applyMtotCut) && (t.mtot < 365.) ) continue;
+		    if( (cutLevel >= 0) && (fabs(t.costhetastar_CS) >  .6) ) continue;
+		  }
+	    }
         }
         if( strcmp("FTR14001", fitStrategy.c_str()) == 0 )
         { // From future studies analysis FTR-13-001 upgraded into FTR-14-001. The non-resonant HbbHgg documentation is in AN 2014/218: 
