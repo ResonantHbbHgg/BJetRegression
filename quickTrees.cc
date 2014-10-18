@@ -132,7 +132,7 @@ int main(int argc, char *argv[])
     bool removeTrainingEvents = 0; //if using regression jets, remove training events from training samples. These are even events in MSSM and ggHH samples.
     float trainingWeight = 1.0; //apply an extra event weight for those samples
     removeTrainingEvents = ((strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0)) && (strncmp(inputtree.c_str(),"MSSM",4)==0 || strncmp(inputtree.c_str(),"ggHH",4)==0);
-    trainingWeight = (float)intree->GetEntries()/(float)intree->GetEntries("event%2==1");
+    if(removeTrainingEvents) trainingWeight = (float)intree->GetEntries()/(float)intree->GetEntries("event%2==1");
 
 
     for(int ievt= 0 ; ievt < (int)intree->GetEntries() ; ievt++)
