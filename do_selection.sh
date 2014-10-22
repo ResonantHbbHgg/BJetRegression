@@ -1,8 +1,8 @@
 #!/bin/bash
 
-#today=`date +"%Y-%m-%d"`
-today="2014-10-13"
-version="v16_FTR14001"
+today=`date +"%Y-%m-%d"`
+#today="2014-10-13"
+version="v17"
 eosprefix="root://eoscms//eos/cms"
 eospath="/store/cmst3/group/hbbhgg/H2GGLOBE/Radion/trees/"
 
@@ -32,7 +32,7 @@ doRareBackgrounds=1
 doAnomalousHH=1
 
 # going FTR14001_style, default should be 0
-FTR14001_style=1
+FTR14001_style=0
 # Keep both the following to 0 if you do not know how to play with this
 nJackknife=0
 iJackknife=0
