@@ -53,6 +53,8 @@ int main (int argc, char *argv[])
 	int CRYSTALBALL;
 	string inputfile;
 	string inputtree;
+	string inputregfile;
+	string inputregtree;
 	string outputfile;
 	// print out passed arguments
 	copy(argv, argv + argc, ostream_iterator<char*>(cout, " ")); cout << endl;
@@ -64,6 +66,8 @@ int main (int argc, char *argv[])
 			("help,h", "produce help message")
 			("inputfile", po::value<string>(&inputfile)->default_value("2014-02-17_selection_noRegression_noMassCut_v10/Radion_m300_8TeV_noRegression_noMassCut_v10.root"), "input file")
 			("inputtree", po::value<string>(&inputtree)->default_value("Radion_m300_8TeV"), "input tree")
+			("inputregfile", po::value<string>(&inputregfile)->default_value("2014-02-17_selection_noRegression_noMassCut_v10/Radion_m300_8TeV_noRegression_noMassCut_v10.root"), "input file")
+			("inputregtree", po::value<string>(&inputregtree)->default_value("Radion_m300_8TeV"), "input tree")
 			("massHypothesis", po::value<int>(&massHypothesis)->default_value(300), "mass hypothesis")
 			("compareWithRegression", po::value<int>(&compareWithRegression)->default_value(0), "switch on/off comparison with regression")
 			("outputfile", po::value<string>(&outputfile)->default_value("resolution_Radion_m300_8TeV.txt"), "output file to store fit results")
@@ -88,7 +92,7 @@ int main (int argc, char *argv[])
 	// Initialize plot style
 	gROOT->Reset();
 	gROOT->ProcessLine(".x setTDRStyle.C");
-	CMSstyle();
+	CMSStyle();
 	gStyle->SetOptTitle(0);
 	gStyle->SetOptStat(0);
 
@@ -232,6 +236,7 @@ int main (int argc, char *argv[])
 				c1->Print(Form("pdf/mjj_m%d_CrystalBall_%s.pdf", massHypothesis, categoryName[icat].c_str()));
 				c1->Print(Form("root/mjj_m%d_CrystalBall_%s.root", massHypothesis, categoryName[icat].c_str()));
 				c1->Print(Form("gif/mjj_m%d_CrystalBall_%s.gif", massHypothesis, categoryName[icat].c_str()));
+				c1->Print(Form("png/mjj_m%d_CrystalBall_%s.png", massHypothesis, categoryName[icat].c_str()));
 				c1->Clear();
 
 				outfile << "mass= " << massHypothesis
@@ -291,6 +296,7 @@ int main (int argc, char *argv[])
 				c1->Print(Form("pdf/mggjj_m%d_CrystalBall_%s.pdf", massHypothesis, categoryName[icat].c_str()));
 				c1->Print(Form("root/mggjj_m%d_CrystalBall_%s.root", massHypothesis, categoryName[icat].c_str()));
 				c1->Print(Form("gif/mggjj_m%d_CrystalBall_%s.gif", massHypothesis, categoryName[icat].c_str()));
+				c1->Print(Form("png/mggjj_m%d_CrystalBall_%s.png", massHypothesis, categoryName[icat].c_str()));
 				c1->Clear();
 				double res_ = sigma_CrystalBall_ggjj.getVal()/mu_CrystalBall_ggjj.getVal()*100.;
 
@@ -332,10 +338,16 @@ int main (int argc, char *argv[])
 	//	TTree *intree = (TTree*)infile->Get("Radion_m300_8TeV_nm");
 	//	TFile *infilereg = TFile::Open("simple_reg_genjet_globeinputs.root");
 	//	TTree *intreereg = (TTree*)infilereg->Get("Radion_m300_8TeV_nm");
-		TFile *infile = TFile::Open("2013-12-12_selection_noRegression_noMassCut_v02/Radion_m300_8TeV_noRegression_noMassCut_v02.root");
-		TTree *intree = (TTree*)infile->Get("Radion_m300_8TeV");
-		TFile *infilereg = TFile::Open("2013-12-12_selection_noRegression_noMassCut_v02/Radion_m350_8TeV_noRegression_noMassCut_v02.root");
-		TTree *intreereg = (TTree*)infilereg->Get("Radion_m350_8TeV");
+		TFile *infile = TFile::Open(inputfile.c_str());
+		TTree *intree = (TTree*)infile->Get(inputtree.c_str());
+		TFile *infilereg = TFile::Open(inputregfile.c_str());
+		TTree *intreereg = (TTree*)infilereg->Get(inputregtree.c_str());
+//		ofstream outfile;
+//		outfile.open(outputfile.c_str());
+//		TFile *infile = TFile::Open("2013-12-12_selection_noRegression_noMassCut_v02/Radion_m300_8TeV_noRegression_noMassCut_v02.root");
+//		TTree *intree = (TTree*)infile->Get("Radion_m300_8TeV");
+//		TFile *infilereg = TFile::Open("2013-12-12_selection_noRegression_noMassCut_v02/Radion_m350_8TeV_noRegression_noMassCut_v02.root");
+//		TTree *intreereg = (TTree*)infilereg->Get("Radion_m350_8TeV");
 		ofstream outfile_mjj, outfile_mggjj;
 		outfile_mjj.open("performanceSummary_mjj.txt");
 		outfile_mggjj.open("performanceSummary_mggjj.txt");
@@ -345,11 +357,11 @@ int main (int argc, char *argv[])
 		// Observables
 		float min_jj = 70.;
 		float max_jj = 250.;
-		float min_ggjj = 200.;
-		float max_ggjj = 400.;
+		float min_ggjj = massHypothesis - 200.;
+		float max_ggjj = massHypothesis + 200.;
 		RooRealVar jj_mass("jj_mass", "m_{jj}", min_jj, max_jj, "GeV");
 		jj_mass.setBins(45);
-		RooRealVar ggjj_mass("ggjj_mass", "m_{jj#gamma#gamma}", 200., 400., "GeV");
+		RooRealVar ggjj_mass("ggjj_mass", "m_{jj#gamma#gamma}", min_ggjj, max_ggjj, "GeV");
 		ggjj_mass.setBins(50);
 		RooRealVar njets_kRadionID_and_CSVM("njets_kRadionID_and_CSVM", "njets_kRadionID_and_CSVM", 0, 10);
 		TCanvas *c1 = new TCanvas("c1", "c1", 600, 600);
@@ -366,11 +378,11 @@ int main (int argc, char *argv[])
 	
 		categoryCut.push_back(Form("jj_mass > %f && jj_mass < %f && ggjj_mass > %f && ggjj_mass < %f", min_jj, max_jj, min_ggjj, max_ggjj));
 		categoryName.push_back("allcat");
-	/*	categoryCut.push_back(Form("njets_kRadionID_and_CSVM < 1.5 && jj_mass > %f && jj_mass < %f && ggjj_mass > %f && ggjj_mass < %f", min_jj, max_jj, min_ggjj, max_ggjj));
-		categoryName.push_back("1btag");
+		categoryCut.push_back(Form("njets_kRadionID_and_CSVM < 1.5 && jj_mass > %f && jj_mass < %f && ggjj_mass > %f && ggjj_mass < %f", min_jj, max_jj, min_ggjj, max_ggjj));
+		categoryName.push_back("cat1");
 		categoryCut.push_back(Form("njets_kRadionID_and_CSVM > 1.5 && jj_mass > %f && jj_mass < %f && ggjj_mass > %f && ggjj_mass < %f", min_jj, max_jj, min_ggjj, max_ggjj));
-		categoryName.push_back("2btag");
-		*/
+		categoryName.push_back("cat0");
+		
 	
 		for(int icat = 0 ; icat < (int)categoryCut.size() ; icat++)
 		{
@@ -455,6 +467,7 @@ int main (int argc, char *argv[])
 				c1->Print(Form("pdf/mjj_gauss_%s.pdf", categoryName[icat].c_str()));
 				c1->Print(Form("root/mjj_gauss_%s.root", categoryName[icat].c_str()));
 				c1->Print(Form("gif/mjj_gauss_%s.gif", categoryName[icat].c_str()));
+				c1->Print(Form("png/mjj_gauss_%s.png", categoryName[icat].c_str()));
 				c1->Clear();
 	//		outfile_mjj << "Category\tMethod\tmu\tsigma\tres\tmu_reg\tsigma_reg\tres_reg\timprovement" << endl;
 				outfile_mjj << setprecision (2) << fixed << categoryName[icat] << "\tGauss"
@@ -480,6 +493,7 @@ int main (int argc, char *argv[])
 				c1->Print(Form("pdf/mggjj_gauss_%s.pdf", categoryName[icat].c_str()));
 				c1->Print(Form("root/mggjj_gauss_%s.root", categoryName[icat].c_str()));
 				c1->Print(Form("gif/mggjj_gauss_%s.gif", categoryName[icat].c_str()));
+				c1->Print(Form("png/mggjj_gauss_%s.png", categoryName[icat].c_str()));
 				c1->Clear();
 			
 				cout << "res= " << res << "\tresreg= " << resreg << "\timprov= " << fabs(res-resreg)/res*100. << endl;
@@ -564,9 +578,10 @@ int main (int argc, char *argv[])
 				// printing out plot parameters + creating plots
 				plotParameters( &p, c1, 0, jj_frame, true, 1, "CrystalBall+Pol3", 98, 99, 2);
 				plotParameters( &preg, c1, 0, jj_frame, true, 3, "test", sigma_CrystalBall_jj.getVal()/mu_CrystalBall_jj.getVal()*100., sigma_CrystalBall_regjj.getVal()/mu_CrystalBall_regjj.getVal()*100., 2);
-				c1->Print(Form("pdf/mjj_CrystalBall_%s.pdf", categoryName[icat].c_str()));
-				c1->Print(Form("root/mjj_CrystalBall_%s.root", categoryName[icat].c_str()));
-				c1->Print(Form("gif/mjj_CrystalBall_%s.gif", categoryName[icat].c_str()));
+				c1->Print(Form("pdf/mjj_m%d_CrystalBall_%s.pdf", massHypothesis, categoryName[icat].c_str()));
+				c1->Print(Form("root/mjj_m%d_CrystalBall_%s.root", massHypothesis, categoryName[icat].c_str()));
+				c1->Print(Form("gif/mjj_m%d_CrystalBall_%s.gif", massHypothesis, categoryName[icat].c_str()));
+				c1->Print(Form("png/mjj_m%d_CrystalBall_%s.png", massHypothesis, categoryName[icat].c_str()));
 				c1->Clear();
 		//		outfile_mjj << "Category\tMethod\tmu\tsigma\tres\tmu_reg\tsigma_reg\tres_reg\timprovement" << endl;
 				outfile_mjj << setprecision (2) << fixed << categoryName[icat] << "\tCrystalBall"
@@ -639,9 +654,10 @@ int main (int argc, char *argv[])
 				// printing out plot parameters + creating plots
 				plotParameters( &pggjj, c1, 0, ggjj_frame, true, 1, "CrystalBall+Pol3", 98, 99, 2);
 				plotParameters( &pregggjj, c1, 0, ggjj_frame, true, 3, "test", sigma_CrystalBall_ggjj.getVal()/mu_CrystalBall_ggjj.getVal()*100., sigma_CrystalBall_regggjj.getVal()/mu_CrystalBall_regggjj.getVal()*100., 2);
-				c1->Print(Form("pdf/mggjj_CrystalBall_%s.pdf", categoryName[icat].c_str()));
-				c1->Print(Form("root/mggjj_CrystalBall_%s.root", categoryName[icat].c_str()));
-				c1->Print(Form("gif/mggjj_CrystalBall_%s.gif", categoryName[icat].c_str()));
+				c1->Print(Form("pdf/mggjj_m%d_CrystalBall_%s.pdf", massHypothesis, categoryName[icat].c_str()));
+				c1->Print(Form("root/mggjj_m%d_CrystalBall_%s.root", massHypothesis, categoryName[icat].c_str()));
+				c1->Print(Form("gif/mggjj_m%d_CrystalBall_%s.gif", massHypothesis, categoryName[icat].c_str()));
+				c1->Print(Form("png/mggjj_m%d_CrystalBall_%s.png", massHypothesis, categoryName[icat].c_str()));
 				c1->Clear();
 				double res_ = sigma_CrystalBall_ggjj.getVal()/mu_CrystalBall_ggjj.getVal()*100.;
 				double resreg_ = sigma_CrystalBall_regggjj.getVal()/mu_CrystalBall_regggjj.getVal()*100.;
@@ -690,6 +706,7 @@ int main (int argc, char *argv[])
 				c1->Print(Form("pdf/mjj_voigt_%s.pdf", categoryName[icat].c_str()));
 				c1->Print(Form("root/mjj_voigt_%s.root", categoryName[icat].c_str()));
 				c1->Print(Form("gif/mjj_voigt_%s.gif", categoryName[icat].c_str()));
+				c1->Print(Form("png/mjj_voigt_%s.png", categoryName[icat].c_str()));
 				c1->Clear();
 				//		outfile_mjj << "Category\tMethod\tmu\tsigma\tres\tmu_reg\tsigma_reg\tres_reg\timprovement" << endl;
 				outfile_mjj << setprecision (2) << fixed << categoryName[icat] << "\tVoigt"
@@ -698,12 +715,12 @@ int main (int argc, char *argv[])
 					<< "\t" << - (resreg - res) / res * 100.
 					<< endl;
 				
-				RooRealVar mu_voigt_("mu_voigt_", "mean", 300., 200., 400., "GeV");
+				RooRealVar mu_voigt_("mu_voigt_", "mean", massHypothesis, min_ggjj, max_ggjj, "GeV");
 				RooRealVar width_voigt_("width_voigt_", "width", 35., 5., 50., "GeV");
 				RooRealVar sigma_voigt_("sigma_voigt_", "sigma", 5., .0, 20., "GeV");
 				RooVoigtian voigt_("voigt_", "voigt_", ggjj_mass, mu_voigt_, width_voigt_, sigma_voigt_);
 			
-				RooRealVar mu_voigt_reg("mu_voigt_reg", "mean (reg)", 300., 200., 400., "GeV");
+				RooRealVar mu_voigt_reg("mu_voigt_reg", "mean (reg)", massHypothesis, min_ggjj, max_ggjj, "GeV");
 				RooRealVar width_voigt_reg("width_voigt_reg", "width (reg)", 35., 5., 50., "GeV");
 				RooRealVar sigma_voigt_reg("sigma_voigt_reg", "sigma (reg)", 5., 0.0001, 20., "GeV");
 				RooVoigtian voigt_reg("voigt_reg", "voigt_reg", ggjj_mass, mu_voigt_reg, width_voigt_reg, sigma_voigt_reg);
@@ -731,6 +748,7 @@ int main (int argc, char *argv[])
 				c1->Print(Form("pdf/mggjj_voigt_%s.pdf", categoryName[icat].c_str()));
 				c1->Print(Form("root/mggjj_voigt_%s.root", categoryName[icat].c_str()));
 				c1->Print(Form("gif/mggjj_voigt_%s.gif", categoryName[icat].c_str()));
+				c1->Print(Form("png/mggjj_voigt_%s.png", categoryName[icat].c_str()));
 				c1->Clear();
 				outfile_mggjj << setprecision (2) << fixed << categoryName[icat] << "\tVoigt"
 					<< "\t" << mu_voigt_.getVal() << "\t" << fv_ << "\t" << res_
@@ -787,6 +805,7 @@ int main (int argc, char *argv[])
 				c1->Print(Form("pdf/mjj_simvoigt_%s.pdf", categoryName[icat].c_str()));
 				c1->Print(Form("root/mjj_simvoigt_%s.root", categoryName[icat].c_str()));
 				c1->Print(Form("gif/mjj_simvoigt_%s.gif", categoryName[icat].c_str()));
+				c1->Print(Form("png/mjj_simvoigt_%s.png", categoryName[icat].c_str()));
 				c1->Clear();
 				outfile_mjj << setprecision (2) << fixed << categoryName[icat] << "\tSimVoigt"
 					<< "\t" << mu_voigt.getVal() << "\t" << fv << "\t" << res
@@ -794,12 +813,12 @@ int main (int argc, char *argv[])
 					<< "\t" << - (resreg - res) / res * 100.
 					<< endl;
 			
-				RooRealVar mu_voigt_("mu_voigt_", "mean", 300., 200., 400., "GeV");
+				RooRealVar mu_voigt_("mu_voigt_", "mean", massHypothesis, min_ggjj, max_ggjj, "GeV");
 				RooRealVar width_voigt_("width_voigt_", "width", 35., 5., 50., "GeV");
 				RooRealVar sigma_voigt_("sigma_voigt_", "sigma", 5., .0, 20., "GeV");
 				RooVoigtian voigt_("voigt_", "voigt_", ggjj_mass, mu_voigt_, width_voigt_, sigma_voigt_);
 			
-				RooRealVar mu_voigt_reg("mu_voigt_reg", "mean (reg)", 300., 200., 400., "GeV");
+				RooRealVar mu_voigt_reg("mu_voigt_reg", "mean (reg)", massHypothesis, min_ggjj, max_ggjj, "GeV");
 				RooRealVar width_voigt_reg("width_voigt_reg", "width (reg)", 35., 5., 50., "GeV");
 				RooRealVar sigma_voigt_reg("sigma_voigt_reg", "sigma (reg)", 5., 0.0001, 20., "GeV");
 				RooVoigtian voigt_reg2("voigt_reg2", "voigt_reg2", ggjj_mass, mu_voigt_reg, width_voigt_reg, sigma_voigt_);
@@ -828,6 +847,7 @@ int main (int argc, char *argv[])
 				c1->Print(Form("pdf/mggjj_simvoigt_%s.pdf", categoryName[icat].c_str()));
 				c1->Print(Form("root/mggjj_simvoigt_%s.root", categoryName[icat].c_str()));
 				c1->Print(Form("gif/mggjj_simvoigt_%s.gif", categoryName[icat].c_str()));
+				c1->Print(Form("png/mggjj_simvoigt_%s.png", categoryName[icat].c_str()));
 				c1->Clear();
 				outfile_mggjj << setprecision (2) << fixed << categoryName[icat] << "\tSimVoigt"
 					<< "\t" << mu_voigt_.getVal() << "\t" << fv_ << "\t" << res_
