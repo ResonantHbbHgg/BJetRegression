@@ -288,6 +288,7 @@ int main(int argc, char *argv[])
             if( whichPhotonID == 0 )
             {
                 if ((t.ph1_ciclevel < 4) || (t.ph2_ciclevel < 4))  continue;
+//                if ((t.ph1_ciclevel < 0) || (t.ph2_ciclevel < 0))  continue;
             }
             else if( whichPhotonID == 1 )
             {
