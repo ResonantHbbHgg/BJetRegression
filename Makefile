@@ -12,7 +12,7 @@ BOOSTLIBS = -L${BOOST_ROOT}lib -lboost_program_options-gcc43-mt-1_48
 
 TMVA = -L${ROOTSYS}lib -lTMVA
 
-all: prepareOpTreeInJetTree_forTraining.exe trainRegression.exe selection.exe quickTrees.exe undoVarTRansformNorm.exe prepareCheckOverTraining.exe
+all: selection.exe quickTrees.exe obtainWeights.exe
 
 prepareOpTreeInJetTree_forTraining.exe: prepareOpTreeInJetTree_forTraining.cc
 	$(CC) $(CCFLAGS) $(ROOTFLAGS) $(ROOTLIBS) prepareOpTreeInJetTree_forTraining.cc -o prepareOpTreeInJetTree_forTraining.exe
