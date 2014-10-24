@@ -349,8 +349,8 @@ int main (int argc, char *argv[])
 //		TFile *infilereg = TFile::Open("2013-12-12_selection_noRegression_noMassCut_v02/Radion_m350_8TeV_noRegression_noMassCut_v02.root");
 //		TTree *intreereg = (TTree*)infilereg->Get("Radion_m350_8TeV");
 		ofstream outfile_mjj, outfile_mggjj;
-		outfile_mjj.open("performanceSummary_mjj.txt");
-		outfile_mggjj.open("performanceSummary_mggjj.txt");
+		outfile_mjj.open(Form("performanceSummary_m%d_mjj.txt", massHypothesis));
+		outfile_mggjj.open(Form("performanceSummary_m%d_mggjj.txt", massHypothesis));
 		outfile_mjj << "Category\tMethod\tmu\tsigma\tres\tmu_reg\tsigma_reg\tres_reg\timprovement" << endl;
 		outfile_mggjj << "Category\tMethod\tmu\tsigma\tres\tmu_reg\tsigma_reg\tres_reg\timprovement" << endl;
 		
