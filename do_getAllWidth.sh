@@ -1,14 +1,17 @@
 #!/bin/bash
 
-inputversion="v10"
-inputfolder="2014-02-17_selection_noRegression_noMassCut_${inputversion}/"
+inputversion="v18"
+inputfolder="2014-10-22_selection_withRegression_noMassCut_${inputversion}/"
 
 i=-1
 
-for mass in `echo "260 270 300 350 400 450 500 550 600 650 700 800 900 1000 1100"`
+compareWithRegression=1
+for mass in `echo "270 300 350 400"`
 do
-	inputfile="${inputfolder}/Radion_m${mass}_8TeV_noRegression_noMassCut_${inputversion}.root"
+	inputfile="${inputfolder}/Radion_m${mass}_8TeV_withRegression_noMassCut_${inputversion}.root"
 	inputtree="Radion_m${mass}_8TeV"
+	inputregfile="${inputfolder}/Radion_m${mass}_8TeV_forcedWithRegression_noMassCut_${inputversion}.root"
+	inputregtree="Radion_m${mass}_8TeV"
 	if [[ "${mass}" == "260" ]]
 	then
 		inputfile="${inputfile/Radion/MSSM}"
@@ -17,7 +20,10 @@ do
 	./fitMass.exe \
 --inputfile ${inputfile} \
 --inputtree ${inputtree} \
+--inputregfile ${inputregfile} \
+--inputregtree ${inputregtree} \
 --massHypothesis ${mass} \
+--compareWithRegression ${compareWithRegression} \
 --outputfile resolution_SigmaEff_m${mass}.txt
 done
 

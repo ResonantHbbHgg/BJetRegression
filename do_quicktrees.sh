@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version="v34_alpha"
+version="v34_alphaV2"
 today=`date +"0%Y-%m-%d"`
 #set -x
 
@@ -220,7 +220,7 @@ then
         samplelist="ggHH_8TeV ggh_m125_powheg_8TeV vbf_m125_8TeV wzh_m125_8TeV_wh wzh_m125_8TeV_zh tth_m125_8TeV bbh_m125_8TeV Data"
         if [ ${doTheStrictMinimum} == 0 ]
         then
-            samplelist="${samplelist} DataCS diphojet_sherpa_8TeV"
+            samplelist="${samplelist} DataCS diphojet_sherpa_8TeV qcd_30_8TeV_ff qcd_40_8TeV_ff qcd_30_8TeV_pf qcd_40_8TeV_pf gjet_20_8TeV_pf gjet_40_8TeV_pf"
         fi
         for sample in `echo "${samplelist}"`
         do

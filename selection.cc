@@ -126,7 +126,7 @@ int main(int argc, char *argv[])
     ofstream synchrofile, full_dump, cutFlowFile;
     if(SYNC) synchrofile.open("synchronisation.txt");
     if(FULL_DUMP) full_dump.open(Form("h2gglobe_%s.txt", inputtree.c_str()));
-    if(printCutFlow) cutFlowFile.open(Form("cutFlow_%s.dat", inputtree.c_str()));
+    if(printCutFlow) cutFlowFile.open(Form("cutFlow_%s.dat", outputtree.c_str()));
     // Setup for lambda reweighting for ggHH samples
     TFile *lambdaweightfile = TFile::Open("weights_2D.root");
     TH2F* w_hbb_pt_costhetastar_CS = 0;
@@ -288,6 +288,7 @@ int main(int argc, char *argv[])
             if( whichPhotonID == 0 )
             {
                 if ((t.ph1_ciclevel < 4) || (t.ph2_ciclevel < 4))  continue;
+//                if ((t.ph1_ciclevel < 0) || (t.ph2_ciclevel < 0))  continue;
             }
             else if( whichPhotonID == 1 )
             {

@@ -402,6 +402,16 @@ int main(int argc, char *argv[])
                         {
                             if( applyMjjCut && (t.mjj_wokinfit <  90. || t.mjj_wokinfit > 145.) ) continue;
                         }
+                        if( applyMtotCut )
+                        { // From Francois' optimization (July 24: https://indico.cern.ch/event/327578/session/9/contribution/26/material/slides/0.pdf)
+                            if( mass == 260 && (t.mtot < 250. || t.mtot > 270.) ) continue;
+                            if( mass == 270 && (t.mtot < 260. || t.mtot > 280.) ) continue;
+                            if( mass == 300 && (t.mtot < 290. || t.mtot > 310.) ) continue;
+                            if( mass == 350 && (t.mtot < 330. || t.mtot > 375.) ) continue;
+                            if( mass == 400 && (t.mtot < 380. || t.mtot > 435.) ) continue;
+                            if( mass == 450 && (t.mtot < 430. || t.mtot > 485.) ) continue;
+                            if( mass == 500 && (t.mtot < 480. || t.mtot > 535.) ) continue;
+                        }
                     }
                 }
                 if( strcmp("reg", whichJet.c_str()) == 0 || strcmp("regkin", whichJet.c_str()) == 0 )
@@ -435,7 +445,7 @@ int main(int argc, char *argv[])
                             if( applyMjjCut && (t.mjj_wokinfit < 100. || t.mjj_wokinfit > 150.) ) continue;
                         }
                         if( applyMtotCut )
-                        {
+                        { // From Francois' optimization (July 24: https://indico.cern.ch/event/327578/session/9/contribution/26/material/slides/0.pdf)
                             if( mass == 260 && (t.mtot < 250. || t.mtot > 270.) ) continue;
                             if( mass == 270 && (t.mtot < 260. || t.mtot > 280.) ) continue;
                             if( mass == 300 && (t.mtot < 290. || t.mtot > 310.) ) continue;
@@ -545,9 +555,19 @@ int main(int argc, char *argv[])
 
 
 // FILL THE CATEGORY VARIABLE
-        if( t.njets_kRadionID_and_CSVM >= 2 ) {t.cut_based_ct = 0; n_2btag++; n_w_2btag += t.evWeight_w_btagSF;}
-        if( t.njets_kRadionID_and_CSVM == 1 ) {t.cut_based_ct = 1; n_1btag++; n_w_1btag += t.evWeight_w_btagSF;}
-        if( t.njets_kRadionID_and_CSVM == 0 ) {t.cut_based_ct = 2; n_0btag++; n_w_0btag += t.evWeight_w_btagSF;}
+        if( strcmp("FTR14001", fitStrategy.c_str()) == 0 )
+        {
+            if( t.pho1_isEB && t.pho2_isEB )
+            {
+                t.cut_based_ct = 0;
+            } else {
+                t.cut_based_ct = 1;
+            }
+        } else {
+            if( t.njets_kRadionID_and_CSVM >= 2 ) {t.cut_based_ct = 0; n_2btag++; n_w_2btag += t.evWeight_w_btagSF;}
+            if( t.njets_kRadionID_and_CSVM == 1 ) {t.cut_based_ct = 1; n_1btag++; n_w_1btag += t.evWeight_w_btagSF;}
+            if( t.njets_kRadionID_and_CSVM == 0 ) {t.cut_based_ct = 2; n_0btag++; n_w_0btag += t.evWeight_w_btagSF;}
+        }
 
         // to be in sync with Chiara: if kin fit applied store mjj in mjj_wkinfit and no kin fit in mjj
         t.mjj_wkinfit = t.mjj;
