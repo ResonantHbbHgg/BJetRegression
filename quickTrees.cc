@@ -555,9 +555,19 @@ int main(int argc, char *argv[])
 
 
 // FILL THE CATEGORY VARIABLE
-        if( t.njets_kRadionID_and_CSVM >= 2 ) {t.cut_based_ct = 0; n_2btag++; n_w_2btag += t.evWeight_w_btagSF;}
-        if( t.njets_kRadionID_and_CSVM == 1 ) {t.cut_based_ct = 1; n_1btag++; n_w_1btag += t.evWeight_w_btagSF;}
-        if( t.njets_kRadionID_and_CSVM == 0 ) {t.cut_based_ct = 2; n_0btag++; n_w_0btag += t.evWeight_w_btagSF;}
+        if( strcmp("FTR14001", fitStrategy.c_str()) == 0 )
+        {
+            if( t.pho1_isEB && t.pho2_isEB )
+            {
+                t.cut_based_ct = 0;
+            } else {
+                t.cut_based_ct = 1;
+            }
+        } else {
+            if( t.njets_kRadionID_and_CSVM >= 2 ) {t.cut_based_ct = 0; n_2btag++; n_w_2btag += t.evWeight_w_btagSF;}
+            if( t.njets_kRadionID_and_CSVM == 1 ) {t.cut_based_ct = 1; n_1btag++; n_w_1btag += t.evWeight_w_btagSF;}
+            if( t.njets_kRadionID_and_CSVM == 0 ) {t.cut_based_ct = 2; n_0btag++; n_w_0btag += t.evWeight_w_btagSF;}
+        }
 
         // to be in sync with Chiara: if kin fit applied store mjj in mjj_wkinfit and no kin fit in mjj
         t.mjj_wkinfit = t.mjj;
