@@ -6,7 +6,7 @@ today=`date +"0%Y-%m-%d"`
 
 inputversion="v17"
 inputfolder="/afs/cern.ch/work/o/obondu/public/forRadion/plotTrees/v17/2014-10-21_selection_noRegression_noMassCut_${inputversion}/"
-inputfolderReg="/afs/cern.ch/user/h/hebda/public/forRadion/2014-10-23_selection_withRegression_noMassCut_v17"
+inputfolderReg="/afs/cern.ch/user/h/hebda/public/forRadion/2014-10-24_selection_withRegression_noMassCut_v17"
 
 # IMPORTANT NOTES:
 # FOR NOW THE DEFAULT IS NO REGRESSION
@@ -136,9 +136,9 @@ then
 	do
 	if [ "$fitStrategy" == "mgg" ]
 	    then
-	    outfolder="${version}_fitToMgg_${kinfitlabel[${ikin}]}"
+	    outfolder="${version}_fitToMgg_resSearch_${kinfitlabel[${ikin}]}"
 	else
-	    outfolder="${version}_fitTo${fitStrategy}_${kinfitlabel[${ikin}]}"
+	    outfolder="${version}_fitTo${fitStrategy}_resSearch_${kinfitlabel[${ikin}]}"
 	fi
         mkdir -p ${outfolder}
         samplelist="Radion Graviton MSSM ggh_m125_powheg_8TeV vbf_m125_8TeV wzh_m125_8TeV_wh wzh_m125_8TeV_zh tth_m125_8TeV bbh_m125_8TeV Data"
@@ -249,9 +249,9 @@ if [ ${doNonResonant} == 1 ]
 	do
 	if [ "$fitStrategy" == "mgg" ]
 	    then
-	    outfolder="${version}_fitToMgg_${kinfitlabel[${ikin}]}"
+	    outfolder="${version}_fitToMgg_nonresSearch_${kinfitlabel[${ikin}]}"
 	else
-	    outfolder="${version}_fitTo${fitStrategy}_${kinfitlabel[${ikin}]}"
+	    outfolder="${version}_fitTo${fitStrategy}_nonresSearch_${kinfitlabel[${ikin}]}"
 	fi
 	outfolder="${version}_fitTo${fitStrategy}_${kinfitlabel[${ikin}]}"
 	mkdir -p ${outfolder}
