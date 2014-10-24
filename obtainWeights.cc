@@ -66,18 +66,23 @@ int main(int argc, char *argv[])
 	if(DEBUG) cout << "setup and fill 2d histograms" << endl;
   // pt gamma 
 	TH2F *h2D_pt_data = new TH2F("h2D_pt_data", "h2D_pt_data", 35,20.,160.,35,20.,160.);
+	TH2F *h2D_pt_data_ub = new TH2F("h2D_pt_data_ub", "h2D_pt_data_ub", 35,20.,160.,35,20.,160.);
 	TH2F *h2D_pt_cs = new TH2F("h2D_pt_cs", "h2D_pt_cs", 35,20.,160.,35,20.,160.);
 	if(DEBUG) cout << "draw first histo" << endl;
   tree_data->Draw("pho1_pt:pho2_pt>>h2D_pt_data","evweight*(gg_mass>100 && gg_mass<180)*(gg_mass<115 || gg_mass>135)","colz");
+  tree_data->Draw("pho1_pt:pho2_pt>>h2D_pt_data_ub","evweight*(gg_mass>100 && gg_mass<180)","colz");
 	if(DEBUG) cout << "draw second histo" << endl;
   tree_cs->Draw("pho1_pt:pho2_pt>>h2D_pt_cs","evweight*(gg_mass>100 && gg_mass<180)","colz");
 	if(DEBUG) cout << "Now compute integrals" << endl;
   float integral_2D_pt_data = h2D_pt_data->Integral();
+  float integral_2D_pt_data_ub = h2D_pt_data_ub->Integral();
 	cout << "integral_2D_pt_data= " << integral_2D_pt_data << endl;
-  h2D_pt_data->Scale(1./integral_2D_pt_data);
+	cout << "integral_2D_pt_data_ub= " << integral_2D_pt_data_ub << endl;
+//  h2D_pt_data->Scale(1./integral_2D_pt_data);
   float integral_2D_pt_cs = h2D_pt_cs->Integral();
 	cout << "integral_2D_pt_cs= " << integral_2D_pt_cs << endl;
-  h2D_pt_cs->Scale(1./integral_2D_pt_cs);
+//  h2D_pt_cs->Scale(1./integral_2D_pt_cs);
+  h2D_pt_cs->Scale(integral_2D_pt_data_ub / integral_2D_pt_cs); // rescale normalization of the CS to match the one of unblinded data
   TH2F* cs_norm_pt = h2D_pt_cs;
   h2D_pt_data->Divide(cs_norm_pt);
   h2D_pt_data->GetXaxis()->SetTitle("p_{T} Sublead Photon");

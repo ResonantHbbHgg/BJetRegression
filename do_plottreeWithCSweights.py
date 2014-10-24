@@ -5,9 +5,9 @@ from ROOT import gROOT
 from ROOT import TFile, TH2F
 gROOT.SetBatch()
 
-infile = TFile.Open("2014-10-08_selection_noRegression_noMassCut_v16/Data_noRegression_noMassCut_controlSample_v16.root")
+infile = TFile.Open("2014-10-21_selection_noRegression_noMassCut_v17/Data_noRegression_noMassCut_controlSample_v17.root")
 intree = infile.Get("Data")
-outfile = TFile("2014-10-08_selection_noRegression_noMassCut_v16/Data_noRegression_noMassCut_controlSampleWeighted_v16.root", "RECREATE")
+outfile = TFile("2014-10-21_selection_noRegression_noMassCut_v17/Data_noRegression_noMassCut_controlSampleWeighted_v17.root", "RECREATE")
 
 intree.SetBranchStatus("*", 1)
 intree.SetBranchStatus("evweight_w_btagSF", 0)
