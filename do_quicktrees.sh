@@ -6,7 +6,8 @@ today=`date +"0%Y-%m-%d"`
 
 inputversion="v17"
 inputfolder="/afs/cern.ch/work/o/obondu/public/forRadion/plotTrees/v17/2014-10-21_selection_noRegression_noMassCut_${inputversion}/"
-inputfolderReg="/afs/cern.ch/user/h/hebda/public/forRadion/2014-10-24_selection_withRegression_noMassCut_v17"
+#inputfolder="/afs/cern.ch/work/o/obondu/public/forRadion/plotTrees/v16/2014-10-13_selection_noRegression_noMassCut_v16_FTR14001"
+inputfolderReg="/afs/cern.ch/user/h/hebda/public/forRadion/2014-10-25_selection_withRegression_noMassCut_v17"
 
 # IMPORTANT NOTES:
 # FOR NOW THE DEFAULT IS NO REGRESSION
@@ -16,7 +17,7 @@ inputfolderReg="/afs/cern.ch/user/h/hebda/public/forRadion/2014-10-24_selection_
 # WHICH ANALYSIS TO PROCESS
 doNonResonant=1
 doResonantLowMass=0
-doResonantLowMassWithReg=0
+doResonantLowMassWithReg=1
 doResonantHighMass=0
 # WHICH SAMPLES TO PROCESS (default is also running dataCS and diphoton-sherpa, minimum is data + signal)
 doTheStrictMinimum=0
@@ -225,7 +226,8 @@ then
                 log[${i}]="${outfolder}/${outtree}_m${mass}.eo"
             #    echo -e "i= ${i}\tline= ${line[${i}]}"
             done
-        done
+	done
+      done
     done # end of loop on kinfit scenarii
 fi
 ##### END OF LOW-MASS RESONANCE TREES
@@ -253,7 +255,6 @@ if [ ${doNonResonant} == 1 ]
 	else
 	    outfolder="${version}_fitTo${fitStrategy}_nonresSearch_${kinfitlabel[${ikin}]}"
 	fi
-	outfolder="${version}_fitTo${fitStrategy}_${kinfitlabel[${ikin}]}"
 	mkdir -p ${outfolder}
         samplelist="ggHH_8TeV ggh_m125_powheg_8TeV vbf_m125_8TeV wzh_m125_8TeV_wh wzh_m125_8TeV_zh tth_m125_8TeV bbh_m125_8TeV Data"
         if [ ${doTheStrictMinimum} == 0 ]
