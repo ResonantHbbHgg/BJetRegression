@@ -205,11 +205,10 @@ then
                 line[${i}]=""
 		if [ "$ikin" == "0" ] || [ "$ikin" == "1" ]
 		    then
-		    line[${i}]="${line[${i}]} --inputfile ${inputfolder}/${intree}_withRegression_noMassCut_${suffix}${inputversion}.root"
+		    line[${i}]="${line[${i}]} --inputfile ${inputfolder}/${intree}_noRegression_noMassCut_${suffix}${inputversion}.root"
 		else
 		    line[${i}]="${line[${i}]} --inputfile ${inputfolderReg}/${intree}_withRegression_noMassCut_${suffix}${inputversion}.root"
-		fi		    
-                line[${i}]="${line[${i}]} --inputfile ${inputfolder}/${intree}_withRegression_noMassCut_${suffix}${inputversion}.root"
+		fi
                 line[${i}]="${line[${i}]} --inputtree ${intree}"
                 line[${i}]="${line[${i}]} --outputtree TCVARS"
                 line[${i}]="${line[${i}]} --outputfile ${outfolder}/${outtree}_m${mass}.root"
