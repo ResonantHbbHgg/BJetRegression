@@ -15,7 +15,7 @@ inputfolderReg="/afs/cern.ch/user/h/hebda/public/forRadion/2014-10-25_selection_
  
 
 # WHICH ANALYSIS TO PROCESS
-doNonResonant=1
+doNonResonant=0
 doResonantLowMass=0
 doResonantLowMassWithReg=1
 doResonantHighMass=0
