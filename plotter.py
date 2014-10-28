@@ -36,25 +36,25 @@ samples.append(["Data", 0, afs_plottree, "", "Data_" + regression + "_noMassCut_
 #samples.append(["ggHH_8TeV", -70, afs_plottree, "", "ggHH_8TeV_" + regression + "_noMassCut_v*.root", "ggHH_8TeV", "evweight_w_btagSF / 0.0000212", ROOT.kGreen+2, 0, "SM HH" , 13.55e-3, 96880])
 samples.append(["ggHH_8TeV", 70, afs_plottree, "", "ggHH_8TeV_" + regression + "_noMassCut_v*.root", "ggHH_8TeV", "evweight_w_btagSF * (njets_kRadionID_and_CSVM >= 0)", ROOT.kRed+2, 1001, "SM Higgs" , 1., 14404429])
 #samples.append(["bbh_m125_8TeV", 70, afs_plottree, "", "bbh_m125_8TeV_" + regression + "_noMassCut_v*.root", "bbh_m125_8TeV", "evweight_w_btagSF * (njets_kRadionID_and_CSVM >= 0)", ROOT.kRed+2, 1001, "SM Higgs" , 1., 99434])
-#samples.append(["tth_m125_8TeV", 70, afs_plottree, "", "tth_m125_8TeV_" + regression + "_noMassCut_v*.root", "tth_m125_8TeV", "evweight_w_btagSF * (njets_kRadionID_and_CSVM >= 0)", ROOT.kRed+2, 1001, "SM Higgs" , 1., 93183])
-#samples.append(["wzh_m125_8TeV_zh", 70, afs_plottree, "", "wzh_m125_8TeV_zh_" + regression + "_noMassCut_v*.root", "wzh_m125_8TeV_zh", "evweight_w_btagSF * (njets_kRadionID_and_CSVM >= 0)", ROOT.kRed+2, 1001, "SM Higgs" , 1., 100151])
-#samples.append(["wzh_m125_8TeV_wh", 70, afs_plottree, "", "wzh_m125_8TeV_wh_" + regression + "_noMassCut_v*.root", "wzh_m125_8TeV_wh", "evweight_w_btagSF * (njets_kRadionID_and_CSVM >= 0)", ROOT.kRed+2, 1001, "SM Higgs" , 1., 100151])
-#samples.append(["vbf_m125_8TeV", 70, afs_plottree, "", "vbf_m125_8TeV_" + regression + "_noMassCut_v*.root", "vbf_m125_8TeV", "evweight_w_btagSF * (njets_kRadionID_and_CSVM >= 0)", ROOT.kRed+2, 1001, "SM Higgs" , 1., 99671])
-#samples.append(["ggh_m125_powheg_8TeV", 70, afs_plottree, "", "ggh_m125_powheg_8TeV_" + regression + "_noMassCut_v*.root", "ggh_m125_powheg_8TeV", "evweight_w_btagSF * (njets_kRadionID_and_CSVM >= 0)", ROOT.kRed+2, 1001, "SM Higgs" , 1., 99870])
-#samples.append(["ZGToLLG_8TeV", 60, afs_plottree, "", "ZGToLLG_8TeV_" + regression + "_noMassCut_v*.root", "ZGToLLG_8TeV", "evweight_w_btagSF * (njets_kRadionID_and_CSVM >= 0)", ROOT.kCyan+2, 1001, "W/Z + #gamma/#gamma#gamma" , 1., 14404429])
-#samples.append(["LNuGG_ISR_8TeV", 60, afs_plottree, "", "LNuGG_ISR_8TeV_" + regression + "_noMassCut_v*.root", "LNuGG_ISR_8TeV", "evweight_w_btagSF * (njets_kRadionID_and_CSVM >= 0)", ROOT.kCyan+2, 1001, "W/Z + #gamma/#gamma#gamma" , 1., 14404429])
-#samples.append(["LNuGG_FSR_8TeV", 60, afs_plottree, "", "LNuGG_FSR_8TeV_" + regression + "_noMassCut_v*.root", "LNuGG_FSR_8TeV", "evweight_w_btagSF * (njets_kRadionID_and_CSVM >= 0)", ROOT.kCyan+2, 1001, "W/Z + #gamma/#gamma#gamma" , 1., 14404429])
-#samples.append(["TTGJets_8TeV", 50, afs_plottree, "", "TTGJets_8TeV_" + regression + "_noMassCut_v*.root", "TTGJets_8TeV", "evweight_w_btagSF * (njets_kRadionID_and_CSVM >= 0)", ROOT.kYellow+2, 1001, "t/t#bar{t} + #gamma/#gamma#gamma" , 1., 14404429])
-#samples.append(["tGG_8TeV", 50, afs_plottree, "", "tGG_8TeV_" + regression + "_noMassCut_v*.root", "tGG_8TeV", "evweight_w_btagSF * (njets_kRadionID_and_CSVM >= 0)", ROOT.kYellow+2, 1001, "t/t#bar{t} + #gamma/#gamma#gamma" , 1., 14404429])
-#samples.append(["ttGG_8TeV", 50, afs_plottree, "", "ttGG_8TeV_" + regression + "_noMassCut_v*.root", "ttGG_8TeV", "evweight_w_btagSF * (njets_kRadionID_and_CSVM >= 0)", ROOT.kYellow+2, 1001, "t/t#bar{t} + #gamma/#gamma#gamma" , 1., 14404429])
+samples.append(["tth_m125_8TeV", 70, afs_plottree, "", "tth_m125_8TeV_" + regression + "_noMassCut_v*.root", "tth_m125_8TeV", "evweight_w_btagSF * (njets_kRadionID_and_CSVM >= 0)", ROOT.kRed+2, 1001, "SM Higgs" , 1., 93183])
+samples.append(["wzh_m125_8TeV_zh", 70, afs_plottree, "", "wzh_m125_8TeV_zh_" + regression + "_noMassCut_v*.root", "wzh_m125_8TeV_zh", "evweight_w_btagSF * (njets_kRadionID_and_CSVM >= 0)", ROOT.kRed+2, 1001, "SM Higgs" , 1., 100151])
+samples.append(["wzh_m125_8TeV_wh", 70, afs_plottree, "", "wzh_m125_8TeV_wh_" + regression + "_noMassCut_v*.root", "wzh_m125_8TeV_wh", "evweight_w_btagSF * (njets_kRadionID_and_CSVM >= 0)", ROOT.kRed+2, 1001, "SM Higgs" , 1., 100151])
+samples.append(["vbf_m125_8TeV", 70, afs_plottree, "", "vbf_m125_8TeV_" + regression + "_noMassCut_v*.root", "vbf_m125_8TeV", "evweight_w_btagSF * (njets_kRadionID_and_CSVM >= 0)", ROOT.kRed+2, 1001, "SM Higgs" , 1., 99671])
+samples.append(["ggh_m125_powheg_8TeV", 70, afs_plottree, "", "ggh_m125_powheg_8TeV_" + regression + "_noMassCut_v*.root", "ggh_m125_powheg_8TeV", "evweight_w_btagSF * (njets_kRadionID_and_CSVM >= 0)", ROOT.kRed+2, 1001, "SM Higgs" , 1., 99870])
+samples.append(["ZGToLLG_8TeV", 60, afs_plottree, "", "ZGToLLG_8TeV_" + regression + "_noMassCut_v*.root", "ZGToLLG_8TeV", "evweight_w_btagSF * (njets_kRadionID_and_CSVM >= 0)", ROOT.kCyan+2, 1001, "W/Z + #gamma/#gamma#gamma" , 1., 14404429])
+samples.append(["LNuGG_ISR_8TeV", 60, afs_plottree, "", "LNuGG_ISR_8TeV_" + regression + "_noMassCut_v*.root", "LNuGG_ISR_8TeV", "evweight_w_btagSF * (njets_kRadionID_and_CSVM >= 0)", ROOT.kCyan+2, 1001, "W/Z + #gamma/#gamma#gamma" , 1., 14404429])
+samples.append(["LNuGG_FSR_8TeV", 60, afs_plottree, "", "LNuGG_FSR_8TeV_" + regression + "_noMassCut_v*.root", "LNuGG_FSR_8TeV", "evweight_w_btagSF * (njets_kRadionID_and_CSVM >= 0)", ROOT.kCyan+2, 1001, "W/Z + #gamma/#gamma#gamma" , 1., 14404429])
+samples.append(["TTGJets_8TeV", 50, afs_plottree, "", "TTGJets_8TeV_" + regression + "_noMassCut_v*.root", "TTGJets_8TeV", "evweight_w_btagSF * (njets_kRadionID_and_CSVM >= 0)", ROOT.kYellow+2, 1001, "t/t#bar{t} + #gamma/#gamma#gamma" , 1., 14404429])
+samples.append(["tGG_8TeV", 50, afs_plottree, "", "tGG_8TeV_" + regression + "_noMassCut_v*.root", "tGG_8TeV", "evweight_w_btagSF * (njets_kRadionID_and_CSVM >= 0)", ROOT.kYellow+2, 1001, "t/t#bar{t} + #gamma/#gamma#gamma" , 1., 14404429])
+samples.append(["ttGG_8TeV", 50, afs_plottree, "", "ttGG_8TeV_" + regression + "_noMassCut_v*.root", "ttGG_8TeV", "evweight_w_btagSF * (njets_kRadionID_and_CSVM >= 0)", ROOT.kYellow+2, 1001, "t/t#bar{t} + #gamma/#gamma#gamma" , 1., 14404429])
 #samples.append(["DYJetsToLL", 40, afs_plottree, "", "DYJetsToLL_" + regression + "_noMassCut_v*.root", "DYJetsToLL", "evweight_w_btagSF * (njets_kRadionID_and_CSVM >= 0)", ROOT.kMagenta+2, 1001, "DY" , 1., 14404429])
-#samples.append(["qcd_40_8TeV_ff", 30, afs_plottree, "", "qcd_40_8TeV_ff_" + regression + "_noMassCut_v*.root", "qcd_40_8TeV_ff", "(evweight_w_btagSF) * (njets_kRadionID_and_CSVM >= 0)", ROOT.kBlue+3, 1001, "QCD j" , 1., 14404429])
-#samples.append(["qcd_30_8TeV_ff", 30, afs_plottree, "", "qcd_30_8TeV_ff_" + regression + "_noMassCut_v*.root", "qcd_30_8TeV_ff", "(evweight_w_btagSF) * (njets_kRadionID_and_CSVM >= 0)", ROOT.kBlue+3, 1001, "QCD j" , 1., 14404429])
-#samples.append(["qcd_30_8TeV_pf", 20, afs_plottree, "", "qcd_30_8TeV_pf_" + regression + "_noMassCut_v*.root", "qcd_30_8TeV_pf", "(evweight_w_btagSF) * (njets_kRadionID_and_CSVM >= 0)", ROOT.kBlue-4, 1001, "QCD #gamma + j" , 1., 6047441])
-#samples.append(["qcd_40_8TeV_pf", 20, afs_plottree, "", "qcd_40_8TeV_pf_" + regression + "_noMassCut_v*.root", "qcd_40_8TeV_pf", "(evweight_w_btagSF) * (njets_kRadionID_and_CSVM >= 0)", ROOT.kBlue-4, 1001, "QCD #gamma + j" , 1., 9764546])
-#samples.append(["gjet_20_8TeV_pf", 20, afs_plottree, "", "gjet_20_8TeV_pf_" + regression + "_noMassCut_v*.root", "gjet_20_8TeV_pf", "evweight_w_btagSF * (njets_kRadionID_and_CSVM >= 0)", ROOT.kBlue-4, 1001, "QCD #gamma + j" , 1., 5901106])
-#samples.append(["gjet_40_8TeV_pf", 20, afs_plottree, "", "gjet_40_8TeV_pf_" + regression + "_noMassCut_v*.root", "gjet_40_8TeV_pf", "evweight_w_btagSF * (njets_kRadionID_and_CSVM >= 0)", ROOT.kBlue-4, 1001, "QCD #gamma + j" , 1., 17722752])
-#samples.append(["diphojet_sherpa_8TeV", 10, afs_plottree, "", "diphojet_sherpa_8TeV_" + regression + "_noMassCut_v*.root", "diphojet_sherpa_8TeV", "evweight_w_btagSF * (njets_kRadionID_and_CSVM >= 0)", ROOT.kGreen+2, 1001, "QCD #gamma#gamma + j" , 1., 14404429])
+samples.append(["qcd_40_8TeV_ff", 30, afs_plottree, "", "qcd_40_8TeV_ff_" + regression + "_noMassCut_v*.root", "qcd_40_8TeV_ff", "(evweight_w_btagSF) * (njets_kRadionID_and_CSVM >= 0)", ROOT.kBlue+3, 1001, "QCD j" , 1., 14404429])
+samples.append(["qcd_30_8TeV_ff", 30, afs_plottree, "", "qcd_30_8TeV_ff_" + regression + "_noMassCut_v*.root", "qcd_30_8TeV_ff", "(evweight_w_btagSF) * (njets_kRadionID_and_CSVM >= 0)", ROOT.kBlue+3, 1001, "QCD j" , 1., 14404429])
+samples.append(["qcd_30_8TeV_pf", 20, afs_plottree, "", "qcd_30_8TeV_pf_" + regression + "_noMassCut_v*.root", "qcd_30_8TeV_pf", "(evweight_w_btagSF) * (njets_kRadionID_and_CSVM >= 0)", ROOT.kBlue-4, 1001, "QCD #gamma + j" , 1., 6047441])
+samples.append(["qcd_40_8TeV_pf", 20, afs_plottree, "", "qcd_40_8TeV_pf_" + regression + "_noMassCut_v*.root", "qcd_40_8TeV_pf", "(evweight_w_btagSF) * (njets_kRadionID_and_CSVM >= 0)", ROOT.kBlue-4, 1001, "QCD #gamma + j" , 1., 9764546])
+samples.append(["gjet_20_8TeV_pf", 20, afs_plottree, "", "gjet_20_8TeV_pf_" + regression + "_noMassCut_v*.root", "gjet_20_8TeV_pf", "evweight_w_btagSF * (njets_kRadionID_and_CSVM >= 0)", ROOT.kBlue-4, 1001, "QCD #gamma + j" , 1., 5901106])
+samples.append(["gjet_40_8TeV_pf", 20, afs_plottree, "", "gjet_40_8TeV_pf_" + regression + "_noMassCut_v*.root", "gjet_40_8TeV_pf", "evweight_w_btagSF * (njets_kRadionID_and_CSVM >= 0)", ROOT.kBlue-4, 1001, "QCD #gamma + j" , 1., 17722752])
+samples.append(["diphojet_sherpa_8TeV", 10, afs_plottree, "", "diphojet_sherpa_8TeV_" + regression + "_noMassCut_v*.root", "diphojet_sherpa_8TeV", "evweight_w_btagSF * (njets_kRadionID_and_CSVM >= 0)", ROOT.kGreen+2, 1001, "QCD #gamma#gamma + j" , 1., 14404429])
 #samples.append(["ggHH_Lam_0d0_Yt_1d0_c2_0d0_8TeV", -500010000, afs_plottree, "", "ggHH_Lam_0d0_Yt_1d0_c2_0d0_8TeV_" + regression + "_noMassCut_v*.root", "ggHH_Lam_0d0_Yt_1d0_c2_0d0_8TeV", "evweight_w_btagSF", ROOT.kRed, 0, "(#lambda, y_{t}, c_{2}) = (0, 1, 0)" , 13.55e-3, 19600])
 
 #samples.append(["ggHH_Lam_1d0_Yt_1d0_c2_0d0_8TeV", -501010000, afs_plottree, "", "ggHH_Lam_1d0_Yt_1d0_c2_0d0_8TeV_" + regression + "_noMassCut_v*.root", "ggHH_Lam_1d0_Yt_1d0_c2_0d0_8TeV", "evweight_w_btagSF", ROOT.kBlue, 0, "(#lambda, y_{t}, c_{2}) = (1, 1, 0)" , 13.55e-3, 20000])
@@ -107,8 +107,10 @@ plots = []
 #plots.append(["gr_g2_p4_eta_norm1", "gr_g2_p4_eta", "", 1, "(60, -3., 3.)", "#eta^{#gamma 2}_{GEN}", "", "", ""])
 #plots.append(["gr_g1_p4_phi_norm1", "gr_g1_p4_phi", "", 1, "(63, -3.15, 3.15)", "#phi^{#gamma 1}_{GEN}", "", "", ""])
 #plots.append(["gr_g2_p4_phi_norm1", "gr_g2_p4_phi", "", 1, "(63, -3.15, 3.15)", "#phi^{#gamma 2}_{GEN}", "", "", ""])
-plots.append(["jj_mass_normData", "jj_mass", "", intL, "(50, 0, 500)", "m_{jj} (GeV)", "", "", ""])
+plots.append(["jj_mass_normData", "jj_mass", "", "data", "(50, 0, 500)", "m_{jj} (GeV)", "", "", ""])
 plots.append(["regjj_mass_normData", "regjj_mass", "", "data", "(50, 0, 500)", "m_{jj}^{reg} (GeV)", "", "", ""])
+plots.append(["kinjj_mass_normData", "kinjj_mass", "", "data", "(50, 0, 500)", "m_{jj}^{kin} (GeV)", "", "", ""])
+plots.append(["regkinjj_mass_normData", "regkinjj_mass", "", "data", "(50, 0, 500)", "m_{jj}^{regkin} (GeV)", "", "", ""])
 #plots.append(["jj_mass", "jj_mass", "", intL, "(50, 0, 500)", "m_{jj} (GeV)", "", "", ""])
 #plots.append(["gg_mass", "gg_mass", "", intL, "(40, 100, 180)", "m_{#gamma#gamma} (GeV)", "", "", ""])
 #plots.append(["jj_mass_norm1", "jj_mass", "", 1, "(50, 0, 500)", "m_{jj} (GeV)", "", "", ""])
@@ -125,6 +127,8 @@ plots.append(["regjj_mass_normData", "regjj_mass", "", "data", "(50, 0, 500)", "
 #plots.append(["ggjj_e", "ggjj_e", "", intL, "(1000, 0, 1000)", "e^{#gamma#gammajj} (GeV)", "", "", ""])
 plots.append(["ggjj_mass_normData", "ggjj_mass / 1000.", "", "data", "(50, 0, 1.)", "m_{#gamma#gammajj} (TeV)", "", "", ""])
 plots.append(["regggjj_mass_normData", "regggjj_mass / 1000.", "", "data", "(50, 0, 1.)", "m_{#gamma#gammajj}^{reg} (TeV)", "", "", ""])
+plots.append(["kinggjj_mass_normData", "kinggjj_mass / 1000.", "", "data", "(50, 0, 1.)", "m_{#gamma#gammajj}^{kin} (TeV)", "", "", ""])
+plots.append(["regkinggjj_mass_normData", "regkinggjj_mass / 1000.", "", "data", "(50, 0, 1.)", "m_{#gamma#gammajj}^{regkin} (TeV)", "", "", ""])
 #plots.append(["ggjj_mass_normData", "ggjj_mass / 1000.", "", "data", "(50, 0, 1.)", "mass^{#gamma#gammajj} (TeV)", "", "", ""])
 #plots.append(["ggjj_mass_norm1", "ggjj_mass / 1000.", "", 1, "(50, 0, 1.)", "m_{#gamma#gammajj} (TeV)", "", "", ""])
 #plots.append(["ggjj_mass", "ggjj_mass / 1000.", "", intL, "(50, 0, 1.)", "m_{#gamma#gammajj} (TeV)", "", "", ""])
@@ -186,6 +190,7 @@ for name2, variable, plot_cut, norm, binning, title, additional_info, cutline, c
     label_bkg = {}
 
     for ifile, [ name, typ, dirpath, subdir, file, tree, sample_cut, color, style, label , sigma , N] in enumerate(samples):
+#        print ""
 #        print ifile, file, color, style, label, typ
         chain = TChain(tree)
         chain.Add( path.join(dirpath, subdir, file) )
@@ -203,8 +208,9 @@ for name2, variable, plot_cut, norm, binning, title, additional_info, cutline, c
         if typ == 0:
             option += "e1"
         chain.Draw(variable + ">>h_tmp" + binning, total_cut, option)
-        # Clsosmetics
+        # Cosmetics
         h = ROOT.gDirectory.Get("h_tmp")
+#        print h.GetEntries()
         try:
             h.SetName(name + "_" + name2 + "_" + str(ifile))
         except AttributeError:
@@ -246,10 +252,16 @@ for name2, variable, plot_cut, norm, binning, title, additional_info, cutline, c
 #        print hist_data
 
     # Sum the backgrounds
+#    print ""
+#    print "1: ", hist_bkg.items()
+#    print "2: ", sorted(hist_bkg.items())
+#    print "3: ", collections.OrderedDict(sorted(hist_bkg.items()))
     for key in collections.OrderedDict(sorted(hist_bkg.items())):
+#        print "hist_bkg[key].GetEntries()= ", hist_bkg[key].GetEntries()
         for jkey in collections.OrderedDict(sorted(hist_bkg.items())):
             if jkey <= key: continue
             hist_bkg[key].Add(hist_bkg[jkey])
+#            print "hist_bkg[key].GetEntries()= ", hist_bkg[key].GetEntries()
     # Adjust norm if case happens
     if norm == 1. or norm == 1:
         bkg_integral = 1.
@@ -274,6 +286,7 @@ for name2, variable, plot_cut, norm, binning, title, additional_info, cutline, c
                 data_integral = hist_data[key].Integral(0, hist_data[key].GetNbinsX() +1)
             else:
                 continue
+#        print "data_integral= ", data_integral
         bkg_integral = 1.
         for ikey, key in enumerate(collections.OrderedDict(sorted(hist_bkg.items()))):
 #            print ikey, key, hist_bkg[key].GetEntries(), hist_bkg[key].Integral(0, hist_bkg[key].GetNbinsX() + 1)
