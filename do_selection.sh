@@ -2,7 +2,7 @@
 
 today=`date +"%Y-%m-%d"`
 #today="2014-10-22"
-version="v18_noreg"
+version="v19_FTR"
 eosprefix="root://eoscms//eos/cms"
 eospath="/store/cmst3/group/hbbhgg/H2GGLOBE/Radion/trees/"
 #eospath="/store/user/hebda/h2gglobe/trees/"
@@ -14,7 +14,7 @@ regFilePath="weights/TMVARegression_resonant_BDTG.weights.xml" #it is also possi
 
 ## WHAT TO PROCESS
 # DATA
-doData=1
+doData=0
 doDataCS=0
 # RESONANT SIGNALS
 doRadion=0
@@ -28,14 +28,14 @@ doSMHiggs=0
 doExtraSMHiggs=0
 doSMdiHiggs=0
 # BACKGROUNDS
-doDiphotonBackgrounds=1
+doDiphotonBackgrounds=0
 doRareBackgrounds=0
 # NON-RESONANT SIGNALS
 doAnomalousHH=0
-doAnomalousHH_C2=0
+doAnomalousHH_C2=1
 
 # going FTR14001_style, default should be 0
-FTR14001_style=0
+FTR14001_style=1
 # Keep both the following to 0 if you do not know how to play with this
 nJackknife=0
 iJackknife=0
@@ -764,527 +764,590 @@ if [ ${doAnomalousHH_C2} == 1 ]
 then
     i=$((${i} + 1))
     infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_m20_Yt_0d75_c2_m3_v2"
-    outtree[${i}]="ggHH_HLam_m20_Yt_0d75_c2_m3_8TeV"
-    typ[${i}]="-512007513"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_m15_Yt_0d75_c2_m3_v2"
-    outtree[${i}]="ggHH_HLam_m15_Yt_0d75_c2_m3_8TeV"
-    typ[${i}]="-511507513"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_m10_Yt_0d75_c2_m3_v2"
-    outtree[${i}]="ggHH_HLam_m10_Yt_0d75_c2_m3_8TeV"
-    typ[${i}]="-511007513"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_0d0_Yt_0d75_c2_m3_v2"
-    outtree[${i}]="ggHH_HLam_0d0_Yt_0d75_c2_m3_8TeV"
-    typ[${i}]="-500007513"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_10_Yt_0d75_c2_m3_v2"
-    outtree[${i}]="ggHH_HLam_10_Yt_0d75_c2_m3_8TeV"
-    typ[${i}]="-501007513"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_15_Yt_0d75_c2_m3_v2"
-    outtree[${i}]="ggHH_HLam_15_Yt_0d75_c2_m3_8TeV"
-    typ[${i}]="-501507513"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_20_Yt_0d75_c2_m3_v2"
-    outtree[${i}]="ggHH_HLam_20_Yt_0d75_c2_m3_8TeV"
-    typ[${i}]="-502007513"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_m20_Yt_1d0_c2_m3_v2"
-    outtree[${i}]="ggHH_HLam_m20_Yt_1d0_c2_m3_8TeV"
-    typ[${i}]="-512010013"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_m15_Yt_1d0_c2_m3_v2"
-    outtree[${i}]="ggHH_HLam_m15_Yt_1d0_c2_m3_8TeV"
-    typ[${i}]="-511510013"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_m10_Yt_1d0_c2_m3_v2"
-    outtree[${i}]="ggHH_HLam_m10_Yt_1d0_c2_m3_8TeV"
-    typ[${i}]="-511010013"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_0d0_Yt_1d0_c2_m3_v2"
-    outtree[${i}]="ggHH_HLam_0d0_Yt_1d0_c2_m3_8TeV"
-    typ[${i}]="-500010013"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_15_Yt_1d0_c2_m3_v2"
-    outtree[${i}]="ggHH_HLam_15_Yt_1d0_c2_m3_8TeV"
-    typ[${i}]="-501510013"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_20_Yt_1d0_c2_m3_v2"
-    outtree[${i}]="ggHH_HLam_20_Yt_1d0_c2_m3_8TeV"
-    typ[${i}]="-502010013"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_m20_Yt_1d25_c2_m3_v2"
-    outtree[${i}]="ggHH_HLam_m20_Yt_1d25_c2_m3_8TeV"
-    typ[${i}]="-512012513"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_m15_Yt_1d25_c2_m3_v2"
-    outtree[${i}]="ggHH_HLam_m15_Yt_1d25_c2_m3_8TeV"
-    typ[${i}]="-511512513"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_m10_Yt_1d25_c2_m3_v2"
-    outtree[${i}]="ggHH_HLam_m10_Yt_1d25_c2_m3_8TeV"
-    typ[${i}]="-511012513"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_10_Yt_1d25_c2_m3_v2"
-    outtree[${i}]="ggHH_HLam_10_Yt_1d25_c2_m3_8TeV"
-    typ[${i}]="-501012513"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_15_Yt_1d25_c2_m3_v2"
-    outtree[${i}]="ggHH_HLam_15_Yt_1d25_c2_m3_8TeV"
-    typ[${i}]="-501512513"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_m20_Yt_0d75_c2_m2_v2"
-    outtree[${i}]="ggHH_HLam_m20_Yt_0d75_c2_m2_8TeV"
-    typ[${i}]="-512007512"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_m15_Yt_0d75_c2_m2_v2"
-    outtree[${i}]="ggHH_HLam_m15_Yt_0d75_c2_m2_8TeV"
-    typ[${i}]="-511507512"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_m10_Yt_0d75_c2_m2_v2"
-    outtree[${i}]="ggHH_HLam_m10_Yt_0d75_c2_m2_8TeV"
-    typ[${i}]="-511007512"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_0d0_Yt_0d75_c2_m2_v2"
-    outtree[${i}]="ggHH_HLam_0d0_Yt_0d75_c2_m2_8TeV"
-    typ[${i}]="-500007512"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_10_Yt_0d75_c2_m2_v2"
-    outtree[${i}]="ggHH_HLam_10_Yt_0d75_c2_m2_8TeV"
-    typ[${i}]="-501007512"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_15_Yt_0d75_c2_m2_v2"
-    outtree[${i}]="ggHH_HLam_15_Yt_0d75_c2_m2_8TeV"
-    typ[${i}]="-501507512"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_20_Yt_0d75_c2_m2_v2"
-    outtree[${i}]="ggHH_HLam_20_Yt_0d75_c2_m2_8TeV"
-    typ[${i}]="-502007512"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_m20_Yt_1d0_c2_m2_v2"
-    outtree[${i}]="ggHH_HLam_m20_Yt_1d0_c2_m2_8TeV"
-    typ[${i}]="-512010012"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_m15_Yt_1d0_c2_m2_v2"
-    outtree[${i}]="ggHH_HLam_m15_Yt_1d0_c2_m2_8TeV"
-    typ[${i}]="-511510012"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_m10_Yt_1d0_c2_m2_v2"
-    outtree[${i}]="ggHH_HLam_m10_Yt_1d0_c2_m2_8TeV"
-    typ[${i}]="-511010012"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_0d0_Yt_1d0_c2_m2_v2"
-    outtree[${i}]="ggHH_HLam_0d0_Yt_1d0_c2_m2_8TeV"
-    typ[${i}]="-500010012"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_10_Yt_1d0_c2_m2_v2"
-    outtree[${i}]="ggHH_HLam_10_Yt_1d0_c2_m2_8TeV"
-    typ[${i}]="-501010012"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_15_Yt_1d0_c2_m2_v2"
-    outtree[${i}]="ggHH_HLam_15_Yt_1d0_c2_m2_8TeV"
-    typ[${i}]="-501510012"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_20_Yt_1d0_c2_m2_v2"
-    outtree[${i}]="ggHH_HLam_20_Yt_1d0_c2_m2_8TeV"
-    typ[${i}]="-502010012"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_m20_Yt_1d25_c2_m2_v2"
-    outtree[${i}]="ggHH_HLam_m20_Yt_1d25_c2_m2_8TeV"
-    typ[${i}]="-512012512"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_m15_Yt_1d25_c2_m2_v2"
-    outtree[${i}]="ggHH_HLam_m15_Yt_1d25_c2_m2_8TeV"
-    typ[${i}]="-511512512"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_m10_Yt_1d25_c2_m2_v2"
-    outtree[${i}]="ggHH_HLam_m10_Yt_1d25_c2_m2_8TeV"
-    typ[${i}]="-511012512"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_10_Yt_1d25_c2_m2_v2"
-    outtree[${i}]="ggHH_HLam_10_Yt_1d25_c2_m2_8TeV"
-    typ[${i}]="-501012512"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_15_Yt_1d25_c2_m2_v2"
-    outtree[${i}]="ggHH_HLam_15_Yt_1d25_c2_m2_8TeV"
-    typ[${i}]="-501512512"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_20_Yt_1d25_c2_m2_v2"
-    outtree[${i}]="ggHH_HLam_20_Yt_1d25_c2_m2_8TeV"
-    typ[${i}]="-502012512"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_m20_Yt_0d75_c2_2_v2"
-    outtree[${i}]="ggHH_HLam_m20_Yt_0d75_c2_2_8TeV"
-    typ[${i}]="-512007502"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_m15_Yt_0d75_c2_2_v2"
-    outtree[${i}]="ggHH_HLam_m15_Yt_0d75_c2_2_8TeV"
-    typ[${i}]="-511507502"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_m10_Yt_0d75_c2_2_v2"
-    outtree[${i}]="ggHH_HLam_m10_Yt_0d75_c2_2_8TeV"
-    typ[${i}]="-511007502"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
     tree[${i}]="HH_bbaa_8TeV_Lam_0d0_Yt_0d75_c2_2_v2"
-    outtree[${i}]="ggHH_HLam_0d0_Yt_0d75_c2_2_8TeV"
+    outtree[${i}]="ggHH_Lam_0d0_Yt_0d75_c2_2_8TeV"
     typ[${i}]="-500007502"
     CS[${i}]="0"
 
     i=$((${i} + 1))
     infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_10_Yt_0d75_c2_2_v2"
-    outtree[${i}]="ggHH_HLam_10_Yt_0d75_c2_2_8TeV"
-    typ[${i}]="-501007502"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_15_Yt_0d75_c2_2_v2"
-    outtree[${i}]="ggHH_HLam_15_Yt_0d75_c2_2_8TeV"
-    typ[${i}]="-501507502"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_20_Yt_0d75_c2_2_v2"
-    outtree[${i}]="ggHH_HLam_20_Yt_0d75_c2_2_8TeV"
-    typ[${i}]="-502007502"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_m20_Yt_1d0_c2_2_v2"
-    outtree[${i}]="ggHH_HLam_m20_Yt_1d0_c2_2_8TeV"
-    typ[${i}]="-512010002"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_m15_Yt_1d0_c2_2_v2"
-    outtree[${i}]="ggHH_HLam_m15_Yt_1d0_c2_2_8TeV"
-    typ[${i}]="-511510002"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_m10_Yt_1d0_c2_2_v2"
-    outtree[${i}]="ggHH_HLam_m10_Yt_1d0_c2_2_8TeV"
-    typ[${i}]="-511010002"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_0d0_Yt_1d0_c2_2_v2"
-    outtree[${i}]="ggHH_HLam_0d0_Yt_1d0_c2_2_8TeV"
-    typ[${i}]="-500010002"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_10_Yt_1d0_c2_2_v2"
-    outtree[${i}]="ggHH_HLam_10_Yt_1d0_c2_2_8TeV"
-    typ[${i}]="-501010002"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_15_Yt_1d0_c2_2_v2"
-    outtree[${i}]="ggHH_HLam_15_Yt_1d0_c2_2_8TeV"
-    typ[${i}]="-501510002"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_m20_Yt_1d25_c2_2_v2"
-    outtree[${i}]="ggHH_HLam_m20_Yt_1d25_c2_2_8TeV"
-    typ[${i}]="-512012502"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_m15_Yt_1d25_c2_2_v2"
-    outtree[${i}]="ggHH_HLam_m15_Yt_1d25_c2_2_8TeV"
-    typ[${i}]="-511512502"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_m10_Yt_1d25_c2_2_v2"
-    outtree[${i}]="ggHH_HLam_m10_Yt_1d25_c2_2_8TeV"
-    typ[${i}]="-511012502"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_10_Yt_1d25_c2_2_v2"
-    outtree[${i}]="ggHH_HLam_10_Yt_1d25_c2_2_8TeV"
-    typ[${i}]="-501012502"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_15_Yt_1d25_c2_2_v2"
-    outtree[${i}]="ggHH_HLam_15_Yt_1d25_c2_2_8TeV"
-    typ[${i}]="-501512502"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_20_Yt_1d25_c2_2_v2"
-    outtree[${i}]="ggHH_HLam_20_Yt_1d25_c2_2_8TeV"
-    typ[${i}]="-502012502"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_m15_Yt_0d75_c2_3_v2"
-    outtree[${i}]="ggHH_HLam_m15_Yt_0d75_c2_3_8TeV"
-    typ[${i}]="-511507503"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_m10_Yt_0d75_c2_3_v2"
-    outtree[${i}]="ggHH_HLam_m10_Yt_0d75_c2_3_8TeV"
-    typ[${i}]="-511007503"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
     tree[${i}]="HH_bbaa_8TeV_Lam_0d0_Yt_0d75_c2_3_v2"
-    outtree[${i}]="ggHH_HLam_0d0_Yt_0d75_c2_3_8TeV"
+    outtree[${i}]="ggHH_Lam_0d0_Yt_0d75_c2_3_8TeV"
     typ[${i}]="-500007503"
     CS[${i}]="0"
 
     i=$((${i} + 1))
     infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_15_Yt_0d75_c2_3_v2"
-    outtree[${i}]="ggHH_HLam_15_Yt_0d75_c2_3_8TeV"
-    typ[${i}]="-501507503"
+    tree[${i}]="HH_bbaa_8TeV_Lam_0d0_Yt_0d75_c2_m2_v2"
+    outtree[${i}]="ggHH_Lam_0d0_Yt_0d75_c2_m2_8TeV"
+    typ[${i}]="-500007512"
     CS[${i}]="0"
 
     i=$((${i} + 1))
     infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_20_Yt_0d75_c2_3_v2"
-    outtree[${i}]="ggHH_HLam_20_Yt_0d75_c2_3_8TeV"
-    typ[${i}]="-502007503"
+    tree[${i}]="HH_bbaa_8TeV_Lam_0d0_Yt_0d75_c2_m3_v2"
+    outtree[${i}]="ggHH_Lam_0d0_Yt_0d75_c2_m3_8TeV"
+    typ[${i}]="-500007513"
     CS[${i}]="0"
 
     i=$((${i} + 1))
     infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_m20_Yt_1d0_c2_3_v2"
-    outtree[${i}]="ggHH_HLam_m20_Yt_1d0_c2_3_8TeV"
-    typ[${i}]="-512010003"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_m15_Yt_1d0_c2_3_v2"
-    outtree[${i}]="ggHH_HLam_m15_Yt_1d0_c2_3_8TeV"
-    typ[${i}]="-511510003"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_m10_Yt_1d0_c2_3_v2"
-    outtree[${i}]="ggHH_HLam_m10_Yt_1d0_c2_3_8TeV"
-    typ[${i}]="-511010003"
+    tree[${i}]="HH_bbaa_8TeV_Lam_0d0_Yt_1d0_c2_2_v2"
+    outtree[${i}]="ggHH_Lam_0d0_Yt_1d0_c2_2_8TeV"
+    typ[${i}]="-500010002"
     CS[${i}]="0"
 
     i=$((${i} + 1))
     infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
     tree[${i}]="HH_bbaa_8TeV_Lam_0d0_Yt_1d0_c2_3_v2"
-    outtree[${i}]="ggHH_HLam_0d0_Yt_1d0_c2_3_8TeV"
+    outtree[${i}]="ggHH_Lam_0d0_Yt_1d0_c2_3_8TeV"
     typ[${i}]="-500010003"
     CS[${i}]="0"
 
     i=$((${i} + 1))
     infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_0d0_Yt_1d0_c2_m2_v2"
+    outtree[${i}]="ggHH_Lam_0d0_Yt_1d0_c2_m2_8TeV"
+    typ[${i}]="-500010012"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_0d0_Yt_1d0_c2_m3_v2"
+    outtree[${i}]="ggHH_Lam_0d0_Yt_1d0_c2_m3_8TeV"
+    typ[${i}]="-500010013"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_0d0_Yt_1d25_c2_2_v2"
+    outtree[${i}]="ggHH_Lam_0d0_Yt_1d25_c2_2_8TeV"
+    typ[${i}]="-500012502"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_0d0_Yt_1d25_c2_3_v2"
+    outtree[${i}]="ggHH_Lam_0d0_Yt_1d25_c2_3_8TeV"
+    typ[${i}]="-500012503"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_0d0_Yt_1d25_c2_m2_v2"
+    outtree[${i}]="ggHH_Lam_0d0_Yt_1d25_c2_m2_8TeV"
+    typ[${i}]="-500012512"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_0d0_Yt_1d25_c2_m3_v2"
+    outtree[${i}]="ggHH_Lam_0d0_Yt_1d25_c2_m3_8TeV"
+    typ[${i}]="-500012513"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_10_Yt_0d75_c2_2_v2"
+    outtree[${i}]="ggHH_Lam_10_Yt_0d75_c2_2_8TeV"
+    typ[${i}]="-501007502"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_10_Yt_0d75_c2_3_v2"
+    outtree[${i}]="ggHH_Lam_10_Yt_0d75_c2_3_8TeV"
+    typ[${i}]="-501007503"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_10_Yt_0d75_c2_m2_v2"
+    outtree[${i}]="ggHH_Lam_10_Yt_0d75_c2_m2_8TeV"
+    typ[${i}]="-501007512"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_10_Yt_0d75_c2_m3_v2"
+    outtree[${i}]="ggHH_Lam_10_Yt_0d75_c2_m3_8TeV"
+    typ[${i}]="-501007513"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_10_Yt_1d0_c2_2_v2"
+    outtree[${i}]="ggHH_Lam_10_Yt_1d0_c2_2_8TeV"
+    typ[${i}]="-501010002"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
     tree[${i}]="HH_bbaa_8TeV_Lam_10_Yt_1d0_c2_3_v2"
-    outtree[${i}]="ggHH_HLam_10_Yt_1d0_c2_3_8TeV"
+    outtree[${i}]="ggHH_Lam_10_Yt_1d0_c2_3_8TeV"
     typ[${i}]="-501010003"
     CS[${i}]="0"
 
     i=$((${i} + 1))
     infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_15_Yt_1d0_c2_3_v2"
-    outtree[${i}]="ggHH_HLam_15_Yt_1d0_c2_3_8TeV"
-    typ[${i}]="-501510003"
+    tree[${i}]="HH_bbaa_8TeV_Lam_10_Yt_1d0_c2_m2_v2"
+    outtree[${i}]="ggHH_Lam_10_Yt_1d0_c2_m2_8TeV"
+    typ[${i}]="-501010012"
     CS[${i}]="0"
 
     i=$((${i} + 1))
     infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_20_Yt_1d0_c2_3_v2"
-    outtree[${i}]="ggHH_HLam_20_Yt_1d0_c2_3_8TeV"
-    typ[${i}]="-502010003"
+    tree[${i}]="HH_bbaa_8TeV_Lam_10_Yt_1d0_c2_m3_v2"
+    outtree[${i}]="ggHH_Lam_10_Yt_1d0_c2_m3_8TeV"
+    typ[${i}]="-501010013"
     CS[${i}]="0"
 
     i=$((${i} + 1))
     infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_m20_Yt_1d25_c2_3_v2"
-    outtree[${i}]="ggHH_HLam_m20_Yt_1d25_c2_3_8TeV"
-    typ[${i}]="-512012503"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_m15_Yt_1d25_c2_3_v2"
-    outtree[${i}]="ggHH_HLam_m15_Yt_1d25_c2_3_8TeV"
-    typ[${i}]="-511512503"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_m10_Yt_1d25_c2_3_v2"
-    outtree[${i}]="ggHH_HLam_m10_Yt_1d25_c2_3_8TeV"
-    typ[${i}]="-511012503"
+    tree[${i}]="HH_bbaa_8TeV_Lam_10_Yt_1d25_c2_2_v2"
+    outtree[${i}]="ggHH_Lam_10_Yt_1d25_c2_2_8TeV"
+    typ[${i}]="-501012502"
     CS[${i}]="0"
 
     i=$((${i} + 1))
     infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
     tree[${i}]="HH_bbaa_8TeV_Lam_10_Yt_1d25_c2_3_v2"
-    outtree[${i}]="ggHH_HLam_10_Yt_1d25_c2_3_8TeV"
+    outtree[${i}]="ggHH_Lam_10_Yt_1d25_c2_3_8TeV"
     typ[${i}]="-501012503"
     CS[${i}]="0"
 
     i=$((${i} + 1))
     infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_10_Yt_1d25_c2_m2_v2"
+    outtree[${i}]="ggHH_Lam_10_Yt_1d25_c2_m2_8TeV"
+    typ[${i}]="-501012512"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_10_Yt_1d25_c2_m3_v2"
+    outtree[${i}]="ggHH_Lam_10_Yt_1d25_c2_m3_8TeV"
+    typ[${i}]="-501012513"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_15_Yt_0d75_c2_2_v2"
+    outtree[${i}]="ggHH_Lam_15_Yt_0d75_c2_2_8TeV"
+    typ[${i}]="-501507502"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_15_Yt_0d75_c2_3_v2"
+    outtree[${i}]="ggHH_Lam_15_Yt_0d75_c2_3_8TeV"
+    typ[${i}]="-501507503"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_15_Yt_0d75_c2_m2_v2"
+    outtree[${i}]="ggHH_Lam_15_Yt_0d75_c2_m2_8TeV"
+    typ[${i}]="-501507512"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_15_Yt_0d75_c2_m3_v2"
+    outtree[${i}]="ggHH_Lam_15_Yt_0d75_c2_m3_8TeV"
+    typ[${i}]="-501507513"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_15_Yt_1d0_c2_2_v2"
+    outtree[${i}]="ggHH_Lam_15_Yt_1d0_c2_2_8TeV"
+    typ[${i}]="-501510002"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_15_Yt_1d0_c2_3_v2"
+    outtree[${i}]="ggHH_Lam_15_Yt_1d0_c2_3_8TeV"
+    typ[${i}]="-501510003"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_15_Yt_1d0_c2_m2_v2"
+    outtree[${i}]="ggHH_Lam_15_Yt_1d0_c2_m2_8TeV"
+    typ[${i}]="-501510012"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_15_Yt_1d0_c2_m3_v2"
+    outtree[${i}]="ggHH_Lam_15_Yt_1d0_c2_m3_8TeV"
+    typ[${i}]="-501510013"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_15_Yt_1d25_c2_2_v2"
+    outtree[${i}]="ggHH_Lam_15_Yt_1d25_c2_2_8TeV"
+    typ[${i}]="-501512502"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
     tree[${i}]="HH_bbaa_8TeV_Lam_15_Yt_1d25_c2_3_v2"
-    outtree[${i}]="ggHH_HLam_15_Yt_1d25_c2_3_8TeV"
+    outtree[${i}]="ggHH_Lam_15_Yt_1d25_c2_3_8TeV"
     typ[${i}]="-501512503"
     CS[${i}]="0"
 
     i=$((${i} + 1))
     infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_15_Yt_1d25_c2_m2_v2"
+    outtree[${i}]="ggHH_Lam_15_Yt_1d25_c2_m2_8TeV"
+    typ[${i}]="-501512512"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_15_Yt_1d25_c2_m3_v2"
+    outtree[${i}]="ggHH_Lam_15_Yt_1d25_c2_m3_8TeV"
+    typ[${i}]="-501512513"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_20_Yt_0d75_c2_2_v2"
+    outtree[${i}]="ggHH_Lam_20_Yt_0d75_c2_2_8TeV"
+    typ[${i}]="-502007502"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_20_Yt_0d75_c2_3_v2"
+    outtree[${i}]="ggHH_Lam_20_Yt_0d75_c2_3_8TeV"
+    typ[${i}]="-502007503"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_20_Yt_0d75_c2_m2_v2"
+    outtree[${i}]="ggHH_Lam_20_Yt_0d75_c2_m2_8TeV"
+    typ[${i}]="-502007512"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_20_Yt_0d75_c2_m3_v2"
+    outtree[${i}]="ggHH_Lam_20_Yt_0d75_c2_m3_8TeV"
+    typ[${i}]="-502007513"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_20_Yt_1d0_c2_2_v2"
+    outtree[${i}]="ggHH_Lam_20_Yt_1d0_c2_2_8TeV"
+    typ[${i}]="-502010002"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_20_Yt_1d0_c2_3_v2"
+    outtree[${i}]="ggHH_Lam_20_Yt_1d0_c2_3_8TeV"
+    typ[${i}]="-502010003"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_20_Yt_1d0_c2_m2_v2"
+    outtree[${i}]="ggHH_Lam_20_Yt_1d0_c2_m2_8TeV"
+    typ[${i}]="-502010012"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_20_Yt_1d0_c2_m3_v2"
+    outtree[${i}]="ggHH_Lam_20_Yt_1d0_c2_m3_8TeV"
+    typ[${i}]="-502010013"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_20_Yt_1d25_c2_2_v2"
+    outtree[${i}]="ggHH_Lam_20_Yt_1d25_c2_2_8TeV"
+    typ[${i}]="-502012502"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
     tree[${i}]="HH_bbaa_8TeV_Lam_20_Yt_1d25_c2_3_v2"
-    outtree[${i}]="ggHH_HLam_20_Yt_1d25_c2_3_8TeV"
+    outtree[${i}]="ggHH_Lam_20_Yt_1d25_c2_3_8TeV"
     typ[${i}]="-502012503"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_20_Yt_1d25_c2_m2_v2"
+    outtree[${i}]="ggHH_Lam_20_Yt_1d25_c2_m2_8TeV"
+    typ[${i}]="-502012512"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_20_Yt_1d25_c2_m3_v2"
+    outtree[${i}]="ggHH_Lam_20_Yt_1d25_c2_m3_8TeV"
+    typ[${i}]="-502012513"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_m10_Yt_0d75_c2_2_v2"
+    outtree[${i}]="ggHH_Lam_m10_Yt_0d75_c2_2_8TeV"
+    typ[${i}]="-511007502"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_m10_Yt_0d75_c2_3_v2"
+    outtree[${i}]="ggHH_Lam_m10_Yt_0d75_c2_3_8TeV"
+    typ[${i}]="-511007503"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_m10_Yt_0d75_c2_m2_v2"
+    outtree[${i}]="ggHH_Lam_m10_Yt_0d75_c2_m2_8TeV"
+    typ[${i}]="-511007512"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_m10_Yt_0d75_c2_m3_v2"
+    outtree[${i}]="ggHH_Lam_m10_Yt_0d75_c2_m3_8TeV"
+    typ[${i}]="-511007513"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_m10_Yt_1d0_c2_2_v2"
+    outtree[${i}]="ggHH_Lam_m10_Yt_1d0_c2_2_8TeV"
+    typ[${i}]="-511010002"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_m10_Yt_1d0_c2_3_v2"
+    outtree[${i}]="ggHH_Lam_m10_Yt_1d0_c2_3_8TeV"
+    typ[${i}]="-511010003"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_m10_Yt_1d0_c2_m2_v2"
+    outtree[${i}]="ggHH_Lam_m10_Yt_1d0_c2_m2_8TeV"
+    typ[${i}]="-511010012"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_m10_Yt_1d0_c2_m3_v2"
+    outtree[${i}]="ggHH_Lam_m10_Yt_1d0_c2_m3_8TeV"
+    typ[${i}]="-511010013"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_m10_Yt_1d25_c2_2_v2"
+    outtree[${i}]="ggHH_Lam_m10_Yt_1d25_c2_2_8TeV"
+    typ[${i}]="-511012502"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_m10_Yt_1d25_c2_3_v2"
+    outtree[${i}]="ggHH_Lam_m10_Yt_1d25_c2_3_8TeV"
+    typ[${i}]="-511012503"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_m10_Yt_1d25_c2_m2_v2"
+    outtree[${i}]="ggHH_Lam_m10_Yt_1d25_c2_m2_8TeV"
+    typ[${i}]="-511012512"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_m10_Yt_1d25_c2_m3_v2"
+    outtree[${i}]="ggHH_Lam_m10_Yt_1d25_c2_m3_8TeV"
+    typ[${i}]="-511012513"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_m15_Yt_0d75_c2_2_v2"
+    outtree[${i}]="ggHH_Lam_m15_Yt_0d75_c2_2_8TeV"
+    typ[${i}]="-511507502"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_m15_Yt_0d75_c2_3_v2"
+    outtree[${i}]="ggHH_Lam_m15_Yt_0d75_c2_3_8TeV"
+    typ[${i}]="-511507503"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_m15_Yt_0d75_c2_m2_v2"
+    outtree[${i}]="ggHH_Lam_m15_Yt_0d75_c2_m2_8TeV"
+    typ[${i}]="-511507512"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_m15_Yt_0d75_c2_m3_v2"
+    outtree[${i}]="ggHH_Lam_m15_Yt_0d75_c2_m3_8TeV"
+    typ[${i}]="-511507513"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_m15_Yt_1d0_c2_2_v2"
+    outtree[${i}]="ggHH_Lam_m15_Yt_1d0_c2_2_8TeV"
+    typ[${i}]="-511510002"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_m15_Yt_1d0_c2_3_v2"
+    outtree[${i}]="ggHH_Lam_m15_Yt_1d0_c2_3_8TeV"
+    typ[${i}]="-511510003"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_m15_Yt_1d0_c2_m2_v2"
+    outtree[${i}]="ggHH_Lam_m15_Yt_1d0_c2_m2_8TeV"
+    typ[${i}]="-511510012"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_m15_Yt_1d0_c2_m3_v2"
+    outtree[${i}]="ggHH_Lam_m15_Yt_1d0_c2_m3_8TeV"
+    typ[${i}]="-511510013"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_m15_Yt_1d25_c2_2_v2"
+    outtree[${i}]="ggHH_Lam_m15_Yt_1d25_c2_2_8TeV"
+    typ[${i}]="-511512502"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_m15_Yt_1d25_c2_3_v2"
+    outtree[${i}]="ggHH_Lam_m15_Yt_1d25_c2_3_8TeV"
+    typ[${i}]="-511512503"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_m15_Yt_1d25_c2_m2_v2"
+    outtree[${i}]="ggHH_Lam_m15_Yt_1d25_c2_m2_8TeV"
+    typ[${i}]="-511512512"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_m15_Yt_1d25_c2_m3_v2"
+    outtree[${i}]="ggHH_Lam_m15_Yt_1d25_c2_m3_8TeV"
+    typ[${i}]="-511512513"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_m20_Yt_0d75_c2_2_v2"
+    outtree[${i}]="ggHH_Lam_m20_Yt_0d75_c2_2_8TeV"
+    typ[${i}]="-512007502"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_m20_Yt_0d75_c2_3_v2"
+    outtree[${i}]="ggHH_Lam_m20_Yt_0d75_c2_3_8TeV"
+    typ[${i}]="-512007503"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_m20_Yt_0d75_c2_m2_v2"
+    outtree[${i}]="ggHH_Lam_m20_Yt_0d75_c2_m2_8TeV"
+    typ[${i}]="-512007512"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_m20_Yt_0d75_c2_m3_v2"
+    outtree[${i}]="ggHH_Lam_m20_Yt_0d75_c2_m3_8TeV"
+    typ[${i}]="-512007513"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_m20_Yt_1d0_c2_2_v2"
+    outtree[${i}]="ggHH_Lam_m20_Yt_1d0_c2_2_8TeV"
+    typ[${i}]="-512010002"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_m20_Yt_1d0_c2_3_v2"
+    outtree[${i}]="ggHH_Lam_m20_Yt_1d0_c2_3_8TeV"
+    typ[${i}]="-512010003"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_m20_Yt_1d0_c2_m2_v2"
+    outtree[${i}]="ggHH_Lam_m20_Yt_1d0_c2_m2_8TeV"
+    typ[${i}]="-512010012"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_m20_Yt_1d0_c2_m3_v2"
+    outtree[${i}]="ggHH_Lam_m20_Yt_1d0_c2_m3_8TeV"
+    typ[${i}]="-512010013"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_m20_Yt_1d25_c2_2_v2"
+    outtree[${i}]="ggHH_Lam_m20_Yt_1d25_c2_2_8TeV"
+    typ[${i}]="-512012502"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_m20_Yt_1d25_c2_3_v2"
+    outtree[${i}]="ggHH_Lam_m20_Yt_1d25_c2_3_8TeV"
+    typ[${i}]="-512012503"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_m20_Yt_1d25_c2_m2_v2"
+    outtree[${i}]="ggHH_Lam_m20_Yt_1d25_c2_m2_8TeV"
+    typ[${i}]="-512012512"
+    CS[${i}]="0"
+
+    i=$((${i} + 1))
+    infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_C2.root"
+    tree[${i}]="HH_bbaa_8TeV_Lam_m20_Yt_1d25_c2_m3_v2"
+    outtree[${i}]="ggHH_Lam_m20_Yt_1d25_c2_m3_8TeV"
+    typ[${i}]="-512012513"
     CS[${i}]="0"
 fi
 
