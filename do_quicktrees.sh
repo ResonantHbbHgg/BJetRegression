@@ -4,8 +4,8 @@ version="v35"
 today=`date +"0%Y-%m-%d"`
 #set -x
 
-inputversion="v17"
-inputfolder="/afs/cern.ch/work/o/obondu/public/forRadion/plotTrees/v17/2014-10-21_selection_noRegression_noMassCut_${inputversion}/"
+inputversion="v19"
+inputfolder="/afs/cern.ch/work/o/obondu/public/forRadion/plotTrees/v19/2014-10-28_selection_noRegression_noMassCut_${inputversion}/"
 inputfolderReg="/afs/cern.ch/user/h/hebda/public/forRadion/2014-10-24_selection_withRegression_noMassCut_v17"
 
 # IMPORTANT NOTES:
@@ -21,6 +21,7 @@ doResonantHighMass=0
 # WHICH SAMPLES TO PROCESS (default is also running dataCS and diphoton-sherpa, minimum is data + signal)
 doTheStrictMinimum=1
 doAnomalousHHScenario1=1
+doAnomalousHHScenario2=0
 
 
 # OTHER GLOBAL SETTINGS, IN MOST USE CASE YOU SHOULD NOT TOUCH THIS
@@ -264,6 +265,11 @@ if [ ${doNonResonant} == 1 ]
             then
                 samplelist="${samplelist} ggHH_Lam_0d0_Yt_0d75_c2_0d0_8TeV ggHH_Lam_0d0_Yt_1d0_c2_0d0_8TeV ggHH_Lam_0d0_Yt_1d25_c2_0d0_8TeV ggHH_Lam_10_Yt_0d75_c2_0d0_8TeV ggHH_Lam_10_Yt_1d0_c2_0d0_8TeV ggHH_Lam_10_Yt_1d25_c2_0d0_8TeV ggHH_Lam_15_Yt_0d75_c2_0d0_8TeV ggHH_Lam_15_Yt_1d0_c2_0d0_8TeV ggHH_Lam_15_Yt_1d25_c2_0d0_8TeV ggHH_Lam_1d0_Yt_1d0_c2_0d0_8TeV ggHH_Lam_20_Yt_0d75_c2_0d0_8TeV ggHH_Lam_20_Yt_1d0_c2_0d0_8TeV ggHH_Lam_20_Yt_1d25_c2_0d0_8TeV ggHH_Lam_2_Yt_1d0_c2_0d0_8TeV ggHH_Lam_m10_Yt_0d75_c2_0d0_8TeV ggHH_Lam_m10_Yt_1d0_c2_0d0_8TeV ggHH_Lam_m10_Yt_1d25_c2_0d0_8TeV ggHH_Lam_m15_Yt_0d75_c2_0d0_8TeV ggHH_Lam_m15_Yt_1d0_c2_0d0_8TeV ggHH_Lam_m15_Yt_1d25_c2_0d0_8TeV ggHH_Lam_m20_Yt_0d75_c2_0d0_8TeV ggHH_Lam_m20_Yt_1d0_c2_0d0_8TeV ggHH_Lam_m20_Yt_1d25_c2_0d0_8TeV"
             fi
+            if [ ${doAnomalousHHScenario2} == 1 ]
+            then
+                samplelist="${samplelist} ggHH_Lam_0d0_Yt_0d75_c2_2_8TeV  ggHH_Lam_0d0_Yt_0d75_c2_3_8TeV ggHH_Lam_0d0_Yt_0d75_c2_m2_8TeV ggHH_Lam_0d0_Yt_0d75_c2_m3_8TeV ggHH_Lam_0d0_Yt_1d0_c2_2_8TeV ggHH_Lam_0d0_Yt_1d0_c2_3_8TeV ggHH_Lam_0d0_Yt_1d0_c2_m2_8TeV ggHH_Lam_0d0_Yt_1d0_c2_m3_8TeV ggHH_Lam_10_Yt_0d75_c2_2_8TeV ggHH_Lam_10_Yt_0d75_c2_m2_8TeV ggHH_Lam_10_Yt_0d75_c2_m3_8TeV ggHH_Lam_10_Yt_1d0_c2_2_8TeV ggHH_Lam_10_Yt_1d0_c2_3_8TeV ggHH_Lam_10_Yt_1d0_c2_m2_8TeV ggHH_Lam_10_Yt_1d25_c2_2_8TeV ggHH_Lam_10_Yt_1d25_c2_3_8TeV ggHH_Lam_10_Yt_1d25_c2_m2_8TeV ggHH_Lam_10_Yt_1d25_c2_m3_8TeV ggHH_Lam_15_Yt_0d75_c2_2_8TeV ggHH_Lam_15_Yt_0d75_c2_3_8TeV ggHH_Lam_15_Yt_0d75_c2_m2_8TeV ggHH_Lam_15_Yt_0d75_c2_m3_8TeV ggHH_Lam_15_Yt_1d0_c2_2_8TeV ggHH_Lam_15_Yt_1d0_c2_3_8TeV ggHH_Lam_15_Yt_1d0_c2_m2_8TeV ggHH_Lam_15_Yt_1d0_c2_m3_8TeV ggHH_Lam_15_Yt_1d25_c2_2_8TeV ggHH_Lam_15_Yt_1d25_c2_3_8TeV ggHH_Lam_15_Yt_1d25_c2_m2_8TeV ggHH_Lam_15_Yt_1d25_c2_m3_8TeV ggHH_Lam_20_Yt_0d75_c2_2_8TeV ggHH_Lam_20_Yt_0d75_c2_3_8TeV ggHH_Lam_20_Yt_0d75_c2_m2_8TeV ggHH_Lam_20_Yt_0d75_c2_m3_8TeV ggHH_Lam_20_Yt_1d0_c2_3_8TeV ggHH_Lam_20_Yt_1d0_c2_m2_8TeV ggHH_Lam_20_Yt_1d0_c2_m3_8TeV ggHH_Lam_20_Yt_1d25_c2_2_8TeV ggHH_Lam_20_Yt_1d25_c2_3_8TeV ggHH_Lam_20_Yt_1d25_c2_m2_8TeV ggHH_Lam_m10_Yt_0d75_c2_2_8TeV ggHH_Lam_m10_Yt_0d75_c2_3_8TeV ggHH_Lam_m10_Yt_0d75_c2_m2_8TeV ggHH_Lam_m10_Yt_0d75_c2_m3_8TeV ggHH_Lam_m10_Yt_1d0_c2_2_8TeV ggHH_Lam_m10_Yt_1d0_c2_3_8TeV ggHH_Lam_m10_Yt_1d0_c2_m2_8TeV ggHH_Lam_m10_Yt_1d0_c2_m3_8TeV ggHH_Lam_m10_Yt_1d25_c2_2_8TeV ggHH_Lam_m10_Yt_1d25_c2_3_8TeV ggHH_Lam_m10_Yt_1d25_c2_m2_8TeV ggHH_Lam_m10_Yt_1d25_c2_m3_8TeV ggHH_Lam_m15_Yt_0d75_c2_2_8TeV ggHH_Lam_m15_Yt_0d75_c2_3_8TeV ggHH_Lam_m15_Yt_0d75_c2_m2_8TeV ggHH_Lam_m15_Yt_0d75_c2_m3_8TeV ggHH_Lam_m15_Yt_1d0_c2_2_8TeV ggHH_Lam_m15_Yt_1d0_c2_3_8TeV ggHH_Lam_m15_Yt_1d0_c2_m2_8TeV ggHH_Lam_m15_Yt_1d0_c2_m3_8TeV ggHH_Lam_m15_Yt_1d25_c2_2_8TeV ggHH_Lam_m15_Yt_1d25_c2_3_8TeV ggHH_Lam_m15_Yt_1d25_c2_m2_8TeV ggHH_Lam_m15_Yt_1d25_c2_m3_8TeV ggHH_Lam_m20_Yt_0d75_c2_2_8TeV ggHH_Lam_m20_Yt_0d75_c2_m2_8TeV ggHH_Lam_m20_Yt_0d75_c2_m3_8TeV ggHH_Lam_m20_Yt_1d0_c2_2_8TeV ggHH_Lam_m20_Yt_1d0_c2_3_8TeV ggHH_Lam_m20_Yt_1d0_c2_m2_8TeV ggHH_Lam_m20_Yt_1d0_c2_m3_8TeV ggHH_Lam_m20_Yt_1d25_c2_2_8TeV ggHH_Lam_m20_Yt_1d25_c2_3_8TeV ggHH_Lam_m20_Yt_1d25_c2_m2_8TeV ggHH_Lam_m20_Yt_1d25_c2_m3_8TeV"
+            fi
+
             for sample in `echo "${samplelist}"`
             do
                 mass=0
