@@ -19,16 +19,16 @@ doResonantLowMass=0
 doResonantLowMassWithReg=0
 doResonantHighMass=0
 # WHICH SAMPLES TO PROCESS (default is also running dataCS and diphoton-sherpa, minimum is data + signal)
-doTheStrictMinimum=0
+doTheStrictMinimum=1
 doAnomalousHHScenario1=0
-doAnomalousHHScenario2=0
+doAnomalousHHScenario2=1
 
 
 # OTHER GLOBAL SETTINGS, IN MOST USE CASE YOU SHOULD NOT TOUCH THIS
 cutLevel=0
 massCutVersion=4 # From Summer 14 cut update
 controlSampleWeights="scales_2D_pt_data_4GeVbinning.root"
-applyFTR14001=1
+applyFTR14001=0
 
 # INITIALIZATION OF THE PROCESSING LIST
 i=-1
@@ -263,10 +263,18 @@ if [ ${doNonResonant} == 1 ]
             fi
             if [ ${doAnomalousHHScenario1} == 1 ]
             then
+                if [ ${doTheStrictMinimum} == 1 ]
+                then
+                    samplelist=""
+                fi
                 samplelist="${samplelist} ggHH_Lam_0d0_Yt_0d75_c2_0d0_8TeV ggHH_Lam_0d0_Yt_1d0_c2_0d0_8TeV ggHH_Lam_0d0_Yt_1d25_c2_0d0_8TeV ggHH_Lam_10_Yt_0d75_c2_0d0_8TeV ggHH_Lam_10_Yt_1d0_c2_0d0_8TeV ggHH_Lam_10_Yt_1d25_c2_0d0_8TeV ggHH_Lam_15_Yt_0d75_c2_0d0_8TeV ggHH_Lam_15_Yt_1d0_c2_0d0_8TeV ggHH_Lam_15_Yt_1d25_c2_0d0_8TeV ggHH_Lam_1d0_Yt_1d0_c2_0d0_8TeV ggHH_Lam_20_Yt_0d75_c2_0d0_8TeV ggHH_Lam_20_Yt_1d0_c2_0d0_8TeV ggHH_Lam_20_Yt_1d25_c2_0d0_8TeV ggHH_Lam_2_Yt_1d0_c2_0d0_8TeV ggHH_Lam_m10_Yt_0d75_c2_0d0_8TeV ggHH_Lam_m10_Yt_1d0_c2_0d0_8TeV ggHH_Lam_m10_Yt_1d25_c2_0d0_8TeV ggHH_Lam_m15_Yt_0d75_c2_0d0_8TeV ggHH_Lam_m15_Yt_1d0_c2_0d0_8TeV ggHH_Lam_m15_Yt_1d25_c2_0d0_8TeV ggHH_Lam_m20_Yt_0d75_c2_0d0_8TeV ggHH_Lam_m20_Yt_1d0_c2_0d0_8TeV ggHH_Lam_m20_Yt_1d25_c2_0d0_8TeV"
             fi
             if [ ${doAnomalousHHScenario2} == 1 ]
             then
+                if [ ${doTheStrictMinimum} == 1 ]
+                then
+                    samplelist=""
+                fi
                 samplelist="${samplelist} ggHH_Lam_0d0_Yt_0d75_c2_2_8TeV  ggHH_Lam_0d0_Yt_0d75_c2_3_8TeV ggHH_Lam_0d0_Yt_0d75_c2_m2_8TeV ggHH_Lam_0d0_Yt_0d75_c2_m3_8TeV ggHH_Lam_0d0_Yt_1d0_c2_2_8TeV ggHH_Lam_0d0_Yt_1d0_c2_3_8TeV ggHH_Lam_0d0_Yt_1d0_c2_m2_8TeV ggHH_Lam_0d0_Yt_1d0_c2_m3_8TeV ggHH_Lam_10_Yt_0d75_c2_2_8TeV ggHH_Lam_10_Yt_0d75_c2_m2_8TeV ggHH_Lam_10_Yt_0d75_c2_m3_8TeV ggHH_Lam_10_Yt_1d0_c2_2_8TeV ggHH_Lam_10_Yt_1d0_c2_3_8TeV ggHH_Lam_10_Yt_1d0_c2_m2_8TeV ggHH_Lam_10_Yt_1d25_c2_2_8TeV ggHH_Lam_10_Yt_1d25_c2_3_8TeV ggHH_Lam_10_Yt_1d25_c2_m2_8TeV ggHH_Lam_10_Yt_1d25_c2_m3_8TeV ggHH_Lam_15_Yt_0d75_c2_2_8TeV ggHH_Lam_15_Yt_0d75_c2_3_8TeV ggHH_Lam_15_Yt_0d75_c2_m2_8TeV ggHH_Lam_15_Yt_0d75_c2_m3_8TeV ggHH_Lam_15_Yt_1d0_c2_2_8TeV ggHH_Lam_15_Yt_1d0_c2_3_8TeV ggHH_Lam_15_Yt_1d0_c2_m2_8TeV ggHH_Lam_15_Yt_1d0_c2_m3_8TeV ggHH_Lam_15_Yt_1d25_c2_2_8TeV ggHH_Lam_15_Yt_1d25_c2_3_8TeV ggHH_Lam_15_Yt_1d25_c2_m2_8TeV ggHH_Lam_15_Yt_1d25_c2_m3_8TeV ggHH_Lam_20_Yt_0d75_c2_2_8TeV ggHH_Lam_20_Yt_0d75_c2_3_8TeV ggHH_Lam_20_Yt_0d75_c2_m2_8TeV ggHH_Lam_20_Yt_0d75_c2_m3_8TeV ggHH_Lam_20_Yt_1d0_c2_3_8TeV ggHH_Lam_20_Yt_1d0_c2_m2_8TeV ggHH_Lam_20_Yt_1d0_c2_m3_8TeV ggHH_Lam_20_Yt_1d25_c2_2_8TeV ggHH_Lam_20_Yt_1d25_c2_3_8TeV ggHH_Lam_20_Yt_1d25_c2_m2_8TeV ggHH_Lam_m10_Yt_0d75_c2_2_8TeV ggHH_Lam_m10_Yt_0d75_c2_3_8TeV ggHH_Lam_m10_Yt_0d75_c2_m2_8TeV ggHH_Lam_m10_Yt_0d75_c2_m3_8TeV ggHH_Lam_m10_Yt_1d0_c2_2_8TeV ggHH_Lam_m10_Yt_1d0_c2_3_8TeV ggHH_Lam_m10_Yt_1d0_c2_m2_8TeV ggHH_Lam_m10_Yt_1d0_c2_m3_8TeV ggHH_Lam_m10_Yt_1d25_c2_2_8TeV ggHH_Lam_m10_Yt_1d25_c2_3_8TeV ggHH_Lam_m10_Yt_1d25_c2_m2_8TeV ggHH_Lam_m10_Yt_1d25_c2_m3_8TeV ggHH_Lam_m15_Yt_0d75_c2_2_8TeV ggHH_Lam_m15_Yt_0d75_c2_3_8TeV ggHH_Lam_m15_Yt_0d75_c2_m2_8TeV ggHH_Lam_m15_Yt_0d75_c2_m3_8TeV ggHH_Lam_m15_Yt_1d0_c2_2_8TeV ggHH_Lam_m15_Yt_1d0_c2_3_8TeV ggHH_Lam_m15_Yt_1d0_c2_m2_8TeV ggHH_Lam_m15_Yt_1d0_c2_m3_8TeV ggHH_Lam_m15_Yt_1d25_c2_2_8TeV ggHH_Lam_m15_Yt_1d25_c2_3_8TeV ggHH_Lam_m15_Yt_1d25_c2_m2_8TeV ggHH_Lam_m15_Yt_1d25_c2_m3_8TeV ggHH_Lam_m20_Yt_0d75_c2_2_8TeV ggHH_Lam_m20_Yt_0d75_c2_m2_8TeV ggHH_Lam_m20_Yt_0d75_c2_m3_8TeV ggHH_Lam_m20_Yt_1d0_c2_2_8TeV ggHH_Lam_m20_Yt_1d0_c2_3_8TeV ggHH_Lam_m20_Yt_1d0_c2_m2_8TeV ggHH_Lam_m20_Yt_1d0_c2_m3_8TeV ggHH_Lam_m20_Yt_1d25_c2_2_8TeV ggHH_Lam_m20_Yt_1d25_c2_3_8TeV ggHH_Lam_m20_Yt_1d25_c2_m2_8TeV ggHH_Lam_m20_Yt_1d25_c2_m3_8TeV"
             fi
 
