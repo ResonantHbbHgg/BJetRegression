@@ -524,7 +524,7 @@ int main(int argc, char *argv[])
 		      }
 		  }
 		//apply a different mtot cut for resonant search, same mtot cut as 1D analysis
-		else if( applyMtotCut )
+		else if( (mass > 0) && applyMtotCut )
 		  { // From Francois' optimization (July 24: https://indico.cern.ch/event/327578/session/9/contribution/26/material/slides/0.pdf)
 		    if( mass == 260 && (t.mtot < 250. || t.mtot > 270.) ) continue;
 		    if( mass == 270 && (t.mtot < 260. || t.mtot > 280.) ) continue;
