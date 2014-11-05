@@ -488,8 +488,8 @@ int main(int argc, char *argv[])
             {// From Fabricio's optimization (Aug. 15) https://indico.cern.ch/event/335221/contribution/1/material/slides/0.pdf
              // Probable swap of 1btag and 2btag
              // Unclear features in the full table (slide 16): would need to redo the study
-	     // From the same presentation, it notes a window of (122,128) in mgg. A reference on this would be good.
-                if( applyMggCut && (t.mgg < 120. || t.mgg > 130.) ) continue;
+	     // From the same presentation, it notes a window of (122,128) in mgg. We might need to revert to (120,130) if limits degrade.
+                if( applyMggCut && (t.mgg < 122. || t.mgg > 128.) ) continue;
                 if( t.njets_kRadionID_and_CSVM>=2 )
                 {
                     if( applyMjjCut && (t.mjj_wokinfit < 95. || t.mjj_wokinfit > 150.) ) continue;
