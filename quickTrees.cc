@@ -485,57 +485,68 @@ int main(int argc, char *argv[])
                 if( applyMjjCut && (t.mjj_wokinfit < 90. || t.mjj_wokinfit > 165.) ) continue;
             }
             if( massCutVersion == 4)
-            {// From Fabricio's optimization (Aug. 15) https://indico.cern.ch/event/335221/contribution/1/material/slides/0.pdf
-             // Probable swap of 1btag and 2btag
+            {
+             // From Fabricio's optimization (Aug. 15) https://indico.cern.ch/event/335221/contribution/1/material/slides/0.pdf
+             // Probable swap of 1btag and 2btag ?
              // Unclear features in the full table (slide 16): would need to redo the study
-	     // From the same presentation, it notes a window of (122,128) in mgg. We might need to revert to (120,130) if limits degrade.
-                if( applyMggCut && (t.mgg < 122. || t.mgg > 128.) ) continue;
+             // From the same presentation, it notes a window of (122,128) in mgg. We might need to revert to (120,130) if limits degrade.
+             // Nov. 6th: given the expected low yield in cat0 decide to go with PAS cuts for cat0 + Fabricio optim for cat 1
                 if( t.njets_kRadionID_and_CSVM>=2 )
                 {
-                    if( applyMjjCut && (t.mjj_wokinfit < 95. || t.mjj_wokinfit > 150.) ) continue;
+                    // Fabricio's cuts
+                    // if( applyMggCut && (t.mgg < 122. || t.mgg > 128.) ) continue;
+                    // if( applyMjjCut && (t.mjj_wokinfit < 95. || t.mjj_wokinfit > 150.) ) continue;
+                    // PAS cuts
+                    if( applyMggCut && (t.mgg < 120. || t.mgg > 130.) ) continue;
+                    if( applyMjjCut && (t.mjj_wokinfit < 90. || t.mjj_wokinfit > 165.) ) continue;
                 }
                 else if ( t.njets_kRadionID_and_CSVM==1 )
                 {
+                    // Fabricio's cuts
+                    if( applyMggCut && (t.mgg < 122. || t.mgg > 128.) ) continue;
                     if( applyMjjCut && (t.mjj_wokinfit < 85. || t.mjj_wokinfit > 170.) ) continue;
+                    // PAS cuts
+                    // if( applyMggCut && (t.mgg < 120. || t.mgg > 130.) ) continue;
+                    // if( applyMjjCut && (t.mjj_wokinfit < 90. || t.mjj_wokinfit > 165.) ) continue;
                 }
             }
         }
 
 // 2D-FITTING OF BOTH MGG AND MJJ
         if( strcmp("2D", fitStrategy.c_str()) == 0 )
-	  {
+      {
             if( massCutVersion == 4)
             { // Cuts from Phil studies, these cuts are not documented yet but see the following for some comparisons:
               // (Sept. 4) https://indico.cern.ch/event/333573/session/14/contribution/18/material/slides/0.pdf)
                 if( applyMggCut && (t.mgg < 100. || t.mgg > 180.) ) continue;
                 if( applyMjjCut && (t.mjj_wokinfit < 60. || t.mjj_wokinfit > 180.) ) continue;
-		//These cuts were taken from Badder's 1D optimization. Should be revisited for 2D extraction?
-		if( mass == 0)
-		  {
-		    if( t.njets_kRadionID_and_CSVM>=2 )
-		      {
-			if( (cutLevel >= 0 && applyMtotCut) && (t.mtot < 350.) ) continue;
-			if( (cutLevel >= 0) && (fabs(t.costhetastar_CS) > .75) ) continue;
-		      }
-		    else if( t.njets_kRadionID_and_CSVM==1 )
-		      {
-			if( (cutLevel >= 0 && applyMtotCut) && (t.mtot < 365.) ) continue;
-			if( (cutLevel >= 0) && (fabs(t.costhetastar_CS) >  .6) ) continue;
-		      }
-		  }
-		//apply a different mtot cut for resonant search, same mtot cut as 1D analysis
-		else if( (mass > 0) && applyMtotCut )
-		  { // From Francois' optimization (July 24: https://indico.cern.ch/event/327578/session/9/contribution/26/material/slides/0.pdf)
-		    if( mass == 260 && (t.mtot < 250. || t.mtot > 270.) ) continue;
-		    if( mass == 270 && (t.mtot < 260. || t.mtot > 280.) ) continue;
-		    if( mass == 300 && (t.mtot < 290. || t.mtot > 310.) ) continue;
-		    if( mass == 350 && (t.mtot < 330. || t.mtot > 375.) ) continue;
-		    if( mass == 400 && (t.mtot < 380. || t.mtot > 435.) ) continue;
-		    if( mass == 450 && (t.mtot < 430. || t.mtot > 485.) ) continue;
-		    if( mass == 500 && (t.mtot < 480. || t.mtot > 535.) ) continue;
-		  }
-	    }
-	  }
+        //These cuts were taken from Badder's 1D optimization. Should be revisited for 2D extraction?
+        if( mass == 0)
+          {
+            if( t.njets_kRadionID_and_CSVM>=2 )
+              {
+            if( (cutLevel >= 0 && applyMtotCut) && (t.mtot < 350.) ) continue;
+            if( (cutLevel >= 0) && (fabs(t.costhetastar_CS) > .75) ) continue;
+              }
+            else if( t.njets_kRadionID_and_CSVM==1 )
+              {
+            if( (cutLevel >= 0 && applyMtotCut) && (t.mtot < 365.) ) continue;
+            if( (cutLevel >= 0) && (fabs(t.costhetastar_CS) >  .6) ) continue;
+              }
+          }
+        //apply a different mtot cut for resonant search, same mtot cut as 1D analysis
+        else if( (mass > 0) && applyMtotCut )
+          { // From Francois' optimization (July 24: https://indico.cern.ch/event/327578/session/9/contribution/26/material/slides/0.pdf)
+            if( mass == 260 && (t.mtot < 250. || t.mtot > 270.) ) continue;
+            if( mass == 270 && (t.mtot < 260. || t.mtot > 280.) ) continue;
+            if( mass == 300 && (t.mtot < 290. || t.mtot > 310.) ) continue;
+            if( mass == 350 && (t.mtot < 330. || t.mtot > 375.) ) continue;
+            if( mass == 400 && (t.mtot < 380. || t.mtot > 435.) ) continue;
+            if( mass == 450 && (t.mtot < 430. || t.mtot > 485.) ) continue;
+            if( mass == 500 && (t.mtot < 480. || t.mtot > 535.) ) continue;
+          }
+        }
+      }
         if( strcmp("FTR14001", fitStrategy.c_str()) == 0 )
         { // From future studies analysis FTR-13-001 upgraded into FTR-14-001. The non-resonant HbbHgg documentation is in AN 2014/218: 
           // http://cms.cern.ch/iCMS/jsp/db_notes/noteInfo.jsp?cmsnoteid=CMS%20AN-2014/218
