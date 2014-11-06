@@ -418,21 +418,6 @@ int main(int argc, char *argv[])
                 {
                     // Regression case: everything comes from Phil
                     // From Phil's optimization (Sept. 4) https://indico.cern.ch/event/333573/session/14/contribution/18/material/slides/0.pdf
-//                    // Non-resonant case - NOT supposed to happen as of now
-//                    if( mass == 0 )
-//                    {
-//                        if( t.njets_kRadionID_and_CSVM>=2 )
-//                        {
-//                            if( applyMjjCut && (t.mjj_wokinfit < 110. || t.mjj_wokinfit > 145.) ) continue;
-//                            if( applyMtotCut && (t.mtot < 350.) ) continue; // not yet reoptimized
-//                        }
-//                        else if( t.njets_kRadionID_and_CSVM==1 )
-//                        {
-//                            if( applyMjjCut && (t.mjj_wokinfit < 105. || t.mjj_wokinfit > 150.) ) continue;
-//                            if( applyMtotCut && (t.mtot < 365.) ) continue; // not yet reoptimized
-//                        }
-//                    }
-//                    else
                     // Resonant case @ low mass
                     if( mass > 0)
                     {
