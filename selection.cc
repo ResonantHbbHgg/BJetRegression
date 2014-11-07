@@ -473,7 +473,7 @@ int main(int argc, char *argv[])
                 t.jet_regPt = t.jet_pt; // no regression applied
             else if(numberOfRegressionFiles == 1)
                 t.jet_regPt = (float)(readerRegres->EvaluateRegression("BDTG")[0]);
-            t.jet_regkinPt = t.jet_regPt;
+            t.jet_regkinPt = t.jet_pt; // kinfit is applied on non-regressed jet 4-momenta
             // jet selection
             // ** acceptance + pu id **
             if( (!FTR14001_style) ? (t.jet_regPt < 25.) : (t.jet_regPt < 30.) ) continue;
@@ -578,8 +578,6 @@ int main(int argc, char *argv[])
         int ij2 = 0;
         int ij1Reg = 0;
         int ij2Reg = 0;
-        int ij1RegKin = 0;
-        int ij2RegKin = 0;
  
         if(DEBUG) cout << "btaggedJet.size()= " << btaggedJet.size() << endl;
         if(DEBUG)
@@ -592,28 +590,22 @@ int main(int argc, char *argv[])
             t.category = 0;
             unsigned int ij = 0;
 //            if(DEBUG) cout << "btaggedJet[0]= " << btaggedJet[0] << endl;
-            TLorentzVector j, jreg, jregkin;
+            TLorentzVector j, jreg;
             j.SetPtEtaPhiE(J.jetPt[ij], J.jetEta[ij], J.jetPhi[ij], J.jetE[ij]);
             jreg = ((float)J.jetRegPt[ij]/(float)J.jetPt[ij]) * j;
-            jregkin = ((float)J.jetRegKinPt[ij]/(float)J.jetPt[ij]) * j;
             int imaxptjj;
             int imaxptjjReg;
-            int imaxptjjRegKin;
             float maxptjj = -99.;
             float maxptjjReg = -99.;
-            float maxptjjRegKin = -99.;
             for(unsigned int ijet = 0 ; ijet < J.jetPt.size() ; ijet++)
             {
                 if( ijet == ij ) continue;
                 TLorentzVector tmp_j;
                 TLorentzVector tmp_jReg;
-                TLorentzVector tmp_jRegKin;
                 tmp_j.SetPtEtaPhiE(J.jetPt[ijet], J.jetEta[ijet], J.jetPhi[ijet], J.jetE[ijet]);
                 tmp_jReg = ((float)J.jetRegPt[ijet]/(float)J.jetPt[ijet]) * tmp_j;
-                tmp_jRegKin = ((float)J.jetRegKinPt[ijet]/(float)J.jetPt[ijet]) * tmp_j;
                 TLorentzVector jj = j + tmp_j;
                 TLorentzVector jjReg = jreg + tmp_jReg;
-                TLorentzVector jjRegKin = jregkin + tmp_jRegKin;
                 if( jj.Pt() > maxptjj )
                 {
                     maxptjj = jj.Pt();
@@ -624,18 +616,11 @@ int main(int argc, char *argv[])
                     maxptjjReg = jjReg.Pt();
                     imaxptjjReg = ijet; 
                 }
-                if( jjRegKin.Pt() > maxptjjRegKin )
-                {
-                    maxptjjRegKin = jjRegKin.Pt();
-                    imaxptjjRegKin = ijet; 
-                }
             }
             ij1 = ij;
             ij2 = imaxptjj;
             ij1Reg = ij;
             ij2Reg = imaxptjjReg;
-            ij1RegKin = ij;
-            ij2RegKin = imaxptjjRegKin;
         }
         if( btaggedJet.size() == 1 )
         {
@@ -643,28 +628,22 @@ int main(int argc, char *argv[])
             t.category = 1;
             unsigned int ij = btaggedJet[0];
             if(DEBUG) cout << "btaggedJet[0]= " << btaggedJet[0] << endl;
-            TLorentzVector j, jreg, jregkin;
+            TLorentzVector j, jreg;
             j.SetPtEtaPhiE(J.jetPt[ij], J.jetEta[ij], J.jetPhi[ij], J.jetE[ij]);
             jreg = ((float)J.jetRegPt[ij]/(float)J.jetPt[ij]) * j;
-            jregkin = ((float)J.jetRegKinPt[ij]/(float)J.jetPt[ij]) * j;
             int imaxptjj;
             int imaxptjjReg;
-            int imaxptjjRegKin;
             float maxptjj = -99.;
             float maxptjjReg = -99.;
-            float maxptjjRegKin = -99.;
             for(unsigned int ijet = 0 ; ijet < J.jetPt.size() ; ijet++)
             {
                 if( ijet == ij ) continue;
                 TLorentzVector tmp_j;
                 TLorentzVector tmp_jReg;
-                TLorentzVector tmp_jRegKin;
                 tmp_j.SetPtEtaPhiE(J.jetPt[ijet], J.jetEta[ijet], J.jetPhi[ijet], J.jetE[ijet]);
                 tmp_jReg = ((float)J.jetRegPt[ijet]/(float)J.jetPt[ijet]) * tmp_j;
-                tmp_jRegKin = ((float)J.jetRegKinPt[ijet]/(float)J.jetPt[ijet]) * tmp_j;
                 TLorentzVector jj = j + tmp_j;
                 TLorentzVector jjReg = jreg + tmp_jReg;
-                TLorentzVector jjRegKin = jregkin + tmp_jRegKin;
                 if( jj.Pt() > maxptjj )
                 {
                     maxptjj = jj.Pt();
@@ -675,18 +654,11 @@ int main(int argc, char *argv[])
                     maxptjjReg = jjReg.Pt();
                     imaxptjjReg = ijet; 
                 }
-                if( jjRegKin.Pt() > maxptjjRegKin )
-                {
-                    maxptjjRegKin = jjRegKin.Pt();
-                    imaxptjjRegKin = ijet; 
-                }
             }
             ij1 = ij;
             ij2 = imaxptjj;
             ij1Reg = ij;
             ij2Reg = imaxptjjReg;
-            ij1RegKin = ij;
-            ij2RegKin = imaxptjjRegKin;
         }
         // if two or more bjets, then loop only over btagged jets
         if( btaggedJet.size() > 1 )
@@ -696,13 +668,10 @@ int main(int argc, char *argv[])
             int ij;
             int imaxptjj = 0;
             int imaxptjjReg = 0;
-            int imaxptjjRegKin = 0;
             int jmaxptjj = 0;
             int jmaxptjjReg = 0;
-            int jmaxptjjRegKin = 0;
             float maxptjj = -99.;
             float maxptjjReg = -99.;
-            float maxptjjRegKin = -99.;
             for( unsigned int i = 0 ; i < btaggedJet.size() - 1 ; i++ )
             {
                 ij = btaggedJet[i];
@@ -710,19 +679,15 @@ int main(int argc, char *argv[])
                 TLorentzVector j, jreg, jregkin;
                 j.SetPtEtaPhiE(J.jetPt[ij], J.jetEta[ij], J.jetPhi[ij], J.jetE[ij]);
                 jreg = ((float)J.jetRegPt[ij]/(float)J.jetPt[ij]) * j;
-                jregkin = ((float)J.jetRegKinPt[ij]/(float)J.jetPt[ij]) * j;
                 for(unsigned int k = i+1 ; k < btaggedJet.size() ; k++)
                 {
                     int ijet = btaggedJet[k];
                     TLorentzVector tmp_j;
                     TLorentzVector tmp_jReg;
-                    TLorentzVector tmp_jRegKin;
                     tmp_j.SetPtEtaPhiE(J.jetPt[ijet], J.jetEta[ijet], J.jetPhi[ijet], J.jetE[ijet]);
                     tmp_jReg = ((float)J.jetRegPt[ijet]/(float)J.jetPt[ijet]) * tmp_j;
-                    tmp_jRegKin = ((float)J.jetRegKinPt[ijet]/(float)J.jetPt[ijet]) * tmp_j;
                     TLorentzVector jj = j + tmp_j;
                     TLorentzVector jjReg = jreg + tmp_jReg;
-                    TLorentzVector jjRegKin = jregkin + tmp_jRegKin;
                     if(DEBUG) cout << "btaggedJet[" << k << "]= " << btaggedJet[k] << "\tjetPt[" << ijet << "]= " << J.jetPt[ijet] << "\tjj.Pt()= " << jj.Pt() << "\t(maxptjj= " << maxptjj << ")" << endl;
                     if( jj.Pt() > maxptjj )
                     {
@@ -736,20 +701,12 @@ int main(int argc, char *argv[])
                         imaxptjjReg = ij;
                         jmaxptjjReg = ijet; 
                     }
-                    if( jjRegKin.Pt() > maxptjjRegKin )
-                    {
-                        maxptjjRegKin = jjRegKin.Pt();
-                        imaxptjjRegKin = ij;
-                        jmaxptjjRegKin = ijet; 
-                    }
                 }
             } // end of loop over bjets
             ij1 = imaxptjj;
             ij2 = jmaxptjj;
             ij1Reg = imaxptjjReg;
             ij2Reg = jmaxptjjReg;
-            ij1RegKin = imaxptjjRegKin;
-            ij2RegKin = jmaxptjjRegKin;
         } // end of if two bjets
 
         TLorentzVector pho1;
@@ -804,8 +761,11 @@ int main(int argc, char *argv[])
         jet2_jerU.SetPtEtaPhiE(J.jetJerU_pt[ij2], J.jetJerU_eta[ij2], J.jetJerU_phi[ij2], J.jetJerU_e[ij2]);
         regjet1.SetPtEtaPhiE(J.jetRegPt[ij1Reg], J.jetEta[ij1Reg], J.jetPhi[ij1Reg], J.jetE[ij1Reg]*((float)J.jetRegPt[ij1Reg]/(float)J.jetPt[ij1Reg]));
         regjet2.SetPtEtaPhiE(J.jetRegPt[ij2Reg], J.jetEta[ij2Reg], J.jetPhi[ij2Reg], J.jetE[ij2Reg]*((float)J.jetRegPt[ij2Reg]/(float)J.jetPt[ij2Reg]));
-        regkinjet1 = regjet1;
-        regkinjet2 = regjet2;
+//        regkinjet1 = regjet1;
+//        regkinjet2 = regjet2;
+//      kinfit is applied on non-regressed jet 4-momentum, but with regression combinatorics
+        regkinjet1.SetPtEtaPhiE(J.jetRegKinPt[ij1Reg], J.jetEta[ij1Reg], J.jetPhi[ij1Reg], J.jetE[ij1Reg]);
+        regkinjet2.SetPtEtaPhiE(J.jetRegKinPt[ij2Reg], J.jetEta[ij2Reg], J.jetPhi[ij2Reg], J.jetE[ij2Reg]);
         float Hmass_MC = 125.;
         float Hmass_data = 125.03; // From https://twiki.cern.ch/twiki/bin/view/CMSPublic/Hig14009TWiki
 //        float Hmass_data = 125.6; // From https://twiki.cern.ch/twiki/bin/view/CMSPublic/Hig13002PubTWiki
@@ -1081,35 +1041,35 @@ int main(int argc, char *argv[])
         t.regkinjet1_phi = regkinjet1.Phi();
         t.regkinjet1_eta = regkinjet1.Eta();
         t.regkinjet1_mass = regkinjet1.M();
-        t.regkinjet1_csvBtag = J.jetCSV[ij1RegKin];
-        t.regkinjet1_btagSF_M = J.jetbtagSF_M[ij1RegKin];
-        t.regkinjet1_flavour = J.jetflavour[ij1RegKin];
-        t.regkinjet1_btagSFErrorUp_M = J.jetbtagSFErrorUp_M[ij1RegKin];
-        t.regkinjet1_btagSFErrorDown_M = J.jetbtagSFErrorDown_M[ij1RegKin];
-        t.regkinjet1_btagEff_M = J.jetbtagEff_M[ij1RegKin];
-        t.regkinjet1_btagEffError_M = J.jetbtagEffError_M[ij1RegKin];
-        t.regkinjet1_cutbased_wp_level = J.jetcutbased_wp_level[ij1RegKin];
-        t.regkinjet1_simple_wp_level = J.jetsimple_wp_level[ij1RegKin];
-        t.regkinjet1_full_wp_level = J.jetfull_wp_level[ij1RegKin];
-        t.regkinjet1_betaStarClassic = J.jetbetaStarClassic[ij1RegKin];
-        t.regkinjet1_dR2Mean = J.jetdR2Mean[ij1RegKin];
+        t.regkinjet1_csvBtag = J.jetCSV[ij1Reg];
+        t.regkinjet1_btagSF_M = J.jetbtagSF_M[ij1Reg];
+        t.regkinjet1_flavour = J.jetflavour[ij1Reg];
+        t.regkinjet1_btagSFErrorUp_M = J.jetbtagSFErrorUp_M[ij1Reg];
+        t.regkinjet1_btagSFErrorDown_M = J.jetbtagSFErrorDown_M[ij1Reg];
+        t.regkinjet1_btagEff_M = J.jetbtagEff_M[ij1Reg];
+        t.regkinjet1_btagEffError_M = J.jetbtagEffError_M[ij1Reg];
+        t.regkinjet1_cutbased_wp_level = J.jetcutbased_wp_level[ij1Reg];
+        t.regkinjet1_simple_wp_level = J.jetsimple_wp_level[ij1Reg];
+        t.regkinjet1_full_wp_level = J.jetfull_wp_level[ij1Reg];
+        t.regkinjet1_betaStarClassic = J.jetbetaStarClassic[ij1Reg];
+        t.regkinjet1_dR2Mean = J.jetdR2Mean[ij1Reg];
         t.regkinjet2_pt = regkinjet2.Pt();
         t.regkinjet2_e = regkinjet2.E();
         t.regkinjet2_phi = regkinjet2.Phi();
         t.regkinjet2_eta = regkinjet2.Eta();
         t.regkinjet2_mass = regkinjet2.M();
-        t.regkinjet2_csvBtag = J.jetCSV[ij2RegKin];
-        t.regkinjet2_btagSF_M = J.jetbtagSF_M[ij2RegKin];
-        t.regkinjet2_flavour = J.jetflavour[ij2RegKin];
-        t.regkinjet2_btagSFErrorUp_M = J.jetbtagSFErrorUp_M[ij2RegKin];
-        t.regkinjet2_btagSFErrorDown_M = J.jetbtagSFErrorDown_M[ij2RegKin];
-        t.regkinjet2_btagEff_M = J.jetbtagEff_M[ij2RegKin];
-        t.regkinjet2_btagEffError_M = J.jetbtagEffError_M[ij2RegKin];
-        t.regkinjet2_cutbased_wp_level = J.jetcutbased_wp_level[ij2RegKin];
-        t.regkinjet2_simple_wp_level = J.jetsimple_wp_level[ij2RegKin];
-        t.regkinjet2_full_wp_level = J.jetfull_wp_level[ij2RegKin];
-        t.regkinjet2_betaStarClassic = J.jetbetaStarClassic[ij2RegKin];
-        t.regkinjet2_dR2Mean = J.jetdR2Mean[ij2RegKin];
+        t.regkinjet2_csvBtag = J.jetCSV[ij2Reg];
+        t.regkinjet2_btagSF_M = J.jetbtagSF_M[ij2Reg];
+        t.regkinjet2_flavour = J.jetflavour[ij2Reg];
+        t.regkinjet2_btagSFErrorUp_M = J.jetbtagSFErrorUp_M[ij2Reg];
+        t.regkinjet2_btagSFErrorDown_M = J.jetbtagSFErrorDown_M[ij2Reg];
+        t.regkinjet2_btagEff_M = J.jetbtagEff_M[ij2Reg];
+        t.regkinjet2_btagEffError_M = J.jetbtagEffError_M[ij2Reg];
+        t.regkinjet2_cutbased_wp_level = J.jetcutbased_wp_level[ij2Reg];
+        t.regkinjet2_simple_wp_level = J.jetsimple_wp_level[ij2Reg];
+        t.regkinjet2_full_wp_level = J.jetfull_wp_level[ij2Reg];
+        t.regkinjet2_betaStarClassic = J.jetbetaStarClassic[ij2Reg];
+        t.regkinjet2_dR2Mean = J.jetdR2Mean[ij2Reg];
         t.kinjet1_pt = kinjet1.Pt();
         t.kinjet1_e = kinjet1.E();
         t.kinjet1_phi = kinjet1.Phi();
