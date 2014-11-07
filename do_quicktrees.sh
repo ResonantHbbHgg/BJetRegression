@@ -1,12 +1,14 @@
 #!/bin/bash
 
-version="v36"
+version="v37"
 today=`date +"0%Y-%m-%d"`
 #set -x
 
-inputversion="v20"
-inputfolder="/afs/cern.ch/work/o/obondu/public/forRadion/plotTrees/v20/2014-11-05_selection_noRegression_noMassCut_v20/"
-inputfolderReg="/afs/cern.ch/work/o/obondu/public/forRadion/plotTrees/v20/2014-11-05_selection_withRegression_noMassCut_v20/"
+inputversion="v21"
+inputfolder="/afs/cern.ch/work/o/obondu/public/forRadion/plotTrees/v21/2014-11-07_selection_noRegression_noMassCut_v21/"
+inputfolderReg="/afs/cern.ch/work/o/obondu/public/forRadion/plotTrees/v21/2014-11-07_selection_withRegression_noMassCut_v21/"
+inputversionFTR="v21_FTR"
+inputfolderFTR="/afs/cern.ch/work/o/obondu/public/forRadion/plotTrees/v21/2014-11-07_selection_noRegression_noMassCut_v21_FTR/"
 
 # IMPORTANT NOTES:
 # FOR NOW THE DEFAULT IS NO REGRESSION
@@ -19,8 +21,8 @@ doResonantLowMass=0
 doResonantLowMassWithReg=0
 doResonantHighMass=0
 # WHICH SAMPLES TO PROCESS (default is also running dataCS and diphoton-sherpa, minimum is data + signal)
-doTheStrictMinimum=1
-doAnomalousHHScenario1=0
+doTheStrictMinimum=0
+doAnomalousHHScenario1=1
 doAnomalousHHScenario2=1
 
 
@@ -28,7 +30,7 @@ doAnomalousHHScenario2=1
 cutLevel=0
 massCutVersion=4 # From Summer 14 cut update
 controlSampleWeights="scales_2D_pt_data_4GeVbinning.root"
-applyFTR14001=0
+applyFTR14001=1
 doUnnecessaryDirs=0
 
 # INITIALIZATION OF THE PROCESSING LIST
@@ -271,6 +273,8 @@ if [ ${doNonResonant} == 1 ]
         if [ ${applyFTR14001} == 1 ]
         then
             strategylist="FTR14001"
+            inputfolder="${inputfolderFTR}"
+            inputversion="${inputversionFTR}"
         fi
         for fitStrategy in `echo "${strategylist}"`
         do
