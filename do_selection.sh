@@ -2,7 +2,7 @@
 
 today=`date +"%Y-%m-%d"`
 #today="2014-10-22"
-version="v20"
+version="v21"
 eosprefix="root://eoscms//eos/cms"
 eospath="/store/cmst3/group/hbbhgg/H2GGLOBE/Radion/trees/"
 #eospath="/store/user/hebda/h2gglobe/trees/"
@@ -14,8 +14,8 @@ regFilePath="weights/TMVARegression_resonant_BDTG.weights.xml" #it is also possi
 
 ## WHAT TO PROCESS
 # DATA
-doData=0
-doDataCS=0
+doData=1
+doDataCS=1
 # RESONANT SIGNALS
 doRadion=0
 doRadionM126=0
@@ -24,14 +24,14 @@ doMSSM=0
 doGraviton=0
 doGravitonMore=0
 # SM Higgs
-doSMHiggs=0
+doSMHiggs=1
 doExtraSMHiggs=0
-doSMdiHiggs=0
+doSMdiHiggs=1
 # BACKGROUNDS
-doDiphotonBackgrounds=0
-doRareBackgrounds=0
+doDiphotonBackgrounds=1
+doRareBackgrounds=1
 # NON-RESONANT SIGNALS
-doAnomalousHH=0
+doAnomalousHH=1
 doAnomalousHH_C2=1
 
 # going FTR14001_style, default should be 0

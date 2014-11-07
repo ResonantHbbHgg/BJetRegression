@@ -174,175 +174,9 @@ int main(int argc, char *argv[])
         if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("reg", whichJet.c_str()) == 0) )
             { t.mjj_wokinfit = t.mjj; t.mtot_wokinfit = t.mtot; }
         
-// EXTRA CUTS
-// Commenting out old stuff for clarity
-//    if( cutLevel > 0)
-//    {
-//        if(fabs(t.regcosthetastar) >= .9) continue;
-//    }
-//    if( cutLevel > 1)
-//    {
-//        if(fabs(t.regcosthetastar) >= .9) continue;
-//        if( t.njets_kLooseID >= 4 ) continue;
-//    }
-//    if( cutLevel > 5)
-//    {
-//        if(fabs(t.regcosthetastar) >= .9) continue;
-//        if(t.minDRgregkinj <= 1.) continue;
-//        if( t.njets_kLooseID >= 4 ) continue;
-//    }
-
 // FITTING THE MGG SPECTRUM
         if( strcmp("mgg", fitStrategy.c_str()) == 0 )
         {
-// Commenting out old stuff for clarity
-//            if( massCutVersion < 2 )
-//            {
-//                // mggjj cut does depend on the mass hypothesis
-//                if( mass == 300 )
-//                {
-//                    if( strcmp("", whichJet.c_str()) == 0 )
-//                    {
-//                        if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot_wokinfit < 255. || t.mtot_wokinfit > 330.) ) continue;
-//                        if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot_wokinfit < 250. || t.mtot_wokinfit > 325.) ) continue;
-//                    }
-//                    if( strcmp("reg", whichJet.c_str()) == 0 )
-//                    {
-//                        if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot_wokinfit < 250. || t.mtot_wokinfit > 330.) ) continue;
-//                        if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot_wokinfit < 265. || t.mtot_wokinfit > 330.) ) continue;
-//                    }
-//                    if( strcmp("kin", whichJet.c_str()) == 0 )
-//                    {
-//                        if( massCutVersion == 0)
-//                        {
-//                            if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot < 290. || t.mtot > 315.) ) continue;
-//                            if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot < 285. || t.mtot > 315.) ) continue;
-//                        } else if (massCutVersion == 1) {
-//                            if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot_wokinfit < 255. || t.mtot_wokinfit > 330.) ) continue;
-//                            if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot_wokinfit < 250. || t.mtot_wokinfit > 325.) ) continue;
-//                        }
-//                    }
-//                    if( strcmp("regkin", whichJet.c_str()) == 0 )
-//                    {
-//                        if( massCutVersion == 0 )
-//                        {
-//                            if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot < 290. || t.mtot > 315.) ) continue;
-//                            if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot < 285. || t.mtot > 315.) ) continue;
-//                        } else if (massCutVersion == 1) {
-//                            if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot_wokinfit < 250. || t.mtot_wokinfit > 330.) ) continue;
-//                            if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot_wokinfit < 265. || t.mtot_wokinfit > 330.) ) continue;
-//                        }
-//                    }
-//                } else if( mass == 500 ) {
-//                    if( strcmp("", whichJet.c_str()) == 0 )
-//                    {
-//    // old cuts (Oct 29)
-//    //                    if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot_wokinfit < 485. || t.mtot_wokinfit > 535.) ) continue;
-//    //                    if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot_wokinfit < 490. || t.mtot_wokinfit > 525.) ) continue;
-//    // new cuts (Nov 4)
-//                        if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot_wokinfit < 440. || t.mtot_wokinfit > 545.) ) continue;
-//                        if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot_wokinfit < 435. || t.mtot_wokinfit > 540.) ) continue;
-//                    }
-//                    if( strcmp("reg", whichJet.c_str()) == 0 )
-//                    {
-//    // old cuts (Oct 29)
-//    //                    if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot_wokinfit < 495. || t.mtot_wokinfit > 555.) ) continue;
-//    //                    if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot_wokinfit < 485. || t.mtot_wokinfit > 515.) ) continue;
-//    // new cuts (Nov 4)
-//                        if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot_wokinfit < 445. || t.mtot_wokinfit > 545.) ) continue;
-//                        if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot_wokinfit < 460. || t.mtot_wokinfit > 545.) ) continue;
-//                    }
-//                    if( strcmp("kin", whichJet.c_str()) == 0 )
-//                    {
-//                        if( massCutVersion == 0 )
-//                        {
-//    // old cuts (Oct 29)
-//    //                        if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot < 505. || t.mtot > 540.) ) continue;
-//    //                        if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot < 495. || t.mtot > 510.) ) continue;
-//    // new cuts (Nov 4)
-//                            if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot < 480. || t.mtot > 535.) ) continue;
-//                            if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot < 475. || t.mtot > 530.) ) continue;
-//                        } else if (massCutVersion == 1) {
-//    // old cuts (Oct 29)
-//    //                        if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot_wokinfit < 485. || t.mtot_wokinfit > 535.) ) continue;
-//    //                        if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot_wokinfit < 490. || t.mtot_wokinfit > 525.) ) continue;
-//    // new cuts (Nov 4)
-//                            if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot_wokinfit < 440. || t.mtot_wokinfit > 545.) ) continue;
-//                            if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot_wokinfit < 435. || t.mtot_wokinfit > 540.) ) continue;
-//                        }
-//                    }
-//                    if( strcmp("regkin", whichJet.c_str()) == 0 )
-//                    {
-//                        if( massCutVersion == 0 )
-//                        {
-//    // old cuts (Oct 29)
-//    //                        if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot < 440. || t.mtot > 505.) ) continue;
-//    //                        if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot < 490. || t.mtot > 510.) ) continue;
-//    // new cuts (Nov 4)
-//                            if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot < 480. || t.mtot > 540.) ) continue;
-//                            if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot < 475. || t.mtot > 535.) ) continue;
-//                        } else if (massCutVersion == 1) {
-//    // old cuts (Oct 29)
-//    //                        if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot_wokinfit < 495. || t.mtot_wokinfit > 555.) ) continue;
-//    //                        if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot_wokinfit < 485. || t.mtot_wokinfit > 515.) ) continue;
-//    // new cuts (Nov 4)
-//                            if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot_wokinfit < 445. || t.mtot_wokinfit > 545.) ) continue;
-//                            if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot_wokinfit < 460. || t.mtot_wokinfit > 545.) ) continue;
-//                        }
-//                    }
-//                }
-//                // t.mjj cut does not depends on the mass hypothesis
-//                if( mass == 300 || mass == 500)
-//                {
-//                    if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
-//                    {
-//                        if( t.njets_kRadionID_and_CSVM == 1 && (t.mjj_wokinfit < 85. || t.mjj_wokinfit > 155. ) ) continue;
-//                        if( t.njets_kRadionID_and_CSVM >= 2 && (t.mjj_wokinfit < 110. || t.mjj_wokinfit > 145. ) ) continue;
-//                    }
-//                    if( (strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
-//                    {
-//                        if( t.njets_kRadionID_and_CSVM == 1 && (t.mjj_wokinfit < 85. || t.mjj_wokinfit > 155. ) ) continue;
-//                        if( t.njets_kRadionID_and_CSVM >= 2 && (t.mjj_wokinfit < 110. || t.mjj_wokinfit > 145. ) ) continue;
-//                    }
-//                } else {
-//                    cout << "WARNING, you are trying to create trees for t.mgg limits at points that are not 300 or 500... are you sure of what you're doing?" << endl;
-//                }
-//            }
-//            else
-//            if( massCutVersion == 2 )
-//            {// FITTING THE MGG SPECTRUM: newer version
-//                if( t.njets_kRadionID_and_CSVM >= 2 )
-//                {
-//                    if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
-//                        if( t.mjj_wokinfit < 95. || t.mjj_wokinfit > 175. ) continue;
-//                    if( (strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
-//                        if( t.mjj_wokinfit < 90. || t.mjj_wokinfit > 150. ) continue;
-//                }
-//                if( t.njets_kRadionID_and_CSVM == 1 )
-//                {
-//                    if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
-//                        if( t.mjj_wokinfit < 100. || t.mjj_wokinfit > 160. ) continue;
-//                    if( (strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
-//                        if( t.mjj_wokinfit < 95. || t.mjj_wokinfit > 140. ) continue;
-//                }
-//                if( mass == 300 )
-//                {
-//                    if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
-//                    {
-//                        if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot_wokinfit < 255. || t.mtot_wokinfit > 320.) ) continue;
-//                        if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot_wokinfit < 260. || t.mtot_wokinfit > 335.) ) continue;
-//                    }
-//                    if( (strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
-//                    {
-//                        if( t.njets_kRadionID_and_CSVM >= 2 && (t.mtot_wokinfit < 260. || t.mtot_wokinfit > 335.) ) continue;
-//                        if( t.njets_kRadionID_and_CSVM == 1 && (t.mtot_wokinfit < 265. || t.mtot_wokinfit > 345.) ) continue;
-//                    }
-//                }
-//                if( mass == 500 && (t.mtot_wokinfit < 465. || t.mtot_wokinfit > 535.) ) continue;
-//                if( mass == 700 && (t.mtot_wokinfit < 660. || t.mtot_wokinfit > 740.) ) continue;
-//                if( mass == 1000 && (t.mtot_wokinfit < 955. || t.mtot_wokinfit > 1055.) ) continue;
-//            }
-//            else 
             if( massCutVersion == 3 )
             {// FITTING THE MGG SPECTRUM: newer version: preapproval values (18 dec. 2013)
                 if( applyMjjCut && (t.mjj_wokinfit < 85. || t.mjj_wokinfit > 155.) ) continue;
@@ -375,19 +209,29 @@ int main(int argc, char *argv[])
                 {
                     // Non-resonant case
                     // From Badder's optimization (Oct. 6) https://indico.cern.ch/event/343170/session/7/contribution/21/material/slides/0.pdf
+                    // Nov 6th update: skype conversation with Badder
+                    //      2btag = mjj > 90 && mjj < 155 && mtot > 350 && costhetastar_CS > -0.9 && costhetastar_CS < 0.9
+                    //      1btag = mjj > 90 && mjj < 155 && mtot > 360 && costhetastar_CS > -0.65 && costhetastar_CS < 0.65
+                    //      plots:
+                    //          https://bmarzocc.web.cern.ch/bmarzocc/ggHH_optimization/cut_Mjj_study_reweight_m0_cat0_ggHH_kin.pdf
+                    //          https://bmarzocc.web.cern.ch/bmarzocc/ggHH_optimization/cut_Mjj_study_reweight_m0_cat1_ggHH_kin.pdf
+                    //          https://bmarzocc.web.cern.ch/bmarzocc/ggHH_optimization/cut_Mggjj_kin_study_reweight_m0_cat0_ggHH_kin.pdf
+                    //          https://bmarzocc.web.cern.ch/bmarzocc/ggHH_optimization/cut_Mggjj_kin_study_reweight_m0_cat1_ggHH_kin.pdf
+                    //          https://bmarzocc.web.cern.ch/bmarzocc/ggHH_optimization/cut_CosTS_CS_study_reweight_m0_cat0_ggHH_kin.pdf
+                    //          https://bmarzocc.web.cern.ch/bmarzocc/ggHH_optimization/cut_CosTS_CS_study_reweight_m0_cat1_ggHH_kin.pdf
                     if( mass == 0 )
                     { 
                         if( t.njets_kRadionID_and_CSVM>=2 )
                         {
-                            if( applyMjjCut && (t.mjj_wokinfit < 100. || t.mjj_wokinfit > 145.) ) continue;
+                            if( applyMjjCut && (t.mjj_wokinfit < 90. || t.mjj_wokinfit > 155.) ) continue;
                             if( (cutLevel >= 0 && applyMtotCut) && (t.mtot < 350.) ) continue;
-                            if( (cutLevel >= 0) && (fabs(t.costhetastar_CS) > .75) ) continue;
+                            if( (cutLevel >= 0) && (fabs(t.costhetastar_CS) > .9) ) continue;
                         }
                         else if( t.njets_kRadionID_and_CSVM==1 )
                         {
-                            if( applyMjjCut && (t.mjj_wokinfit < 90. || t.mjj_wokinfit > 150.) ) continue;
-                            if( (cutLevel >= 0 && applyMtotCut) && (t.mtot < 365.) ) continue;
-                            if( (cutLevel >= 0) && (fabs(t.costhetastar_CS) >  .6) ) continue;
+                            if( applyMjjCut && (t.mjj_wokinfit < 90. || t.mjj_wokinfit > 155.) ) continue;
+                            if( (cutLevel >= 0 && applyMtotCut) && (t.mtot < 360.) ) continue;
+                            if( (cutLevel >= 0) && (fabs(t.costhetastar_CS) >  .65) ) continue;
                         }
                     }
                     // Resonant case @ low mass
@@ -418,21 +262,6 @@ int main(int argc, char *argv[])
                 {
                     // Regression case: everything comes from Phil
                     // From Phil's optimization (Sept. 4) https://indico.cern.ch/event/333573/session/14/contribution/18/material/slides/0.pdf
-//                    // Non-resonant case - NOT supposed to happen as of now
-//                    if( mass == 0 )
-//                    {
-//                        if( t.njets_kRadionID_and_CSVM>=2 )
-//                        {
-//                            if( applyMjjCut && (t.mjj_wokinfit < 110. || t.mjj_wokinfit > 145.) ) continue;
-//                            if( applyMtotCut && (t.mtot < 350.) ) continue; // not yet reoptimized
-//                        }
-//                        else if( t.njets_kRadionID_and_CSVM==1 )
-//                        {
-//                            if( applyMjjCut && (t.mjj_wokinfit < 105. || t.mjj_wokinfit > 150.) ) continue;
-//                            if( applyMtotCut && (t.mtot < 365.) ) continue; // not yet reoptimized
-//                        }
-//                    }
-//                    else
                     // Resonant case @ low mass
                     if( mass > 0)
                     {
@@ -462,80 +291,84 @@ int main(int argc, char *argv[])
 // FITTING THE MGGJJ SPECTRUM
         if( strcmp("mggjj", fitStrategy.c_str()) == 0 )
         {
-// Commenting out old stuff for clarity
-//            if( massCutVersion < 2)
-//            {// cuts before preapproval
-//                if( t.mgg < 120. || t.mgg > 130. ) continue;
-//                if( t.njets_kRadionID_and_CSVM >= 2 )
-//                {
-//                    if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
-//                        if( t.mjj_wokinfit < 100. || t.mjj_wokinfit > 145. ) continue;
-//                    if( (strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
-//                        if( t.mjj_wokinfit < 110. || t.mjj_wokinfit > 150. ) continue;
-//                }
-//                if( t.njets_kRadionID_and_CSVM == 1 ) 
-//                    if( (strcmp("", whichJet.c_str()) == 0) || (strcmp("kin", whichJet.c_str()) == 0) )
-//                        if( t.mjj_wokinfit < 80. || t.mjj_wokinfit > 165. ) continue;
-//                    if( (strcmp("reg", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
-//                        if( t.mjj_wokinfit < 85. || t.mjj_wokinfit > 170. ) continue;
-//            }
             if( massCutVersion == 3)
             { // Cuts for preapproval (18 dec. 2013)
                 if( applyMggCut && (t.mgg < 120. || t.mgg > 130.) ) continue;
                 if( applyMjjCut && (t.mjj_wokinfit < 90. || t.mjj_wokinfit > 165.) ) continue;
             }
             if( massCutVersion == 4)
-            {// From Fabricio's optimization (Aug. 15) https://indico.cern.ch/event/335221/contribution/1/material/slides/0.pdf
-             // Probable swap of 1btag and 2btag
+            {
+             // From Fabricio's optimization (Aug. 15) https://indico.cern.ch/event/335221/contribution/1/material/slides/0.pdf
+             // Probable swap of 1btag and 2btag ?
              // Unclear features in the full table (slide 16): would need to redo the study
-	     // From the same presentation, it notes a window of (122,128) in mgg. We might need to revert to (120,130) if limits degrade.
-                if( applyMggCut && (t.mgg < 122. || t.mgg > 128.) ) continue;
+             // From the same presentation, it notes a window of (122,128) in mgg. We might need to revert to (120,130) if limits degrade.
+             // Nov. 6th: given the expected low yield in cat0 decide to go with PAS cuts for cat0 + Fabricio optim for cat 1
                 if( t.njets_kRadionID_and_CSVM>=2 )
                 {
-                    if( applyMjjCut && (t.mjj_wokinfit < 95. || t.mjj_wokinfit > 150.) ) continue;
+                    // Fabricio's cuts
+                    // if( applyMggCut && (t.mgg < 122. || t.mgg > 128.) ) continue;
+                    // if( applyMjjCut && (t.mjj_wokinfit < 95. || t.mjj_wokinfit > 150.) ) continue;
+                    // PAS cuts
+                    if( applyMggCut && (t.mgg < 120. || t.mgg > 130.) ) continue;
+                    if( applyMjjCut && (t.mjj_wokinfit < 90. || t.mjj_wokinfit > 165.) ) continue;
                 }
                 else if ( t.njets_kRadionID_and_CSVM==1 )
                 {
+                    // Fabricio's cuts
+                    if( applyMggCut && (t.mgg < 122. || t.mgg > 128.) ) continue;
                     if( applyMjjCut && (t.mjj_wokinfit < 85. || t.mjj_wokinfit > 170.) ) continue;
+                    // PAS cuts
+                    // if( applyMggCut && (t.mgg < 120. || t.mgg > 130.) ) continue;
+                    // if( applyMjjCut && (t.mjj_wokinfit < 90. || t.mjj_wokinfit > 165.) ) continue;
                 }
             }
         }
 
 // 2D-FITTING OF BOTH MGG AND MJJ
         if( strcmp("2D", fitStrategy.c_str()) == 0 )
-	  {
+      {
             if( massCutVersion == 4)
             { // Cuts from Phil studies, these cuts are not documented yet but see the following for some comparisons:
               // (Sept. 4) https://indico.cern.ch/event/333573/session/14/contribution/18/material/slides/0.pdf)
                 if( applyMggCut && (t.mgg < 100. || t.mgg > 180.) ) continue;
                 if( applyMjjCut && (t.mjj_wokinfit < 60. || t.mjj_wokinfit > 180.) ) continue;
-		//These cuts were taken from Badder's 1D optimization. Should be revisited for 2D extraction?
-		if( mass == 0)
-		  {
-		    if( t.njets_kRadionID_and_CSVM>=2 )
-		      {
-			if( (cutLevel >= 0 && applyMtotCut) && (t.mtot < 350.) ) continue;
-			if( (cutLevel >= 0) && (fabs(t.costhetastar_CS) > .75) ) continue;
-		      }
-		    else if( t.njets_kRadionID_and_CSVM==1 )
-		      {
-			if( (cutLevel >= 0 && applyMtotCut) && (t.mtot < 365.) ) continue;
-			if( (cutLevel >= 0) && (fabs(t.costhetastar_CS) >  .6) ) continue;
-		      }
-		  }
-		//apply a different mtot cut for resonant search, same mtot cut as 1D analysis
-		else if( (mass > 0) && applyMtotCut )
-		  { // From Francois' optimization (July 24: https://indico.cern.ch/event/327578/session/9/contribution/26/material/slides/0.pdf)
-		    if( mass == 260 && (t.mtot < 250. || t.mtot > 270.) ) continue;
-		    if( mass == 270 && (t.mtot < 260. || t.mtot > 280.) ) continue;
-		    if( mass == 300 && (t.mtot < 290. || t.mtot > 310.) ) continue;
-		    if( mass == 350 && (t.mtot < 330. || t.mtot > 375.) ) continue;
-		    if( mass == 400 && (t.mtot < 380. || t.mtot > 435.) ) continue;
-		    if( mass == 450 && (t.mtot < 430. || t.mtot > 485.) ) continue;
-		    if( mass == 500 && (t.mtot < 480. || t.mtot > 535.) ) continue;
-		  }
-	    }
-	  }
+        //These cuts were taken from Badder's 1D optimization. Should be revisited for 2D extraction?
+        // Nov 6th update: skype conversation with Badder
+        //      2btag = mjj > 90 && mjj < 155 && mtot > 350 && costhetastar_CS > -0.9 && costhetastar_CS < 0.9
+        //      1btag = mjj > 90 && mjj < 155 && mtot > 360 && costhetastar_CS > -0.65 && costhetastar_CS < 0.65
+        //      plots:
+        //          https://bmarzocc.web.cern.ch/bmarzocc/ggHH_optimization/cut_Mjj_study_reweight_m0_cat0_ggHH_kin.pdf
+        //          https://bmarzocc.web.cern.ch/bmarzocc/ggHH_optimization/cut_Mjj_study_reweight_m0_cat1_ggHH_kin.pdf
+        //          https://bmarzocc.web.cern.ch/bmarzocc/ggHH_optimization/cut_Mggjj_kin_study_reweight_m0_cat0_ggHH_kin.pdf
+        //          https://bmarzocc.web.cern.ch/bmarzocc/ggHH_optimization/cut_Mggjj_kin_study_reweight_m0_cat1_ggHH_kin.pdf
+        //          https://bmarzocc.web.cern.ch/bmarzocc/ggHH_optimization/cut_CosTS_CS_study_reweight_m0_cat0_ggHH_kin.pdf
+        //          https://bmarzocc.web.cern.ch/bmarzocc/ggHH_optimization/cut_CosTS_CS_study_reweight_m0_cat1_ggHH_kin.pdf
+        if( mass == 0)
+          {
+            if( t.njets_kRadionID_and_CSVM>=2 )
+              {
+            if( (cutLevel >= 0 && applyMtotCut) && (t.mtot < 350.) ) continue;
+            if( (cutLevel >= 0) && (fabs(t.costhetastar_CS) > .9) ) continue;
+              }
+            else if( t.njets_kRadionID_and_CSVM==1 )
+              {
+            if( (cutLevel >= 0 && applyMtotCut) && (t.mtot < 360.) ) continue;
+            if( (cutLevel >= 0) && (fabs(t.costhetastar_CS) > .65) ) continue;
+              }
+          }
+        //apply a different mtot cut for resonant search, same mtot cut as 1D analysis
+        else if( (mass > 0) && applyMtotCut )
+          { // From Francois' optimization (July 24: https://indico.cern.ch/event/327578/session/9/contribution/26/material/slides/0.pdf)
+            if( mass == 260 && (t.mtot < 250. || t.mtot > 270.) ) continue;
+            if( mass == 270 && (t.mtot < 260. || t.mtot > 280.) ) continue;
+            if( mass == 300 && (t.mtot < 290. || t.mtot > 310.) ) continue;
+            if( mass == 350 && (t.mtot < 330. || t.mtot > 375.) ) continue;
+            if( mass == 400 && (t.mtot < 380. || t.mtot > 435.) ) continue;
+            if( mass == 450 && (t.mtot < 430. || t.mtot > 485.) ) continue;
+            if( mass == 500 && (t.mtot < 480. || t.mtot > 535.) ) continue;
+          }
+        }
+      }
         if( strcmp("FTR14001", fitStrategy.c_str()) == 0 )
         { // From future studies analysis FTR-13-001 upgraded into FTR-14-001. The non-resonant HbbHgg documentation is in AN 2014/218: 
           // http://cms.cern.ch/iCMS/jsp/db_notes/noteInfo.jsp?cmsnoteid=CMS%20AN-2014/218
