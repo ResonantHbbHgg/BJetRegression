@@ -209,19 +209,29 @@ int main(int argc, char *argv[])
                 {
                     // Non-resonant case
                     // From Badder's optimization (Oct. 6) https://indico.cern.ch/event/343170/session/7/contribution/21/material/slides/0.pdf
+                    // Nov 6th update: skype conversation with Badder
+                    //      2btag = mjj > 90 && mjj < 155 && mtot > 350 && costhetastar_CS > -0.9 && costhetastar_CS < 0.9
+                    //      1btag = mjj > 90 && mjj < 155 && mtot > 360 && costhetastar_CS > -0.65 && costhetastar_CS < 0.65
+                    //      plots:
+                    //          https://bmarzocc.web.cern.ch/bmarzocc/ggHH_optimization/cut_Mjj_study_reweight_m0_cat0_ggHH_kin.pdf
+                    //          https://bmarzocc.web.cern.ch/bmarzocc/ggHH_optimization/cut_Mjj_study_reweight_m0_cat1_ggHH_kin.pdf
+                    //          https://bmarzocc.web.cern.ch/bmarzocc/ggHH_optimization/cut_Mggjj_kin_study_reweight_m0_cat0_ggHH_kin.pdf
+                    //          https://bmarzocc.web.cern.ch/bmarzocc/ggHH_optimization/cut_Mggjj_kin_study_reweight_m0_cat1_ggHH_kin.pdf
+                    //          https://bmarzocc.web.cern.ch/bmarzocc/ggHH_optimization/cut_CosTS_CS_study_reweight_m0_cat0_ggHH_kin.pdf
+                    //          https://bmarzocc.web.cern.ch/bmarzocc/ggHH_optimization/cut_CosTS_CS_study_reweight_m0_cat1_ggHH_kin.pdf
                     if( mass == 0 )
                     { 
                         if( t.njets_kRadionID_and_CSVM>=2 )
                         {
-                            if( applyMjjCut && (t.mjj_wokinfit < 100. || t.mjj_wokinfit > 145.) ) continue;
+                            if( applyMjjCut && (t.mjj_wokinfit < 90. || t.mjj_wokinfit > 155.) ) continue;
                             if( (cutLevel >= 0 && applyMtotCut) && (t.mtot < 350.) ) continue;
-                            if( (cutLevel >= 0) && (fabs(t.costhetastar_CS) > .75) ) continue;
+                            if( (cutLevel >= 0) && (fabs(t.costhetastar_CS) > .9) ) continue;
                         }
                         else if( t.njets_kRadionID_and_CSVM==1 )
                         {
-                            if( applyMjjCut && (t.mjj_wokinfit < 90. || t.mjj_wokinfit > 150.) ) continue;
-                            if( (cutLevel >= 0 && applyMtotCut) && (t.mtot < 365.) ) continue;
-                            if( (cutLevel >= 0) && (fabs(t.costhetastar_CS) >  .6) ) continue;
+                            if( applyMjjCut && (t.mjj_wokinfit < 90. || t.mjj_wokinfit > 155.) ) continue;
+                            if( (cutLevel >= 0 && applyMtotCut) && (t.mtot < 360.) ) continue;
+                            if( (cutLevel >= 0) && (fabs(t.costhetastar_CS) >  .65) ) continue;
                         }
                     }
                     // Resonant case @ low mass
@@ -323,17 +333,27 @@ int main(int argc, char *argv[])
                 if( applyMggCut && (t.mgg < 100. || t.mgg > 180.) ) continue;
                 if( applyMjjCut && (t.mjj_wokinfit < 60. || t.mjj_wokinfit > 180.) ) continue;
         //These cuts were taken from Badder's 1D optimization. Should be revisited for 2D extraction?
+        // Nov 6th update: skype conversation with Badder
+        //      2btag = mjj > 90 && mjj < 155 && mtot > 350 && costhetastar_CS > -0.9 && costhetastar_CS < 0.9
+        //      1btag = mjj > 90 && mjj < 155 && mtot > 360 && costhetastar_CS > -0.65 && costhetastar_CS < 0.65
+        //      plots:
+        //          https://bmarzocc.web.cern.ch/bmarzocc/ggHH_optimization/cut_Mjj_study_reweight_m0_cat0_ggHH_kin.pdf
+        //          https://bmarzocc.web.cern.ch/bmarzocc/ggHH_optimization/cut_Mjj_study_reweight_m0_cat1_ggHH_kin.pdf
+        //          https://bmarzocc.web.cern.ch/bmarzocc/ggHH_optimization/cut_Mggjj_kin_study_reweight_m0_cat0_ggHH_kin.pdf
+        //          https://bmarzocc.web.cern.ch/bmarzocc/ggHH_optimization/cut_Mggjj_kin_study_reweight_m0_cat1_ggHH_kin.pdf
+        //          https://bmarzocc.web.cern.ch/bmarzocc/ggHH_optimization/cut_CosTS_CS_study_reweight_m0_cat0_ggHH_kin.pdf
+        //          https://bmarzocc.web.cern.ch/bmarzocc/ggHH_optimization/cut_CosTS_CS_study_reweight_m0_cat1_ggHH_kin.pdf
         if( mass == 0)
           {
             if( t.njets_kRadionID_and_CSVM>=2 )
               {
             if( (cutLevel >= 0 && applyMtotCut) && (t.mtot < 350.) ) continue;
-            if( (cutLevel >= 0) && (fabs(t.costhetastar_CS) > .75) ) continue;
+            if( (cutLevel >= 0) && (fabs(t.costhetastar_CS) > .9) ) continue;
               }
             else if( t.njets_kRadionID_and_CSVM==1 )
               {
-            if( (cutLevel >= 0 && applyMtotCut) && (t.mtot < 365.) ) continue;
-            if( (cutLevel >= 0) && (fabs(t.costhetastar_CS) >  .6) ) continue;
+            if( (cutLevel >= 0 && applyMtotCut) && (t.mtot < 360.) ) continue;
+            if( (cutLevel >= 0) && (fabs(t.costhetastar_CS) > .65) ) continue;
               }
           }
         //apply a different mtot cut for resonant search, same mtot cut as 1D analysis
