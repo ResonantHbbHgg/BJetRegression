@@ -29,6 +29,7 @@ cutLevel=0
 massCutVersion=4 # From Summer 14 cut update
 controlSampleWeights="scales_2D_pt_data_4GeVbinning.root"
 applyFTR14001=0
+doUnnecessaryDirs=0
 
 # INITIALIZATION OF THE PROCESSING LIST
 i=-1
@@ -40,7 +41,14 @@ then
     kinfitlabel[1]="withKinFit"
     kinfitjet[0]="base"
     kinfitjet[1]="kin"
-    for ikin in `seq 0 1`
+    kinfitlist=""
+    if [ ${doUnnecessaryDirs} == 0 ]
+    then
+        kinfitList="1"
+    else
+        kinfitList="0 1"
+    fi
+    for ikin in `echo $kinfitList`
     do
         outfolder="${version}_fitToMggjj_${kinfitlabel[${ikin}]}"
         mkdir -p ${outfolder}
@@ -125,11 +133,21 @@ then
     kinfitList=""
     if [ ${doResonantLowMass} == 1 ]
     then
-        kinfitList="0 1"
+	if [ ${doUnnecessaryDirs} == 0 ]
+	    then
+	    kinfitList="1"
+	else
+	    kinfitList="0 1"
+	fi
     fi
     if [ ${doResonantLowMassWithReg} == 1 ]
     then
-        kinfitList="$kinfitList 2 3"
+	if [ ${doUnnecessaryDirs} == 0 ]
+        then
+	    kinfitList="$kinfitList 3"
+	else
+	    kinfitList="$kinfitList 2 3"
+	fi
     fi
     for ikin in `echo $kinfitList`
     do
@@ -240,7 +258,14 @@ if [ ${doNonResonant} == 1 ]
     kinfitlabel[1]="withKinFit"
     kinfitjet[0]="base"
     kinfitjet[1]="kin"
-    for ikin in `seq 0 1`
+    kinfitlist=""
+    if [ ${doUnnecessaryDirs} == 0 ]
+    then
+        kinfitList="1"
+    else
+        kinfitList="0 1"
+    fi
+    for ikin in `echo $kinfitList`
     do
         strategylist="mgg 2D"
         if [ ${applyFTR14001} == 1 ]
