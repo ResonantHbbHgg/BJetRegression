@@ -1,5 +1,12 @@
 #!/bin/bash
 
+if [ selection.cc -nt selection.exe ] || [ selection.h -nt selection.exe ]
+then
+    echo "please recompile selection"
+    echo "make selection.exe"
+    exit 3000 
+fi
+
 today=`date +"%Y-%m-%d"`
 #today="2014-10-22"
 version="v21"

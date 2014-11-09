@@ -1,6 +1,14 @@
 #!/bin/bash
 
-version="v37"
+if [ quickTrees.cc -nt quickTrees.exe ] || [ quickTrees.h -nt quickTrees.exe ]
+then
+    echo "please recompile quickTrees"
+    echo "make quickTrees.exe"
+    exit 3000 
+fi
+
+
+version="v38"
 today=`date +"0%Y-%m-%d"`
 #set -x
 
@@ -16,21 +24,21 @@ inputfolderFTR="/afs/cern.ch/work/o/obondu/public/forRadion/plotTrees/v21/2014-1
  
 
 # WHICH ANALYSIS TO PROCESS
-doNonResonant=1
+doNonResonant=0
 doResonantLowMass=0
 doResonantLowMassWithReg=0
-doResonantHighMass=0
+doResonantHighMass=1
 # WHICH SAMPLES TO PROCESS (default is also running dataCS and diphoton-sherpa, minimum is data + signal)
 doTheStrictMinimum=0
-doAnomalousHHScenario1=1
-doAnomalousHHScenario2=1
+doAnomalousHHScenario1=0
+doAnomalousHHScenario2=0
 
 
 # OTHER GLOBAL SETTINGS, IN MOST USE CASE YOU SHOULD NOT TOUCH THIS
 cutLevel=0
 massCutVersion=4 # From Summer 14 cut update
 controlSampleWeights="scales_2D_pt_data_4GeVbinning.root"
-applyFTR14001=1
+applyFTR14001=0
 doUnnecessaryDirs=0
 
 # INITIALIZATION OF THE PROCESSING LIST
@@ -326,6 +334,9 @@ if [ ${doNonResonant} == 1 ]
                     applyPhotonIDControlSample=1
                     intree="Data"
                     suffix="controlSample_"
+                elif [[ ${sample} == ggHH_Lam* ]]
+                then
+                    itype="-500000000"
                 fi
                 i=$((${i} + 1))
                 line[${i}]=""
