@@ -1,5 +1,13 @@
 #!/bin/bash
 
+if [ quickTrees.cc -nt quickTrees.exe ] || [ quickTrees.h -nt quickTrees.exe ]
+then
+    echo "please recompile quickTrees"
+    echo "make quickTrees.exe"
+    exit 3000 
+fi
+
+
 version="v38"
 today=`date +"0%Y-%m-%d"`
 #set -x
@@ -16,12 +24,12 @@ inputfolderFTR="/afs/cern.ch/work/o/obondu/public/forRadion/plotTrees/v21/2014-1
  
 
 # WHICH ANALYSIS TO PROCESS
-doNonResonant=1
+doNonResonant=0
 doResonantLowMass=0
 doResonantLowMassWithReg=0
-doResonantHighMass=0
+doResonantHighMass=1
 # WHICH SAMPLES TO PROCESS (default is also running dataCS and diphoton-sherpa, minimum is data + signal)
-doTheStrictMinimum=1
+doTheStrictMinimum=0
 doAnomalousHHScenario1=0
 doAnomalousHHScenario2=0
 
