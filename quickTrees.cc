@@ -126,11 +126,15 @@ int main(int argc, char *argv[])
     int n_2btag = 0;
     int n_1btag_lowMtot = 0;
     int n_2btag_lowMtot = 0;
+    int n_EBEB = 0;
+    int n_notEBEB = 0;
     float n_w_0btag = 0.;
     float n_w_1btag = 0.;
     float n_w_2btag = 0.;
     float n_w_1btag_lowMtot = 0.;
     float n_w_2btag_lowMtot = 0.;
+    float n_w_EBEB = 0.;
+    float n_w_notEBEB = 0.;
 
 
     bool removeTrainingEvents = 0; //if using regression jets, remove training events from training samples. These are even events in MSSM and ggHH samples.
@@ -437,6 +441,10 @@ int main(int argc, char *argv[])
 	    if( t.njets_kRadionID_and_CSVM == 0 ) {t.cut_based_ct = 2; n_0btag++; n_w_0btag += t.evWeight_w_btagSF;}
         }
 
+	//cout events based on photon categorization
+	if( t.pho1_isEB && t.pho2_isEB ) {n_EBEB++; n_w_EBEB += t.evWeight_w_btagSF;}
+	else {n_notEBEB++; n_w_notEBEB += t.evWeight_w_btagSF;}
+
         // to be in sync with Chiara: if kin fit applied store mjj in mjj_wkinfit and no kin fit in mjj
         t.mjj_wkinfit = t.mjj;
         if( (strcmp("kin", whichJet.c_str()) == 0) || (strcmp("regkin", whichJet.c_str()) == 0) )
@@ -445,6 +453,8 @@ int main(int argc, char *argv[])
         outtree->Fill();
     }
 
+    cout << "n_EBEB= " << n_EBEB << "\tn_notEBEB= " << n_notEBEB << endl;
+    cout << "n_w_EBEB= " << n_w_EBEB << "\tn_w_notEBEB= " << n_w_notEBEB << endl;
     if( mass == 0 && cutLevel >= 0 && applyMtotCut )
     {
       cout << "n_1btag= " << n_1btag << "\tn_2btag= " << n_2btag << "\tn_1btag_lowMtot= " << n_1btag_lowMtot << "\tn_2btag_lowMtot= " << n_2btag_lowMtot << endl;
@@ -452,8 +462,8 @@ int main(int argc, char *argv[])
     }
     else
     {
-      cout << "n_0btag= " << n_0btag << "n_1btag= " << n_1btag << "\tn_2btag= " << n_2btag << endl;
-      cout << "n_w_0btag= " << n_w_0btag << "n_w_1btag= " << n_w_1btag << "\tn_w_2btag= " << n_w_2btag << endl;
+      cout << "n_0btag= " << n_0btag << "\tn_1btag= " << n_1btag << "\tn_2btag= " << n_2btag << endl;
+      cout << "n_w_0btag= " << n_w_0btag << "\tn_w_1btag= " << n_w_1btag << "\tn_w_2btag= " << n_w_2btag << endl;
     }
 
   outfile->cd();
