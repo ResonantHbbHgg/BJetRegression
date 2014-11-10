@@ -420,8 +420,8 @@ int main(int argc, char *argv[])
 	  {
 	    if( t.njets_kRadionID_and_CSVM >= 2 && t.mtot > 350. ) {t.cut_based_ct = 0; n_2btag++; n_w_2btag += t.evWeight_w_btagSF;}
             if( t.njets_kRadionID_and_CSVM == 1 && t.mtot > 360. ) {t.cut_based_ct = 1; n_1btag++; n_w_1btag += t.evWeight_w_btagSF;}
-	    if( t.njets_kRadionID_and_CSVM >= 2 && t.mtot < 350. ) {t.cut_based_ct = 2; n_2btag_lowMtot++; n_w_2btag_lowMtot += t.evWeight_w_btagSF;}
-            if( t.njets_kRadionID_and_CSVM == 1 && t.mtot < 360. ) {t.cut_based_ct = 3; n_1btag_lowMtot++; n_w_1btag_lowMtot += t.evWeight_w_btagSF;}
+	    if( t.njets_kRadionID_and_CSVM >= 2 && t.mtot <=350. ) {t.cut_based_ct = 2; n_2btag_lowMtot++; n_w_2btag_lowMtot += t.evWeight_w_btagSF;}
+            if( t.njets_kRadionID_and_CSVM == 1 && t.mtot <=360. ) {t.cut_based_ct = 3; n_1btag_lowMtot++; n_w_1btag_lowMtot += t.evWeight_w_btagSF;}
 	  }
 	  else
 	  {
@@ -434,6 +434,7 @@ int main(int argc, char *argv[])
 	{
             if( t.njets_kRadionID_and_CSVM >= 2 ) {t.cut_based_ct = 0; n_2btag++; n_w_2btag += t.evWeight_w_btagSF;}
             if( t.njets_kRadionID_and_CSVM == 1 ) {t.cut_based_ct = 1; n_1btag++; n_w_1btag += t.evWeight_w_btagSF;}
+	    if( t.njets_kRadionID_and_CSVM == 0 ) {t.cut_based_ct = 2; n_0btag++; n_w_0btag += t.evWeight_w_btagSF;}
         }
 
         // to be in sync with Chiara: if kin fit applied store mjj in mjj_wkinfit and no kin fit in mjj
@@ -451,8 +452,8 @@ int main(int argc, char *argv[])
     }
     else
     {
-      cout << "n_1btag= " << n_1btag << "\tn_2btag= " << n_2btag << endl;
-      cout << "n_w_1btag= " << n_w_1btag << "\tn_w_2btag= " << n_w_2btag << endl;
+      cout << "n_0btag= " << n_0btag << "n_1btag= " << n_1btag << "\tn_2btag= " << n_2btag << endl;
+      cout << "n_w_0btag= " << n_w_0btag << "n_w_1btag= " << n_w_1btag << "\tn_w_2btag= " << n_w_2btag << endl;
     }
 
   outfile->cd();
