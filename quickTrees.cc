@@ -124,9 +124,13 @@ int main(int argc, char *argv[])
     int n_0btag = 0;
     int n_1btag = 0;
     int n_2btag = 0;
+    int n_1btag_lowMtot = 0;
+    int n_2btag_lowMtot = 0;
     float n_w_0btag = 0.;
     float n_w_1btag = 0.;
     float n_w_2btag = 0.;
+    float n_w_1btag_lowMtot = 0.;
+    float n_w_2btag_lowMtot = 0.;
 
 
     bool removeTrainingEvents = 0; //if using regression jets, remove training events from training samples. These are even events in MSSM and ggHH samples.
@@ -224,13 +228,11 @@ int main(int argc, char *argv[])
                         if( t.njets_kRadionID_and_CSVM>=2 )
                         {
                             if( applyMjjCut && (t.mjj_wokinfit < 90. || t.mjj_wokinfit > 155.) ) continue;
-                            if( (cutLevel >= 0 && applyMtotCut) && (t.mtot < 350.) ) continue;
                             if( (cutLevel >= 0) && (fabs(t.costhetastar_CS) > .9) ) continue;
                         }
                         else if( t.njets_kRadionID_and_CSVM==1 )
                         {
                             if( applyMjjCut && (t.mjj_wokinfit < 90. || t.mjj_wokinfit > 155.) ) continue;
-                            if( (cutLevel >= 0 && applyMtotCut) && (t.mtot < 360.) ) continue;
                             if( (cutLevel >= 0) && (fabs(t.costhetastar_CS) >  .65) ) continue;
                         }
                     }
@@ -403,6 +405,7 @@ int main(int argc, char *argv[])
 
 
 // FILL THE CATEGORY VARIABLE
+// FTR has photon-based categories
         if( strcmp("FTR14001", fitStrategy.c_str()) == 0 )
         {
             if( t.pho1_isEB && t.pho2_isEB )
@@ -411,10 +414,28 @@ int main(int argc, char *argv[])
             } else {
                 t.cut_based_ct = 1;
             }
-        } else {
+        } 
+// nonres search has 4 categories
+	else if (mass == 0)
+	{
+	  if( (cutLevel >= 0 && applyMtotCut) )
+	  {
+	    if( t.njets_kRadionID_and_CSVM >= 2 && t.mtot > 350. ) {t.cut_based_ct = 0; n_2btag++; n_w_2btag += t.evWeight_w_btagSF;}
+            if( t.njets_kRadionID_and_CSVM == 1 && t.mtot > 360. ) {t.cut_based_ct = 1; n_1btag++; n_w_1btag += t.evWeight_w_btagSF;}
+	    if( t.njets_kRadionID_and_CSVM >= 2 && t.mtot < 350. ) {t.cut_based_ct = 2; n_2btag_lowMtot++; n_w_2btag_lowMtot += t.evWeight_w_btagSF;}
+            if( t.njets_kRadionID_and_CSVM == 1 && t.mtot < 360. ) {t.cut_based_ct = 3; n_1btag_lowMtot++; n_w_1btag_lowMtot += t.evWeight_w_btagSF;}
+	  }
+	  else
+	  {
             if( t.njets_kRadionID_and_CSVM >= 2 ) {t.cut_based_ct = 0; n_2btag++; n_w_2btag += t.evWeight_w_btagSF;}
             if( t.njets_kRadionID_and_CSVM == 1 ) {t.cut_based_ct = 1; n_1btag++; n_w_1btag += t.evWeight_w_btagSF;}
-            if( t.njets_kRadionID_and_CSVM == 0 ) {t.cut_based_ct = 2; n_0btag++; n_w_0btag += t.evWeight_w_btagSF;}
+	  }
+        }
+// res search has the usual 2 categories
+	else
+	{
+            if( t.njets_kRadionID_and_CSVM >= 2 ) {t.cut_based_ct = 0; n_2btag++; n_w_2btag += t.evWeight_w_btagSF;}
+            if( t.njets_kRadionID_and_CSVM == 1 ) {t.cut_based_ct = 1; n_1btag++; n_w_1btag += t.evWeight_w_btagSF;}
         }
 
         // to be in sync with Chiara: if kin fit applied store mjj in mjj_wkinfit and no kin fit in mjj
@@ -424,8 +445,17 @@ int main(int argc, char *argv[])
 
         outtree->Fill();
     }
-    cout << "n_0btag= " << n_0btag << "\tn_1btag= " << n_1btag << "\tn_2btag= " << n_2btag << endl;
-    cout << "n_w_0btag= " << n_w_0btag << "\tn_w_1btag= " << n_w_1btag << "\tn_w_2btag= " << n_w_2btag << endl;
+
+    if( mass == 0 && cutLevel >= 0 && applyMtotCut )
+    {
+      cout << "n_1btag= " << n_1btag << "\tn_2btag= " << n_2btag << "\tn_1btag_lowMtot= " << n_1btag_lowMtot << "\tn_2btag_lowMtot= " << n_2btag_lowMtot << endl;
+      cout << "n_w_1btag= " << n_w_1btag << "\tn_w_2btag= " << n_w_2btag << "\tn_w_1btag_lowMtot= " << n_w_1btag_lowMtot << "\tn_w_2btag_lowMtot= " << n_w_2btag_lowMtot << endl;
+    }
+    else
+    {
+      cout << "n_1btag= " << n_1btag << "\tn_2btag= " << n_2btag << endl;
+      cout << "n_w_1btag= " << n_w_1btag << "\tn_w_2btag= " << n_w_2btag << endl;
+    }
 
   outfile->cd();
   outtree->Write();
