@@ -349,12 +349,10 @@ int main(int argc, char *argv[])
           {
             if( t.njets_kRadionID_and_CSVM>=2 )
               {
-            if( (cutLevel >= 0 && applyMtotCut) && (t.mtot < 350.) ) continue;
             if( (cutLevel >= 0) && (fabs(t.costhetastar_CS) > .9) ) continue;
               }
             else if( t.njets_kRadionID_and_CSVM==1 )
               {
-            if( (cutLevel >= 0 && applyMtotCut) && (t.mtot < 360.) ) continue;
             if( (cutLevel >= 0) && (fabs(t.costhetastar_CS) > .65) ) continue;
               }
           }
