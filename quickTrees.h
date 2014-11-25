@@ -1,7 +1,7 @@
 struct tree_variables
 {
     int run, lumis, event;
-    float mgg, mjj, mtot;
+    float mgg, mjj, mtot, mtot_gen;
     float costhetastar_CS;
     float jj_DR, gg_DR;
     float pho1_pt, pho1_e, pho1_phi, pho1_eta, pho1_mass;
@@ -87,6 +87,7 @@ void setup_intree(TTree *intree, tree_variables *t, std::string whichJet)
     intree->SetBranchAddress("regcosthetastar", &t->regcosthetastar);
     intree->SetBranchAddress("minDRgregkinj", &t->minDRgregkinj);
     intree->SetBranchAddress("njets_kLooseID", &t->njets_kLooseID);
+    intree->SetBranchAddress("gr_radion_p4_mass", &t->mtot_gen);
     return;
 }
 
@@ -148,5 +149,6 @@ void setup_outtree(TTree *outtree, tree_variables *t)
     outtree->Branch("weightBtagSF", &t->weightBtagSF, "weightBtagSF/F");
     outtree->Branch("weightBtagSFerrUp", &t->weightBtagSFerrUp, "weightBtagSFerrUp/F");
     outtree->Branch("weightBtagSFerrDown", &t->weightBtagSFerrDown, "weightBtagSFerrDown/F");
+    outtree->Branch("mtot_gen", &t->mtot_gen, "mtot_gen/F");
     return;
 }

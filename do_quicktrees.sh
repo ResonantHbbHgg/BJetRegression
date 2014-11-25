@@ -8,7 +8,7 @@ then
 fi
 
 
-version="v38"
+version="v39"
 today=`date +"0%Y-%m-%d"`
 #set -x
 
@@ -24,14 +24,14 @@ inputfolderFTR="/afs/cern.ch/work/o/obondu/public/forRadion/plotTrees/v21/2014-1
  
 
 # WHICH ANALYSIS TO PROCESS
-doNonResonant=0
-doResonantLowMass=0
-doResonantLowMassWithReg=0
+doNonResonant=1
+doResonantLowMass=1
+doResonantLowMassWithReg=1
 doResonantHighMass=1
 # WHICH SAMPLES TO PROCESS (default is also running dataCS and diphoton-sherpa, minimum is data + signal)
 doTheStrictMinimum=0
-doAnomalousHHScenario1=0
-doAnomalousHHScenario2=0
+doAnomalousHHScenario1=1
+doAnomalousHHScenario2=1
 
 
 # OTHER GLOBAL SETTINGS, IN MOST USE CASE YOU SHOULD NOT TOUCH THIS
