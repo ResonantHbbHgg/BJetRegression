@@ -24,12 +24,12 @@ regFilePath="weights/TMVARegression_resonant_BDTG.weights.xml" #it is also possi
 doData=1
 doDataCS=1
 # RESONANT SIGNALS
-doRadion=0
-doRadionM126=0
-doRadionaajj=0
-doMSSM=0
-doGraviton=0
-doGravitonMore=0
+doRadion=1
+doRadionM126=1
+doRadionaajj=1
+doMSSM=1
+doGraviton=1
+doGravitonMore=1
 # SM Higgs
 doSMHiggs=1
 doExtraSMHiggs=0
