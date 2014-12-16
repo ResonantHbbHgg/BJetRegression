@@ -768,36 +768,36 @@ then
 
     i=$((${i} + 1))
     infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_v4.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_1d0_Yt_1d25_c2_0d0"
+    tree[${i}]="HH_bbaa_8TeV_Lam_1d0_Yt_1d25_c2_0d0_v2"
     outtree[${i}]="ggHH_Lam_1d0_Yt_1d25_c2_0d0_8TeV"
     typ[${i}]="-500112500"
     CS[${i}]="0"
 
     i=$((${i} + 1))
     infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_v4.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_1d0_Yt_0d75_c2_0d0"
+    tree[${i}]="HH_bbaa_8TeV_Lam_1d0_Yt_0d75_c2_0d0_v2"
     outtree[${i}]="ggHH_Lam_1d0_Yt_0d75_c2_0d0_8TeV"
     typ[${i}]="-500107500"
     CS[${i}]="0"
 
     i=$((${i} + 1))
     infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_v4.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_m2_Yt_1d0_c2_0d0"
+    tree[${i}]="HH_bbaa_8TeV_Lam_m2_Yt_1d0_c2_0d0_v2"
     outtree[${i}]="ggHH_Lam_m2_Yt_1d0_c2_0d0_8TeV"
     typ[${i}]="-510210000"
     CS[${i}]="0"
 
     i=$((${i} + 1))
     infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_v4.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_3_Yt_1d0_c2_0d0"
+    tree[${i}]="HH_bbaa_8TeV_Lam_3_Yt_1d0_c2_0d0_v2"
     outtree[${i}]="ggHH_Lam_3_Yt_1d0_c2_0d0_8TeV"
     typ[${i}]="-500310000"
     CS[${i}]="0"
 
     i=$((${i} + 1))
     infile[${i}]="radion_redu_12_tree_10/ggHH_anomalous_v4.root"
-    tree[${i}]="HH_bbaa_8TeV_Lam_5_Yt_1d0_c2_0d0"
-    outtree[${i}]="ggHH_Lam_3_Yt_1d0_c2_0d0_8TeV"
+    tree[${i}]="HH_bbaa_8TeV_Lam_5_Yt_1d0_c2_0d0_v2"
+    outtree[${i}]="ggHH_Lam_5_Yt_1d0_c2_0d0_8TeV"
     typ[${i}]="-500510000"
     CS[${i}]="0"
 fi
