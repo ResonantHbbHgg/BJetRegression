@@ -8,7 +8,7 @@ then
 fi
 
 
-version="v40"
+version="v41"
 today=`date +"0%Y-%m-%d"`
 #set -x
 
