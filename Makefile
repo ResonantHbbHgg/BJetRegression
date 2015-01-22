@@ -4,8 +4,8 @@ CCFLAGS   = -Wall -O2
 SOURCES   =
 ROOTFLAGS = `root-config --cflags`
 ROOTLIBS  = `root-config --libs --ldflags`
-ROOFITLIBS = -lRooFit -lRooFitCore -lMinuit -lFoam
-ROOSTATSLIBS = -lRooStats
+ROOFITLIBS = -lRooFit -lRooFitCore -lMinuit -lFoam -I${ROOFITSYS}include -L${ROOFITSYS}lib
+ROOSTATSLIBS = -lRooStats -I${ROOFITSYS}include/RooStats/
 # boost
 BOOSTFLAGS = -I${BOOST_ROOT}include/boost-1_48
 BOOSTLIBS = -L${BOOST_ROOT}lib -lboost_program_options-gcc43-mt-1_48
@@ -63,7 +63,7 @@ obtainWeights.exe: obtainWeights.o
 	$(CC) $(ROOTLIBS) $(BOOSTLIBS) obtainWeights.o -o obtainWeights.exe
 
 fitMass.o: fitMass.cc
-	$(CC) $(CCFLAGS) $(ROOTFLAGS) $(BOOSTFLAGS) -c fitMass.cc -o fitMass.o
+	$(CC) $(CCFLAGS) $(ROOTFLAGS) $(ROOFITLIBS) $(BOOSTFLAGS) -c fitMass.cc -o fitMass.o
 
 fitMass.exe: fitMass.o
 	$(CC) $(ROOTLIBS) $(ROOFITLIBS) $(BOOSTLIBS) fitMass.o -o fitMass.exe
