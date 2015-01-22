@@ -14,12 +14,8 @@ ROOT.gROOT.ProcessLine(".x setTDRStyle.C")
 ROOT.TGaxis.SetMaxDigits(3);
 
 c1 = TCanvas()
-afs_plottree = "/afs/cern.ch/work/o/obondu/Higgs/CMSSW_6_1_1_radion_v2/src/BJetRegression/2014-11-07_selection_noRegression_noMassCut_v21/"
-#afs_plottree = "/afs/cern.ch/work/o/obondu/Higgs/CMSSW_6_1_1_radion_v2/src/BJetRegression/2014-11-07_selection_withRegression_noMassCut_v21/"
-#afs_plottree = "/afs/cern.ch/work/o/obondu/Higgs/CMSSW_6_1_1_radion_v2/src/BJetRegression/2014-10-21_selection_noRegression_noMassCut_v17_nophotonID/"
-#afs_plottree = "/afs/cern.ch/work/o/obondu/Higgs/CMSSW_6_1_1_radion_v2/src/BJetRegression/selectedTrees/2014-07-23_selection_noRegression_noMassCut_v15_photonID_wo_IsoAB/"
-#afs_plottree = "/afs/cern.ch/work/o/obondu/Higgs/CMSSW_6_1_1_radion_v2/src/BJetRegression/2014-10-21_selection_noRegression_noMassCut_v17_0btag/"
-#afs_plottree = "/afs/cern.ch/work/o/obondu/Higgs/CMSSW_6_1_1_radion_v2/src/BJetRegression/selectedTrees/2014-06-05_selection_noRegression_noMassCut_v13/"
+#afs_plottree = "/afs/cern.ch/work/o/obondu/public/forRadion/plotTrees/v22/2014-12-16_selection_withRegression_noMassCut_v22"
+afs_plottree = "/afs/cern.ch/work/o/obondu/public/forRadion/plotTrees/v22/2014-12-16_selection_noRegression_noMassCut_v22"
 eos_tree = "root://eoscms//eos/cms/store/cmst3/user/obondu/H2GGLOBE/Radion/trees/radion_redu_11_tree_08"
 
 #regression = "withRegression"
