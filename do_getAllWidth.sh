@@ -1,8 +1,8 @@
 #!/bin/bash
 
 inputversion="v22"
-inputfolder="/afs/cern.ch/work/o/obondu/public/forRadion/plotTrees/v${inputversion}/2014-12-16_selection_noRegression_noMassCut_v${inputversion}"
-inputfolderreg="/afs/cern.ch/work/o/obondu/public/forRadion/plotTrees/v${inputversion}/2014-12-16_selection_withRegression_noMassCut_v${inputversion}"
+inputfolder="/afs/cern.ch/work/o/obondu/public/forRadion/plotTrees/${inputversion}/2014-12-16_selection_noRegression_noMassCut_${inputversion}"
+inputfolderreg="/afs/cern.ch/work/o/obondu/public/forRadion/plotTrees/${inputversion}/2014-12-16_selection_withRegression_noMassCut_${inputversion}"
 
 i=-1
 
