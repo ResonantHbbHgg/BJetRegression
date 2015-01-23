@@ -359,10 +359,10 @@ int main (int argc, char *argv[])
 		float max_jj = 250.;
 		float min_ggjj = massHypothesis - 200.;
 		float max_ggjj = massHypothesis + 200.;
-		RooRealVar jj_mass("regjj_mass", "m_{jj}", min_jj, max_jj, "GeV");
-		jj_mass.setBins(45);
-		RooRealVar ggjj_mass("regggjj_mass", "m_{jj#gamma#gamma}", min_ggjj, max_ggjj, "GeV");
-		ggjj_mass.setBins(50);
+		RooRealVar regjj_mass("regjj_mass", "m_{jj}", min_jj, max_jj, "GeV");
+		regjj_mass.setBins(45);
+		RooRealVar regggjj_mass("regggjj_mass", "m_{jj#gamma#gamma}", min_ggjj, max_ggjj, "GeV");
+		regggjj_mass.setBins(50);
 		RooRealVar njets_kRadionID_and_CSVM("njets_kRadionID_and_CSVM", "njets_kRadionID_and_CSVM", 0, 10);
 		TCanvas *c1 = new TCanvas("c1", "c1", 600, 600);
 	
@@ -376,41 +376,41 @@ int main (int argc, char *argv[])
 		vector<string> categoryName;
 		categoryName.clear();
 	
-		categoryCut.push_back(Form("jj_mass > %f && jj_mass < %f && ggjj_mass > %f && ggjj_mass < %f", min_jj, max_jj, min_ggjj, max_ggjj));
+		categoryCut.push_back(Form("regjj_mass > %f && regjj_mass < %f && regggjj_mass > %f && regggjj_mass < %f", min_jj, max_jj, min_ggjj, max_ggjj));
 		categoryName.push_back("allcat");
-		categoryCut.push_back(Form("njets_kRadionID_and_CSVM < 1.5 && jj_mass > %f && jj_mass < %f && ggjj_mass > %f && ggjj_mass < %f", min_jj, max_jj, min_ggjj, max_ggjj));
+		categoryCut.push_back(Form("njets_kRadionID_and_CSVM < 1.5 && regjj_mass > %f && regjj_mass < %f && regggjj_mass > %f && regggjj_mass < %f", min_jj, max_jj, min_ggjj, max_ggjj));
 		categoryName.push_back("cat1");
-		categoryCut.push_back(Form("njets_kRadionID_and_CSVM > 1.5 && jj_mass > %f && jj_mass < %f && ggjj_mass > %f && ggjj_mass < %f", min_jj, max_jj, min_ggjj, max_ggjj));
+		categoryCut.push_back(Form("njets_kRadionID_and_CSVM > 1.5 && regjj_mass > %f && regjj_mass < %f && regggjj_mass > %f && regggjj_mass < %f", min_jj, max_jj, min_ggjj, max_ggjj));
 		categoryName.push_back("cat0");
 		
 	
 		for(int icat = 0 ; icat < (int)categoryCut.size() ; icat++)
 		{
 			// datatset definition depend on category
-			RooDataSet full_dataset("radion", "radion", intree, RooArgList(jj_mass, ggjj_mass, njets_kRadionID_and_CSVM));
-			RooDataSet full_datasetreg("radion", "radion", intreereg, RooArgList(jj_mass, ggjj_mass, njets_kRadionID_and_CSVM));
+			RooDataSet full_dataset("radion", "radion", intree, RooArgList(regjj_mass, regggjj_mass, njets_kRadionID_and_CSVM));
+			RooDataSet full_datasetreg("radion", "radion", intreereg, RooArgList(regjj_mass, regggjj_mass, njets_kRadionID_and_CSVM));
 			RooDataSet dataset = *((RooDataSet*)full_dataset.reduce(categoryCut[icat].c_str()));	
 			RooDataSet datasetreg = *((RooDataSet*)full_datasetreg.reduce(categoryCut[icat].c_str()));	
 	
-			float mean_jj = dataset.mean(jj_mass);
-			float mean_regjj = datasetreg.mean(jj_mass);
-			float rms_jj = dataset.rmsVar(jj_mass)->getVal();
-			float rms_regjj = datasetreg.rmsVar(jj_mass)->getVal();
+			float mean_jj = dataset.mean(regjj_mass);
+			float mean_regjj = datasetreg.mean(regjj_mass);
+			float rms_jj = dataset.rmsVar(regjj_mass)->getVal();
+			float rms_regjj = datasetreg.rmsVar(regjj_mass)->getVal();
 		
-			float mean_ggjj = dataset.mean(ggjj_mass);
-			float mean_regggjj = datasetreg.mean(ggjj_mass);
-			float rms_ggjj = dataset.rmsVar(ggjj_mass)->getVal();
-			float rms_regggjj = datasetreg.rmsVar(ggjj_mass)->getVal();
+			float mean_ggjj = dataset.mean(regggjj_mass);
+			float mean_regggjj = datasetreg.mean(regggjj_mass);
+			float rms_ggjj = dataset.rmsVar(regggjj_mass)->getVal();
+			float rms_regggjj = datasetreg.rmsVar(regggjj_mass)->getVal();
 	
 			pair<float, float> ms_jj = make_pair(0., 0.);
 			pair<float, float> ms_regjj = make_pair(0., 0.);
 			pair<float, float> ms_ggjj = make_pair(0., 0.);
 			pair<float, float> ms_regggjj = make_pair(0., 0.);
 	
-			ms_jj = sigmaEff(intree, "jj_mass", categoryCut[icat]);
-			ms_regjj = sigmaEff(intreereg, "jj_mass", categoryCut[icat]);
-			ms_ggjj = sigmaEff(intree, "ggjj_mass", categoryCut[icat]);
-			ms_regggjj = sigmaEff(intreereg, "ggjj_mass", categoryCut[icat]);
+			ms_jj = sigmaEff(intree, "regjj_mass", categoryCut[icat]);
+			ms_regjj = sigmaEff(intreereg, "regjj_mass", categoryCut[icat]);
+			ms_ggjj = sigmaEff(intree, "regggjj_mass", categoryCut[icat]);
+			ms_regggjj = sigmaEff(intreereg, "regggjj_mass", categoryCut[icat]);
 	
 			cout << "ncor: " << "\tmean= " << ms_jj.first << "\tsigma= " << ms_jj.second << "\tres= " << ms_jj.second / ms_jj.first * 100. << endl;
 			cout << "cor: " << "\tmean= " << ms_regjj.first << "\tsigma= " << ms_regjj.second << "\tres= " << ms_regjj.second / ms_regjj.first * 100. << endl;
@@ -435,21 +435,21 @@ int main (int argc, char *argv[])
 			{
 				RooRealVar mu_gauss("mu_gauss", "mean", mean_jj, mean_jj-rms_jj, mean_jj+rms_jj, "GeV");
 				RooRealVar sigma_gauss("sigma_gauss", "sigma", rms_jj, .01*rms_jj, 5.*rms_jj, "GeV");
-				RooGaussian gauss("gauss", "gauss", jj_mass, mu_gauss, sigma_gauss);
+				RooGaussian gauss("gauss", "gauss", regjj_mass, mu_gauss, sigma_gauss);
 			
 				RooRealVar mu_gaussreg("mu_gaussreg", "mean (reg)", mean_regjj, mean_regjj-rms_regjj, mean_regjj+rms_regjj, "GeV");
 				RooRealVar sigma_gaussreg("sigma_gaussreg", "sigma (reg)", rms_regjj, .01*rms_regjj, 5.*rms_regjj, "GeV");
-				RooGaussian gaussreg("gaussreg", "gaussreg", jj_mass, mu_gaussreg, sigma_gaussreg);
+				RooGaussian gaussreg("gaussreg", "gaussreg", regjj_mass, mu_gaussreg, sigma_gaussreg);
 			
 				RooRealVar mu_gauss_("mu_gauss_", "mean", mean_ggjj, mean_ggjj-rms_ggjj, mean_ggjj+rms_ggjj, "GeV");
 				RooRealVar sigma_gauss_("sigma_gauss_", "sigma", rms_ggjj, .01*rms_ggjj, 5.*rms_ggjj, "GeV");
-				RooGaussian gauss_("gauss_", "gauss_", ggjj_mass, mu_gauss_, sigma_gauss_);
+				RooGaussian gauss_("gauss_", "gauss_", regggjj_mass, mu_gauss_, sigma_gauss_);
 			
 				RooRealVar mu_gauss_reg("mu_gauss_reg", "mean (reg)", mean_regggjj, mean_regggjj-rms_regggjj, mean_regggjj+rms_regggjj, "GeV");
 				RooRealVar sigma_gauss_reg("sigma_gauss_reg", "sigma (reg)", rms_regggjj, .01*rms_regggjj, 5.*rms_regggjj, "GeV");
-				RooGaussian gauss_reg("gauss_reg", "gauss_reg", ggjj_mass, mu_gauss_reg, sigma_gauss_reg);
+				RooGaussian gauss_reg("gauss_reg", "gauss_reg", regggjj_mass, mu_gauss_reg, sigma_gauss_reg);
 			
-				RooPlot * jj_frame = jj_mass.frame();
+				RooPlot * jj_frame = regjj_mass.frame();
 				dataset.plotOn(jj_frame, LineColor(kGreen+3), MarkerColor(kGreen+3), XErrorSize(0));
 				datasetreg.plotOn(jj_frame, LineColor(kRed+2), MarkerColor(kRed+2), MarkerStyle(23), XErrorSize(0));
 			//	RooFitResult *f = gauss.fitTo(dataset, Save(), Range(mean_jj-0.9*rms_jj, mean_jj+1.5*rms_jj));
@@ -476,7 +476,7 @@ int main (int argc, char *argv[])
 					<< "\t" << - (resreg - res) / res * 100.
 					<< endl;
 			
-				RooPlot * ggjj_frame = ggjj_mass.frame();
+				RooPlot * ggjj_frame = regggjj_mass.frame();
 				dataset.plotOn(ggjj_frame, LineColor(kGreen+3), MarkerColor(kGreen+3), XErrorSize(0));
 				datasetreg.plotOn(ggjj_frame, LineColor(kRed+2), MarkerColor(kRed+2), MarkerStyle(23), XErrorSize(0));
 				RooFitResult *f_ = gauss_.fitTo(dataset, Save(), Range(mean_ggjj-1.5*rms_ggjj, mean_ggjj+1.5*rms_ggjj));
@@ -518,14 +518,14 @@ int main (int argc, char *argv[])
 				RooRealVar a1_jj("a1_jj", "a1_jj", 0.5001, 0., 1.);
 				RooRealVar a2_jj("a2_jj", "a2_jj", 0.5001, 0., 1.);
 				RooRealVar a3_jj("a3_jj", "a3_jj", 0.5001, 0., 1.);
-				RooBernstein pol3_jj("pol3_jj", "pol3_jj", jj_mass, RooArgList(a0_jj, a1_jj, a2_jj, a3_jj));
+				RooBernstein pol3_jj("pol3_jj", "pol3_jj", regjj_mass, RooArgList(a0_jj, a1_jj, a2_jj, a3_jj));
 				RooRealVar f0_jj("f0_jj", "f0_jj", 0.2, 0.001, .5);
 			
 				RooRealVar a0_regjj("a0_regjj", "a0_regjj", 0.5001, 0., 1.);
 				RooRealVar a1_regjj("a1_regjj", "a1_regjj", 0.5001, 0., 1.);
 				RooRealVar a2_regjj("a2_regjj", "a2_regjj", 0.5001, 0., 1.);
 				RooRealVar a3_regjj("a3_regjj", "a3_regjj", 0.5001, 0., 1.);
-				RooBernstein pol3_regjj("pol3_regjj", "pol3_regjj", jj_mass, RooArgList(a0_regjj, a1_regjj, a2_regjj, a3_regjj));
+				RooBernstein pol3_regjj("pol3_regjj", "pol3_regjj", regjj_mass, RooArgList(a0_regjj, a1_regjj, a2_regjj, a3_regjj));
 				RooRealVar f0_regjj("f0_regjj", "f0_regjj", 0.2, 0.001, .5);
 			
 				// Define gauss and CB (common parameters)
@@ -533,15 +533,15 @@ int main (int argc, char *argv[])
 				RooRealVar sigma_CrystalBall_jj("sigma_CrystalBall_jj", "#sigma", rms_jj, .01*rms_jj, 5*rms_jj, "GeV");
 				RooRealVar alpha_CrystalBall_jj("alpha_CrystalBall_jj", "#alpha", 1., 0., 30., "GeV");
 				RooRealVar n_CrystalBall_jj("n_CrystalBall_jj", "n", 10., 0., 30., "GeV");
-				RooCBShape CrystalBall_jj("CrystalBall_jj", "CrystalBall_jj", jj_mass, mu_CrystalBall_jj, sigma_CrystalBall_jj, alpha_CrystalBall_jj, n_CrystalBall_jj);
-				RooGaussian gauss_jj("gauss_jj", "gauss_jj", jj_mass, mu_CrystalBall_jj, sigma_CrystalBall_jj);
+				RooCBShape CrystalBall_jj("CrystalBall_jj", "CrystalBall_jj", regjj_mass, mu_CrystalBall_jj, sigma_CrystalBall_jj, alpha_CrystalBall_jj, n_CrystalBall_jj);
+				RooGaussian gauss_jj("gauss_jj", "gauss_jj", regjj_mass, mu_CrystalBall_jj, sigma_CrystalBall_jj);
 			
 				RooRealVar mu_CrystalBall_regjj("mu_CrystalBall_regjj", "#mu (reg)", mean_regjj, mean_regjj-rms_regjj, mean_regjj+rms_regjj, "GeV");
 				RooRealVar sigma_CrystalBall_regjj("sigma_CrystalBall_regjj", "#sigma (reg)", rms_regjj, .01*rms_regjj, 5*rms_regjj, "GeV");
 				RooRealVar alpha_CrystalBall_regjj("alpha_CrystalBall_regjj", "#alpha (reg)", 1., 0., 30., "GeV");
 				RooRealVar n_CrystalBall_regjj("n_CrystalBall_regjj", "n (reg)", 10., 0., 30., "GeV");
-				RooCBShape CrystalBall_regjj("CrystalBall_regjj", "CrystalBall_regjj", jj_mass, mu_CrystalBall_regjj, sigma_CrystalBall_regjj, alpha_CrystalBall_regjj, n_CrystalBall_regjj);
-				RooGaussian gauss_regjj("gauss_regjj", "gauss_regjj", jj_mass, mu_CrystalBall_regjj, sigma_CrystalBall_regjj);
+				RooCBShape CrystalBall_regjj("CrystalBall_regjj", "CrystalBall_regjj", regjj_mass, mu_CrystalBall_regjj, sigma_CrystalBall_regjj, alpha_CrystalBall_regjj, n_CrystalBall_regjj);
+				RooGaussian gauss_regjj("gauss_regjj", "gauss_regjj", regjj_mass, mu_CrystalBall_regjj, sigma_CrystalBall_regjj);
 			
 				// Models definitions
 				RooAddPdf first_jj("first_jj", "first_jj", pol3_jj, gauss_jj, f0_jj);
@@ -550,7 +550,7 @@ int main (int argc, char *argv[])
 				RooAddPdf first_regjj("first_regjj", "first_regjj", pol3_regjj, gauss_regjj, f0_regjj);
 				RooAddPdf model_regjj("model_regjj", "model_regjj", pol3_regjj, CrystalBall_regjj, f0_regjj);
 			
-				RooPlot * jj_frame = jj_mass.frame();
+				RooPlot * jj_frame = regjj_mass.frame();
 				// plot data
 				dataset.plotOn(jj_frame, LineColor(kGreen+3), MarkerColor(kGreen+3), XErrorSize(0));
 				datasetreg.plotOn(jj_frame, LineColor(kRed+2), MarkerColor(kRed+2), MarkerStyle(23), XErrorSize(0));
@@ -596,14 +596,14 @@ int main (int argc, char *argv[])
 				RooRealVar a1_ggjj("a1_ggjj", "a1_ggjj", 0.5001, 0., 1.);
 				RooRealVar a2_ggjj("a2_ggjj", "a2_ggjj", 0.5001, 0., 1.);
 				RooRealVar a3_ggjj("a3_ggjj", "a3_ggjj", 0.5001, 0., 1.);
-				RooBernstein pol3_ggjj("pol3_ggjj", "pol3_ggjj", ggjj_mass, RooArgList(a0_ggjj, a1_ggjj, a2_ggjj, a3_ggjj));
+				RooBernstein pol3_ggjj("pol3_ggjj", "pol3_ggjj", regggjj_mass, RooArgList(a0_ggjj, a1_ggjj, a2_ggjj, a3_ggjj));
 				RooRealVar f0_ggjj("f0_ggjj", "f0_ggjj", 0.2, 0.001, .5);
 			
 				RooRealVar a0_regggjj("a0_regggjj", "a0_regggjj", 0.5001, 0., 1.);
 				RooRealVar a1_regggjj("a1_regggjj", "a1_regggjj", 0.5001, 0., 1.);
 				RooRealVar a2_regggjj("a2_regggjj", "a2_regggjj", 0.5001, 0., 1.);
 				RooRealVar a3_regggjj("a3_regggjj", "a3_regggjj", 0.5001, 0., 1.);
-				RooBernstein pol3_regggjj("pol3_regggjj", "pol3_regggjj", ggjj_mass, RooArgList(a0_regggjj, a1_regggjj, a2_regggjj, a3_regggjj));
+				RooBernstein pol3_regggjj("pol3_regggjj", "pol3_regggjj", regggjj_mass, RooArgList(a0_regggjj, a1_regggjj, a2_regggjj, a3_regggjj));
 				RooRealVar f0_regggjj("f0_regggjj", "f0_regggjj", 0.2, 0.001, .5);
 			
 				// Define gauss and CB (common parameters)
@@ -611,15 +611,15 @@ int main (int argc, char *argv[])
 				RooRealVar sigma_CrystalBall_ggjj("sigma_CrystalBall_ggjj", "#sigma", rms_ggjj, .01*rms_ggjj, 5*rms_ggjj, "GeV");
 				RooRealVar alpha_CrystalBall_ggjj("alpha_CrystalBall_ggjj", "#alpha", 1., 0., 30., "GeV");
 				RooRealVar n_CrystalBall_ggjj("n_CrystalBall_ggjj", "n", 20., 0., 30., "GeV");
-				RooCBShape CrystalBall_ggjj("CrystalBall_ggjj", "CrystalBall_ggjj", ggjj_mass, mu_CrystalBall_ggjj, sigma_CrystalBall_ggjj, alpha_CrystalBall_ggjj, n_CrystalBall_ggjj);
-				RooGaussian gauss_ggjj("gauss_ggjj", "gauss_ggjj", ggjj_mass, mu_CrystalBall_ggjj, sigma_CrystalBall_ggjj);
+				RooCBShape CrystalBall_ggjj("CrystalBall_ggjj", "CrystalBall_ggjj", regggjj_mass, mu_CrystalBall_ggjj, sigma_CrystalBall_ggjj, alpha_CrystalBall_ggjj, n_CrystalBall_ggjj);
+				RooGaussian gauss_ggjj("gauss_ggjj", "gauss_ggjj", regggjj_mass, mu_CrystalBall_ggjj, sigma_CrystalBall_ggjj);
 			
 				RooRealVar mu_CrystalBall_regggjj("mu_CrystalBall_regggjj", "#mu (reg)", mean_regggjj, mean_regggjj-rms_regggjj, mean_regggjj+rms_regggjj, "GeV");
 				RooRealVar sigma_CrystalBall_regggjj("sigma_CrystalBall_regggjj", "#sigma (reg)", rms_regggjj, .01*rms_regggjj, 5*rms_regggjj, "GeV");
 				RooRealVar alpha_CrystalBall_regggjj("alpha_CrystalBall_regggjj", "#alpha (reg)", 1., 0., 30., "GeV");
 				RooRealVar n_CrystalBall_regggjj("n_CrystalBall_regggjj", "n (reg)", 20., 0., 30., "GeV");
-				RooCBShape CrystalBall_regggjj("CrystalBall_regggjj", "CrystalBall_regggjj", ggjj_mass, mu_CrystalBall_regggjj, sigma_CrystalBall_regggjj, alpha_CrystalBall_regggjj, n_CrystalBall_regggjj);
-				RooGaussian gauss_regggjj("gauss_regggjj", "gauss_regggjj", ggjj_mass, mu_CrystalBall_regggjj, sigma_CrystalBall_regggjj);
+				RooCBShape CrystalBall_regggjj("CrystalBall_regggjj", "CrystalBall_regggjj", regggjj_mass, mu_CrystalBall_regggjj, sigma_CrystalBall_regggjj, alpha_CrystalBall_regggjj, n_CrystalBall_regggjj);
+				RooGaussian gauss_regggjj("gauss_regggjj", "gauss_regggjj", regggjj_mass, mu_CrystalBall_regggjj, sigma_CrystalBall_regggjj);
 			
 				// Models definitions
 				RooAddPdf first_ggjj("first_ggjj", "first_ggjj", pol3_ggjj, gauss_ggjj, f0_ggjj);
@@ -628,7 +628,7 @@ int main (int argc, char *argv[])
 				RooAddPdf first_regggjj("first_regggjj", "first_regggjj", pol3_regggjj, gauss_regggjj, f0_regggjj);
 				RooAddPdf model_regggjj("model_regggjj", "model_regggjj", pol3_regggjj, CrystalBall_regggjj, f0_regggjj);
 			
-				RooPlot * ggjj_frame = ggjj_mass.frame();
+				RooPlot * ggjj_frame = regggjj_mass.frame();
 				// plot data
 				dataset.plotOn(ggjj_frame, LineColor(kGreen+3), MarkerColor(kGreen+3), XErrorSize(0));
 				datasetreg.plotOn(ggjj_frame, LineColor(kRed+2), MarkerColor(kRed+2), MarkerStyle(23), XErrorSize(0));
@@ -675,15 +675,15 @@ int main (int argc, char *argv[])
 				RooRealVar mu_voigt("mu_voigt", "mean", mean_jj, mean_jj-rms_jj, mean_jj+rms_jj, "GeV");
 				RooRealVar width_voigt("width_voigt", "width", rms_jj, 0.1*rms_jj, 5.*rms_jj, "GeV");
 				RooRealVar sigma_voigt("sigma_voigt", "sigma", 5., 0.0001, 20., "GeV");
-				RooVoigtian voigt("voigt", "voigt", jj_mass, mu_voigt, width_voigt, sigma_voigt);
+				RooVoigtian voigt("voigt", "voigt", regjj_mass, mu_voigt, width_voigt, sigma_voigt);
 			
 				RooRealVar mu_voigtreg("mu_voigtreg", "mean (reg)", mean_regjj, mean_jj-rms_jj, mean_jj+rms_jj, "GeV");
 				RooRealVar width_voigtreg("width_voigtreg", "width (reg)", rms_jj, 0.1*rms_jj, 5.*rms_jj, "GeV");
 				RooRealVar sigma_voigtreg("sigma_voigtreg", "sigma (reg)", 5., 0.0001, 20., "GeV");
-				RooVoigtian voigtreg("voigtreg", "voigtreg", jj_mass, mu_voigtreg, width_voigtreg, sigma_voigtreg);
-				RooVoigtian voigtreg2("voigtreg2", "voigtreg2", jj_mass, mu_voigtreg, width_voigtreg, sigma_voigt);
+				RooVoigtian voigtreg("voigtreg", "voigtreg", regjj_mass, mu_voigtreg, width_voigtreg, sigma_voigtreg);
+				RooVoigtian voigtreg2("voigtreg2", "voigtreg2", regjj_mass, mu_voigtreg, width_voigtreg, sigma_voigt);
 			
-				RooPlot * jj_frame = jj_mass.frame();
+				RooPlot * jj_frame = regjj_mass.frame();
 				dataset.plotOn(jj_frame, LineColor(kGreen+3), MarkerColor(kGreen+3), XErrorSize(0));
 				datasetreg.plotOn(jj_frame, LineColor(kRed+2), MarkerColor(kRed+2), MarkerStyle(23), XErrorSize(0));
 				RooFitResult *f = voigt.fitTo(dataset, Save());
@@ -718,14 +718,14 @@ int main (int argc, char *argv[])
 				RooRealVar mu_voigt_("mu_voigt_", "mean", massHypothesis, min_ggjj, max_ggjj, "GeV");
 				RooRealVar width_voigt_("width_voigt_", "width", 35., 5., 50., "GeV");
 				RooRealVar sigma_voigt_("sigma_voigt_", "sigma", 5., .0, 20., "GeV");
-				RooVoigtian voigt_("voigt_", "voigt_", ggjj_mass, mu_voigt_, width_voigt_, sigma_voigt_);
+				RooVoigtian voigt_("voigt_", "voigt_", regggjj_mass, mu_voigt_, width_voigt_, sigma_voigt_);
 			
 				RooRealVar mu_voigt_reg("mu_voigt_reg", "mean (reg)", massHypothesis, min_ggjj, max_ggjj, "GeV");
 				RooRealVar width_voigt_reg("width_voigt_reg", "width (reg)", 35., 5., 50., "GeV");
 				RooRealVar sigma_voigt_reg("sigma_voigt_reg", "sigma (reg)", 5., 0.0001, 20., "GeV");
-				RooVoigtian voigt_reg("voigt_reg", "voigt_reg", ggjj_mass, mu_voigt_reg, width_voigt_reg, sigma_voigt_reg);
+				RooVoigtian voigt_reg("voigt_reg", "voigt_reg", regggjj_mass, mu_voigt_reg, width_voigt_reg, sigma_voigt_reg);
 			
-				RooPlot * ggjj_frame = ggjj_mass.frame();
+				RooPlot * ggjj_frame = regggjj_mass.frame();
 				dataset.plotOn(ggjj_frame, LineColor(kGreen+3), MarkerColor(kGreen+3), XErrorSize(0));
 				datasetreg.plotOn(ggjj_frame, LineColor(kRed+2), MarkerColor(kRed+2), MarkerStyle(23), XErrorSize(0));
 				RooFitResult *f_ = voigt_.fitTo(dataset, Save());
@@ -769,23 +769,23 @@ int main (int argc, char *argv[])
 				RooRealVar mu_voigt("mu_voigt", "mean", mean_jj, mean_jj-rms_jj, mean_jj+rms_jj, "GeV");
 				RooRealVar width_voigt("width_voigt", "width", rms_jj, 0.1*rms_jj, 5.*rms_jj, "GeV");
 				RooRealVar sigma_voigt("sigma_voigt", "sigma", 5., 0.0001, 20., "GeV");
-				RooVoigtian voigt("voigt", "voigt", jj_mass, mu_voigt, width_voigt, sigma_voigt);
+				RooVoigtian voigt("voigt", "voigt", regjj_mass, mu_voigt, width_voigt, sigma_voigt);
 			
 				RooRealVar mu_voigtreg("mu_voigtreg", "mean (reg)", mean_regjj, mean_jj-rms_jj, mean_jj+rms_jj, "GeV");
 				RooRealVar width_voigtreg("width_voigtreg", "width (reg)", rms_jj, 0.1*rms_jj, 5.*rms_jj, "GeV");
 				RooRealVar sigma_voigtreg("sigma_voigtreg", "sigma (reg)", 5., 0.0001, 20., "GeV");
-				RooVoigtian voigtreg2("voigtreg2", "voigtreg2", jj_mass, mu_voigtreg, width_voigtreg, sigma_voigt);
+				RooVoigtian voigtreg2("voigtreg2", "voigtreg2", regjj_mass, mu_voigtreg, width_voigtreg, sigma_voigt);
 			
 				RooCategory sample("sample", "sample");
 				sample.defineType("vanilla");
 				sample.defineType("regression");
 			
-				RooDataSet combData("combdata", "combdata", RooArgList(jj_mass, ggjj_mass), Index(sample), Import("vanilla", dataset), Import("regression", datasetreg));
+				RooDataSet combData("combdata", "combdata", RooArgList(regjj_mass, regggjj_mass), Index(sample), Import("vanilla", dataset), Import("regression", datasetreg));
 				RooSimultaneous sim("sim", "sim", sample);
 				sim.addPdf(voigt, "vanilla");
 				sim.addPdf(voigtreg2, "regression");
 			
-				RooPlot * jj_frame = jj_mass.frame();
+				RooPlot * jj_frame = regjj_mass.frame();
 				dataset.plotOn(jj_frame, LineColor(kGreen+3), MarkerColor(kGreen+3), XErrorSize(0));
 				datasetreg.plotOn(jj_frame, LineColor(kRed+2), MarkerColor(kRed+2), MarkerStyle(23), XErrorSize(0));
 				RooFitResult *f = sim.fitTo(combData, Save());
@@ -816,18 +816,18 @@ int main (int argc, char *argv[])
 				RooRealVar mu_voigt_("mu_voigt_", "mean", massHypothesis, min_ggjj, max_ggjj, "GeV");
 				RooRealVar width_voigt_("width_voigt_", "width", 35., 5., 50., "GeV");
 				RooRealVar sigma_voigt_("sigma_voigt_", "sigma", 5., .0, 20., "GeV");
-				RooVoigtian voigt_("voigt_", "voigt_", ggjj_mass, mu_voigt_, width_voigt_, sigma_voigt_);
+				RooVoigtian voigt_("voigt_", "voigt_", regggjj_mass, mu_voigt_, width_voigt_, sigma_voigt_);
 			
 				RooRealVar mu_voigt_reg("mu_voigt_reg", "mean (reg)", massHypothesis, min_ggjj, max_ggjj, "GeV");
 				RooRealVar width_voigt_reg("width_voigt_reg", "width (reg)", 35., 5., 50., "GeV");
 				RooRealVar sigma_voigt_reg("sigma_voigt_reg", "sigma (reg)", 5., 0.0001, 20., "GeV");
-				RooVoigtian voigt_reg2("voigt_reg2", "voigt_reg2", ggjj_mass, mu_voigt_reg, width_voigt_reg, sigma_voigt_);
+				RooVoigtian voigt_reg2("voigt_reg2", "voigt_reg2", regggjj_mass, mu_voigt_reg, width_voigt_reg, sigma_voigt_);
 			
 				RooSimultaneous sim_("sim_", "sim_", sample);
 				sim_.addPdf(voigt_, "vanilla");
 				sim_.addPdf(voigt_reg2, "regression");
 			
-				RooPlot * ggjj_frame = ggjj_mass.frame();
+				RooPlot * ggjj_frame = regggjj_mass.frame();
 				dataset.plotOn(ggjj_frame, LineColor(kGreen+3), MarkerColor(kGreen+3), XErrorSize(0));
 				datasetreg.plotOn(ggjj_frame, LineColor(kRed+2), MarkerColor(kRed+2), MarkerStyle(23), XErrorSize(0));
 				RooFitResult *f_ = sim_.fitTo(combData, Save());
@@ -947,7 +947,7 @@ pair<float,float> sigmaEff(TTree* tree, string var, string cut)
 	tree->SetBranchAddress(var.c_str(), &variable);
 
   tree->Draw(">>elist", cut.c_str(), "entrylist");
-//  tree->Draw(">>elist", "jj_mass < 300", "entrylist");
+//  tree->Draw(">>elist", "regjj_mass < 300", "entrylist");
   TEntryList *elist = (TEntryList*)gDirectory->Get("elist");
 
 //	cout << "ntot= " << ntot << endl;
