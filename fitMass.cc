@@ -359,9 +359,9 @@ int main (int argc, char *argv[])
 		float max_jj = 250.;
 		float min_ggjj = massHypothesis - 200.;
 		float max_ggjj = massHypothesis + 200.;
-		RooRealVar jj_mass("jj_mass", "m_{jj}", min_jj, max_jj, "GeV");
+		RooRealVar jj_mass("regjj_mass", "m_{jj}", min_jj, max_jj, "GeV");
 		jj_mass.setBins(45);
-		RooRealVar ggjj_mass("ggjj_mass", "m_{jj#gamma#gamma}", min_ggjj, max_ggjj, "GeV");
+		RooRealVar ggjj_mass("regggjj_mass", "m_{jj#gamma#gamma}", min_ggjj, max_ggjj, "GeV");
 		ggjj_mass.setBins(50);
 		RooRealVar njets_kRadionID_and_CSVM("njets_kRadionID_and_CSVM", "njets_kRadionID_and_CSVM", 0, 10);
 		TCanvas *c1 = new TCanvas("c1", "c1", 600, 600);
