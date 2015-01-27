@@ -13,10 +13,10 @@ today=`date +"0%Y-%m-%d"`
 #set -x
 
 inputversion="v23"
-inputfolder="/afs/cern.ch/work/o/obondu/public/forRadion/plotTrees/v23/2015-01-26_selection_noRegression_noMassCut_v23/"
-inputfolderReg="/afs/cern.ch/work/o/obondu/public/forRadion/plotTrees/v23/2015-01-26_selection_withRegression_noMassCut_v23/"
+inputfolder="/afs/cern.ch/work/o/obondu/public/forRadion/plotTrees/v23/2015-01-27_selection_noRegression_noMassCut_v23/"
+inputfolderReg="/afs/cern.ch/work/o/obondu/public/forRadion/plotTrees/v23/2015-01-27_selection_withRegression_noMassCut_v23/"
 inputversionFTR="v23_FTR"
-inputfolderFTR="/afs/cern.ch/work/o/obondu/public/forRadion/plotTrees/v23/2015-01-26_selection_noRegression_noMassCut_v23_FTR/"
+inputfolderFTR="/afs/cern.ch/work/o/obondu/public/forRadion/plotTrees/v23/2015-01-27_selection_noRegression_noMassCut_v23_FTR/"
 
 # IMPORTANT NOTES:
 # FOR NOW THE DEFAULT IS NO REGRESSION
