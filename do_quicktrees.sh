@@ -8,15 +8,15 @@ then
 fi
 
 
-version="v41"
+version="v42"
 today=`date +"0%Y-%m-%d"`
 #set -x
 
-inputversion="v22"
-inputfolder="/afs/cern.ch/work/o/obondu/public/forRadion/plotTrees/v22/2014-12-16_selection_noRegression_noMassCut_v22/"
-inputfolderReg="/afs/cern.ch/work/o/obondu/public/forRadion/plotTrees/v22/2014-12-16_selection_withRegression_noMassCut_v22/"
-inputversionFTR="v22_FTR"
-inputfolderFTR="/afs/cern.ch/work/o/obondu/public/forRadion/plotTrees/v22/2014-12-16_selection_noRegression_noMassCut_v22_FTR/"
+inputversion="v23"
+inputfolder="/afs/cern.ch/work/o/obondu/public/forRadion/plotTrees/v23/2015-01-26_selection_noRegression_noMassCut_v23/"
+inputfolderReg="/afs/cern.ch/work/o/obondu/public/forRadion/plotTrees/v23/2015-01-26_selection_withRegression_noMassCut_v23/"
+inputversionFTR="v23_FTR"
+inputfolderFTR="/afs/cern.ch/work/o/obondu/public/forRadion/plotTrees/v23/2015-01-26_selection_noRegression_noMassCut_v23_FTR/"
 
 # IMPORTANT NOTES:
 # FOR NOW THE DEFAULT IS NO REGRESSION
@@ -62,7 +62,7 @@ then
     do
         outfolder="${version}_fitToMggjj_${kinfitlabel[${ikin}]}"
         mkdir -p ${outfolder}
-        samplelist="Radion Graviton Data"
+        samplelist="Radion Graviton Graviton_LR3tev Data"
         if [ ${doTheStrictMinimum} == 0 ]
         then
             samplelist="${samplelist} DataCS diphojet_sherpa_8TeV DYJetsToLL gjet_40_8TeV_pf gjet_20_8TeV_pf qcd_40_8TeV_pf qcd_30_8TeV_pf qcd_40_8TeV_ff qcd_30_8TeV_ff LNuGG_FSR_8TeV LNuGG_ISR_8TeV ttGG_8TeV tGG_8TeV TTGJets_8TeV ZGToLLG_8TeV"
@@ -96,6 +96,17 @@ then
                     else
                         continue
                     fi
+                elif [ "${sample}" == "Graviton_LR3tev" ]
+                then
+                    if [ "${mass}" == "450" ] || [ "${mass}" == "700" ]
+                    then
+                        intree="${sample}_m${mass}_LR3tev_8TeV"
+                        outtree="${sample}_m${mass}_LR3tev_8TeV"
+                        itype="-${mass}"
+                        removeUndefinedBtagSF=0
+                    else
+                        continue
+		    fi
                 elif [ "${sample}" == "Data" ]
                 then
                     itype="0"
@@ -171,7 +182,7 @@ then
                 outfolder="${version}_fitTo${fitStrategy}_resSearch_${kinfitlabel[${ikin}]}"
             fi
             mkdir -p ${outfolder}
-            samplelist="Radion Graviton MSSM ggh_m125_powheg_8TeV vbf_m125_8TeV wzh_m125_8TeV_wh wzh_m125_8TeV_zh tth_m125_8TeV bbh_m125_8TeV Data"
+            samplelist="Radion Graviton Graviton_LR3tev MSSM ggh_m125_powheg_8TeV vbf_m125_8TeV wzh_m125_8TeV_wh wzh_m125_8TeV_zh tth_m125_8TeV bbh_m125_8TeV Data"
             if [ ${doTheStrictMinimum} == 0 ]
             then
                 samplelist="${samplelist} DataCS diphojet_sherpa_8TeV DYJetsToLL gjet_40_8TeV_pf gjet_20_8TeV_pf qcd_40_8TeV_pf qcd_30_8TeV_pf qcd_40_8TeV_ff qcd_30_8TeV_ff LNuGG_FSR_8TeV LNuGG_ISR_8TeV ttGG_8TeV tGG_8TeV TTGJets_8TeV ZGToLLG_8TeV"
@@ -206,6 +217,17 @@ then
                         else
                             intree="${sample}_m${mass}_8TeV"
                             outtree="${sample}_m${mass}_8TeV"
+                            itype="-${mass}"
+                            removeUndefinedBtagSF=0
+                        fi
+                    elif [ "${sample}" == "Graviton_LR3tev" ]
+                    then
+                        if [ "${mass}" == "260" ] || [ "${mass}" == "400" ] || [ "${mass}" == "500" ]
+                        then
+                            continue
+                        else
+                            intree="${sample}_m${mass}_LR3tev_8TeV"
+                            outtree="${sample}_m${mass}_LR3tev_8TeV"
                             itype="-${mass}"
                             removeUndefinedBtagSF=0
                         fi
