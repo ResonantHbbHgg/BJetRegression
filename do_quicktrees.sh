@@ -100,8 +100,8 @@ then
                 then
                     if [ "${mass}" == "450" ] || [ "${mass}" == "700" ]
                     then
-                        intree="${sample}_m${mass}_LR3tev_8TeV"
-                        outtree="${sample}_m${mass}_LR3tev_8TeV"
+                        intree="Graviton_m${mass}_LR3tev_8TeV"
+                        outtree="Graviton_m${mass}_LR3tev_8TeV"
                         itype="-${mass}"
                         removeUndefinedBtagSF=0
                     else
@@ -226,8 +226,8 @@ then
                         then
                             continue
                         else
-                            intree="${sample}_m${mass}_LR3tev_8TeV"
-                            outtree="${sample}_m${mass}_LR3tev_8TeV"
+                            intree="$Graviton_m${mass}_LR3tev_8TeV"
+                            outtree="$Graviton_m${mass}_LR3tev_8TeV"
                             itype="-${mass}"
                             removeUndefinedBtagSF=0
                         fi
