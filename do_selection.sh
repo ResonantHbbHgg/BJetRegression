@@ -9,7 +9,7 @@ fi
 
 today=`date +"%Y-%m-%d"`
 #today="2014-10-22"
-version="v22"
+version="v23"
 eosprefix="root://eoscms//eos/cms"
 eospath="/store/cmst3/group/hbbhgg/H2GGLOBE/Radion/trees/"
 #eospath="/store/user/hebda/h2gglobe/trees/"
@@ -381,86 +381,51 @@ then
     outtree[${i}]="Graviton_m1500_8TeV"
     typ[${i}]="-1500"
     CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/tree_XHH_v2.root"
-    tree[${i}]="Graviton_m270_LR3tev_8TeV"
-    outtree[${i}]="Graviton_m270_LR3tev_8TeV"
-    typ[${i}]="-275"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/tree_XHH_v2.root"
-    tree[${i}]="Graviton_m300_LR3tev_8TeV"
-    outtree[${i}]="Graviton_m300_LR3tev_8TeV"
-    typ[${i}]="-305"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/tree_XHH_v2.root"
-    tree[${i}]="Graviton_m350_LR3tev_8TeV"
-    outtree[${i}]="Graviton_m350_LR3tev_8TeV"
-    typ[${i}]="-355"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/tree_XHH_v2.root"
-    tree[${i}]="Graviton_m450_LR3tev_8TeV"
-    outtree[${i}]="Graviton_m450_LR3tev_8TeV"
-    typ[${i}]="-455"
-    CS[${i}]="0"
-
-    i=$((${i} + 1))
-    infile[${i}]="radion_redu_12_tree_10/tree_XHH_v2.root"
-    tree[${i}]="Graviton_m700_LR3tev_8TeV"
-    outtree[${i}]="Graviton_m700_LR3tev_8TeV"
-    typ[${i}]="-705"
-    CS[${i}]="0"
 fi
 
 ### More graviton samples (narrow width)
 if [ ${doGravitonMore} == 1 ]
 then
     i=$((${i} + 1))
-    infile[${i}]="radion_tree_v10/XHH.root"
+    infile[${i}]="radion_redu_12_tree_10/tree_XHH_v2.root"
     tree[${i}]="Graviton_m270_LR3tev_8TeV"
     outtree[${i}]="Graviton_m270_LR3tev_8TeV"
-    typ[${i}]="-270"
+    typ[${i}]="-275"
     CS[${i}]="0"
     
     i=$((${i} + 1))
-    infile[${i}]="radion_tree_v10/XHH.root"
+    infile[${i}]="radion_redu_12_tree_10/tree_XHH_v2.root"
     tree[${i}]="Graviton_m300_LR3tev_8TeV"
     outtree[${i}]="Graviton_m300_LR3tev_8TeV"
-    typ[${i}]="-300"
+    typ[${i}]="-305"
     CS[${i}]="0"
     
     i=$((${i} + 1))
-    infile[${i}]="radion_tree_v10/XHH.root"
+    infile[${i}]="radion_redu_12_tree_10/tree_XHH_v2.root"
     tree[${i}]="Graviton_m350_LR3tev_8TeV"
     outtree[${i}]="Graviton_m350_LR3tev_8TeV"
-    typ[${i}]="-350"
+    typ[${i}]="-355"
     CS[${i}]="0"
     
-    i=$((${i} + 1))
-    infile[${i}]="radion_tree_v10/XHH.root"
-    tree[${i}]="Graviton_m400_LR3tev_8TeV"
-    outtree[${i}]="Graviton_m400_LR3tev_8TeV"
-    typ[${i}]="-400"
-    CS[${i}]="0"
+    #i=$((${i} + 1))
+    #infile[${i}]="radion_redu_12_tree_10/tree_XHH_v2.root"
+    #tree[${i}]="Graviton_m400_LR3tev_8TeV"
+    #outtree[${i}]="Graviton_m400_LR3tev_8TeV"
+    #typ[${i}]="-405"
+    #CS[${i}]="0"
     
     i=$((${i} + 1))
-    infile[${i}]="radion_tree_v10/XHH.root"
+    infile[${i}]="radion_redu_12_tree_10/tree_XHH_v2.root"
     tree[${i}]="Graviton_m450_LR3tev_8TeV"
     outtree[${i}]="Graviton_m450_LR3tev_8TeV"
-    typ[${i}]="-450"
+    typ[${i}]="-455"
     CS[${i}]="0"
     
     i=$((${i} + 1))
-    infile[${i}]="radion_tree_v10/XHH.root"
+    infile[${i}]="radion_redu_12_tree_10/tree_XHH_v2.root"
     tree[${i}]="Graviton_m700_LR3tev_8TeV"
     outtree[${i}]="Graviton_m700_LR3tev_8TeV"
-    typ[${i}]="-700"
+    typ[${i}]="-705"
     CS[${i}]="0"
 fi
     
