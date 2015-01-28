@@ -1,16 +1,17 @@
 #!/bin/bash
 
-inputversion="v18"
-inputfolder="2014-10-22_selection_withRegression_noMassCut_${inputversion}/"
+inputversion="v22"
+inputfolder="/afs/cern.ch/work/o/obondu/public/forRadion/plotTrees/${inputversion}/2014-12-16_selection_noRegression_noMassCut_${inputversion}"
+inputfolderreg="/afs/cern.ch/work/o/obondu/public/forRadion/plotTrees/${inputversion}/2014-12-16_selection_withRegression_noMassCut_${inputversion}"
 
 i=-1
 
 compareWithRegression=1
 for mass in `echo "270 300 350 400"`
 do
-	inputfile="${inputfolder}/Radion_m${mass}_8TeV_withRegression_noMassCut_${inputversion}.root"
+	inputfile="${inputfolder}/Radion_m${mass}_8TeV_noRegression_noMassCut_${inputversion}.root"
 	inputtree="Radion_m${mass}_8TeV"
-	inputregfile="${inputfolder}/Radion_m${mass}_8TeV_forcedWithRegression_noMassCut_${inputversion}.root"
+	inputregfile="${inputfolderreg}/Radion_m${mass}_8TeV_withRegression_noMassCut_${inputversion}.root"
 	inputregtree="Radion_m${mass}_8TeV"
 	if [[ "${mass}" == "260" ]]
 	then
