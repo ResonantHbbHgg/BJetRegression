@@ -316,7 +316,7 @@ int main(int argc, char *argv[])
                     // if( applyMjjCut && (t.mjj_wokinfit < 95. || t.mjj_wokinfit > 150.) ) continue;
                     // PAS cuts
                     if( applyMggCut && (t.mgg < 120. || t.mgg > 130.) ) continue;
-                    if( applyMjjCut && (t.mjj_wokinfit < 90. || t.mjj_wokinfit > 165.) ) continue;
+                    if( applyMjjCut && (t.mjj_wokinfit < 85. || t.mjj_wokinfit > 170.) ) continue;
                 }
                 else if ( t.njets_kRadionID_and_CSVM==1 )
                 {
