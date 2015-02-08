@@ -109,12 +109,12 @@ int main (int argc, char *argv[])
 
 		cout << "Performing the fits" << endl;
 		// Observables
-		float min_jj = 70.;
+		float min_jj = 50.;
 		float max_jj = 250.;
 		float min_ggjj = massHypothesis - 200.;
 		float max_ggjj = massHypothesis + 200.;
 		RooRealVar jj_mass("jj_mass", "m_{jj}", min_jj, max_jj, "GeV");
-		jj_mass.setBins(45);
+		jj_mass.setBins(50);
 		RooRealVar ggjj_mass("ggjj_mass", "m_{jj#gamma#gamma}", min_ggjj, max_ggjj, "GeV");
 		ggjj_mass.setBins(50);
 		RooRealVar njets_kRadionID_and_CSVM("njets_kRadionID_and_CSVM", "njets_kRadionID_and_CSVM", 0, 10);
@@ -355,12 +355,12 @@ int main (int argc, char *argv[])
 		outfile_mggjj << "Category\tMethod\tmu\tsigma\tres\tmu_reg\tsigma_reg\tres_reg\timprovement" << endl;
 		
 		// Observables
-		float min_jj = 70.;
+		float min_jj = 50.;
 		float max_jj = 250.;
 		float min_ggjj = massHypothesis - 200.;
 		float max_ggjj = massHypothesis + 200.;
 		RooRealVar regjj_mass("regjj_mass", "m_{jj}", min_jj, max_jj, "GeV");
-		regjj_mass.setBins(45);
+		regjj_mass.setBins(50);
 		RooRealVar regggjj_mass("regggjj_mass", "m_{jj#gamma#gamma}", min_ggjj, max_ggjj, "GeV");
 		regggjj_mass.setBins(50);
 		RooRealVar njets_kRadionID_and_CSVM("njets_kRadionID_and_CSVM", "njets_kRadionID_and_CSVM", 0, 10);

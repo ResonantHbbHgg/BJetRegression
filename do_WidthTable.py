@@ -1,17 +1,18 @@
 import operator
 
 class result(object):
-    def __init__(self, method, mass, var, cat, width, mean, regression=False):
+    def __init__(self, method, mass, var, cat, width, mean, res, regression=False):
         self.method = method
         self.mass = mass
         self.var = var
         self.cat = cat
         self.width = width
         self.mean = mean
+        self.res = res
         self.regression = regression
 
     def __str__(self):
-        return "method= " + str(self.method) + "\tmass= " + str(self.mass) + "\tvar= " + str(self.var) + "\tcat= " + str(self.cat) + "\twidth= " + str(self.width) + "\tmean= " + str(self.mean) + "\tregression= ", str(self.regression)
+        return "method= " + str(self.method) + "\tmass= " + str(self.mass) + "\tvar= " + str(self.var) + "\tcat= " + str(self.cat) + "\twidth= " + str(self.width) + "\tmean= " + str(self.mean) + "\tres= " + str(self.res) + "\tregression= ", str(self.regression)
     def __getitem__(self, i):
         if i == 0: return self.method
         if i == 1: return self.mass
@@ -19,7 +20,8 @@ class result(object):
         if i == 3: return self.cat
         if i == 4: return self.width
         if i == 5: return self.mean
-        if i == 6: return self.regression
+        if i == 6: return self.res
+        if i == 7: return self.regression
 
 def getAllResults(filename):
     allresults = []
@@ -32,7 +34,8 @@ def getAllResults(filename):
             icat = l.index('cat=') + 1
             iwidth = l.index('width=') + 1
             imean = l.index('mean=') + 1
-            res = result(l[imethod], int(l[imass]), l[ivar], l[icat], float(l[iwidth]), float(l[imean]))
+            ires = l.index('res=') + 1
+            res = result(l[imethod], int(l[imass]), l[ivar], l[icat], float(l[iwidth]), float(l[imean]), float(l[ires]))
             allresults.append(res)
     return allresults
 
@@ -50,12 +53,14 @@ def getFromPerformanceSummary(mass_, var_):
             method_ = l[1]
             mean_ = float(l[2])
             width_ = float(l[3])
-            res = result( method_, mass_, var_, cat_, width_, mean_, False)
+            res_ = float(l[4])
+            res = result( method_, mass_, var_, cat_, width_, mean_, res_, False)
             allresults.append(res)
             # With regression
             mean_ = float(l[5])
             width_ = float(l[6])
-            res = result( method_, mass_, var_, cat_, width_, mean_, True)
+            res_ = float(l[7])
+            res = result( method_, mass_, var_, cat_, width_, mean_, res_, True)
             allresults.append(res)
     return allresults
     
@@ -69,7 +74,7 @@ def getResultsForMass(allResults, mass):
     return [res for res in allResults if res.mass == mass]    
 
 def sortNicely(allResults):
-# var, cat, method
+    # var, cat, method
     allResults.sort(key=operator.itemgetter(2,3,0))
     return allResults
 
@@ -85,7 +90,7 @@ for mass in map(int, "270 300 350 400".split()):
     line = str(mass)
     for res in sortNicely(getResultsForMass(filteredResults, mass)):
         line += " & "
-        line += str(round(res.width, 2))
+        line += str(round(res.res, 2))
 #        print res
     line += "\\\\"
     print line
@@ -96,7 +101,7 @@ for mass in map(int, "270 300 350 400".split()):
     line = str(mass)
     for res in sortNicely(getResultsForMass(filteredResults, mass)):
         line += " & "
-        line += str(round(res.width, 2))
+        line += str(round(res.res, 2))
 #        print res
     line += "\\\\"
     print line
