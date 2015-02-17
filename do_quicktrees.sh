@@ -8,7 +8,7 @@ then
 fi
 
 
-version="v43"
+version="v44"
 today=`date +"0%Y-%m-%d"`
 #set -x
 
@@ -25,9 +25,9 @@ inputfolderFTR="/afs/cern.ch/work/o/obondu/public/forRadion/plotTrees/v23/2015-0
 
 # WHICH ANALYSIS TO PROCESS
 doNonResonant=1
-doResonantLowMass=1
-doResonantLowMassWithReg=1
-doResonantHighMass=1
+doResonantLowMass=0
+doResonantLowMassWithReg=0
+doResonantHighMass=0
 # WHICH SAMPLES TO PROCESS (default is also running dataCS and diphoton-sherpa, minimum is data + signal)
 doTheStrictMinimum=0
 doAnomalousHHScenario1=1
@@ -38,7 +38,7 @@ doAnomalousHHScenario2=1
 cutLevel=0
 massCutVersion=4 # From Summer 14 cut update
 controlSampleWeights="scales_2D_pt_data_4GeVbinning.root"
-applyFTR14001=0
+applyFTR14001=1
 doUnnecessaryDirs=0
 
 # INITIALIZATION OF THE PROCESSING LIST
@@ -185,7 +185,7 @@ then
             samplelist="Radion Graviton Graviton_LR3tev MSSM ggh_m125_powheg_8TeV vbf_m125_8TeV wzh_m125_8TeV_wh wzh_m125_8TeV_zh tth_m125_8TeV bbh_m125_8TeV Data"
             if [ ${doTheStrictMinimum} == 0 ]
             then
-                samplelist="${samplelist} DataCS diphojet_sherpa_8TeV DYJetsToLL gjet_40_8TeV_pf gjet_20_8TeV_pf qcd_40_8TeV_pf qcd_30_8TeV_pf qcd_40_8TeV_ff qcd_30_8TeV_ff LNuGG_FSR_8TeV LNuGG_ISR_8TeV ttGG_8TeV tGG_8TeV TTGJets_8TeV ZGToLLG_8TeV"
+                samplelist="${samplelist} DataCS diphojet_sherpa_8TeV DYJetsToLL gjet_40_8TeV_pf gjet_20_8TeV_pf qcd_40_8TeV_pf qcd_30_8TeV_pf qcd_40_8TeV_ff qcd_30_8TeV_ff LNuGG_FSR_8TeV LNuGG_ISR_8TeV ttGG_8TeV tGG_8TeV TTGJets_8TeV ZGToLLG_8TeV ggHH_8TeV ggHH_Lam_1d0_Yt_1d0_c2_0d0_8TeV"
             fi
             for sample in `echo "${samplelist}"`
             do
@@ -315,7 +315,7 @@ if [ ${doNonResonant} == 1 ]
                 outfolder="${version}_fitTo${fitStrategy}_nonresSearch_${kinfitlabel[${ikin}]}"
             fi
             mkdir -p ${outfolder}
-            samplelist="ggHH_8TeV ggh_m125_powheg_8TeV vbf_m125_8TeV wzh_m125_8TeV_wh wzh_m125_8TeV_zh tth_m125_8TeV bbh_m125_8TeV Data"
+            samplelist="ggHH_8TeV ggHH_Lam_1d0_Yt_1d0_c2_0d0_8TeV ggh_m125_powheg_8TeV vbf_m125_8TeV wzh_m125_8TeV_wh wzh_m125_8TeV_zh tth_m125_8TeV bbh_m125_8TeV Data"
             if [ ${doTheStrictMinimum} == 0 ]
             then
                 samplelist="${samplelist} DataCS diphojet_sherpa_8TeV DYJetsToLL gjet_40_8TeV_pf gjet_20_8TeV_pf qcd_40_8TeV_pf qcd_30_8TeV_pf qcd_40_8TeV_ff qcd_30_8TeV_ff LNuGG_FSR_8TeV LNuGG_ISR_8TeV ttGG_8TeV tGG_8TeV TTGJets_8TeV ZGToLLG_8TeV"
@@ -326,7 +326,7 @@ if [ ${doNonResonant} == 1 ]
                 then
                     samplelist=""
                 fi
-                samplelist="${samplelist} ggHH_Lam_0d0_Yt_0d75_c2_0d0_8TeV ggHH_Lam_0d0_Yt_1d0_c2_0d0_8TeV ggHH_Lam_0d0_Yt_1d25_c2_0d0_8TeV ggHH_Lam_10_Yt_0d75_c2_0d0_8TeV ggHH_Lam_10_Yt_1d0_c2_0d0_8TeV ggHH_Lam_10_Yt_1d25_c2_0d0_8TeV ggHH_Lam_15_Yt_0d75_c2_0d0_8TeV ggHH_Lam_15_Yt_1d0_c2_0d0_8TeV ggHH_Lam_15_Yt_1d25_c2_0d0_8TeV ggHH_Lam_1d0_Yt_1d0_c2_0d0_8TeV ggHH_Lam_20_Yt_0d75_c2_0d0_8TeV ggHH_Lam_20_Yt_1d0_c2_0d0_8TeV ggHH_Lam_20_Yt_1d25_c2_0d0_8TeV ggHH_Lam_2_Yt_1d0_c2_0d0_8TeV ggHH_Lam_m10_Yt_0d75_c2_0d0_8TeV ggHH_Lam_m10_Yt_1d0_c2_0d0_8TeV ggHH_Lam_m10_Yt_1d25_c2_0d0_8TeV ggHH_Lam_m15_Yt_0d75_c2_0d0_8TeV ggHH_Lam_m15_Yt_1d0_c2_0d0_8TeV ggHH_Lam_m15_Yt_1d25_c2_0d0_8TeV ggHH_Lam_m20_Yt_0d75_c2_0d0_8TeV ggHH_Lam_m20_Yt_1d0_c2_0d0_8TeV ggHH_Lam_m20_Yt_1d25_c2_0d0_8TeV ggHH_Lam_1d0_Yt_0d75_c2_0d0_8TeV ggHH_Lam_1d0_Yt_1d25_c2_0d0_8TeV ggHH_Lam_m2_Yt_1d0_c2_0d0_8TeV ggHH_Lam_3_Yt_1d0_c2_0d0_8TeV ggHH_Lam_5_Yt_1d0_c2_0d0_8TeV"
+                samplelist="${samplelist} ggHH_Lam_0d0_Yt_0d75_c2_0d0_8TeV ggHH_Lam_0d0_Yt_1d0_c2_0d0_8TeV ggHH_Lam_0d0_Yt_1d25_c2_0d0_8TeV ggHH_Lam_10_Yt_0d75_c2_0d0_8TeV ggHH_Lam_10_Yt_1d0_c2_0d0_8TeV ggHH_Lam_10_Yt_1d25_c2_0d0_8TeV ggHH_Lam_15_Yt_0d75_c2_0d0_8TeV ggHH_Lam_15_Yt_1d0_c2_0d0_8TeV ggHH_Lam_15_Yt_1d25_c2_0d0_8TeV ggHH_Lam_20_Yt_0d75_c2_0d0_8TeV ggHH_Lam_20_Yt_1d0_c2_0d0_8TeV ggHH_Lam_20_Yt_1d25_c2_0d0_8TeV ggHH_Lam_2_Yt_1d0_c2_0d0_8TeV ggHH_Lam_m10_Yt_0d75_c2_0d0_8TeV ggHH_Lam_m10_Yt_1d0_c2_0d0_8TeV ggHH_Lam_m10_Yt_1d25_c2_0d0_8TeV ggHH_Lam_m15_Yt_0d75_c2_0d0_8TeV ggHH_Lam_m15_Yt_1d0_c2_0d0_8TeV ggHH_Lam_m15_Yt_1d25_c2_0d0_8TeV ggHH_Lam_m20_Yt_0d75_c2_0d0_8TeV ggHH_Lam_m20_Yt_1d0_c2_0d0_8TeV ggHH_Lam_m20_Yt_1d25_c2_0d0_8TeV ggHH_Lam_1d0_Yt_0d75_c2_0d0_8TeV ggHH_Lam_1d0_Yt_1d25_c2_0d0_8TeV ggHH_Lam_m2_Yt_1d0_c2_0d0_8TeV ggHH_Lam_3_Yt_1d0_c2_0d0_8TeV ggHH_Lam_5_Yt_1d0_c2_0d0_8TeV"
             fi
             if [ ${doAnomalousHHScenario2} == 1 ]
             then
