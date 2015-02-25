@@ -1310,14 +1310,14 @@ int main(int argc, char *argv[])
         { 
             float kfactor = 1.0;
             float spreadfactor = 1.0;
-            if( t.evweight > 50 ) continue;
+//            if( t.evweight > 50 ) continue;
             if( t.njets_kRadionID_and_CSVM == 0 )
             {
                 kfactor = 1.17;
-                spreadfactor = 3.06;
+//                spreadfactor = 3.06;
             } else {
                 kfactor = 1.58;
-                spreadfactor = 5.05;
+//                spreadfactor = 5.05;
             }
             t.evweight *= kfactor * spreadfactor; 
         }
