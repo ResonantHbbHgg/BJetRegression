@@ -34,19 +34,18 @@ signals.append(["/afs/cern.ch/work/o/obondu/public/forRadion/limitTrees/v44/v44_
 signals.append(["/afs/cern.ch/work/o/obondu/public/forRadion/limitTrees/v44/v44_fitToMggjj_withKinFit/Radion_m900_8TeV_m900.root", 19996, 1])
 signals.append(["/afs/cern.ch/work/o/obondu/public/forRadion/limitTrees/v44/v44_fitToMggjj_withKinFit/Radion_m1000_8TeV_m1000.root", 19951, 1])
 signals.append(["/afs/cern.ch/work/o/obondu/public/forRadion/limitTrees/v44/v44_fitToMggjj_withKinFit/Radion_m1100_8TeV_m1100.root", 19400, 1])
-# FIXME :beware that the nprocessed events below this comment are dumb place-holders!
 # graviton samples - non narrow, 4 samples
-signals.append(["/afs/cern.ch/work/o/obondu/public/forRadion/limitTrees/v44/v44_fitTo2D_resSearch_withRegKinFit/Graviton_m300_8TeV_m300.root", 20000, 4])
-#signals.append(["/afs/cern.ch/work/o/obondu/public/forRadion/limitTrees/v44/v44_fitTo2D_resSearch_withRegKinFit/Graviton_m500_8TeV_m500.root", 20000, 4])
-signals.append(["/afs/cern.ch/work/o/obondu/public/forRadion/limitTrees/v44/v44_fitToMggjj_withKinFit/Graviton_m500_8TeV_m500.root", 20000, 5])
-signals.append(["/afs/cern.ch/work/o/obondu/public/forRadion/limitTrees/v44/v44_fitToMggjj_withKinFit/Graviton_m700_8TeV_m700.root", 20000, 5])
-signals.append(["/afs/cern.ch/work/o/obondu/public/forRadion/limitTrees/v44/v44_fitToMggjj_withKinFit/Graviton_m1000_8TeV_m1000.root", 20000, 5])
+signals.append(["/afs/cern.ch/work/o/obondu/Higgs/CMSSW_6_1_1_radion_v2/src/Selection/v44_fitTo2D_resSearch_withRegKinFit/Graviton_m300_8TeV_m300.root", 49941, 4])
+signals.append(["/afs/cern.ch/work/o/obondu/Higgs/CMSSW_6_1_1_radion_v2/src/Selection/v44_fitTo2D_resSearch_withRegKinFit/Graviton_m500_8TeV_m500.root", 49905, 4])
+signals.append(["/afs/cern.ch/work/o/obondu/Higgs/CMSSW_6_1_1_radion_v2/src/Selection/v44_fitToMggjj_withKinFit/Graviton_m500_8TeV_m500.root", 49905, 5])
+signals.append(["/afs/cern.ch/work/o/obondu/Higgs/CMSSW_6_1_1_radion_v2/src/Selection/v44_fitToMggjj_withKinFit/Graviton_m700_8TeV_m700.root", 49911, 5])
+signals.append(["/afs/cern.ch/work/o/obondu/Higgs/CMSSW_6_1_1_radion_v2/src/Selection/v44_fitToMggjj_withKinFit/Graviton_m1000_8TeV_m1000.root", 49921, 5])
 # graviton narrow width - narrow, 5 samples
-signals.append(["/afs/cern.ch/work/o/obondu/public/forRadion/limitTrees/v42/v42_fitTo2D_resSearch_withRegKinFit/Graviton_m270_LR3tev_8TeV_m270.root", 20000, 8])
-signals.append(["/afs/cern.ch/work/o/obondu/public/forRadion/limitTrees/v42/v42_fitTo2D_resSearch_withRegKinFit/Graviton_m300_LR3tev_8TeV_m300.root", 20000, 8])
-signals.append(["/afs/cern.ch/work/o/obondu/public/forRadion/limitTrees/v42/v42_fitTo2D_resSearch_withRegKinFit/Graviton_m350_LR3tev_8TeV_m350.root", 20000, 8])
-signals.append(["/afs/cern.ch/work/o/obondu/public/forRadion/limitTrees/v42/v42_fitTo2D_resSearch_withRegKinFit/Graviton_m450_LR3tev_8TeV_m450.root", 20000, 8])
-signals.append(["/afs/cern.ch/work/o/obondu/public/forRadion/limitTrees/v42/v42_fitToMggjj_withKinFit/Graviton_m700_LR3tev_8TeV_m700.root", 20000, 9])
+signals.append(["/afs/cern.ch/work/o/obondu/Higgs/CMSSW_6_1_1_radion_v2/src/Selection/v44_fitTo2D_resSearch_withRegKinFit/Graviton_m270_LR3tev_8TeV_m270.root", 19798, 8])
+signals.append(["/afs/cern.ch/work/o/obondu/Higgs/CMSSW_6_1_1_radion_v2/src/Selection/v44_fitTo2D_resSearch_withRegKinFit/Graviton_m300_LR3tev_8TeV_m300.root", 19996, 8])
+signals.append(["/afs/cern.ch/work/o/obondu/Higgs/CMSSW_6_1_1_radion_v2/src/Selection/v44_fitTo2D_resSearch_withRegKinFit/Graviton_m350_LR3tev_8TeV_m350.root", 19999, 8])
+signals.append(["/afs/cern.ch/work/o/obondu/Higgs/CMSSW_6_1_1_radion_v2/src/Selection/v44_fitTo2D_resSearch_withRegKinFit/Graviton_m450_LR3tev_8TeV_m450.root", 19999, 8])
+signals.append(["/afs/cern.ch/work/o/obondu/Higgs/CMSSW_6_1_1_radion_v2/src/Selection/v44_fitToMggjj_withKinFit/Graviton_m700_LR3tev_8TeV_m700.root", 19999, 9])
 
 # mssm samples
 #signals.append(["v26_fitToMgg_noKinFit/Graviton_m300_8TeV_m300.root", 49941])
@@ -93,7 +92,7 @@ for signal, nprocessed, istrategy in signals:
         x[istrategy+icut*2].append(signal.split("_")[-1].split(".")[0].split("m")[1])
         y[istrategy+icut*2].append(round(eff * 100, 2))
         ex[istrategy+icut*2].append(0.)
-        ey[istrategy+icut*2].append(round(deff * 100,2))
+        ey[istrategy+icut*2].append(round(deff * 500,2))
     del chain
 
 for istrategy in range(nstrategies):
@@ -102,7 +101,7 @@ for istrategy in range(nstrategies):
     ex[istrategy] = numpy.asarray(ex[istrategy], dtype='f')
     ey[istrategy] = numpy.asarray(ey[istrategy], dtype='f')
     # Removing y errors
-    ey[istrategy] = ex[istrategy] 
+#    ey[istrategy] = ex[istrategy] 
 
 if not doSpin2:
 # fill with dumb stuff if no sample is present
@@ -228,10 +227,10 @@ if not doSpin2:
   legend.AddEntry(gr2.GetName(), "High Purity - Low mass - fit (m_{#gamma#gamma}, m_{jj}^{r})", "lp")
   legend.AddEntry(gr3.GetName(), "High Purity - High mass - fit m_{#gamma#gamma jj}^{kin}", "lp")
 else:
-  legend.AddEntry(gr0.GetName(), "cat0 + cat1 - low mass radion", "lp")
-  legend.AddEntry(gr1.GetName(), "cat0 + cat1 - high mass radion", "lp")
-  legend.AddEntry(gr2.GetName(), "cat0 - low mass radion", "lp")
-  legend.AddEntry(gr3.GetName(), "cat0 - high mass radion", "lp")
+#  legend.AddEntry(gr0.GetName(), "cat0 + cat1 - low mass radion", "lp")
+#  legend.AddEntry(gr1.GetName(), "cat0 + cat1 - high mass radion", "lp")
+#  legend.AddEntry(gr2.GetName(), "cat0 - low mass radion", "lp")
+#  legend.AddEntry(gr3.GetName(), "cat0 - high mass radion", "lp")
   legend.AddEntry(gr4.GetName(), "cat0 + cat1 - low mass graviton", "lp")
   legend.AddEntry(gr5.GetName(), "cat0 + cat1 - high mass graviton", "lp")
   legend.AddEntry(gr6.GetName(), "cat0 - low mass graviton", "lp")
@@ -245,12 +244,13 @@ legend.Draw()
 latexLabel = TLatex()
 latexLabel.SetTextSize(0.75 * c1.GetTopMargin())
 latexLabel.SetNDC()
-latexLabel.SetTextFont(42) # helvetica bold face
+latexLabel.SetTextFont(42) # helvetica
 latexLabel.DrawLatex(0.84, 0.96, "(8 TeV)")
 latexLabel.SetTextFont(61) # helvetica bold face
 latexLabel.DrawLatex(0.17, 0.89, "CMS")
 latexLabel.SetTextFont(52) # helvetica italics
 latexLabel.DrawLatex(0.17, 0.85, "Simulation")
+latexLabel.DrawLatex(0.37, 0.20, "Limit trees v44 ; Uncertainties #times 5")
 c1.Print("eff.pdf")
 c1.Print("eff.png")
 c1.Print("eff.root")
