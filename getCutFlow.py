@@ -9,8 +9,8 @@ from os import path, listdir
 parser = argparse.ArgumentParser()
 parser.add_argument("--part", help="1= prod and reduced level, 2= object selection, 3= mass windows, 999= get everything together", nargs='?', const=2, type=int, default=2)
 parser.add_argument("--doBackgrounds", help="do the plot for backgrounds instead of Higgses samples", nargs='?', const=0, type=int, default=0)
-parser.add_argument("--selectionVersion", help="selection version", nargs='?', const="v16_beta", type=str, default="v16_beta")
-parser.add_argument("--selectionFolder", help="selection version", nargs='?', const="2014-10-06_selection_noRegression_noMassCut_v16_beta", type=str, default="2014-10-06_selection_noRegression_noMassCut_v16_beta")
+#parser.add_argument("--selectionVersion", help="selection version", nargs='?', const="v16_beta", type=str, default="v16_beta")
+parser.add_argument("--selectionFolder", help="selection folder", nargs='?', const="./", type=str, default="./")
 parser.add_argument("--plotName", help="plot name", nargs='?', const="flow", type=str, default="flow")
 args = parser.parse_args()
 # ROOT setup
@@ -22,122 +22,117 @@ gROOT.SetBatch()
 
 if args.part == 1:
     print("part 1: preselection {produced, reduced, optree}-level")
-    eos_prod = "/store/group/phys_higgs/cmshgg/processed/V15_00_08/mc/"
-    eos_pro2 = "/store/cmst3/user/obondu/H2GGLOBE/Radion/processed/"
-    eos_pro3 = "/store/caf/user/bmarzocc/"
-    eos_pro4 = "/store/group/phys_higgs/cmshgg/processed/V15_00_05/data/"
-    #eos_pro2 = "/store/group/phys_higgs/cmshgg/V15_00_11/"
-    #eos_redu = "/store/group/phys_higgs/cmshgg/reduced/legacy_paper/legacy_paper_reduction_8TeV_v5/mc/"
-    eos_redu = "/store/cmst3/user/obondu/H2GGLOBE/Radion/reduced/radion_reduction_v11/mc"
-    eos_red2 = "/store/cmst3/group/hbbhgg/H2GGLOBE/Radion/reduced/radion_reduction_v11/mc"
-    eos_red3 = "/store/cmst3/group/hbbhgg/H2GGLOBE/Radion/reduced/radion_reduction_v11/data"
-    eos_tree = "/store/cmst3/group/hbbhgg/H2GGLOBE/Radion/trees/radion_tree_v10"
+    # produced
+    eos_prod = "/store/group/phys_higgs/resonant_HH/V15_00_12/"
+    eos_pro2 = "/store/user/hebda/h2gglobe/"
+    eos_pro3 = "/store/user/zghiche/NR_HHTo2G2B/8TeV_BigNtuples/"
+    # reduced
+    eos_redu = "/store/user/hebda/h2gglobe/reduced/radion_reduction_v12/mc/"
+    eos_red2 = "/store/group/phys_higgs/resonant_HH/V15_00_12/reduced/radion_reduction_v12/mc/"
+    eos_red3 = "/store/user/zghiche/hbbhgg/H2GGLOBE/Radion/reduced/radion_reduction_v12/mc/"
+    # optree
+    eos_tree = "/store/user/acarvalh/hh_gamgambb_8TeV/trees/radion_redu_12_tree_10/"
     samples = []
     if args.doBackgrounds == 0:
-        samples.append(["Radion_m270", "prod", eos_pro2, "RadionToHH_2Gamma_2b_M-270_TuneZ2star_8TeV-Madgraph_pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v1_AODSIM", "*root", "event"])
-        samples.append(["Radion_m270", "redu", eos_redu, "RadionToHH_2Gamma_2b_M-270_TuneZ2star_8TeV-Madgraph_pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v1", "*root", "event"])
-        samples.append(["Radion_m270", "tree", eos_tree, "", "XHH.root", "Radion_m270_8TeV"])
+        samples.append(["Radion_m270", "prod", eos_pro2, "RadionToHH_2Gamma_2b_M-270_TuneZ2star_8TeV-Madgraph_pythia6", "*root", "event"])
+        samples.append(["Radion_m270", "redu", eos_redu, "RadionToHH_2Gamma_2b_M-270_TuneZ2star_8TeV-Madgraph_pythia6", "*root", "event"])
+        samples.append(["Radion_m270", "tree", eos_tree, "", "tree_XHH_v2.root", "Radion_m270_8TeV"])
         
-        samples.append(["Radion_m300", "prod", eos_pro2, "RadionToHH_2Gamma_2b_M-300_TuneZ2star_8TeV-Madgraph_pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v1_AODSIM", "*root", "event"])
-        samples.append(["Radion_m300", "redu", eos_redu, "RadionToHH_2Gamma_2b_M-300_TuneZ2star_8TeV-Madgraph_pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v1", "*root", "event"])
-        samples.append(["Radion_m300", "tree", eos_tree, "", "XHH.root", "Radion_m300_8TeV_nm"])
-        samples.append(["Radion_m300", "prod", eos_prod, "Summer12_DR53X-PU_RD1_START53_V7N/RadionToHHTo2G2B_M-300_TuneZ2star_8TeV-nm-madgraph_Summer12_DR53X-PU_RD1_START53_V7N-v1", "*root", "event"])
-        samples.append(["Radion_m300", "redu", eos_redu, "RadionToHHTo2G2B_M-300_TuneZ2star_8TeV-nm-madgraph_Summer12_DR53X-PU_RD1_START53_V7N-v1", "*root", "event"])
-    #    samples.append(["Radion_m300", "tree", eos_tree, "", "XHH.root", "Radion_m300_8TeV_nm"])
+        samples.append(["Radion_m300", "prod", eos_pro2, "RadionToHH_2Gamma_2b_M-300_TuneZ2star_8TeV-Madgraph_pythia6", "*root", "event"])
+        samples.append(["Radion_m300", "redu", eos_redu, "RadionToHH_2Gamma_2b_M-300_TuneZ2star_8TeV-Madgraph_pythia6", "*root", "event"])
+        samples.append(["Radion_m300", "tree", eos_tree, "", "tree_XHH_v2.root", "Radion_m300_8TeV"])
+        samples.append(["Radion_m300", "prod", eos_pro2, "RadionToHHTo2G2B_M-300_TuneZ2star_8TeV-nm-madgraph", "*root", "event"])
+        samples.append(["Radion_m300", "redu", eos_redu, "RadionToHHTo2G2B_M-300_TuneZ2star_8TeV-nm-madgraph", "*root", "event"])
         
-        samples.append(["Radion_m350", "prod", eos_pro2, "RadionToHH_2Gamma_2b_M-350_TuneZ2star_8TeV-Madgraph_pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v1_AODSIM", "*root", "event"])
-        samples.append(["Radion_m350", "redu", eos_redu, "RadionToHH_2Gamma_2b_M-350_TuneZ2star_8TeV-Madgraph_pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v1", "*root", "event"])
-        samples.append(["Radion_m350", "tree", eos_tree, "", "XHH.root", "Radion_m350_8TeV"])
+        samples.append(["Radion_m350", "prod", eos_pro2, "RadionToHH_2Gamma_2b_M-350_TuneZ2star_8TeV-Madgraph_pythia6", "*root", "event"])
+        samples.append(["Radion_m350", "redu", eos_redu, "RadionToHH_2Gamma_2b_M-350_TuneZ2star_8TeV-Madgraph_pythia6", "*root", "event"])
+        samples.append(["Radion_m350", "tree", eos_tree, "", "tree_XHH_v2.root", "Radion_m350_8TeV"])
         
-        samples.append(["Radion_m400", "prod", eos_pro2, "RadionToHH_2Gamma_2b_M-400_TuneZ2star_8TeV-Madgraph_pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v1_AODSIM", "*root", "event"])
-        samples.append(["Radion_m400", "redu", eos_redu, "RadionToHH_2Gamma_2b_M-400_TuneZ2star_8TeV-Madgraph_pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v1", "*root", "event"])
-        samples.append(["Radion_m400", "tree", eos_tree, "", "XHH.root", "Radion_m400_8TeV"])
+        samples.append(["Radion_m400", "prod", eos_pro2, "RadionToHH_2Gamma_2b_M-400_TuneZ2star_8TeV-Madgraph_pythia6", "*root", "event"])
+        samples.append(["Radion_m400", "redu", eos_redu, "RadionToHH_2Gamma_2b_M-400_TuneZ2star_8TeV-Madgraph_pythia6", "*root", "event"])
+        samples.append(["Radion_m400", "tree", eos_tree, "", "tree_XHH_v2.root", "Radion_m400_8TeV"])
         
-        samples.append(["Radion_m450", "prod", eos_pro2, "RadionToHH_2Gamma_2b_M-450_TuneZ2star_8TeV-Madgraph_pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v1_AODSIM", "*root", "event"])
-        samples.append(["Radion_m450", "redu", eos_redu, "RadionToHH_2Gamma_2b_M-450_TuneZ2star_8TeV-Madgraph_pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v1", "*root", "event"])
-        samples.append(["Radion_m450", "tree", eos_tree, "", "XHH.root", "Radion_m450_8TeV"])
+        samples.append(["Radion_m450", "prod", eos_pro2, "RadionToHH_2Gamma_2b_M-450_TuneZ2star_8TeV-Madgraph_pythia6", "*root", "event"])
+        samples.append(["Radion_m450", "redu", eos_redu, "RadionToHH_2Gamma_2b_M-450_TuneZ2star_8TeV-Madgraph_pythia6", "*root", "event"])
+        samples.append(["Radion_m450", "tree", eos_tree, "", "tree_XHH_v2.root", "Radion_m450_8TeV"])
         
-        samples.append(["Radion_m500", "prod", eos_pro2, "RadionToHH_2Gamma_2b_M-500_TuneZ2star_8TeV-Madgraph_pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v1_AODSIM", "*root", "event"])
-        samples.append(["Radion_m500", "redu", eos_redu, "RadionToHH_2Gamma_2b_M-500_TuneZ2star_8TeV-Madgraph_pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v1", "*root", "event"])
-        samples.append(["Radion_m500", "tree", eos_tree, "", "XHH.root", "Radion_m500_8TeV_nm"])
-        samples.append(["Radion_m500", "prod", eos_prod, "Summer12_DR53X-PU_RD1_START53_V7N/RadionToHHTo2G2B_M-500_TuneZ2star_8TeV-nm-madgraph_Summer12_DR53X-PU_RD1_START53_V7N-v1", "*root", "event"])
-        samples.append(["Radion_m500", "redu", eos_redu, "RadionToHHTo2G2B_M-500_TuneZ2star_8TeV-nm-madgraph_Summer12_DR53X-PU_RD1_START53_V7N-v1", "*root", "event"])
-    #    samples.append(["Radion_m500", "tree", eos_tree, "", "XHH.root", "Radion_m500_8TeV_nm"])
+        samples.append(["Radion_m500", "prod", eos_pro2, "RadionToHH_2Gamma_2b_M-500_TuneZ2star_8TeV-Madgraph_pythia6", "*root", "event"])
+        samples.append(["Radion_m500", "redu", eos_redu, "RadionToHH_2Gamma_2b_M-500_TuneZ2star_8TeV-Madgraph_pythia6", "*root", "event"])
+        samples.append(["Radion_m500", "tree", eos_tree, "", "tree_XHH_v2.root", "Radion_m500_8TeV"])
+        samples.append(["Radion_m500", "prod", eos_pro2, "RadionToHHTo2G2B_M-500_TuneZ2star_8TeV-nm-madgraph", "*root", "event"])
+        samples.append(["Radion_m500", "redu", eos_redu, "RadionToHHTo2G2B_M-500_TuneZ2star_8TeV-nm-madgraph", "*root", "event"])
         
-        samples.append(["Radion_m550", "prod", eos_pro2, "RadionToHH_2Gamma_2b_M-550_TuneZ2star_8TeV-Madgraph_pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v1_AODSIM", "*root", "event"])
-        samples.append(["Radion_m550", "redu", eos_redu, "RadionToHH_2Gamma_2b_M-550_TuneZ2star_8TeV-Madgraph_pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v1", "*root", "event"])
-        samples.append(["Radion_m550", "tree", eos_tree, "", "XHH.root", "Radion_m550_8TeV"])
+        samples.append(["Radion_m550", "prod", eos_pro2, "RadionToHH_2Gamma_2b_M-550_TuneZ2star_8TeV-Madgraph_pythia6", "*root", "event"])
+        samples.append(["Radion_m550", "redu", eos_redu, "RadionToHH_2Gamma_2b_M-550_TuneZ2star_8TeV-Madgraph_pythia6", "*root", "event"])
+        samples.append(["Radion_m550", "tree", eos_tree, "", "tree_XHH_v2.root", "Radion_m550_8TeV"])
         
-        samples.append(["Radion_m600", "prod", eos_pro2, "RadionToHH_2Gamma_2b_M-600_TuneZ2star_8TeV-Madgraph_pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v1_AODSIM", "*root", "event"])
-        samples.append(["Radion_m600", "redu", eos_redu, "RadionToHH_2Gamma_2b_M-600_TuneZ2star_8TeV-Madgraph_pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v1", "*root", "event"])
-        samples.append(["Radion_m600", "tree", eos_tree, "", "XHH.root", "Radion_m600_8TeV"])
+        samples.append(["Radion_m600", "prod", eos_pro2, "RadionToHH_2Gamma_2b_M-600_TuneZ2star_8TeV-Madgraph_pythia6", "*root", "event"])
+        samples.append(["Radion_m600", "redu", eos_redu, "RadionToHH_2Gamma_2b_M-600_TuneZ2star_8TeV-Madgraph_pythia6", "*root", "event"])
+        samples.append(["Radion_m600", "tree", eos_tree, "", "tree_XHH_v2.root", "Radion_m600_8TeV"])
         
-        samples.append(["Radion_m650", "prod", eos_pro2, "RadionToHH_2Gamma_2b_M-650_TuneZ2star_8TeV-Madgraph_pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v1_AODSIM", "*root", "event"])
-        samples.append(["Radion_m650", "redu", eos_redu, "RadionToHH_2Gamma_2b_M-650_TuneZ2star_8TeV-Madgraph_pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v1", "*root", "event"])
-        samples.append(["Radion_m650", "tree", eos_tree, "", "XHH.root", "Radion_m650_8TeV"])
+        samples.append(["Radion_m650", "prod", eos_pro2, "RadionToHH_2Gamma_2b_M-650_TuneZ2star_8TeV-Madgraph_pythia6", "*root", "event"])
+        samples.append(["Radion_m650", "redu", eos_redu, "RadionToHH_2Gamma_2b_M-650_TuneZ2star_8TeV-Madgraph_pythia6", "*root", "event"])
+        samples.append(["Radion_m650", "tree", eos_tree, "", "tree_XHH_v2.root", "Radion_m650_8TeV"])
         
-        samples.append(["Radion_m700", "prod", eos_pro2, "RadionToHH_2Gamma_2b_M-700_TuneZ2star_8TeV-Madgraph_pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v1_AODSIM", "*root", "event"])
-        samples.append(["Radion_m700", "redu", eos_redu, "RadionToHH_2Gamma_2b_M-700_TuneZ2star_8TeV-Madgraph_pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v1", "*root", "event"])
-        samples.append(["Radion_m700", "tree", eos_tree, "", "XHH.root", "Radion_m700_8TeV_nm"])
-        samples.append(["Radion_m700", "prod", eos_prod, "Summer12_DR53X-PU_RD1_START53_V7N/RadionToHHTo2G2B_M-700_TuneZ2star_8TeV-nm-madgraph_Summer12_DR53X-PU_RD1_START53_V7N-v1", "*root", "event"])
-        samples.append(["Radion_m700", "redu", eos_redu, "RadionToHHTo2G2B_M-700_TuneZ2star_8TeV-nm-madgraph_Summer12_DR53X-PU_RD1_START53_V7N-v1", "*root", "event"])
-    #    samples.append(["Radion_m700", "tree", eos_tree, "", "XHH.root", "Radion_m700_8TeV_nm"])
+        samples.append(["Radion_m700", "prod", eos_pro2, "RadionToHH_2Gamma_2b_M-700_TuneZ2star_8TeV-Madgraph_pythia6", "*root", "event"])
+        samples.append(["Radion_m700", "redu", eos_redu, "RadionToHH_2Gamma_2b_M-700_TuneZ2star_8TeV-Madgraph_pythia6", "*root", "event"])
+        samples.append(["Radion_m700", "tree", eos_tree, "", "tree_XHH_v2.root", "Radion_m700_8TeV"])
+        samples.append(["Radion_m700", "prod", eos_pro2, "RadionToHHTo2G2B_M-700_TuneZ2star_8TeV-nm-madgraph", "*root", "event"])
+        samples.append(["Radion_m700", "redu", eos_redu, "RadionToHHTo2G2B_M-700_TuneZ2star_8TeV-nm-madgraph", "*root", "event"])
         
-        samples.append(["Radion_m800", "prod", eos_pro2, "RadionToHH_2Gamma_2b_M-800_TuneZ2star_8TeV-Madgraph_pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v3_AODSIM", "*root", "event"])
-        samples.append(["Radion_m800", "redu", eos_redu, "RadionToHH_2Gamma_2b_M-800_TuneZ2star_8TeV-Madgraph_pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v3", "*root", "event"])
-        samples.append(["Radion_m800", "tree", eos_tree, "", "XHH.root", "Radion_m800_8TeV"])
+        samples.append(["Radion_m800", "prod", eos_pro2, "RadionToHH_2Gamma_2b_M-800_TuneZ2star_8TeV-Madgraph_pythia6", "*root", "event"])
+        samples.append(["Radion_m800", "redu", eos_redu, "RadionToHH_2Gamma_2b_M-800_TuneZ2star_8TeV-Madgraph_pythia6", "*root", "event"])
+        samples.append(["Radion_m800", "tree", eos_tree, "", "tree_XHH_v2.root", "Radion_m800_8TeV"])
         
-        samples.append(["Radion_m900", "prod", eos_pro2, "RadionToHH_2Gamma_2b_M-900_TuneZ2star_8TeV-Madgraph_pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v1_AODSIM", "*root", "event"])
-        samples.append(["Radion_m900", "redu", eos_redu, "RadionToHH_2Gamma_2b_M-900_TuneZ2star_8TeV-Madgraph_pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v1", "*root", "event"])
-        samples.append(["Radion_m900", "tree", eos_tree, "", "XHH.root", "Radion_m900_8TeV"])
+        samples.append(["Radion_m900", "prod", eos_pro2, "RadionToHH_2Gamma_2b_M-900_TuneZ2star_8TeV-Madgraph_pythia6", "*root", "event"])
+        samples.append(["Radion_m900", "redu", eos_redu, "RadionToHH_2Gamma_2b_M-900_TuneZ2star_8TeV-Madgraph_pythia6", "*root", "event"])
+        samples.append(["Radion_m900", "tree", eos_tree, "", "tree_XHH_v2.root", "Radion_m900_8TeV"])
         
-        samples.append(["Radion_m1000", "prod", eos_prod, "Summer12_DR53X-PU_RD1_START53_V7N/RadionToHHTo2G2B_M-1000_TuneZ2star_8TeV-nm-madgraph_Summer12_DR53X-PU_RD1_START53_V7N-v1", "*root", "event"])
-        samples.append(["Radion_m1000", "redu", eos_redu, "RadionToHHTo2G2B_M-1000_TuneZ2star_8TeV-nm-madgraph_Summer12_DR53X-PU_RD1_START53_V7N-v1", "*root", "event"])
-        samples.append(["Radion_m1000", "tree", eos_tree, "", "XHH.root", "Radion_m1000_8TeV_nm"])
+        samples.append(["Radion_m1000", "prod", eos_pro2, "RadionToHHTo2G2B_M-1000_TuneZ2star_8TeV-nm-madgraph", "*root", "event"])
+        samples.append(["Radion_m1000", "redu", eos_redu, "RadionToHHTo2G2B_M-1000_TuneZ2star_8TeV-nm-madgraph", "*root", "event"])
+        samples.append(["Radion_m1000", "tree", eos_tree, "", "tree_XHH_v2.root", "Radion_m1000_8TeV"])
     
-        samples.append(["Radion_m1100", "prod", eos_pro2, "RadionToHH_2Gamma_2b_M-1100_TuneZ2star_8TeV-Madgraph_pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v1_AODSIM", "*root", "event"])
-        samples.append(["Radion_m1100", "redu", eos_redu, "RadionToHH_2Gamma_2b_M-1100_TuneZ2star_8TeV-Madgraph_pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v1", "*root", "event"])
-        samples.append(["Radion_m1100", "tree", eos_tree, "", "XHH.root", "Radion_m1100_8TeV"])
+        samples.append(["Radion_m1100", "prod", eos_pro2, "RadionToHH_2Gamma_2b_M-1100_TuneZ2star_8TeV-Madgraph_pythia6", "*root", "event"])
+        samples.append(["Radion_m1100", "redu", eos_redu, "RadionToHH_2Gamma_2b_M-1100_TuneZ2star_8TeV-Madgraph_pythia6", "*root", "event"])
+        samples.append(["Radion_m1100", "tree", eos_tree, "", "tree_XHH_v2.root", "Radion_m1100_8TeV"])
         
-        samples.append(["Radion_m1200", "prod", eos_pro2, "RadionToHH_2Gamma_2b_M-1200_TuneZ2star_8TeV-Madgraph_pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v1_AODSIM", "*root", "event"])
-        samples.append(["Radion_m1200", "redu", eos_redu, "RadionToHH_2Gamma_2b_M-1200_TuneZ2star_8TeV-Madgraph_pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v1", "*root", "event"])
-        samples.append(["Radion_m1200", "tree", eos_tree, "", "XHH.root", "Radion_m1200_8TeV"])
+        samples.append(["Radion_m1200", "prod", eos_pro2, "RadionToHH_2Gamma_2b_M-1200_TuneZ2star_8TeV-Madgraph_pythia6", "*root", "event"])
+        samples.append(["Radion_m1200", "redu", eos_redu, "RadionToHH_2Gamma_2b_M-1200_TuneZ2star_8TeV-Madgraph_pythia6", "*root", "event"])
+        samples.append(["Radion_m1200", "tree", eos_tree, "", "tree_XHH_v2.root", "Radion_m1200_8TeV"])
         
-        samples.append(["Radion_m1300", "prod", eos_pro2, "RadionToHH_2Gamma_2b_M-1300_TuneZ2star_8TeV-Madgraph_pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v1_AODSIM", "*root", "event"])
-        samples.append(["Radion_m1300", "redu", eos_redu, "RadionToHH_2Gamma_2b_M-1300_TuneZ2star_8TeV-Madgraph_pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v1", "*root", "event"])
-        samples.append(["Radion_m1300", "tree", eos_tree, "", "XHH.root", "Radion_m1300_8TeV"])
+        samples.append(["Radion_m1300", "prod", eos_pro2, "RadionToHH_2Gamma_2b_M-1300_TuneZ2star_8TeV-Madgraph_pythia6", "*root", "event"])
+        samples.append(["Radion_m1300", "redu", eos_redu, "RadionToHH_2Gamma_2b_M-1300_TuneZ2star_8TeV-Madgraph_pythia6", "*root", "event"])
+        samples.append(["Radion_m1300", "tree", eos_tree, "", "tree_XHH_v2.root", "Radion_m1300_8TeV"])
         
-        samples.append(["Radion_m1400", "prod", eos_pro2, "RadionToHH_2Gamma_2b_M-1400_TuneZ2star_8TeV-Madgraph_pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v1_AODSIM", "*root", "event"])
-        samples.append(["Radion_m1400", "redu", eos_redu, "RadionToHH_2Gamma_2b_M-1400_TuneZ2star_8TeV-Madgraph_pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v1", "*root", "event"])
-        samples.append(["Radion_m1400", "tree", eos_tree, "", "XHH.root", "Radion_m1400_8TeV"])
+        samples.append(["Radion_m1400", "prod", eos_pro2, "RadionToHH_2Gamma_2b_M-1400_TuneZ2star_8TeV-Madgraph_pythia6", "*root", "event"])
+        samples.append(["Radion_m1400", "redu", eos_redu, "RadionToHH_2Gamma_2b_M-1400_TuneZ2star_8TeV-Madgraph_pythia6", "*root", "event"])
+        samples.append(["Radion_m1400", "tree", eos_tree, "", "tree_XHH_v2.root", "Radion_m1400_8TeV"])
         
-        samples.append(["Radion_m1500", "prod", eos_prod, "Summer12_DR53X-PU_RD1_START53_V7N/RadionToHHTo2G2B_M-1500_TuneZ2star_8TeV-nm-madgraph_Summer12_DR53X-PU_RD1_START53_V7N-v1", "*root", "event"])
-        samples.append(["Radion_m1500", "redu", eos_redu, "RadionToHHTo2G2B_M-1500_TuneZ2star_8TeV-nm-madgraph_Summer12_DR53X-PU_RD1_START53_V7N-v1", "*root", "event"])
-        samples.append(["Radion_m1500", "tree", eos_tree, "", "XHH.root", "Radion_m1500_8TeV_nm"])
+        samples.append(["Radion_m1500", "prod", eos_pro2, "RadionToHHTo2G2B_M-1500_TuneZ2star_8TeV-nm-madgraph", "*root", "event"])
+        samples.append(["Radion_m1500", "redu", eos_redu, "RadionToHHTo2G2B_M-1500_TuneZ2star_8TeV-nm-madgraph", "*root", "event"])
+        samples.append(["Radion_m1500", "tree", eos_tree, "", "tree_XHH_v2.root", "Radion_m1500_8TeV"])
         
-        #samples.append(["prod", eos_pro2, "ExtraMaterial/GluGluToHToGG_M-125_StdMaterial", "*root", "event"])
-        #samples.append(["redu", eos_redu, "Summer12_RD1/GluGluToHToGG_M-125_StdMaterial", "*root", "event"])
-        samples.append(["ggH", "prod", eos_prod, "Summer12_RD1/GluGluToHToGG_M-125_8TeV-powheg-pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v1", "*root", "event"])
-        samples.append(["ggH", "redu", eos_redu, "Summer12_RD1/GluGluToHToGG_M-125_8TeV-powheg-pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v1", "*root", "event"])
-        samples.append(["ggH", "tree", eos_tree, "", "SMHiggs.root", "ggh_m125_powheg_8TeV"])
-        samples.append(["VBF", "prod", eos_prod, "Summer12_RD1/VBF_HToGG_M-125_8TeV-powheg-pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v1", "*root", "event"])
-        samples.append(["VBF", "redu", eos_redu, "Summer12_RD1/VBF_HToGG_M-125_8TeV-powheg-pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v1", "*root", "event"])
-        samples.append(["VBF", "tree", eos_tree, "", "SMHiggs.root", "vbf_m125_8TeV"])
-        samples.append(["WH_", "prod", eos_prod, "Summer12_RD1/WH_ZH_HToGG_M-125_8TeV-pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v2", "*root", "event"])
-        samples.append(["WH_", "redu", eos_redu, "Summer12_RD1/WH_ZH_HToGG_M-125_8TeV-pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v2_wh", "*root", "event"])
-        samples.append(["WH_","tree", eos_tree, "", "SMHiggs.root", "wzh_m125_8TeV_wh"])
-        samples.append(["ZH_","prod", eos_prod, "Summer12_RD1/WH_ZH_HToGG_M-125_8TeV-pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v2", "*root", "event"])
-        samples.append(["ZH_","redu", eos_redu, "Summer12_RD1/WH_ZH_HToGG_M-125_8TeV-pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v2_zh", "*root", "event"])
-        samples.append(["ZH_","tree", eos_tree, "", "SMHiggs.root", "wzh_m125_8TeV_zh"])
-        samples.append(["ttH","prod", eos_prod, "Summer12_RD1/TTH_HToGG_M-125_8TeV-pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v1", "*root", "event"])
-        samples.append(["ttH","redu", eos_redu, "Summer12_RD1/TTH_HToGG_M-125_8TeV-pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v1", "*root", "event"])
-        samples.append(["ttH","tree", eos_tree, "", "SMHiggs.root", "tth_m125_8TeV"])
-        samples.append(["bbH","prod", eos_pro3, "bbH_HToGG_M-125_8TeV-Madgraph_LO_Summer12_DR53X-PU_RD1_START53_V7N-v1_AODSIM", "*root", "event"])
-        samples.append(["bbH","redu", eos_redu, "Summer12_RD1/bbH_HToGG_M-125_8TeV-Madgraph_LO_Summer12_DR53X-PU_RD1_START53_V7N-v1", "*root", "event"])
-        samples.append(["bbH","tree", eos_tree, "", "SMHiggs.root", "bbh_m125_8TeV"])
-        samples.append(["ggHH","prod", eos_pro2, "GluGluToHHTo2B2G_M-125_8TeV-madgraph-pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v1_AODSIM", "*root", "event"])
-        samples.append(["ggHH","redu", eos_redu, "Summer12_RD1/GluGluToHHTo2B2G_M-125_8TeV-madgraph-pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v1", "*root", "event"])
-        samples.append(["ggHH","tree", eos_tree, "", "SMHiggs.root", "ggHH_8TeV"])
+        samples.append(["ggH", "prod", eos_prod, "GluGluToHToGG_M-125_8TeV-powheg-pythia6", "*root", "event"])
+        samples.append(["ggH", "redu", eos_red2, "GluGluToHToGG_M-125_8TeV-powheg-pythia6", "*root", "event"])
+        samples.append(["ggH", "tree", eos_tree, "", "tree_SMHiggs.root", "ggh_m125_powheg_8TeV"])
+        samples.append(["VBF", "prod", eos_prod, "VBF_HToGG_M-125_8TeV-powheg-pythia6", "*root", "event"])
+        samples.append(["VBF", "redu", eos_red2, "VBF_HToGG_M-125_8TeV-powheg-pythia6", "*root", "event"])
+        samples.append(["VBF", "tree", eos_tree, "", "tree_SMHiggs.root", "vbf_m125_8TeV"])
+        samples.append(["WH_", "prod", eos_prod, "WH_ZH_HToGG_M-125_8TeV-pythia6", "*root", "event"])
+        samples.append(["WH_", "redu", eos_red2, "WH_ZH_HToGG_M-125_8TeV-pythia6_wh", "*root", "event"])
+        samples.append(["WH_","tree", eos_tree, "", "tree_SMHiggs.root", "wzh_m125_8TeV_wh"])
+        samples.append(["ZH_","prod", eos_prod, "WH_ZH_HToGG_M-125_8TeV-pythia6", "*root", "event"])
+        samples.append(["ZH_","redu", eos_red2, "WH_ZH_HToGG_M-125_8TeV-pythia6_zh", "*root", "event"])
+        samples.append(["ZH_","tree", eos_tree, "", "tree_SMHiggs.root", "wzh_m125_8TeV_zh"])
+        samples.append(["ttH","prod", eos_prod, "TTH_HToGG_M-125_8TeV-pythia6", "*root", "event"])
+        samples.append(["ttH","redu", eos_red2, "TTH_HToGG_M-125_8TeV-pythia6", "*root", "event"])
+        samples.append(["ttH","tree", eos_tree, "", "tree_SMHiggs.root", "tth_m125_8TeV"])
+        samples.append(["bbH","prod", eos_prod, "bbH_HToGG_M-125_8TeV-Madgraph_LO_Summer12_DR53X-PU_RD1_START53_V7N-v1_AODSIM/bbHtoGG_AODSIM_RD", "*root", "event"])
+        samples.append(["bbH","redu", eos_red2, "bbHtoGG_RD", "*root", "event"])
+        samples.append(["bbH","tree", eos_tree, "", "tree_SMHiggs.root", "bbh_m125_8TeV"])
+        samples.append(["ggHH","prod", eos_pro3, "HH_bbaa_8TeV_Lam_1d0_Yt_1d0_c2_0d0", "*root", "event"]) 
+        samples.append(["ggHH","redu", eos_red3, "HH_bbaa_8TeV_Lam_1d0_Yt_1d0_c2_0d0", "*root", "event"])
+        samples.append(["ggHH","tree", eos_tree, "", "ggHH_anomalous_v4.root", "HH_bbaa_8TeV_Lam_1d0_Yt_1d0_c2_0d0"])
 #    else: # background and data samples
         #samples.append([displayName, level, eos_base, sample, file, tree])
 # DATA
@@ -228,47 +223,78 @@ if args.part == 2:
         
 
 if args.part == 3:
-    francois_cuts_w_kinFit = True
-    whichJet = "kin"
-    print("part 3: mass windows")
-    mggjj_cut = {}
-    mggjj_cut[260] = [225, 280]
-    mggjj_cut[270] = [225, 295]
-    mggjj_cut[300] = [255, 330]
-    mggjj_cut[350] = [310, 395]
-    mggjj_cut[400] = [370, 440]
-    if francois_cuts_w_kinFit:
-        mggjj_cut[270] = [260, 280]
-        mggjj_cut[300] = [290, 310]
-        mggjj_cut[350] = [330, 375]
-        mggjj_cut[400] = [380, 435]
-    cutFlowDir = args.selectionFolder
-    selectedFolder = args.selectionFolder
-    cutFlowFiles = [ x for x in listdir(cutFlowDir) if path.isfile(path.join(cutFlowDir,x)) and "cutFlow_" in x and ".dat" in x and "part" not in x]
-    for file in cutFlowFiles:
-        sample = file.replace(".dat", "").replace("cutFlow_", "")
-        # FIXME: for now just process SM Higgs and Radion samples
-        if ("Radion" not in sample) and ("m125" not in sample) and ("ggHH" not in sample):
-            continue
-        if "Radion" in sample and ("m300" in sample or "m500" in sample or "m700" in sample or "m1000" in sample or "m1500" in sample):
-            sample = sample.replace("_nm", "")
-        try:
-            mass = int(sample.split("_")[1].strip('m'))
-        except ValueError:
-            mass = 125
-        chain = TChain(sample)
-        files = path.join(selectedFolder, sample + "_noRegression_noMassCut_" + args.selectionVersion + ".root")
-        chain.Add(files)
-# FIXME
-        if not "Radion" in sample:
-            masses = [260, 270, 300, 350, 400]
-            for mass in masses:
-                print(sample + "_M" + str(mass), chain.GetEntries(), chain.GetEntries("jj_mass > 85 && jj_mass < 155"), chain.GetEntries("jj_mass > 85 && jj_mass < 155 && " + whichJet + "ggjj_mass > " + str(mggjj_cut[mass][0]) + " && " + whichJet + "ggjj_mass < " + str(mggjj_cut[mass][1])))
-        else:
-            if mass <= 400:
-                print(sample, chain.GetEntries(), chain.GetEntries("jj_mass > 85 && jj_mass < 155"), chain.GetEntries("jj_mass > 85 && jj_mass < 155 && " + whichJet + "ggjj_mass > " + str(mggjj_cut[mass][0]) + " && " + whichJet + "ggjj_mass < " + str(mggjj_cut[mass][1])))
-            if mass >= 400:
-                print(sample, chain.GetEntries(), chain.GetEntries("jj_mass > 90 && jj_mass < 165"), chain.GetEntries("jj_mass > 90 && jj_mass < 165 && gg_mass > 120 && gg_mass < 130"))
+    samples = []
+    eos_quic = "/afs/cern.ch/work/o/obondu/public/forRadion/limitTrees/v44"
+    samples.append(["Radion_m260", "limit", eos_quic, "v44_fitTo2D_resSearch_withRegKinFit", "MSSM_m260_8TeV_m260.root", "TCVARS"])
+    samples.append(["Radion_m270", "limit", eos_quic, "v44_fitTo2D_resSearch_withRegKinFit", "Radion_m270_8TeV_m270.root", "TCVARS"])
+    samples.append(["Radion_m300", "limit", eos_quic, "v44_fitTo2D_resSearch_withRegKinFit", "Radion_m300_8TeV_m300.root", "TCVARS"])
+    samples.append(["Radion_m350", "limit", eos_quic, "v44_fitTo2D_resSearch_withRegKinFit", "Radion_m350_8TeV_m350.root", "TCVARS"])
+    samples.append(["Radion_m400", "limit", eos_quic, "v44_fitTo2D_resSearch_withRegKinFit", "Radion_m400_8TeV_m400.root", "TCVARS"])
+    samples.append(["Radion_m400", "limit", eos_quic, "v44_fitToMggjj_withKinFit", "Radion_m400_8TeV_m400.root", "TCVARS"])
+    samples.append(["Radion_m450", "limit", eos_quic, "v44_fitToMggjj_withKinFit", "Radion_m450_8TeV_m450.root", "TCVARS"])
+    samples.append(["Radion_m500", "limit", eos_quic, "v44_fitToMggjj_withKinFit", "Radion_m500_8TeV_m500.root", "TCVARS"])
+    samples.append(["Radion_m550", "limit", eos_quic, "v44_fitToMggjj_withKinFit", "Radion_m550_8TeV_m550.root", "TCVARS"])
+    samples.append(["Radion_m600", "limit", eos_quic, "v44_fitToMggjj_withKinFit", "Radion_m600_8TeV_m600.root", "TCVARS"])
+    samples.append(["Radion_m650", "limit", eos_quic, "v44_fitToMggjj_withKinFit", "Radion_m650_8TeV_m650.root", "TCVARS"])
+    samples.append(["Radion_m700", "limit", eos_quic, "v44_fitToMggjj_withKinFit", "Radion_m700_8TeV_m700.root", "TCVARS"])
+    samples.append(["Radion_m800", "limit", eos_quic, "v44_fitToMggjj_withKinFit", "Radion_m800_8TeV_m800.root", "TCVARS"])
+    samples.append(["Radion_m900", "limit", eos_quic, "v44_fitToMggjj_withKinFit", "Radion_m900_8TeV_m900.root", "TCVARS"])
+    samples.append(["Radion_m1000", "limit", eos_quic, "v44_fitToMggjj_withKinFit", "Radion_m1000_8TeV_m1000.root", "TCVARS"])
+    samples.append(["Radion_m1100", "limit", eos_quic, "v44_fitToMggjj_withKinFit", "Radion_m1100_8TeV_m1100.root", "TCVARS"])
+    samples.append(["ggH", "limit", eos_quic, "v44_fitTo2D_resSearch_withRegKinFit", "ggh_m125_powheg_8TeV_m300.root", "TCVARS"])
+    samples.append(["VBF", "limit", eos_quic, "v44_fitTo2D_resSearch_withRegKinFit", "vbf_m125_8TeV_m300.root", "TCVARS"])
+    samples.append(["WH_", "limit", eos_quic, "v44_fitTo2D_resSearch_withRegKinFit", "wzh_m125_8TeV_wh_m300.root", "TCVARS"])
+    samples.append(["ZH_", "limit", eos_quic, "v44_fitTo2D_resSearch_withRegKinFit", "wzh_m125_8TeV_zh_m300.root", "TCVARS"])
+    samples.append(["ttH", "limit", eos_quic, "v44_fitTo2D_resSearch_withRegKinFit", "tth_m125_8TeV_m300.root", "TCVARS"])
+    samples.append(["bbH", "limit", eos_quic, "v44_fitTo2D_resSearch_withRegKinFit", "bbh_m125_8TeV_m300.root", "TCVARS"])
+    samples.append(["ggHH", "limit", eos_quic, "v44_fitTo2D_resSearch_withRegKinFit", "ggHH_Lam_1d0_Yt_1d0_c2_0d0_8TeV_m300.root", "TCVARS"])
+    for displayName, level, eos_base, sample, file, tree in samples:
+      chain = TChain(tree)
+      chain.Add(path.join(eos_base, sample, file))
+      print(displayName, chain.GetEntries())
+      
+##    francois_cuts_w_kinFit = True
+#    whichJet = "kin"
+#    print("part 3: mass windows")
+#    mggjj_cut = {}
+#    mggjj_cut[260] = [250, 270]
+#    mggjj_cut[270] = [260, 280]
+#    mggjj_cut[300] = [290, 310]
+#    mggjj_cut[350] = [330, 375]
+#    mggjj_cut[400] = [380, 435]
+##    if francois_cuts_w_kinFit:
+##        mggjj_cut[270] = [260, 280]
+##        mggjj_cut[300] = [290, 310]
+##        mggjj_cut[350] = [330, 375]
+##        mggjj_cut[400] = [380, 435]
+#    cutFlowDir = args.selectionFolder
+#    selectedFolder = args.selectionFolder
+#    cutFlowFiles = [ x for x in listdir(cutFlowDir) if path.isfile(path.join(cutFlowDir,x)) and "cutFlow_" in x and ".dat" in x and "part" not in x]
+#    for file in cutFlowFiles:
+#        sample = file.replace(".dat", "").replace("cutFlow_", "")
+#        # FIXME: for now just process SM Higgs and Radion samples
+#        if ("Radion" not in sample) and ("m125" not in sample) and ("ggHH" not in sample):
+#            continue
+#        if "Radion" in sample and ("m300" in sample or "m500" in sample or "m700" in sample or "m1000" in sample or "m1500" in sample):
+#            sample = sample.replace("_nm", "")
+#        try:
+#            mass = int(sample.split("_")[1].strip('m'))
+#        except ValueError:
+#            mass = 125
+#        chain = TChain(sample)
+#        files = path.join(selectedFolder, sample + "_noRegression_noMassCut_" + args.selectionVersion + ".root")
+#        chain.Add(files)
+## FIXME
+#        if not "Radion" in sample:
+#            masses = [260, 270, 300, 350, 400]
+#            for mass in masses:
+#                print(sample + "_M" + str(mass), chain.GetEntries(), chain.GetEntries("jj_mass > 85 && jj_mass < 155"), chain.GetEntries("jj_mass > 85 && jj_mass < 155 && " + whichJet + "ggjj_mass > " + str(mggjj_cut[mass][0]) + " && " + whichJet + "ggjj_mass < " + str(mggjj_cut[mass][1])))
+#        else:
+#            if mass <= 400:
+#                print(sample, chain.GetEntries(), chain.GetEntries("jj_mass > 85 && jj_mass < 155"), chain.GetEntries("jj_mass > 85 && jj_mass < 155 && " + whichJet + "ggjj_mass > " + str(mggjj_cut[mass][0]) + " && " + whichJet + "ggjj_mass < " + str(mggjj_cut[mass][1])))
+#            if mass >= 400:
+#                print(sample, chain.GetEntries(), chain.GetEntries("jj_mass > 90 && jj_mass < 165"), chain.GetEntries("jj_mass > 90 && jj_mass < 165 && gg_mass > 120 && gg_mass < 130"))
+#
         
         
 oldPlot = False 
@@ -289,6 +315,7 @@ if args.part == 999:
                 if oldPlot and ("ggHH" in line or "bbh" in line):
                     continue
                 sline = line.replace(",", "").split()
+#                print(sline)
                 sample = sline[0]
 #                print len(sline), sample, sline
                 sample = sample.replace("_nm", "")
@@ -306,35 +333,40 @@ if args.part == 999:
                     flow_hgg[sample] = []
                 if 200 < mass <= 400 and sample not in flow_low:
                     flow_low[sample] = []
-                if mass >= 400 and sample not in flow_high:
+                if mass > 400 and sample not in flow_high:
                     flow_high[sample] = []
-                if mass == 400:
-                    print(mass, sline, was400lowDone, not was400lowDone)
+#                if mass == 400:
+#                    print(mass, sline, "was400lowDone", was400lowDone)
                 if mass == 125 and "Radion" not in sample:
                     for iflow_hgg in range(1, len(sline)):
                         if ifile == 2 and (iflow_hgg == 1 or iflow_hgg == 2 or iflow_hgg == 3 or iflow_hgg == 6 or iflow_hgg == 7 or iflow_hgg == 9):
                             continue
-                        if ifile == 3 and (iflow_hgg == 1 or iflow_hgg == 2):
-                            continue
+#                        if ifile == 3 and (iflow_hgg == 1 or iflow_hgg == 2):
+#                            continue
                         flow_hgg[sample].append( int(sline[iflow_hgg]) )
-                if 200 < mass < 400 or (mass == 400 and not was400lowDone and ifile == 3) or (mass == 400 and ifile != 3):
+                if 200 < mass <= 400:
                     for iflow_low in range(1, len(sline)):
                         if ifile == 2 and (iflow_low == 1 or iflow_low == 2 or iflow_low == 3 or iflow_low == 6 or iflow_low == 7 or iflow_low == 9):
                             continue
-                        if ifile == 3 and (iflow_low == 1 or iflow_low == 2):
-                            continue
+#                        if ifile == 3 and (iflow_low == 1 or iflow_low == 2):
+#                            continue
                         flow_low[sample].append( int(sline[iflow_low]) )
-                if mass == 400 and not was400lowDone and ifile == 3:
-                    was400lowDone = True
-                    continue
-                if mass > 400 or (mass == 400 and was400lowDone and ifile == 3) or (mass == 400 and ifile != 3):
+#                    print(mass, flow_low[sample])
+#                if mass == 400 and not was400lowDone and ifile == 3:
+#                    was400lowDone = True
+#                    continue
+                if mass > 400:
                     for iflow_high in range(1, len(sline)):
                         if ifile == 2 and (iflow_high == 1 or iflow_high == 2 or iflow_high == 3 or iflow_high == 6 or iflow_high == 7 or iflow_high == 9):
                             continue
-                        if ifile == 3 and (iflow_high == 1 or iflow_high == 2):
-                            continue
+#                        if ifile == 3 and (iflow_high == 1 or iflow_high == 2):
+#                            continue
                         flow_high[sample].append( int(sline[iflow_high]) )
 
+    print("now organize all this")
+#    print(flow_low)
+#    print(flow_high)
+#    print(flow_hgg)
 # organize the numbers
     n_hgg = {}
     x_hgg = {}
@@ -360,16 +392,20 @@ if args.part == 999:
         y_high[igraph] = []
 
     base_set = []
+ #   flow_hgg_new = {}
     for key in flow_hgg:
-        base = key.split("_M")[0]
-#        print key, base, flow_hgg[key]
+        base = key.split("_m")[0]
+        print(key, base, flow_hgg[key])
         base_set.append(base)
-        if key not in base:
-            flow_hgg[key] = flow_hgg[base] + flow_hgg[key]
-#            print base, key, flow_hgg[key]
-    base_set = set(base_set)
-    for base in base_set:
-        del flow_hgg[base]
+#        if key not in base:
+#            flow_hgg_new[base] = flow_hgg[key]
+#            flow_hgg[key] = flow_hgg[base] + flow_hgg[key]
+#            print(base, key, flow_hgg[key])
+#    base_set = set(base_set)
+#    for base in base_set:
+#        del flow_hgg[base]
+#    print(flow_hgg)
+#    print(flow_hgg_new)
     offset = {}
     offset["ggh"] = -125
     offset["vbf"] = -124
@@ -389,15 +425,15 @@ if args.part == 999:
     w["bbh"] = 1.
     w["ggHH"] = 1.
     for key in flow_hgg:
-        if "M300" not in key:
-            continue
+#        if "M300" not in key:
+#            continue
         off = 0
         wgt = 1.
         for koff in offset:
             if koff in key:
                 off = int(offset[koff])
                 wgt = w[koff]
-#                print koff, key, off, wgt
+                print(koff, key, off, wgt)
         try:
             mass = int(key.split("_")[1].split("m")[1])
         except IndexError:
@@ -556,10 +592,17 @@ if args.part == 999:
     legend.Draw()
     latexLabel = TLatex()
 #    latexLabel.SetTextSize(0.03)
-    latexLabel.SetTextFont(63)
-    latexLabel.SetTextSize(18) # in pixel
+#    latexLabel.SetTextFont(63)
+#    latexLabel.SetTextSize(18) # in pixel
+    latexLabel.SetTextSize(0.75 * c1.GetTopMargin())
     latexLabel.SetNDC()
-    latexLabel.DrawLatex(0.25, 0.96, "CMS work in progress   #sqrt{s} = 8 TeV   L = 19.7 fb^{-1}")
+#    latexLabel.DrawLatex(0.25, 0.96, "CMS work in progress   #sqrt{s} = 8 TeV   L = 19.7 fb^{-1}")
+    latexLabel.SetTextFont(42) # helvetica
+    latexLabel.DrawLatex(0.84, 0.96, "(8 TeV)")
+    latexLabel.SetTextFont(61) # helvetica bold face
+    latexLabel.DrawLatex(0.17, 0.89, "CMS")
+    latexLabel.SetTextFont(52) # helvetica italics
+    latexLabel.DrawLatex(0.17, 0.85, "Simulation")
     latexLabel.SetTextAngle(45)
     c1.Print(path.join(args.selectionFolder, args.plotName + ".pdf"))
     c1.Print(path.join(args.selectionFolder, args.plotName + ".png"))
