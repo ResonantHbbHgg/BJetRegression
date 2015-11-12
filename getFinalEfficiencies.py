@@ -249,7 +249,7 @@ latexLabel.SetTextSize(0.75 * c1.GetTopMargin())
 latexLabel.SetNDC()
 latexLabel.SetTextFont(42) # helvetica
 latexLabel.DrawLatex(0.86, 0.96, "8 TeV")
-latexLabel.SetTextFont(62) # helvetica bold face
+latexLabel.SetTextFont(61) # helvetica bold face
 latexLabel.SetTextSize(0.05) # helvetica bold face
 latexLabel.DrawLatex(0.19, 0.88, "CMS")
 latexLabel.SetTextFont(42) # helvetica italics
