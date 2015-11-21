@@ -119,12 +119,12 @@ if not doSpin2:
 #gROOT.ProcessLine(".x CMSStyle.C")
 gROOT.ProcessLine(".x setTDRStyle.C")
 c1 = TCanvas()
-legend = TLegend(0.35, 0.75, 0.90, 0.91, "X#rightarrow HH #rightarrow #gamma#gammab#bar{b}")
+legend = TLegend(0.35, 0.70, 0.90, 0.91, "gg #rightarrow X #rightarrow HH #rightarrow #gamma#gammab#bar{b}")
 if doSpin2:
   legend.SetY1(0.80)
 #lower[0.]{High+Medium Purity}}")
-#legend = TLegend(0.15, 0.72, 0.50, 0.92, "#splitline{X#rightarrow HH #rightarrow b#bar{b}#gamma#gamma}{High-purity category}")
-#legend = TLegend(0.15, 0.72, 0.50, 0.92, "#splitline{X#rightarrow HH #rightarrow b#bar{b}#gamma#gamma}{Medium-purity category}")
+#legend = TLegend(0.15, 0.72, 0.50, 0.92, "#splitline{gg#rightarrowX#rightarrow HH #rightarrow b#bar{b}#gamma#gamma}{High-purity category}")
+#legend = TLegend(0.15, 0.72, 0.50, 0.92, "#splitline{gg#rightarrowX#rightarrow HH #rightarrow b#bar{b}#gamma#gamma}{Medium-purity category}")
 legend.SetTextSize(0.028)
 legend.SetFillStyle(0)
 legend.SetFillColor(ROOT.kWhite)
@@ -201,13 +201,14 @@ gr11.SetLineStyle(2)
 
 
 gr0.SetTitle("")
+gr0.GetXaxis().SetLabelSize(0.04)
 gr0.GetXaxis().SetTitle("m_{X}^{spin-0} (GeV)")
 gr0.GetYaxis().SetTitle("Signal selection efficiency (%)")
 #print min(numpy.amin(y[0]), numpy.amin(y[1])), max(numpy.amax(y[0]), numpy.amax(y[1]))
 #print min(numpy.amin(x[0]), numpy.amin(x[1])), max(numpy.amax(x[0]), numpy.amax(x[1]))
 gr0.SetMinimum(0.)
 gr0.SetMaximum(60.)
-gr0.GetXaxis().SetLimits(240., 1120.)
+gr0.GetXaxis().SetLimits(240., 1109.)
 #gr0.SetMaximum(max(numpy.amax(y[0]), numpy.amax(y[1])))
 #gr0.SetMinimum(min(numpy.amin(y[0]), numpy.amin(y[1])))
 #gr0.GetXaxis().SetLimits(min(numpy.amin(x[0]), numpy.amin(x[1])), max(numpy.amax(x[0]), numpy.amax(x[1])))
@@ -252,7 +253,7 @@ latexLabel.DrawLatex(0.86, 0.96, "8 TeV")
 latexLabel.SetTextFont(61) # helvetica bold face
 latexLabel.SetTextSize(0.05) # helvetica bold face
 latexLabel.DrawLatex(0.19, 0.88, "CMS")
-latexLabel.SetTextFont(42) # helvetica italics
+latexLabel.SetTextFont(52) # helvetica italics
 latexLabel.SetTextSize(0.04) # helvetica bold face
 latexLabel.DrawLatex(0.16, 0.84, "Simulation")
 if (doSpin2) :
