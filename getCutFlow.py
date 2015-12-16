@@ -587,9 +587,9 @@ if args.part == 999:
     legend.SetLineColor(ROOT.kWhite)
     legend.SetShadowColor(ROOT.kWhite)
     legend.SetTextFont(42) # helvetica
-    legend.AddEntry(gr_low[1].GetName(), "# #it{#gamma} #geq 2, # jets #geq 2", "lp")
-    legend.AddEntry(gr_low[2].GetName(), "#it{#gamma} preselection + p_{T} cuts", "lp")
-    legend.AddEntry(gr_low[3].GetName(), "#it{#gamma} ID", "lp")
+    legend.AddEntry(gr_low[1].GetName(), "# #gamma #geq 2, # jets #geq 2", "lp")
+    legend.AddEntry(gr_low[2].GetName(), "#gamma preselection + p_{T} cuts", "lp")
+    legend.AddEntry(gr_low[3].GetName(), "#gamma ID", "lp")
     legend.AddEntry(gr_low[4].GetName(), "jet ID", "lp")
     legend.AddEntry(gr_low[5].GetName(), "at least one bjet", "lp")
     legend.AddEntry(gr_low[6].GetName(), "mass cuts", "lp")
