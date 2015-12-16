@@ -11,7 +11,7 @@ gROOT.SetBatch()
 
 signals = []
 nstrategies = 4
-doSpin2 =  True
+doSpin2 =  False
 if doSpin2:
   nstrategies = 12
 # For the efficiency plot
@@ -92,7 +92,10 @@ for signal, nprocessed, istrategy in signals:
         x[istrategy+icut*2].append(signal.split("_")[-1].split(".")[0].split("m")[1])
         y[istrategy+icut*2].append(round(eff * 100, 2))
         ex[istrategy+icut*2].append(0.)
-        ey[istrategy+icut*2].append(round(deff * 500,2))
+        if doSpin2 : 
+          ey[istrategy+icut*2].append(round(deff * 500,2))
+        else :
+          ey[istrategy+icut*2].append(round(deff * 100,2))
     del chain
 
 for istrategy in range(nstrategies):
@@ -116,13 +119,13 @@ if not doSpin2:
 #gROOT.ProcessLine(".x CMSStyle.C")
 gROOT.ProcessLine(".x setTDRStyle.C")
 c1 = TCanvas()
-legend = TLegend(0.35, 0.75, 0.90, 0.91, "X#rightarrow HH #rightarrow #gamma#gammab#bar{b}")
+legend = TLegend(0.35, 0.70, 0.90, 0.91, "gg #rightarrow X #rightarrow HH #rightarrow #gamma#gammab#bar{b}")
 if doSpin2:
   legend.SetY1(0.80)
 #lower[0.]{High+Medium Purity}}")
-#legend = TLegend(0.15, 0.72, 0.50, 0.92, "#splitline{X#rightarrow HH #rightarrow b#bar{b}#gamma#gamma}{High-purity category}")
-#legend = TLegend(0.15, 0.72, 0.50, 0.92, "#splitline{X#rightarrow HH #rightarrow b#bar{b}#gamma#gamma}{Medium-purity category}")
-legend.SetTextSize(0.02)
+#legend = TLegend(0.15, 0.72, 0.50, 0.92, "#splitline{gg#rightarrowX#rightarrow HH #rightarrow b#bar{b}#gamma#gamma}{High-purity category}")
+#legend = TLegend(0.15, 0.72, 0.50, 0.92, "#splitline{gg#rightarrowX#rightarrow HH #rightarrow b#bar{b}#gamma#gamma}{Medium-purity category}")
+legend.SetTextSize(0.028)
 legend.SetFillStyle(0)
 legend.SetFillColor(ROOT.kWhite)
 legend.SetLineColor(ROOT.kWhite)
@@ -198,13 +201,14 @@ gr11.SetLineStyle(2)
 
 
 gr0.SetTitle("")
+gr0.GetXaxis().SetLabelSize(0.04)
 gr0.GetXaxis().SetTitle("m_{X}^{spin-0} (GeV)")
 gr0.GetYaxis().SetTitle("Signal selection efficiency (%)")
 #print min(numpy.amin(y[0]), numpy.amin(y[1])), max(numpy.amax(y[0]), numpy.amax(y[1]))
 #print min(numpy.amin(x[0]), numpy.amin(x[1])), max(numpy.amax(x[0]), numpy.amax(x[1]))
 gr0.SetMinimum(0.)
-gr0.SetMaximum(50.)
-gr0.GetXaxis().SetLimits(240., 1120.)
+gr0.SetMaximum(60.)
+gr0.GetXaxis().SetLimits(240., 1109.)
 #gr0.SetMaximum(max(numpy.amax(y[0]), numpy.amax(y[1])))
 #gr0.SetMinimum(min(numpy.amin(y[0]), numpy.amin(y[1])))
 #gr0.GetXaxis().SetLimits(min(numpy.amin(x[0]), numpy.amin(x[1])), max(numpy.amax(x[0]), numpy.amax(x[1])))
@@ -222,10 +226,10 @@ if doSpin2:
  gr10.Draw("LP"); 
  gr11.Draw("LP"); 
 if not doSpin2:
-  legend.AddEntry(gr0.GetName(), "High+Medium purity - Low mass - fit (m_{#gamma#gamma}, m_{jj}^{r})", "lp")
-  legend.AddEntry(gr1.GetName(), "High+Medium purity - High mass - fit m_{#gamma#gamma jj}^{kin}", "lp")
-  legend.AddEntry(gr2.GetName(), "High Purity - Low mass - fit (m_{#gamma#gamma}, m_{jj}^{r})", "lp")
-  legend.AddEntry(gr3.GetName(), "High Purity - High mass - fit m_{#gamma#gamma jj}^{kin}", "lp")
+  legend.AddEntry(gr0.GetName(), "All cat. (Low-mass analysis)", "lp")
+  legend.AddEntry(gr1.GetName(), "All cat. (High-mass analysis)", "lp")
+  legend.AddEntry(gr2.GetName(), "High-Purity cat. (Low-mass analysis)", "lp")
+  legend.AddEntry(gr3.GetName(), "High-Purity cat. (High-mass analysis)", "lp")
 else:
 #  legend.AddEntry(gr0.GetName(), "cat0 + cat1 - low mass radion", "lp")
 #  legend.AddEntry(gr1.GetName(), "cat0 + cat1 - high mass radion", "lp")
@@ -245,12 +249,16 @@ latexLabel = TLatex()
 latexLabel.SetTextSize(0.75 * c1.GetTopMargin())
 latexLabel.SetNDC()
 latexLabel.SetTextFont(42) # helvetica
-latexLabel.DrawLatex(0.84, 0.96, "(8 TeV)")
+latexLabel.DrawLatex(0.86, 0.96, "8 TeV")
 latexLabel.SetTextFont(61) # helvetica bold face
-latexLabel.DrawLatex(0.17, 0.89, "CMS")
+latexLabel.SetTextSize(0.05) # helvetica bold face
+latexLabel.DrawLatex(0.19, 0.88, "CMS")
 latexLabel.SetTextFont(52) # helvetica italics
-latexLabel.DrawLatex(0.17, 0.85, "Simulation")
-latexLabel.DrawLatex(0.37, 0.20, "Limit trees v44 ; Uncertainties #times 5")
+latexLabel.SetTextSize(0.04) # helvetica bold face
+latexLabel.DrawLatex(0.16, 0.84, "Simulation")
+if (doSpin2) :
+  latexLabel.DrawLatex(0.37, 0.20, "Limit trees v44 ; Uncertainties #times 5")
+
 c1.Print("eff.pdf")
 c1.Print("eff.png")
 c1.Print("eff.root")
