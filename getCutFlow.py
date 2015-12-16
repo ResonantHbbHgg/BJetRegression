@@ -502,12 +502,13 @@ if args.part == 999:
     pad2.Draw()
 #    gStyle.SetPadBorderMode(0)
 #    gStyle.SetFrameBorderMode(0)
-    small = .00001
+    small = .01
 #    c1.Divide(2,1,small,small)
     for igraph in range(1,7):
         pad2.cd()
 #        c1.cd(2)
         pad2.SetLeftMargin(small);
+        
         pad2.SetRightMargin(0.05 / (100. * wPad - canvasSplit) * 100.)
         gr_low[igraph] = TGraph(n_low[igraph], x_low[igraph], y_low[igraph])
         gr_low[igraph].SetName("low_" + str(igraph))
@@ -517,6 +518,8 @@ if args.part == 999:
         gr_low[igraph].SetTitle("")
         gr_low[igraph].GetXaxis().SetTitle("m_{X} (TeV)")
         gr_low[igraph].GetYaxis().SetTickLength(0.03 / (100. - canvasSplit) * 100.) # due to assymmetric canvas...
+        gr_low[igraph].GetYaxis().SetLabelSize(0.)
+        gr_low[igraph].GetXaxis().SetLabelSize(25)
         gr_low[igraph].SetMinimum(0.)
         gr_low[igraph].SetMaximum(100.)
         gr_low[igraph].GetXaxis().SetLimits(xAxisMin, xAxisMax)
@@ -548,7 +551,7 @@ if args.part == 999:
         gr_hgg[igraph].SetMarkerColor( color[igraph -1] )
         gr_hgg[igraph].SetLineColor( color[igraph -1] )
         gr_hgg[igraph].SetTitle("")
-        gr_hgg[igraph].GetXaxis().SetLabelSize(20)
+        gr_hgg[igraph].GetXaxis().SetLabelSize(19)
         gr_hgg[igraph].GetXaxis().SetLimits(-.2, 6.2)
         a = 15
         b = 5
@@ -575,7 +578,7 @@ if args.part == 999:
         else: 
             gr_hgg[igraph].Draw("LP")
     c1.cd()
-    legend = TLegend(0.50, 0.16, 0.80, 0.36, "")
+    legend = TLegend(0.55, 0.16, 0.80, 0.36, "")
 #    legend.SetNColumns(2)
     legend.SetTextSize(0.03)
 #    legend.SetTextFont(63) # precision 3
@@ -583,9 +586,10 @@ if args.part == 999:
     legend.SetFillColor(ROOT.kWhite)
     legend.SetLineColor(ROOT.kWhite)
     legend.SetShadowColor(ROOT.kWhite)
-    legend.AddEntry(gr_low[1].GetName(), "# #gamma #geq 2, # jets #geq 2", "lp")
-    legend.AddEntry(gr_low[2].GetName(), "#gamma presel. + p_{T} cuts", "lp")
-    legend.AddEntry(gr_low[3].GetName(), "#gamma ID", "lp")
+    legend.SetTextFont(42) # helvetica
+    legend.AddEntry(gr_low[1].GetName(), "# #it{#gamma} #geq 2, # jets #geq 2", "lp")
+    legend.AddEntry(gr_low[2].GetName(), "#it{#gamma} preselection + p_{T} cuts", "lp")
+    legend.AddEntry(gr_low[3].GetName(), "#it{#gamma} ID", "lp")
     legend.AddEntry(gr_low[4].GetName(), "jet ID", "lp")
     legend.AddEntry(gr_low[5].GetName(), "at least one bjet", "lp")
     legend.AddEntry(gr_low[6].GetName(), "mass cuts", "lp")
@@ -598,7 +602,7 @@ if args.part == 999:
     latexLabel.SetNDC()
 #    latexLabel.DrawLatex(0.25, 0.96, "CMS work in progress   #sqrt{s} = 8 TeV   L = 19.7 fb^{-1}")
     latexLabel.SetTextFont(42) # helvetica
-    latexLabel.DrawLatex(0.84, 0.96, "(8 TeV)")
+    latexLabel.DrawLatex(0.83, 0.96, "(8 TeV)")
     latexLabel.SetTextFont(61) # helvetica bold face
     latexLabel.DrawLatex(0.17, 0.89, "CMS")
     latexLabel.SetTextFont(52) # helvetica italics
