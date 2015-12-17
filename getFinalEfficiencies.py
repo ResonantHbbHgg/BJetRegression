@@ -119,7 +119,9 @@ if not doSpin2:
 #gROOT.ProcessLine(".x CMSStyle.C")
 gROOT.ProcessLine(".x setTDRStyle.C")
 c1 = TCanvas()
-legend = TLegend(0.35, 0.70, 0.90, 0.91, "gg #rightarrow X #rightarrow HH #rightarrow #gamma#gammab#bar{b}")
+legend = TLegend(0.35, 0.70, 0.90, 0.91)
+legend.SetTextFont(42)
+legend.SetHeader("gg #rightarrow X #rightarrow HH #rightarrow #gamma#gammab#bar{b}")
 if doSpin2:
   legend.SetY1(0.80)
 #lower[0.]{High+Medium Purity}}")
@@ -251,10 +253,8 @@ latexLabel.SetNDC()
 latexLabel.SetTextFont(42) # helvetica
 latexLabel.DrawLatex(0.86, 0.96, "8 TeV")
 latexLabel.SetTextFont(61) # helvetica bold face
-latexLabel.SetTextSize(0.05) # helvetica bold face
-latexLabel.DrawLatex(0.19, 0.88, "CMS")
+latexLabel.DrawLatex(0.16, 0.88, "CMS")
 latexLabel.SetTextFont(52) # helvetica italics
-latexLabel.SetTextSize(0.04) # helvetica bold face
 latexLabel.DrawLatex(0.16, 0.84, "Simulation")
 if (doSpin2) :
   latexLabel.DrawLatex(0.37, 0.20, "Limit trees v44 ; Uncertainties #times 5")

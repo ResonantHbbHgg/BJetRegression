@@ -298,6 +298,7 @@ if args.part == 3:
         
         
 oldPlot = False 
+showSingleHiggs = False
 if args.part == 999:
     print("part 999: get everything together")
 # Get all numbers
@@ -498,7 +499,11 @@ if args.part == 999:
     c1 = TCanvas()
     pad1 = TPad("pad1", "pad1", 0., 0., canvasSplit / 100., 1.)
     pad2 = TPad("pad2", "pad2", canvasSplit / 100., 0., 1., 1.)
-    pad1.Draw()
+    if showSingleHiggs:
+        pad1.Draw()
+    else:
+        pad2.SetPad(0., 0., 1., 1.)
+        pad2.ResizePad()
     pad2.Draw()
 #    gStyle.SetPadBorderMode(0)
 #    gStyle.SetFrameBorderMode(0)
@@ -507,9 +512,9 @@ if args.part == 999:
     for igraph in range(1,7):
         pad2.cd()
 #        c1.cd(2)
-        pad2.SetLeftMargin(small);
+        if showSingleHiggs: pad2.SetLeftMargin(small);
         
-        pad2.SetRightMargin(0.05 / (100. * wPad - canvasSplit) * 100.)
+        if showSingleHiggs: pad2.SetRightMargin(0.05 / (100. * wPad - canvasSplit) * 100.)
         gr_low[igraph] = TGraph(n_low[igraph], x_low[igraph], y_low[igraph])
         gr_low[igraph].SetName("low_" + str(igraph))
         gr_low[igraph].SetMarkerStyle(20)
@@ -517,8 +522,9 @@ if args.part == 999:
         gr_low[igraph].SetLineColor( color[igraph -1] )
         gr_low[igraph].SetTitle("")
         gr_low[igraph].GetXaxis().SetTitle("m_{X} (TeV)")
+        if not showSingleHiggs: gr_low[igraph].GetYaxis().SetTitle("Signal selection efficiency (%)")
         gr_low[igraph].GetYaxis().SetTickLength(0.03 / (100. - canvasSplit) * 100.) # due to assymmetric canvas...
-        gr_low[igraph].GetYaxis().SetLabelSize(0.)
+        if showSingleHiggs: gr_low[igraph].GetYaxis().SetLabelSize(0.)
         gr_low[igraph].GetXaxis().SetLabelSize(25)
         gr_low[igraph].SetMinimum(0.)
         gr_low[igraph].SetMaximum(100.)
@@ -534,6 +540,7 @@ if args.part == 999:
         gr_high[igraph].SetLineColor( color[igraph -1] )
         gr_high[igraph].SetTitle("")
         gr_high[igraph].GetXaxis().SetTitle("m_{X} (TeV)")
+        if not showSingleHiggs: gr_high[igraph].GetYaxis().SetTitle("Signal selection efficiency (%)")
         gr_high[igraph].GetXaxis().SetTickLength(0.03 / (100. - canvasSplit) * 100.) # due to assymmetric canvas...
         gr_high[igraph].GetXaxis().SetNdivisions(510)
         gr_high[igraph].GetYaxis().SetTickLength(0.03 / (100. - canvasSplit) * 100.) # due to assymmetric canvas...
@@ -604,9 +611,9 @@ if args.part == 999:
     latexLabel.SetTextFont(42) # helvetica
     latexLabel.DrawLatex(0.83, 0.96, "(8 TeV)")
     latexLabel.SetTextFont(61) # helvetica bold face
-    latexLabel.DrawLatex(0.17, 0.89, "CMS")
+    latexLabel.DrawLatex(0.13, 0.96, "CMS")
     latexLabel.SetTextFont(52) # helvetica italics
-    latexLabel.DrawLatex(0.17, 0.85, "Simulation")
+    latexLabel.DrawLatex(0.22, 0.96, "Simulation Supplementary")
     latexLabel.SetTextAngle(45)
     c1.Print(path.join(args.selectionFolder, args.plotName + ".pdf"))
     c1.Print(path.join(args.selectionFolder, args.plotName + ".png"))
