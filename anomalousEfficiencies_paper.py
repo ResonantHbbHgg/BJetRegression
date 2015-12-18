@@ -298,10 +298,10 @@ for signal, nprocessed, istrategy, sigma in signals:
 		totw = 0
 		for ievt in xrange(chain.GetEntries()):
 			chain.GetEntry(ievt)
-			if icut == 0 and (chain.cut_based_ct == 2 or chain.cut_based_ct == 3):
+			if icut == 0 and (chain.cut_based_ct == 0 or chain.cut_based_ct ==1):
 				totw += chain.evWeight
 #				totw += 1
-			elif icut == 1 and chain.cut_based_ct == 2:
+			elif icut == 1 and chain.cut_based_ct == 0:
 				totw += chain.evWeight
 #				totw += 1
 # totw *= 1000. # due to hand-put 1000 factor to weight for limit settings numerical precision
@@ -351,7 +351,7 @@ legend = TLegend(0.35, 0.75, 0.5, 0.92, " ")
 legend.SetTextFont(42)
 legend1= TLegend(0.5, 0.75, 0.8, 0.92)
 legend1.SetTextFont(42)
-legend1.SetHeader("gg #rightarrow HH #rightarrow #gamma#gammab#bar{b},    c_{2}=0.")
+legend1.SetHeader("gg #rightarrow HH #rightarrow #gamma#gammab#bar{b},    #it{c_{2}}=0.")
 
 legend.SetTextSize(0.028)
 legend.SetFillColor(ROOT.kWhite)
@@ -508,7 +508,7 @@ latexLabel.SetTextFont(52) # helvetica italics
 latexLabel.DrawLatex(0.16, 0.84, "Simulation")
 latexLabel.SetTextFont(42) # helvetica 
 latexLabel.SetTextColor(ROOT.kBlue+2)
-latexLabel.DrawLatex(0.75, 0.65,"Low-mass")
+latexLabel.DrawLatex(0.75, 0.65,"High-mass")
 
 
 #latexLabel.DrawLatex(0.15, 0.96, "CMS Simulation")
@@ -517,10 +517,10 @@ latexLabel.DrawLatex(0.75, 0.65,"Low-mass")
 #c1.Print("2015-01-14_lambda_hhh_eff_Summary_Hmass0_massCutVersion_4_c2_3_v44_withKinFit_bis.png")
 #c1.Print("2015-01-14_lambda_hhh_eff_Summary_Hmass0_massCutVersion_4_c2_3_v44_withKinFit_bis.root")
 #c1.Print("2015-01-14_lambda_hhh_eff_Summary_Hmass0_massCutVersion_4_c2_3_v44_withKinFit_bis.eps")
-c1.Print("2015-11-12_lambda_hhh_eff_Summary_Lmass0_massCutVersion_4_c2_0d0_v44_withKinFit_bis.pdf")
-c1.Print("2015-11-12_lambda_hhh_eff_Summary_Lmass0_massCutVersion_4_c2_0d0_v44_withKinFit_bis.png")
-c1.Print("2015-11-12_lambda_hhh_eff_Summary_Lmass0_massCutVersion_4_c2_0d0_v44_withKinFit_bis.root")
-c1.Print("2015-11-12_lambda_hhh_eff_Summary_Lmass0_massCutVersion_4_c2_0d0_v44_withKinFit_bis.eps")
+c1.Print("2015-11-12_lambda_hhh_eff_Summary_Hmass0_massCutVersion_4_c2_0d0_v44_withKinFit_bis.pdf")
+c1.Print("2015-11-12_lambda_hhh_eff_Summary_Hmass0_massCutVersion_4_c2_0d0_v44_withKinFit_bis.png")
+#c1.Print("2015-11-12_lambda_hhh_eff_Summary_Lmass0_massCutVersion_4_c2_0d0_v44_withKinFit_bis.root")
+#c1.Print("2015-11-12_lambda_hhh_eff_Summary_Lmass0_massCutVersion_4_c2_0d0_v44_withKinFit_bis.eps")
 
 #c1.Print("eff_cat0.pdf")
 #c1.Print("eff_cat0.png")
