@@ -298,10 +298,10 @@ for signal, nprocessed, istrategy, sigma in signals:
 		totw = 0
 		for ievt in xrange(chain.GetEntries()):
 			chain.GetEntry(ievt)
-			if icut == 0 and (chain.cut_based_ct == 2 or chain.cut_based_ct == 3):
+			if icut == 0 and (chain.cut_based_ct == 0 or chain.cut_based_ct ==1):
 				totw += chain.evWeight
 #				totw += 1
-			elif icut == 1 and chain.cut_based_ct == 2:
+			elif icut == 1 and chain.cut_based_ct == 0:
 				totw += chain.evWeight
 #				totw += 1
 # totw *= 1000. # due to hand-put 1000 factor to weight for limit settings numerical precision
@@ -348,7 +348,10 @@ for istrategy in range(nstrategies):
 gROOT.ProcessLine(".x setTDRStyle.C")
 c1 = TCanvas()
 legend = TLegend(0.35, 0.75, 0.5, 0.92, " ")
-legend1= TLegend(0.5, 0.75, 0.8, 0.92, "gg #rightarrow HH #rightarrow #gamma#gammab#bar{b},    c_{2}=0.")
+legend.SetTextFont(42)
+legend1= TLegend(0.5, 0.75, 0.8, 0.92)
+legend1.SetTextFont(42)
+legend1.SetHeader("gg #rightarrow HH #rightarrow #gamma#gammab#bar{b},    #it{c_{2}}=0.")
 
 legend.SetTextSize(0.028)
 legend.SetFillColor(ROOT.kWhite)
@@ -379,23 +382,23 @@ gr7.SetName("gr7")
 
 
 
-gr0.SetMarkerColor(ROOT.kGreen)
-gr1.SetMarkerColor(ROOT.kGreen)
+gr0.SetMarkerColor(ROOT.kGreen+2)
+gr1.SetMarkerColor(ROOT.kGreen+2)
 gr2.SetMarkerColor(ROOT.kBlack)
 gr3.SetMarkerColor(ROOT.kBlack)
-gr4.SetMarkerColor(ROOT.kRed)
-gr5.SetMarkerColor(ROOT.kRed)
-gr6.SetMarkerColor(ROOT.kBlue)
-gr7.SetMarkerColor(ROOT.kBlue)
+gr4.SetMarkerColor(ROOT.kRed+2)
+gr5.SetMarkerColor(ROOT.kRed+2)
+gr6.SetMarkerColor(ROOT.kBlue+2)
+gr7.SetMarkerColor(ROOT.kBlue+2)
 
-gr0.SetLineColor(ROOT.kGreen)
-gr1.SetLineColor(ROOT.kGreen)
+gr0.SetLineColor(ROOT.kGreen+2)
+gr1.SetLineColor(ROOT.kGreen+2)
 gr2.SetLineColor(ROOT.kBlack)
 gr3.SetLineColor(ROOT.kBlack)
-gr4.SetLineColor(ROOT.kRed)
-gr5.SetLineColor(ROOT.kRed)
-gr6.SetLineColor(ROOT.kBlue)
-gr7.SetLineColor(ROOT.kBlue)
+gr4.SetLineColor(ROOT.kRed+2)
+gr5.SetLineColor(ROOT.kRed+2)
+gr6.SetLineColor(ROOT.kBlue+2)
+gr7.SetLineColor(ROOT.kBlue+2)
 
 gr0.SetLineStyle(1)
 gr1.SetLineStyle(2)
@@ -415,10 +418,6 @@ gr5.SetLineWidth(2)
 gr6.SetLineWidth(2)
 gr7.SetLineWidth(2)
 
-#gr0.SetFillColor(ROOT.kGreen-3)
-#gr1.SetFillColor(ROOT.kBlue-2)
-#gr2.SetFillColor(ROOT.kGreen-3)
-#gr3.SetFillColor(ROOT.kBlue-2)
 gr0.SetMarkerStyle(23)
 gr1.SetMarkerStyle(29)
 gr2.SetMarkerStyle(20)
@@ -504,13 +503,12 @@ latexLabel.SetNDC()
 latexLabel.SetTextFont(42) # helvetica
 latexLabel.DrawLatex(0.86, 0.96, "8 TeV")
 latexLabel.SetTextFont(62) # helvetica bold face
-latexLabel.SetTextSize(0.05) # helvetica bold face
-latexLabel.DrawLatex(0.19, 0.88, "CMS")
-latexLabel.SetTextFont(42) # helvetica 
-latexLabel.SetTextSize(0.04) # helvetica bold face
+latexLabel.DrawLatex(0.16, 0.88, "CMS")
+latexLabel.SetTextFont(52) # helvetica italics
 latexLabel.DrawLatex(0.16, 0.84, "Simulation")
-latexLabel.SetTextColor(ROOT.kBlue)
-latexLabel.DrawLatex(0.75, 0.65,"Low-mass")
+latexLabel.SetTextFont(42) # helvetica 
+latexLabel.SetTextColor(ROOT.kBlue+2)
+latexLabel.DrawLatex(0.75, 0.65,"High-mass")
 
 
 #latexLabel.DrawLatex(0.15, 0.96, "CMS Simulation")
@@ -519,10 +517,10 @@ latexLabel.DrawLatex(0.75, 0.65,"Low-mass")
 #c1.Print("2015-01-14_lambda_hhh_eff_Summary_Hmass0_massCutVersion_4_c2_3_v44_withKinFit_bis.png")
 #c1.Print("2015-01-14_lambda_hhh_eff_Summary_Hmass0_massCutVersion_4_c2_3_v44_withKinFit_bis.root")
 #c1.Print("2015-01-14_lambda_hhh_eff_Summary_Hmass0_massCutVersion_4_c2_3_v44_withKinFit_bis.eps")
-c1.Print("2015-11-12_lambda_hhh_eff_Summary_Lmass0_massCutVersion_4_c2_0d0_v44_withKinFit_bis.pdf")
-c1.Print("2015-11-12_lambda_hhh_eff_Summary_Lmass0_massCutVersion_4_c2_0d0_v44_withKinFit_bis.png")
-c1.Print("2015-11-12_lambda_hhh_eff_Summary_Lmass0_massCutVersion_4_c2_0d0_v44_withKinFit_bis.root")
-c1.Print("2015-11-12_lambda_hhh_eff_Summary_Lmass0_massCutVersion_4_c2_0d0_v44_withKinFit_bis.eps")
+c1.Print("2015-11-12_lambda_hhh_eff_Summary_Hmass0_massCutVersion_4_c2_0d0_v44_withKinFit_bis.pdf")
+c1.Print("2015-11-12_lambda_hhh_eff_Summary_Hmass0_massCutVersion_4_c2_0d0_v44_withKinFit_bis.png")
+#c1.Print("2015-11-12_lambda_hhh_eff_Summary_Lmass0_massCutVersion_4_c2_0d0_v44_withKinFit_bis.root")
+#c1.Print("2015-11-12_lambda_hhh_eff_Summary_Lmass0_massCutVersion_4_c2_0d0_v44_withKinFit_bis.eps")
 
 #c1.Print("eff_cat0.pdf")
 #c1.Print("eff_cat0.png")
